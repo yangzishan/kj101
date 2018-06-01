@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>康加报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style>
+.img_b{ width: 100%; display: block;}
+</style>
+</head>
+<body style="background: #f6f6f6;">
+	<header class="header">
+		<!--<a class="b-arr fl" href="javascript:history.go(-1);"></a>-->
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>康加报告</span></p>
+	</header>
+	<div class="myview">
+		<p class="m404"><img class="img_b" src="img/404.jpg"></p>
+		<p class="t404" id="megTxt">找不到此页面...</p>
+		<a id="goAddCard" href="" style="display: none; margin: 0 .3rem; background: #DEBB47; color: #fff; font-size: .3rem; border-radius: .1rem; line-height: .88rem; text-align: center;">去添加年卡</a>
+	</div>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var mycode=GetQueryString("code");
+var myuserId=GetQueryString("userId");
+//alert(mycode);
+
+if(mycode == 401){
+	$('#megTxt').empty().html('微信授权失败');
+}else if(mycode == 402){
+	$('#megTxt').empty().html('创建微信用户失败');
+}else if(mycode == 403){
+	$('#megTxt').empty().html('用户没有报告');
+	$('#goAddCard').css("display","block");
+	$('#goAddCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
+}else if(mycode == 406){
+	$('#megTxt').empty().html(' 参数空');
+}else if(mycode == 407){
+	$('#megTxt').empty().html(' 密钥不匹配');
+}else{
+	$('#megTxt').empty().html('找不到页面...');
+}
+
+
+
+</script>
+</body>
+</html>

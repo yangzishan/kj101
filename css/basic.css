@@ -1,0 +1,26 @@
+/* 初始化开始*/
+html {-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+*{margin:0; padding:0; border:none;box-sizing:border-box;-webkit-tap-highlight-color:rgba(255,255,255,0)}
+html,body{height: 100%;margin:0;padding:0;}
+body{background-color:#ffffff;color:#333333;font:.26rem/.4rem "Microsoft YaHei"; max-width: 750px; margin: 0 auto;}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+margin:0;
+padding:0;
+border: 0;
+}
+ol,ul,li{ list-style: none;}
+img {max-width: 100%;height: auto;width:auto\9; /* ie8 */border: none;}
+em,i,b{font-weight: normal;font-style: normal;}
+a{text-decoration:none; color: #333333;}
+h1, h2, h3, h4, h5, h6{ font-size:100%;font-weight: normal;}
+.fl{float:left;}
+.fr{float:right;}
+.clearfix{zoom:1;}
+.clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
+.img_b{ display: block; width: 100%;}
+input,textarea{ background: none; outline: none; font-family: "微软雅黑";}
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input{-webkit-appearance:none; resize: none;}
+/*初始化结束 */

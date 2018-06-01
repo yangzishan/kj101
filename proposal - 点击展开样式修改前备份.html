@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康建议</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view" id="appX" style="display: none;">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>健康建议</span></p>
+	</header>
+	
+	<p class="sumTit2">请查阅您的专属健康改善建议</p>
+	
+	<div class="jkjy_wrap">
+		<p class="btite"><span class="lab">膳食建议</span><i class="ico ssjyTab"></i></p>
+		<div class="box-c" v-for="(site,index) in sites">
+			<p class="tit01">{{options[index]}}.{{site.indexName}}</p>
+			<div class="txt01">
+				<p>{{site.personality}}</p>
+				<div v-html="site.proposal"></div>
+			</div>
+			<p class="open"><span class="lab">展开</span><i class="ico"></i></p>
+		</div>
+		<div class="zanshi" style="display: none">没有获取到数据</div>
+	</div>
+	<p style="height: .3rem; background: #F4F4F4;"></p>
+
+	<div class="jkjy_wrap">
+		<p class="btite"><span class="lab">运动和生活方式建议</span><i class="ico yysTab"></i></p>
+		<div class="box-c" v-for="(sport,index) in sports">
+			<div class="txt02">
+				{{index+1}}.{{sport.personality}}
+			</div>
+		</div>
+		<div class="zanshi" style="display: none">没有获取到数据</div>
+	</div>
+	<p style="height: .3rem; background: #F4F4F4;"></p>
+	
+	<div class="jkjy_wrap">
+		<p class="btite"><span class="lab">营养素建议</span><i class="ico ssjyTab"></i></p>
+		<div class="box-c" v-for="(oli,index) in oul">
+			<p class="tit01">{{options[index]}}.{{oli.indexName}}</p>
+			<div class="txt02">
+				{{oli.personality}}
+			</div>
+		</div>
+		<div class="zanshi" style="display: none">没有获取到数据</div>
+	</div>
+	
+	<div class="segTip">
+		<i class="ic"></i>以上方案基于本次评估结果给予的健康改善建议，感谢您的阅读。由于个体差异并非所有建议都适用于您，请您根据实际情况进行合理的搭配选择。
+	</div>
+	
+</div>
+
+<div class="v_overlay"></div>
+<div class="v_overlert" id="ssjyTab">
+	<div class="tc_sy">
+		<p class="bit2">
+			<span class="labt">康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。</span>
+		</p>
+		<div class="bxt">
+			肖 荣   <br/>
+			博士/教授，博士生导师<br/>
+			中国营养学会常务理事 <br/>
+			中国优生科学协会常务理事<br/>
+			中国营养学会学术交流工作委员会委员<br/>
+			北京营养师协会副理事长<br/>
+			首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+		</div>
+	</div>
+</div>
+<div class="v_overlert" id="yysTab">
+	<div class="tc_sy">
+		<p class="bit2">
+			<span class="labt">康加运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。</span>
+		</p>
+		<div class="bxt">
+			高岭娣<br/>     
+			首都医科大学卫生与教育管理学院体育学系主任/副教授<br/><br/>
+			
+			潘晓明<br/>     
+			中医博士<br/>
+			北京大学医学部研究中心学术部副主任<br/>
+			深圳市中医药健康服务协会副会长；<br/>
+		</div>
+	</div>
+</div>
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myreportId=GetQueryString("reportId");
+
+
+$.ajax({
+url : dataUrl + "/api/v1/reportIndex/getSuggest",
+type : "POST",
+dataType : 'json',
+data : {
+    reportId : myreportId //变量myreportId替换 
+},
+success : function(proposalData) {
+	//alert('get it');
+	if(proposalData.code == 200){
+		$('.my_view').css("display","block");
+		$('.load-overlay').css("display","none");
+		
+		if(proposalData.data==null){
+			$('.box-c').css("display","none");
+			$('.zanshi').css("display","block");
+		}else{
+			if(proposalData.data.healthAdviceVo.dietList!=null){
+				for(var i=0;i<proposalData.data.healthAdviceVo.dietList.length;i++){
+				var newprop = proposalData.data.healthAdviceVo.dietList[i].proposal.replace(/\n/g, "<br/>");
+				proposalData.data.healthAdviceVo.dietList[i].proposal = newprop;
+				}
+			}
+			
+			var myApp01 = new Vue({
+			  el: '#appX',
+			  data: {
+			    sites: proposalData.data.healthAdviceVo.dietList, //膳食建议
+			    oul: proposalData.data.healthAdviceVo.nutritionList, // 营养建议
+			    sports: proposalData.data.healthAdviceVo.motionList, //运动建议
+			    options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六']
+			  }
+			});
+			
+			$('.jkjy_wrap .box-c .open').on("click",function(){
+				if($(this).find('.lab').text() == '展开'){
+					$('.jkjy_wrap .box-c .txt01').css('height','1.04rem');
+					$('.jkjy_wrap .box-c .open .lab').text('展开');
+					$('.jkjy_wrap .box-c .open .ico').css('transform','rotate(0deg)');
+					$(this).prev('.txt01').css('height','auto');
+					$(this).find('.lab').text('收起');
+					$(this).find('.ico').css('transform','rotate(180deg)');
+				}else{
+					$('.jkjy_wrap .box-c .txt01').css('height','1.04rem');
+					$(this).find('.lab').text('展开');
+					$(this).find('.ico').css('transform','rotate(0deg)');
+				}
+			});
+			//判断在没有数据的情况下 提示
+			$('.jkjy_wrap').each(function(){
+				if($(this).find('.box-c').length == 0){
+					//$(this).find('.zanshi').css("display","block");
+					$(this).css("display","none");
+					$(this).next('p').css("display","none");
+				}
+			})
+		}	
+	}else{
+		alert('code='+proposalData.code);
+	};
+			
+	
+	
+	//专家弹
+		function showMask(){
+			$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+			$(document).on('touchmove',function(e){
+				e.preventDefault();//阻止滚动
+			})
+		}
+		$('.ssjyTab').on("click",function(){
+			event.stopPropagation();
+			showMask();
+			$('#ssjyTab').css({"visibility":"visible","opacity":"1"});
+			return false;
+		});
+		$('.yysTab').on("click",function(){
+			event.stopPropagation();
+			showMask();
+			$('#yysTab').css({"visibility":"visible","opacity":"1"});
+			return false;
+		});
+		$('.v_overlay').click(function(){
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+			//$('.v_overlert2').css({"visibility":"hidden","opacity":"0"});
+			$(document).off("touchmove")
+		});
+	
+	
+	
+		
+	
+},
+
+    error : function(obj,msg){
+    	//debugger
+    	alert('请求失败');
+    }
+});
+</script>
+</body>
+</html>

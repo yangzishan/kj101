@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="shortcut icon" href="../favicon.ico" />
+<link rel="stylesheet" type="text/css" href="../css/basic.css" />
+<link rel="stylesheet" type="text/css" href="../css/style.css?t=20180205" />
+</head>
+<body>
+<div class="my_view" id="appVUE" style="background: #f4faf9; height: auto; padding-bottom: .88rem;">
+	<!--<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>支付</span></p>
+	</header>-->
+	
+	<div class=""><img src="../img/pay_t.jpg" class="img_b"></div>
+	
+	<div class="pay_x_cn">
+		<p class="btit"><i class="ico"></i><span class="lab">关注事项</span></p>
+		<div class="xcon">
+			<p class="ptit"><em class="dian"></em>您有 <font>{{abnormalNo}}</font> 个异常指标</p>
+			<p class="ptit"><em class="dian"></em>其中 <font>{{litAbnormal}}</font> 个轻度异常指标</p>
+		</div>
+	</div>
+	<p class="pay_x_tip" style="line-height: .57rem; font-size: .3rem;">
+		{{description}}<br>
+		支付即可查看详细指标及知名专家提供的改善方案 (<font>膳食、营养素、运动</font>)
+	</p>
+	
+	<div class="pay-x-fix">
+		<button class="pay" id="pay">支 付</button>
+		<span class="price">优惠价:<font>￥{{price}}</font></span>
+		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
+	</div>
+
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="../img/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{price}}</p>
+		</div>
+		<a class="pay-li" id="WordPay"><i class="ico"><img src="../img/o-key.png"></i><span>口令支付</span><img class="arr" src="../img/o-arr.png"></a>
+		<a class="pay-li" id="wxpay"><i class="ico"><img src="../img/o-wx.png"></i><span id="wxPay">微信支付</span><img class="arr" src="../img/o-arr.png"></a>
+		<a class="pay-li" id="kaPay"><i class="ico"><img src="../img/o-card.png"></i><span>卡支付</span><img class="arr" src="../img/o-arr.png"></a>
+	</div>	
+
+</div>
+
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="../img/loading.gif"></div>
+</div>
+
+<div class="daifu_d">
+	<p class="imo"><img src="../img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../38/js/base.js"></script>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myreportId=GetQueryString("reportId");
+var myopenId=GetQueryString("openId");
+var sameUser=GetQueryString("sameUser");
+var agentId = GetQueryString('agentId');  //代理商id  代理商报告用  康加报告不用
+
+$.ajax({
+url : dataUrl + "/api/v1/reportWxPay/findPackage",
+type : "post",
+dataType : 'json',
+data : {
+    reportId : myreportId,
+    openId : myopenId
+},
+success : function(indexData) {
+	//alert('get it')
+	if(indexData.code==200){
+		window.location.href="index.html?reportId="+myreportId+"&openId=" + myopenId;
+	}else if(indexData.code==201){
+		$('.my_view').css("display","block");
+		$('.load-overlay').css("display","none");
+ 		var myApp = new Vue({
+			el: '#appVUE',
+			data: {
+			  	nickName: indexData.data.mentPage.nickName, //昵称
+			  	headimgurl: indexData.data.mentPage.headimgurl, //头像
+			  	totalScore: indexData.data.mentPage.totalScore, //总分
+			  	age: indexData.data.mentPage.age, //生理年龄
+			  	ranking: indexData.data.mentPage.ranking, //排名
+			  	ps: indexData.data.mentPage.ps, //身体状况
+			  	name: indexData.data.infoView.name, //套餐名称
+			  	price: indexData.data.infoView.price,  //价格
+			  	//oprice: indexData.data.infoView.price+20, //原价
+			  	oprice: indexData.data.infoView.originalPrice, //原价
+			  	description: indexData.data.infoView.description,  //描述
+			  	abnormalNo: indexData.data.mentPage.abnormal.list4.length+indexData.data.mentPage.abnormal.list3.length+indexData.data.mentPage.abnormal.list2.length, //全部异常项目数
+			  	litAbnormal: indexData.data.mentPage.abnormal.list2.length,
+			  	firstNames: indexData.data.mentPage.firstNames  //得分最低两个系统名字
+			}
+		});
+		
+		//判断原价为0的时候  设现价+20
+		var originalPrice = indexData.data.infoView.originalPrice; // 原价
+		if(originalPrice == '' || originalPrice == null){
+			$('.pay-x-fix .oprice font').html('￥'+ (indexData.data.infoView.price + 20));
+		};
+
+		//判断新用户
+		var isFree = indexData.data.infoView.isFree;
+		if(isFree == 1){
+			$('.pay-x-fix .oprice').html('新用户首次免费');
+			$('#pay').html('查看');
+			$('#pay').click(function(){
+				window.location.href="../"+agentId+"/index.html?reportId="+myreportId+"&openId=" + myopenId;
+			});
+		};
+		var userId = indexData.data.infoView.userId;
+		var packageId = indexData.data.infoView.packageId;
+		var name = indexData.data.infoView.name;
+		var price = indexData.data.infoView.price;
+		
+		//sameUser (是否是本人的报告), 1/2 是否显示卡支付 代付提醒
+		if(sameUser == 2){
+			$('#kaPay').css("display","none");
+			$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+			$('.daifu_d').css("display","block");
+			
+		}else{
+			//判断用户有没有可用卡
+			$.ajax({
+				url : dataUrl + "/api/v1/cardPay/findUserCards",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					reportId : myreportId,
+				   	userId : userId
+				},
+				success : function(data) {
+					//alert('查找用户可用卡');
+					if(data.code == 200){
+						var cards = data.data.List;
+						if(cards == null || cards.length == 0 || cards == ''){
+							$('#kaPay').css("display","none");
+						};
+					}else{
+						console.log('查找用户可用支付卡 code= '+ data.code);
+					}
+				}
+			});
+		};
+		
+		if(price == 0){
+			$('#pay').on("click",function(){
+				$.ajax({
+					url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
+					type : "post",
+					dataType : 'json',
+					data : {
+					    reportId : myreportId,
+					    packageId: packageId,
+					    userId: userId
+					},
+					success : function(data) {
+						window.location.href="../"+agentId+"/index.html?reportId="+myreportId+"&openId=" + myopenId;
+					}
+				})
+			});
+		}else{
+			$('#pay').on("click",function(){
+				//选择支付方式
+				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+				$('.sl-pay').css({"transform":"translateY(0%)"});
+
+			});
+		};
+
+		//关闭 选择方式
+		$('.close').click(function(){
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.sl-pay').css({"transform":"translateY(110%)"});
+		});
+		//关闭 代付提醒
+		$('#iknow').click(function(){
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.daifu_d').css("display","none");
+		});
+		
+		//支付跳转 +
+		$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + '&agentId=' + agentId);
+		$('#WordPay').attr("href","wordPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + '&agentId=' + agentId);
+		$('#kaPay').attr("href","selectTycard.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + '&agentId=' + agentId);
+		
+	}else{
+		alert(indexData.msg);
+	}
+	
+},
+    error : function(obj,msg){
+    	console.log(obj  + msg);
+    }
+});
+</script>
+
+</body>
+</html>

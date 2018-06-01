@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康建议</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view" id="appVUE">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>健康报告建议</span></p>
+	</header>
+	<div class="summary">
+		<p class="tit">{{titleSex}}</p>
+		<div class="txt">
+			{{headIndex}}
+		</div>
+	</div>
+	<div class="jkjy_tit">健康指标建议</div>
+	<div class="jyinf_c">
+		<div class="inf_c" v-for="site in status">
+			<p class="btit">
+				<span class="lab">{{site.targetName}}</span>
+				<span class="fr">
+					{{site.inspectStandard == 1?'正常':(site.inspectStandard == 2?'偏高':'偏低')}}
+				</span>
+				<span class="fr yc">
+					{{site.abnormalLevel == 4?'重度异常':'重度异常'}}
+				</span>
+			</p>
+			<div class="binf">
+				<p class="tit"><i class="i01"></i><span class="">健康分析</span></p>
+				<div class="txt">
+					{{site.guideContent}}
+				</div>
+				<p class="tit"><i class="i02"></i><span class="">健康建议</span></p>
+				<div class="txt">
+					{{site.suggestContent}}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="v_overlay"></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myreportId=GetQueryString("reportId");
+//alert(mytargetFirstId);
+
+$.ajax({
+url : "http://testhealth.jiankangzhan.com/api/v1/reportIndex/getImproves",
+type : "POST",
+dataType : 'json',
+data : {
+    //reportId : "00-30-18-0A-9C-88201711171705" //测试数据
+    reportId : myreportId //变量myreportId替换
+    
+},
+success : function(proposalData) {
+	//alert('get it')
+	var myApp = new Vue({
+	  el: '#appVUE',
+	  data: {
+	  	titleSex: proposalData.data.titleSex,
+	    headIndex: proposalData.data.headIndex, //开头语
+	    status: proposalData.data.improves //各个
+	  }
+	});
+	
+},
+
+    error : function(obj,msg){
+    	debugger
+    	alert(obj  + msg);
+    }
+});
+</script>
+</body>
+</html>

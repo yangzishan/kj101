@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>个人资料</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/LCalendar.css">
+</head>
+<body>
+<section class="my_view" id="appVUE">
+<!--<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">个人资料</span></div>-->
+<div class="pson_t">
+	<p class="btit">完善资料</p>
+	<div class="nikimg">
+		<p><img src="img/ac.jpg"></p>
+	</div>
+	<p class="nikname">龙猫小胖子</p>
+</div>
+
+<div class="psonInforSet">
+	<p class="p_row">
+		<label class="lab">手机号</label>
+		<input class="intxt" type="number" pattern="[0-9]*" placeholder="18519854515" />
+	</p>
+	<p class="p_row">
+		<label class="lab">性别</label>
+		<span class="intxt" id="sexStr">男</span>
+		<input id="sex" type="hidden" value="" />
+	</p>
+	<p class="p_row">
+		<label class="lab">生日</label>
+		<input class="intxt" id="demo1" readonly="true" type="text" placeholder="请输入您的生日" unselectable="on" data-lcalendar="1920-01-1,2005-12-31"  />
+	</p>
+	<p class="p_row">
+		<label class="lab">身高</label>
+		<span class="intxt sho_height"><em id="height">175</em>cm</span>
+		<!--<input class="intxt" type="number" placeholder="175cm" />-->
+	</p>
+	<p class="p_row">
+		<label class="lab">体重</label>
+		<span class="intxt sho_weight"><em id="weight">65</em>kg</span>
+		<!--<input class="intxt" type="number" placeholder="60kg" />-->
+	</p>
+</div>
+<p class="psontip">请如实填写，将根据您的信息提供合适您的健康建议</p>
+<div class="d_subpson"><button class="">完成</button></div>
+</section>
+
+<div class="sel_sex">
+	<div class="d-sex">
+		<label for="nv"><span>女</span><input id="nv" type="radio" name="sex" value="2"><i></i></label>
+		<label for="nan"><span>男</span><input id="nan" type="radio" name="sex" value="1"><i></i></label>
+	</div>
+</div>
+
+<input type="hidden" id="userId" value="" />
+
+<div class="v_overlay"></div>
+<div class="modal-overlay" style=""></div>
+<div class="tc_psondata b_height">
+	<p class="tit">您的身高</p>
+	<p class="pint">
+		<input type="number" value="" id="in_height" /><em>cm</em>
+	</p>
+</div>
+<div class="tc_psondata b_weight">
+	<p class="tit">您的体重</p>
+	<p class="pint">
+		<input type="number" value="" id="in_weight" /><em>kg</em>
+	</p>
+</div>
+
+<div class="load-overlay" style="display: none;"><img class="loadimg" src="img/loading.gif"></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script type="text/javascript" src="js/LCalendar.js"></script>-->
+<script type="text/javascript" src="js/LCalendar_reg.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<script>
+$(function(){
+	//截取URL 获取
+	function GetQueryString(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	};
+	var myuserId=GetQueryString("userId");
+	$('#userId').val(myuserId);
+	
+	$.ajax({
+		url : dataUrl + "/api/v1/reportUser/findUserById",
+		type : "post",
+		dataType : 'json',
+		//contentType : 'application/json',
+        data : {
+        	userId: myuserId
+        },
+		success : function(userData) {
+			console.log(userData)
+			var myApp = new Vue({
+			  el: '#appVUE',
+			  data: {
+			    headimgurl: userData.data.headimgurl, //用户头像
+			    nickName: userData.data.nickName, //用户昵称
+			    mobile: userData.data.mobile, //手机号
+			    sex: userData.data.sex, //性别   1男 2女
+			    birthday: userData.data.birthday, //生日
+			    height: userData.data.height, //身高
+			    weight: userData.data.weight, //体重
+			    
+			  }
+			});
+			
+			var headimgurl = userData.data.headimgurl;//头像
+			var birthday = userData.data.birthdayStr; //生日
+			var nickName = userData.data.nickName; //用户昵称
+			var sex = userData.data.sex; //性别
+			var height = userData.data.height; //性别
+			var weight = userData.data.weight; //性别
+			
+			
+			$('#ImgPr').attr("src",headimgurl);
+			$('#demo1').val(birthday);
+			//修改昵称和性别身高体重跳转
+			$('#setNickName').attr("href","personal_nickname.html?userId="+myuserId+"&nickName="+nickName);
+			$('#setSex').attr("href","personal_sex.html?userId="+myuserId+"&sex="+sex);
+			$('#setHeight').attr("href","personal_height.html?userId="+myuserId+"&height="+height);
+			$('#setWeight').attr("href","personal_weight.html?userId="+myuserId+"&weight="+weight);
+			//体验卡跳转
+			$('#setCard').attr("href","tjCard.html?userId="+myuserId);
+		   	var calendar = new lCalendar();
+			calendar.init({
+				'trigger': '#demo1',
+				'type': 'date'
+			});
+		    $("#demo1").focus(function(){
+		        document.activeElement.blur();
+		    });
+
+		}
+	})
+	
+	
+	//性别选择
+	$('#sexStr').on("click",function(){
+		$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+		$('.sel_sex').css({"-webkit-transform":"translateY(0)"});
+	});
+	$('.d-sex label').on("click",function(){
+		$(this).addClass('check').siblings().removeClass('check');
+		var sex = $('input:radio[name="sex"]:checked').val();
+		//console.log(sex);
+		$('#sexStr').text(sex==1?'男':'女');
+		$('#sex').val(sex);
+		$('.modal-overlay').css({"visibility":"hidden","opacity":"0"})
+		$('.sel_sex').css({"-webkit-transform":"translateY(110%)"});
+	});
+	
+	//选择生日插件
+	var calendar = new lCalendar();
+	calendar.init({
+		'trigger': '#demo1',
+		'type': 'date'
+	});
+	$("#demo1").focus(function(){
+	    document.activeElement.blur();
+	});
+	
+	//填写身高
+	$('.sho_height').on("click",function(){
+		$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+		$('.b_height').css("display","block");
+		$('#in_height').focus();
+		$('#in_height').blur(function(){
+			$('#height').text($('#in_height').val());
+			$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.b_height').css("display","none");
+		});
+	});
+	//填写体重
+	$('.sho_weight').on("click",function(){
+		$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+		$('.b_weight').css("display","block");
+		$('#in_weight').focus();
+		$('#in_weight').blur(function(){
+			$('#weight').text($('#in_weight').val());
+			$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.b_weight').css("display","none");
+		});
+	});
+})
+	
+</script>
+</body>
+</html>

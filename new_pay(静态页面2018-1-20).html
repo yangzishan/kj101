@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view" id="appVUE" style="background: #f4faf9;">
+	<div class=""><img src="img/pay_t.jpg" class="img_b"></div>
+	
+	<div class="pay_x_cn">
+		<p class="btit"><i class="ico"></i><span class="lab">关注事项</span></p>
+		<div class="xcon">
+			<p class="ptit"><em class="dian"></em>您有 <font>12</font> 个异常指标</p>
+			<p class="ptit"><em class="dian"></em>其中 <font>6</font> 个轻度异常指标</p>
+		</div>
+	</div>
+	<p class="pay_x_tip" style="line-height: .57rem; font-size: .3rem;">
+		健康报告包含“循环系统、消化系统、内分泌、有害物质、呼吸系统、骨骼系统、生殖系统、免疫系统、营养状态、皮肤系统”共10大系统、70多小项的健康得分情况，您将会对身体的亚健康状况有完整的了解。<br>
+		支付即可查看详细指标及知名专家提供的改善方案 (<font>膳食、营养、运动</font>)
+	</p>
+	
+	
+	<div class="pay-x-fix">
+		<button class="pay" id="pay">支 付</button>
+		<span class="price">优惠价:<font>￥19.9</font></span>
+		<span class="oprice">原价：<font>￥39.9</font></span>
+	</div>
+	
+	
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{price}}</p>
+		</div>
+		<a class="pay-li" id="WordPay"><i class="ico"><img src="img/o-key.png"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="wxpay"><i class="ico"><img src="img/o-wx.png"></i><span id="wxPay">微信支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="kaPay"><i class="ico"><img src="img/o-key.png"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+	</div>	
+
+</div>
+
+<div class="v_overlay"></div>
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<!--<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myreportId=GetQueryString("reportId");
+var myopenId=GetQueryString("openId");
+var isShowCard=GetQueryString("data");
+
+$.ajax({
+url : dataUrl + "/api/v1/reportWxPay/findPackage",
+type : "post",
+dataType : 'json',
+data : {
+    reportId : myreportId, //变量myreportId替换
+    openId : myopenId
+},
+success : function(indexData) {
+	//alert('get it')
+	if(indexData.code==200){
+		window.location.href="index.html?reportId="+myreportId+"&openId=" + myopenId;
+	}else if(indexData.code==201){
+		$('.my_view').css("display","block");
+		$('.load-overlay').css("display","none");
+		//判断isShowCard 1/2 是否显示卡支付
+		if(isShowCard == 1){
+			$('#kaPay').css("display","block");
+		}else{
+			$('#kaPay').css("display","none");
+		};
+ 		var myApp = new Vue({
+		  el: '#appVUE',
+		  data: {
+		  	nickName: indexData.mentPage.nickName, //昵称
+		  	headimgurl: indexData.mentPage.headimgurl, //头像
+		  	totalScore: indexData.mentPage.totalScore, //总分
+		  	age: indexData.mentPage.age, //生理年龄
+		  	ranking: indexData.mentPage.ranking, //排名
+		  	ps: indexData.mentPage.ps, //身体状况
+		  	
+		  	/*description: indexData.data.description, //
+		    name: indexData.data.name,
+		    originalPrice: indexData.data.originalPrice,
+		    price: indexData.data.price*/
+		    
+		  }
+		});
+		//判断新用户
+		var isFree = indexData.data.isFree;
+		if(isFree == 1){
+			$('.pay-list .list-top .price').html('新用户首次免费').css("font-size",".3rem");
+			$('#pay').html('查看');
+			$('#pay').click(function(){
+			window.location.href="index.html?reportId="+myreportId+"&openId=" + myopenId;
+			});
+		};
+		
+		var userId = indexData.data.userId;
+		var packageId = indexData.data.packageId;
+		var name = indexData.data.name;
+		var price = indexData.data.price;
+		if(price == 0){
+			$('#pay').on("click",function(){
+				$.ajax({
+					url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
+					type : "post",
+					dataType : 'json',
+					data : {
+					    reportId : myreportId, //变量myreportId替换
+					    packageId: packageId,
+					    userId: userId
+					},
+					success : function(data) {
+						window.location.href="index.html?reportId="+myreportId+"&openId=" + myopenId;
+					}
+				})
+			});
+		}else{
+			//判断用户有没有可用卡
+			$.ajax({
+				url : dataUrl + "/api/v1/cardPay/findUserCards",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					reportId : myreportId,
+				   	userId : userId
+				},
+				success : function(data) {
+					//alert('get it');
+					if(data.code == 200){
+						var cards = data.data.List;
+						if(cards == null || cards == [] || cards == ''){
+							$('#kaPay').css("display","none");
+						};
+					}else{
+						alert('code='+ data.code)
+					}
+				}
+			});
+			//选择支付方式
+			$('#pay').on("click",function(){
+				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+				$('.sl-pay').css({"transform":"translateY(0%)"});
+			});
+		}
+		//关闭 选择方式
+		$('.close').click(function(){
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.sl-pay').css({"transform":"translateY(110%)"});
+		});
+		
+		//支付跳转 +
+		$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId);
+		$('#WordPay').attr("href","wordPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId);
+		$('#kaPay').attr("href","selectTycard.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId);
+		
+			
+	}else{
+		alert(indexData.msg);
+	}
+	
+},
+
+    error : function(obj,msg){
+    	//debugger
+    	console.log(obj  + msg);
+    }
+});
+</script>-->
+
+</body>
+</html>

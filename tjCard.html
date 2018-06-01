@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>我的年卡</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body class="bck-col-fff">
+
+<section class="my_view" style="display: none;">
+<header class="header">
+	<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+	<a class="t-right fr" href=""></a>
+	<p class="t-cen txt1"><span>我的年卡</span></p>
+</header>	
+<div class="tjk_v" id="appVUE">
+	
+	<a class="g-tyk" v-for="card in cards" :href="card.password|getRecordHref">
+		<div class="tyk_x">
+			<em class="mask">已绑定</em>
+			<p class="tit"><span class="nam">VIP</span><span class="nam_lit">(年)</span></p>
+			<p class="tnum">卡号 <span>{{card.password}}</span></p>
+			<input class="kaNo" type="hidden" :value="card.password" />
+			<p class="remainder">剩余<span class="sxValue">{{card.value}}</span>次</p>
+			<p class="date">有效期至 <span class="sxDate">{{card.endTime}}</span></p>
+			<i class="sel"></i>
+			<input type="radio" />
+		</div>
+	</a>
+	
+	<div class="tyk-fix"><a class="tyk-btn" id="goBind" href="addTycard.html">添加年卡</a></div>
+</div>	
+</section>
+
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myuserId=GetQueryString("userId");
+
+$.ajax({
+	url : dataUrl + "/api/v1/cardPay/findUserCards",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	   	userId : myuserId
+	},
+	success : function(data) {
+		//alert('get it');
+		if(data.code == 200){
+			$('.my_view').css("display","block");
+			$('.load-overlay').css("display","none");
+			var myApp = new Vue({
+			  	el: '#appVUE',
+			  	data: {
+			    	cards: data.data.List
+			  	},
+			  	//过滤器
+			  	filters:{
+		    		getRecordHref:function(val){
+		            	return 'tyCardRecord.html?cardNo=' + val 
+		       		}
+			  	}
+			  
+			});
+			//隐藏中间卡号
+			$('.g-tyk .tyk_x .tnum span').each(function(){
+				var str = $(this).text();
+				var reg = /^(\d{4})\d+(\d{4})$/;
+				$(this).text(str.replace(reg, "$1********$2"));
+			});
+			//跳转绑卡
+			$('#goBind').attr("href","addTycard.html?userId=" + myuserId);
+			
+			//置灰过期卡失效卡
+			$('.g-tyk').each(function(){
+				
+				var dateStr1 = $(this).find('.sxDate').text();
+				var date1 = new Date(dateStr1.replace(/-/g, '/'));
+				var timestamp1 = date1.getTime();
+				var date2 = new Date();
+				var timestamp2 = date2.getTime();
+				var sxDate = timestamp2 - timestamp1;		
+				var sxValue = parseInt($(this).find('.sxValue').text());
+				if(sxDate>=0){
+					$(this).find('.tyk_x').addClass('invalid');
+					$(this).find('.mask').text('已过期');
+				}else if(sxValue == 0){
+					$(this).find('.tyk_x').addClass('invalid');
+					$(this).find('.mask').text('已失效');
+				};
+				var dateStr2 = dateStr1.substring(0,10);
+				$(this).find('.sxDate').text(dateStr2);
+			});
+			
+			
+		}else{
+			alert('code='+ data.code + data.msg);
+		}
+	},
+	
+	error : function(obj,msg){
+		console.log('post请求失败');
+	}
+});
+</script>
+</body>
+</html>

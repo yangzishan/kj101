@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>报告详情</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body class="bck-col-f4">
+<div class="my_view" id="appVUE" style="display: none;">
+	<header class="header">
+		<p class="t-cen txt1"><span>{{targetFirstName}}</span></p>
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<!--<a class="t-right fr" id="gotrend">查看趋势</a>-->
+	</header>
+	<div class="">
+		<dl class="seCon" v-for="ostate in status">
+			<dt class="cdt">
+				<p class="lab"><i></i><span>{{ostate.targetSecondName}}</span></p>
+				<div class="b_prc">
+					<div class="prc fl"><span><i></i></span></div>	
+					<div class="fen fr"><font>{{ostate.score}}</font>分</div>
+				</div>	
+			</dt>
+			<dd class="cdd" v-for="osite in ostate.thirdPages">
+				<a :href="osite.targetThirdId|getThirdHref">
+					<span class="lab">{{osite.targetThirdName}}</span>
+					<span class="sta">正常</span>
+					<span class="num">{{osite.score}}分</span>
+					<em class="fr"></em>
+				</a>
+			</dd>	
+		</dl>
+	</div>
+</div>
+
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/circle-progress.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myReportId = GetQueryString('reportId');
+var mytargetFirstId=GetQueryString("targetFirstId");
+var userId = GetQueryString('userId');
+
+$.ajax({
+url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
+type : "POST",
+dataType : 'json',
+data : {
+    reportId : myReportId,
+    targetFirstId : mytargetFirstId
+},
+success : function(indexData) {
+	if(indexData.code == 200){
+		$('.my_view').css("display","block");
+		$('.load-overlay').css("display","none");
+		var myApp = new Vue({
+		  	el: '#appVUE',
+		  	data: {
+		    	score: indexData.data.score, //系统得分
+		   		targetFirstName: indexData.data.targetFirstName, //系统名称
+		    	status: indexData.data.secondPages, //二级指标
+		  	},
+		  	filters:{
+	    		getThirdHref:function(val){
+	            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
+	       		}
+		  	}
+		});
+		
+		//进度条低分高亮显示
+		$('.seCon .cdt .fen').each(function(){
+			var v_score = parseInt($(this).find('font').text())
+			if(v_score < 90 && v_score >=80){
+				$(this).parents('dt').addClass('bcolor1');
+			}else if(v_score < 80){
+				$(this).parents('dt').addClass('bcolor2');
+			}
+			$(this).prev().find('span').css('width',v_score + '%');
+		});
+		$('.seCon .cdd .num').each(function(){
+			if(parseInt($(this).text()) < 90 && parseInt($(this).text()) >= 80){
+				$(this).parents('a').addClass('bcolor1');
+				$(this).parents('a').find('.sta').text('轻度异常');
+			}else if(parseInt($(this).text()) < 80 && parseInt($(this).text()) >= 70){
+				$(this).parent('a').addClass('bcolor1');
+				$(this).parent('a').find('.sta').text('中度异常');
+			}else if(parseInt($(this).text()) <70){
+				$(this).parent('a').addClass('bcolor2');
+				$(this).parent('a').find('.sta').text('重度异常');	
+			}
+		});
+	}
+
+},
+
+    error : function(obj,msg){
+    	debugger
+    	alert(obj  + msg);
+    }
+});
+</script>
+</body>
+</html>

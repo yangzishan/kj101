@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>用户信息</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+</head>
+<body class="bck-col-fff">
+<section class="my_view">
+	
+<div class=""><img src="img/login_t.jpg" class="img_b"></div>
+<div class="d_login" style="height: 3.6rem;">
+	<div class="login_cn" id="cn1">
+		<p class="ctit">欢迎来到康加</p>
+		<p class="ctxt">
+			<input type="number" id="mobile" placeholder="请输入手机号" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)">
+		</p>
+		<p class="cbtn"><button class="off" id="sendMsg">发送验证码</button></p>
+	</div>
+	
+	<div class="login_cn" id="cn2">
+		<p class="ctit">欢迎来到康加</p>
+		<p class="ctxt">
+			<input type="number" id="dxYzm" placeholder="请输入验证码">
+		</p>
+		<p class="cbtn"><button class="off" id="subAll">完成</button></p>
+	</div>
+</div>
+
+
+	<!--<a href="http://testhealth.jiankangzhan.com/wxUser/agentWxUserReport?jumpUrl=uiAIndex&reportId=00-30-18-0A-9C-8820180226134929918861&openId=onzW6w5RTnI0hVmwI8JtiHKV-vM8&agentId=10" style="display: block; height: 2rem; margin-top: .8rem;"></a>-->
+
+	
+</section>
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay" style=""></div>
+
+<input id="getCode" type="hidden" value="">
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+//弹窗 模拟alert
+function showMask(msg){
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2);
+	});
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#alert').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+	$('#alert .subBtn').click(function(){closeMask()});
+}
+function closeMask(){
+	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+	$('#alert').css({"visibility":"hidden","opacity":"0"});
+}
+//showMask('哈哈哈哈');
+
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myuserId=GetQueryString("userId");
+var myreportId=GetQueryString("reportId");
+var myopenId = GetQueryString('openId');
+
+//手机号校验
+$('#sendMsg').attr("disabled",true);
+$('#mobile').on("keyup keypress paste",function(){ 
+	var mobile = $('#mobile').val();
+	if((/^1[3456789]\d{9}$/.test(mobile))){ 
+		$('#sendMsg').removeClass('off').attr("disabled",false);
+	}else{
+		$('#sendMsg').addClass('off').attr("disabled",true);
+        //return false;
+	}
+});
+
+$('#sendMsg').on("click",function(){
+	$(this).attr("disabled",true);
+	$('#cn1').css("left","-100%");
+	$('#cn2').css("left","0");
+	$.ajax({
+		url : dataUrl + "/api/v1/messageCode/getCode",
+		type : "post",
+		dataType : 'json',
+        data : {
+        	userId: myuserId
+        },
+		success : function(codeData) {
+			if(codeData.code == 200){
+				$('#getCode').val(codeData.data);
+				getYzm();
+			}
+		}
+	});
+});
+
+function getYzm(){
+	var yzmVal = $('#getCode').val();
+	var mobile = $('#mobile').val();
+	var userInfo = {
+		mobile : mobile,
+		code : yzmVal,
+		userId : myuserId
+	};
+	$.ajax({
+		url : dataUrl + "/api/v1/messageCode/kjSendMsg",
+		type : "post",
+		dataType : 'json',
+        data : userInfo,
+		success : function(userData) {
+			if(userData.code == 200){
+				//$('#cn1').css("transform","translateX(-110%)");
+				//$('#cn2').css("transform","translateX(0)");
+				console.log('发送短信成功');
+			}else if(userData.code == 300){
+				showMask('发送短信验证码失败');
+				$("#sendMsg").attr("disabled",false)
+			}else{
+				alert('发送短信失败的code ' + userData.code);
+				//$("#sendMsg").attr("disabled",false)
+			}
+		},
+		error : function(){
+			alert('请求短信接口失败了');
+		}
+	});
+};
+
+$('#dxYzm').on("change focus keyup keypress",function(){ 
+	var dxYzm = $('#dxYzm').val();
+	if(dxYzm != ''){
+		$('#subAll').removeClass('off').attr("disabled",false);
+	}else{
+		$('#subAll').addClass('off').attr("disabled",true);
+	}
+});
+
+$('#subAll').click(function(){
+	$(this).attr("disabled",true);
+	var mobile = $('#mobile').val();
+	var userId = myuserId;
+	var dxYzm = $.trim($('#dxYzm').val());
+	var userInfo = {
+		mobile : mobile,
+		userId : userId
+		//openId : myopenId
+	}
+	$.ajax({
+		url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code=" +dxYzm ,
+		type : "post",
+		dataType : 'json',
+		contentType : 'application/json',
+        data : JSON.stringify(userInfo),
+		success : function(userData) {
+			//debugger;
+			if(userData.code == 200){
+				window.location.href="index.html?reportId="+myreportId + "&openId=" + myopenId;
+			}else if(userData.code == 301){
+				showMask('手机号已被绑定');
+				$(this).attr("disabled",false);
+			}else{
+				showMask('登录失败，请查看验证码是否有误');
+				//$(this).attr("disabled",false);
+			}
+			
+		},
+		error : function(){
+			alert('请求数据失败,请检信息是否输入正确');
+		}
+	})
+	
+});
+
+</script>
+</body>
+</html>

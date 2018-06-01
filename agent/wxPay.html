@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>微信支付</title>
+<link rel="stylesheet" type="text/css" href="../css/basic.css" />
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+</head>
+<body>
+<div class="my_view bck-col-f4" id="appVUE">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>微信支付</span></p>
+	</header>
+	<div class="wxpay">
+		<div class="dtit"><i class=""></i><span class="">订单已提交成功，请您尽快付款</span></div>
+		<p class="p1"><span>订单名称：</span><font>{{name}}</font></p>
+		<p class="p1"><span>订单金额：</span><font>{{price}}</font>元套餐</p>
+		<p class="p1"><span>支付名称：￥</span><font>{{price}}</font>元</p>
+	</div>
+	
+	<div class="subpay"><button class="btn_pay" id="goWxPay">支付</button></div>
+	
+</div>	
+
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myreportId=GetQueryString("reportId");
+var mypackageId=GetQueryString("packageId");
+var myuserId=GetQueryString("userId");
+var myopenId=GetQueryString("openId");
+var tp=GetQueryString("tp");
+var agentId = GetQueryString('agentId');  //代理商id  代理商报告用 康加报告不用
+
+var myurl = window.location;
+var useurl = decodeURI(myurl);
+var start =useurl.indexOf('name=');
+var stop =useurl.indexOf('&',start);
+var myname = useurl.substring(start+5,stop);
+var myprice=GetQueryString("price");
+var myApp = new Vue({
+  el: '#appVUE',
+  data: {
+  	name: myname, 
+    price: myprice
+    
+  }
+});
+
+$('#goWxPay').on("click",function(){
+	$(this).attr("disabled",true);  //新加防呆
+		$.ajax({
+	    url:dataUrl + "/api/v1/reportWxPay/wxAddPayOrder",
+	    type : "POST",
+		dataType : 'json',
+		data : {
+		    reportId : myreportId, //报告ID
+		    packageId : mypackageId,
+		    userId : myuserId
+		},
+	    success : function(result) {
+	    	if (result.code == 200) {
+	            WeixinJSBridge.invoke('getBrandWCPayRequest',{  
+	                "appId" : result.wxParameter.appId,              //公众号名称，由商户传入  
+	                "timeStamp": result.wxParameter.timeStamp,       //时间戳，自 1970 年以来的秒数  
+	                "nonceStr" : result.wxParameter.nonceStr,        //随机串  
+	                "package" : result.wxParameter.package,          //商品包信息 
+	                "signType" : result.wxParameter.signType,        //微信签名方式
+	                "paySign" : result.wxParameter.paySign           //微信签名  
+	                },function(res){
+	                	//debugger;
+	                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {  
+	                        // 支付成功
+	                        $.ajax({
+				                url:dataUrl + "/api/v1/reportWxPay/successCallback",
+				              	type : "POST",
+				              	dataType : 'json',
+								data : {
+								    orderNum : result.data //报告ID
+								},
+				                success : function(payreuslt) {
+				                	if(tp == 201){
+				                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+myreportId + '&openId=' + myopenId;
+				                	}else{
+				                		window.location.href="../"+agentId+"/index.html?reportId="+myreportId + '&openId=' + myopenId;
+				                	}
+				                	
+				                }
+	                         });
+	                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+							alert("支付取消");
+							$('#goWxPay').attr("disabled",false);  //新加防呆
+						}else if (res.err_msg == "get_brand_wcpay_request:fail") {
+							alert("支付失败："+res.err_desc);
+							$('.wxpay .dtit i').addClass('fail');
+							$('.wxpay .dtit span').html('支付失败');
+							$('#goWxPay').attr("disabled",false);  //新加防呆
+						}
+	                }
+	            ); 
+	        }else{
+	            alert(result.msg);
+	        }
+	    }
+	});
+});
+
+
+
+</script>
+
+
+</body>
+</html>
