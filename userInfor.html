@@ -10,6 +10,12 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+<style type="text/css">
+.tongyifo{ position: absolute; bottom: 0; width: 100%; display: -webkit-box; border-top: #f2f2f2 solid .02rem; background: #fff;}
+.tongyifo span{display:block; width: 50%; -webkit-box-flex: 1; line-height: .88rem;text-align: center; font-size: .32rem;}
+.tongyifo span.on{ background: #1ebeb1; color: #fff;}
+.tc_sy .bxt2{ font-size: .26rem;}
+</style>
 </head>
 <body class="bck-col-fff">
 <section class="my_view">
@@ -20,7 +26,7 @@
 		<p class="ctit">欢迎来到康加</p>
 		<p class="cpxt">
 			<span class="lab">年　龄</span>
-			<span class="fle"><input type="number" id="age" placeholder="请输入18到80之间的有效年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+			<span class="fle"><input type="number" id="age" placeholder="请输入18岁到80岁之间的有效年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
 		</p>
 		<p class="cpxt">
 			<span class="lab">手机号</span>
@@ -33,12 +39,12 @@
 			<span class="fle"><input type="number" id="dxYzm" placeholder="短信验证码"></span>
 			<button class="send" id="sendMsg">获取验证码</button>
 		</p>
-		<p class="agr">
+		<!--<p class="agr">
 			<span class="check_b" id="check_b"><input type="checkbox" id="agree" checked="checked"></span>
 			<label for="agree">阅读并同意</label>
 			<span class="sxx" id="notice">用户协议</span>
-		</p>
-		<p class="cbtn"><button class="off" id="subAll" disabled="disabled">完成</button></p>
+		</p>-->
+		<p class="cbtn"><button class="off" id="nextAll" disabled="disabled">完成</button></p>
 	</div>
 </div>
 	
@@ -48,9 +54,8 @@
 <div class="v_overlay"></div>
 <div class="v_overlert" id="showNotice">
 	<div class="tc_sy">
-		<em class="close"></em>
-		<p class="bit">
-			<span class="labt">用户须知</span>
+		<p class="bit" style="text-align: center;">
+			<span class="labt">注册协议及隐私政策</span>
 		</p>
 		<div class="bxt2">
 			<p>欢迎您使用康加智能筛查机器人服务，本人已经阅读康加智能筛查机器人服务条款并同意本声明。</p>
@@ -69,6 +74,13 @@
 			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有<br><em style="color: #ccc; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
 		</div>
 	</div>
+	
+	<div class="tongyifo">
+		<span class="">不同意</span>
+		<span class="on">同意</span>
+	</div>
+	
+	
 </div>
 
 <div class="tc-qx" id="alert">
@@ -145,7 +157,7 @@ function time(tm){
 	}
 };
 //阅读用户须知弹出
-$('#notice').on("click",function(){
+/*$('#notice').on("click",function(){
 	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 	$('#showNotice').css({"visibility":"visible","opacity":"1"});
 	$('#showNotice').on("touchmove",function(){
@@ -159,7 +171,7 @@ $('.v_overlert .close').click(function(){
 	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
 	$(document).off("touchmove");
-});
+});*/
 
 $('#age').blur(function(){
 	var age = parseInt($('#age').val());
@@ -235,14 +247,14 @@ function getYzm(){
 
 $('#dxYzm').on("change focus keyup keypress",function(){ 
 	var dxYzm = $('#dxYzm').val();
-	if(dxYzm != '' && $('#agree').is(":checked")){
-		$('#subAll').removeClass('off').attr("disabled",false);
+	if(dxYzm != ''){
+		$('#nextAll').removeClass('off').attr("disabled",false);
 	}else{
-		$('#subAll').addClass('off').attr("disabled",true);
+		$('#nextAll').addClass('off').attr("disabled",true);
 	}
 });
 
-$('#agree').on("click",function(){
+/*$('#agree').on("click",function(){
 	if($(this).is(":checked")){
 		$('#check_b').removeClass('sta1').addClass('sta2');
 		if($('#dxYzm').val() != ''){
@@ -252,16 +264,28 @@ $('#agree').on("click",function(){
 		$('#check_b').removeClass('sta2').addClass('sta1');
 		$('#subAll').addClass('off').attr("disabled",true);
 	}
+});*/
+
+$('#nextAll').on("click",function(){
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	$('#showNotice').css({"visibility":"visible","opacity":"1"});
 });
 
-$('#subAll').click(function(){
-	//debugger
-	var age = parseInt($('#age').val());
-	if(age < 18 || age >80 ||  isNaN(age)){
-		showMask('请输入18到80之前的有效年龄');
-		return;
+$('.tongyifo span').on("click",function(){
+	$(this).addClass('on').siblings().removeClass('on');
+	var tongyifo = $(this).index();
+	if(tongyifo ==0){
+		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+	}else if(tongyifo ==1){	
+		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		subAll();
 	}
-	$(this).attr("disabled",true);
+});
+
+function subAll(){
+	var age = parseInt($('#age').val());
 	var mobile = $('#mobile').val();
 	var userId = myuserId;
 	var dxYzm = $.trim($('#dxYzm').val());
@@ -283,7 +307,7 @@ $('#subAll').click(function(){
 				window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
 			}else if(userData.code == 301){
 				showMask('手机号已被绑定');
-				$(this).attr("disabled",false);
+				//$('#subAll').attr("disabled",false);
 			}else{
 				showMask('登录失败，请查看验证码是否有误');
 				//$(this).attr("disabled",false);
@@ -295,7 +319,7 @@ $('#subAll').click(function(){
 		}
 	})
 	
-});
+}
 
 </script>
 </body>

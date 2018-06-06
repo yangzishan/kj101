@@ -383,7 +383,7 @@
 .login_cn .cpxt .fle{ display: block; -webkit-box-flex: 1;}
 .login_cn .cpxt .fle input{ width: 100%; height: .88rem; font-size: .3rem;}
 .login_cn .cpxt .fle input::-webkit-input-placeholder{ color: #ccc;}
-.login_cn .cpxt .send{ display: block; width: 2rem; height: .58rem; background: none; border: #1ebeb1 solid .02rem; text-align: center; line-height: .54rem; color: #1ebeb1; font-size: .3rem; border-radius: .29rem; margin-top: .15rem;}
+.login_cn .cpxt .send{ display: block;/* width: 2rem;*/ padding: 0 .1rem; height: .58rem; background: none; border: #1ebeb1 solid .02rem; text-align: center; line-height: .54rem; color: #1ebeb1; font-size: .3rem; border-radius: .29rem; margin-top: .15rem;}
 .login_cn .agr{ height:.88rem; line-height: .88rem; font-size: .26rem;}
 .login_cn .agr .check_b{ width: .26rem; height: .26rem; display:inline-block; margin: .31rem 0 0;vertical-align: top; position: relative; background: url(../img/use_checked.png) no-repeat left top; background-size:100%;}
 .login_cn .agr .check_b.sta1{background: url(../img/use_checked.png) no-repeat 0 -.26rem; background-size:100%;}
