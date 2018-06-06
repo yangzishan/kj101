@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>用户信息</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+</head>
+<body class="bck-col-fff">
+<section class="my_view">
+	
+<div class=""><img src="img/login_t.jpg" class="img_b"></div>
+<div class="d_login">
+	<div class="login_cn">
+		<p class="ctit">欢迎来到康加</p>
+		<p class="cpxt">
+			<span class="lab">年　龄</span>
+			<span class="fle"><input type="number" id="age" placeholder="请输入18到80之间的有效年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+		</p>
+		<p class="cpxt">
+			<span class="lab">手机号</span>
+			<span class="fle">
+				<input type="number" id="mobile" placeholder="请输入手机号" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)">
+			</span>
+		</p>
+		<p class="cpxt">
+			<span class="lab">验证码</span>
+			<span class="fle"><input type="number" id="dxYzm" placeholder="短信验证码"></span>
+			<button class="send" id="sendMsg">获取验证码</button>
+		</p>
+		<p class="agr">
+			<span class="check_b" id="check_b"><input type="checkbox" id="agree" checked="checked"></span>
+			<label for="agree">阅读并同意</label>
+			<span class="sxx" id="notice">用户协议</span>
+		</p>
+		<p class="cbtn"><button class="off" id="subAll" disabled="disabled">完成</button></p>
+	</div>
+</div>
+	
+</section>
+<input id="getCode" type="hidden" value="">
+
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showNotice">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit">
+			<span class="labt">用户须知</span>
+		</p>
+		<div class="bxt2">
+			<p>欢迎您使用康加智能筛查机器人服务，本人已经阅读康加智能筛查机器人服务条款并同意本声明。</p>
+			<p>1.康加智能筛查机器人是针对亚健康人群进行数据指标采集设备，并非医疗器械设备，康加智能筛查机器人所有资料及数据报告仅供参考使用，不作为个人健康状况的医疗目的衡量指标，也不能替代医生和其他医务人员的专业建议。</p>
+			<p>2.任何情况下，康加智能筛查机器人所提供数据仅为提升用户体验所用，用户对于其自身健康状况的最终评估仅来自于专业医疗机构的检测手段，康加智能筛查机器人对于采集数据不做任何形式的保证，不保证所提供数据满足用户的要求，对采集结果的安全性、正确性、及时性均不做担保。故本公司不对因使用本品提供的数据而导致之损失或损害承担任何直接或间接责任。</p>
+			<p>3.康加智能筛查机器人是为亚健康人群设计，相关指标依据三大人体数据采集系统（人体光谱波、人体生物电、人体脉搏波）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。</p>
+			<p>4.健康分析报告说明：⽬的实现⾃我预防保健。世界卫⽣组织研究报告表明，1/3的疾病是可以通过预防保健避免的，1/3的疾病可以通过信息的有效沟通来提⾼治疗的效果。要从疾病管理为主转向预防保健和⾃我保健为主，康加智能筛查机器人通过移动互联和康加云健康系统为用户提供⽐较全⾯、系统的健康分析，从⽽有重点地进⾏⾃我预防、有重点地去医疗机构检查！</p>
+			<p>5.本报告主要起预警作⽤，对检测出来⾃⼰也知道的慢性健康问题，继续加以重视；对检测出来提示预警或⾃⼰原来不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所查范围所限未能发现到的情况，仍按原诊断及治疗。本次健康分析报告仅根据本次所查范围所做，可能难以全⾯反映您的健康状况。如有不适症状出现请到相应医院专科就诊。</p>
+			<p>6 康加智能筛查机器人评估报告推送的内容，含膳食建议、营养建议、运动建议、健康食谱、调养方法等均作为个人健康管理所需的参考，不作为处方。本公司不对通过康加智能筛查机器人在其信息平台提供的相关产品或服务做任何担保。</p>
+			<p>7.康加智能筛查机器人是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。用户通过康加智能筛查机器人获取材料或数据由您自己承担风险，同时您将对使用此类材料或数据而导致的人身或财产损失承担全部责任。</p>
+			<p>8.因健康报告里面包含个人隐私问题，当用户分享给它人或朋友圈时，即表示该用户自行同意把隐私公开。 </p>
+			<p>9.用户扫描二维码需要先关注康加公众号/或下载使用康加APP，因其数据报告跟公众号/或APP绑定在一起，会保留历史纪录，方便进行长期数据追踪和分析。</p>
+			<p>10.本公司重视对用户隐私的保护，保护隐私是本公司的一项基本政策。您提供的登记资料及本公司保留的有关您的若干其他个人资料将受到中国有关隐私的法律法规的保护。康加健康报告会引用您的基础数据进行大数据建模，非经用户亲自许可或根据相关法律的强制性规定，本公司不会主动的将您的身份信息泄露给其他任何第三方。</p>
+			<p>11.本公司有权在必要时修改服务条款，服务条款一旦发生变动，将会在相关页面上公布修改后的服务条款。如果不同意所改动的内容，用户应主动取消此项服务。如果用户继续使用服务，则视为接受服务条款的变动。</p>
+			<p>12.凡以任何方式登录康加智能筛查机器人， 或对您使用康加智能筛查机器人、网络平台、与本公司相关的任何内容、服务均视为自愿接受康加智能筛查机器人声明的约束。无论在任何原因下（包括但不限于疏忽原因），对您或任何人通过使用康加智能筛查机器人所导致的损失或损害（包括直接、间接的损失或损害），责任均由使用者自行承担（除非该等损失系由本公司产品质量不达标所致）。</p>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有<br><em style="color: #ccc; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+	</div>
+</div>
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay" style=""></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+//弹窗 模拟alert
+function showMask(msg){
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2);
+	});
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#alert').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+	$('#alert .subBtn').click(function(){closeMask()});
+}
+function closeMask(){
+	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+	$('#alert').css({"visibility":"hidden","opacity":"0"});
+}
+//showMask('哈哈哈哈');
+
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myuserId = GetQueryString("userId");
+var myreportId = GetQueryString("reportId");
+var myopenId = GetQueryString('openId');
+var edition=GetQueryString("edition");
+
+//倒计时读秒
+var wait=60;
+document.getElementById("sendMsg").disabled=false;
+function time(tm){
+	if(wait==0){
+		tm.removeAttr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.css({"color":"#1ebeb1","border":"#1ebeb1 solid .02rem"}); //控制样式
+	}else{
+		tm.css({"color":"#999","border":"#999 solid .02rem"}); //控制样式
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+//阅读用户须知弹出
+$('#notice').on("click",function(){
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	$('#showNotice').css({"visibility":"visible","opacity":"1"});
+	$('#showNotice').on("touchmove",function(){
+		event.stopPropagation();
+	});
+	$(document).on('touchmove',function(e){
+		e.preventDefault();//阻止滚动
+	});
+});
+$('.v_overlert .close').click(function(){
+	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+	$(document).off("touchmove");
+});
+
+$('#age').blur(function(){
+	var age = parseInt($('#age').val());
+	if(age < 18 || age >80 ||  isNaN(age)){
+		showMask('请输入18到80之间的有效年龄');
+		return;
+	}
+});
+
+//点击获取短信验证码
+$('#sendMsg').on("click",function(){
+	//手机号校验
+	var mobile = $('#mobile').val();
+	if(!(/^1[3456789]\d{9}$/.test(mobile))){ 
+		showMask('请输入正确的手机号码');
+		return false;
+	}else{
+		$(this).attr("disabled",true);
+		$.ajax({
+			url : dataUrl + "/api/v1/messageCode/getCode",
+			type : "post",
+			dataType : 'json',
+	        data : {
+	        	userId: myuserId
+	        },
+			success : function(codeData) {
+				if(codeData.code == 200){
+					$('#getCode').val(codeData.data);
+					getYzm();
+				}else{
+					showMask('获取短信码失败');
+					$("#sendMsg").attr("disabled",false)
+				}
+			},
+			error: function(){
+				alert('获取短信码error');
+				$("#sendMsg").attr("disabled",false)
+			}
+		});  
+	}	
+});
+
+function getYzm(){
+	var yzmVal = $('#getCode').val();
+	var mobile = $('#mobile').val();
+	var userInfo = {
+		mobile : mobile,
+		code : yzmVal,
+		userId : myuserId
+	};
+	$.ajax({
+		url : dataUrl + "/api/v1/messageCode/kjSendMsg",
+		type : "post",
+		dataType : 'json',
+        data : userInfo,
+		success : function(userData){
+			if(userData.code == 200){
+				console.log('发送短信成功');
+				time($("#sendMsg"));
+			}else if(userData.code == 300){
+				showMask('发送短信验证码失败');
+				$("#sendMsg").attr("disabled",false);
+			}else{
+				showMask('发送短信失败的code ' + userData.code);
+				$("#sendMsg").attr("disabled",false);
+			}
+		},
+		error : function(){
+			alert('请求短信接口失败了');
+		}
+	});
+};
+
+$('#dxYzm').on("change focus keyup keypress",function(){ 
+	var dxYzm = $('#dxYzm').val();
+	if(dxYzm != '' && $('#agree').is(":checked")){
+		$('#subAll').removeClass('off').attr("disabled",false);
+	}else{
+		$('#subAll').addClass('off').attr("disabled",true);
+	}
+});
+
+$('#agree').on("click",function(){
+	if($(this).is(":checked")){
+		$('#check_b').removeClass('sta1').addClass('sta2');
+		if($('#dxYzm').val() != ''){
+			$('#subAll').removeClass('off').attr("disabled",false);
+		}	
+	}else{
+		$('#check_b').removeClass('sta2').addClass('sta1');
+		$('#subAll').addClass('off').attr("disabled",true);
+	}
+});
+
+$('#subAll').click(function(){
+	//debugger
+	var age = parseInt($('#age').val());
+	if(age < 18 || age >80 ||  isNaN(age)){
+		showMask('请输入18到80之前的有效年龄');
+		return;
+	}
+	$(this).attr("disabled",true);
+	var mobile = $('#mobile').val();
+	var userId = myuserId;
+	var dxYzm = $.trim($('#dxYzm').val());
+	var userInfo = {
+		mobile : mobile,
+		userId : userId,
+		age : age
+		//openId : myopenId
+	}
+	$.ajax({
+		url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code=" +dxYzm ,
+		type : "post",
+		dataType : 'json',
+		contentType : 'application/json',
+        data : JSON.stringify(userInfo),
+		success : function(userData) {
+			//debugger;
+			if(userData.code == 200){
+				window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+			}else if(userData.code == 301){
+				showMask('手机号已被绑定');
+				$(this).attr("disabled",false);
+			}else{
+				showMask('登录失败，请查看验证码是否有误');
+				//$(this).attr("disabled",false);
+			}
+			
+		},
+		error : function(){
+			alert('请求数据失败,请检信息是否输入正确');
+		}
+	})
+	
+});
+
+</script>
+</body>
+</html>
