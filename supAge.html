@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>用户信息</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+<style type="text/css">
+
+</style>
+</head>
+<body class="bck-col-fff">
+<section class="my_view">
+	
+<div class=""><img src="img/login_t.jpg" class="img_b"></div>
+<div class="d_login">
+	<div class="login_cn">
+		<p class="ctit">欢迎来到康加</p>
+		<p style=" line-height: .88rem; font-size: .26rem; color: #9a9a9a;">为了给您提供详细的健康报告，请完善您的年龄信息</p>
+		<p class="cpxt">
+			<span class="lab">年　龄</span>
+			<span class="fle"><input type="number" id="age" placeholder="请输入18岁到80岁之间的有效年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+		</p>
+		<p class="cbtn"><button class="" id="nextAll">完成</button></p>
+	</div>
+</div>
+	
+</section>
+
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay" style=""></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+//弹窗 模拟alert
+function showMask(msg){
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2);
+	});
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#alert').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+	$('#alert .subBtn').click(function(){closeMask()});
+}
+function closeMask(){
+	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+	$('#alert').css({"visibility":"hidden","opacity":"0"});
+}
+//showMask('哈哈哈哈');
+
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var userId = GetQueryString("userId");
+var edition=GetQueryString("edition");
+var reportId = GetQueryString('reportId');
+var openId = GetQueryString('openId');
+
+
+$('#age').blur(function(){
+	var age = parseInt($('#age').val());
+	if(age < 18 || age >80 ||  isNaN(age)){
+		showMask('请输入18到80之间的有效年龄');
+		$(this).focus();
+		return;
+	}
+});
+
+$("#nextAll").click(function(){
+	var age = parseInt($('#age').val());
+	if(age == '' || isNaN(age)){
+		showMask('请输入18到80之间的有效年龄');
+		return;
+	};
+	$('#nextAll').attr("disable",true);
+	var userInfo = {
+		age : age,
+		userId : userId
+	}
+	$.ajax({
+		url : dataUrl + "/api/v1/reportUser/updateById",
+		type : "post",
+		dataType : 'json',
+		contentType : 'application/json',
+        data : JSON.stringify(userInfo),
+		success : function(userData) {
+			if(userData.code == 200){
+				window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
+			}else{
+				showMask('错误 code='+userData.code);
+				$('#nextAll').attr("disable",true);
+			}
+		},
+		error : function(){
+			console.log('请求失败了');
+		}
+	})
+});
+
+
+</script>
+</body>
+</html>
