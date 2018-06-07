@@ -90,44 +90,47 @@ var reportId = GetQueryString('reportId');
 var openId = GetQueryString('openId');
 
 
-$('#age').blur(function(){
+/*$('#age').blur(function(){
 	var age = parseInt($('#age').val());
 	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');
-		$(this).focus();
 		return;
 	}
-});
+});*/
 
 $("#nextAll").click(function(){
 	var age = parseInt($('#age').val());
-	if(age == '' || isNaN(age)){
+	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');
 		return;
-	};
-	$('#nextAll').attr("disable",true);
-	var userInfo = {
-		age : age,
-		userId : userId
-	}
-	$.ajax({
-		url : dataUrl + "/api/v1/reportUser/updateById",
-		type : "post",
-		dataType : 'json',
-		contentType : 'application/json',
-        data : JSON.stringify(userInfo),
-		success : function(userData) {
-			if(userData.code == 200){
-				window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
-			}else{
-				showMask('错误 code='+userData.code);
-				$('#nextAll').attr("disable",true);
+	}else{
+		$('#nextAll').attr("disable",true);
+		var userInfo = {
+			age : age,
+			userId : userId
+		};
+		$.ajax({
+			url : dataUrl + "/api/v1/reportUser/updateById",
+			type : "post",
+			dataType : 'json',
+			contentType : 'application/json',
+	        data : JSON.stringify(userInfo),
+			success : function(userData) {
+				if(userData.code == 200){
+					window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
+				}else{
+					showMask('错误 code='+userData.code);
+					$('#nextAll').attr("disable",true);
+				}
+			},
+			error : function(){
+				console.log('请求失败了');
 			}
-		},
-		error : function(){
-			console.log('请求失败了');
-		}
-	})
+		});
+	};
+	
+		
+		
 });
 
 
