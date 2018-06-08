@@ -267,8 +267,14 @@ $('#dxYzm').on("change focus keyup keypress",function(){
 });*/
 
 $('#nextAll').on("click",function(){
-	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-	$('#showNotice').css({"visibility":"visible","opacity":"1"});
+	var age = parseInt($('#age').val());
+	if(age < 18 || age >80 ||  isNaN(age)){
+		showMask('请输入18到80之间的有效年龄');
+		return;
+	}else{
+		$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+		$('#showNotice').css({"visibility":"visible","opacity":"1"});
+	}
 });
 
 $('.tongyifo span').on("click",function(){
