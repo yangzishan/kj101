@@ -64,6 +64,9 @@ var myuserId=GetQueryString("userId");
 var myopenId=GetQueryString("openId");
 var tp=GetQueryString("tp");
 var edition=GetQueryString("edition"); //判断用哪一版页面显示首页
+if(edition==null){
+	edition = '';
+};
 
 var myurl = window.location;
 var useurl = decodeURI(myurl);

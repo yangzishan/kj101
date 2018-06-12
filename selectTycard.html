@@ -82,6 +82,9 @@ var mypackageId=GetQueryString("packageId");
 var myuserId=GetQueryString("userId");
 var myopenId=GetQueryString("openId");
 var edition=GetQueryString("edition"); //判断用哪一版页面显示首页
+if(edition==null){
+	edition = '';
+};
 
 $.ajax({
 	url : dataUrl + "/api/v1/cardPay/findUserCards",
