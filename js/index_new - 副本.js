@@ -1,3 +1,4 @@
+alert(123);
 //截取URL
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -7,9 +8,8 @@ function GetQueryString(name){
 var myReportId = GetQueryString('reportId');
 var myopenId = GetQueryString('openId');
 var edition = 2;
-$('.load-overlay').css("display","block");
-$('.my_view').css("visibility","hidden");
-
+/*$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");*/
 $.ajax({
 	url : dataUrl + "/api/v1/reportIndex/analysisReport",
 	type : "POST",
@@ -36,8 +36,8 @@ $.ajax({
 					window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
-					$('.my_view').css("visibility","visible");
-					$('.load-overlay').css("display","none");
+					/*$('.my_view').css("visibility","visible");
+					$('.load-overlay').css("display","none");*/
 					$("#appId").val(indexData.wxParameter.appId);
 					$("#nonceStr").val(indexData.wxParameter.nonceStr);
 					$("#signature").val(indexData.wxParameter.signature);
@@ -169,7 +169,7 @@ $.ajax({
 							arrayXt.push(indexData.data.firstPages[i].targetFirstName);
 						}
 					}
-					creatMychart('sl_chart',arraySlnl,arrayXt,indexData.data.indexPage.age,2000);
+					creatMychart('sl_chart',arraySlnl,arrayXt,indexData.data.indexPage.age,1000);
 					$(window).scroll(function(){
 						if($(this).scrollTop()>1.2*$(window).height()){
 							//alert($(window).scrollTop());
@@ -277,6 +277,9 @@ $.ajax({
 					//alert('get it');
 					if(improvesData.code == 200){
 						var userName = improvesData.data.userName; //用户名
+						if(userName == null){
+							userName = '';
+						};
 						var sexStr = improvesData.data.sexStr; //性别称呼
 						var ps = improvesData.data.ps; // 状态
 						var inspectDay = improvesData.data.inspectDay; // 提醒天数

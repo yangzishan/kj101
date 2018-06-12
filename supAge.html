@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>用户信息</title>
+<title>完善年龄</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
@@ -21,10 +21,10 @@
 <div class="d_login">
 	<div class="login_cn">
 		<p class="ctit">欢迎来到康加</p>
-		<p style=" line-height: .88rem; font-size: .26rem; color: #9a9a9a;">为了给您提供详细的健康报告，请完善您的年龄信息</p>
+		<p style=" line-height: .88rem; font-size: .26rem; color: #9a9a9a;">为了给您提供专属的健康报告，请完善您的年龄信息</p>
 		<p class="cpxt">
 			<span class="lab">年　龄</span>
-			<span class="fle"><input type="number" id="age" placeholder="请输入18岁到80岁之间的有效年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+			<span class="fle"><input type="number" id="age" placeholder="(18岁~80岁)请填写真实年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
 		</p>
 		<p class="cbtn"><button class="" id="nextAll">完成</button></p>
 	</div>
@@ -88,6 +88,9 @@ var userId = GetQueryString("userId");
 var edition=GetQueryString("edition");
 var reportId = GetQueryString('reportId');
 var openId = GetQueryString('openId');
+if(edition==null){
+	edition = '';
+}
 
 
 /*$('#age').blur(function(){

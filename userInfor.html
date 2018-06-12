@@ -19,14 +19,13 @@
 </head>
 <body class="bck-col-fff">
 <section class="my_view">
-	
 <div class=""><img src="img/login_t.jpg" class="img_b"></div>
 <div class="d_login">
 	<div class="login_cn">
 		<p class="ctit">欢迎来到康加</p>
 		<p class="cpxt">
 			<span class="lab">年　龄</span>
-			<span class="fle"><input type="number" id="age" placeholder="请输入18岁到80岁之间的有效年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+			<span class="fle"><input type="number" id="age" placeholder="(18岁~80岁)请填写真实年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
 		</p>
 		<p class="cpxt">
 			<span class="lab">手机号</span>
@@ -138,6 +137,9 @@ var myuserId = GetQueryString("userId");
 var myreportId = GetQueryString("reportId");
 var myopenId = GetQueryString('openId');
 var edition=GetQueryString("edition");
+if(edition==null){
+	edition = '';
+}
 
 //倒计时读秒
 var wait=60;

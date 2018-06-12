@@ -1,4 +1,4 @@
-//截取URL 获取reportId
+//截取URL
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var r = window.location.search.substr(1).match(reg);
@@ -181,6 +181,9 @@ $.ajax({
 					//alert('get it');
 					if(improvesData.code == 200){
 						var userName = improvesData.data.userName; //用户名
+						if(userName == null){
+							userName = '';
+						};
 						var sexStr = improvesData.data.sexStr; //性别称呼
 						var ps = improvesData.data.ps; // 状态
 						var inspectDay = improvesData.data.inspectDay; // 提醒天数
@@ -254,6 +257,8 @@ $.ajax({
 			});
 		}else if(data.code == 402){
 			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+		}else if(data.code == 403){
+			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
 		}else if(data.code == 302){
 			window.location.href="equipmentUnable.html"
 		}else{

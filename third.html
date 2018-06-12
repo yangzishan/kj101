@@ -272,7 +272,7 @@ success : function(trendData) {
 	if(trendData.code == 200){
 		//alert('历史')
 		var arryDate = [],arryVal = [];
-		for(let i=0;i<trendData.data.length;i++){
+		for(var i=0;i<trendData.data.length;i++){
 			arryDate.push(trendData.data[i].inspectDateStr);
 			arryVal.push(trendData.data[i].score);
 		};

@@ -102,6 +102,9 @@ var myreportId=GetQueryString("reportId");
 var myopenId=GetQueryString("openId");
 var sameUser=GetQueryString("sameUser");
 var edition=GetQueryString("edition");
+if(edition==null){
+	edition = '';
+}
 
 $.ajax({
 url : dataUrl + "/api/v1/reportWxPay/findPackage",
