@@ -240,9 +240,7 @@ $.ajax({
 									$('#listAb').append(oli);
 								};
 							};
-								
-							
-							
+
 							$('.sy_summary .sstxt .inpv').attr("href","proposal.html?reportId="+ myReportId)
 						}
 					}else{
