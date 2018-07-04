@@ -36,7 +36,7 @@
 .sy_summary .sstit2{ margin: .1rem 0; text-align: center; font-size: .32rem; color: #1ebeb1;}
 .sy_summary .sstxt{}
 .sy_summary .sstxt .nt{color: #2fbab0; text-decoration: underline;}
-.sy_summary .sstxt .sta{ color: #ff7800;}
+.sy_summary .sstxt .sta{ color: #FF8800;}
 .sy_summary .inpv{ color: #2fbab0;}
 .sumTit{ line-height: .82rem; font-size: .32rem; padding: 0 .3rem; background: #F4F4F4;}
 /*-*/
@@ -52,7 +52,7 @@
 .index_tab span:first-of-type{border-right:.01rem solid #e2e2e2;}
 .index_tab span.on{background: #ffffff; border-bottom:none;}
 .zhibiao_c{ background: #fff;}
-.zhibiao_c .c_li{ display: block; /*height: 1.2rem;*/ padding: 0 .24rem; border-bottom: .01rem solid #e2e2e2;font-size: .32rem;}
+.zhibiao_c .c_li{ display: block; /*height: 1.2rem;*/ padding: 0 .24rem; border-bottom: .01rem solid #e2e2e2;font-size: .32rem; overflow: hidden;}
 .zhibiao_c .c_li .ico{ display: inline-block; vertical-align: top; width: .6rem; height: .6rem; border-radius: 50%;background: #65d8df; position: relative; top: .3rem;}
 .zhibiao_c .c_li:nth-of-type(1) .ico{}
 .zhibiao_c .c_li:nth-of-type(2) .ico{background:#f9e24a url(../img/i-xunhuan.png) no-repeat center; background-size: .4rem .4rem;}
@@ -146,8 +146,8 @@
 .change_list li span.s1 font{ display: inline-block; width: .58rem; height: .3rem; line-height: .3rem; font-size: .2rem; text-align: center; color: #fff; background: #e83c30; border-radius: .1rem;}
 .change_list li span.s2{ width: 2rem; text-align: center;}
 .change_list li span.s2.bc1{ color: #1ebeb1;}
-.change_list li span.s2.bc2{ color: #f6a623;}
-.change_list li span.s2.bc3{ color: #f13836;}
+.change_list li span.s2.bc2{ color: #FFC100;}
+.change_list li span.s2.bc3{ color: #EE5108;}
 .noctip{ text-align: center; line-height: .88rem; display: none; padding: 0 0 .3rem;}
 
 /*二级页*/
@@ -187,14 +187,14 @@
 .seCon .cdt .b_prc .prc{ display: inline-block; width: 5rem; height: .16rem; border-radius: .08rem; background:#eaeaea; margin: .2rem 0 0 ;}
 .seCon .cdt .b_prc .prc span{ display: block; width: 80%; height: .16rem; border-radius: .08rem; background: #1eceb7;}
 .seCon .cdt .b_prc .prc span i{ width: .08rem; height: .08rem; border-radius: .04rem; background: #fff; float: right; margin: .04rem .04rem 0 0;}
-.seCon .cdt.bcolor1 .prc span{ background: #fb8e00;}
-.seCon .cdt.bcolor2 .prc span{ background: #fb0000;}
+.seCon .cdt.bcolor1 .prc span{ background: #FFC100;}
+.seCon .cdt.bcolor2 .prc span{ background: #EE5108;}
 .seCon .cdt .fen{ font-size: .32rem; font-weight: bold; line-height: .6rem; color: #1ebeb1;}
 .seCon .cdd{height: .9rem; line-height: .9rem; font-size: 0; border-bottom: #eaeaea solid .02rem;}
 .seCon .cdd:last-of-type{ border-bottom: none;}
 .seCon .cdd a{ display: block; color: #1ebeb1;}
-.seCon .cdd a.bcolor1{ color: #FF8300;}
-.seCon .cdd a.bcolor2{ color: #FF0500;}
+.seCon .cdd a.bcolor1{ color: #FFC100;}
+.seCon .cdd a.bcolor2{ color: #EE5108;}
 .seCon .cdd span{ display: inline-block; vertical-align: top; font-size: .32rem;}
 .seCon .cdd .lab{ width: 3.3rem; color: #333;}
 .seCon .cdd .sta{ width: 2.68rem;}
@@ -205,10 +205,10 @@
 .thr_sta{ display: -webkit-box; display: box; padding: .2rem .3rem;}
 .thr_sta .sta_i{ width: 2.5rem;}
 .thr_sta .sta_i i{display: block; margin: 0 auto; width: 2.16rem; height: 2.16rem; border-radius: 50%; text-align: center; line-height: 2.16rem; color: #1ebeb1; font-size: .64rem; font-weight: bold;}
-.thr_sta .sta_i i.b1{ background: url(../img/third_s1.png) no-repeat; background-size: 2.16rem 2.16rem;}
-.thr_sta .sta_i i.b2{ background: url(../img/third_s2.png) no-repeat; background-size: 2.16rem 2.16rem;}
-.thr_sta .sta_i i.b3{ background: url(../img/third_s3.png) no-repeat; background-size: 2.16rem 2.16rem;}
-.thr_sta .sta_i i.b4{ background: url(../img/third_s4.png) no-repeat; background-size: 2.16rem 2.16rem;}
+.thr_sta .sta_i i.bcc1{ background: url(../img/third_dd1.png) no-repeat; background-size: 2.16rem 2.16rem;}
+.thr_sta .sta_i i.bcc2{ background: url(../img/third_dd2.png) no-repeat; background-size: 2.16rem 2.16rem;}
+.thr_sta .sta_i i.bcc3{ background: url(../img/third_dd3.png) no-repeat; background-size: 2.16rem 2.16rem;}
+.thr_sta .sta_i i.bcc4{ background: url(../img/third_dd3.png) no-repeat; background-size: 2.16rem 2.16rem;}
 .thr_sta .sta_t{ -webkit-box-flex: 1;font-size: .36rem; text-align: center;}
 .thr_sta .sta_t span{color: #1ebeb1; line-height: 2.16rem;}
 .thr_sta .sta_t em{ color: #333333;}

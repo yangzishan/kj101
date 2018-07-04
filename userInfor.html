@@ -267,7 +267,7 @@ function getYzm(){
 	});
 };
 
-$('#dxYzm').on("change focus keyup keypress",function(){ 
+$('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){ 
 	var dxYzm = $('#dxYzm').val();
 	if(dxYzm != ''){
 		$('#nextAll').removeClass('off').attr("disabled",false);

@@ -55,9 +55,11 @@ $(window).load(function(){
 	var sex=GetQueryString("sex");
 	//选择男女样式
 	if(sex==2){
-		$('.d-sex label:first').addClass('check')
+		$('.d-sex label:first').addClass('check');
+		$('#nv').prop('checked',true);
 	}else if(sex==1){
-		$('.d-sex label:eq(1)').addClass('check')
+		$('.d-sex label:eq(1)').addClass('check');
+		$('#nan').prop('checked',true);
 	}
 	$('.d-sex label').click(function(){
 		$(this).addClass('check').siblings().removeClass('check');

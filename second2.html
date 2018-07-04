@@ -119,13 +119,10 @@ success : function(indexData) {
 		$('.seCon .cdd .num').each(function(){
 			if(parseInt($(this).text()) < 90 && parseInt($(this).text()) >= 80){
 				$(this).parents('a').addClass('bcolor1');
-				$(this).parents('a').find('.sta').text('轻度异常');
-			}else if(parseInt($(this).text()) < 80 && parseInt($(this).text()) >= 70){
-				$(this).parent('a').addClass('bcolor1');
-				$(this).parent('a').find('.sta').text('中度异常');
-			}else if(parseInt($(this).text()) <70){
+				$(this).parents('a').find('.sta').text('轻度风险');
+			}else if(parseInt($(this).text()) < 80 && parseInt($(this).text()) >= 60){
 				$(this).parent('a').addClass('bcolor2');
-				$(this).parent('a').find('.sta').text('重度异常');	
+				$(this).parent('a').find('.sta').text('中度风险');
 			}
 		});
 	}

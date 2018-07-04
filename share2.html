@@ -94,14 +94,15 @@ $.ajax({
 			  }
 			});
 			
-			var userName = shareData.data.userInfo.userName;
-			if(userName == null){
+			if(shareData.data.userInfo == null){
 				$('#userName').html('我')
 			}else{
-				$('#userName').html(userName)
+				var userName = shareData.data.userInfo.userName;
+				$('#userName').html(userName);
+				var headimgurl = shareData.data.userInfo.headimgurl;
+				$('#ImgPr').attr("src",headimgurl);
 			}
-			var headimgurl = shareData.data.userInfo.headimgurl;
-			$('#ImgPr').attr("src",headimgurl);
+			
 			
 			var arrayScore=[];
 			var arrayName=[];

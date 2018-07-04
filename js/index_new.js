@@ -9,6 +9,7 @@ var myopenId = GetQueryString('openId');
 var edition = 2;
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
+
 $.ajax({
 	url : dataUrl + "/api/v1/reportIndex/analysisReport",
 	type : "POST",
@@ -150,11 +151,6 @@ $.ajax({
 							    //lineCap: 'round',
 							    startAngle: Math.PI*1.5
 							});
-							
-							//分数低于90变色
-							if(c_va<90){
-								$(this).parents('.s-chart').next('.s-inf').find('.tx').css("color","#FF8800");
-							};
 						});
 						
 					},200);
@@ -167,13 +163,13 @@ $.ajax({
 					
 					//生理年龄图
 					var arraySlnl=[],arrayXt=[];
-					for(var n=0;indexData.data.firstPages.length>n;n++){
-						if(indexData.data.firstPages[n].physiologicalAge!=null){
-							arraySlnl.push(indexData.data.firstPages[n].physiologicalAge);
-							arrayXt.push(indexData.data.firstPages[n].targetFirstName);
+					for(let i=0;indexData.data.firstPages.length>i;i++){
+						if(indexData.data.firstPages[i].physiologicalAge!=null){
+							arraySlnl.push(indexData.data.firstPages[i].physiologicalAge);
+							arrayXt.push(indexData.data.firstPages[i].targetFirstName);
 						}
 					}
-					creatMychart('sl_chart',arraySlnl,arrayXt,indexData.data.indexPage.age,1000);
+					creatMychart('sl_chart',arraySlnl,arrayXt,indexData.data.indexPage.age,2000);
 					$(window).scroll(function(){
 						if($(this).scrollTop()>1.2*$(window).height()){
 							//alert($(window).scrollTop());
@@ -183,6 +179,7 @@ $.ajax({
 					});
 					var _offset = sessionStorage.getItem("offsetTop");
 　　					
+					
 					//请求与上份报告对比的异常项改善情况 接口
 					$.ajax({
 					url : dataUrl + "/api/v2/reportIndex/targetImprove",
@@ -234,9 +231,9 @@ $.ajax({
 							$('.change_list li .s2').each(function(index){
 								if($(this).text()=='正常'){
 									$(this).addClass('bc1');
-								}else if($(this).text()=='轻度风险'){
+								}else if($(this).text()=='轻度异常' || $(this).text()=='中度异常'){
 									$(this).addClass('bc2');
-								}else if($(this).text()=='中度风险'){
+								}else if($(this).text()=='重度异常'){
 									$(this).addClass('bc3');
 								}
 							});
@@ -280,9 +277,6 @@ $.ajax({
 					//alert('get it');
 					if(improvesData.code == 200){
 						var userName = improvesData.data.userName; //用户名
-						if(userName == null){
-							userName = '';
-						};
 						var sexStr = improvesData.data.sexStr; //性别称呼
 						var ps = improvesData.data.ps; // 状态
 						var inspectDay = improvesData.data.inspectDay; // 提醒天数
@@ -294,12 +288,21 @@ $.ajax({
 						if(improvesData.data == null || improvesData.data.abnormal == ''){
 							$('.noSeg').empty()
 						}else{
-							var midDanger = improvesData.data.abnormal.list4.length+improvesData.data.abnormal.list3.length;
-							$('#list3').text(midDanger);
-							
+							//重度异常
+							if(improvesData.data.abnormal.list4.length == 0 || improvesData.data.abnormal.list4 == null){
+								$('.list4').css("display","none");
+							}else{
+								$('#list4').text(improvesData.data.abnormal.list4.length);
+							};
+							//中度异常	
+							if(improvesData.data.abnormal.list3.length == 0 || improvesData.data.abnormal.list3 == null){
+								$('.list3').css("display","none");
+							}else{
+								$('#list3').text(improvesData.data.abnormal.list3.length);
+							};
 							//重度中度都没有的情况
 							if(improvesData.data.abnormal.list3.length == 0 && improvesData.data.abnormal.list4.length == 0){
-								$('#segTwo').html('2、本次检测您有'+improvesData.data.abnormal.list2.length+'项为轻度风险。根据您本次检测结果，给您提供的专属健康建议与改善方案，<a class="inpv">请点击查看详情&gt;&gt;</a>')
+								$('#segTwo').html('2、本次检测您有'+improvesData.data.abnormal.list2.length+'项为轻度异常。根据您本次检测结果，给您提供的专属健康建议与改善方案，<a class="inpv">请点击查看详情&gt;&gt;</a>')
 							};								
 							if(improvesData.data.abnormalName.length == 0 || improvesData.data.abnormalName == null){
 								$('#tipmsg').html('根据您本次检测结果，给您提供的专属健康建议与改善方案，');
@@ -329,8 +332,6 @@ $.ajax({
 
 		}else if(data.code == 402){
 			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
-		}else if(data.code == 403){
-			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
 		}else if(data.code == 302){
 			window.location.href="equipmentUnable.html"
 		}else{
@@ -382,11 +383,8 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 	        scale:false,
 	        axisLabel:{
 	        	interval:0,
-	        	//rotate:-90,
+	        	rotate:-90,
 	        	//width:15
-	        	formatter:function(value){  
-                   return value.split("").join("\n");  
-                } 
 	        },
 	        data: arrayX,
 	        axisTick:{

@@ -9,6 +9,9 @@
 <title>体重</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.bg-off{ background: #ccc;}	
+</style>
 </head>
 <body>
 <section class="my_view bck-col-f4">
@@ -20,7 +23,7 @@
 </div>
 
 <!--<input type="hidden" id="userId" value="101" />-->
-<p class="d-out"><button class="mbtn-sub">保存</button></p>
+<p class="d-out"><button class="mbtn-sub bg-off" disabled="disabled">保存</button></p>
 
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -60,19 +63,27 @@ $(window).load(function(){
 		$('#weight').attr("placeholder",myweight);	
 	}
 	
-	$('#weight').on("keyup keypress input",function(){
+	$('#weight').on("change focus keyup keypress input",function(){
 		var value = $(this).val();
 		var dian = /\./g;
 		if(dian.test(value)){
 			this.value = value.replace(dian,'');
-		}
+		};
 		if(value.length>3){
 			this.value = value.slice(0,3);
+		};
+		if(value == ''){
+			$('.mbtn-sub').attr("disabled",true);
+			$('.mbtn-sub').addClass('bg-off');
+		}else{
+			$('.mbtn-sub').attr("disabled",false);
+			$('.mbtn-sub').removeClass('bg-off');
 		}
 	});
 	
 	
 	$(".mbtn-sub").click(function(){
+		$(this).attr("disabled",true);
 		var myweight = $('#weight').val();
 		//var bbb = $("#userId").val();
 		var userInfo = {

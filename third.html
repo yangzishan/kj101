@@ -9,7 +9,7 @@
 <title>报告详情</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=201807002" />
 </head>
 <body>
 <div class="my_view" id="appVUE" style="display: none;">
@@ -185,7 +185,7 @@ success : function(indexData) {
 		   		score: indexData.data.guideThirdVo.score, //指标得分
 		   		inspectStandard: indexData.data.guideThirdVo.inspectStandard, //偏高偏低
 		   		abnormalLevel: indexData.data.guideThirdVo.abnormalLevel, //异常成度
-		   		abnormalLevelStr: "b"+indexData.data.guideThirdVo.abnormalLevel, //class+异常成度
+		   		abnormalLevelStr: "bcc"+indexData.data.guideThirdVo.abnormalLevel, //class+异常成度
 		   		inspectExplain: indexData.data.guideThirdVo.inspectExplain, //指标介绍
 		   		
 		   		dietList: indexData.data.dietList, //膳食

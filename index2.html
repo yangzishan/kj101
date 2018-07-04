@@ -44,7 +44,7 @@
 		<div class="sstxt">
 			1、本次评估您身体状况为<em class="sta" id="bodySta"></em><span class="srhAge">，生理年龄评估为<em class="sta">{{age}}</em>岁</span><span class="srhRank">，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
 			<p class="noSeg" id="segTwo">
-				2、本次检测您有<span id="list4" class="list4"></span><span class="list4">项为重度异常，</span><span id="list3" class="list3"></span><span class="list3">项为中度异常，</span><span class="list2">还有<font id="list2_No"></font>项为轻度异常。</span>
+				2、本次检测您有</span><span id="list3" class="list3"></span><span class="list3">项为中度风险，</span><span class="list2"><font id="list2_No"></font>项为轻度风险。</span>
 				<span id="tipmsg">根据检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题，</span><a class="inpv">请点击查看详情&gt;&gt;</a>
 			</p>		
 		</div>
@@ -118,9 +118,8 @@
 			<div class="tc_sy">
 				<em class="close"></em>
 				<p class="bit"><span class="labt">指标改善状况分析</span><em></em></p>
-				<div class="bxt" style="text-align: left;">指标改善状况分析是基于本次报告结果与您上次评估结果的对比分析，上次报告取的是非当日的最近一次评估。
-					<br>已改善是指与上份报告相比变好的指标，未改善即对比上次未得到改善或好转，新增异常是本次评估新增加的异常指标。
-					改善状况重点提取了您的中度及重度异常指标进行对比分析。
+				<div class="bxt" style="text-align: left;">指标改善状况分析是基于本次报告结果与您上次评估结果的对比分析，上次报告取的是非当日的最近一次评估。 
+已改善是指与上份报告相比风险等级降低的指标，未改善即对比上次未得到改善或好转，新增异常是本次评估新增加的存在风险的指标。 
 				</div>
 			</div>
 		</div>
@@ -139,8 +138,8 @@
 	    	<li v-for="item in okImproves">
 	    		<a :href="item.targetId|getThirdHref">
 	    		<span class="s1 fl">{{item.tagetName}}</span>
-	    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度异常':(item.currentLevel==3?'中度异常':'重度异常'))}}</span>
-	    		<span class="s2 fr">{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度异常':(item.lastLevel==3?'中度异常':'重度异常'))}}</span>
+	    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>
+	    		<span class="s2 fr">{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}</span>
 	    		</a>
 	    	</li>
 	    </ul>
@@ -151,8 +150,8 @@
 	    	<li v-for="site in noImproves">
 	    		<a :href="site.targetId|getThirdHref">
 	    		<span class="s1 fl">{{site.tagetName}}<i style="display: none;">{{site.newAdd}}</i><font style="display: none; margin-left: .1rem;">新增</font></span>
-	    		<span class="s2 fr">{{site.currentLevel==1?'正常':(site.currentLevel==2?'轻度异常':(site.currentLevel==3?'中度异常':'重度异常'))}}</span>
-	    		<span class="s2 fr">{{site.lastLevel==1?'正常':(site.lastLevel==2?'轻度异常':(site.lastLevel==3?'中度异常':'重度异常'))}}</span>
+	    		<span class="s2 fr">{{site.currentLevel==1?'正常':(site.currentLevel==2?'轻度风险':(site.currentLevel==3?'中度风险':'中度风险'))}}</span>
+	    		<span class="s2 fr">{{site.lastLevel==1?'正常':(site.lastLevel==2?'轻度风险':(site.lastLevel==3?'中度风险':'中度风险'))}}</span>
 	    		</a>
 	    	</li>
 	    </ul>
@@ -210,7 +209,7 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/indexNew.js?v=2018060603"></script>
+<script src="js/indexNew.js?v=20180702"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
