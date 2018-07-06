@@ -460,3 +460,23 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 	
 };
 
+//反馈推送消息接口
+$('#feedback').on("click",function(){
+	window.location.href = "feedback.html";
+	$.ajax({
+		type:"post",
+		url:dataUrl + "/weiXin/sendFeedback",
+		dataType:'json',
+		data : {
+		    reportId : myReportId,
+		    openId : myopenId
+		},
+		success: function(data){
+			console.log('推送反馈消息');
+		},
+		error: function(){
+			console.log('推送反馈消息失败');
+		}
+	});
+});
+

@@ -141,101 +141,110 @@ success : function(indexData) {
 			}
 		});
 		
-		//判断原价为0的时候  设现价+20
-		var originalPrice = indexData.data.infoView.originalPrice; // 原价
-		if(originalPrice == '' || originalPrice == null){
-			$('.pay-x-fix .oprice font').html('￥'+ (indexData.data.infoView.price + 20));
-		};
-
-		//判断新用户
-		var isFree = indexData.data.infoView.isFree;
-		if(isFree == 1){
-			$('.pay-x-fix .oprice').html('新用户首次免费');
-			$('#pay').html('查看');
-			$('#pay').click(function(){
-				window.location.href="index"+edition+".html?reportId="+myreportId+"&openId=" + myopenId;
-			});
-		};
-		var userId = indexData.data.infoView.userId;
-		var packageId = indexData.data.infoView.packageId;
-		var name = indexData.data.infoView.name;
-		var price = indexData.data.infoView.price;
-		
-		//sameUser (是否是本人的报告), 1/2 是否显示卡支付 代付提醒
-		if(sameUser == 2){
-			$('#kaPay').css("display","none");
-			$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-			$('.daifu_d').css("display","block");
-			
+		if(indexData.data.infoView == null){
+			$('#pay').css("background","#CCCCCC");
 		}else{
-			//判断用户有没有可用卡
-			$.ajax({
-				url : dataUrl + "/api/v1/cardPay/findUserCards",
-				type : "POST",
-				dataType : 'json',
-				data : {
-					reportId : myreportId,
-				   	userId : userId
-				},
-				success : function(data) {
-					//alert('查找用户可用卡');
-					if(data.code == 200){
-						var cards = data.data.List;
-						if(cards == null || cards.length == 0 || cards == ''){
-							$('#kaPay').css("display","none");
-						};
-					}else{
-						console.log('查找用户可用支付卡 code= '+ data.code);
-					}
-				}
-			});
-		};
-		
-		if(price == 0){
-			$('#pay').on("click",function(){
+			//判断原价为0的时候  设现价+20
+			var originalPrice = indexData.data.infoView.originalPrice; // 原价
+			if(originalPrice == '' || originalPrice == null){
+				$('.pay-x-fix .oprice font').html('￥'+ (indexData.data.infoView.price + 20));
+			};
+	
+			//判断新用户
+			var isFree = indexData.data.infoView.isFree;
+			if(isFree == 1){
+				$('.pay-x-fix .oprice').html('新用户首次免费');
+				$('#pay').html('查看');
+				$('#pay').click(function(){
+					window.location.href="index"+edition+".html?reportId="+myreportId+"&openId=" + myopenId;
+				});
+			};
+			var userId = indexData.data.infoView.userId;
+			var packageId = indexData.data.infoView.packageId;
+			var name = indexData.data.infoView.name;
+			var price = indexData.data.infoView.price;
+			
+			//sameUser (是否是本人的报告), 1/2 是否显示卡支付 代付提醒
+			if(sameUser == 2){
+				$('#kaPay').css("display","none");
+				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+				$('.daifu_d').css("display","block");
+				
+			}else{
+				//判断用户有没有可用卡
 				$.ajax({
-					url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
-					type : "post",
+					url : dataUrl + "/api/v1/cardPay/findUserCards",
+					type : "POST",
 					dataType : 'json',
 					data : {
-					    reportId : myreportId,
-					    packageId: packageId,
-					    userId: userId
+						reportId : myreportId,
+					   	userId : userId
 					},
 					success : function(data) {
-						if(data.code==200){
-							window.location.href="index"+edition+".html?reportId="+myreportId+"&openId=" + myopenId;
+						//alert('查找用户可用卡');
+						if(data.code == 200){
+							var cards = data.data.List;
+							if(cards == null || cards.length == 0 || cards == ''){
+								$('#kaPay').css("display","none");
+							};
 						}else{
-							alert('支付失败insertFreeOrder-code='+data.code);
+							console.log('查找用户可用支付卡 code= '+ data.code);
 						}
-						
 					}
-				})
+				});
+			};
+			
+			if(price == 0){
+				$('#pay').on("click",function(){
+					$.ajax({
+						url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
+						type : "post",
+						dataType : 'json',
+						data : {
+						    reportId : myreportId,
+						    packageId: packageId,
+						    userId: userId
+						},
+						success : function(data) {
+							if(data.code==200){
+								window.location.href="index"+edition+".html?reportId="+myreportId+"&openId=" + myopenId;
+							}else{
+								alert('支付失败insertFreeOrder-code='+data.code);
+							}
+							
+						}
+					})
+				});
+			}else{
+				$('#pay').on("click",function(){
+					//选择支付方式
+					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+					$('.sl-pay').css({"transform":"translateY(0%)"});
+	
+				});
+			};
+	
+			//关闭 选择方式
+			$('.close').click(function(){
+				$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+				$('.sl-pay').css({"transform":"translateY(110%)"});
 			});
-		}else{
-			$('#pay').on("click",function(){
-				//选择支付方式
-				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-				$('.sl-pay').css({"transform":"translateY(0%)"});
-
+			//关闭 代付提醒
+			$('#iknow').click(function(){
+				$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+				$('.daifu_d').css("display","none");
 			});
-		};
-
-		//关闭 选择方式
-		$('.close').click(function(){
-			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-			$('.sl-pay').css({"transform":"translateY(110%)"});
-		});
-		//关闭 代付提醒
-		$('#iknow').click(function(){
-			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-			$('.daifu_d').css("display","none");
-		});
+			
+			//支付跳转 +
+			$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition);
+			$('#WordPay').attr("href","wordPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + "&edition="+edition);
+			$('#kaPay').attr("href","selectTycard.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + "&edition="+edition);
+			
+			
+			
+			
+		}
 		
-		//支付跳转 +
-		$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition);
-		$('#WordPay').attr("href","wordPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + "&edition="+edition);
-		$('#kaPay').attr("href","selectTycard.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + "&edition="+edition);
 		
 	}else{
 		alert(indexData.msg);

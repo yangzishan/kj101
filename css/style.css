@@ -147,7 +147,7 @@
 .change_list li span.s2{ width: 2rem; text-align: center;}
 .change_list li span.s2.bc1{ color: #1ebeb1;}
 .change_list li span.s2.bc2{ color: #FFC100;}
-.change_list li span.s2.bc3{ color: #EE5108;}
+.change_list li span.s2.bc3{ color: #FF8800;}
 .noctip{ text-align: center; line-height: .88rem; display: none; padding: 0 0 .3rem;}
 
 /*二级页*/
@@ -188,13 +188,13 @@
 .seCon .cdt .b_prc .prc span{ display: block; width: 80%; height: .16rem; border-radius: .08rem; background: #1eceb7;}
 .seCon .cdt .b_prc .prc span i{ width: .08rem; height: .08rem; border-radius: .04rem; background: #fff; float: right; margin: .04rem .04rem 0 0;}
 .seCon .cdt.bcolor1 .prc span{ background: #FFC100;}
-.seCon .cdt.bcolor2 .prc span{ background: #EE5108;}
+.seCon .cdt.bcolor2 .prc span{ background: #FF8800;}
 .seCon .cdt .fen{ font-size: .32rem; font-weight: bold; line-height: .6rem; color: #1ebeb1;}
 .seCon .cdd{height: .9rem; line-height: .9rem; font-size: 0; border-bottom: #eaeaea solid .02rem;}
 .seCon .cdd:last-of-type{ border-bottom: none;}
 .seCon .cdd a{ display: block; color: #1ebeb1;}
 .seCon .cdd a.bcolor1{ color: #FFC100;}
-.seCon .cdd a.bcolor2{ color: #EE5108;}
+.seCon .cdd a.bcolor2{ color: #FF8800;}
 .seCon .cdd span{ display: inline-block; vertical-align: top; font-size: .32rem;}
 .seCon .cdd .lab{ width: 3.3rem; color: #333;}
 .seCon .cdd .sta{ width: 2.68rem;}
@@ -616,40 +616,14 @@
 .ty-record .c-li span:nth-of-type(1){ width: 55%;}
 .ty-record .c-li span:nth-of-type(2){ width: 45%;}
 
-/*=健康之星活动（以后不需要删掉）=*/
-.jkzx_b{background:#fa415a; padding: .01rem .3rem .3rem;}
-.jkzx_b .gzbox{ margin-bottom: .66rem; background: #fff; color: #333; border-radius: .1rem; padding: .3rem;}
-.jkzx_b .gzbox .co{ color: #f20202;}
-.jkzx_b .gzbox .mtit{margin: 0 auto; width: 4rem; height: .7rem; line-height: .7rem; text-align: center; background: url(../img/jkzx_it.png) no-repeat center; background-size: 4rem .7rem; color: #fff; font-size: .36rem;}
-.jkzx_b .gzbox .mcon{ padding: .3rem 0 .1rem; line-height: .48rem; font-size: .3rem;}
-.jkzx_b .gzbox .mcon .ptxt{ display: -webkit-box;}
-.jkzx_b .gzbox .mcon .ptxt span.lab{ display: block; width: .32rem; color: #fa415a;}
-.jkzx_b .gzbox .mcon .ptxt span.txt{display:block; -webkit-box-flex: 1; }
-.jkzx_b .gzbox .mcon .guan{ position: relative;}
-.jkzx_b .gzbox .mcon .guan i{ width: .31rem; height: .23rem; background: url(../img/jkzx-h.png)no-repeat; background-size: .31rem .23rem; position: absolute; top: -.2rem; left: .9rem;}
-.jkzx_b .ljbf{ margin: -.3rem 0 .3rem; color: #fff; line-height: .48rem; font-size: .3rem;}
-.jkzx_b .gzbox .tit2{ text-align: center; font-size: .36rem; margin: .2rem 0 .5rem;}
-.jkzx_b .gzbox .p_li{display: -webkit-box; height: .88rem; line-height: .88rem; margin-bottom: .3rem;}
-.jkzx_b .gzbox .p_li .lab{display: block; width: 1.3rem; font-size: .3rem;}
-.jkzx_b .gzbox .p_li .cont{ display: block; -webkit-box-flex: 1;}
-.jkzx_b .gzbox .p_li .cont .int{ width: 99.9%; height: .88rem; background: #f2f2f2; text-indent: .2rem; outline: none; font-size: .3rem; font-family: "微软雅黑";}
-.jkzx_b .gzbox .p_li .cont .intm{display: inline-block; width:45% ; height: .88rem; text-indent: .2rem; background: #f2f2f2;font-size: .3rem; font-family: "微软雅黑";}
-.jkzx_b .gzbox .p_li .cont .send{ width: 50%; float: right; height: .88rem; line-height: .88rem; border: #f93f60 solid .02rem; border-radius:.44rem; color: #f93f60; text-align: center; font-size: .3rem; background: none;}
-.jkzx_b .gzbox .p_sub{ margin: .5rem 0 0.3rem;}
-.jkzx_b .gzbox .p_sub button{ width: 100%; height: .88rem; background: -webkit-linear-gradient(left,#ff4648,#f63b6b); color: #fff; border-radius: .1rem; font-size: .3rem;}
-/*首页展示*/
-.jkzx_sy{ padding: .5rem 0 1rem;}
-.jkzx_sy .touxiang{ position: relative; width: 3.32rem; height: 2.05rem; margin: 0 auto .2rem; text-align: center;}
-.jkzx_sy .touxiang .jkac{ width: 1.8rem; height: 1.8rem; border:#f51f5b solid .08rem; border-radius: 50%;}
-.jkzx_sy .touxiang .jkac_z{ position: absolute; left: 0; top: 0;}
-.jkzx_sy .jkzxtit{ text-align: center; font-size: .36rem; font-weight: bold; line-height: .7rem; margin: .2rem auto .6rem;}
-.jkzx_sy .bgtit{ font-size: 0;}
-.jkzx_sy .bgtit span{ display: inline-block; vertical-align: top; font-size: .32rem; text-align: center;}
-.jkzx_sy .bgtit span:nth-of-type(1){ width: 20%;}
-.jkzx_sy .bgtit span:nth-of-type(2){ width: 20%;}
-.jkzx_sy .bgtit span:nth-of-type(3){ width: 60%;}
-.jkzx_sy .bgcon{ font-size: 0; border-bottom: #eaeaea solid .02rem; line-height: 1.05rem;}
-.jkzx_sy .bgcon span{ display: inline-block; vertical-align: top; font-size: .3rem; text-align: center;}
-.jkzx_sy .bgcon span:nth-of-type(1){width: 20%;}
-.jkzx_sy .bgcon span:nth-of-type(2){ width: 20%; font-size: .32rem; color: #1ebeb1;}
-.jkzx_sy .bgcon span:nth-of-type(3){ width: 60%;}
+/*2018-7-5 首页反馈入口*/
+.fankui_b{ background: #fff; padding: .2rem .3rem .3rem;}
+.fankui_b a{height: .88rem; display: block; border: #F2F2F2 solid .02rem; text-align: center;}
+.fankui_b a i{display: inline-block; vertical-align: top; width: .52rem; height: .88rem; background: url(../img/fankui.png) center no-repeat;background-size:.52rem .4rem;}
+.fankui_b a span{ display: inline-block; vertical-align: top; line-height: .88rem; color: #9b9b9b; font-size: .26rem; margin-left: .2rem;}
+/*反馈说明*/
+.feedtit{ line-height: 1rem; text-align: center; font-size: .32rem; font-weight: bold;}
+.feedtxt{ padding: .56rem .35rem .5rem; line-height: .56rem; font-size: .3rem;}
+.feedtxt .bzp{line-height: .8rem;}
+.feedtxt .bzp em{display: inline-block; width: .3rem; height: .3rem; line-height: .26rem; border-radius: 50%; border: #333 solid .02rem; text-align: center; font-size: .24rem; margin: 0 .3rem 0 0;}
+.feedtxt .imgp{ padding: 0 .5rem;}
