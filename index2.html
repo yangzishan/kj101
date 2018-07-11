@@ -44,10 +44,11 @@
 		<div class="sstxt">
 			1、本次评估您身体状况为<em class="sta" id="bodySta"></em><span class="srhAge">，生理年龄评估为<em class="sta">{{age}}</em>岁</span><span class="srhRank">，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
 			<p class="noSeg" id="segTwo">
-				2、本次检测您有</span><span id="list3" class="list3"></span><span class="list3">项为中度风险，</span><span class="list2"><font id="list2_No"></font>项为轻度风险。</span>
-				<span id="tipmsg">根据检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题，</span><a class="inpv">请点击查看详情&gt;&gt;</a>
+				2、本次检测您有</span><span id="list3" class="list3 sta"></span><span class="list3">项为中度风险，</span><span class="list2"><font id="list2_No" class="sta"></font>项为轻度风险。</span>
+				<span id="tipmsg">根据检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题。</span>
 			</p>		
 		</div>
+		<a class="gojy"><i></i><span>请点击查看您的专属建议</span></a>
 	</div>
 	
 	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
@@ -168,6 +169,7 @@
     <input type="hidden" id="share" value="101"/>
 </div>
 <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+
 <div class="fankui_b">
 	<a id="feedback"><i></i><span>评估结果有误差？调教AI机器人来反馈</span></a>
 </div>
@@ -198,11 +200,6 @@
 <div class="load-overlay">
 	<div class="loadimg"><img src="img/loading.gif"></div>
 </div>
-
-<!--<div class="sy_progress">
-	<div class="pr_b"><p class="pr" id="loadBar"><em id="loadper">50</em>%</p></div>
-	<div class="txt">报告载入中····</div>
-</div>-->
 
 <div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>

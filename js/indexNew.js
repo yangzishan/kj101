@@ -299,7 +299,7 @@ $.ajax({
 							
 							//重度中度都没有的情况
 							if(improvesData.data.abnormal.list3.length == 0 && improvesData.data.abnormal.list4.length == 0){
-								$('#segTwo').html('2、本次检测您有'+improvesData.data.abnormal.list2.length+'项为轻度风险。根据您本次检测结果，给您提供的专属健康建议与改善方案，<a class="inpv">请点击查看详情&gt;&gt;</a>')
+								$('#segTwo').html('2、本次检测您有'+improvesData.data.abnormal.list2.length+'项为轻度风险。根据您本次检测结果，给您提供的专属健康建议与改善方案')
 							};								
 							if(improvesData.data.abnormalName.length == 0 || improvesData.data.abnormalName == null){
 								$('#tipmsg').html('根据您本次检测结果，给您提供的专属健康建议与改善方案，');
@@ -315,7 +315,7 @@ $.ajax({
 								};
 							};
 
-							$('.sy_summary .sstxt .inpv').attr("href","z_pop.html?reportId="+ myReportId)
+							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ myReportId)
 						}
 					}else{
 						//console.log('首页请求getSuggest成功,但数据不正确')
