@@ -3,6 +3,7 @@
 .v_port{ padding: 0 .25rem .5rem; -webkit-overflow-scrolling: touch;}
 .k1{height: .2rem;}
 .bck-col-f4{background-color: #F4F4F4;}
+.myview{ padding: 0 .3rem;}
 /*=首页综合=*/
 .header{ height: .88rem; background: #2fbab0; color: #fff; padding: 0 .16rem; position: relative; font-size: .28rem;}
 .header .t-left{ line-height: .88rem; color: #fff; position: relative;z-index: 999;}
@@ -12,7 +13,7 @@
 .header .t-cen{ position: absolute; left: 0; width: 100%; line-height: .88rem; text-align: center; font-size: .24rem;}
 .header .b-arr{ width: .24rem; height: .88rem; background: url(../img/arr-b.png) no-repeat center; background-size: .18rem .34rem;position: relative;z-index: 999;}
 .header .txt1{ font-size: .34rem; font-weight: bold;}
-.all_score{/*background: #2fbab0;*/background:linear-gradient(-1deg, #26d6ac 0%, #2fbab0 100%); color: #fff; padding: 0 .2rem .2rem; text-align: center; position: relative;}
+.all_score{background:linear-gradient(-1deg, #26d6ac 0%, #2fbab0 100%); color: #fff; padding: 0 .2rem .2rem; text-align: center; position: relative;}
 /*circleProgress*/
 .circle_b{ text-align: center; padding: .01rem;}
 .circle { width: 152px; height: 152px; margin:.12rem; display: inline-block; position: relative; text-align: center; line-height: 1.2;border: 1px solid #62ede2; border-radius: 50%;}
@@ -30,7 +31,7 @@
 .all_score .explain{position: absolute; right: .3rem; bottom: .36rem; font-size: .2rem; text-align: center; line-height: .22rem;}
 .all_score .explain i{display: block; width: .44rem; height: .33rem; background: url(../img/i-book.png) no-repeat; background-size:.44rem .33rem;}
 /*首页健康汇总*/
-.sy_summary{ padding: .2rem .3rem; background: #fff; line-height: .53rem; font-size: .3rem;}
+.sy_summary{ padding: .15rem .3rem .2rem; background: #fff; line-height: .53rem; font-size: .3rem;}
 .sy_summary .sstit{}
 .sy_summary .sstit a.nt{ text-decoration: underline;}
 .sy_summary .sstit2{ margin: .1rem 0; text-align: center; font-size: .32rem; color: #1ebeb1;}
@@ -38,10 +39,8 @@
 .sy_summary .sstxt .nt{color: #2fbab0; text-decoration: underline;}
 .sy_summary .sstxt .sta{ color: #FF8800;}
 .sy_summary .inpv{ color: #2fbab0;}
-.sy_summary .gojy{ display: block;  margin: .25rem .1rem .1rem; height: .88rem; line-height: .88rem; background: #dcfbf5; border: #a3f4e1 solid .02rem; border-radius: .44rem; text-align: center;}
+.sy_summary .gojy{ display: block;  margin: .18rem .1rem .1rem; height: .88rem; line-height: .88rem; background: #dcfbf5; border: #a3f4e1 solid .02rem; border-radius: .44rem; text-align: center;}
 .sy_summary .gojy i{ width: .86rem; height: .86rem; display: inline-block; vertical-align: top; background:url(../img/i-check.png) no-repeat center; background-size:.4rem .4rem;}
-
-
 .sumTit{ line-height: .82rem; font-size: .32rem; padding: 0 .3rem; background: #F4F4F4;}
 /*-*/
 .slnl_d{ background: #fff; padding:.2rem .3rem;}
@@ -92,10 +91,9 @@
 .zhuangk_c .c_li .sta i{ display: inline-block; vertical-align: top; width: 19%; height: .16rem; /*border-radius: .06rem;*/background: #d0d0d0; margin-right: .02rem;}
 .zhuangk_c .c_li .sta i.on{background: #1eceb7;}
 .zhuangk_c .c_li .sta2{ width: 55%; line-height: .8rem; display: none;}
-.indexShow{}
 .statement{height: 1.2rem;color: #B1B1B1; font-size: .30rem;line-height: 1.2rem; text-align: center; width: 100%;background:#f4f4f4;}
 
-/*new*/
+/*new 5.0*/
 .fan_box{ padding: 0 0 .2rem;}
 .fan_box .x_b{ width: 4.82rem; height: 2.41rem; padding: .3rem 0 0; position: relative; margin: 0 auto; overflow: hidden;}
 .fan_box .x_b .b_kd{ width: 4.15rem; height: 2.09rem; padding: .5rem 0 0; margin: 0 auto; background: url(../img/kedu.png) no-repeat center; background-size: 4.15rem 2.09rem;}
@@ -112,17 +110,18 @@
 .tenSys_c a:nth-child(even){ border-right:#eaeaea solid .01rem;}
 .tenSys_c a .s-chart{ display: inline-block; vertical-align: top; width: 1.4rem; text-align: center; position: relative;}
 .tenSys_c a .s-chart .c_circle{ position: relative; width: 1.2rem; height: 1.2rem; margin: 0 auto;}
-.tenSys_c a .s-chart .ico{ width: 1rem; height: 1rem;  position: absolute; top:.1rem; left:.1rem;} 
-.tenSys_c a:nth-of-type(2) .s-chart .ico{background: url(../img/ten/i-xunhuan.png)no-repeat; background-size: 1rem 1rem;}
-.tenSys_c a:nth-of-type(3) .s-chart .ico{background: url(../img/ten/i-xiaohua.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(4) .s-chart .ico{background: url(../img/ten/i-huxi.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(5) .s-chart .ico{background: url(../img/ten/i-neifenmi.png)no-repeat; background-size: 1rem 1rem;}
-.tenSys_c a:nth-of-type(6) .s-chart .ico{background: url(../img/ten/i-guge.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(7) .s-chart .ico{background: url(../img/ten/i-mianyi.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(8) .s-chart .ico{background: url(../img/ten/i-shengzhi.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(9) .s-chart .ico{background: url(../img/ten/i-yingyang.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(10) .s-chart .ico{background: url(../img/ten/i-youhai.png)no-repeat; background-size: 1rem 1rem;} 
-.tenSys_c a:nth-of-type(11) .s-chart .ico{background: url(../img/ten/i-pifu.png)no-repeat; background-size: 1rem 1rem;}
+.tenSys_c a .s-chart .ico{ width: .88rem; height: .88rem;  position: absolute; top:.16rem; left:.16rem;} 
+.tenSys_c a:nth-of-type(2) .s-chart .ico{background: url(../img/ten/i-xunhuan.png) no-repeat; background-size: .88rem .88rem;}
+.tenSys_c a:nth-of-type(3) .s-chart .ico{background: url(../img/ten/i-xiaohua.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(4) .s-chart .ico{background: url(../img/ten/i-huxi.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(5) .s-chart .ico{background: url(../img/ten/i-neifenmi.png) no-repeat;  background-size: .88rem .88rem;}
+.tenSys_c a:nth-of-type(6) .s-chart .ico{background: url(../img/ten/i-guge.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(7) .s-chart .ico{background: url(../img/ten/i-mianyi.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(8) .s-chart .ico{background: url(../img/ten/i-shengzhi.png) no-repeat; background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(9) .s-chart .ico{background: url(../img/ten/i-yingyang.png) no-repeat; background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(10) .s-chart .ico{background: url(../img/ten/i-youhai.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a:nth-of-type(11) .s-chart .ico{background: url(../img/ten/i-pifu.png) no-repeat; background-size: .88rem .88rem;}
+.tenSys_c a .s-chart .c_circle .zzb{ position: absolute; left: -.02rem; top: -.02rem; width: 1.24rem; height: 1.24rem; background: url(../img/i-cir_b.png) no-repeat; background-size: cover;}
 .tenSys_c a .s-inf{ display: inline-block; vertical-align: top;}
 .tenSys_c a .s-inf .lab{ font-size: .32rem; line-height: .66rem;}
 .tenSys_c a .s-inf .lab span{ display: inline-block; vertical-align: top; margin-right: .2rem;}
@@ -180,7 +179,7 @@
 .infCon .item.cor1 .jy{border:1px solid #ffcb00; color: #ffcb00;}
 .infCon .item.cor2{color: #f75428;}
 .infCon .item.cor2 .jy{border:1px solid #f75428; color: #f75428;}
-/*new*/
+/*new 5.0*/
 .seCon{ padding: .2rem .2rem 0; margin: 0 0 .18rem 0; background: #fff;}
 .seCon .cdt{}
 .seCon .cdt .lab{ height: .64rem; line-height: .64rem; font-size: .32rem; font-weight: bold; color: #000;}
@@ -203,7 +202,7 @@
 .seCon .cdd .num{}
 .seCon .cdd em{ display: inline-block; width: .15rem; height: .3rem; background: url(../img/arr-rs.png) no-repeat; background-size: 100%; margin-top: .3rem;}
 
-/*~三级指标页面 2018-4-17~*/
+/*~三级指标页面 2018-4-17~ v5.0*/
 .thr_sta{ display: -webkit-box; display: box; padding: .2rem .3rem;}
 .thr_sta .sta_i{ width: 2.5rem;}
 .thr_sta .sta_i i{display: block; margin: 0 auto; width: 2.16rem; height: 2.16rem; border-radius: 50%; text-align: center; line-height: 2.16rem; color: #1ebeb1; font-size: .64rem; font-weight: bold;}
@@ -396,7 +395,6 @@
 .login_cn .cbtn button.off{ background: #ccc;}
 
 /*弹框*/
-/*.tc-qx{ position: fixed; margin: auto auto; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 4.8rem; border-radius: .1rem; background: #fff; z-index: 10001; color: #666;font-size: .28rem; opacity: 0;visibility: hidden;-webkit-transition-duration: 400ms;transition-duration: 400ms;}*/
 .tc-qx{position: fixed; left:1.4rem; right: 1.4rem; /*top: 50%; transform: translate(0,-50%); -webkit-transform: translate(0,-50%);*/ background: #fff; border-radius: .13rem; overflow: hidden; z-index: 10000; opacity: 0; visibility: hidden; transition-duration: 400ms; max-width: 6rem;}
 .tc-qx .pc1{padding: .25rem .1rem; text-align: center; line-height: .49rem; border-bottom: #F4F4F4 solid 1px;}
 .tc-qx .psub{ display: -webkit-box; text-align: center;}
@@ -603,21 +601,10 @@
 .ty-record .c-li span:nth-of-type(1){ width: 55%;}
 .ty-record .c-li span:nth-of-type(2){ width: 45%;}
 
-/*2018-7-5 首页反馈入口*/
-.fankui_b{ background: #fff; padding: .2rem .3rem .3rem;}
-.fankui_b a{height: .88rem; display: block; border: #F2F2F2 solid .02rem; text-align: center;}
-.fankui_b a i{display: inline-block; vertical-align: top; width: .52rem; height: .88rem; background: url(../img/fankui.png) center no-repeat;background-size:.52rem .4rem;}
-.fankui_b a span{ display: inline-block; vertical-align: top; line-height: .88rem; color: #9b9b9b; font-size: .26rem; margin-left: .2rem;}
-/*反馈说明*/
-.feedtit{ line-height: 1rem; text-align: center; font-size: .32rem; font-weight: bold;}
-.feedtxt{ padding: .56rem .35rem .5rem; line-height: .56rem; font-size: .3rem;}
-.feedtxt .bzp{line-height: .8rem;}
-.feedtxt .bzp em{display: inline-block; width: .3rem; height: .3rem; line-height: .26rem; border-radius: 50%; border: #333 solid .02rem; text-align: center; font-size: .24rem; margin: 0 .3rem 0 0;}
-.feedtxt .imgp{ padding: 0 .5rem;}
-
-
 /*=新分享20180709=*/
 .ns_sys{}
 .ns_sys .btit{}
 .ns_sys .sys-c{}
 .ns_sys .sys-c .c-li{}
+
+

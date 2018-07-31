@@ -332,7 +332,11 @@ function subAll(){
 		success : function(userData) {
 			//debugger;
 			if(userData.code == 200){
-				window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+				if(edition == 3){
+					window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
+				}else{
+					window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+				}	
 			}else if(userData.code == 301){
 				showMask('手机号已被绑定');
 				//$('#subAll').attr("disabled",false);

@@ -146,7 +146,7 @@ $.ajax({
 							    fill: { gradient: [c_se] },
 							    emptyFill:'#ffffff',
 							    size: 0.16*$(window).width(),
-							    thickness: 12,
+							    thickness: 16,
 							    //lineCap: 'round',
 							    startAngle: Math.PI*1.5
 							});
@@ -288,7 +288,7 @@ $.ajax({
 						var inspectDay = improvesData.data.inspectDay; // 提醒天数
 						$('#sugDay').text(inspectDay);
 						$('#bodySta').text(ps);
-						$('#dearName').html(userName+sexStr);
+						$('#dearName').text(userName+sexStr);
 						
 						$('#list2_No').text(improvesData.data.abnormal.list2.length);
 						if(improvesData.data == null || improvesData.data.abnormal == ''){
@@ -299,7 +299,7 @@ $.ajax({
 							
 							//重度中度都没有的情况
 							if(improvesData.data.abnormal.list3.length == 0 && improvesData.data.abnormal.list4.length == 0){
-								$('#segTwo').html('2、本次检测您有'+improvesData.data.abnormal.list2.length+'项为轻度风险。根据您本次检测结果，给您提供的专属健康建议与改善方案')
+								$('#segTwo').html('2、本次检测您有<span class="sta">'+improvesData.data.abnormal.list2.length+'</span>项为轻度风险。根据您本次检测结果，给您提供的专属健康建议与改善方案。')
 							};								
 							if(improvesData.data.abnormalName.length == 0 || improvesData.data.abnormalName == null){
 								$('#tipmsg').html('根据您本次检测结果，给您提供的专属健康建议与改善方案，');
@@ -352,16 +352,12 @@ function showMask(){
 	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 	win_top = $(window).scrollTop();
 	$("body").css({"position":"fixed","top":-win_top+"px"});
-	/*$("body").on('touchmove',function(e){
-		e.preventDefault();//阻止滚动， 妈的 突然不管用了
-	});*/
 	closeMask();
 };
 function closeMask(){
 	$('.v_overlay,.v_overlert .close').click(function(){
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-		/*$("body").off("touchmove");*/
 		$("body").css("position","static");
 		$(window).scrollTop(win_top);
 	});

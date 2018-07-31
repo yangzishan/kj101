@@ -87,6 +87,8 @@ success : function(historyData) {
 				oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;	
 			}else if(historyData.data[i].reportType == 5){
 				oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+			}else if(historyData.data[i].reportType == 100){
+				oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 			}else{
 				if(historyData.data[i].deviceType == 1){
 				oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
@@ -169,6 +171,8 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 							oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;	
 						}else if(historyData.data[i].reportType == 5){
 							oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+						}else if(historyData.data[i].reportType == 100){
+							oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 						}else{
 							if(historyData.data[i].deviceType == 1){
 							oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;

@@ -116,9 +116,11 @@ $.ajax({
 			if(shareData.data.reportType == 5){
 				//$('#goCheck').attr("href","index"+edition+".html?reportId=" + myreportId + '&openId=' + myopenId);
 				$('#goCheck').attr("href","index2.html?reportId=" + myreportId + '&openId=' + myopenId);
+			}else if(shareData.data.reportType == 100){
+				$('#goCheck').attr("href","fund/index.html?reportId=" + myreportId + '&openId=' + myopenId);
 			}else{
 				$('#goCheck').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiIndex&reportId="+myreportId);
-			}
+			};
 			
 			//判断是否有生理年龄
 			if($('.share_v .v_cn .att em').text() == 0 || $('.share_v .v_cn .att em').text() == ''){

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html style="height: auto;width: 100%; overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="stylesheet" type="text/css" href="../css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180711" />
+<style type="text/css">.highcharts-credits{display: none;}</style>
+</head>
+<body>
+<DIV class="my_view delayshow" id="appOne">
+<header class="header">
+	<a class="t-left fl" id="goSetUp"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
+	<a class="t-right fr" id="checkHistory"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+	<p class="t-cen"><span>{{inspectDate}}</span></p>
+</header>
+<div class="tiptop">
+	注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。
+	<a class="" href="instructions.html">了解更多</a>
+</div>	
+<div class="sp_warp myview">
+	<p class="btit">
+		<i class="le"></i><span class="ctt">综合健康得分</span><a class="openpop s1" index="1"></a>
+		<span class="poptxt">
+			智能筛查机器人针对您的整体健康状况给予综合健康得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态。
+		</span>
+		<!--<span class="ltt"><b></b>{{inspectDate}}</span>-->
+	</p>
+	<div class="penchart">
+		<div class="con_c">
+			<font class="low">0</font>
+			<font class="high">100</font>
+			<p class="zhen_j"><span class="zhen"></span><span class="num" id="score">90</span></p>
+		</div>
+	</div>
+	<p class="pptt"><b></b>您的整体状况较同年龄段好于<em>{{ranking}}%</em>的人</p>
+</div>
+<p class="g1"></p>
+
+<div class="sp_warp myview">
+	<p class="btit"><i class="le"></i><span class="ctt">健康指标评估</span></p>	
+	<div class="fanchart">
+		<div class="chart_c">
+			<div class="canvad">
+		    	<div id="container" style="min-width:120px; height: 150px;"></div>
+		    	<img class="zheg" src="img/pg.png">
+		    </div>
+		</div>
+		<div class="chart_f">
+			<p><i></i><span><font>指标正常：</font><em class="item_num normalNum">50</em>项</span></p>
+			<p><i></i><span><font>轻度风险：</font><em class="item_num lightNum">10</em>项</span></p>
+			<p><i></i><span><font>中度风险：</font><em class="item_num severeNum">5</em>项</span></p>
+		</div>
+	</div>
+</div>
+
+<p class="g1"></p>
+<div class="sp_warp myview">
+	<p class="btit">
+		<i class="le"></i><span class="ctt">亚健康风险</span><a class="openpop s1"></a>
+		<span class="poptxt">
+			最佳状态（95-100）<br>健康状态优秀、生理状态最佳。<br>良好状态（90-94） <br>健康状态良好、生理状态较佳。<br>
+			一级风险（85-89） <br>健康状态较好、机体功能轻度紧张。<br>二级风险（80-84） <br>
+			健康状态下降、机体功能中度紊乱或紧张。<br>三级风险（80分以下） <br>健康状态不佳、机体功能紊乱程度较高。<br>
+		</span>	
+		<span class="ltt"><b></b><font class="risk">一级风险</font></span>
+	</p>
+	<div class="zhenchart">
+		<div class="zhen_p">
+			<i class="zhen" id="level"></i>
+		</div>
+	</div>
+</div>
+
+<p class="g1"></p>
+<div class="sp_warp myview">
+	<p class="btit">
+		<i class="le"></i><span class="ctt">您的快乐指数</span><a class="openpop s1"></a>
+		<span class="poptxt">
+			快乐	<br>情绪较好，心情愉悦。<br>平和<br>情绪一般，心情比较平和。<br>压抑<br>
+			情绪较差，心情比较压抑。<br>焦虑 <br>情绪很差，心情比较焦虑。<br>郁闷 <br>情绪很低落，偶有悲观厌世。<br>
+		</span>
+		<span class="ltt"><b></b><font id="emoTxt">快乐</font></span>
+	</p>
+	<div class="embox">
+		<p><img id="emoImg" src="img/em1.jpg" /></p>
+	</div>
+</div>
+
+<p class="g1"></p>
+<div class="mesg_b">
+	<div class="con">
+		<b id="dearName" style=" color: #03a89e;"></b>您好！<br>
+		<p>感谢您使用智能筛查机器人进行亚健康评估。如需帮助请拨打我们的健康热线<a href="tel:4006666787" style="color: #03a89e;">4006666787</a>。
+		</p>
+		<p>本次评估您的健康评估分数为<font>{{totalScore}}</font>分，身体状况为<em class="risk"></em>，有<span class="midfx"><font class="severeNum"></font>项为中度风险，</span><font class="lightNum"></font>项为轻度风险。</p>
+	</div>
+</div>
+
+<p class="g1"></p>
+<div class="xqbaogao">
+	<p class="tit"><i class="le"></i>详情报告</p>
+	<div class="con" v-for="site in sites">
+		<a class="lee">
+			<i class="i01"><img :src="site.iconUrl"></i>
+			<span class="lab">{{site.targetFirstName}}</span><em class="arr or"></em><font>{{site.score}}分</font>
+		</a>
+		<dl class="lec" v-for="second in site.secondPages">
+			<dd v-for="third in second.thirdPages" :targetThirdId="third.targetThirdId">
+				<span class="lab">{{third.targetThirdName}}</span><em class="arr fr"></em>
+				<input class="score" type="hidden" :value="third.score">
+				<span class="fx fr">正常</span>
+			</dd>
+			
+		</dl>
+	</div>	
+</div>
+
+<p class="g1"></p>
+<div class="xqbaogao">
+	<p class="tit"><i class="le"></i>身体状况</p>
+	<div class="bdy-c2">
+		<div class="li_c" v-for="state in status">
+			<label><i><img :src="state.iconUrl"></i><span>{{state.targetThirdName}}</span></label>
+			<input type="hidden" :value="state.abnormalLevel">
+			<p>
+				<span><i class="on"></i><i></i><i></i><i></i><i></i></span>
+				<em>{{state.analysisResults}}</em>
+			</p>
+		</div>		
+	</div>
+</div>
+
+<div class="go_det">
+	<i></i><span>报告解读</span>
+</div>
+
+</DIV><!--/my_view-->
+<input type="hidden" id="appId"/>
+<input type="hidden" id="nonceStr"/>
+<input type="hidden" id="signature"/>
+<input type="hidden" id="timestamp"/>
+<input type="hidden" id="age"/>
+
+<div class="v_overlert">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<div class="bxt" style="text-align: left;">
+		</div>
+	</div>
+</div>
+<div class="v_overlay"></div>
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
+    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="js/index.js?v=201807012"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script src="../js/wxShare.js"></script>
+</body>
+</html>
