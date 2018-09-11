@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="{CHARSET}">
+<title></title>
+<style type="text/css">
+	.section{ height: 800px; width: 100%;}
+	nav{ width: 200px;float: right; position: fixed; top: 100px; right: 0;}
+	nav a{ display: block; line-height: 50px; text-align: center;}
+	nav a.current{ background: #D9F5F3;}
+</style>
+</head>
+<body>
+		<div class="container">
+  <div class="wrapper">
+    <div class="section" id="section1" style="background: #00ACA0;">section1</div>
+    <div class="section" id="section2" style="background: #8D4600;">section2</div>
+    <div class="section" id="section3" style="background: #B72F20;">section3</div>
+    <div class="section" id="section4" style="background: #BAD53D;">section4</div>
+    <div class="section" id="section5" style="background: #000000;">section5</div>
+  </div>
+  <nav>
+    <a href="#section1" rel="external nofollow" class="current">section1</a>
+    <a href="#section2" rel="external nofollow" >section2</a>
+    <a href="#section3" rel="external nofollow" >section3</a>
+    <a href="#section4" rel="external nofollow" >section4</a>
+    <a href="#section5" rel="external nofollow" >section5</a>
+  </nav>
+</div>
+
+<script src="js/jquery.js"></script>
+<script>
+var $navs = $('nav a'),          // 导航
+  $sections = $('.section'),       // 模块
+  $window = $(window),
+  navLength = $navs.length - 1;
+   
+$window.on('scroll', function() {
+  var scrollTop = $window.scrollTop();
+    
+ 
+  for (var len = navLength; len > -1; len--) {
+    var that = $sections.eq(len);
+    if (scrollTop >= that.offset().top) {
+       $navs.removeClass('current').eq(len).addClass('current');
+       break;
+    }
+  }
+});
+
+$navs.on('click', function(e) {
+  e.preventDefault();
+  	//console.log($(this).attr('href'));
+  	//console.log($($(this).attr('href')).offset().top);
+  
+  $('html, body').animate({
+    'scrollTop': $($(this).attr('href')).offset().top
+  }, 300);
+});
+
+
+var date1 = new Date();
+var date2 = new Date(date1);
+date2.setMonth(date1.getMonth() + 3);
+console.log(date2.getFullYear() + "-" + (date2.getMonth() + 1) + "-" + date2.getDate() + "-"+ date2.getDay());
+
+var str = "54625884564564565874125654";
+var reg = /^(\d{5})\d+(\d{5})$/;
+str = str.replace(reg, "$1****$2");
+console.log(str);
+
+</script>
+</body>
+</html>

@@ -17,16 +17,41 @@
 		<p class="btit">制作生成您的健康海报</p>
 		<dl class="sys-c">
 			<dd class="c-li">
-				<p class="pcc"><i class="b-01"></i><em>95分</em></p>
+				<p class="pcc"><i><img src="img/i-huxi.png"></i><em>95分</em></p>
 				<p class="pxt">呼吸系统</p>
+				<p class="pxt2">呼吸通畅，身体倍棒！</p>
+			</dd>
+			<dd class="c-li">
+				<p class="pcc"><i><img src="img/i-youhai.png"></i><em>95分</em></p>
+				<p class="pxt">有害物质</p>
 				<p class="pxt2">呼吸通畅，身体倍棒！</p>
 			</dd>
 		</dl>
 	</div>
-
+	<div class="ns_tens">
+		<p class="tit">系统默认为您展示以上两个系统（您也可以任选以下其中两项）</p>
+		<ul class="con">
+			<li class="on"><span>呼吸系统</span><em>(95分)</em></li>
+			<li><span>循环系统</span>(<em>94分</em>)</li>
+			<li><span>营养系统</span>(<em>93分</em>)</li>
+			<li><span>骨骼系统</span>(<em>96分</em>)</li>
+			<li><span>消化系统</span>(<em>92分</em>)</li>
+			<li class="on"><span>有害物质</span>(<em>91分</em>)</li>
+			<li><span>生殖系统</span>(<em>90分</em>)</li>
+			<li><span>免疫系统</span>(<em>89分</em>)</li>
+			<li><span>皮肤系统</span>(<em>88分</em>)</li>
+			<li><span>内分泌</span>(<em>87分</em>)</li>
+		</ul>
+		
+		<p class="line">------------------------------------------------------</p>
+		<p class="sltit">您的生理年龄是<font>35</font>岁，是否分享给好朋友看看啊！</p>
+		<div class="sf-btn">
+			<button class="btn on">是</button> <button class="btn">否</button>
+		</div>
+		<div class="gohaibao"><img src="img/ns-haibaogo.png"></div>
+	</div>
 	
 </div>
-
 
 
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -51,6 +76,50 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
+<script>
+var count = 2;
+$('.ns_tens .con li').on("click",function(){
+	var s_name = $(this).find('span').text(),
+		s_score = $(this).find('em').text();
+	console.log(s_name+s_score);
+	if($(this).hasClass('on')){
+		$(this).removeClass('on');
+		count--;
+		console.log(count);
+		$('.ns_sys .sys-c .c-li').each(function(index){
+			if($(this).find('.pxt').text()==s_name){
+				$(this).remove();
+			}
+		});
+	}else{
+		if(count == 2){
+			alert("最多选两个，先取消一个再选");
+		}else{
+			$(this).addClass('on');
+			var el = document.createElement('dd');
+			el.className = 'c-li';
+			el.innerHTML = '<p class="pcc"><i><img src="img/i-youhai.png"></i><em>'+s_score+'<em></P>'+
+				'<p class="pxt">'+s_name+'</p>'+'<p class="pxt2">急急如立令</p>';
+			$('.ns_sys .sys-c').append(el);
+			count++;
+		}
+	}
+});
 
+/*$.ajax({
+	url: dataUrl + "/api/v1/reportIndex/getTargetByFirst",,
+	type: "POST",
+	dataType: "json",
+	data: {
+		reportId:
+	},
+	success: function(data){
+		
+	},
+	error: function(obj,msg){
+		console.log(obj+' '+msg);
+	},
+});*/
+</script>
 </body>
 </html>

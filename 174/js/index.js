@@ -47,15 +47,11 @@ $.ajax({
 			success : function(indexData) {
 				//alert('you get it')
 				if(indexData.code == 201){
-					var sameUser = indexData.data.sameUser;
+					//var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;
 					var agentId = indexData.data.agentId;
-
-					if(paymentType == 1){
-						window.location.href="../../agent/payforOld.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
-					}else if(paymentType == 2){
-						window.location.href="../../agent/payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
-					};
+					window.location.href="../../agent/payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
+					
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					$('.my_view').css("display","block");

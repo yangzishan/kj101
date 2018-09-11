@@ -31,12 +31,29 @@ $.ajax({
 				//alert('you get it')
 				if(indexData.code == 201){
 					var sameUser = indexData.data.sameUser;
-					//var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
+					if(paymentType == 1){
+						window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					}else{
+						window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					}
+					
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					$('.my_view').css("visibility","visible");
 					$('.load-overlay').css("display","none");
+					
+					
+					/*zhuge.track('报告完成');
+					zhuge.identify('5648545', {
+					name: '老黄女',
+					//预定义属性
+					gender: '女',
+					//预定义属性
+					'⾏业': '互联⽹' //⾃定义属性
+					});*/
+					
+
 					$("#appId").val(indexData.wxParameter.appId);
 					$("#nonceStr").val(indexData.wxParameter.nonceStr);
 					$("#signature").val(indexData.wxParameter.signature);
@@ -78,6 +95,13 @@ $.ajax({
 					$('.sy_tab span').on("click",function(){
 						$(this).addClass('on').siblings().removeClass('on');
 						$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");
+						
+						/*zhuge.track('点击切换', {
+							'tab1' : '状况',
+							'tab2' : 1799,
+							'tab3' : '移动'});*/
+
+
 					});
 					//系统介绍弹窗
 					$('.tenSys_c a .s-inf .lab .pop').on("click",function(event){
@@ -104,7 +128,16 @@ $.ajax({
 						$('#showExplain').css({"visibility":"visible","opacity":"1"});
 						return false;
 					});
-					
+					//判断是否显示食谱入口
+					var setDate = new Date('2018/09/10 00:00:00'); //设置一个日期，以上线日期为准
+					var insDate = new Date(indexData.data.indexPage.inspectDate.replace(/\-/g, "/"));
+					console.log(setDate);
+					console.log(insDate);
+					if(insDate.getTime() - setDate.getTime() > 0){
+						$('.sy_summary .gosp').css("display","block");
+						$('.sy_summary .gosp').attr("href","recipes.html?reportId="+ myReportId);
+					};
+
 					//第一个系统不显示
 					$('.tenSys_c a:first').css("display","none");
 					//身体状况程度条
@@ -116,6 +149,10 @@ $.ajax({
 					$('.zhuangk_c .c_li:last .sta').css("display","none");
 					$('.zhuangk_c .c_li:last .sta2').css("display","inline-block");
 					//十大系统指标环形进度
+					var w_cir = $(window).width();
+					if($(window).width() > 750){
+						w_cir = 750;
+					};
 					setTimeout(function(){
 						$('.tenSys_c a .s-chart .c_circle').each(function(index){
 							var c_se ='',c_va = $(this).next('p').text();
@@ -145,7 +182,7 @@ $.ajax({
 							    animation: true,
 							    fill: { gradient: [c_se] },
 							    emptyFill:'#ffffff',
-							    size: 0.16*$(window).width(),
+							    size: 0.16*w_cir,
 							    thickness: 16,
 							    //lineCap: 'round',
 							    startAngle: Math.PI*1.5
@@ -182,90 +219,127 @@ $.ajax({
 						sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
 					});
 					var _offset = sessionStorage.getItem("offsetTop");
-　　					
+									
 					//请求与上份报告对比的异常项改善情况 接口
 					$.ajax({
-					url : dataUrl + "/api/v2/reportIndex/targetImprove",
-					type : "POST",
-					dataType : 'json',
-					data : {
-					    reportId : myReportId,
-					    userId : userId
-					},
-					success : function(data) {
-						if(data.code == 200){
-							if(data.data == null){
-								$('#v_change').empty();
-								return
-							};
-							var myApp2 = new Vue({
-								el:'#v_change',
-								data:{
-									code: data.code,
-									lastDateStr: data.data.lastDateStr, //上次检测日期
-									currentDateStr: data.data.currentDateStr, //当前检测日期
-									okImproves: data.data.okImproves, //已改善
-									noImproves: data.data.noImproves //为改善
-								},
-								filters:{
-						    		getThirdHref:function(val){
-						            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
-						       		}
-							  	}
-							});
-							//介绍弹窗
-							$('#zbgs_tc').on("click",function(event){
-								event.stopPropagation();
-								showMask();
-								$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
-								return false;
-							});
-							//tab
-							$('.change_tab span').on("click",function(){
-								$(this).addClass('on').siblings().removeClass('on');
-								$('.changeShow').eq($(this).index()).css("display","block").siblings('.changeShow').css("display","none");
-								sessionStorage.setItem("changeTab", $(this).index());//保存滚动位置
-							});
-							var changeVal = sessionStorage.getItem("changeTab");
-							$('.change_tab span').eq(changeVal).addClass('on').siblings().removeClass('on');
-							$('.changeShow').eq(changeVal).css("display","block").siblings('.changeShow').css("display","none");
-							$(document).scrollTop(_offset);
-							//判断class
-							$('.change_list li .s2').each(function(index){
-								if($(this).text()=='正常'){
-									$(this).addClass('bc1');
-								}else if($(this).text()=='轻度风险'){
-									$(this).addClass('bc2');
-								}else if($(this).text()=='中度风险'){
-									$(this).addClass('bc3');
-								}
-							});
-							//新增
-							$('.change_list li span.s1 i').each(function(){
-								if($(this).text()=='1'){
-									$(this).next('font').css("display","inline-block");
-								}
-							});
-							//判断没有指标项
-							$('.change_list').each(function(index){
-								if($(this).find('li').length == 0){
-									$(this).next('p').css("display","block");
-								}
-							});
-						}
-					},
-					    error : function(obj,msg){
-					    	alert(obj  + msg+'异常项改善情况 接口error');
-					    }
+						url : dataUrl + "/api/v2/reportIndex/targetImprove",
+						type : "POST",
+						dataType : 'json',
+						data : {
+						    reportId : myReportId,
+						    userId : userId
+						},
+						success : function(data) {
+							if(data.code == 200){
+								if(data.data == null){
+									$('#v_change').empty();
+									return
+								};
+								var myApp2 = new Vue({
+									el:'#v_change',
+									data:{
+										code: data.code,
+										lastDateStr: data.data.lastDateStr, //上次检测日期
+										currentDateStr: data.data.currentDateStr, //当前检测日期
+										okImproves: data.data.okImproves, //已改善
+										noImproves: data.data.noImproves //为改善
+									},
+									filters:{
+							    		getThirdHref:function(val){
+							            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
+							       		}
+								  	}
+								});
+								//介绍弹窗
+								$('#zbgs_tc').on("click",function(event){
+									event.stopPropagation();
+									showMask();
+									$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
+									return false;
+								});
+								//tab
+								$('.change_tab span').on("click",function(){
+									$(this).addClass('on').siblings().removeClass('on');
+									$('.changeShow').eq($(this).index()).css("display","block").siblings('.changeShow').css("display","none");
+									sessionStorage.setItem("changeTab", $(this).index());//保存滚动位置
+								});
+								var changeVal = sessionStorage.getItem("changeTab");
+								$('.change_tab span').eq(changeVal).addClass('on').siblings().removeClass('on');
+								$('.changeShow').eq(changeVal).css("display","block").siblings('.changeShow').css("display","none");
+								$(document).scrollTop(_offset);
+								//判断class
+								$('.change_list li .s2').each(function(index){
+									if($(this).text()=='正常'){
+										$(this).addClass('bc1');
+									}else if($(this).text()=='轻度风险'){
+										$(this).addClass('bc2');
+									}else if($(this).text()=='中度风险'){
+										$(this).addClass('bc3');
+									}
+								});
+								//新增
+								$('.change_list li span.s1 i').each(function(){
+									if($(this).text()=='1'){
+										$(this).next('font').css("display","inline-block");
+									}
+								});
+								//判断没有指标项
+								$('.change_list').each(function(index){
+									if($(this).find('li').length == 0){
+										$(this).next('p').css("display","block");
+									}
+								});
+							}
+						},
+					    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}
 					});
 					
+					//查用户信息对接智齿客服
+$.ajax({
+	url : dataUrl + "/api/v1/reportUser/findUserById",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	    userId : userId
+	},
+	success : function(userData) {
+		if(userData.code == 200){
+			//初始化智齿咨询组件实例
+			var zhiManager = (getzhiSDKInstance());
+			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+			zhiManager.set('location',1); //位置
+			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+			zhiManager.set('lan', 'zh'); //支持语言
+			zhiManager.set('moduleType',3); //机器人客服优先模式
+			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+			zhiManager.set('customMargin', 200);
+			//设置用户信息
+			zhiManager.set('uname',userData.data.userName);
+			zhiManager.set('realname',userData.data.userName);
+			zhiManager.set('tel',userData.data.mobile);
+			zhiManager.set('remark','报告ID： '+myReportId);
+			zhiManager.on("load", function() {
+			    zhiManager.initBtnDOM();
+			});
+		//////
+		}
+	},
+	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
+});
+					
+					
+					
+					//////	
 				}else{
-					alert('没获取到报告数据');
+					alert('没获取到报告数据code='+indexData.code );
 				}
 			
 			},
 				error: function(xhr,status){
-					//alert("已解析但未获取到数据" + xhr.status + " " + xhr.statusText);
+					console.log("已解析但未获取到数据" + xhr.status+" "+ xhr.statusText);
 				}
 			});
 			
@@ -314,8 +388,8 @@ $.ajax({
 									$('#listAb').append(oli);
 								};
 							};
-
-							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ myReportId)
+							//跳转建议 
+							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ myReportId);
 						}
 					}else{
 						//console.log('首页请求getSuggest成功,但数据不正确')
@@ -329,6 +403,8 @@ $.ajax({
 
 		}else if(data.code == 402){
 			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+		}else if(data.code == 405){
+			window.location.href="userInfor.html?reportId=" + myReportId + "&openId=" + myopenId + "&edition="+edition;
 		}else if(data.code == 403){
 			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
 		}else if(data.code == 302){
@@ -363,95 +439,94 @@ function closeMask(){
 	});
 };
 					
-
 function creatMychart(id,arrayY,arrayX,age,msecond){
 	setTimeout(function(){
-	var myChart = echarts.init(document.getElementById(id));
-	option = {
-		/*grid:{
-			left:'11%', 
-			right:'10%'
-		},*/
-	    xAxis: {
-	        type: 'category',
-	        boundaryGap: ['3%','3%'],
-	        scale:false,
-	        axisLabel:{
-	        	interval:0,
-	        	//rotate:-90,
-	        	//width:15
-	        	formatter:function(value){  
-                   return value.split("").join("\n");  
-                } 
-	        },
-	        data: arrayX,
-	        axisTick:{
-	        	show: false
-	        }
-	    },
-	    yAxis: {
-	        type: 'value',
-	        scale:true,
-	        interval:2,
-	        boundaryGap:['10%','10%'],
-	        axisLabel:{
-	        	//formatter: '{value}岁'
-	        	formatter: function (value, index) {           
-                	return value.toFixed(0) + "岁";      
-                }  
-	        },
-	        splitLine:{
-	        	//show: false
-	        	lineStyle:{
-	        		opacity:0.5
-	        	}
-	        },
-	        axisTick:{
-	        	show: false
-	        }
-	    },
-	    series: [{
-	    	type: 'line',
-	    	symbol:'emptyCircle',
-	    	symbolSize:8,
-	        data: arrayY,
-	        label:{
-	    		show:true,
-	    		formatter:'{c}岁',
-	    		color:'#000',
-	    		fontSize:15
-	    	},
-	        markLine: {
-	        	data:[]
-	        },
-	        color:['#1ccfba','#2f4554', '#61a0a8'],
-	        markLine:{
-	        	lineStyle:{
-	        		width:2,
-	        		opacity:0.5,
-	        		type:'dotted'
-	        	},
-	        	 data:[
-                        [
-                            {
-                                name:'     '+age+'岁',
-                                coord:[0,age],
-                                symbol:'pin',
-                                symbolSize:2
-                            },{
-                                coord:[7, age],
-                                symbol:'pin',
-                                symbolSize:2,
-                                label:{
-                                	position:'end'
-                                }
-                            }
-                        ]
-                    ]
-	        }
-	    }]
-	};
-	myChart.setOption(option);
-},msecond)
-	
+		var myChart = echarts.init(document.getElementById(id));
+		option = {
+			/*grid:{
+				left:'11%', 
+				right:'10%'
+			},*/
+		    xAxis: {
+		        type: 'category',
+		        boundaryGap: ['3%','3%'],
+		        scale:false,
+		        axisLabel:{
+		        	interval:0,
+		        	//rotate:-90,
+		        	//width:15
+		        	formatter:function(value){  
+	                   return value.split("").join("\n");  
+	                } 
+		        },
+		        data: arrayX,
+		        axisTick:{
+		        	show: false
+		        }
+		    },
+		    yAxis: {
+		        type: 'value',
+		        scale:true,
+		        interval:2,
+		        boundaryGap:['10%','10%'],
+		        axisLabel:{
+		        	//formatter: '{value}岁'
+		        	formatter: function (value, index) {           
+	                	return value.toFixed(0) + "岁";      
+	                }  
+		        },
+		        splitLine:{
+		        	//show: false
+		        	lineStyle:{
+		        		opacity:0.5
+		        	}
+		        },
+		        axisTick:{
+		        	show: false
+		        }
+		    },
+		    series: [{
+		    	type: 'line',
+		    	symbol:'emptyCircle',
+		    	symbolSize:8,
+		        data: arrayY,
+		        label:{
+		    		show:true,
+		    		formatter:'{c}岁',
+		    		color:'#000',
+		    		fontSize:15
+		    	},
+		        markLine: {
+		        	data:[]
+		        },
+		        color:['#1ccfba','#2f4554', '#61a0a8'],
+		        markLine:{
+		        	lineStyle:{
+		        		width:2,
+		        		opacity:0.5,
+		        		type:'dotted'
+		        	},
+		        	 data:[
+	                        [
+	                            {
+	                                name:'     '+age+'岁',
+	                                coord:[0,age],
+	                                symbol:'pin',
+	                                symbolSize:2
+	                            },{
+	                                coord:[7, age],
+	                                symbol:'pin',
+	                                symbolSize:2,
+	                                label:{
+	                                	position:'end'
+	                                }
+	                            }
+	                        ]
+	                    ]
+		        }
+		    }]
+		};
+		myChart.setOption(option);
+	},msecond)
 };
+

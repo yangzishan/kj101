@@ -49,6 +49,7 @@
 			</p>		
 		</div>
 		<a class="gojy"><i></i><span>请点击查看您的专属建议</span></a>
+		<a class="gosp" style="display: none;"><i></i><span>请查看您的专属健康食谱</span></a>
 	</div>
 	
 	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
@@ -159,8 +160,7 @@
 	    <p class="noctip">暂无未改善及新增异常指标</p>
 	</div>    
 	    
-    
-    
+
     <input type="hidden" id="appId"/>
     <input type="hidden" id="nonceStr"/>
     <input type="hidden" id="signature"/>
@@ -169,6 +169,8 @@
     <input type="hidden" id="share" value="101"/>
 </div>
 <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+
+<div id="btn" class="zhiCustomBtn"></div>
 
 </DIV>
 <div class="v_overlay"></div>
@@ -207,8 +209,10 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/indexNew.js?v=201807011"></script>
+<script src="js/indexNew.js?v=20180801"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -227,6 +231,26 @@
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
 </script>
 <script src="js/wxShare.js"></script>
 </body>

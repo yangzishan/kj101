@@ -159,7 +159,13 @@ var myopenId = GetQueryString('openId');
 var edition=GetQueryString("edition");
 if(edition==null){
 	edition = '';
-}
+};
+
+
+var userOropen = myuserId;
+if(myuserId ==null || myuserId == ''){
+	userOropen = myopenId;
+};
 
 //倒计时读秒
 var wait=60;
@@ -178,22 +184,6 @@ function time(tm){
 		setTimeout(function(){time(tm);},1000);
 	}
 };
-//阅读用户须知弹出
-/*$('#notice').on("click",function(){
-	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-	$('#showNotice').css({"visibility":"visible","opacity":"1"});
-	$('#showNotice').on("touchmove",function(){
-		event.stopPropagation();
-	});
-	$(document).on('touchmove',function(e){
-		e.preventDefault();//阻止滚动
-	});
-});
-$('.v_overlert .close').click(function(){
-	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-	$(document).off("touchmove");
-});*/
 
 $('#age').blur(function(){
 	var age = parseInt($('#age').val());
@@ -217,7 +207,7 @@ $('#sendMsg').on("click",function(){
 			type : "post",
 			dataType : 'json',
 	        data : {
-	        	userId: myuserId
+	        	userId: userOropen
 	        },
 			success : function(codeData) {
 				if(codeData.code == 200){
@@ -242,7 +232,7 @@ function getYzm(){
 	var userInfo = {
 		mobile : mobile,
 		code : yzmVal,
-		userId : myuserId
+		userId : userOropen
 	};
 	$.ajax({
 		url : dataUrl + "/api/v1/messageCode/kjSendMsg",
@@ -308,10 +298,15 @@ $('.tongyifo span').on("click",function(){
 	}else if(tongyifo ==1){	
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-		subAll();
+		if(myuserId == null || myuserId == ''){
+			creatUser();
+		}else{
+			subAll();
+		}
 	}
 });
 
+//完善用户
 function subAll(){
 	var age = parseInt($('#age').val());
 	var mobile = $('#mobile').val();
@@ -320,8 +315,8 @@ function subAll(){
 	var userInfo = {
 		mobile : mobile,
 		userId : userId,
-		age : age
-		//openId : myopenId
+		age : age,
+		openId : myopenId
 	}
 	$.ajax({
 		url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code=" +dxYzm ,
@@ -343,14 +338,51 @@ function subAll(){
 			}else{
 				showMask('登录失败，请查看验证码是否有误');
 				//$(this).attr("disabled",false);
-			}
-			
+			}	
 		},
 		error : function(){
 			alert('请求数据失败,请检信息是否输入正确');
 		}
 	})
-	
+};
+//创建用户
+function creatUser(){
+	var age = parseInt($('#age').val());
+	var mobile = $('#mobile').val();
+	var userId = myuserId;
+	var dxYzm = $.trim($('#dxYzm').val());
+	var userInfo = {
+		mobile : mobile,
+		//userId : userId,
+		age : age,
+		openId : myopenId
+	}
+	$.ajax({
+		url : dataUrl + "/api/v1/reportUser/createUserBySmsCode?code=" +dxYzm ,
+		type : "post",
+		dataType : 'json',
+		contentType : 'application/json',
+        data : JSON.stringify(userInfo),
+		success : function(userData) {
+			//debugger;
+			if(userData.code == 200){
+				if(edition == 3){
+					window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
+				}else{
+					window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+				}	
+			}else if(userData.code == 301){
+				showMask('手机号已被绑定');
+				//$('#subAll').attr("disabled",false);
+			}else{
+				showMask('登录失败，请查看验证码是否有误');
+				//$(this).attr("disabled",false);
+			}	
+		},
+		error : function(){
+			alert('请求数据失败,请检信息是否输入正确');
+		}
+	})
 }
 
 </script>

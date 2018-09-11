@@ -62,14 +62,6 @@
 				</span>
 				<span class="num fr">{{osite.score}}</span>
 				<a class="jy fr" :href="osite.targetThirdId|getSuggestHref">建议</a>
-				<!--<div class="v_overlert2">
-					<div class="tc_sy">
-						<p class="bit"><span class="lab">{{osite.targetThirdName}}</span><em>System</em></p>
-						<div class="bxt">
-							{{osite.suggestContent}}
-						</div>
-					</div>
-				</div>-->
 			</dd>
 		</dl>
 	</div>
@@ -82,10 +74,10 @@
 	<div class="loadimg"><img src="img/loading.gif"></div>
 </div>
 
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -115,7 +107,8 @@ function GetQueryString(name){
      if(r!=null)return  unescape(r[2]); return null;
 };
 var myReportId = GetQueryString('reportId');
-var mytargetFirstId=GetQueryString("targetFirstId");
+var mytargetFirstId = GetQueryString("targetFirstId");
+var userId = GetQueryString("userId");
 
 $.ajax({
 url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
@@ -126,7 +119,6 @@ data : {
     targetFirstId : mytargetFirstId
 },
 success : function(indexData) {
-	//alert('get it')
 	if(indexData.code == 200){
 		$('.my_view').css("display","block");
 		$('.load-overlay').css("display","none");
@@ -152,7 +144,6 @@ success : function(indexData) {
 		  	}
 		});
 		
-	
 		//低分 高亮显示
 		$('.sysList li .fen').each(function(){
 			var v_score = parseInt($(this).find('font').text())
@@ -197,13 +188,6 @@ success : function(indexData) {
 			$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 			return false;
 		});
-		/*$('.infCon .item .jy').on("click",function(){
-			event.stopPropagation();
-			showMask();
-			$(this).next('.v_overlert2').css({"visibility":"visible","opacity":"1"});
-			return false;
-		});*/
-		
 		$('.v_overlay').click(function(){
 			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 			$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
@@ -220,17 +204,14 @@ success : function(indexData) {
 		}
 		var seconds = arrSecond.join(',');
 		$('#gotrend').attr("href","trend.html?deviceType="+deviceType+"&userId="+userId+"&seconds="+seconds);
-	}
-		
-
-	
+	}	
 },
-
     error : function(obj,msg){
     	debugger
     	alert(obj  + msg);
     }
 });
+
 </script>
 </body>
 </html>
