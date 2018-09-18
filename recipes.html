@@ -9,11 +9,13 @@
 <title>专属食谱</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180912" />
 </head>
 <body style="background: #f2f2f2;">
 <div class="my_view" id="myvue" style="display: none;">
-	<div class="sp-tit">根据您的健康状况，我们为您推荐一周的食谱，您可根据自身实际状况调整食谱。</div>
+	<div class="sp-tit">根据您的健康状况，我们为您推荐一周的食谱，点击食谱中菜名即可查看餐品标准配比及营养成分。
+		<br><img src="img/pay_fail.png" style="height: .28rem; margin-right:.1rem; position: relative; top: .05rem;">如果您存在基础病，请以遵医嘱为先。
+	</div>
 	<div class="sp-zj"><em class="fr ssjy"></em></div>
 	<div class="sp-dcn" v-for="(day,index) in recipes">
 		<p class="cnt"><span class="fl">day{{index+1}}</span></em></p>

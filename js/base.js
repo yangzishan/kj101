@@ -2,6 +2,9 @@
 var dataUrl = 'http://wx-tt.jiankangzhan.com'; //数据接口
 var testHealthUrl = 'http://kj101-tt.jiankangzhan.com'; //大机器
 var bit_testHealthUrl = 'http://kj201-tt.jiankangzhan.com'; //小机器
+//优惠券
+var couponData = 'http://coupon-tt.jiankangzhan.com';
+
 
 
 

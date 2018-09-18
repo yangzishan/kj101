@@ -32,7 +32,7 @@
 			<i></i><span>为您提供全部指标的解读与健康趋势管理。</span>
 		</p>
 		<p class="fc">
-			<i></i><span>为您量身定制专属的健康解决方案：<font>膳食、营养、运动及生活方式建议</font>。</span>
+			<i></i><span>为您量身定制专属的健康解决方案：<font>食谱、营养、运动及生活方式建议</font>。</span>
 		</p>
 	</div>
 	
@@ -137,6 +137,10 @@ var edition=GetQueryString("edition");
 if(edition==null){
 	edition = '';
 };
+var shipu=GetQueryString("shipu");
+if(shipu==null){
+	shipu = '';
+};
 var targetthirdid=GetQueryString("targetId");
 if(targetthirdid==null){
 	targetthirdid = '';
@@ -178,10 +182,12 @@ success : function(indexData) {
 			if(isFree == 1){
 				$('#pay').html('查看');
 				$('#pay').click(function(){
-					if(!targetthirdid){
-						window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
+					if(targetthirdid){
+						window.location.href="third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+userId+"&targetId="+targetthirdid;	
+					}else if(shipu){
+						window.location.href="../recipes.html?reportId="+myreportId+"&openId=" + myopenId;
 					}else{
-						window.location.href="third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+userId+"&targetId="+targetthirdid;
+						window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
 					}
 					
 				});
@@ -207,10 +213,12 @@ success : function(indexData) {
 						},
 						success : function(data){
 							if(data.code==200){
-								if(!targetthirdid){
-									window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
+								if(targetthirdid){
+									window.location.href="third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+userId+"&targetId="+targetthirdid;	
+								}else if(shipu){
+									window.location.href="../recipes.html?reportId="+myreportId+"&openId=" + myopenId;
 								}else{
-									window.location.href="third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+userId+"&targetId="+targetthirdid;
+									window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
 								}
 	
 							}else{
@@ -239,7 +247,7 @@ success : function(indexData) {
 				$('.daifu_d').css("display","none");
 			});
 			//支付跳转 +
-			$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition+"&targetId="+targetthirdid);
+			$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition+"&targetId="+targetthirdid +"&shipu="+shipu);
 				
 		}
 		

@@ -44,15 +44,12 @@ $.ajax({
 					$('.load-overlay').css("display","none");
 					
 					
-					/*zhuge.track('报告完成');
-					zhuge.identify('5648545', {
-					name: '老黄女',
-					//预定义属性
-					gender: '女',
-					//预定义属性
-					'⾏业': '互联⽹' //⾃定义属性
+					/*zhuge.identify('5648545222', {
+						name: '老黄女2',//预定义属性
+						gender: '女',//预定义属性
+						'⾏业': '互联⽹' //⾃定义属性
 					});*/
-					
+					//zhuge.track('报告完成');
 
 					$("#appId").val(indexData.wxParameter.appId);
 					$("#nonceStr").val(indexData.wxParameter.nonceStr);
@@ -99,10 +96,23 @@ $.ajax({
 						/*zhuge.track('点击切换', {
 							'tab1' : '状况',
 							'tab2' : 1799,
-							'tab3' : '移动'});*/
-
-
+							'tab3' : '移动'
+						});*/
 					});
+					/////
+					/*$(".tenSys_c a").click(function() {
+						alert(1231);
+						var link = $(this);
+						zhuge.track('菜单导航', {
+						'menuName': '123456'
+						},
+						function() {
+						location.href = link.attr('href'); //继续跳转到⽬标⻚⾯
+						});
+						return false;
+					});*/
+					/////
+					
 					//系统介绍弹窗
 					$('.tenSys_c a .s-inf .lab .pop').on("click",function(event){
 						event.stopPropagation();
@@ -129,7 +139,7 @@ $.ajax({
 						return false;
 					});
 					//判断是否显示食谱入口
-					var setDate = new Date('2018/09/10 00:00:00'); //设置一个日期，以上线日期为准
+					var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
 					var insDate = new Date(indexData.data.indexPage.inspectDate.replace(/\-/g, "/"));
 					console.log(setDate);
 					console.log(insDate);
@@ -144,7 +154,7 @@ $.ajax({
 					$('.zhuangk_c .c_li').each(function(){
 						var ilev = 6 - parseInt($(this).find('.lev').text());
 						$(this).find('.sta').find('i:lt('+ilev+')').addClass('on');
-					})
+					});
 					//酸碱度
 					$('.zhuangk_c .c_li:last .sta').css("display","none");
 					$('.zhuangk_c .c_li:last .sta2').css("display","inline-block");

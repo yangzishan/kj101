@@ -505,7 +505,7 @@
 .pay_tj_c .tj_c .pay_go{ width: 2.9rem; height: 2.9rem; background: url(../img/payfor-tjub.png) no-repeat; background-size: contain; position: absolute; left: .96rem; top: .96rem; text-align: center; color: #e73005;}
 .pay_tj_c .tj_c .pay_go .p1{ font-size:.3915rem ; margin: .52rem 0 .2rem;}
 .pay_tj_c .tj_c .pay_go .p2{ font-size: .62rem; font-weight: bold; margin: 0 0 .15rem;}
-.pay_tj_c .tj_c .pay_go .sub{ position: relative; width: 1.67rem; height: .54rem; line-height: .54rem; border-radius: .06rem; color: #FFFFFF; background: #60cab7; font-size: .32rem; font-weight: bold;}
+.pay_tj_c .tj_c .pay_go .sub{ position: relative; width: 1.66rem; height: .55rem; line-height: .54rem; border-radius: .06rem; color: #FFFFFF; background: url(../img/payfor-btn.png) no-repeat; background-size:contain; font-size: .32rem; font-weight: bold;}
 .pay_tj_c .tj_c .pay_go .sub i{width: .81rem; height: 1.07rem; position: absolute; background: url(../img/payfor-hand.png) no-repeat; background-size:contain; left: 40%; top: .2rem;}
 .pay_tj_yc{padding: .1rem 0; line-height: .42rem; text-align: center; font-size: .3rem; font-weight: bold; color: #1aa78e;}
 .pay_tj_yc em{font-weight: bold; color: #e73005;}
@@ -521,13 +521,44 @@
 .fix-tpp p em.a2{ background: url(../img/i-sad.png) no-repeat; background-size:contain;}
 
 /*微信支付页面*/
-.wxpay{ background: #fff; margin: .2rem .3rem .2rem; padding: .3rem .4rem 1.2rem; border-radius: .1rem; color: #000;}
-.wxpay .dtit{ padding: .2rem 0; line-height: .6rem; font-size: .3rem;}
+.d-wxpay{ margin-bottom: .2rem;}
+.wxpay{ background: #fff; /*margin: .2rem .3rem .2rem;*/ padding: .3rem .4rem; border-radius: .1rem; color: #000;}
+.wxpay .dtit{ padding: .2rem 0; line-height: .6rem; font-size: .3rem; font-weight: bold;}
 .wxpay .dtit i{ display: inline-block; vertical-align: top; width: .6rem; height: .6rem; background: url(../img/pay_ok.png) no-repeat center; background-size: .32rem .32rem;}
 .wxpay .dtit i.fail{ display: inline-block; vertical-align: top; width: .6rem; height: .6rem; background: url(../img/pay_fail.png) no-repeat center; background-size: .32rem .32rem;}
 .wxpay .p1{padding: 0 0 0 .6rem; line-height: .55rem; font-size: .28rem;}
 .subpay{ padding: .3rem ;}
 .btn_pay{ display: block; width: 100%; background: #07bd13; height: .88rem; color: #fff; text-align: center; border-radius: .1rem; line-height: .88rem; font-size: .3rem;}
+/*券*/
+.xiaoji{padding: 0 .3rem; height: .9rem; line-height: .9rem; background: #FFFFFF; text-align: right; color: #FF2222; margin-top: .02rem; font-size: .3rem;}
+.xiaoji font{font-size: .48rem; font-weight: bold;}
+.coutit{ padding: 0 .3rem; line-height: .9rem; margin-bottom: .02rem; background: #FFFFFF; color: #9B9B9B; font-size: .3rem;}
+.coupon{ padding: .24rem 0; line-height: .8rem;font-size: .3rem;}
+.coupon .check{ display: inline-block;width: .3rem; height: .3rem; margin-right:.22rem; position: relative;top: .03rem;}
+.coupon span{ display: inline-block;}
+.coupon.on .check{ background: url(../img/check.png) no-repeat; background-size:contain;}
+.coupon.off .check{ border: solid .02rem #9B9B9B; border-radius: 50%;}
+.coupon.on em{ color: #FF2222;font-weight: bold;}
+/*优惠券列表*/
+.coupons{}
+.coupons .ctab{display: -webkit-box; height: .88rem; background: #FFFFFF;}
+.coupons .ctab span{display: block; -webkit-box-flex: 1; text-align: center; font-size: .28rem;}
+.coupons .ctab span font{ display: inline-block; padding: 0 .3rem; line-height: .84rem;}
+.coupons .ctab span.on font{ border-bottom: #2fbab0 solid .04rem;}
+
+.coupons .clist{padding: .3rem;}
+.coupons .clist .cli{overflow: hidden; margin-bottom: .2rem;}
+.coupons .clist .cli .pre{ width: 2.5rem; height: 1.6rem; background: url(../img/coupon/q1.png) no-repeat; background-size:contain; text-align: center; line-height: 1.6rem; color: #ffffff;}
+.coupons .clist .cli .pre font{ font-size: .72rem;}
+.coupons .clist .cli .inf{width: 4.4rem; height: 1.6rem; padding: .2rem .3rem; background: url(../img/coupon/qb.png) no-repeat; background-size:contain; position: relative;}
+.coupons .clist .cli .inf .tit{font-size: .3rem; font-weight: bold; color: #5A5A5A;}
+.coupons .clist .cli .inf .p2{ color: #999999; font-size: .26rem; margin-bottom: .16rem;}
+.coupons .clist .cli .inf .p3{ color: #999999; font-size: .24rem;}
+.coupons .clist .cli .inf .biao{ position: absolute; width: 1.2rem; height: 1.2rem; right: .24rem;top: .21rem;}
+.coupons .clist .cli.used .pre{background: url(../img/coupon/q2.png); background-size:contain;}
+.coupons .clist .cli.overdue .pre{background: url(../img/coupon/q3.png); background-size:contain;}
+.coupons .clist .cli.used .inf .biao{background: url(../img/coupon/st2.png); background-size:contain;}
+.coupons .clist .cli.overdue .inf .biao{background: url(../img/coupon/st3.png); background-size:contain;}
 
 /*口令支付页面*/
 .top-key{ padding: 0 10px; line-height: 44px; text-align: center; background: #fff; color: #333; border-bottom: #f4f4f4 solid 1px; position: relative;}

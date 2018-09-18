@@ -122,7 +122,8 @@
 
 .go_det{position: fixed; bottom: 2rem; right: .2rem; width: 2.4rem; height: .88rem; line-height: .88rem; border-radius: .44rem; text-align: center; background: #00d6ca; color: #fff; font-size: .3rem;}
 .go_det i{ display: inline-block; vertical-align: top; height: .88rem; width: .5rem; background: url(../img/i-jiedu.png) no-repeat center; background-size:.4rem .43rem;}
-.go_det span{}
+.go_sp{position: fixed; bottom: .8rem; right: .2rem; width: 2.4rem; height: .88rem; line-height: .88rem; border-radius: .44rem; text-align: center; background: #FFC100; color: #fff; font-size: .3rem;}
+.go_sp i{ display: inline-block; vertical-align: top; height: .88rem; width: .5rem; background: url(../img/sp-go.png) no-repeat center; background-size:.4rem .43rem;}
 
 
 /*支付页面*/

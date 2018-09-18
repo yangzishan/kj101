@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>报告详情</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body class="bck-col-f4">
+<div class="my_view" id="appVUE" style="display: none;">
+	<!--<header class="header">
+		<p class="t-cen txt1"><span>{{targetFirstName}}</span></p>
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+	</header>-->
+	<div class="">
+		<dl class="seCon" v-for="ostate in status">
+			<dt class="cdt">
+				<p class="lab"><i></i><span>{{ostate.targetSecondName}}</span></p>
+				<div class="b_prc">
+					<div class="prc fl"><span><i></i></span></div>	
+					<div class="fen fr"><font>{{ostate.score}}</font>分</div>
+				</div>	
+			</dt>
+			<dd class="cdd" v-for="osite in ostate.thirdPages">
+				<a :href="osite.targetThirdId|getThirdHref">
+					<span class="lab">{{osite.targetThirdName}}</span>
+					<span class="sta">正常</span>
+					<span class="num">{{osite.score}}分</span>
+					<em class="fr"></em>
+				</a>
+			</dd>	
+		</dl>
+	</div>
+</div>
+
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<!--<div id="btn" class="zhiCustomBtn"></div>-->
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myReportId = GetQueryString('reportId');
+var mytargetFirstId=GetQueryString("targetFirstId");
+var userId = GetQueryString('userId');
+
+$.ajax({
+url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
+type : "POST",
+dataType : 'json',
+data : {
+    reportId : myReportId,
+    targetFirstId : mytargetFirstId
+},
+success : function(indexData) {
+	if(indexData.code == 200){
+		$('.my_view').css("display","block");
+		$('.load-overlay').css("display","none");
+		var myApp = new Vue({
+		  	el: '#appVUE',
+		  	data: {
+		    	score: indexData.data.score, //系统得分
+		   		targetFirstName: indexData.data.targetFirstName, //系统名称
+		    	status: indexData.data.secondPages, //二级指标
+		  	},
+		  	filters:{
+	    		getThirdHref:function(val){
+	            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
+	       		}
+		  	}
+		});
+		
+		//进度条低分高亮显示
+		$('.seCon .cdt .fen').each(function(){
+			var v_score = parseInt($(this).find('font').text())
+			if(v_score < 90 && v_score >=80){
+				$(this).parents('dt').addClass('bcolor1');
+			}else if(v_score < 80){
+				$(this).parents('dt').addClass('bcolor2');
+			}
+			$(this).prev().find('span').css('width',v_score + '%');
+		});
+		$('.seCon .cdd .num').each(function(){
+			if(parseInt($(this).text()) < 90 && parseInt($(this).text()) >= 80){
+				$(this).parents('a').addClass('bcolor1');
+				$(this).parents('a').find('.sta').text('轻度风险');
+			}else if(parseInt($(this).text()) < 80 && parseInt($(this).text()) >= 60){
+				$(this).parent('a').addClass('bcolor2');
+				$(this).parent('a').find('.sta').text('中度风险');
+			}
+		});
+	}
+},
+    error : function(obj,msg){
+    	debugger
+    	alert(obj  + msg);
+    }
+});
+//查用户信息对接智齿客服
+/*$.ajax({
+	url : dataUrl + "/api/v1/reportUser/findUserById",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	    userId : userId
+	},
+	success : function(userData) {
+		if(userData.code == 200){
+			//初始化智齿咨询组件实例
+			var zhiManager = (getzhiSDKInstance());
+			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+			zhiManager.set('location',1); //位置
+			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+			zhiManager.set('lan', 'zh'); //支持语言
+			zhiManager.set('moduleType',3); //机器人客服优先模式
+			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+			zhiManager.set('customMargin', 200);
+			//设置用户信息
+			zhiManager.set('uname',userData.data.userName);
+			//zhiManager.set('qq','123654');
+			//zhiManager.set('email','aabb@123.com');
+			zhiManager.set('realname',userData.data.userName);
+			zhiManager.set('tel',userData.data.mobile);
+			zhiManager.set('remark','报告ID： '+myReportId);
+			
+			zhiManager.on("load", function() {
+			    zhiManager.initBtnDOM();
+			});
+		//////
+		}
+	},
+	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
+});*/
+</script>
+</body>
+</html>

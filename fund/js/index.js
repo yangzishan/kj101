@@ -196,7 +196,25 @@ $.ajax({
 					    		window.location.href = 'third.html?reportId='+myReportId+'&targetId='+$(this).attr("targetthirdid")+'&userId='+userId
 					    	}
 					    });
+					    
+					    //判断是否显示食谱入口
+						var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
+						var insDate = new Date(indexData.data.indexPage.inspectDate.replace(/\-/g, "/"));
+						console.log(setDate);
+						console.log(insDate);
+						if(insDate.getTime() - setDate.getTime() > 0){
+							$('.go_sp').css("display","block");
+							$('.go_sp').on("click",function(){
+								if(indexData.data.map.isPay == 2){
+						    		var sameUser = indexData.data.map.sameUser;
+						    		window.location.href = "payfor.html?reportId=" + myReportId + '&openId=' + myopenId +"&sameUser=" +sameUser+ "&edition="+edition+'&shipu=showsp';
+						    	}else{
+						    		window.location.href = "../recipes.html?reportId="+ myReportId;
+						    	}	
+							});
 
+						};
+					    
 					    //异常项数组
 						var oaray = new Array();
 						var item_num = $(".item_num");

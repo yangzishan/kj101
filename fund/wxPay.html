@@ -67,6 +67,10 @@ var edition=GetQueryString("edition"); //判断用哪一版页面显示首页
 if(edition==null){
 	edition = '';
 };
+var shipu=GetQueryString("shipu");
+if(shipu==null){
+	shipu = '';
+};
 var targetId = GetQueryString("targetId");
 if(targetId==null){
 	targetId = '';
@@ -122,6 +126,8 @@ $('#goWxPay').on("click",function(){
 			                		if(targetId){
 			                			var url = "third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+myuserId+"&targetId="+targetId;
 			                			window.location.href = url;
+									}else if(shipu){
+										window.location.href="../recipes.html?reportId="+myreportId+"&openId=" + myopenId;
 									}else{
 										window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
 									};
