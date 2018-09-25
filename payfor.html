@@ -197,7 +197,7 @@ success : function(indexData) {
 			if(price == 0){
 				$('#pay').on("click",function(){
 					$.ajax({
-						url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
+						url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
 						type : "post",
 						dataType : 'json',
 						data : {
@@ -236,7 +236,7 @@ success : function(indexData) {
 			});
 			
 			//支付跳转 +
-			$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition);
+			$('#wxpay').attr("href","wxPay_coupon.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition);
 			$('#WordPay').attr("href","wordPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + "&edition="+edition);
 			$('#kaPay').attr("href","selectTycard.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId + '&openId=' + myopenId + "&edition="+edition);
 			

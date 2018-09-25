@@ -153,19 +153,22 @@ function GetQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myuserId = GetQueryString("userId");
 var myreportId = GetQueryString("reportId");
+var myuserId = GetQueryString("userId");
 var myopenId = GetQueryString('openId');
-var edition=GetQueryString("edition");
-if(edition==null){
-	edition = '';
-};
-
-
 var userOropen = myuserId;
 if(myuserId ==null || myuserId == ''){
 	userOropen = myopenId;
 };
+var edition=GetQueryString("edition");
+if(edition==null){
+	edition = '';
+};
+var voucherId = GetQueryString("voucherId"); //优惠券id
+var customerId = GetQueryString("customerId"); //转增人id
+
+
+
 
 //倒计时读秒
 var wait=60;
@@ -327,11 +330,34 @@ function subAll(){
 		success : function(userData) {
 			//debugger;
 			if(userData.code == 200){
-				if(edition == 3){
-					window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
+				//判断是否是通过优惠券扫码过来
+				if(voucherId != null || voucherId != ''){
+					//转增优惠券接口
+					$.ajax({
+						url: couponData+ '/vi/send/coupon/turnCouponByWeChat',
+						type: "post",
+						dataType :'json',
+						data : {
+						   	voucherId : voucherId,
+						   	customerId : customerId,
+						   	openId : myopenId
+						},
+						success : function(data){
+							window.location.href="couponList.html?userId="+myuserId+ "&code=" + data.code;
+						},
+						error:function(){}
+					});
 				}else{
-					window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
-				}	
+					if(edition == 3){
+						window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
+					}else{
+						window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+					}
+				}
+				
+				
+				
+					
 			}else if(userData.code == 301){
 				showMask('手机号已被绑定');
 				//$('#subAll').attr("disabled",false);
@@ -370,7 +396,8 @@ function creatUser(){
 					window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
 				}else{
 					window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
-				}	
+				}
+		
 			}else if(userData.code == 301){
 				showMask('手机号已被绑定');
 				//$('#subAll').attr("disabled",false);

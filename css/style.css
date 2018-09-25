@@ -112,17 +112,18 @@
 .tenSys_c a:nth-child(even){ border-right:#eaeaea solid .01rem;}
 .tenSys_c a .s-chart{ display: inline-block; vertical-align: top; width: 1.4rem; text-align: center; position: relative;}
 .tenSys_c a .s-chart .c_circle{ position: relative; width: 1.2rem; height: 1.2rem; margin: 0 auto;}
-.tenSys_c a .s-chart .ico{ width: .88rem; height: .88rem;  position: absolute; top:.16rem; left:.16rem;} 
-.tenSys_c a:nth-of-type(2) .s-chart .ico{background: url(../img/ten/i-xunhuan.png) no-repeat; background-size: .88rem .88rem;}
-.tenSys_c a:nth-of-type(3) .s-chart .ico{background: url(../img/ten/i-xiaohua.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(4) .s-chart .ico{background: url(../img/ten/i-huxi.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(5) .s-chart .ico{background: url(../img/ten/i-neifenmi.png) no-repeat;  background-size: .88rem .88rem;}
-.tenSys_c a:nth-of-type(6) .s-chart .ico{background: url(../img/ten/i-guge.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(7) .s-chart .ico{background: url(../img/ten/i-mianyi.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(8) .s-chart .ico{background: url(../img/ten/i-shengzhi.png) no-repeat; background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(9) .s-chart .ico{background: url(../img/ten/i-yingyang.png) no-repeat; background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(10) .s-chart .ico{background: url(../img/ten/i-youhai.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(11) .s-chart .ico{background: url(../img/ten/i-pifu.png) no-repeat; background-size: .88rem .88rem;}
+.tenSys_c a .s-chart i{ width: .88rem; height: .88rem;  position: absolute; top:.16rem; left:.16rem;} 
+
+.tenSys_c a .s-chart i.ico3087{background: url(../img/ten/i-xunhuan.png) no-repeat; background-size: .88rem .88rem;}
+.tenSys_c a .s-chart i.ico3095{background: url(../img/ten/i-xiaohua.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3108{background: url(../img/ten/i-huxi.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3115{background: url(../img/ten/i-neifenmi.png) no-repeat;  background-size: .88rem .88rem;}
+.tenSys_c a .s-chart i.ico3127{background: url(../img/ten/i-guge.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3135{background: url(../img/ten/i-mianyi.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3143{background: url(../img/ten/i-shengzhi.png) no-repeat; background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3163{background: url(../img/ten/i-yingyang.png) no-repeat; background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3195{background: url(../img/ten/i-youhai.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3244{background: url(../img/ten/i-pifu.png) no-repeat; background-size: .88rem .88rem;}
 .tenSys_c a .s-chart .c_circle .zzb{ position: absolute; left: -.02rem; top: -.02rem; width: 1.24rem; height: 1.24rem; background: url(../img/i-cir_b.png) no-repeat; background-size: cover;}
 .tenSys_c a .s-inf{ display: inline-block; vertical-align: top;}
 .tenSys_c a .s-inf .lab{ font-size: .32rem; line-height: .66rem;}
@@ -534,9 +535,9 @@
 .xiaoji font{font-size: .48rem; font-weight: bold;}
 .coutit{ padding: 0 .3rem; line-height: .9rem; margin-bottom: .02rem; background: #FFFFFF; color: #9B9B9B; font-size: .3rem;}
 .coupon{ padding: .24rem 0; line-height: .8rem;font-size: .3rem;}
-.coupon .check{ display: inline-block;width: .3rem; height: .3rem; margin-right:.22rem; position: relative;top: .03rem;}
+.coupon .check{ display: inline-block;width: .3rem; height: .3rem; margin-right:.22rem; position: relative;top: .03rem; border: #9B9B9B .02rem solid; border-radius:50%;}
 .coupon span{ display: inline-block;}
-.coupon.on .check{ background: url(../img/check.png) no-repeat; background-size:contain;}
+.coupon.on .check{ background: url(../img/check.png) no-repeat; background-size:contain; border: none;}
 .coupon.off .check{ border: solid .02rem #9B9B9B; border-radius: 50%;}
 .coupon.on em{ color: #FF2222;font-weight: bold;}
 /*优惠券列表*/
@@ -547,18 +548,35 @@
 .coupons .ctab span.on font{ border-bottom: #2fbab0 solid .04rem;}
 
 .coupons .clist{padding: .3rem;}
-.coupons .clist .cli{overflow: hidden; margin-bottom: .2rem;}
-.coupons .clist .cli .pre{ width: 2.5rem; height: 1.6rem; background: url(../img/coupon/q1.png) no-repeat; background-size:contain; text-align: center; line-height: 1.6rem; color: #ffffff;}
-.coupons .clist .cli .pre font{ font-size: .72rem;}
-.coupons .clist .cli .inf{width: 4.4rem; height: 1.6rem; padding: .2rem .3rem; background: url(../img/coupon/qb.png) no-repeat; background-size:contain; position: relative;}
-.coupons .clist .cli .inf .tit{font-size: .3rem; font-weight: bold; color: #5A5A5A;}
-.coupons .clist .cli .inf .p2{ color: #999999; font-size: .26rem; margin-bottom: .16rem;}
-.coupons .clist .cli .inf .p3{ color: #999999; font-size: .24rem;}
-.coupons .clist .cli .inf .biao{ position: absolute; width: 1.2rem; height: 1.2rem; right: .24rem;top: .21rem;}
-.coupons .clist .cli.used .pre{background: url(../img/coupon/q2.png); background-size:contain;}
-.coupons .clist .cli.overdue .pre{background: url(../img/coupon/q3.png); background-size:contain;}
-.coupons .clist .cli.used .inf .biao{background: url(../img/coupon/st2.png); background-size:contain;}
-.coupons .clist .cli.overdue .inf .biao{background: url(../img/coupon/st3.png); background-size:contain;}
+.coupons .clist .cli{overflow: hidden; margin-bottom: .2rem; display: block;}
+
+.coupon_dd{ position: relative; height: 2.6rem; border-radius: .3rem; overflow: hidden;}
+.coupon_dd .dd-t{ height: 1.72rem; background:linear-gradient(90deg,rgba(253,168,166,1) 0%,rgba(249,79,76,1) 100%); color: #ffffff;}
+.coupon_dd .dd-t .t-l{ width: 2.32rem; line-height: 1.72rem; text-align: center; font-size: .32rem;}
+.coupon_dd .dd-t .t-l font{ font-size: 1rem; font-weight: bold;}
+.coupon_dd .dd-t .t-r{ width: 4.58rem; padding: .45rem .2rem 0 .4rem;}
+.coupon_dd .dd-t .t-r .p1{ font-size: .36rem; font-weight: bold;}
+.coupon_dd .dd-t .t-r .p2{ font-size: .26rem; line-height: .6rem;}
+.coupon_dd .dd-b{position: absolute; bottom: 0;left: 0; width: 100%; height: .88rem; background: #ffffff;}
+.coupon_dd .dd-b .tb{ width: 6.7rem; height: .14rem; position: absolute; left: .1rem; top: -.07rem;}
+.coupon_dd .dd-b .txc{padding:0 0.4rem; line-height: .88rem; font-size: .24rem; color: #999999;}
+.coupon_dd .bid{ width: 1.45rem; height: .42rem; line-height: .4rem; font-size: .24rem; text-align: center; color: #9B9B9B; border: #EAEAEA solid .01rem; border-radius: .21rem; position: absolute; right: .36rem; bottom: .21rem;}
+.coupons .cli.used .coupon_dd .dd-t{background:linear-gradient(90deg,#68E0DE 0%,#16D1B2 100%);}
+.coupons .cli.overdue .coupon_dd .dd-t{background:linear-gradient(90deg,rgba(225,220,220,1) 0%,rgba(170,165,165,1) 100%);}
+
+
+/*优惠券详情*/
+.coupon_b{ padding: .3rem; background: #f2f2f2;}
+
+.coupon_rule{ padding:0 .3rem .3rem;}
+.coupon_rule .tit{ line-height: .86rem; font-size: .3rem; font-weight: bold; color: #161A24;}
+.coupon_rule .rule{ line-height: .44rem; font-size: .26rem; color: #5A5A5A;}
+.coupon_rule .rule font{ color: #ee2f2b;}
+.coupon_rule .scewm{ padding: .9rem 0 0;}
+.coupon_rule .scewm p{height: .02rem; background: #EAEAEA; text-align: center;}
+.coupon_rule .scewm p span{ display: inline-block; background: #ffffff; padding: 0 .12rem; position: relative; top: -.33rem;}
+.coupon_rule .scewm p span button{ background: none; width: 3.6rem; height: .68rem; line-height: .68rem; color: #1ECEB7; border: #1ECEB7 solid .01rem; border-radius: .34rem; text-align: center; font-size: .28rem; outline: none;}
+.cancode{margin: .9rem auto .2rem; /*border: #041917 solid .02rem;*/ width: 3rem; height: 3rem; overflow: hidden;}
 
 /*口令支付页面*/
 .top-key{ padding: 0 10px; line-height: 44px; text-align: center; background: #fff; color: #333; border-bottom: #f4f4f4 solid 1px; position: relative;}
@@ -733,4 +751,3 @@
 .tc-spcd .hlul{}
 .tc-spcd .hlul li{width: 3.8rem; line-height: .47rem; overflow: hidden;}
 .tc-spcd .hlul li span{}
-

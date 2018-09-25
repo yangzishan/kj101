@@ -42,15 +42,6 @@ $.ajax({
 					var userId = indexData.data.userId;
 					$('.my_view').css("visibility","visible");
 					$('.load-overlay').css("display","none");
-					
-					
-					/*zhuge.identify('5648545222', {
-						name: '老黄女2',//预定义属性
-						gender: '女',//预定义属性
-						'⾏业': '互联⽹' //⾃定义属性
-					});*/
-					//zhuge.track('报告完成');
-
 					$("#appId").val(indexData.wxParameter.appId);
 					$("#nonceStr").val(indexData.wxParameter.nonceStr);
 					$("#signature").val(indexData.wxParameter.signature);
@@ -80,24 +71,28 @@ $.ajax({
 						$('.guang').css("transform","rotate("+1.8*indexData.data.indexPage.totalScore+"deg)");
 					},100)
 					$('#score').animateNumber({ number: indexData.data.indexPage.totalScore },1100);
+					
+					//无效系统不显示
+					//$('.tenSys_c a:first').css("display","none");
+					$('.tenSys_c a').each(function(index){
+						if($(this).find('.tarid').text() == '1001'){
+							$(this).css("display","none");
+						}
+					});
+					
 					//判断生理年龄和排名没有的情况
-					  if(indexData.data.indexPage.ranking == 0){
+					if(indexData.data.indexPage.ranking == 0){
 					  	$('.srhRank').empty();
-					  };
-					  if(indexData.data.indexPage.reportStr == ''){
+					};
+					if(indexData.data.indexPage.reportStr == ''){
 					  	$('.srhAge').empty();
 					  	$('#noAge').css("display","none");
-					  };
+					};
 					//index_tab切换
 					$('.sy_tab span').on("click",function(){
 						$(this).addClass('on').siblings().removeClass('on');
 						$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");
 						
-						/*zhuge.track('点击切换', {
-							'tab1' : '状况',
-							'tab2' : 1799,
-							'tab3' : '移动'
-						});*/
 					});
 					/////
 					/*$(".tenSys_c a").click(function() {
@@ -148,8 +143,6 @@ $.ajax({
 						$('.sy_summary .gosp').attr("href","recipes.html?reportId="+ myReportId);
 					};
 
-					//第一个系统不显示
-					$('.tenSys_c a:first').css("display","none");
 					//身体状况程度条
 					$('.zhuangk_c .c_li').each(function(){
 						var ilev = 6 - parseInt($(this).find('.lev').text());
@@ -166,25 +159,25 @@ $.ajax({
 					setTimeout(function(){
 						$('.tenSys_c a .s-chart .c_circle').each(function(index){
 							var c_se ='',c_va = $(this).next('p').text();
-							if(index==1){
+							if(index==0){
 								c_se ='#fabcb9';
-							}else if(index==2){
+							}else if(index==1){
 								c_se ='#fbdc89';
-							}else if(index==3){
+							}else if(index==2){
 								c_se ='#82ede3';
-							}else if(index==4){
+							}else if(index==3){
 								c_se ='#f6c9e6';
-							}else if(index==5){
+							}else if(index==4){
 								c_se ='#dcf0a8';
-							}else if(index==6){
+							}else if(index==5){
 								c_se ='#f8e8ac';
-							}else if(index==7){
+							}else if(index==6){
 								c_se ='#c8bff6';
-							}else if(index==8){
+							}else if(index==7){
 								c_se ='#fad6c6';
-							}else if(index==9){
+							}else if(index==8){
 								c_se ='#c1d9ff';
-							}else if(index==10){
+							}else if(index==9){
 								c_se ='#ffc7da';
 							};
 							$(this).circleProgress({

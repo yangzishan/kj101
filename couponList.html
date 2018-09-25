@@ -12,37 +12,58 @@
 </head>
 <body style="background: #f2f2f2;">
 
-<section class="my_view">
-<header class="header">
-	<a class="b-arr fl" href="javascript:history.go(-1);"></a>
-	<a class="t-right fr" href=""></a>
-	<p class="t-cen txt1"><span>我的优惠券</span></p>
-</header>	
+<section class="my_view" style="display: none;">
 <div class="coupons" id="appVue">
 	<p class="ctab">
 		<span class="on"><font>未使用</font></span><span><font>已使用</font></span><span><font>已过期</font></span>
 	</p>
-	<ul class="clist">
-		<!--<li class="cli">
-			<div class="pre fl">￥<font>10</font></div>
-			<div class="inf fr">
-				<p class="tit">健康报告优惠券</p>
-				<p class="p2">仅限指定时间内使用</p>
-				<p class="p3">2018.12.17-2017.02.30</p>
-				<p class="biao" style="display: none;"></p>
-			</div>
-		</li>-->
-		
-		<li class="cli" v-for="coupon in coupons">
+	<div id="userState1" class="clist">
+		<a class="cli" v-for="coupon in coupons" :href="coupon.voucherId|goCouponHref">
 			<input type="hidden" :value="coupon.useStatus">
-			<div class="pre fl">￥<font>{{coupon.discountNum}}</font></div>
-			<div class="inf fr">
-				<p class="tit">健康报告优惠券</p>
-				<p class="p2">仅限指定时间内使用</p>
-				<p class="p3">{{coupon.startDate.slice(0,10)}}至{{coupon.endDate.slice(0,10)}}</p>
-				<p class="biao"></p>
+			<div class="coupon_dd">
+				<div class="dd-t">
+					<div class="t-l fl"><span>￥<font>{{coupon.discountNum}}</font></span></div>
+					<div class="t-r fr"><p class="p1">健康报告优惠券</p><p class="p2">仅限指定时间内使用</p></div>
+				</div>
+				<div class="dd-b">
+					<p class="tb"><img src="img/coupon/ge.png" class="img_b"></p>
+					<p class="txc">有效期：{{coupon.startDate.slice(0,10)}} 至 {{coupon.endDate.slice(0,10)}}</p>
+				</div>
+				<span class="bid">使用规则</span>
 			</div>
-		</li>
+		</a>
+	</div>
+	<ul id="userState2" class="clist" style="display: none;">
+		<div class="cli used" v-for="coupon in coupons">
+			<input type="hidden" :value="coupon.useStatus">
+			<div class="coupon_dd">
+				<div class="dd-t">
+					<div class="t-l fl"><span>￥<font>{{coupon.discountNum}}</font></span></div>
+					<div class="t-r fr"><p class="p1">健康报告优惠券</p><p class="p2">仅限指定时间内使用</p></div>
+				</div>
+				<div class="dd-b">
+					<p class="tb"><img src="img/coupon/ge.png" class="img_b"></p>
+					<p class="txc">有效期：{{coupon.startDate.slice(0,10)}} 至 {{coupon.endDate.slice(0,10)}}</p>
+				</div>
+				<span class="bid">已使用</span>
+			</div>
+		</div>
+	</ul>
+	<ul id="userState3" class="clist" style="display: none;">
+		<div class="cli overdue" v-for="coupon in coupons">
+			<input type="hidden" :value="coupon.useStatus">
+			<div class="coupon_dd">
+				<div class="dd-t">
+					<div class="t-l fl"><span>￥<font>{{coupon.discountNum}}</font></span></div>
+					<div class="t-r fr"><p class="p1">健康报告优惠券</p><p class="p2">仅限指定时间内使用</p></div>
+				</div>
+				<div class="dd-b">
+					<p class="tb"><img src="img/coupon/ge.png" class="img_b"></p>
+					<p class="txc">有效期：{{coupon.startDate.slice(0,10)}} 至 {{coupon.endDate.slice(0,10)}}</p>
+				</div>
+				<span class="bid">已过期</span>
+			</div>
+		</div>
 	</ul>
 	
 	
@@ -79,8 +100,8 @@
 </script>
 
 <script>
-//$('.my_view').css("display","none");
-//$('.load-overlay').css("display","block");
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
 //截取URL 获取
 function GetQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -88,7 +109,21 @@ function GetQueryString(name){
      if(r!=null)return  unescape(r[2]); return null;
 };
 //var myuserId=GetQueryString("userId");
-var customerId=GetQueryString("customerId");
+var customerId=GetQueryString("userId");
+var code=GetQueryString("code");
+if(code == 300){
+	alert('调取接口失败');
+}else if(code == 301){
+	alert('优惠券不属于对方，无法获取优惠券');
+}else if(code == 302){
+	alert('获取当前用户信息失败，无法获取优惠券');
+}else if(code == 303){
+	alert('系统执行失败，未获取到优惠券');
+}else if(code == 500){
+	alert('系统异常，请联系管理员');
+}else if(code == 200){
+	console.log('执行成功');
+};
 
 $.ajax({
 	url : couponData + "/v1/use/coupon/findCouponListByCustomerId",
@@ -98,22 +133,46 @@ $.ajax({
 	   	customerId : customerId
 	},
 	success : function(data) {
-		//alert('get it');
 		if(data.code == 0){
-			//$('.my_view').css("display","block");
-			//$('.load-overlay').css("display","none");
+			$('.my_view').css("display","block");
+			$('.load-overlay').css("display","none");
 			var myApp = new Vue({
 				el: "#appVue",
 				data: {
 					coupons:data.data
+				},
+				filters:{
+		    		goCouponHref:function(val){
+		            	return 'couponDetail.html?voucherId='+val+'&customerId='+customerId;
+		       		}
+			  	}
+			});
+			$('.coupons .ctab span').on("click",function(){
+				$('.coupons .clist').css("display","none");
+				$('.coupons .clist').eq($(this).index()).css("display","block");
+				$(this).addClass('on').siblings().removeClass('on');
+			});
+			//未使用
+			$('#userState1 .cli').each(function(index){
+				if($(this).find('input').val() == 0){
+					$(this).css("display","block");
+				}else{
+					$(this).css("display","none");
 				}
 			});
-			$('.coupons .clist .cli').each(function(index){
+			//已使用
+			$('#userState2 .cli').each(function(index){
 				if($(this).find('input').val() == 1){
-					$(this).addClass('used');
-				}else if($(this).find('input').val() == 3){
-					$(this).addClass('overdue');
-				}else if($(this).find('input').val() == 2){
+					$(this).css("display","block");
+				}else{
+					$(this).css("display","none");
+				}
+			});
+			//已过期
+			$('#userState3 .cli').each(function(index){
+				if($(this).find('input').val() == 3){
+					$(this).css("display","block");
+				}else{
 					$(this).css("display","none");
 				}
 			});

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>优惠券明细</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+
+<section class="my_view" id="appVue" style="display: none;">
+<div class="coupon_b">
+	<div class="coupon_dd">
+		<div class="dd-t">
+			<div class="t-l fl"><span>￥<font>{{discountNum}}</font></span></div>
+			<div class="t-r fr"><p class="p1">健康报告优惠券</p><p class="p2">仅限指定时间内使用</p></div>
+		</div>
+		<div class="dd-b">
+			<p class="tb"><img src="img/coupon/ge.png" class="img_b"></p>
+			<p class="txc">有效期：{{startDate.slice(0,10)}} 至 {{endDate.slice(0,10)}}</p>
+		</div>
+	</div>
+</div>	
+
+<div class="coupon_rule">
+	<p class="tit">使用规则</p>
+	<div class="rule">
+		<p style="text-indent: .52rem;">内含康加健康筛查服务{{discountNum}}元电子代金券，您可以在下一次享受康加健康筛查服务后，支付报告费用时享受{{discountNum}}元现金优惠，自领取之日起有效期30天。<br>
+		本张电子优惠券除您本人使用外，还可以送给您关爱的好友使用。<p>
+		<font>方法1：</font>好友通过微信扫描优惠券下方二维码，进入活动注册页面，完成注册后好友即可获得您送出的电子优惠券；<br/>
+		<font>方法2：</font>点击右上角按钮，将电子优惠券发送给微信好友，好友打开分享链接，长按识别优惠券下方二维码，进入活动注册页面，完成注册后好友即可获得您送出的电子优惠券。<br/>
+		注：康加部分设备不参与本次优惠活动，活动最终解释权由康加科技所有。<br/>
+		健康咨询热线：400-6666-787
+
+	</div>
+	<div class="scewm">
+		<p id="gokjweb" style="display: none;">http://wx-tt.jiankangzhan.com/wxUser/wxUserReport?jumpUrl=uiCoupon&reportId=</p>
+		<p><span><button id="makeCode">分享二维码朋友赠送</button></span></p>
+	</div>
+	<div id="qrcode" class="cancode"></div>
+	<p id="tip" style="text-align: center;">长按复制二维码</p>
+	
+</div>
+	
+</section>
+
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var customerId=GetQueryString("customerId");
+var voucherId=GetQueryString("voucherId");
+
+
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	//width : 100,
+	//height : 100
+});
+
+function makeCode () {		
+	var oText = $('#gokjweb').text()+voucherId+','+customerId;
+	if (!oText) {
+		alert("Input a text");
+		return;
+	}
+	qrcode.makeCode(oText);
+}
+
+makeCode();
+
+$.ajax({
+	url : couponData + "/vi/send/coupon/getCustomerVocherById",
+	type : "post",
+	dataType : 'json',
+	data : {
+	   	voucherId : voucherId
+	},
+	success : function(data) {
+		if(data.data != '' || data.data != null){
+			$('.my_view').css("display","block");
+			$('.load-overlay').css("display","none");
+			var myApp = new Vue({
+				el: "#appVue",
+				data: {
+					startDate:data.data.startDate,
+					endDate:data.data.endDate,
+					discountType:data.data.discountType,
+					discountNum:data.data.discountNum,
+					discountName:data.data.discountName
+				}
+			});
+		}else{
+			alert('查询优惠券接口 code='+ data.code + data.msg);
+		}
+	},
+	error : function(obj,msg){
+		console.log(obj+": "+msg+'post请求失败');
+	}
+});
+</script>
+</body>
+</html>

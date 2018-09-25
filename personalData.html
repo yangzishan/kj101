@@ -47,6 +47,10 @@
 		<label class="lab">卡管理</label>
 		<span class="intxt sho_weight"><em id="">健康筛查卡</em></span>
 	</a>
+	<a class="p_row" id="setCoupon">
+		<label class="lab">我的优惠券</label>
+		<span class="intxt sho_weight"><em id="">优惠券</em></span>
+	</a>
 </div>
 <p class="psontip">请如实填写，将根据您的信息提供合适您的健康建议</p>
 
@@ -161,6 +165,8 @@ $(function(){
 			$('#setWeight').attr("href","personal_weight.html?userId="+myuserId+"&weight="+weight);
 			//体验卡跳转
 			$('#setCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
+			//优惠券跳转
+			$('#setCoupon').attr("href",testHealthUrl+"/couponList.html?userId="+myuserId);
 		   	var calendar = new lCalendar();
 			calendar.init({
 				'trigger': '#demo1',

@@ -23,15 +23,15 @@
 			<p class="p1"><span>订单名称：</span><font>{{name}}</font></p>
 			<p class="p1"><span>订单金额：</span><font>{{price}}</font>元套餐</p>
 		</div>
-		<p class="xiaoji"><span>小计：￥</span><font>19.9</font></p>
+		<p class="xiaoji"><span>小计：￥</span><font>{{price}}</font></p>
 	</div>
 	
-	<div class="d-wxpay">
+	<div class="d-wxpay" id="usecoupon" style="display: none;">
 		<p class="coutit">使用优惠券</p>
 		<div class="wxpay">
-			<p class="coupon on"><i class="check"></i><span>再次检测使用优惠券</span><em class="fr">-￥10</em></p>
+			<p class="coupon on"><i class="check"></i><span>再次检测使用优惠券</span><em id="discount" class="fr">-￥0</em></p>
 		</div>
-		<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font>9.9</font></p>
+		<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font id="subprice">{{price}}</font></p>
 	</div>
 		
 	
@@ -94,7 +94,10 @@ var myApp = new Vue({
   }
 });
 
-$('#goWxPay').on("click",function(){
+var voucherId = '';
+//点击支付
+$(document).on("click","#goWxPay",function(){
+	var truePrice = $('#subprice').text();
 	$(this).attr("disabled",true);  //新加防呆
 		$.ajax({
 	    url:dataUrl + "/api/v1/reportWxPay/wxAddPayOrder",
@@ -103,7 +106,8 @@ $('#goWxPay').on("click",function(){
 		data : {
 		    reportId : myreportId, //报告ID
 		    packageId : mypackageId,
-		    userId : myuserId
+		    userId : myuserId,
+		    truePrice: $('#subprice').text()
 		},
 	    success : function(result) {
 	    	if (result.code == 200) {
@@ -116,14 +120,43 @@ $('#goWxPay').on("click",function(){
 	                "paySign" : result.wxParameter.paySign           //微信签名  
 	                },function(res){
 	                	//debugger;
-	                    if(res.err_msg == "get_brand_wcpay_request:ok" ) {  
-	                        // 支付成功
+	                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
+	                    	 //发放优惠券
+	                       /* $.ajax({
+	                        	async: false,
+				                url:couponData + "/vi/send/coupon/sendCouponByOrderId",
+				              	type : "POST",
+				              	dataType : 'json',
+								data : {
+								    inspectCode : myreportId //报告ID
+								},
+				                success : function(data) {
+				                	console.log(data);
+				                }
+	                        });*/
+	                        //支付后改变优惠券状态
+	                        /*$.ajax({
+	                        	async: false,
+				                url:couponData + "/v1/use/coupon/changeCouponTypeByOrderId",
+				              	type : "POST",
+				              	dataType : 'json',
+								data : {
+									voucherId: voucherId,
+								    inspectCode : myreportId //报告ID
+								},
+				                success : function(data) {
+				                	console.log(data);
+				                }
+	                         });*/
+	                        // 支付成功回调
 	                        $.ajax({
+	                        	//async: false,
 				                url:dataUrl + "/api/v1/reportWxPay/successCallback",
 				              	type : "POST",
 				              	dataType : 'json',
 								data : {
-								    orderNum : result.data //报告ID
+								    orderNum : result.data, 
+								    voucherId: voucherId
 								},
 				                success : function(payreuslt) {
 				                	if(tp == 201){
@@ -133,7 +166,9 @@ $('#goWxPay').on("click",function(){
 				                	}
 				                	
 				                }
-	                         });
+	                        });
+	                        
+ 
 	                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 							alert("支付取消");
 							$('#goWxPay').attr("disabled",false);  //新加防呆
@@ -147,11 +182,51 @@ $('#goWxPay').on("click",function(){
 	            ); 
 	        }else{
 	            alert(result.msg);
+	            $('#goWxPay').attr("disabled",false);  //新加防呆
 	        }
 	    }
 	});
 });
 
+//判断优惠卷是否可用,返回有效期最短的优惠券
+$.ajax({
+	url : couponData + "/v1/use/coupon/isUsableByCustomerIdAndNeId",
+    type : "POST",
+	dataType : 'json',
+	data : {
+	    inspectCode : myreportId, //报告ID
+	    customerId : myuserId
+	},
+	success: function(data){
+		var discount=0;
+		if(data.data == null || data.data == ''){
+			$('#usecoupon').css("display","none");
+		}else{
+			$('#usecoupon').css("display","block");
+			if(data.data.discountType == 1){
+				discount = data.data.discountNum;
+			}else if(data.data.discountType == 2){
+				discount = myprice-(myprice*data.data.discountNum)
+			}
+			voucherId = data.data.voucherId;
+			$('#discount').text('￥-'+ discount);
+			
+			$('#subprice').text((myprice*10-discount*10)/10);
+			/*$('.coupon').on("click",function(){
+				if($(this).hasClass('on')){
+					$('#subprice').text(myprice);
+					$(this).removeClass('on');
+				}else{
+					$('#subprice').text((myprice*10-discount*10)/10);
+					$(this).addClass('on');
+				}
+			});*/
+		};
+	},
+	error: function(){
+		console.log('查询可用优惠券出错');
+	}
+});
 
 
 </script>
