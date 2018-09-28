@@ -16,7 +16,7 @@
 	<header class="header">
 		<p class="t-cen txt1"><span>{{targetFirstName}}</span></p>
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
-		<a class="t-right fr" id="gotrend">查看趋势</a>
+		<!--<a class="t-right fr" id="gotrend">查看趋势</a>-->
 	</header>
 	
 	<ul class="sysList">
@@ -220,7 +220,7 @@ success : function(indexData) {
 			arrSecond.push(indexData.data.secondPages[n].targetSecondId);
 		}
 		var seconds = arrSecond.join(',');
-		$('#gotrend').attr("href","trend.html?deviceType="+deviceType+"&userId="+userId+"&seconds="+seconds+"&agentId="+agentId);
+		//$('#gotrend').attr("href","trend.html?deviceType="+deviceType+"&userId="+userId+"&seconds="+seconds+"&agentId="+agentId);
 	}
 		
 

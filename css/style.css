@@ -487,25 +487,37 @@
 .daifu_d .tip{ line-height: .32rem; font-size: .26rem; color: #999;}
 .daifu_d .dbtn{ padding: .5rem 0 .2rem;}
 .daifu_d .dbtn button{ width: 2.79rem; height: .68rem; background: #1eceb7; color: #fff; font-size: .32rem; border-radius: .34rem;}
-/*天津支付页面*/
-.pay_tj_c{padding: .5rem 0;}
+/*天津支付页面 (现在全国都用)*/
+.pay_tj_c{padding: .7rem 0 .52rem;}
 .pay_tj_c .tj_c{ width: 4.76rem; height: 4.76rem; margin: 0 auto; background: url(../img/payfor-tcb.png) no-repeat; background-size:contain; position: relative;}
 .pay_tj_c .tj_c .tens{}
 .pay_tj_c .tj_c .tens dd{ width: .82rem; height: .82rem; padding: .16rem; border-radius: 50%; position: absolute; background: #60cab7;}
+.pay_tj_c .tj_c .tens dd font{width: .5rem; color: #949494; font-size: .18rem; line-height: .24rem; position: absolute;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(1){ left: 2rem; top: -.3rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(1) font{ top: -.48rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(2){ left: 3.43rem; top: .20rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(2) font{ right: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(3){ left: 4.25rem; top: 1.27rem; background: #ffbb1c;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(3) font{ right: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(4){ left: 4.25rem; top: 2.7rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(4) font{ right: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(5){ left: 3.37rem; top: 3.85rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(5) font{ right: -.52rem; top: .32rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(6){ left: 1.9rem; top: 4.27rem; background: #ffbb1c;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(6) font{ right: -.5rem; top: .58rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(7){ left: .49rem; top: 3.78rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(7) font{ right: -.1rem; top: .84rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(8){ left: -.3rem; top: 2.71rem}
+.pay_tj_c .tj_c .tens dd:nth-of-type(8) font{ left: -.2rem; top: .84rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(9){ left: -.3rem; top: 1.29rem; background: #ffbb1c;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(9) font{ left: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(10){ left: .58rem; top: .16rem}
+.pay_tj_c .tj_c .tens dd:nth-of-type(10) font{ left: -.5rem; top: -.24rem;}
 .pay_tj_c .tj_c .tens dd img{ display: block; margin: 0 auto; width: .5rem; height: .5rem;}
 .pay_tj_c .tj_c .pay_go{ width: 2.9rem; height: 2.9rem; background: url(../img/payfor-tjub.png) no-repeat; background-size: contain; position: absolute; left: .96rem; top: .96rem; text-align: center; color: #e73005;}
-.pay_tj_c .tj_c .pay_go .p1{ font-size:.3915rem ; margin: .52rem 0 .2rem;}
-.pay_tj_c .tj_c .pay_go .p2{ font-size: .62rem; font-weight: bold; margin: 0 0 .15rem;}
+.pay_tj_c .tj_c .pay_go .yj{padding: .25rem 0 .05rem; font-size: .32rem; color: #595757; font-weight: bold; text-decoration: line-through;}
+.pay_tj_c .tj_c .pay_go .p1{ font-size:.37rem ; margin: .05rem 0 .05rem;}
+.pay_tj_c .tj_c .pay_go .p2{ font-size: .6rem; font-weight: bold; margin: 0 0 .1rem;}
 .pay_tj_c .tj_c .pay_go .sub{ position: relative; width: 1.66rem; height: .55rem; line-height: .54rem; border-radius: .06rem; color: #FFFFFF; background: url(../img/payfor-btn.png) no-repeat; background-size:contain; font-size: .32rem; font-weight: bold;}
 .pay_tj_c .tj_c .pay_go .sub i{width: .81rem; height: 1.07rem; position: absolute; background: url(../img/payfor-hand.png) no-repeat; background-size:contain; left: 40%; top: .2rem;}
 .pay_tj_yc{padding: .1rem 0; line-height: .42rem; text-align: center; font-size: .3rem; font-weight: bold; color: #1aa78e;}
@@ -521,7 +533,7 @@
 .fix-tpp p em.a1{ background: url(../img/i-smile.png) no-repeat; background-size:contain;}
 .fix-tpp p em.a2{ background: url(../img/i-sad.png) no-repeat; background-size:contain;}
 
-/*微信支付页面*/
+/*=微信支付页面=*/
 .d-wxpay{ margin-bottom: .2rem;}
 .wxpay{ background: #fff; /*margin: .2rem .3rem .2rem;*/ padding: .3rem .4rem; border-radius: .1rem; color: #000;}
 .wxpay .dtit{ padding: .2rem 0; line-height: .6rem; font-size: .3rem; font-weight: bold;}
@@ -546,10 +558,8 @@
 .coupons .ctab span{display: block; -webkit-box-flex: 1; text-align: center; font-size: .28rem;}
 .coupons .ctab span font{ display: inline-block; padding: 0 .3rem; line-height: .84rem;}
 .coupons .ctab span.on font{ border-bottom: #2fbab0 solid .04rem;}
-
 .coupons .clist{padding: .3rem;}
 .coupons .clist .cli{overflow: hidden; margin-bottom: .2rem; display: block;}
-
 .coupon_dd{ position: relative; height: 2.6rem; border-radius: .3rem; overflow: hidden;}
 .coupon_dd .dd-t{ height: 1.72rem; background:linear-gradient(90deg,rgba(253,168,166,1) 0%,rgba(249,79,76,1) 100%); color: #ffffff;}
 .coupon_dd .dd-t .t-l{ width: 2.32rem; line-height: 1.72rem; text-align: center; font-size: .32rem;}
@@ -567,7 +577,6 @@
 
 /*优惠券详情*/
 .coupon_b{ padding: .3rem; background: #f2f2f2;}
-
 .coupon_rule{ padding:0 .3rem .3rem;}
 .coupon_rule .tit{ line-height: .86rem; font-size: .3rem; font-weight: bold; color: #161A24;}
 .coupon_rule .rule{ line-height: .44rem; font-size: .26rem; color: #5A5A5A;}

@@ -38,50 +38,48 @@
 	
 	<div class="thr_tit thr_jy"><i></i><span>健康建议</span></div>
 	<!--健康建议内容-->
-	<!--<iframe src="suggest.html" width="100%"></iframe>-->
-<div class="">
-	<div class="jkjy_wrap">
-		<p class="btite"><span class="lab">膳食建议</span><i class="ico ssjyTab"></i></p>
-		<div class="box-c" v-for="(site,index) in dietList">
-			<p class="tit02">{{options[index]}}、{{site.indexName}}<i class="fr"></i></p>
-			<div class="txt03">
-				<p>{{site.personality}}</p>
-				<p v-html="site.proposal"></p>
+	<div class="">
+		<div class="jkjy_wrap">
+			<p class="btite"><span class="lab">膳食建议</span><i class="ico ssjyTab"></i></p>
+			<div class="box-c" v-for="(site,index) in dietList">
+				<p class="tit02">{{options[index]}}、{{site.indexName}}<i class="fr"></i></p>
+				<div class="txt03">
+					<p>{{site.personality}}</p>
+					<p v-html="site.proposal"></p>
+				</div>
 			</div>
+			<div class="zanshi" style="display: none">暂时没有数据</div>
 		</div>
-		<div class="zanshi" style="display: none">暂时没有数据</div>
-	</div>
-	<p style="height: .3rem; background: #F4F4F4;"></p>
-
-	<div class="jkjy_wrap">
-		<p class="btite"><span class="lab">运动和生活方式建议</span><i class="ico yysTab"></i></p>
-		<div class="box-c" v-for="(msite,index) in motionList">
-			<!--<p class="tit01"></p>-->
-			<div class="txt02">
-				{{index+1}}.{{msite.personality}}
-			</div>
-		</div>
-		<div class="zanshi" style="display: none">暂时没有数据</div>
-	</div>
-	<p style="height: .3rem; background: #F4F4F4;"></p>
+		<p style="height: .3rem; background: #F4F4F4;"></p>
 	
-	<div class="jkjy_wrap">
-		<p class="btite"><span class="lab">营养素建议</span><i class="ico ssjyTab"></i></p>
-		<div class="box-c" v-for="(osite,index) in nutritionList">
-			<p class="tit01">{{options[index]}}.{{osite.indexName}}</p>
-			<div class="txt02">
-				<p>{{osite.personality}}</p>
-				<p>{{osite.simpleDescription}}</p>
+		<div class="jkjy_wrap">
+			<p class="btite"><span class="lab">运动和生活方式建议</span><i class="ico yysTab"></i></p>
+			<div class="box-c" v-for="(msite,index) in motionList">
+				<!--<p class="tit01"></p>-->
+				<div class="txt02">
+					{{index+1}}.{{msite.personality}}
+				</div>
 			</div>
+			<div class="zanshi" style="display: none">暂时没有数据</div>
 		</div>
-		<div class="zanshi" style="display: none">暂时没有数据</div>
+		<p style="height: .3rem; background: #F4F4F4;"></p>
+		
+		<div class="jkjy_wrap">
+			<p class="btite"><span class="lab">营养素建议</span><i class="ico ssjyTab"></i></p>
+			<div class="box-c" v-for="(osite,index) in nutritionList">
+				<p class="tit01">{{options[index]}}.{{osite.indexName}}</p>
+				<div class="txt02">
+					<p>{{osite.personality}}</p>
+					<p>{{osite.simpleDescription}}</p>
+				</div>
+			</div>
+			<div class="zanshi" style="display: none">暂时没有数据</div>
+		</div>	
 	</div>	
-</div>	
 	<!--健康建议内容 end-->
-	<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
-	
+	<!--<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
 	<div class="thr_tit"><i></i><span>历史趋势</span></div>
-	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>	
+	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>-->	
 	
 	<div id="btn" class="zhiCustomBtn"></div>
 	
@@ -263,7 +261,7 @@ success : function(indexData) {
     }
 });
 //调用三级指标历史趋势
-$.ajax({
+/*$.ajax({
 url : dataUrl + "/api/v2/reportThird/findThirdTrend",
 type : "POST",
 dataType : 'json',
@@ -284,11 +282,8 @@ success : function(trendData) {
 		setTimeout(function(){intchart('ichart','',arryDate,arryVal);},200);
 	}
 },
-    error : function(obj,msg){
-    	debugger
-    	//alert(obj  + msg);
-    }
-});
+    error : function(obj,msg){alert(obj  + msg);}
+});*/
 
 //查用户信息对接智齿客服
 $.ajax({

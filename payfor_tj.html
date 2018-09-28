@@ -9,10 +9,10 @@
 <title>支付</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?t=20180912" />
+<link rel="stylesheet" type="text/css" href="css/style.css?t=20180927" />
 </head>
-<body>
-<div class="my_view" id="appVUE" style="background: #f0f0f0;">
+<body style="background: #f0f0f0;">
+<div class="my_view" id="appVUE">
 	<!--
 	<header class="header">
 		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
@@ -30,18 +30,19 @@
 	<div class="pay_tj_c">
 		<div class="tj_c">
 			<dl class="tens">
-				<dd><img src="img/ten/i-new-guge.png"></dd>
-				<dd><img src="img/ten/i-new-huxi.png"></dd>
-				<dd><img src="img/ten/i-new-neifenmi.png"></dd>
-				<dd><img src="img/ten/i-new-pifu.png"></dd>
-				<dd><img src="img/ten/i-new-mianyi.png"></dd>
-				<dd><img src="img/ten/i-new-youhai.png"></dd>
-				<dd><img src="img/ten/i-new-yingyang.png"></dd>
-				<dd><img src="img/ten/i-new-xunhuan.png"></dd>
-				<dd><img src="img/ten/i-new-xiaohua.png"></dd>
-				<dd><img src="img/ten/i-new-shengzhi.png"></dd>
+				<dd><img src="img/ten/i-new-xunhuan.png"><font>循环系统</font></dd>
+				<dd><img src="img/ten/i-new-xiaohua.png"><font>消化系统</font></dd>
+				<dd><img src="img/ten/i-new-huxi.png"><font>呼吸系统</font></dd>
+				<dd><img src="img/ten/i-new-neifenmi.png"><font>内分泌</font></dd>
+				<dd><img src="img/ten/i-new-guge.png"><font>骨骼系统</font></dd>
+				<dd><img src="img/ten/i-new-mianyi.png"><font>免疫系统</font></dd>
+				<dd><img src="img/ten/i-new-shengzhi.png"><font>生殖系统</font></dd>
+				<dd><img src="img/ten/i-new-yingyang.png"><font>营养状态</font></dd>
+				<dd><img src="img/ten/i-new-youhai.png"><font>有害物质</font></dd>
+				<dd><img src="img/ten/i-new-pifu.png"><font>皮肤系统</font></dd>
 			</dl>
 			<div class="pay_go" id="pay">
+				<p class="yj">原价:{{oprice}}</p>
 				<p class="p1">优惠价:</p><p class="p2">￥{{price}}</p>
 				<button class="sub">点击支付<i></i></button>
 			</div>
@@ -183,6 +184,11 @@ success : function(indexData) {
 		if(indexData.data.infoView == null){
 			$('#pay .sub').css("background","#CCCCCC");
 		}else{
+			//判断原价为0的时候  设现价+20
+			var originalPrice = indexData.data.infoView.originalPrice; // 原价
+			if(originalPrice == '' || originalPrice == null){
+				$('.pay_tj_c .tj_c .pay_go .yj').html('原价：￥'+ (indexData.data.infoView.price + 20));
+			};
 			//判断新用户
 			var isFree = indexData.data.infoView.isFree;
 			if(isFree == 1){

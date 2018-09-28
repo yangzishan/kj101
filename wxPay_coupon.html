@@ -228,6 +228,25 @@ $.ajax({
 	}
 });
 
+//再次进去页面判断调取接口判断报告是否是已经支付
+$.ajax({
+	url : dataUrl + "/api/v1/reportWxPay/findPackage",
+    type : "POST",
+	dataType : 'json',
+	data : {
+	    reportId : myreportId, 
+	    openId : myopenId
+	},
+	success: function(data){
+		if(data.code == 200){
+			window.location.href="index"+edition+".html?reportId="+myreportId+"&openId="+myopenId;
+		}
+	},
+	error: function(){
+		console.log('查询可用优惠券出错');
+	}
+});
+
 
 </script>
 

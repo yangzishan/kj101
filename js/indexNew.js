@@ -28,7 +28,6 @@ $.ajax({
 				openId : myopenId
 			},
 			success : function(indexData) {
-				//alert('you get it')
 				if(indexData.code == 201){
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
@@ -71,15 +70,6 @@ $.ajax({
 						$('.guang').css("transform","rotate("+1.8*indexData.data.indexPage.totalScore+"deg)");
 					},100)
 					$('#score').animateNumber({ number: indexData.data.indexPage.totalScore },1100);
-					
-					//无效系统不显示
-					//$('.tenSys_c a:first').css("display","none");
-					$('.tenSys_c a').each(function(index){
-						if($(this).find('.tarid').text() == '1001'){
-							$(this).css("display","none");
-						}
-					});
-					
 					//判断生理年龄和排名没有的情况
 					if(indexData.data.indexPage.ranking == 0){
 					  	$('.srhRank').empty();
@@ -94,7 +84,7 @@ $.ajax({
 						$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");
 						
 					});
-					/////
+					///// 诸葛事件例子
 					/*$(".tenSys_c a").click(function() {
 						alert(1231);
 						var link = $(this);
@@ -107,7 +97,6 @@ $.ajax({
 						return false;
 					});*/
 					/////
-					
 					//系统介绍弹窗
 					$('.tenSys_c a .s-inf .lab .pop').on("click",function(event){
 						event.stopPropagation();
@@ -142,7 +131,6 @@ $.ajax({
 						$('.sy_summary .gosp').css("display","block");
 						$('.sy_summary .gosp').attr("href","recipes.html?reportId="+ myReportId);
 					};
-
 					//身体状况程度条
 					$('.zhuangk_c .c_li').each(function(){
 						var ilev = 6 - parseInt($(this).find('.lev').text());
@@ -157,30 +145,34 @@ $.ajax({
 						w_cir = 750;
 					};
 					setTimeout(function(){
-						$('.tenSys_c a .s-chart .c_circle').each(function(index){
-							var c_se ='',c_va = $(this).next('p').text();
-							if(index==0){
+						$('.tenSys_c a').each(function(index){
+							//无效系统不显示 1001
+							if($(this).find('.tarid').text() == '1001'){
+								$(this).css("display","none");
+							};
+							var c_se ='',c_va = $(this).find('.s-chart').find('.s-score').text();
+							if($(this).find('.tarid').text()==3087){
 								c_se ='#fabcb9';
-							}else if(index==1){
+							}else if($(this).find('.tarid').text()=='3095'){
 								c_se ='#fbdc89';
-							}else if(index==2){
+							}else if($(this).find('.tarid').text()=='3108'){
 								c_se ='#82ede3';
-							}else if(index==3){
+							}else if($(this).find('.tarid').text()=='3115'){
 								c_se ='#f6c9e6';
-							}else if(index==4){
+							}else if($(this).find('.tarid').text()=='3127'){
 								c_se ='#dcf0a8';
-							}else if(index==5){
+							}else if($(this).find('.tarid').text()=='3135'){
 								c_se ='#f8e8ac';
-							}else if(index==6){
+							}else if($(this).find('.tarid').text()=='3143'){
 								c_se ='#c8bff6';
-							}else if(index==7){
+							}else if($(this).find('.tarid').text()=='3163'){
 								c_se ='#fad6c6';
-							}else if(index==8){
+							}else if($(this).find('.tarid').text()=='3195'){
 								c_se ='#c1d9ff';
-							}else if(index==9){
+							}else if($(this).find('.tarid').text()=='3244'){
 								c_se ='#ffc7da';
 							};
-							$(this).circleProgress({
+							$(this).find('.s-chart').find('.c_circle').circleProgress({
 							    value: c_va/100,
 							    animation: true,
 							    fill: { gradient: [c_se] },
@@ -190,17 +182,14 @@ $.ajax({
 							    //lineCap: 'round',
 							    startAngle: Math.PI*1.5
 							});
-							
 							//分数低于90变色
 							if(c_va<90){
-								$(this).parents('.s-chart').next('.s-inf').find('.tx').css("color","#FF8800");
+								$(this).find('.s-inf').find('.tx').css("color","#FF8800");
 							};
 						});
-						
 					},200);
 					
 					//跳转历史报告
-					var userId = indexData.data.userId;
 					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
 					//跳转用户设置
 					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ myReportId);
@@ -222,9 +211,9 @@ $.ajax({
 						sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
 					});
 					var _offset = sessionStorage.getItem("offsetTop");
-									
+					$(document).scrollTop(_offset); //从（与上份报告对比的异常项改善情况 接口）提出				
 					//请求与上份报告对比的异常项改善情况 接口
-					$.ajax({
+					/*$.ajax({
 						url : dataUrl + "/api/v2/reportIndex/targetImprove",
 						type : "POST",
 						dataType : 'json',
@@ -295,43 +284,43 @@ $.ajax({
 							}
 						},
 					    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}
-					});
+					});*/
 					
 					//查用户信息对接智齿客服
-$.ajax({
-	url : dataUrl + "/api/v1/reportUser/findUserById",
-	type : "POST",
-	dataType : 'json',
-	data : {
-	    userId : userId
-	},
-	success : function(userData) {
-		if(userData.code == 200){
-			//初始化智齿咨询组件实例
-			var zhiManager = (getzhiSDKInstance());
-			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
-			zhiManager.set('location',1); //位置
-			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
-			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
-			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
-			zhiManager.set('lan', 'zh'); //支持语言
-			zhiManager.set('moduleType',3); //机器人客服优先模式
-			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
-			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
-			zhiManager.set('customMargin', 200);
-			//设置用户信息
-			zhiManager.set('uname',userData.data.userName);
-			zhiManager.set('realname',userData.data.userName);
-			zhiManager.set('tel',userData.data.mobile);
-			zhiManager.set('remark','报告ID： '+myReportId);
-			zhiManager.on("load", function() {
-			    zhiManager.initBtnDOM();
-			});
-		//////
-		}
-	},
-	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
-});
+					$.ajax({
+						url : dataUrl + "/api/v1/reportUser/findUserById",
+						type : "POST",
+						dataType : 'json',
+						data : {
+						    userId : userId
+						},
+						success : function(userData) {
+							if(userData.code == 200){
+								//初始化智齿咨询组件实例
+								var zhiManager = (getzhiSDKInstance());
+								zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+								zhiManager.set('location',1); //位置
+								zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+								zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+								zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+								zhiManager.set('lan', 'zh'); //支持语言
+								zhiManager.set('moduleType',3); //机器人客服优先模式
+								zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+								zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+								zhiManager.set('customMargin', 200);
+								//设置用户信息
+								zhiManager.set('uname',userData.data.userName);
+								zhiManager.set('realname',userData.data.userName);
+								zhiManager.set('tel',userData.data.mobile);
+								zhiManager.set('remark','报告ID： '+myReportId);
+								zhiManager.on("load", function() {
+								    zhiManager.initBtnDOM();
+								});
+							//////
+							}
+						},
+						error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
+					});
 					
 					
 					

@@ -125,7 +125,7 @@ $.ajax({
 				}else{
 					$(this).attr("disabled",true);
 					$.ajax({
-						url : dataUrl + "/api/v1/cardPay/insertWordPay",
+						url : dataUrl + "/api/v1/cardPay/updateWordPay",
 						type : "POST",
 						dataType : 'json',
 						data : {

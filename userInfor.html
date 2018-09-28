@@ -38,11 +38,6 @@
 			<span class="fle"><input type="number" id="dxYzm" placeholder="短信验证码"></span>
 			<button class="send" id="sendMsg">获取验证码</button>
 		</p>
-		<!--<p class="agr">
-			<span class="check_b" id="check_b"><input type="checkbox" id="agree" checked="checked"></span>
-			<label for="agree">阅读并同意</label>
-			<span class="sxx" id="notice">用户协议</span>
-		</p>-->
 		<p class="cbtn"><button class="off" id="nextAll" disabled="disabled">完成</button></p>
 	</div>
 </div>
@@ -78,8 +73,7 @@
 		<span class="">不同意</span>
 		<span class="on">同意</span>
 	</div>
-	
-	
+
 </div>
 
 <div class="tc-qx" id="alert">
@@ -90,6 +84,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -167,7 +162,11 @@ if(edition==null){
 var voucherId = GetQueryString("voucherId"); //优惠券id
 var customerId = GetQueryString("customerId"); //转增人id
 
-
+//埋点 t
+zhuge.track('进入注册页面', {
+	'openId' : myopenId,
+	'渠道' : '微信'
+});
 
 
 //倒计时读秒
@@ -269,18 +268,6 @@ $('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){
 	}
 });
 
-/*$('#agree').on("click",function(){
-	if($(this).is(":checked")){
-		$('#check_b').removeClass('sta1').addClass('sta2');
-		if($('#dxYzm').val() != ''){
-			$('#subAll').removeClass('off').attr("disabled",false);
-		}	
-	}else{
-		$('#check_b').removeClass('sta2').addClass('sta1');
-		$('#subAll').addClass('off').attr("disabled",true);
-	}
-});*/
-
 $('#nextAll').on("click",function(){
 	var age = parseInt($('#age').val());
 	if(age < 18 || age >80 ||  isNaN(age)){
@@ -331,7 +318,7 @@ function subAll(){
 			//debugger;
 			if(userData.code == 200){
 				//判断是否是通过优惠券扫码过来
-				if(voucherId != null || voucherId != ''){
+				if(voucherId != null && voucherId != '' && voucherId!='null'){
 					//转增优惠券接口
 					$.ajax({
 						url: couponData+ '/vi/send/coupon/turnCouponByWeChat',
@@ -343,25 +330,66 @@ function subAll(){
 						   	openId : myopenId
 						},
 						success : function(data){
-							window.location.href="couponList.html?userId="+myuserId+ "&code=" + data.code;
+							//埋点 i  通过扫描优惠券注册
+							zhuge.identify(mobile, {
+								'用户id': userId,
+								'openId': myopenId
+							});
+							//埋点 t   通过扫描优惠券注册成功 然后跳转
+							zhuge.track('通过扫描优惠券注册成功', {
+								'用户id': userId,
+								'openId': myopenId,
+								'渠道' : '微信'
+							},function(){
+								window.location.href="couponList.html?userId="+myuserId+ "&code=" + data.code;
+							});
+							//window.location.href="couponList.html?userId="+myuserId+ "&code=" + data.code;
 						},
 						error:function(){}
 					});
 				}else{
-					if(edition == 3){
+					
+					//埋点 i  完善用户信息
+					zhuge.identify(mobile, {
+						'用户id': userId,
+						'openId': myopenId
+					});
+					//埋点 t   完善用户信息注册成功 然后跳转
+					zhuge.track('完善用户信息注册成功', {
+						'用户id': userId,
+						'openId': myopenId,
+						'渠道' : '微信'
+					},function(){
+						if(edition == 3){
+							window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
+						}else{
+							window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+						}
+					});
+
+					/*if(edition == 3){
 						window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
 					}else{
 						window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
-					}
+					}*/
 				}
-				
-				
-				
-					
+	
 			}else if(userData.code == 301){
+				//埋点 t 注册失败
+				zhuge.track('注册失败，手机号已被绑定', {
+					'用户id': userId,
+					'openId': myopenId,
+					'渠道' : '微信'
+				});
 				showMask('手机号已被绑定');
 				//$('#subAll').attr("disabled",false);
 			}else{
+				//埋点 t 注册失败
+				zhuge.track('注册失败，查看验证码是否有误', {
+					'用户id': userId,
+					'openId': myopenId,
+					'渠道' : '微信'
+				});
 				showMask('登录失败，请查看验证码是否有误');
 				//$(this).attr("disabled",false);
 			}	
@@ -392,16 +420,46 @@ function creatUser(){
 		success : function(userData) {
 			//debugger;
 			if(userData.code == 200){
-				if(edition == 3){
+				//埋点 i  完善用户信息
+				zhuge.identify(mobile, {
+					'用户id': userId,
+					'openId': myopenId
+				});
+				//埋点 t   创建用户 注册成功 然后跳转
+				zhuge.track('创建用户 注册成功', {
+					'用户id': userId,
+					'openId': myopenId,
+					'渠道' : '微信'
+				},function(){
+					if(edition == 3){
+						window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
+					}else{
+						window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
+					}
+				});
+
+				/*if(edition == 3){
 					window.location.href="fund/index.html?reportId="+myreportId + "&openId=" + myopenId;
 				}else{
 					window.location.href="index"+edition+".html?reportId="+myreportId + "&openId=" + myopenId;
-				}
+				}*/
 		
 			}else if(userData.code == 301){
+				//埋点 t 注册失败
+				zhuge.track('注册失败，手机号已被绑定', {
+					'用户id': userId,
+					'openId': myopenId,
+					'渠道' : '微信'
+				});
 				showMask('手机号已被绑定');
 				//$('#subAll').attr("disabled",false);
 			}else{
+				//埋点 t 注册失败
+				zhuge.track('注册失败，查看验证码是否有误', {
+					'用户id': userId,
+					'openId': myopenId,
+					'渠道' : '微信'
+				});
 				showMask('登录失败，请查看验证码是否有误');
 				//$(this).attr("disabled",false);
 			}	

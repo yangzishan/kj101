@@ -190,7 +190,7 @@ success : function(indexData) {
 		if(price == 0){
 			$('#pay').on("click",function(){
 				$.ajax({
-					url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
+					url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
 					type : "post",
 					dataType : 'json',
 					data : {

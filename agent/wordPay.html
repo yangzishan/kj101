@@ -41,7 +41,7 @@ $('.btn-go').on("click",function(){
 	$('.btn-go').attr("disabled",true);
 		var mywordNum=$.trim($('#wordNum').val());
 		$.ajax({
-			url : dataUrl + "/api/v1/cardPay/insertWordPay",
+			url : dataUrl + "/api/v1/cardPay/updateWordPay",
 			type : "POST",
 			dataType : 'json',
 			data : {
