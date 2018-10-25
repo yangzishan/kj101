@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-use-rem="750">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>历史趋势</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/graph.css" />
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
+<style type="text/css">
+#listB{ height: 5rem;}
+</style>
+</head>
+<body>
+<DIV class="all_view">
+<!--头部-->
+<header class="header">
+	<div class="mine header-box">
+		<div class="img-box" id="go-back"><img src="./images/goback.png" /></div>
+	</div>
+	<div class="title">历史趋势</div>
+	<div class="report header-box">
+		<!-- <div class="img-box"><img src="./images/sl.png" /></div> -->
+	</div>
+</header>
+<!-- 导航 -->
+<div class="kj-nav-box">
+		<ul>
+			<li @click="indexHref()">
+				<div class="index-img"><img src="./images/nav-01.png" /></div>
+				<p>首页</p>
+			</li>
+			<li @click="adviseHref()">
+				<div class="index-img"><img src="./images/nav-02.png" /></div>
+				<p>建议</p>
+			</li>
+			<li @click="recipeHref()">
+				<div class="index-img"><img src="./images/nav-03.png" /></div>
+				<p>食谱</p>
+			</li>
+			<li class="active">
+				<div class="index-img"><img src="./images/nav-4.png" /></div>
+				<p>趋势</p>
+			</li>
+		</ul>
+	</div>
+<div class="graph-box">
+	<!-- 报告总分趋势 -->
+	<div class="list">
+		<!-- <div class="title">报告总分趋势</div> -->
+		<div id="listA"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 快乐指数趋势 -->
+	<div class="list">
+		<div id="listB"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 睡眠质量趋势 -->
+	<div class="list">
+		<div id="listC"></div><div class="bottom-box"></div>
+	</div>
+	<!-- BMI趋势 -->
+	<div class="list">		<div id="listD"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 营养状态趋势 -->
+	<div class="list">
+		<div id="listE"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 免疫能力趋势 -->
+	<div class="list">
+		<div id="listF"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 消化能力趋势 -->
+	<div class="list">
+		<div id="listG"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 吸收能力趋势 -->
+	<div class="list">
+		<div id="listH"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 代谢能力趋势 -->
+	<div class="list">
+		<div id="listI"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 男性功能趋势 -->
+	<div class="list" v-show="sex == 1 && data.a1010">
+		<div id="listJ"></div><div class="bottom-box"></div>
+	</div>
+	<!-- 女性功能趋势 -->
+	<div class="list" v-show="sex == 0 && data.a1011">
+		<div id="listK"></div><div class="bottom-box"></div>
+	</div>
+</div>
+</DIV>
+<script src="js/jquery.js"></script>
+<script src="js/base.js"></script>
+<script  src="js/vue.min.js"></script>
+<script src="js/echarts.common.min.js"></script>
+<script src="js/graph.js"></script>
+<script>
+	var dpr = document.documentElement.getAttribute('data-dpr') || 1
+	var width = document.documentElement.offsetWidth
+	var fontSize = 100/750 * width;
+	document.querySelector('html').style.fontSize = (fontSize)+'px';
+	window.addEventListener('resize',function(){
+		var width = document.querySelector('html').offsetWidth;
+		var fontSize = 100/750 * width;
+		document.querySelector('html').style.fontSize = (fontSize)+'px';
+	})
+</script> 
+</body>
+</html>

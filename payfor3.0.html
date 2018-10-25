@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/index3.css" />
+</head>
+<body>
+<section class="my_view" id="appVUE">
+	<p class=""><img src="images/payban.png" class="img_b"></p>
+	<div class="paycnbg">
+		<p class="rinkth">您是第<em>{{userIdstr}}</em>位检测的用户</p>
+		<p><img src="images/paycn.jpg" class="img_b"></p>
+	</div>
+	<p style="margin-bottom: .9rem;"><img src="images/paybot.jpg" class="img_b"></p>
+	
+	<div class="fix-p">
+		<p class="ctxt">
+			<span class="oprice">原价：{{oprice}}</span>
+			<span class="price">优惠价：{{price}}</span>
+		</p>
+		<button class="go" id="pay">支付</button>
+	</div>
+	
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{price}}</p>
+		</div>
+		<a class="pay-li" id="WordPay"><i class="ikey"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" v-for="pay in data" :href="'wxPay_new.html?reportId='+reportId+'&userId='+userId+
+			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</a>
+	</div>	
+	
+</section>
+
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<div class="daifu_d">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/payChannel.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<!--<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+var myApp = new Vue({
+	 el: '#appVUE',
+    data() {
+		return {
+			isShow:false,
+			isActive:[],
+			reportId:'',
+			openId:'',
+			sameUser:'',
+			edition:'', //版本
+			data:{},
+			nickName:'',//昵称
+			headimgurl:'',
+			totalScore:'',//得分
+			age:'',
+			ranking:'', //排名
+			ps:'',//身体状况
+			name:'', //套餐名称
+			packageId:'',
+			price:'', 
+			oprice:'', //原价
+			description:'', //描述
+			isFree: '',
+			abnormalNo:'', //全部异常项总数
+			litAbnormal:'', //轻度异常
+			midAbnormal:'', //中度异常
+			firstNames:'', //得分最低两个系统名字
+			userId:'',
+			userIdstr:'', //逗号分隔显示
+			snNum:'', 
+			orderNum:'',
+		}
+	},
+	mounted () {
+		this.initial(),
+		this.goLoad()
+    },
+	methods: {
+		goLoad() {
+			var _this = this 
+			$.post(dataUrl + "/api/v1/reportWxPay/findPackage",
+				{
+					reportId: this.reportId,
+					openId : this.openId
+				},
+				function (packageData) {
+					if(packageData.code == 200){
+						window.location.href="index"+this.edition+".html?reportId="+this.reportId+"&openId=" + this.openId;
+					}else if(packageData.code == 201){
+						$('.my_view').css("display","block");
+						$('.load-overlay').css("display","none");
+						_this.nickName = packageData.data.mentPage.nickName, //昵称
+					  	_this.headimgurl = packageData.data.mentPage.headimgurl, //头像
+					  	_this.totalScore = packageData.data.mentPage.totalScore, //总分
+					  	_this.age = packageData.data.mentPage.age, //生理年龄
+					  	_this.ranking = packageData.data.mentPage.ranking, //排名
+					  	_this.ps = packageData.data.mentPage.ps, //身体状况
+					  	_this.name = packageData.data.infoView.name, //套餐名称
+					  	_this.packageId = packageData.data.infoView.packageId,
+					  	_this.price = packageData.data.infoView.price,  //价格
+					  	_this.oprice = packageData.data.infoView.originalPrice; //原价
+					  	if(_this.oprice == '' || _this.oprice == null){
+					  		_this.oprice = _this.price+20; //数据没有原价的情况
+					  	};
+					  	_this.description = packageData.data.infoView.description, //描述
+					  	//_this.abnormalNo = packageData.data.mentPage.abnormal.list3.length+packageData.data.mentPage.abnormal.list2.length, //全部异常项目数
+					  	//_this.litAbnormal = packageData.data.mentPage.abnormal.list2.length,
+					  	//_this.midAbnormal = packageData.data.mentPage.abnormal.list3.length,
+					  	_this.firstNames = packageData.data.mentPage.firstNames,  //得分最低两个系统名字
+					  	_this.userId = packageData.data.infoView.userId,
+					  	_this.userIdstr = toThousands(packageData.data.infoView.userId),
+					  	_this.isFree = packageData.data.infoView.isFree,
+					  	_this.snNum = packageData.data.snNum;
+					  	_this.orderNum = packageData.data.orderNum ? packageData.data.orderNum:'15392504132771282';
+					  	
+					  	//判断笑哭脸样式
+						if(_this.ranking!=null && _this.ranking<50){
+							$('.fix-tpp p .aa').removeClass('a1').addClass('a2');
+						};
+						if(packageData.data.infoView == null){
+							$('#pay .sub').css("background","#CCCCCC");
+						}else{
+							if(_this.isFree == 1){
+								//$('.pay-x-fix .oprice').html('新用户首次免费');
+								$('#pay .sub').html('查看');
+								$('#pay').click(function(){
+									window.location.href="index"+_this.edition+".html?reportId="+_this.reportId+"&openId="+_this.openId;
+								});
+							};
+							//sameUser (是否是本人的报告), 1/2 是否显示卡支付 代付提醒
+							if(_this.sameUser == 2){
+								$('#kaPay').css("display","none");
+								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+								$('.daifu_d').css("display","block");
+							}else{
+								//判断用户有没有可用卡
+								$.ajax({
+									url : dataUrl + "/api/v1/cardPay/findUserCards",
+									type : "POST",
+									dataType : 'json',
+									data : {
+										reportId : _this.reportId,
+									   	userId : _this.userId
+									},
+									success : function(data) {
+										//alert('查找用户可用卡');
+										if(data.code == 200){
+											var cards = data.data.List;
+											if(cards == null || cards.length == 0 || cards == ''){
+												$('#kaPay').css("display","none");
+											};
+										}else{
+											console.log('查找用户可用支付卡 code= '+ data.code);
+										}
+									}
+								});	
+							};
+							//查询支付通道
+							$.ajax({
+								url : channel + "/pay/v1/channel/getPayChannel",
+								type : "get",
+								dataType : 'json',
+								data : {
+									neNo : _this.snNum,
+								   	terminalType : 1
+								},
+								success : function(data) {
+									if(data.code ==0){
+										_this.data = data.data
+									}else{console.log('支付通道接口'+data.code)}
+								}
+							});
+							// 根据价格
+							if(_this.price == 0){
+								$('#pay').on("click",function(){
+									$.ajax({
+										url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
+										type : "post",
+										dataType : 'json',
+										data : {
+										    reportId : _this.reportId,
+										    packageId: _this.packageId,
+										    userId: _this.userId
+										},
+										success : function(data) {
+											if(data.code==200){
+												window.location.href="index"+_this.edition+".html?reportId="+_this.reportId+"&openId="+_this.openId;
+											}else{
+												alert('支付失败insertFreeOrder-code='+data.code);
+											}
+											
+										}
+									})
+								});
+							}else{
+								$('#pay').on("click",function(){
+									//选择支付方式
+									$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+									$('.sl-pay').css({"transform":"translateY(0%)"});
+								});
+							};
+							//关闭 选择方式
+							$('.close').click(function(){
+								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+								$('.sl-pay').css({"transform":"translateY(110%)"});
+							});
+							//关闭 代付提醒
+							$('#iknow').click(function(){
+								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+								$('.daifu_d').css("display","none");
+							});
+							//支付跳转 +
+							/*$('#wxpay').attr("href","wxPay_coupon.html?reportId="+_this.reportId+ "&userId="+_this.userId+"&packageId="+_this.packageId+"&name="+_this.name+"&price="+_this.price+ '&openId='+_this.openId+"&edition="+_this.edition);*/
+							$('#WordPay').attr("href","wordPay.html?reportId="+_this.reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ _this.openId+"&edition="+_this.edition);
+							$('#kaPay').attr("href","selectTycard.html?reportId="+_this.reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ _this.openId+"&edition="+_this.edition);
+						
+						}
+
+					}else{console.log(packageData.msg);alert('findPackage code='+ packageData.code)} //code 200 201之外
+				}
+		).error(function(){console.log('findPackage接口post失败')})
+		},
+		
+		//
+		sure(){
+			this.isShow = false
+			this.reverseMessage()
+		},
+		// 通过url 获取参数 reportId openId samerUser edition
+		initial(){
+			var reportId = getQueryString("reportId");
+			this.reportId = reportId;
+			var openId = getQueryString("openId");
+			this.openId = openId;
+			var sameUser = getQueryString("sameUser");
+			this.sameUser = sameUser;
+			var edition = getQueryString("edition");
+			this.edition = edition;
+			console.log(this.reportId);
+			console.log(this.openId);
+			console.log(this.sameUser);
+			console.log(this.edition);
+		},
+	},
+});
+//获取url参数方法
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+}
+//逗号分隔数字
+function toThousands(num) {
+     return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
+};
+</script>-->
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+.header{
+    display: -webkit-flex;
+    display: flex;
+    background: #2fbab0;
+    height: .88rem;
+    color: #fff;
+    font-size: .34rem;
+    padding: 0 .3rem;
+    font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';
+    align-items: center;
+}
+.header .header-box{
+    flex: 1;
+}
+.header .mine,
+.header .report{
+    overflow: hidden;
+}
+.header .mine .img-box{
+    /* padding: .225rem .05rem 0 0;  */
+    width: .21rem;
+    height: .35rem;
+    float: left;
+}
+.header .mine span,
+.header .title,
+.header .report span
+{
+    line-height: .8rem;
+}
+.header .title{
+    text-align: center; font-weight: bold;
+}
+.header .report span{
+    float: right;
+}
+.header .report .img-box{
+    float: right;
+    width: .44rem;
+    height: .08rem;
+    padding: .2rem .1rem 0 0;
+}
+.graph-box{
+    font-family:'Source Han Sans CN', 'PingFang SC','Microsoft YaHei';
+    font-size: .33rem;
+    color: #4aa59e;
+    padding-bottom: .2rem
+}
+#listA,#listB,#listC,#listD,#listE,#listF,#listG,#listH,#listI,#listG,#listJ,#listK{
+    width: 7.5rem;
+    height: 4.5rem;
+    margin: 0 auto;
+    margin-top: .4rem;
+}
+.bottom-box {
+    width: 6.8rem;
+    height: .28rem;
+    margin: 0 auto;
+    border-radius: 1rem;
+    background: #e2e2e2;
+}
+.list{
+    position: relative;
+}
+.list .title{
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    left: 0;
+    color: #4aa59e;
+    font-size: .33rem;
+    font-weight: bold;
+}
+.list .share{
+    top: 1rem;
+    left: 0;
+    position: absolute;
+    width: 1rem;
+    height: 2.5rem;
+    background: #f00;
+    z-index: 999;
+}
+.list-zt{
+    position: absolute;
+    top: .5rem;
+    font-size: .25rem;
+    left: .8rem;
+    color: #9f9f9f;
+}
+.list-time{
+    position: absolute;
+    bottom: 1.2rem;
+    font-size: .25rem;
+    right: .3rem;
+    color: #9f9f9f;
+}

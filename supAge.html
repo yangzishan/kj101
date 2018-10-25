@@ -120,7 +120,7 @@ $("#nextAll").click(function(){
 	        data : JSON.stringify(userInfo),
 			success : function(userData) {
 				if(userData.code == 200){
-					if(edition == 3){
+					if(edition == 100){
 						window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
 					}else{
 						window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;

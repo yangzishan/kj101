@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>专属食谱</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180912" />
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
+</head>
+<body style="background: #f2f2f2;">
+<div class="my_view" id="myvue" style="display: none; height: auto; padding-bottom: 1.25rem;">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>专属食谱</span></p>
+	</header>
+	<!-- 导航 -->
+	<div class="kj-nav-box">
+		<ul>
+			<li id="index">
+				<div class="index-img"><img src="./images/nav-01.png" /></div>
+				<p>首页</p>
+			</li>
+			<li id="advise">
+				<div class="index-img"><img src="./images/nav-02.png" /></div>
+				<p>建议</p>
+			</li>
+			<li class="active" id="recipe">
+				<div class="index-img"><img src="./images/nav-3.png" /></div>
+				<p>食谱</p>
+			</li>
+			<li id="graph">
+				<div class="index-img"><img src="./images/nav-04.png" /></div>
+				<p>趋势</p>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="sp-tit">根据您的健康状况，我们为您推荐一周的食谱，点击食谱中菜名即可查看餐品标准配比及营养成分。
+		<br><img src="img/pay_fail.png" style="height: .28rem; margin-right:.1rem; position: relative; top: .05rem;">如果您存在基础病，请以遵医嘱为先。
+	</div>
+	<div class="sp-zj"><em class="fr ssjy"></em></div>
+	<div class="sp-dcn" v-for="(day,index) in recipes">
+		<p class="cnt"><span class="fl">day{{index+1}}</span></em></p>
+		<div class="cnc">
+			<div class="tt"><span>名称</span><em>荤菜</em><em>素菜</em><em>主食</em></div>
+			<dl class="tli">
+				<dt><p class="ce"><img src="img/sp-i-mianbao.png"><font>早餐</font></p></dt>
+				<dd>
+					<template v-for="bre in day.breakfast.meat">
+						<span>{{bre.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{bre.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{bre.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{bre.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{bre.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{bre.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{bre.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>	
+				</dd>
+				<dd>
+					<template v-for="bre in day.breakfast.vegetable">
+						<span>{{bre.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{bre.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{bre.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{bre.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{bre.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{bre.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{bre.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+				<dd>
+					<template v-for="bre in day.breakfast.main">
+						<span>{{bre.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{bre.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{bre.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{bre.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{bre.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{bre.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{bre.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+			</dl>
+			<dl class="tli">
+				<dt><p class="ce"><img src="img/sp-i-binggan.png"><font>早加餐</font></p></dt>
+				<dd>
+					<template v-for="ba in day.breakfastAdd.BA">
+						<span>{{ba.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{ba.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{ba.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{ba.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{ba.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{ba.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{ba.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+			</dl>
+			<dl class="tli">
+				<dt><p class="ce"><img src="img/sp-i-niurou.png"><font>午餐</font></p></dt>
+				<dd>
+					<template v-for="lun in day.lunch.meat">
+						<span>{{lun.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{lun.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{lun.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{lun.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{lun.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{lun.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{lun.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+				<dd>
+					<template v-for="lun in day.lunch.vegetable">
+						<span>{{lun.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{lun.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{lun.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{lun.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{lun.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{lun.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{lun.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+				<dd>
+					<template v-for="lun in day.lunch.main">
+						<span>{{lun.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{lun.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{lun.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{lun.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{lun.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{lun.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{lun.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+			</dl>
+			<dl class="tli">
+				<dt><p class="ce"><img src="img/sp-i-mangguo.png"><font>午加餐</font></p></dt>
+				<dd>
+					<template v-for="la in day.lunchAdd.LA">
+						<span>{{la.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{la.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{la.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{la.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{la.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{la.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{la.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+			</dl>
+			<dl class="tli">
+				<dt><p class="ce"><img src="img/sp-i-jitui.png"><font>晚餐</font></p></dt>
+				<dd>
+					<template v-for="lun in day.dinner.meat">
+						<span>{{lun.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{lun.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{lun.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{lun.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{lun.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{lun.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{lun.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+				<dd>
+					<template v-for="lun in day.dinner.vegetable">
+						<span>{{lun.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{lun.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{lun.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{lun.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{lun.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{lun.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{lun.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+				<dd>
+					<template v-for="lun in day.dinner.main">
+						<span>{{lun.foodName}}</span>
+						<div class="v_overlert">
+							<div class="tc-spcd">
+								<p class="tit">{{lun.foodName}}</p>
+								<p class="tlab">配量</p>
+								<p>{{lun.foodDetail}}</p>
+								<p class="ge"></p>
+								<p class="tlab">含量</p>
+								<ul class="hlul">
+									<li><span class="fl">能量</span><span class="fr">{{lun.foodEnergy}}kcal</span></li>
+									<li><span class="fl">蛋白质</span><span class="fr">{{lun.foodProtein}}g</span></li>
+									<li><span class="fl">脂肪</span><span class="fr">{{lun.foodFat}}g</span></li>
+									<li><span class="fl">碳水化合物</span><span class="fr">{{lun.foodCarbohydrate}}g</span></li>
+								</ul>
+							</div>	
+						</div>
+					</template>
+				</dd>
+			</dl>
+		</div>
+	</div>
+	
+</div>
+
+<div class="v_overlay"></div>
+<div class="v_overlert" id="ssjyTab">
+	<div class="tc_sy">
+		<p class="bit2">
+			<span class="labt">康加首席营养师顾晓玲领衔的团队为您提供。</span>
+		</p>
+		<div class="bxt">
+			顾晓玲<br/>
+			中国首批注册营养师 <br/>
+			山东中医药大学营养学学士<br/>
+			兰州大学营养学硕士 <br/>
+			临床营养师<br/>
+			公共营养师<br/>
+			中国营养学会会员<br/>
+		</div>
+	</div>
+</div>
+<div class="load-overlay" style="display: block;">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script type="text/javascript">
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var reportId = GetQueryString('reportId');
+var openId = GetQueryString('openId');
+var userId=GetQueryString("userId");
+var sex=GetQueryString("sex");
+
+$.ajax({
+	type: "post",
+	url: analysisreport + "/v3/reportContent/getReportRecipesData",
+	dataType: 'json',
+	data:{
+		reportId: reportId,
+	},
+	success:function(data){
+		if(data.code==200){
+			$('.my_view').css("display","block");
+			$('.load-overlay').css("display","none");
+			var myApp = new Vue({
+				el: '#myvue',
+				data: {
+					recipes: data.data.daylist
+				}
+			});
+			
+			//点菜名弹出窗
+			$('.sp-dcn .cnc .tli dd span').on("click",function(){
+				event.stopPropagation();
+				showMask();
+				$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
+				return false;
+			});
+			//弹专家
+			$('.ssjy').on("click",function(){
+				event.stopPropagation();
+				showMask();
+				$('#ssjyTab').css({"visibility":"visible","opacity":"1"});
+				return false;
+			});
+			//导航
+			$('#index').click(function(){
+				window.location='index3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
+			});
+			$('#advise').click(function(){
+				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
+			});
+			/*$('#recipe').click(function(){
+				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
+			});*/
+			$('#graph').click(function(){
+				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
+			});
+		}else{
+			alert(data.msg +' :code='+data.code);
+			window.history.go(-1);
+		}
+	},
+	error: function(obj,msg){console.log(obj+msg + ":"+data.msg);}
+});
+
+//弹窗
+var win_top = 0;
+function showMask(){
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	win_top = $(window).scrollTop();
+	$("body").css({"position":"fixed","top":-win_top+"px"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$("body").css("position","static");
+		$(window).scrollTop(win_top);
+	});
+};
+</script>
+
+
+</body>
+</html>

@@ -31,14 +31,78 @@ $.ajax({
 				if(indexData.code == 201){
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					if(paymentType == 1){
-						window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
-					}else{
-						window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
-					}
+					$.ajax({
+						type:"post",
+						url: couponData+"/vi/send/coupon/participate",
+						dataType : 'json',
+						data : {
+						    inspectCode : myReportId
+						},
+						success: function(payTypeData){
+							if(payTypeData.code == 0){
+								if(paymentType == 2){
+									window.location.href="payfor_coupon2.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+								}else{
+									window.location.href="payfor_coupon.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+								}
+
+							}else{
+								if(paymentType == 1){
+									window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+								}else{
+									window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+								}
+							}
+						},
+						error: function(xhr,status){
+							console.log("error"+xhr+status);
+							if(paymentType == 1){
+								window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+							}else{
+								window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+							}
+						}
+					});
 					
+
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
+					//查用户信息对接智齿客服
+					$.ajax({
+						url : dataUrl + "/api/v1/reportUser/findUserById",
+						type : "POST",
+						dataType : 'json',
+						data : {
+						    userId : userId
+						},
+						success : function(userData) {
+							if(userData.code == 200){
+								//初始化智齿咨询组件实例
+								var zhiManager = (getzhiSDKInstance());
+								zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+								zhiManager.set('location',1); //位置
+								zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+								zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+								zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+								zhiManager.set('lan', 'zh'); //支持语言
+								zhiManager.set('moduleType',3); //机器人客服优先模式
+								zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+								zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+								zhiManager.set('customMargin', 200);
+								//设置用户信息
+								zhiManager.set('uname',userData.data.userName);
+								zhiManager.set('realname',userData.data.userName);
+								zhiManager.set('tel',userData.data.mobile);
+								zhiManager.set('remark','报告ID： '+myReportId);
+								zhiManager.on("load", function() {
+									zhiManager.initBtnDOM();
+								});
+							}
+						},
+						error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
+					});
+					//////
+
 					$('.my_view').css("visibility","visible");
 					$('.load-overlay').css("display","none");
 					$("#appId").val(indexData.wxParameter.appId);
@@ -286,45 +350,7 @@ $.ajax({
 					    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}
 					});*/
 					
-					//查用户信息对接智齿客服
-					$.ajax({
-						url : dataUrl + "/api/v1/reportUser/findUserById",
-						type : "POST",
-						dataType : 'json',
-						data : {
-						    userId : userId
-						},
-						success : function(userData) {
-							if(userData.code == 200){
-								//初始化智齿咨询组件实例
-								var zhiManager = (getzhiSDKInstance());
-								zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
-								zhiManager.set('location',1); //位置
-								zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
-								zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
-								zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
-								zhiManager.set('lan', 'zh'); //支持语言
-								zhiManager.set('moduleType',3); //机器人客服优先模式
-								zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
-								zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
-								zhiManager.set('customMargin', 200);
-								//设置用户信息
-								zhiManager.set('uname',userData.data.userName);
-								zhiManager.set('realname',userData.data.userName);
-								zhiManager.set('tel',userData.data.mobile);
-								zhiManager.set('remark','报告ID： '+myReportId);
-								zhiManager.on("load", function() {
-								    zhiManager.initBtnDOM();
-								});
-							//////
-							}
-						},
-						error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
-					});
-					
-					
-					
-					//////	
+						
 				}else{
 					alert('没获取到报告数据code='+indexData.code );
 				}

@@ -9,7 +9,26 @@
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?v=20180904" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=201809027" />
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
@@ -210,29 +229,10 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/indexNew.js?v=20180920"></script>
+<script src="js/indexNew.js?v=20180930"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
 <!--<script type="text/javascript" src="zhuge.js"></script>-->
-<script type="text/javascript">
-(function (doc, win) {
-    var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function () {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            if(clientWidth>=750){
-                docEl.style.fontSize = '100px';
-            }else{
-                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
-            }
-        };
-
-    if (!doc.addEventListener) return;
-    win.addEventListener(resizeEvt, recalc, false);
-    doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
-</script>
 <script>
 (function () {
     if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {

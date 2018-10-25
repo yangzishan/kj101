@@ -1,0 +1,69 @@
+.kj-menu-box{
+    background: #fff;
+    padding: .2rem 0 .45rem 0;
+    background: #fff;
+    border-bottom:1px solid #f3f2f2;
+}
+.kj-menu-box ul {
+    width: 6.9rem;
+    height: .58rem;
+    margin: 0 auto;
+    border:1px solid #22a097;
+    border-radius: .1rem;
+    display: flex;
+    display: -webkit-flex;
+}
+.kj-menu-box ul li{
+    flex: 1;
+    border-right: 1px solid #22a097;
+    color: #333;
+    font-size: .26rem;
+    text-align: center;
+    line-height: .58rem;
+}
+.kj-menu-box ul .active{
+    background: #22a097;
+    color: #fff;
+}
+.kj-menu-box ul li:last-child{
+    border: none;
+}
+/* 底部导航 */
+.kj-nav-box{
+    background: #fff;
+    width: 100%;
+    border-top:1px solid #f3f2f2;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 999;
+}
+.kj-nav-box ul{
+    display: flex;
+    display: -webkit-flex;
+    padding:.17rem 0 .1rem 0; 
+}
+.kj-nav-box ul li{
+    flex: 1;
+    text-align: center;
+    font-size: .2rem;
+    color:#bcbcbc;
+}
+.kj-nav-box ul li .index-img{
+    width: .44rem;
+    height: .44rem;
+    margin: 0 auto;
+}
+.kj-nav-box ul li p{
+    padding-top: .1rem;
+}
+.kj-box{
+    padding-bottom: 1.25rem; 
+}
+.graph-box{
+    padding-bottom: .8rem;
+}
+.kj-nav-box ul .active{
+    color: #2fbab0; 
+    font-weight: bold;
+}

@@ -87,11 +87,13 @@ success : function(historyData) {
 				oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;	
 			}else if(historyData.data[i].reportType == 5){
 				oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+			}else if(historyData.data[i].reportType == 6){
+				oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 			}else if(historyData.data[i].reportType == 100){
 				oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 			}else{
 				if(historyData.data[i].deviceType == 1){
-				oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+					oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 				}else if(historyData.data[i].deviceType == 2){
 					oa.href = bit_testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 				}else{
@@ -171,11 +173,13 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 							oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;	
 						}else if(historyData.data[i].reportType == 5){
 							oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+						}else if(historyData.data[i].reportType == 6){
+							oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 						}else if(historyData.data[i].reportType == 100){
 							oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 						}else{
 							if(historyData.data[i].deviceType == 1){
-							oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+								oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 							}else if(historyData.data[i].deviceType == 2){
 								oa.href = bit_testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 							}else{

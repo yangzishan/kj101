@@ -13,10 +13,6 @@
 .header .b-arr{ width: .24rem; height: .88rem; background: url(../img/arr-b.png) no-repeat center; background-size: .18rem .34rem;position: relative;z-index: 999;}
 .header .txt1{ font-size: .34rem; font-weight: bold;}
 
-
-
-
-
 .g1{height: .21rem; background: #F4F4F4;}
 .nrep_top{ height:.88rem; padding: 0; background: #03a89e; color: #fff; position: relative;font-family: 'PingFang SC','San Francisco','Droid Sans';}
 .nrep_top h3{ line-height: .88rem; text-align: center; font-size: .36rem;}
@@ -125,6 +121,25 @@
 .go_sp{position: fixed; bottom: .8rem; right: .2rem; width: 2.4rem; height: .88rem; line-height: .88rem; border-radius: .44rem; text-align: center; background: #FFC100; color: #fff; font-size: .3rem;}
 .go_sp i{ display: inline-block; vertical-align: top; height: .88rem; width: .5rem; background: url(../img/sp-go.png) no-repeat center; background-size:.4rem .43rem;}
 
+.golook{ padding: .4rem 0; display: -webkit-box;}
+.golook li{display: block; -webkit-box-flex: 1;}
+.golook li{padding: 0 .4rem; text-align: center; color: #ffffff;}
+.golook li span{ display: block; height: .68rem; line-height: .68rem; border-radius: .1rem; background: #1eceb7;}
+.golook li span i{ display: inline-block; vertical-align: top; height: .68rem; width: .5rem; background: url(../img/i-jiedu.png) no-repeat center; background-size:.35rem .38rem; margin-right: .2rem;}
+.golook li span em{ font-size: .28rem;}
+.golook li:nth-of-type(2) span{ background: #fec81e;}
+.golook li:nth-of-type(2) span i{background: url(../img/sp-go.png) no-repeat center; background-size:.4rem .43rem;}
+
+.paytip{ padding: .2rem .3rem;}
+.paytip .tit{ line-height: .65rem; font-size: .3rem; font-weight: bold;}
+.paytip .cn{ font-size: .28rem;}
+.paytip .cn p{ display: -webkit-box; line-height: .5rem;}
+.paytip .cn p span{ display: block; -webkit-box-flex: 1;}
+.paytip .cn p i{ display: block; margin:.15rem .12rem 0 0; width: .06rem; height: .2rem; background: #56d1c7;}
+.paytip .gopay{ display: block; margin: .3rem auto; width: 4.8rem; height: .78rem; line-height: .78rem; text-align: center; background: #ff6347; color: #ffffff; font-size: .32rem; font-weight: bold; border-radius: .39rem;}
+.xuanc{ background: #c7ece9; display: -webkit-box;}
+.xuanc p{ display: block; width: .5rem; background: #55d1c6;}
+.xuanc .txt{padding: .2rem; -webkit-box-flex: 1; font-size: .3rem;}
 
 /*支付页面*/
 .cnTop{ height: .88rem; padding: 0 .3rem; background: #0fc1b6;}
@@ -169,8 +184,11 @@
 .sl-pay .cnn .p1{ line-height:36px; color: #999999; font-size: 15px;}
 .sl-pay .cnn .p2{ line-height: 36px; color: #ff5959; font-size: 24px;}
 .sl-pay .pay-li{ display: block; height: 50px; padding: 0 15px; color: #333333; border-top: #F4F4F4 solid 1px; position: relative;}
-.sl-pay .pay-li i.ico{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
-.sl-pay .pay-li i.ico img{ display: block; width: 100%;}
+.sl-pay .pay-li i{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
+.sl-pay .pay-li i.ikey{ background: url(../img/o-key.png); background-size:contain;}
+.sl-pay .pay-li i.icard{ background: url(../img/o-card.png); background-size:contain;}
+.sl-pay .pay-li i.ico1{ background: url(../img/o-wx.png); background-size:contain;}
+.sl-pay .pay-li i.ico7{ background: url(../img/o-wang.png); background-size:contain;}
 .sl-pay .pay-li span{ display: inline-block; vertical-align: top; line-height: 50px; font-size: 15px;}
 .sl-pay .pay-li img.arr{ position: absolute; top: 17px; right: 15px; width: 8px; height: 15px;}
 /*代付提醒*/

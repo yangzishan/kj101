@@ -9,10 +9,10 @@
 <title>支付</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?t=201805022" />
+<link rel="stylesheet" type="text/css" href="css/style.css?t=20181019" />
 </head>
 <body>
-<div class="my_view" id="appVUE" style="height: auto;">
+<div class="my_view" id="appVUE" style="height: auto; display: none;">
 	<!--<header class="header">
 		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
 		<a class="t-right fr" href="#"></a>
@@ -47,9 +47,13 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="WordPay"><i class="ico"><img src="img/o-key.png"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" id="wxpay"><i class="ico"><img src="img/o-wx.png"></i><span id="wxPay">微信支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" id="kaPay"><i class="ico"><img src="img/o-card.png"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="WordPay"><i class="ikey"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" v-for="pay in data" :href="'wxPay_new.html?reportId='+reportId+'&userId='+userId+
+			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</a>
 	</div>	
 
 </div>
@@ -67,9 +71,9 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/base.js?t=201805022"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-
+<script type="text/javascript" src="js/payChannel.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -89,7 +93,7 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<script>
+<!--<script>
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 //截取URL 获取
@@ -255,7 +259,7 @@ success : function(indexData) {
     	console.log(obj  + msg);
     }
 });
-</script>
+</script>-->
 
 </body>
 </html>

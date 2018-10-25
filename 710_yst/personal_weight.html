@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>体重</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<section class="my_view bck-col-f4">
+<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">体重</span></div>
+<p class="k1"></p>
+<div class="ncdint">
+	<input id="weight" type="number" placeholder="" pattern="[0-9]*" >
+	<em class="dele">KG</em>
+</div>
+
+<!--<input type="hidden" id="userId" value="101" />-->
+<p class="d-out"><button class="mbtn-sub">保存</button></p>
+
+</section>	
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script type="text/javascript">
+$(window).load(function(){
+	//截取URL 获取
+	function GetQueryString(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	};
+	var myuserId=GetQueryString("userId");
+	var myweight=GetQueryString("weight");	
+	if(myweight == null || myweight == 'null' || myweight == ''){
+		$('#weight').attr("placeholder",'请设置您的体重');
+	}else{
+		$('#weight').attr("placeholder",myweight);	
+	}
+	
+	$('#weight').on("keyup keypress input",function(){
+		var value = $(this).val();
+		var dian = /\./g;
+		if(dian.test(value)){
+			this.value = value.replace(dian,'');
+		}
+		if(value.length>3){
+			this.value = value.slice(0,3);
+		}
+	});
+	
+	
+	$(".mbtn-sub").click(function(){
+		var myweight = $('#weight').val();
+		//var bbb = $("#userId").val();
+		var userInfo = {
+			weight : myweight,
+			userId : myuserId
+		}
+		$.ajax({
+			url : dataUrl + "/api/v1/reportUser/updateById",
+			type : "post",
+			dataType : 'json',
+			contentType : 'application/json',
+            data : JSON.stringify(userInfo),
+			success : function(userData) {
+				//debugger;
+				if(userData.code == 200){
+					window.location.href="personalData.html?userId="+myuserId
+				}
+			},
+			error : function(){
+				alert('请求失败了')
+			}
+		})
+	})
+});
+</script>
+</body>
+</html>

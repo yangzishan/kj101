@@ -9,7 +9,7 @@
 <title>支付</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?t=20180927" />
+<link rel="stylesheet" type="text/css" href="css/style.css?t=20181018" />
 </head>
 <body style="background: #f0f0f0;">
 <div class="my_view" id="appVUE">
@@ -72,9 +72,13 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="WordPay"><i class="ico"><img src="img/o-key.png"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" id="wxpay"><i class="ico"><img src="img/o-wx.png"></i><span id="wxPay">微信支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" id="kaPay"><i class="ico"><img src="img/o-card.png"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="WordPay"><i class="ikey"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" v-for="pay in data" :href="'wxPay_new.html?reportId='+reportId+'&userId='+userId+
+			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</a>
 	</div>	
 
 </div>
@@ -92,8 +96,9 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/base.js?t=201805022"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/payChannel.js"></script>
 
 <script type="text/javascript">
 (function (doc, win) {
@@ -115,7 +120,7 @@
 })(document, window);
 </script>
 <script>
-$('.my_view').css("display","none");
+/*$('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 //截取URL 获取
 function GetQueryString(name){
@@ -293,7 +298,7 @@ success : function(indexData) {
     error : function(obj,msg){
     	console.log(obj  + msg);
     }
-});
+});*/
 </script>
 
 </body>

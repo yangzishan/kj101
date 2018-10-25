@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/index3.css" />
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
+</head>
+<body style="visibility: hidden;">
+<DIV class="all-view">
+	<!--头部-->
+	<header class="header">
+		<div class="mine header-box">
+			<div class="img-box"><img src="./images/tx-icon.png" /></div>
+			<span @click="goSet()">个人中心</span>
+		</div>
+		<div class="title">{{inspectDate}}</div>
+		<div class="report header-box">
+			<span @click="checkHistory()">历史报告</span>
+			<div class="img-box"><img src="./images/ls-icon.png" /></div>
+		</div>
+	</header>
+	<!-- 导航 -->
+	<div class="kj-nav-box">
+		<ul>
+			<li class="active">
+				<div class="index-img"><img src="./images/nav-1.png" /></div>
+				<p>首页</p>
+			</li>
+			<li @click="adviseHref()">
+				<div class="index-img"><img src="./images/nav-02.png" /></div>
+				<p>建议</p>
+			</li>
+			<li @click="recipeHref()">
+				<div class="index-img"><img src="./images/nav-03.png" /></div>
+				<p>食谱</p>
+			</li>
+			<li @click="graphHref()">
+				<div class="index-img"><img src="./images/nav-04.png" /></div>
+				<p>趋势</p>
+			</li>
+		</ul>
+	</div>
+	<!--报告说明-->
+	<div class="report-box">注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。<a href="notice3.html">了解更多</a></div>
+	<div class="kj-box">
+	<!--综合健康分数-->
+		<div class="sleep-box synthesis">
+			<div class="header-img"><img :src="headimgurl"/></div>
+			<div class="title">
+				<p class="bmi-box"><span class="state">综合分数</span><span class="explain" @click="clickA()"><img src="./images/explain.png" /></span></p>
+			</div>
+			<!--进度条-->
+			<div class="strip">
+				<div class="active" :style="'width:'+ totalScore +'%'">
+					<div class="dot">
+						<div class="within-dot"><span>{{totalScore}}分</span><p class="trigon"><img src="./images/trigon.png"/></p></div>
+					</div>
+				</div>
+			</div>
+			<p class="num"><spn class="left">0</spn><spn class="right">100</spn></p>
+			<p class="advise"><span class="dot-box"></span>您的分数好于<span class="greater">{{ranking}}%</span>的人</p>
+			<div class="bottom-box"></div>
+			<div class="shade" v-show="popupA" @click="shade">
+				<div class="popup">智能筛查机器人针对您的整体健康状况给予综合健康得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态。</div>
+			</div>
+		</div>
+		<!--亚健康风险-->
+		<div class="sleep-box sub-health">
+			<div class="title">
+				<p class="bmi-box"><span class="state">亚健康风险</span><span class="explain" @click="clickB()"><img src="./images/explain.png" /></span></p>
+			</div>
+			<div class="text">
+				<div class="pointer" :class="
+					[{'best':100 >= totalScore && totalScore >= 95},
+					{'well':94 >= totalScore && totalScore >= 90},
+					{'second':84 >= totalScore && totalScore >=80},
+					{'bad':80 > totalScore}]"><img src="./images/jt.png" />
+				</div>
+			</div>
+			<p class="advise">
+				<span class="dot-box"></span>
+				<span  v-if="100 >= totalScore && totalScore >= 95">健康状态优秀、生理状态最佳。</span>
+				<span  v-else-if="94 >= totalScore && totalScore >= 90">健康状态良好、生理状态较佳。</span>
+				<span  v-else-if="89 >= totalScore && totalScore >=85">健康状态较好、机体功能轻度紧张。</span>
+				<span  v-else-if="84 >= totalScore && totalScore >=80">健康状态下降、机体功能中度紊乱或紧张。</span>
+				<span  v-else>健康状态不佳、机体功能紊乱程度较高。</span>
+			</p>
+			<div class="bottom-box"></div>
+			<div class="shade" v-show="popupB" @click="shade">
+				<div class="popup">
+					<div>
+						<p>最佳状态（95-100）</p>
+						<p>健康状态优秀、生理状态最佳。</p>
+					</div>
+					<div>
+						<p>良好状态（90-94）</p>
+						<p>健康状态良好、生理状态较佳。</p>
+					</div>
+					<div>
+						<p>一级风险（85-89）</p>
+						<p>健康状态较好、机体功能轻度紧张。</p>
+					</div>
+					<div>
+						<p>二级风险（80-84）</p>
+						<p>健康状态下降、机体功能中度紊乱或紧张。</p>
+					</div>
+					<div>
+						<p>三级风险（80分以下）</p>
+						<p>健康状态不佳、机体功能紊乱程度较高。</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 快乐指数 -->
+		<div class="sleep-box  happy">
+			<div class="title">
+				<p class="bmi-box"><span class="state">{{data[0].targetName}}</span><span class="explain" @click="clickF()"><img src="./images/explain.png" /></span></p>
+			</div>
+			<!--best快乐  joviality愉悦  peace平和 depress压抑 gloomy郁闷 -->
+			<div class="happy-box" 
+			:class="[{
+				'gloomy':data[0].childTarget[0].abLive == 4},
+				{'best':data[0].childTarget[0].abLive == 0},
+				{'joviality':data[0].childTarget[0].abLive == 1},
+				{'peace':data[0].childTarget[0].abLive == 2},
+				{'depress':data[0].childTarget[0].abLive == 3}
+			]">
+				<span class="gloomy-title">郁闷</span>
+				<span class="depress-title">压抑</span>
+				<span class="peace-title">平和</span>
+				<span class="joviality-title">愉悦</span>
+				<span class="best-title">快乐</span>
+			</div>
+			<div class="happy-icon"
+			:class="[{
+				'gloomy-box':data[0].childTarget[0].abLive == 4},
+				{'best-box':data[0].childTarget[0].abLive == 0},
+				{'joviality-box':data[0].childTarget[0].abLive == 1},
+				{'peace-box':data[0].childTarget[0].abLive == 2},
+				{'depress-box':data[0].childTarget[0].abLive == 3}
+			]">
+				<div class="img"></div>
+				<p v-if="data[0].childTarget[0].abLive == 4">郁闷</p>
+				<p v-else-if="data[0].childTarget[0].abLive == 0">快乐</p>
+				<p v-else-if="data[0].childTarget[0].abLive == 1">愉悦</p>
+				<p v-else-if="data[0].childTarget[0].abLive == 2">平和</p>
+				<p v-else>压抑</p>
+			</div>
+			<p v-if="data[0].childTarget[0].abLive == 4" class="advise"><span class="dot-box"></span><span>情绪较差，偶有悲观厌世，关注美好事物，重获愉悦心情</span></p>
+			<p v-else-if="data[0].childTarget[0].abLive == 0" class="advise"><span class="dot-box"></span><span>情绪良好，心灵满足，请继续保持好心情。</span></p>
+			<p v-else-if="data[0].childTarget[0].abLive == 1" class="advise"><span class="dot-box"></span><span>情绪较好，心情愉悦，请继续保持好心情。</span></p>
+			<p v-else-if="data[0].childTarget[0].abLive == 2" class="advise"><span class="dot-box"></span><span>情绪平和，心情稳定，请放松心情保持良好状态。</span></p>
+			<p v-else class="advise"><span class="dot-box"></span><span>情绪低落，心情压抑，关注美好事物，重获愉悦心情。</span></p>
+			<div class="bottom-box"></div>
+			<div class="shade" v-show="popupF" @click="shade"><div class="popup">{{data[0].explain}}</div></div>
+		</div>
+		<!--睡眠质量-->
+		<div class="sleep-box quality">
+			<div class="title-img"><img src="./images/deng-icon.png" /></div>
+			<div class="sleep-text">
+				<p class="bmi-box"><span class="state">{{data[1].targetName}}</span><span class="explain" @click="clickC()"><img src="./images/explain.png" /></span></p>
+			</div>
+			<div class="percent">
+				<p class="yello"></p>
+				<p class="blue"></p>
+				<p class="last-child"></p>
+				<div  v-show="90 > data[1].score" class="active" style="width:19%;"><div class="dot"><p></p></div></div>
+				<div v-show="95 > data[1].score && data[1].score >= 90" class="active" style="width:52%;"><div class="dot"><p></p></div></div>
+				<div  v-show="data[1].score >= 95" class="active" style="width:85%;"><div class="dot"><p></p></div></div>
+			</div>
+			<!--身体质量条-->
+			<div class="drawing-box">
+				<div class="bad-box">
+					<div class="drawing-img"><img src="./images/moon.png" /></div>
+					<span>有待改善</span>
+				</div>
+				<div class="normal-box">
+					<div class="drawing-img"><img src="./images/moon2.png" /></div>
+					<span>正常</span>
+				</div>
+				<div class="excellent-box">
+					<div class="drawing-img"><img src="./images/moon3.png" /></div>
+					<span>良好</span>
+				</div>
+			</div>
+			<p class="advise">
+				<span class="dot-box"></span>
+				<span v-show="90 > data[1].score">睡眠质量有待改善，与作息时间不规律有关。</span>
+				<span v-show="95 > data[1].score && data[1].score >= 90">睡眠质量正常，建议规律作息，舒缓心情。</span>
+				<span v-show="data[1].score >= 95">睡眠质量良好，请保持规律作息和舒缓心情。</span>
+			</p>
+			<div class="bottom-box"></div>
+			<div class="shade" v-show="popupC" @click="shade"><div class="popup">{{data[1].explain}}</div></div>
+		</div>
+		<!--实时状态-->
+		<div class="sleep-box real-time">
+			<p class="title">{{data[2].targetName}}</p>
+			<ul>
+				<li :class="'listImg'+index" v-for="(item,index) in data[2].childTarget">
+					<div class="caption">
+						<span class="img-box"></span>
+						<span class="text">{{item.targetName}}</span>
+						<span class="explain" @click="liClick(index)"><img src="./images/explain.png" /></span>
+					</div>
+					<div v-if="item.targetId !='3232'" class="thread">
+						<p v-if="item.abLive == 4"><span class="active"></span><span></span><span></span><span></span><span></span></p>
+						<p v-else-if="item.abLive == 3"><span class="active"></span><span class="active"></span><span></span><span></span><span></span></p>
+						<p v-else-if="item.abLive == 2"><span class="active"></span><span class="active"></span><span class="active"></span><span></span><span></span></p>
+						<p v-else-if="item.abLive == 1"><span class="active"></span><span class="active"></span><span class="active"></span class="active"><span></span><span></span></p>
+						<p v-else><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span></p>
+					</div>
+					<div class="thread-txt" v-else>{{item.abLive}}</div>
+					<div class="shade" v-show='isActive[index]' @click="shade(index)"><div class="popup">{{item.explain}}</div></div>
+				</li>
+			</ul>
+			<div class="bottom-box"></div>
+		</div>
+		<!--BMI健康状态-->
+		<div class="sleep-box bmi">
+			<p class="title-img"><img src="./images/ybp.png"/></p>
+			<p class="bmi-box"><span class="title">{{data[3].targetName}}</span><span class="explain" @click="clickD()"><img src="./images/explain.png" /></span></p>
+			<div class="percent">
+				<div class="number-box number">
+					<span>18.5</span>
+					<div v-if=" 18.5 >= data[3].score && data[3].score > 14" class="active" :style="'width:'+ data[3].score/18.5*100 +'%;'">
+						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					</div>
+					<div v-if=" 14 >= data[3].score" class="active" :style="'width:'+ 0 +'%;'">
+						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					</div>
+					<div v-if="  data[3].score > 18.5 " class="active" :style="'width:'+ 100 +'%;'"></div>
+				</div>
+				<div class="number-box number">
+					<span>24</span>
+					<div v-if=" 24 >= data[3].score && data[3].score >18.5" class="active" :style="'width:'+ data[3].score/24*100 +'%;'">
+						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					</div>
+					<div v-if="  data[3].score > 24 " class="active" :style="'width:'+ 100 +'%;'"></div>
+				</div>
+				<div class="number-box number">
+					<span>28</span>
+					<div v-if=" 28 >= data[3].score && data[3].score >24" class="active" :style="'width:'+ data[3].score/28*100 +'%;'">
+						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					</div>
+					<div v-if="  data[3].score > 28 " class="active" :style="'width:'+ 100 +'%;'"></div>
+				</div>
+				<div class="number-box last-child">
+					<div v-if=" 32 >= data[3].score && data[3].score >28" class="active" :style="'width:'+ data[3].score/32*100 +'%;'">
+						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					</div>
+					<div v-if="data[3].score > 32" class="active" :style="'width:'+ 100 +'%;'">
+						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					</div>
+				</div>
+			</div>
+			<div class="weight"><p>偏轻</p><p>健康</p><p>超重</p><p>肥胖</p></div>
+			<p v-show="18.5 > data[3].score" class="advise"><span class="dot-box"></span><span>建议增加营养摄入，配合力量训练，增加体重。</span></p>
+			<p v-show="23.9 > data[3].score && data[3].score > 18.5" class="advise"><span class="dot-box"></span><span>建议维持目前的饮食结构和运动强度。</span></p>
+			<p v-show="27 > data[3].score && data[3].score > 24" class="advise"><span class="dot-box"></span><span>建议调整膳食，控制能量摄入，并增加运动量。</span></p>
+			<p v-show="data[3].score  > 28 " class="advise"><span class="dot-box"></span><span>建议控制饮食，增加运动，必要时可以选择其他减肥方案介入。</span></p>
+			<div class="bottom-box"></div>
+			<!--修改身体信息-->
+			<div class="alter">
+				<div class="title" @click="update()">更新</div>
+				<div v-show="isShow" class="alter-box">
+					<div class="write">
+						<span>身高：</span>
+						<div><input type="number" id="_height" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+						<span>cm</span>
+					</div>
+					<div class="write">
+						<span>体重：</span>
+						<div><input type="number" id="_weight" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+						<span>kg</span>
+					</div>
+					<div class="confirm" @click="sure()">确定</div>
+				</div>
+			</div>
+			<div class="shade" v-show="popupD" @click="shade"><div class="popup">{{data[3].explain}}</div></div>
+		</div>
+		<!--健康状态表-->
+		<ul>
+			<!-- 营养状态 -->
+			<li class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[4].score > 80" class="img"><img src="./images/icon1.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[4].score" class="img"><img src="./images/icon-1.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[4].score > 80">{{data[4].targetName}}</span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[4].score" class="yello">{{data[4].targetName}}</span>
+						<span class="explain" @click="listG()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[4].hintName}}</p>
+				</div>
+				<div v-show="data[4].score >= 70" class="amount" :class="{'yello-img': 80 >= data[4].score}">
+					<div class="active">
+						<p :style="'height:'+data[4].score +'%;'" :class="{'yello-color': 80 >= data[4].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[4].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupG" @click="shade"><div class="popup">{{data[4].explain}}</div></div>
+			</li>
+			<!-- 免疫能力 -->
+			<li class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[5].score > 80" class="img"><img src="./images/icon2.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[5].score" class="img"><img src="./images/icon-2.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[5].score > 80">{{data[5].targetName}}</span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[5].score" class="yello">{{data[5].targetName}}</span>
+						<span class="explain" @click="listH()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[5].hintName}}</p>
+				</div>
+				<div v-show="data[5].score >= 70" class="amount" :class="{'yello-img': 80 >= data[5].score}">
+					<div class="active">
+						<p :style="'height:'+data[5].score +'%;'" :class="{'yello-color': 80 >= data[5].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[5].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupH" @click="shade"><div class="popup">{{data[5].explain}}</div></div>
+			</li>
+			<!-- 消化能力 -->
+			<li class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[6].score > 80" class="img"><img src="./images/icon3.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[6].score" class="img"><img src="./images/icon-3.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[6].score > 80">{{data[6].targetName}}</span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[6].score" class="yello">{{data[6].targetName}}</span>
+						<span class="explain" @click="listI()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[6].hintName}}</p>
+				</div>
+				<div v-show="data[6].score >= 70" class="amount" :class="{'yello-img': 80 >= data[6].score}">
+					<div class="active">
+						<p :style="'height:'+data[6].score +'%;'" :class="{'yello-color': 80 >= data[6].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[6].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupI" @click="shade"><div class="popup">{{data[6].explain}}</div></div>
+			</li>
+			<!-- 吸收能力 -->
+			<li class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[7].score > 80" class="img"><img src="./images/icon4.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[7].score" class="img"><img src="./images/icon-4.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[7].score > 80">{{data[7].targetName}}</span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[7].score" class="yello">{{data[7].targetName}}</span>
+						<span class="explain" @click="listJ()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[7].hintName}}</p>
+				</div>
+				<div v-show="data[7].score >= 70" class="amount" :class="{'yello-img': 80 >= data[7].score}">
+					<div class="active">
+						<p :style="'height:'+data[7].score +'%;'" :class="{'yello-color': 80 >= data[7].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[7].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupJ" @click="shade"><div class="popup">{{data[7].explain}}</div></div>
+			</li>
+			<!-- 代谢能力 -->
+			<li class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[8].score > 80" class="img"><img src="./images/icon5.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[8].score" class="img"><img src="./images/icon-5.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[8].score > 80">{{data[8].targetName}}</span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[8].score" class="yello">{{data[8].targetName}}</span>
+						<span class="explain" @click="listK()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[8].hintName}}</p>
+				</div>
+				<div v-show="data[8].score >= 70" class="amount" :class="{'yello-img': 80 >= data[8].score}">
+					<div class="active">
+						<p :style="'height:'+data[8].score +'%;'" :class="{'yello-color': 80 >= data[8].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[8].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupK" @click="shade"><div class="popup">{{data[8].explain}}</div></div>
+			</li>
+			<!-- 男性功能 -->
+			<li v-if="sex == 1" class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[9].score > 80" class="img"><img src="./images/icon6.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[9].score" class="img"><img src="./images/icon-6.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[9].score > 80">{{data[9].targetName}}</span>
+						<span v-show="data[9].score > 80" class="ln"><img src="./images/ln2.png"></span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[9].score" class="yello">{{data[9].targetName}}</span>
+						<span v-show="80 >= data[9].score" class="ln"><img src="./images/ln.png"></span>
+						<span class="explain" @click="listL()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[9].hintName}}</p>
+				</div>
+				<div v-show="data[9].score >= 70" class="amount" :class="{'yello-img': 80 >= data[9].score}">
+					<div class="active">
+						<p :style="'height:'+data[9].score +'%;'" :class="{'yello-color': 80 >= data[9].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[9].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupL" @click="shade"><div class="popup">{{data[9].explain}}</div></div>
+			</li>
+			<!-- 女性功能 -->
+			<li v-if="sex == 0" class="condition">
+				<!-- 指数大于80的时候显示蓝色 -->
+				<div v-show="data[10].score > 80" class="img"><img src="./images/icon6.png" /></div>
+				<!-- 指数小于等于80的时候显示黄色 -->
+				<div v-show="80 >= data[10].score" class="img"><img src="./images/icon-6.png" /></div>
+				<div class="txt">
+					<p class="title">
+						<!-- 指数大于80的时候显示蓝色 -->
+						<span v-show="data[10].score > 80">{{data[10].targetName}}</span>
+						<span v-show="data[10].score > 80" class="ln"><img src="./images/hg2.png"></span>
+						<!-- 指数小于等于80的时候显示黄色 -->
+						<span v-show="80 >= data[10].score" class="yello">{{data[10].targetName}}</span>
+						<span v-show="80 >= data[10].score" class="ln"><img src="./images/hg.png"></span>
+						<span class="explain" @click="listL()"><img src="./images/explain.png"><span>
+					</p>
+					<p class="declare">{{data[10].hintName}}</p>
+				</div>
+				<div v-show="data[10].score >= 70" class="amount" :class="{'yello-img': 80 >= data[10].score}">
+					<div class="active">
+						<p :style="'height:'+data[10].score +'%;'" :class="{'yello-color': 80 >= data[10].score}"></p>
+					</div>
+				</div>
+				<div v-show="70 >= data[10].score" class="amount-yello"></div>
+				<div class="shade" v-show="popupL" @click="shade"><div class="popup">{{data[10].explain}}</div></div>
+			</li>
+		</ul>
+		<!--皮肤评估-->
+		<div class="skin">
+			<p class="title">
+				<span>{{data[11].targetName}}</span>
+				<span class="explain" @click="clickE()"><img src="./images/explain.png"></span>
+				<span class="normal" v-if="data[11].childTarget[0].abLevel == 1 && data[11].childTarget[1].abLevel == 1 && data[11].childTarget[2].abLevel == 1 && data[11].childTarget[3].abLevel == 1 ">正常</span>
+			</p>
+			<div class="skin-box">
+				<div class="img-box">
+					<div class="center">
+						<div class="img">
+							<img v-if="sex == 1" src="./images/boy.png"/>
+							<img v-else src="./images/girl.png"/>
+						</div>
+						<div class="list">
+							<p><span class="img-box-a">油脂</span><span class="img-box-b">角质</span></p>
+							<p><span class="img-box-c">水分</span><span class="img-box-d">胶原蛋白</span></p>
+						</div>
+					</div>
+				</div>
+				<div v-if="data[11].childTarget[0].abLevel != 1 || data[11].childTarget[1].abLevel != 1 || data[11].childTarget[2].abLevel != 1 || data[11].childTarget[3].abLevel != 1 " class="text-box">
+					<p class="title">需重点关注改善：</p>
+					<!-- 胶原蛋白 -->
+					<div class="suggest-box" v-show="90 > data[11].childTarget[0].score">
+							<div class="card">
+								<p><span class="img"><img src="./images/dot.png"/></span><span>胶原</span></p>
+								<p class="moisture">蛋白</p>
+							</div>
+							<div class="suggest"><p v-show="data[11].childTarget[0].abLevel != 1">胶原蛋白轻微异常，可能出现肌肤干燥、皱纹、色斑、毛孔粗大等问题。</p>		
+							</div>
+					</div>
+					<!-- 皮肤油脂 -->
+					<div class="suggest-box" v-show="90 > data[11].childTarget[1].score">
+						<div class="card">
+							<p><span class="img"><img src="./images/dot.png"/></span><span>皮肤</span></p>
+							<p class="moisture">油脂</p>
+						</div>
+						<div class="suggest"><p v-show="data[11].childTarget[1].abLevel != 1">皮肤油脂轻微异常，可能出现痤疮、脂溢性皮炎等皮肤问题。</p></div>
+					</div>
+					<!-- 皮肤水分 -->
+					<div class="suggest-box" v-show="90 > data[11].childTarget[2].score">
+						<div class="card">
+							<p><span class="img"><img src="./images/dot.png"/></span><span>皮肤</span></p>
+							<p class="moisture">水分</p>
+						</div>
+						<div class="suggest"><p v-show="data[11].childTarget[2].abLevel != 1">皮肤水分轻微异常，可能出现皮肤松弛、干燥、发痒等问题。</p></div>
+					</div>	
+					<!-- 皮肤角质 -->	
+					<div class="suggest-box" v-show="90 > data[11].childTarget[3].score">
+						<div class="card">
+							<p><span class="img"><img src="./images/dot.png"/></span><span>皮肤</span></p>
+							<p class="moisture">角质</p>
+						</div>
+						<div class="suggest">
+						<p v-show="data[11].childTarget[3].abLevel == 2">皮肤角质偏厚，可能出现粉刺、毛孔粗大等皮肤问题。</p>	
+						<p v-show="data[11].childTarget[3].abLevel > 2">皮肤角质偏薄，可能出现肌肤敏感、发红、易过敏等问题。</p>	
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="shade" v-show="popupE" @click="shade"><div class="popup">{{data[11].explain}}</div></div>
+		</div>
+	</div>
+</DIV>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/index3.js"></script>
+<script>
+    var dpr = document.documentElement.getAttribute('data-dpr') || 1
+    var width = document.documentElement.offsetWidth
+    var fontSize = 100/750 * width;
+    document.querySelector('html').style.fontSize = (fontSize)+'px';
+    window.addEventListener('resize',function(){
+        var width = document.querySelector('html').offsetWidth;
+        var fontSize = 100/750 * width;
+        document.querySelector('html').style.fontSize = (fontSize)+'px';
+    })
+</script> 
+</body>
+</html>

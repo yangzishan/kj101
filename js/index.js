@@ -255,6 +255,8 @@ $.ajax({
 			});
 		}else if(data.code == 402){
 			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+		}else if(data.code == 405){
+			window.location.href="userInfor.html?reportId=" + myReportId + "&openId=" + myopenId + "&edition="+edition;
 		}else if(data.code == 403){
 			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
 		}else if(data.code == 302){

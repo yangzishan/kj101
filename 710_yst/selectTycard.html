@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>选择年卡支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body style="background: #fff;">
+	
+<section class="my_view" style="display: none;">
+	
+<header class="header">
+	<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+	<a class="t-right fr" href=""></a>
+	<p class="t-cen txt1"><span>卡支付</span></p>
+</header>
+<div class="tjk_v" id="appVUE">
+	<label class="g-tyk" v-for="card in cards">
+		<div class="tyk_x">
+			<em class="mask">已绑定</em>
+			<p class="tit"><span class="nam">VIP</span><span class="nam_lit">(年)</span></p>
+			<p class="tnum">卡号 <span>{{card.password}}</span></p>
+			<input class="kaNo" type="hidden" :value="card.password" />
+			<p class="remainder">剩余<span>{{card.value}}</span>次</p>
+			<p class="date">有效期至 <span class="sxDate">{{card.endTime}}</span></p>
+			<i class="sel"></i>
+			<input type="radio" />
+		</div>
+	</label>
+
+	<div class="tyk-fix" style="position: fixed; bottom: 0; left: 0; width: 100%; padding:0; box-shadow: 0 0 .1rem #000000; border-radius: .1rem;">
+		<button id="goPay" class="tyk-btn">确 认</button>
+	</div>
+</div>
+
+</section>
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/checkMsg.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<script>
+$('.my_view').css("display","none");
+$('.load-overlay').css("display","block");
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var myreportId=GetQueryString("reportId");
+var mypackageId=GetQueryString("packageId");
+var myuserId=GetQueryString("userId");
+var myopenId=GetQueryString("openId");
+
+$.ajax({
+	url : dataUrl + "/api/v1/cardPay/findUserCards",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	   	userId : myuserId,
+	   	reportId: myreportId
+	},
+	success : function(data) {
+		//alert('get it');
+		if(data.code == 200){
+			$('.my_view').css("display","block");
+			$('.load-overlay').css("display","none");
+			var myApp = new Vue({
+			  	el: '#appVUE',
+			  	data: {
+			    	cards: data.data.List
+			  	}			  
+			});
+			//遍历卡 设置格式
+			$('.g-tyk').each(function(){
+				var dateStr1 = $(this).find('.sxDate').text();
+				var dateStr2 = dateStr1.substring(0,10);
+				$(this).find('.sxDate').text(dateStr2);
+			});
+			
+			//隐藏卡号加选中样式
+			$('.g-tyk .tyk_x .tnum span').each(function(){
+				var str = $(this).text();
+				var reg = /^(\d{4})\d+(\d{4})$/;
+				$(this).text(str.replace(reg, "$1********$2"));
+			});
+			$('.g-tyk').on("click",function(){
+				$(this).addClass('on').siblings().removeClass('on');
+			});
+			
+			$('#goPay').on("click",function(){
+				var mywordNum = $('.g-tyk.on .tyk_x .kaNo').val();
+				if(mywordNum == '' || mywordNum == undefined || mywordNum == null){
+					alert('请选择要支付的卡');
+				}else{
+					$(this).attr("disabled",true);
+					$.ajax({
+						url : dataUrl + "/api/v1/cardPay/insertWordPay",
+						type : "POST",
+						dataType : 'json',
+						data : {
+						   	reportId : myreportId,
+						    packageId : mypackageId,
+							userId : myuserId,
+							wordNum: mywordNum,
+							batchType: 20
+						},
+						success : function(resultData){
+							if(resultData.code == 200){
+								if(resultData.data == "0"){
+									window.location.href="index.html?reportId="+myreportId + '&openId=' + myopenId;
+								}else if(resultData.data == "true"){
+									alert('该报告已支付');
+									window.location.href="index.html?reportId="+myreportId + '&openId=' + myopenId;
+								}else{
+									setTimeout(function(){$('#goPay').attr("disabled",false)},500);
+									alert(checkMsg(resultData.data));
+								}
+							}else if(resultData.code == 300){
+								setTimeout(function(){$('#goPay').attr("disabled",false)},500);
+								alert('支付失败 请重试');
+							}else{
+								alert('code=' + resultData.code);
+							}
+	
+						},
+						error : function(obj,msg){
+							//alert('支付接口调用失败');
+						}
+						
+					});
+				}
+	
+			});
+			
+			
+		}else{
+			alert('code='+ data.code)
+		}
+	},
+	
+	error : function(obj,msg){
+		//debugger
+		alert('请求失败');
+	}
+});
+</script>
+</body>
+</html>

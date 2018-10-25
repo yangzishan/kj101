@@ -29,7 +29,7 @@
 	<div class="d-wxpay" id="usecoupon" style="display: none;">
 		<p class="coutit">使用优惠券</p>
 		<div class="wxpay">
-			<p class="coupon on"><i class="check"></i><span>再次检测使用优惠券</span><em id="discount" class="fr">-￥0</em></p>
+			<p class="coupon on"><i class="check"></i><span>使用优惠券</span><em id="discount" class="fr">-￥0</em></p>
 		</div>
 		<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font id="subprice">{{price}}</font></p>
 	</div>
@@ -211,7 +211,7 @@ $.ajax({
 			voucherId = data.data.voucherId;
 			$('#discount').text('￥-'+ discount);
 			
-			$('#subprice').text((myprice*10-discount*10)/10);
+			$('#subprice').text((myprice-discount).toFixed(2));
 			/*$('.coupon').on("click",function(){
 				if($(this).hasClass('on')){
 					$('#subprice').text(myprice);

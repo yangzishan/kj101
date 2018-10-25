@@ -1,0 +1,964 @@
+
+.explain{
+    height: .31rem;
+    width: .31rem;
+    display: block;
+}
+.header{
+    display: -webkit-flex;
+    display: flex;
+    display: -webkit-flex;
+    background: #2fbab0;
+    height: .88rem;
+    color: #fff;
+    font-size: .24rem;
+    padding: 0 .3rem;
+    align-items: center;
+    font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';
+}
+.header .header-box{
+    flex: 1;
+}
+.header .mine,
+.header .report{
+    overflow: hidden;
+}
+.header .mine .img-box{
+    padding: .23rem .05rem 0 0; 
+    width: .34rem;
+    height: .34rem;
+    float: left;
+}
+.header .mine span,
+.header .title,
+.header .report span
+{
+    line-height: .8rem; font-size: .28rem;
+}
+.header .title{
+    text-align: center; font-size: .24rem;
+}
+.header .report span{
+    float: right;
+}
+.header .report .img-box{
+    float: right;
+    width: .34rem;
+    height: .34rem;
+    margin: .23rem .1rem 0 0;
+}
+.report-box{
+    background: #f3f2f2;
+    font-size: .22rem;
+    padding: .1rem .2rem;
+    line-height: .3rem;
+}
+.report-box a{
+    color: #4ba59e;
+}
+.kj-box{
+    font-family:'Source Han Sans CN', 'PingFang SC','Microsoft YaHei';
+    padding: 0 .3rem;
+}
+/*综合质量*/
+.synthesis{
+    position: relative;
+}
+.synthesis .header-img{
+    position: absolute;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 1rem;
+    border:.05rem solid #4aa59e;
+    top: .13rem;
+    left: 0;
+    overflow: hidden;
+}
+.synthesis .title{
+    overflow: hidden;
+    margin: .1rem auto .25rem auto;
+    font-size: .33rem;
+    color: #30c6bf;
+    display: flex;
+    justify-content: center;
+}
+/* 11改动代码 */
+.synthesis .title .bmi-box{
+    position: relative;
+} 
+/* .synthesis .title .bmi-box span{
+    float: left;
+} */
+.synthesis .title .explain{
+    /* margin: .03rem 0 0 .05rem; */
+    position: absolute;
+    top:.04rem;
+    right: -.35rem;
+}
+/* 11改动代码 */
+.synthesis .strip{
+    width: 5.35rem;
+    height: .25rem;
+    margin: .65rem auto 0 auto;
+    background: #fff;
+    box-shadow: 0px 4px 10px #ccc;
+    border-radius:.3rem;
+}
+.synthesis .num{
+    width: 5.35rem;
+    padding-top: .1rem;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.synthesis .num .left{
+    float: left;
+}
+.synthesis .num .right{
+    float: right;
+}
+.synthesis .strip .active{
+    height: .25rem;
+    background: linear-gradient(to top right, #77fcf6, #36b4ad);
+    border-radius:.3rem;
+}
+.synthesis .strip .active .dot{
+    width: .45rem;
+    height: .45rem;
+    background: #fff;
+    margin-top: -.1rem;
+    border-radius: 1rem;
+    float: right;
+    box-shadow: .05rem .05rem .05rem #dcdbdb;
+}
+.synthesis .strip .active .dot .within-dot{
+    width: .35rem;
+    height: .35rem;
+    border-radius: 1rem;
+    background: #2ec4bd;
+    margin: .05rem auto;
+    position: relative;
+}
+.synthesis .strip .active .dot .within-dot span{
+    display: block;
+    margin: -.5rem 0 0 -.25rem;
+    position: absolute;
+    color: #4ba59e;
+    font-size: .34rem;
+    width: 1rem;
+    text-align: center;
+}
+.synthesis .strip .active .dot .within-dot .trigon{
+    position: absolute;
+    bottom:-.45rem;
+    left: .065rem;
+    width: .21rem;
+}
+.synthesis .advise{
+    margin: .15rem auto .2rem auto !important;
+}
+/* 11改动代码 */
+.synthesis .advise .greater{
+    color: #62c3be;
+    font-weight: bold;
+}
+/* 11改动代码 */
+/*亚健康风险*/
+.sub-health .header-img{
+    position: absolute;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 1rem;
+    border:.05rem solid #4aa59e;
+    top: .13rem;
+    left: 0;
+    overflow: hidden;
+}
+.sub-health .title{
+    overflow: hidden;
+    margin: .1rem auto .25rem auto;
+    font-size: .33rem;
+    color: #30c6bf;
+    display: flex;
+    justify-content: center;
+}
+/* 11改动代码 */
+.sub-health .title .bmi-box{
+    position: relative;
+} 
+/* .sub-health .title .bmi-box span{
+    float: left;
+} */
+.sub-health .title .explain{
+    /* margin: .03rem 0 0 .05rem; */
+    position: absolute;
+    top:.04rem;
+    right: -.35rem;
+}
+/* 11改动代码 */
+.sub-health .text{
+    width: 2.99rem;
+    height: 2.55rem;
+    background: url(../images/yq.png) no-repeat;
+    background-size: 100%;
+    margin: 0 auto
+}
+.sub-health .text .pointer{
+    width: .38rem;
+    height: .95rem;
+    margin: 0 auto;
+    padding-top:.9rem;
+}
+/*良好*/
+.sub-health .text .well{
+    width: .38rem;
+    height: .95rem;
+    margin: 0 auto 0 1.5rem !important;
+    padding-top:.9rem;
+}
+.sub-health .text .well img{
+    transform:rotate(60deg);
+}
+/*三级*/
+.sub-health .text .bad{
+    margin: 0 auto 0 1.5rem !important;
+}
+.sub-health .text .bad img{
+    transform:rotate(-120deg);
+    margin-top: 0.08rem;
+    margin-left: -.3rem;
+}
+/*二级*/
+.sub-health .text .second{
+    margin: 0 auto 0 1.5rem !important;
+}
+.sub-health .text .second img{
+    transform:rotate(-48deg);
+    margin-left: -.5rem;
+}
+/*最佳*/
+.sub-health .text .best{
+    margin: 0 auto 0 1.5rem !important;
+}
+.sub-health .text .best img{
+    transform:rotate(120deg);
+    margin-top: 0.08rem;
+    margin-right: -.3rem;
+}
+/*快乐指数*/
+.happy .title{
+    overflow: hidden;
+    margin: .1rem auto .6rem auto;
+    font-size: .33rem;
+    color: #30c6bf;
+    display: flex;
+    justify-content: center;
+}
+/* 11改动代码 */
+.happy .title .bmi-box{
+    position: relative;
+} 
+/* .happy .title .bmi-box span{
+    float: left;
+} */
+.happy .title .explain{
+    /* margin: .03rem 0 0 .05rem; */
+    position: absolute;
+    top:.04rem;
+    right: -.35rem;
+}
+/* 11改动代码 */
+.happy .happy-box{
+    width:4.55rem;
+    height: 1.16rem;
+    margin: 0 auto;
+    position: relative;
+}
+.happy .happy-box span{
+    position: absolute;
+    font-size: .3rem;
+    color: #595757;
+}
+.happy .happy-box .gloomy-title{
+    left: -.33rem;
+    top: .3rem;
+}
+.happy .happy-box .depress-title{
+    left: .68rem;
+    top: -.25rem;
+}
+.happy .happy-box .peace-title{
+    left: 1.97rem;
+    top: -.45rem;
+}
+.happy .happy-box .joviality-title{
+    left: 3.3rem;
+    top: -.25rem;
+}
+.happy .happy-box .best-title{
+    right: -.33rem;
+    top: .3rem;
+}
+.happy .gloomy{
+    background: url(../images/gloomy.png) no-repeat;
+    background-size: 100%;
+}
+.happy .depress{
+    background: url(../images/depress.png) no-repeat;
+    background-size: 100%;
+}
+.happy .peace{
+    background: url(../images/peace.png) no-repeat;
+    background-size: 100%;
+}
+.happy .joviality{
+    background: url(../images/joviality.png) no-repeat;
+    background-size: 100%;
+}
+.happy .best{
+    background: url(../images/best.png) no-repeat;
+    background-size: 100%;
+}
+.happy .happy-icon{
+   text-align: center;
+}
+.happy .gloomy-box .img{
+    background: url(../images/gloomy-icon.png) no-repeat;
+    background-size: 100%;
+     width: .53rem;
+    height: .53rem;
+    margin: -.6rem auto 0 auto;
+}
+.happy .depress-box .img{
+    background: url(../images/depress-icon.png) no-repeat;
+    background-size: 100%;
+     width: .53rem;
+    height: .53rem;
+    margin: -.6rem auto 0 auto;
+}
+.happy .peace-box .img{
+    background: url(../images/peace-icon.png) no-repeat;
+    background-size: 100%;
+     width: .53rem;
+    height: .53rem;
+    margin: -.6rem auto 0 auto;
+}
+.happy .joviality-box .img{
+    background: url(../images/joviality-icon.png) no-repeat;
+    background-size: 100%;
+     width: .53rem;
+    height: .53rem;
+    margin: -.6rem auto 0 auto;
+}
+.happy .best-box .img{
+    background: url(../images/best-icon.png) no-repeat;
+    background-size: 100%;
+     width: .53rem;
+    height: .53rem;
+    margin: -.6rem auto 0 auto;
+}
+/*睡眠质量*/
+.sleep-box{
+    padding: .25rem 0 0 0;
+}
+.sleep-box .title-img{
+    width: .75rem;
+    height: .75rem;
+    margin: 0 auto;
+}
+.sleep-box .sleep-text{
+    overflow: hidden;
+    margin: .1rem auto .25rem auto;
+    font-size: .33rem;
+    color: #30c6bf;
+    display: flex;
+    justify-content: center;
+}
+/* 11改动代码 */
+.sleep-box .bmi-box{
+    position: relative;
+} 
+/* .sleep-box .bmi-box span{
+    float: left;
+} */
+.sleep-box .explain{
+    /* margin: .03rem 0 0 .05rem; */
+    position: absolute;
+    top:.04rem;
+    right: -.35rem;
+}
+/* 11改动代码 */
+.sleep-box .drawing-box{
+    overflow: hidden;
+    display: flex;
+    display: -webkit-flex;
+    padding: 0 .15rem;
+}
+.quality .percent{
+    height: .15rem;
+    margin: .25rem .15rem;
+    display: flex;
+    display: -webkit-flex;
+    position: relative;
+}
+.quality .percent p{
+    flex: 1;
+    height: .15rem;
+}
+.quality .percent .yello{
+    background: #fcd436;
+    border-right: 1px solid #fff;
+    border-radius: .5rem 0 0 .5rem;
+}
+.quality .percent .blue{
+    background: #30c6bf;
+    border-right: 1px solid #fff;
+}
+.quality .percent .last-child{
+    background: #4aa59e;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+.quality .percent .active{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: .12rem;
+    border-radius: 1rem;
+}
+.quality .percent .active .dot{
+    width: .3rem;
+    height: .3rem;
+    background: #fff;
+    margin-top:-.09rem;
+    border-radius: 1rem;
+    float: right;
+    box-shadow: .05rem .05rem .05rem #dcdbdb;
+}
+.quality .percent .active .dot p{
+    display: block;
+    width: .18rem;
+    height: .18rem;
+    border-radius: 1rem;
+    background: #2ec4bd;
+    margin: .06rem auto;
+    position: relative;
+}
+
+.sleep-box .drawing-box div{
+    flex: 1;
+    text-align: center;
+}
+.sleep-box .drawing-box .drawing-img{
+    width: .37rem;
+    height: .38rem;
+    margin: 0 auto .15rem auto;
+}
+.advise{
+    display:flex;
+    justify-content: center;/*水平居中*/
+}
+.advise .dot-box{
+    width: .11rem;
+    height: .11rem;
+    background: #8fc320;
+    border-radius: 1rem;
+    display: block;
+    margin: .15rem;
+}
+.sleep-box .advise{
+    margin: .3rem 0 .25rem 0;
+}
+.sleep-box .bottom-box{
+    height: .28rem;
+    width: 100%;
+    border-radius:1rem;
+    background: #e2e2e2;
+}
+/*实时状态*/
+.real-time .title{
+    text-align: center;
+    font-size: .33rem;
+    color: #30c6bf;
+    padding-bottom: .1rem;
+}
+.real-time ul li{
+    overflow: hidden;
+    padding: 0 .65rem .2rem .65rem;
+}
+.real-time ul li .caption{
+    float: left;
+    overflow: hidden
+}
+.real-time ul li .caption span{
+    font-size: .3rem;
+    color: #595757;
+    float: left;
+}
+.real-time ul li .caption .img-box{
+    width: .51rem;
+    height: .51rem;
+    display: block;
+    margin-right: .2rem;
+}
+.real-time ul li .caption .text{
+    line-height: .5rem;
+    text-align: justify;
+    text-align-last: justify;
+    width: 1rem;
+}
+.real-time ul li .caption .explain{
+    margin: .1rem 0 0 .08rem;
+    position: inherit;
+}
+.real-time ul li .thread{
+    width: 2.88rem;
+    height: .15rem;
+    border: 1px solid #a6a7a6;
+    background: #e9eae9;
+    float: right;
+    margin-top: .175rem;
+    display: flex;
+    display: -webkit-flex;
+}
+.real-time ul li .thread p{
+    flex: 1;
+    display: flex;
+    display: -webkit-flex;
+}
+.real-time ul li .thread-txt{
+    display: none;
+    width: 2.88rem;
+    float: right;
+    font-size: .28rem;
+    line-height: .5rem;
+}
+.listImg5 .thread-txt{
+    display: block !important;
+}
+.real-time ul li .thread span{
+    flex: 1;
+    border-right:1px solid #e7f9f8; 
+}
+.real-time ul li .thread .active{
+    background: #30c6bf;
+    border-right:1px solid #fff; 
+}
+.listImg0 .img-box{
+    background: url(../images/time4.png) no-repeat;
+    background-size: 100%;
+}
+.listImg1 .img-box{
+    background: url(../images/time1.png) no-repeat;
+    background-size: 100%;
+}
+.listImg2 .img-box{
+    background: url(../images/time5.png) no-repeat;
+    background-size: 100%;
+}
+.listImg3 .img-box{
+    background: url(../images/time3.png) no-repeat;
+    background-size: 100%;
+}
+.listImg4 .img-box{
+    background: url(../images/time2.png) no-repeat;
+    background-size: 100%;
+}
+.listImg5 .img-box{
+    background: url(../images/time6.png) no-repeat;
+    background-size: 100%;
+}
+/*BMI*/
+.bmi{
+    position: relative;
+}
+.bmi .weight{
+    width: 5.64rem;
+    margin: 0 auto;
+    display: flex;
+    display: -webkit-flex;
+    text-align: center;
+    font-size: .3rem;
+    color: #000;
+}
+.bmi .weight p{
+    flex: 1;
+}
+.bmi .alter{
+    position: absolute;
+    width: 2rem;
+    background: #fff;
+    height: 1rem;
+    top: .12rem;
+    right: 0;
+}
+.bmi .alter .title{
+    width: .6rem;
+    height: .28rem;
+    line-height: .28rem;
+    margin: 0 auto .05rem auto;
+    background: #30c6bf;
+    color: #fff;
+    text-align: center;
+    font-size: .22rem;
+    border-radius: .08rem;
+}
+.bmi .alter .alter-box{
+    width: 1.8rem;
+    padding:0 .12rem;
+    border:1px solid #e8e8e8;
+    border-radius: .1rem;
+    box-shadow: 0 5px 10px #eaeaea;
+    background: #fff;
+}
+.bmi .alter .alter-box .write{
+    overflow: hidden;
+    font-size: .22rem;
+    display: flex;
+}
+.bmi .alter .alter-box .write div{
+    flex: 1;
+    border-bottom: 1px solid #a6a6a6;
+    height: .35rem; 
+}
+.bmi .alter .alter-box .write div input{
+     width: 100%;
+}
+.bmi .alter .alter-box .confirm{
+    width: .6rem;
+    height: .3rem;
+    line-height: .3rem;
+    text-align: center;
+    color: #fff;
+    font-size: .22rem;
+    border-radius: .05rem;
+    margin: .1rem auto;
+    background: #31e6de;
+}
+.bmi .title-img{
+    width: .87rem;
+    height: .42rem;
+    margin: 0 auto;
+}
+.bmi .bmi-box{
+    padding-left:3rem;
+    overflow: hidden;
+}
+.bmi .bmi-box span{
+    float: left;
+}
+.bmi .bmi-box .state{
+    color: #a1a1a1;
+    font-size: .24rem;
+    margin: 0 .05rem;
+}
+.bmi .title{
+    font-size: .38rem;
+    color: #000; margin-left: .1rem;
+}
+.bmi .bmi-box .explain{
+    position: inherit;
+    right: -0.03rem;
+    top: 0.05rem;
+}
+.bmi .percent{
+    width: 5.64rem;
+    height: .12rem;
+    background: #30c6bf;
+    margin: .8rem auto .65rem auto;
+    border-radius: 1rem;
+    display: flex;
+    display: -webkit-flex;
+    position: relative;
+}
+.bmi .percent .number-box{
+    flex: 1;
+    border-right:1px solid #4aa59e;
+    position: relative;
+}
+.bmi .percent .last-child{
+    border: none !important;
+}
+.bmi .percent .number span{
+    font-size: .26rem;
+    color: #a1a1a1;
+    display: block;
+    margin: .25rem -.23rem;
+    text-align: right;
+}
+.bmi .percent .active{
+    background:rgba(0,0,0,0.2);
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: .12rem;
+    border-radius: 1rem;
+}
+.bmi .percent .active .dot{
+    width: .3rem;
+    height: .3rem;
+    background: #fff;
+    margin-top:-.09rem;
+    border-radius: 1rem;
+    float: right;
+    box-shadow: .05rem .05rem .05rem #dcdbdb;
+}
+.bmi .percent .active .dot p{
+    display: block;
+    width: .18rem;
+    height: .18rem;
+    border-radius: 1rem;
+    background: #2ec4bd;
+    margin: .06rem auto;
+    position: relative;
+}
+.bmi .percent .active .dot p span{
+    display: block;
+    height: .3rem;
+    width: .75rem;
+    background: #4aa59e;
+    border-radius: .05rem;
+    margin: -.5rem 0 0 -.25rem;
+    position: absolute;
+    text-align: center;
+    color: #fff;
+    font-size: .24rem;
+    line-height: .3rem;
+}
+/*健康状态表*/
+.condition{
+    display: flex;
+    display: -webkit-flex;
+    align-items:center;
+    background: #fcfcfc;
+    padding: .27rem;
+    margin-top: .15rem;
+    border-radius:.3rem;
+    box-shadow: 0 5px 10px #eaeaea;
+}
+.condition .img{
+    width: .74rem;
+    height: .74rem;
+
+}
+.condition .txt {
+    flex: 1;
+    padding:0 .1rem;
+}
+.condition .txt .title{
+    overflow: hidden
+}
+/* 营养状态颜色判断 */
+.condition .txt .title span{
+    float: left;
+    font-size: .3rem;
+    color: #30c6bf;
+}
+.condition .txt .title .yello{
+    color: #ffa21c !important;
+}
+.condition .amount{
+    width: .43rem;
+    height: .97rem;
+    background: url(../images/num.png) no-repeat;
+    background-size: 100%;
+    position: relative;
+}
+.condition .yello-img{
+    background: url(../images/num2.png) no-repeat;
+    background-size: 100%;
+}
+.condition .amount .active{
+    width: .33rem;
+    position: absolute;
+    bottom: .01rem;
+    margin: 0 0 .05rem .05rem;
+    height: .77rem;
+    overflow: hidden;
+}
+.condition .amount .active p{
+    width: .33rem;
+    background: #30c6bf;
+    position: absolute;
+    bottom: .01rem;
+}
+.condition .amount .active .yello-color{
+    background: #ffa21c;
+}
+.condition .txt .title .explain{
+    margin: .04rem 0 0 .1rem;
+}
+.condition .txt .declare{
+    color: #767575;
+    font-size: .2rem;
+    line-height: .3rem;
+}
+/* 男女 */
+.condition .txt .title .ln{
+    width: .15rem;
+    height: .35rem;
+    margin:0.02rem 0.05rem;
+}
+/*皮肤评估*/
+.skin{
+    padding: .35rem .3rem;
+}
+.skin .title{
+    overflow: hidden
+}
+.skin .title span{
+    float: left;
+    font-size: .3rem;
+    color: #000;
+}
+.skin .title .normal{
+    padding-left: .5rem;
+}
+.skin .title .explain{
+    margin: .04rem 0 0 .1rem;
+}
+.skin .skin-box{
+    overflow: hidden;
+    margin-top:.3rem; 
+    display: flex;
+    align-items: center;
+}
+.skin .skin-box .img-box{
+    width: 3.2rem;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.skin .skin-box .img-box .center{
+    position: relative;
+    width: 3.2rem;
+    margin: 0 auto;
+}
+.skin .skin-box .img-box .img{
+    width: 1.31rem;
+    height: 2.22rem;
+    margin: 0 auto;
+}
+.skin .skin-box .img-box .list{
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    display: -webkit-flex;
+}
+.skin .skin-box .img-box .list p{
+    flex: 1;
+}
+.skin .skin-box .img-box .list p span{
+    display: block;
+    background: #f0f0f0;
+    height: .33rem;
+    border-radius: .3rem;
+    font-size: .24rem;
+    color: #595757;
+    text-align: center;
+    line-height: .33rem;
+}
+.skin .skin-box .img-box .list p .img-box-a{
+    margin-top:1.1rem; 
+    width: 0.8rem;
+}
+.skin .skin-box .img-box .list p .img-box-b{
+    margin:.45rem 0 0 .4rem; 
+    width: 0.8rem;
+}
+.skin .skin-box .img-box .list p .img-box-c{
+    margin:1rem 0 0 .1rem; 
+    float: right;
+    width: 0.8rem;
+}
+.skin .skin-box .img-box .list p .img-box-d{
+    margin-top:.45rem; 
+    float: right;
+}
+/*右侧改善部分*/
+.skin .skin-box .text-box{
+    flex: 1;
+    padding-left: .35rem; 
+}
+.skin .skin-box .text-box .title{
+    font-size: .28rem;
+    color: #4aa59e;
+}
+.skin .skin-box .text-box .card{
+    width: 1rem;
+    height: .8rem;
+    box-shadow: 0 5px 10px #eaeaea;
+    border-radius: .1rem;
+    color: #4aa59e;
+    padding: .1rem;
+}
+.skin .skin-box .text-box .card .img{
+    width: .12rem;
+    font-size: .22rem;
+    display: block;
+    margin: -.03rem .05rem 0 0;
+}
+.skin .skin-box .text-box .card p span{
+    float: left;
+    line-height: .3rem;
+}
+.skin .skin-box .text-box .card .moisture{
+    padding-left: .17rem; 
+}
+.skin .skin-box .suggest-box{
+    display: flex;
+    display: -webkit-flex;
+    padding-top: .15rem; 
+}
+.skin .skin-box .suggest{
+    flex:1;
+    font-size: .22rem;
+    padding-left: .1rem;
+    line-height: .28rem;
+}
+/*底部样式*/
+.kj-foot{
+    color: #fff;
+    background: #3cc1a9;
+    text-align: center;
+    font-size: .22rem;
+    padding: .25rem 0;
+}
+/*弹层遮罩*/
+.shade{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items:center;
+}
+.popup{
+    width: 70%;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: .1rem;
+    padding: .2rem;
+}
+/* 下一页按钮 */
+.next-page{
+    width: 1.09rem;
+    height: .48rem;
+    position: fixed;
+    top: 50%;
+    right: .1rem;
+}
+@media (max-width: 768px) {
+
+}
+
+/*支付*/
+.paycnbg{ background: url(../images/paycnbg.jpg) repeat-y; background-size:100%; padding: 0 1.2rem;}
+.rinkth{ text-align: center; font-size: .32rem; line-height: .6rem;}
+.rinkth em{ color: #ff3e3f;font-weight: bold;}
+.fix-p{position: fixed; bottom: 0; width: 100%; height: .88rem; background: #f2f2f2;}
+.fix-p .go{ float: right; width: 2.36rem; height: .88rem; line-height: .88rem; text-align: center; background: #ff3e3f; color: #ffffff; font-size: .32rem;}
+.fix-p .ctxt{float: left; width: 5.1rem; height: .88rem; line-height: .88rem; display:-webkit-box; text-align: center;}
+.fix-p .ctxt .oprice{ display: block; -webkit-box-flex: 1; font-size: .26rem; color: #9B9B9B; text-decoration: line-through;}
+.fix-p .ctxt .price{ display: block; -webkit-box-flex: 1; color: #ff3e3f; font-size: .36rem; font-weight: bold;}

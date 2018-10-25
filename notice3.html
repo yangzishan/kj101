@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>用户须知</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view" id="appVUE">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>用户须知</span></p>
+	</header>
+	<div class="eval-top">
+		<p>一、如何查看您的健康报告？</p>
+<p>1、综合分数：智能健康筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；</p>
+<p>2、亚健康风险：包括最佳状态、良好状态、一级风险、二级风险、三级风险五个维度。三级风险级别最高，提示您发生疾病的可能性较大，需要重点关注健康。</p>
+<p>3、快乐指数：快乐指数是人们对客观事物态度的体验，是人们的需要是否获得满足的反映，积极的情绪可以提高机体的免疫功能，促进健康；消极的情绪可诱发疾病的发生，降低治疗的效果。</p>
+<p>4、睡眠质量：反映您的睡眠状况是否良好。</p>
+<p>5、实时状态：智能健康筛查机器人针对您的实时状态给予评估，共计有6项状态评估，有助于您及时了解自己的身体状态。</p>
+<p>6、BMI：是目前国际上常用的衡量人体体重以及是否健康的主要标准。</p>
+<p>7、身体机能评估：评估您身体6大机能状况，有针对性的提醒您需要重点关注的部分。</p>
+<p>8、皮肤评估：对皮肤整体情况进行分析和评估。</p>
+<p>二、关于报告中提示的问题？</p>
+<p>本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是一种早期症状，应引起重视，或者去医院做进一步检查。或因本次检测范围所限未能发现到的情况，建议仍按原诊断治疗。</p>
+<p>三、关于您的专属健康改善建议？</p>
+<p>报告中推送的健康建议内容，包含膳食建议、营养建议、运动及生活方式建议三大模块，可作为个人健康管理方案的参考，不作为处方，用户可根据自身情况进行合理搭配选择，希望帮助您改善健康状况。</p>
+<p>四、关于您的专属健康食谱？</p>
+<p>根据您的健康状况，由专业营养师为您推荐一周的食谱，点击食谱中菜名即可查看餐品标准配比及营养成分。 如果您存在基础病，请以遵医嘱为先。</p>
+<p>五、关于历史趋势？</p>
+<p>持续监测可了解健康趋势变化。</p>
+	</div>
+	
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+
+</body>
+</html>

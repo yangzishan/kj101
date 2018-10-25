@@ -6,7 +6,7 @@ function GetQueryString(name){
 };
 var myReportId = GetQueryString('reportId');
 var myopenId = GetQueryString('openId');
-var edition = 3;
+var edition = 100;
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
 $.ajax({
@@ -49,7 +49,6 @@ $.ajax({
 								$('.midfx').css("display","none");
 							};
 						};
-						
 						//////	
 					}else{
 						console.log('首页请求getSuggest成功,但数据不正确improvesData.code='+improvesData.code);
@@ -85,7 +84,8 @@ $.ajax({
 						  		reportStr: indexData.data.indexPage.reportStr, //生理年龄字句
 						  		firstStr: indexData.data.indexPage.firstStr, //各个系统生理年龄
 						  		sites: indexData.data.firstPages, //各个系统
-						  		status: indexData.data.otherPages //身体状况
+						  		status: indexData.data.otherPages, //身体状况
+						  		isPay: indexData.data.map.isPay
 							}
 						});
 						//首页动画延迟
@@ -179,40 +179,23 @@ $.ajax({
 					    $('.bdy-c2 .li_c:last p span').css("display","none");
 						$('.bdy-c2 .li_c:last p em').css("display","inline-block");
 					    //指标解读判断跳转  
-					    $('.go_det').on("click",function(){
-					    	if(indexData.data.map.isPay == 2){
-					    		var sameUser = indexData.data.map.sameUser;
-					    		window.location.href = "payfor.html?reportId=" + myReportId + '&openId=' + myopenId +"&sameUser=" +sameUser+ "&edition="+edition;
-					    	}else{
-					    		window.location.href = "z_pop.html?reportId="+myReportId;
-					    	}	
+					    $('#go_det').on("click",function(){
+					    	window.location.href = "z_pop.html?reportId="+myReportId;
 					    });
 					    //三级指标跳转判断
 					    $('.xqbaogao .con .lec dd').on("click",function(){
-					    	if(indexData.data.map.isPay == 2){
-					    		var sameUser = indexData.data.map.sameUser;
-					    		window.location.href = "payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" +sameUser+ "&edition="+edition+'&targetId='+$(this).attr("targetthirdid");
-					    	}else{
-					    		window.location.href = 'third.html?reportId='+myReportId+'&targetId='+$(this).attr("targetthirdid")+'&userId='+userId
-					    	}
+					    	window.location.href = 'third.html?reportId='+myReportId+'&targetId='+$(this).attr("targetthirdid")+'&userId='+userId
 					    });
-					    
 					    //判断是否显示食谱入口
 						var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
 						var insDate = new Date(indexData.data.indexPage.inspectDate.replace(/\-/g, "/"));
 						console.log(setDate);
 						console.log(insDate);
 						if(insDate.getTime() - setDate.getTime() > 0){
-							$('.go_sp').css("display","block");
-							$('.go_sp').on("click",function(){
-								if(indexData.data.map.isPay == 2){
-						    		var sameUser = indexData.data.map.sameUser;
-						    		window.location.href = "payfor.html?reportId=" + myReportId + '&openId=' + myopenId +"&sameUser=" +sameUser+ "&edition="+edition+'&shipu=showsp';
-						    	}else{
-						    		window.location.href = "../recipes.html?reportId="+ myReportId;
-						    	}	
+							$('#showSp').css("display","block");
+							$('#go_sp').on("click",function(){
+								window.location.href = "../recipes.html?reportId="+ myReportId;
 							});
-
 						};
 					    
 					    //异常项数组
@@ -285,6 +268,8 @@ $.ajax({
 					        chart = c;
 					    });
 						
+						//跳转支付页
+						$('#gopay').attr("href","payfor.html?reportId=" + myReportId + '&openId=' + myopenId +"&sameUser=" +indexData.data.map.sameUser+ "&edition="+edition);
 						//跳转历史报告页
 						$('#checkHistory').attr("href","../reportHistory.html?&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
 						//跳转用户设置
@@ -301,7 +286,7 @@ $.ajax({
 						
 						
 						///////
-					}
+					}else{console.log('indexTarget code='+indexData.code)}
 				
 				},
 				error: function(xhr,status){
@@ -312,6 +297,8 @@ $.ajax({
 
 		}else if(data.code == 402){
 			window.location.href="../userInfor.html?reportId="+myReportId+"&userId="+data.data.userId+"&openId="+myopenId+"&edition="+edition;
+		}else if(data.code == 405){
+			window.location.href="../userInfor.html?reportId="+myReportId+"&openId="+myopenId+"&edition="+edition;
 		}else if(data.code == 403){
 			window.location.href="../supAge.html?reportId="+myReportId+"&userId="+data.data.userId+"&openId="+myopenId+"&edition="+edition;
 		}else if(data.code == 302){

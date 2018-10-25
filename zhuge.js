@@ -1,4 +1,3 @@
-
 (function() {
     window.zhuge = window.zhuge || [];
     window.zhuge.methods = "_init identify track getDid getSid getKey setSuperProperty setUserProperties setPlatform".split(" ");
@@ -26,11 +25,11 @@
             a.src ="http://io.jiankangzhan.com:80/zhuge.js?v=" + verStr;
             a.onerror = function() {
                 window.zhuge.identify = window.zhuge.track = function(ename, props, callback) {
-                     if(callback && Object.prototype.toString.call(callback) === '[object Function]') {
-        callback();
-    } else if (Object.prototype.toString.call(props) === '[object Function]') {
-        props();
-    }
+                    if(callback && Object.prototype.toString.call(callback) === '[object Function]') {
+				        callback();
+				    } else if (Object.prototype.toString.call(props) === '[object Function]') {
+				        props();
+				    }
                 };
             };
             var c = document.getElementsByTagName("script")[0];

@@ -89,7 +89,11 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="wxpay"><i class="ico"><img src="img/o-wx.png"></i><span id="wxPay">微信支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" v-for="pay in data" :href="'../wxPay_new.html?reportId='+reportId+'&userId='+userId+
+			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</a>
 	</div>	
 	
 </section>
@@ -109,6 +113,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="../js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="../js/payChannel.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -128,7 +133,7 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<script>
+<!--<script>
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 //截取URL 获取
@@ -268,7 +273,7 @@ success : function(indexData) {
     }
 });
 	
-</script>
+</script>-->
 
 </body>
 </html>

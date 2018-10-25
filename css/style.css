@@ -284,7 +284,7 @@
 .vtip{position: fixed; top:.88rem; right: 0; left: 2.1rem; padding: 0 0 0 .15rem; background: #fff; line-height: .68rem; font-size: .22rem; color:#999;border-bottom:#eaeaea solid .05rem; z-index: 99;}
 .conView{ margin:0 .2rem 0 2.3rem; /*padding: 1.56rem 0 0;*/ /*width: 100%;*/ background: #fff; height: 100%; overflow-y: auto; overflow-x: hidden;-webkit-overflow-scrolling: touch;position: relative;}
 .conView .btit{border-bottom:#eaeaea solid .01rem;border-top:#eaeaea solid .01rem; line-height: .68rem;}
-.conView .btit i{ display: inline-block; width: .08rem; height: .3rem; background: #1ebeb1; border-radius: .04rem;}
+.conView .btit i{ display: inline-block; width: .08rem; height: .3rem; background: #1ebeb1; border-radius: .04rem; vertical-align:top; position: relative; top: .18rem;}
 .conView .btit span{margin-left: .15rem; display: inline-block; font-size: .3rem;}
 .conView .btit font{ height: .3rem; padding: 0 .08rem; font-size: .20rem; line-height: .29rem; color: #999; border: #999 solid .01rem; border-radius: .05rem; margin-top: .19rem;}
 .conView .btit em{ width: .5rem; height: .5rem; background: url(../img/ico-peo.png) no-repeat center; background-size:.44rem .34rem; margin-top: .09rem;}
@@ -428,8 +428,11 @@
 .sl-pay .cnn .p1{ line-height:36px; color: #999999; font-size: 15px;}
 .sl-pay .cnn .p2{ line-height: 36px; color: #ff5959; font-size: 24px;}
 .sl-pay .pay-li{ display: block; height: 50px; padding: 0 15px; color: #333333; border-top: #F4F4F4 solid 1px; position: relative;}
-.sl-pay .pay-li i.ico{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
-.sl-pay .pay-li i.ico img{ display: block; width: 100%;}
+.sl-pay .pay-li i{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
+.sl-pay .pay-li i.ikey{ background: url(../img/o-key.png); background-size:contain;}
+.sl-pay .pay-li i.icard{ background: url(../img/o-card.png); background-size:contain;}
+.sl-pay .pay-li i.ico1{ background: url(../img/o-wx.png); background-size:contain;}
+.sl-pay .pay-li i.ico7{ background: url(../img/o-wang.png); background-size:contain;}
 .sl-pay .pay-li span{ display: inline-block; vertical-align: top; line-height: 50px; font-size: 15px;}
 .sl-pay .pay-li img.arr{ position: absolute; top: 17px; right: 15px; width: 8px; height: 15px;}
 
@@ -492,27 +495,27 @@
 .pay_tj_c .tj_c{ width: 4.76rem; height: 4.76rem; margin: 0 auto; background: url(../img/payfor-tcb.png) no-repeat; background-size:contain; position: relative;}
 .pay_tj_c .tj_c .tens{}
 .pay_tj_c .tj_c .tens dd{ width: .82rem; height: .82rem; padding: .16rem; border-radius: 50%; position: absolute; background: #60cab7;}
-.pay_tj_c .tj_c .tens dd font{width: .5rem; color: #949494; font-size: .18rem; line-height: .24rem; position: absolute;}
+.pay_tj_c .tj_c .tens dd font{width: .5rem; text-align: center; color: #949494; font-size: .18rem; line-height: .24rem; position: absolute;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(1){ left: 2rem; top: -.3rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(1) font{ top: -.48rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(2){ left: 3.43rem; top: .20rem;}
-.pay_tj_c .tj_c .tens dd:nth-of-type(2) font{ right: -.52rem; top: .2rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(2) font{ right: -.52rem; top: 0rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(3){ left: 4.25rem; top: 1.27rem; background: #ffbb1c;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(3) font{ right: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(4){ left: 4.25rem; top: 2.7rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(4) font{ right: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(5){ left: 3.37rem; top: 3.85rem;}
-.pay_tj_c .tj_c .tens dd:nth-of-type(5) font{ right: -.52rem; top: .32rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(5) font{ right: -.45rem; top: .52rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(6){ left: 1.9rem; top: 4.27rem; background: #ffbb1c;}
-.pay_tj_c .tj_c .tens dd:nth-of-type(6) font{ right: -.5rem; top: .58rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(6) font{ right: -.4rem; top: .6rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(7){ left: .49rem; top: 3.78rem;}
-.pay_tj_c .tj_c .tens dd:nth-of-type(7) font{ right: -.1rem; top: .84rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(7) font{ left: -.45rem; top: .52rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(8){ left: -.3rem; top: 2.71rem}
-.pay_tj_c .tj_c .tens dd:nth-of-type(8) font{ left: -.2rem; top: .84rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(8) font{ left: -.5rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(9){ left: -.3rem; top: 1.29rem; background: #ffbb1c;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(9) font{ left: -.52rem; top: .2rem;}
 .pay_tj_c .tj_c .tens dd:nth-of-type(10){ left: .58rem; top: .16rem}
-.pay_tj_c .tj_c .tens dd:nth-of-type(10) font{ left: -.5rem; top: -.24rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(10) font{ left: -.5rem; top: 0rem;}
 .pay_tj_c .tj_c .tens dd img{ display: block; margin: 0 auto; width: .5rem; height: .5rem;}
 .pay_tj_c .tj_c .pay_go{ width: 2.9rem; height: 2.9rem; background: url(../img/payfor-tjub.png) no-repeat; background-size: contain; position: absolute; left: .96rem; top: .96rem; text-align: center; color: #e73005;}
 .pay_tj_c .tj_c .pay_go .yj{padding: .25rem 0 .05rem; font-size: .32rem; color: #595757; font-weight: bold; text-decoration: line-through;}
@@ -520,6 +523,8 @@
 .pay_tj_c .tj_c .pay_go .p2{ font-size: .6rem; font-weight: bold; margin: 0 0 .1rem;}
 .pay_tj_c .tj_c .pay_go .sub{ position: relative; width: 1.66rem; height: .55rem; line-height: .54rem; border-radius: .06rem; color: #FFFFFF; background: url(../img/payfor-btn.png) no-repeat; background-size:contain; font-size: .32rem; font-weight: bold;}
 .pay_tj_c .tj_c .pay_go .sub i{width: .81rem; height: 1.07rem; position: absolute; background: url(../img/payfor-hand.png) no-repeat; background-size:contain; left: 40%; top: .2rem;}
+.gocheckmx{ display: block; width: 2.86rem; margin: .2rem auto .1rem; text-align: center; line-height: .4rem; color: #1aa78e; font-size: .2345rem; text-decoration: underline;}
+.gocheckmx i{display: inline-block; vertical-align: top; width: .4rem; height: .4rem;background: url(../img/arr08.png) no-repeat center; background-size:.29rem .2rem;}
 .pay_tj_yc{padding: .1rem 0; line-height: .42rem; text-align: center; font-size: .3rem; font-weight: bold; color: #1aa78e;}
 .pay_tj_yc em{font-weight: bold; color: #e73005;}
 .pay_tj_tip{text-align: center; font-size: .28rem; color: #7e7e7e; position: relative; padding: 0 .5rem 1.35rem;}

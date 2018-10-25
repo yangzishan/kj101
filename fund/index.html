@@ -8,7 +8,7 @@
 <meta content="telephone=no" name="format-detection" />
 <title>健康报告</title>
 <link rel="stylesheet" type="text/css" href="../css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?v=20180912" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20181020" />
 <style type="text/css">.highcharts-credits{display: none;}</style>
 </head>
 <body>
@@ -92,35 +92,6 @@
 </div>
 
 <p class="g1"></p>
-<div class="mesg_b">
-	<div class="con">
-		<b id="dearName" style=" color: #03a89e;"></b>您好！<br>
-		<p>感谢您使用智能筛查机器人进行亚健康评估。如需帮助请拨打我们的健康热线<a href="tel:4006666787" style="color: #03a89e;">4006666787</a>。
-		</p>
-		<p>本次评估您的健康评估分数为<font>{{totalScore}}</font>分，身体状况为<em class="risk"></em>，有<span class="midfx"><font class="severeNum"></font>项为中度风险，</span><font class="lightNum"></font>项为轻度风险。</p>
-	</div>
-</div>
-
-<p class="g1"></p>
-<div class="xqbaogao">
-	<p class="tit"><i class="le"></i>详情报告</p>
-	<div class="con" v-for="site in sites">
-		<a class="lee">
-			<i class="i01"><img :src="site.iconUrl"></i>
-			<span class="lab">{{site.targetFirstName}}</span><em class="arr or"></em><font>{{site.score}}分</font>
-		</a>
-		<dl class="lec" v-for="second in site.secondPages">
-			<dd v-for="third in second.thirdPages" :targetThirdId="third.targetThirdId">
-				<span class="lab">{{third.targetThirdName}}</span><em class="arr fr"></em>
-				<input class="score" type="hidden" :value="third.score">
-				<span class="fx fr">正常</span>
-			</dd>
-			
-		</dl>
-	</div>	
-</div>
-
-<p class="g1"></p>
 <div class="xqbaogao">
 	<p class="tit"><i class="le"></i>身体状况</p>
 	<div class="bdy-c2">
@@ -135,12 +106,59 @@
 	</div>
 </div>
 
-<div class="go_det">
-	<i></i><span>报告解读</span>
+<p class="g1"></p>
+<div class="mesg_b">
+	<div class="con">
+		<b id="dearName" style=" color: #03a89e;"></b>您好！<br>
+		<p>感谢您使用智能筛查机器人进行亚健康评估。如需帮助请拨打我们的健康热线<a href="tel:4006666787" style="color: #03a89e;">4006666787</a>。
+		</p>
+		<p>本次评估您的健康评估分数为<font>{{totalScore}}</font>分，身体状况为<em class="risk"></em>，有<span class="midfx"><font class="severeNum"></font>项为中度风险，</span><font class="lightNum"></font>项为轻度风险。</p>
+		<p>我们为您免费提供健康状况整体评估、亚健康风险提示、身体实时状况，还可通过微信公众号免费查看健康资讯以及健康视频。</p>
+	</div>
 </div>
-<div class="go_sp" style="display: none;">
-	<i></i><span>健康食谱</span>
+
+<p class="g1"></p>
+<div class="xqbaogao" v-if="isPay == 1">
+	<p class="tit"><i class="le"></i>详情报告</p>
+	<div class="con" v-for="site in sites">
+		<a class="lee">
+			<i class="i01"><img :src="site.iconUrl"></i>
+			<span class="lab">{{site.targetFirstName}}</span><em class="arr or"></em><font>{{site.score}}分</font>
+		</a>
+		<dl class="lec" v-for="second in site.secondPages">
+			<dd v-for="third in second.thirdPages" :targetThirdId="third.targetThirdId">
+				<span class="lab">{{third.targetThirdName}}</span><em class="arr fr"></em>
+				<input class="score" type="hidden" :value="third.score">
+				<span class="fx fr">正常</span>
+			</dd>
+			
+		</dl>
+	</div>
+	<ul class="golook">
+		<li><span id="go_det"><i></i><em>专属建议</em></span></li>
+		<li id="showSp" style="display: none;"><span id="go_sp"><i></i><em>健康食谱</em></span></li>
+	</ul>
 </div>
+
+<div class="paytip" v-if="isPay == 2">
+	<div class="tit">您付费可查看</div>
+	<div class="cn">
+		<p><i></i><span>身体十大系统70余项指标深度筛查及指标解读</span></p>
+		<p><i></i><span>专属的健康解决方案（膳食、营养素、运动及生活方式）</span></p>
+		<p><i></i><span>7天专属的健康食谱</span></p>
+		<p><i></i><span>10元优惠券</span></p>
+	</div>
+	<a class="gopay" id="gopay">如需服务，点击查看</a>
+</div>
+<p class="g1"></p>
+<div class="xuanc">
+	<p></p>
+	<div class="txt">“国家工业和信息化部、民政部、国家卫生健康委员会”联合推广</div>
+</div>
+<p style="height: .3rem;"></p>
+
+<!--<div class="go_det"><i></i><span>报告解读</span></div>
+<div class="go_sp" style="display: none;"><i></i><span>健康食谱</span></div>-->
 
 </DIV><!--/my_view-->
 <input type="hidden" id="appId"/>
@@ -171,7 +189,7 @@
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="js/index.js?v=201807012"></script>
+<script src="js/index.js?v=20181012"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {

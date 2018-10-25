@@ -100,7 +100,8 @@ $('#goWxPay').on("click",function(){
 		data : {
 		    reportId : myreportId, //报告ID
 		    packageId : mypackageId,
-		    userId : myuserId
+		    userId : myuserId,
+		    truePrice : myprice
 		},
 	    success : function(result) {
 	    	if (result.code == 200) {

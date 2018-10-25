@@ -34,14 +34,7 @@ $.ajax({
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;
 					var agentId = indexData.data.agentId;
-
-					/*if(paymentType == 1){
-						window.location.href="../../swagent/payforOld.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
-					}else if(paymentType == 2){
-						window.location.href="../../swagent/payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
-					};*/
 					window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
-					
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					var agentId = indexData.data.indexPage.agentId;
