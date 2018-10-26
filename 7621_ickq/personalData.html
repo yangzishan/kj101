@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>个人资料</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/LCalendar.css">
+</head>
+<body>
+<section class="my_view" id="appVUE">
+<!--<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">个人资料</span></div>-->
+<div class="pson_t">
+	<p class="btit">完善资料</p>
+	<div class="nikimg">
+		<p><img :src="headimgurl"></p>
+	</div>
+	<p class="nikname"><a id="setNickName">{{nickName}}</a></p>
+</div>
+
+<div class="psonInforSet">
+	<p class="p_row">
+		<label class="lab">手机号</label>
+		<span class="intxt">{{mobile}}</span>
+	</p>
+	<a class="p_row" id="setSex">
+		<label class="lab">性别</label>
+		<span class="intxt" id="sexStr">{{sex==1?'男':'女'}}</span>
+	</a>
+	<p class="p_row">
+		<label class="lab">生日</label>
+		<input class="intxt" id="demo1" readonly="true" type="text" placeholder="请输入您的生日" unselectable="on" data-lcalendar="1920-01-1,2005-12-31" />
+	</p>
+	<a class="p_row" id="setHeight">
+		<label class="lab">身高</label>
+		<span class="intxt sho_height"><em>{{height}}</em>cm</span>
+	</a>
+	<a class="p_row" id="setWeight">
+		<label class="lab">体重</label>
+		<span class="intxt sho_weight"><em>{{weight}}</em>kg</span>
+	</a>
+	<a class="p_row" id="setCard">
+		<label class="lab">卡管理</label>
+		<span class="intxt sho_weight"><em id="">健康筛查卡</em></span>
+	</a>
+</div>
+<p class="psontip">请如实填写，将根据您的信息提供合适您的健康建议</p>
+
+</section>
+
+<input type="hidden" id="userId" value="" />
+
+<div class="load-overlay" style="display: none;"><img class="loadimg" src="img/loading.gif"></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/LCalendar.js"></script>
+<!--<script type="text/javascript" src="js/LCalendar_reg.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+<script>
+$(function(){
+	//截取URL 获取
+	function GetQueryString(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	};
+	var myuserId=GetQueryString("userId");
+	$('#userId').val(myuserId);
+	
+	$.ajax({
+		url : dataUrl + "/api/v1/reportUser/findUserById",
+		type : "post",
+		dataType : 'json',
+		//contentType : 'application/json',
+        data : {
+        	userId: myuserId
+        },
+		success : function(userData) {
+			console.log(userData)
+			var myApp = new Vue({
+			  el: '#appVUE',
+			  data: {
+			    headimgurl: userData.data.headimgurl, //用户头像
+			    nickName: userData.data.nickName, //用户昵称
+			    mobile: userData.data.mobile, //手机号
+			    sex: userData.data.sex, //性别   1男 2女
+			    birthday: userData.data.birthday, //生日
+			    height: userData.data.height, //身高
+			    weight: userData.data.weight, //体重
+			    
+			  }
+			});
+			
+			var birthday = userData.data.birthdayStr; //生日
+			var nickName = userData.data.nickName; //用户昵称
+			var sex = userData.data.sex; //性别
+			var height = userData.data.height; //性别
+			var weight = userData.data.weight; //性别
+			
+			
+			$('#demo1').val(birthday);
+			//修改昵称和性别身高体重跳转
+			$('#setNickName').attr("href","personal_nickname.html?userId="+myuserId+"&nickName="+nickName);
+			$('#setSex').attr("href","personal_sex.html?userId="+myuserId+"&sex="+sex);
+			$('#setHeight').attr("href","personal_height.html?userId="+myuserId+"&height="+height);
+			$('#setWeight').attr("href","personal_weight.html?userId="+myuserId+"&weight="+weight);
+			//体验卡跳转
+			$('#setCard').attr("href","tjCard.html?userId="+myuserId);
+		   	var calendar = new lCalendar();
+			calendar.init({
+				'trigger': '#demo1',
+				'type': 'date'
+			});
+		    $("#demo1").focus(function(){
+		        document.activeElement.blur();
+		    });
+
+		}
+	});
+
+})
+	
+</script>
+</body>
+</html>
