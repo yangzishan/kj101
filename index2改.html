@@ -9,9 +9,9 @@
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?v=201810027" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=201809027" />
 </head>
-<body class="bck-col-f4">
+<body>
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
 	<header class="header">
@@ -33,86 +33,50 @@
 		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">{{inspectDay}}</em>日后再次检测</p></div>
 		<div class="explain" @click="explain()"><i></i><p>说明</p></div>
 	</div>
+	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	
-	<div class="bx_exp">
-		<p class="sstit">亲爱的<span class="col">{{userName+sexStr}}</span>你好！</p>
+	<div class="sy_summary">
+		<p class="sstit">亲爱的<span class="inpv">{{userName+sexStr}}</span>你好！</p>
 		<div class="sstxt">
-			欢迎使用康加智能健康筛查机器人进行亚健康评估，请查阅您的报告（注：本报告为亚健康评估，不作为医学临床诊断之用，<a class="col link" href="notice.html">点击了解更多</a>），如需帮助请拨打我们的健康热线 <a class="col cu" href="tel://4006666787">4006666787</a>，祝您健康！
+			　　感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！
 		</div>
-		<ul class="golook">
-			<li><a :href="'z_pop.html?reportId='+reportId"><i></i><em>健康建议</em></a></li>
-			<li><a v-if="showRecipe > 0" :href="'recipes.html?reportId='+reportId"><i></i><em>专属食谱</em></a></li>
-		</ul>
+		<p class="sstit2">-------汇总分析-------</p>
+		<div class="sstxt">
+			1、本次评估您身体状况为<em class="sta">{{ps}}</em><span v-if="ranking!=0 && ranking!=null">，生理年龄评估为<em class="sta">{{age}}</em>岁</span>
+			<span>，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
+			<p class="noSeg" id="segTwo">
+				2、本次检测您有<span><font class="sta">{{midNum}}</font>项为中度风险，</span><span><font class="sta">{{litNum}}</font>项为轻度风险。</span>
+				根据检测结果，给您的专属健康建议重点解决<i v-for="bid in abnormalName"> {{bid}}</i>指标的问题。
+			</p>		
+		</div>
+		<a class="gojy" :href="'z_pop.html?reportId='+reportId"><i></i><span>请点击查看您的专属建议</span></a>
+		<a class="gosp" v-if="showRecipe > 0" :href="'recipes.html?reportId='+reportId"><i></i><span>请查看您的专属健康食谱</span></a>
 	</div>
-	
-	<div class="bx_tit"><span class="lab">十大系统状况</span></div>
-	<p class="bx_tip">以下是您身体10大系统的评估结果：</p>
-	<div class="bx_tensys">
-		<div :class="'fl bd_c bd_c'+sex">
-			<div class="man" v-if="sex == 1">
-				<i class="nao"></i><i class="gu"></i><i class="fei"></i><i class="wei"></i>
-			</div>
-			<div class="woman" v-if="sex == 0">
-				<i class="nao"></i><i class="gu"></i><i class="fei"></i><i class="wei"></i>
-			</div>
-		</div>
-		<dl class="sys_c fr">
-			<dd class="c_li" v-for="ten in firstPages" v-if="ten.targetFirstId != 1001" :class="[
-				{'lit':ten.score < 90 && ten.score >= 80},{'mid':ten.score < 80}]">
-			<a style="display: block;" :href="'second2.html?reportId='+reportId+'&userId='+userId+'&targetFirstId='+ten.targetFirstId">
-				<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
-				<em>{{ten.score >= 90?'正常':(ten.score < 90 && ten.score >= 80?'轻度风险':'中度风险')}}</em>
-			</a>
-			</dd>
-			
-		</dl>
-	</div>
-	
-	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">异常项指标</span></div>
-	<p class="bx_tip">以下是您身体存在亚健康风险的指标：</p>
-	<div class="bx_abnormal">
-		<div class="fx-mid">
-			<div class="pic fl"><img src="img/120/dag_mid.png"><p>中度风险</p></div>
-			<div class="list fr">
-				<a class="bid" v-for="bid in midbid" :href="'third.html?reportId='+reportId+'&targetId='+bid.targetId+'&userId='+userId">
-					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
-				</a>
-			</div>
-		</div>
-		<div class="fx-mid lit">
-			<div class="pic fl"><img src="img/120/dag_lit.png"><p>轻度风险</p></div>
-			<div class="list fr">
-				<a class="bid" v-for="bid in litbid" :href="'third.html?reportId='+reportId+'&targetId='+bid.targetId+'&userId='+userId">
-					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
-				</a>
-			</div>
-		</div>
-	</div>
-	
-	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">生理年龄</span><i class="pop" @click="phyage($event)"></i>
-		<div class="v_overlert">
-			<div class="tc_sy">
-				<em class="close"></em>
-				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
-				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
-					生理年龄的高低，主要取决于人的生活方式和健康状况。
-					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+
+	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
+	<div class="sy_tab clearfix">
+	  	<span class="on"><a>健康指数</a></span><span><a>身体状况</a></span>
+    </div>
+    <div class="tenSys_c indexShow">
+    	<a v-for="site in firstPages" :href="'second2.html?reportId='+reportId+'&userId='+userId+'&targetFirstId='+site.targetFirstId">
+    		<p class="tarid" style="display: none;">{{site.targetFirstId}}</p>
+    		<div class="s-chart  fl">
+    			<div class="c_circle"><i :class="'ico'+site.targetFirstId"></i><div class="zzb"></div></div>
+    			<p class="s-score" style="display: none;">{{site.score}}</p>
+    		</div>
+    		<div class="s-inf fl">
+    			<p class="lab"><span>{{site.targetFirstName}}</span><em class="pop" @click.prevent="popTen($event)">?</em></p>
+    			<p class="tx">{{site.score}}分</p>
+    		</div>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{site.targetFirstName}}</span><em></em></p>
+					<div class="bxt">{{site.inspectExplain}}</div>
 				</div>
 			</div>
-		</div>
-	</div>
-		
-	<p class="bx_tip">您的生理年龄评估为<em style="color: #4ba59e;">{{age}}</em>岁，各个系统如下：</p>
-	<div class="agebar" style="background: #fff;">
-		<div id="ageChart" style="width: 100%; height:280px; position: relative;top: -30px;"></div>
-	</div>
-	
-	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">实时状态</span></div>
-	<p class="bx_tip">以下是您七大身体实时状态的情况：</p>
-    <div class="zhuangk_c indexShow">
+    	</a>	
+    </div>
+    <div class="zhuangk_c indexShow" style="display: none;">
     	<div class="c_li" v-for="state in otherPages">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
@@ -136,7 +100,24 @@
     		<i class="pop fr" @click="popSta($event)"></i>
     	</div>
     </div>
-    <p style="height: 1rem;"></p>
+  	<section id="noAge">
+  	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="">生理年龄</span><em class="pop" @click="phyage($event)">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
+				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
+					生理年龄的高低，主要取决于人的生活方式和健康状况。
+					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="slnl_tit">您的生理年龄评估为<em>{{age}}</em>岁，各个系统如下：</div>
+    <div id="sl_chart" style="width:100%; margin:0 auto; height: 250px; position: relative; top: -30px;"></div>	
+  	</section>
 </div>
 
 
@@ -171,7 +152,9 @@
 	</div>
 </div>
 
-<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
 
 <div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
@@ -181,9 +164,11 @@
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/index120.js?v=20181031"></script>
+<script src="js/index2.0.js?v=20180930"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -197,6 +182,7 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
+
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);

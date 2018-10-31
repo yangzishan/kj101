@@ -18,6 +18,7 @@ h1, h2, h3, h4, h5, h6{ font-size:100%;font-weight: normal;}
 .clearfix{zoom:1;}
 .clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
 .img_b{ display: block; width: 100%;}
+.cu{ font-weight: bold;}
 input,textarea{ background: none; outline: none; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 input[type="submit"],
 input[type="reset"],

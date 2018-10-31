@@ -34,6 +34,7 @@ new Vue({
 			sameUser:'',
 			inspectDate:'',
 			ranking:'',
+			targetName:''
 		}
 	},
 	mounted: function(){

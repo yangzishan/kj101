@@ -33,7 +33,7 @@
 		</div>
 		<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font id="subprice">{{price}}</font></p>
 	</div>
-	<p style="padding: 0 .3rem; font-size: .24rem;">注：请您在48小时内付款，超出48小时后此报告作废 </p>
+	<p style="padding: 0 .3rem; font-size: .24rem;">注：请您在48小时内付款，超出48小时后此报告将无法查看</p>
 	
 	<div class="subpay"><button class="btn_pay" id="goWxPay">支付</button></div>
 </div>
@@ -120,7 +120,7 @@ $(document).on("click","#goWxPay",function(){
 	    type : "POST",
 		dataType : 'json',
 		data : {
-		    attach : indexUrl, 
+		    attach : myopenId, 
 		    orderNum : orderNum,
 		    payChannelId : payChannelId,
 		    payPrice : truePrice,
