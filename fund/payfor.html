@@ -113,7 +113,8 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="../js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="../js/payChannel.js"></script>
+<!--<script type="text/javascript" src="../js/payChannel.js?t=20181101"></script>-->
+<script>document.write('<script src="../js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -127,153 +128,10 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<!--<script>
-$('.my_view').css("display","none");
-$('.load-overlay').css("display","block");
-//截取URL 获取
-function GetQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-var myreportId=GetQueryString("reportId");
-var myopenId=GetQueryString("openId");
-var sameUser=GetQueryString("sameUser");
-var edition=GetQueryString("edition");
-if(edition==null){
-	edition = '';
-};
-var shipu=GetQueryString("shipu");
-if(shipu==null){
-	shipu = '';
-};
-var targetthirdid=GetQueryString("targetId");
-if(targetthirdid==null){
-	targetthirdid = '';
-};
-
-$.ajax({
-url : dataUrl + "/api/v1/reportWxPay/findPackage",
-type : "post",
-dataType : 'json',
-data : {
-    reportId : myreportId,
-    openId : myopenId
-},
-success : function(indexData) {
-	if(indexData.code==200){
-		window.location.href="index.html?reportId="+myreportId+"&openId=" + myopenId;
-	}else if(indexData.code==201){
-		$('.my_view').css("display","block");
-		$('.load-overlay').css("display","none");
- 		var myApp = new Vue({
-			el: '#appVUE',
-			data: {
-			  	name: indexData.data.infoView.name, //套餐名称
-			  	price: indexData.data.infoView.price,  //价格
-			  	oprice: indexData.data.infoView.originalPrice, //原价
-			  	description: indexData.data.infoView.description  //描述	
-			}
-		});
-		var userId = indexData.data.infoView.userId;
-		var packageId = indexData.data.infoView.packageId;
-		var name = indexData.data.infoView.name;
-		var price = indexData.data.infoView.price;
-		
-		if(indexData.data.infoView == null){
-			$('#pay').css("background","#CCCCCC");
-		}else{
-			//判断新用户
-			var isFree = indexData.data.infoView.isFree;
-			if(isFree == 1){
-				$('#pay').html('查看');
-				$('#pay').click(function(){
-					if(targetthirdid){
-						window.location.href="third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+userId+"&targetId="+targetthirdid;	
-					}else if(shipu){
-						window.location.href="../recipes.html?reportId="+myreportId+"&openId=" + myopenId;
-					}else{
-						window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
-					}
-					
-				});
-			};
-			
-			//sameUser (是否是本人的报告), 1/2 是否显示卡支付 代付提醒
-			if(sameUser == 2){
-				$('#kaPay').css("display","none");
-				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-				$('.daifu_d').css("display","block");
-			};
-			
-			if(price == 0){
-				$('#pay').on("click",function(){
-					$.ajax({
-						url : dataUrl + "/api/v1/reportWxPay/insertFreeOrder",
-						type : "post",
-						dataType : 'json',
-						data : {
-						    reportId : myreportId,
-						    packageId: packageId,
-						    userId: userId
-						},
-						success : function(data){
-							if(data.code==200){
-								if(targetthirdid){
-									window.location.href="third.html?reportId="+myreportId+"&openId=" + myopenId+"&userId="+userId+"&targetId="+targetthirdid;	
-								}else if(shipu){
-									window.location.href="../recipes.html?reportId="+myreportId+"&openId=" + myopenId;
-								}else{
-									window.location.href="z_pop.html?reportId="+myreportId+"&openId=" + myopenId;
-								}
-	
-							}else{
-								alert('支付失败insertFreeOrder-code='+data.code);
-							}
-							
-						}
-					})
-				});
-			}else{
-				$('#pay').on("click",function(){
-					//选择支付方式
-					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-					$('.sl-pay').css({"transform":"translateY(0%)"});
-				});
-			};
-	
-			//关闭 选择方式
-			$('.close').click(function(){
-				$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-				$('.sl-pay').css({"transform":"translateY(110%)"});
-			});
-			//关闭 代付提醒
-			$('#iknow').click(function(){
-				$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-				$('.daifu_d').css("display","none");
-			});
-			//支付跳转 +
-			$('#wxpay').attr("href","wxPay.html?reportId=" +myreportId+ "&userId=" +userId+ "&packageId=" +packageId+"&name=" +name+ "&price=" +price + '&openId=' + myopenId + "&edition="+edition+"&targetId="+targetthirdid +"&shipu="+shipu);
-				
-		}
-		
-	}else{
-		alert(indexData.msg);
-	}
-	
-},
-    error : function(obj,msg){
-    	console.log(obj  + msg);
-    }
-});
-	
-</script>-->
-
 </body>
 </html>

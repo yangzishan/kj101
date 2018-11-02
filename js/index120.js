@@ -97,10 +97,10 @@ var myApp = new Vue({
 					if(indexData.code == 201){
 						_this.sameUser = indexData.data.sameUser;
 						_this.paymentType = indexData.data.paymentType;
-						_this.participate(_this.sameUser,_this.paymentType);  //执行判断优惠券
+						_this.participate(_this.paymentType,_this.sameUser);  //执行判断优惠券
 					}else if(indexData.code == 200){
 						if(indexData.data.map.deviceReport == 121){
-							alert('请你找您的保险业务员看报告'); //不让看报告
+							_this.showTip(); //不让看报告
 						}else{
 							$('.my_view').css("visibility","visible");
 							$('.load-overlay').css("display","none");
@@ -238,6 +238,16 @@ var myApp = new Vue({
 		goSetUp: function(e){ //个人中心
 			window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
 		},
+		showTip: function(){
+			showMask();
+			$('.daifu_d').css("display","block");	
+			$('.daifu_d .tit').text('请联系您的保险业务员查看报告');
+			$('.daifu_d .tip').remove();
+			$('#iknow').click(function(){
+				WeixinJSBridge.call('closeWindow');
+			});
+			
+		}
 	}
 });
 

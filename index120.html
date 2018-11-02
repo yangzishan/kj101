@@ -37,7 +37,7 @@
 	<div class="bx_exp">
 		<p class="sstit">亲爱的<span class="col">{{userName+sexStr}}</span>你好！</p>
 		<div class="sstxt">
-			欢迎使用康加智能健康筛查机器人进行亚健康评估，请查阅您的报告（注：本报告为亚健康评估，不作为医学临床诊断之用，<a class="col link" href="notice.html">点击了解更多</a>），如需帮助请拨打我们的健康热线 <a class="col cu" href="tel://4006666787">4006666787</a>，祝您健康！
+			　　欢迎使用康加智能健康筛查机器人进行亚健康评估，请查阅您的报告（注：本报告为亚健康评估，不作为医学临床诊断之用，<a class="col link" href="notice.html">点击了解更多</a>），如需帮助请拨打我们的健康热线 <a class="col cu" href="tel://4006666787">4006666787</a>，祝您健康！
 		</div>
 		<ul class="golook">
 			<li><a :href="'z_pop.html?reportId='+reportId"><i></i><em>健康建议</em></a></li>
@@ -46,7 +46,7 @@
 	</div>
 	
 	<div class="bx_tit"><span class="lab">十大系统状况</span></div>
-	<p class="bx_tip">以下是您身体10大系统的评估结果：</p>
+	<p class="bx_tip">以下是您身体十大系统的评估结果：</p>
 	<div class="bx_tensys">
 		<div :class="'fl bd_c bd_c'+sex">
 			<div class="man" v-if="sex == 1">
@@ -69,7 +69,7 @@
 	</div>
 	
 	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">异常项指标</span></div>
+	<div class="bx_tit"><span class="lab">异常指标项</span></div>
 	<p class="bx_tip">以下是您身体存在亚健康风险的指标：</p>
 	<div class="bx_abnormal">
 		<div class="fx-mid">
@@ -177,12 +177,22 @@
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
 </div>
 
+<div class="daifu_d">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/index120.js?v=20181031"></script>
+<!--<script src="js/index120.js?v=20181101"></script>-->
+<script>document.write('<script src="js/index120.js?t=' + new Date().getTime() + '"><\/script>')</script>
+
+
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {

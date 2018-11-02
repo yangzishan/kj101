@@ -159,7 +159,8 @@ $(document).on("click","#goWxPay",function(){
 					                			window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
 					                		}
 					                	}
-					                }
+					                },
+					                error:function(){alert('successCallback error');}
 		                       });
 		                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 								alert("支付取消");

@@ -230,7 +230,7 @@
 .bx_tensys .sys_c .c_li.mid em{ color: #FF0000;}
 
 .bx_abnormal{ padding: 0 .3rem .5rem; background: #ffffff;}
-.bx_abnormal .fx-mid{ margin-bottom: .36rem; border-radius: .2rem; box-shadow: 0 0 .1rem .02rem #F1B396; overflow: hidden; position: relative;}
+.bx_abnormal .fx-mid{ margin-bottom: .36rem; min-height: 1.9rem; border-radius: .2rem; box-shadow: 0 0 .1rem .02rem #F1B396; overflow: hidden; position: relative;}
 .bx_abnormal .fx-mid .pic{ width: 2.4rem; position: absolute; left: 0; top: 50%; margin: -.95rem 0 0;}
 .bx_abnormal .fx-mid .pic img{display: block; width: .92rem; height: 1.2rem; margin: 0 auto;}
 .bx_abnormal .fx-mid .pic p{ line-height: .5rem; margin: .2rem 0 0; text-align: center; color: #F10000; font-size: .28rem; font-weight: bold;}

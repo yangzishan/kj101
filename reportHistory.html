@@ -89,6 +89,10 @@ success : function(historyData) {
 				oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 			}else if(historyData.data[i].reportType == 6){
 				oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+			}else if(historyData.data[i].reportType == 120){
+				oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+			}else if(historyData.data[i].reportType == 121){
+				oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 			}else if(historyData.data[i].reportType == 100){
 				oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 			}else{
@@ -175,6 +179,10 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 							oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 						}else if(historyData.data[i].reportType == 6){
 							oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+						}else if(historyData.data[i].reportType == 120){
+							oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+						}else if(historyData.data[i].reportType == 121){
+							oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 						}else if(historyData.data[i].reportType == 100){
 							oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
 						}else{
