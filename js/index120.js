@@ -241,8 +241,6 @@ var myApp = new Vue({
 		showTip: function(){
 			showMask();
 			$('.daifu_d').css("display","block");	
-			$('.daifu_d .tit').text('请联系您的保险业务员查看报告');
-			$('.daifu_d .tip').remove();
 			$('#iknow').click(function(){
 				WeixinJSBridge.call('closeWindow');
 			});

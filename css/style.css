@@ -234,14 +234,14 @@
 .bx_abnormal .fx-mid .pic{ width: 2.4rem; position: absolute; left: 0; top: 50%; margin: -.95rem 0 0;}
 .bx_abnormal .fx-mid .pic img{display: block; width: .92rem; height: 1.2rem; margin: 0 auto;}
 .bx_abnormal .fx-mid .pic p{ line-height: .5rem; margin: .2rem 0 0; text-align: center; color: #F10000; font-size: .28rem; font-weight: bold;}
-.bx_abnormal .fx-mid .list{ width: 4.4rem; padding: .3rem 0 0;}
+.bx_abnormal .fx-mid .list{ width: 4.4rem; padding: .6rem 0 .5rem;}
 .bx_abnormal .fx-mid .list .bid{ display: block; margin-bottom: .24rem; padding: 0 .7rem 0 0; line-height: .48rem;}
 .bx_abnormal .fx-mid .list .bid i{ display: inline-block; width: .2rem; height: .2rem; border: #FEB4B4 solid .05rem; border-radius: 50%; background: #F10000;}
 .bx_abnormal .fx-mid .list .bid span{ display: inline-block; padding: 0 .1rem; background: #FFE9E9; font-size: .3rem; margin-left: .2rem;}
 .bx_abnormal .fx-mid .list .bid em{color: #F10000; font-size: .3rem;}
 
 .bx_abnormal .fx-mid.lit .pic img{ width: 1.2rem; height: 1.2rem; margin: 0 auto;}
-.bx_abnormal .fx-mid.lit .pic p{ color: #F10000; font-size: .28rem; font-weight: bold;}
+.bx_abnormal .fx-mid.lit .pic p{ color: #FF8800; font-size: .28rem; font-weight: bold;}
 .bx_abnormal .fx-mid.lit .bid i{ display: inline-block; width: .2rem; height: .2rem; border: #FFC5AA solid .05rem; border-radius: 50%; background: #FF8800;}
 .bx_abnormal .fx-mid.lit .bid span{ display: inline-block; padding: 0 .1rem; background: #FFF1E2; font-size: .3rem; margin-left: .2rem;}
 .bx_abnormal .fx-mid.lit .bid em{color: #FF7200; font-size: .3rem;}

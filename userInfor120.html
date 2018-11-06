@@ -317,12 +317,14 @@ function subAll(){
 	var userId = myuserId;
 	var dxYzm = $.trim($('#dxYzm').val());
 	var relatedNo = $('#relatedNo').val();
+	var idCardNo = $('#identity').val();
 	var userInfo = {
 		mobile : mobile,
 		userId : userId,
 		age : age,
 		openId : myopenId,
-		relatedNo : relatedNo
+		relatedNo : relatedNo,
+		idCardNo :idCardNo
 	}
 	$.ajax({
 		url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code=" +dxYzm ,
@@ -422,12 +424,14 @@ function creatUser(){
 	var userId = myuserId;
 	var dxYzm = $.trim($('#dxYzm').val());
 	var relatedNo = $('#relatedNo').val();
+	var idCardNo = $('#identity').val();
 	var userInfo = {
 		mobile : mobile,
 		//userId : userId,
 		age : age,
 		openId : myopenId,
-		relatedNo : relatedNo
+		relatedNo : relatedNo,
+		idCardNo: idCardNo
 	}
 	$.ajax({
 		url : dataUrl + "/api/v1/reportUser/createUserBySmsCode?code=" +dxYzm ,
