@@ -176,8 +176,8 @@ $.ajax({
 							$(this).find('span').find('i:lt('+ilev+')').addClass('on');
 						});
 					    //酸碱度
-					    $('.bdy-c2 .li_c:last p span').css("display","none");
-						$('.bdy-c2 .li_c:last p em').css("display","inline-block");
+					    //$('.bdy-c2 .li_c:last p span').css("display","none");
+						//$('.bdy-c2 .li_c:last p em').css("display","inline-block");
 					    //指标解读判断跳转  
 					    $('#go_det').on("click",function(){
 					    	window.location.href = "z_pop.html?reportId="+myReportId;

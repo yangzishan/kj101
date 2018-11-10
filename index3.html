@@ -202,7 +202,7 @@
 		<div class="sleep-box real-time">
 			<p class="title">{{data[2].targetName}}</p>
 			<ul>
-				<li :class="'listImg'+index" v-for="(item,index) in data[2].childTarget">
+				<li :class="'listImg'+index" v-for="(item,index) in data[2].childTarget" v-if="item.targetId != 3232">
 					<div class="caption">
 						<span class="img-box"></span>
 						<span class="text">{{item.targetName}}</span>
@@ -526,7 +526,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="js/index3.js"></script>
+<script>document.write('<script src="js/index3.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
     var dpr = document.documentElement.getAttribute('data-dpr') || 1
     var width = document.documentElement.offsetWidth

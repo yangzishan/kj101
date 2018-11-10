@@ -145,8 +145,8 @@ $.ajax({
 						$(this).find('.sta').find('i:lt('+ilev+')').addClass('on');
 					})
 					//酸碱度
-					$('.zhuangk_c .c_li:last .sta').css("display","none");
-					$('.zhuangk_c .c_li:last .sta2').css("display","inline-block");
+					//$('.zhuangk_c .c_li:last .sta').css("display","none");
+					//$('.zhuangk_c .c_li:last .sta2').css("display","inline-block");
 					
 					//跳转历史报告
 					var userId = indexData.data.userId;

@@ -201,7 +201,7 @@ $.ajax({
 						$(this).find('.sta').find('i:lt('+ilev+')').addClass('on');
 					});
 					//酸碱度
-					$('.zhuangk_c .c_li:last .sta').css("display","none");
+					//$('.zhuangk_c .c_li:last .sta').css("display","none");
 					$('.zhuangk_c .c_li:last .sta2').css("display","inline-block");
 					//十大系统指标环形进度
 					var w_cir = $(window).width();

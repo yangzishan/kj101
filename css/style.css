@@ -527,6 +527,7 @@
 .sl-pay .pay-li i.icard{ background: url(../img/o-card.png); background-size:contain;}
 .sl-pay .pay-li i.ico1{ background: url(../img/o-wx.png); background-size:contain;}
 .sl-pay .pay-li i.ico7{ background: url(../img/o-wang.png); background-size:contain;}
+.sl-pay .pay-li i.ico3{ background: url(../img/o-key.png); background-size:contain;}
 .sl-pay .pay-li span{ display: inline-block; vertical-align: top; line-height: 50px; font-size: 15px;}
 .sl-pay .pay-li img.arr{ position: absolute; top: 17px; right: 15px; width: 8px; height: 15px;}
 

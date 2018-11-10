@@ -9,16 +9,17 @@ var edition=GetQueryString("edition");
 if(edition==null){
 	edition = '';
 };
+/*扫码转增优惠券用  带userId*/
 var voucherId = GetQueryString("voucherId"); //优惠券id
 var customerId = GetQueryString("customerId"); //转增人id
-
+/*扫码获得优惠券用 带userId*/
+var spreadUserId = GetQueryString("spreadUserId");  //优惠券发券人ID
+var ruleId = GetQueryString("ruleId");  //规则ID
 //埋点 t
 zhuge.track('进入注册页面', {
 	'openId' : openId,
 	'渠道' : '微信'
 });
-
-
 //倒计时读秒
 var wait=60;
 document.getElementById("sendMsg").disabled=false;
@@ -139,15 +140,12 @@ $('.tongyifo span').on("click",function(){
 		
 		var age = parseInt($('#age').val());
 		var mobile = $('#mobile').val();
-		var userId = userId;
 		var dxYzm = $.trim($('#dxYzm').val());
 		var checkCode = '';
-		
-		
 		if(userId == null || userId == ''){
 			creatUser(mobile,age,dxYzm,checkCode)
 		}else{
-			subAll(mobile,age,dxYzm)
+			subAll(mobile,age,dxYzm,checkCode)
 		}
 	}
 });
@@ -173,6 +171,8 @@ function subAll(mobile,age,dxYzm,checkCode){
 				//判断是否是通过优惠券扫码过来
 				if(voucherId != null && voucherId != '' && voucherId!='null'){
 					turnCouponByWeChat(mobile) //转增优惠券接口
+				}else if(spreadUserId){
+					SendCouponByFlushQR(mobile) //扫码得优惠券接口 一码多用
 				}else{
 					zhuge.identify(mobile, { //埋点 i  完善用户信息
 						'用户id': userId,
@@ -191,11 +191,16 @@ function subAll(mobile,age,dxYzm,checkCode){
 					});
 				}	
 			}else if(userData.code == 1003){
-				if(){ //创建新用户
-					subAll(mobile,age,dxYzm,CNU)
-				}else{ //更新用户信息
-					subAll(mobile,age,dxYzm,UOY)
-				}
+				showFirm('该手机号已被绑定')
+				$('#Firm .psub a').on("click",function(){
+					var oindex = $(this).index();
+					closeMask();
+					if(oindex == 1){ //创建新用户
+						subAll(mobile,age,dxYzm,'CNU')
+					}else{ //更新用户信息
+						subAll(mobile,age,dxYzm,'UOY')
+					}
+				});		
 			}else{
 				zhuge.track('注册失败，查看验证码是否有误', { //埋点 t 注册失败
 					'用户id': userId,
@@ -242,11 +247,16 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					}
 				});
 			}else if(userData.code == 1003){
-				if(){  //创建新用户
-					creatUser(mobile,age,dxYzm,CNU)
-				}else{ //更新用户信息
-					creatUser(mobile,age,dxYzm,UOY)
-				}
+				showFirm('该手机号已被绑定')
+				$('#Firm .psub a').on("click",function(){
+					var oindex = $(this).index();
+					closeMask();
+					if(oindex == 1){ //创建新用户
+						creatUser(mobile,age,dxYzm,'CNU')
+					}else{ //更新用户信息
+						creatUser(mobile,age,dxYzm,'UOY')
+					}
+				});	
 			}else{
 				zhuge.track('注册失败，查看验证码是否有误', { //埋点 t 注册失败
 					'用户id': userId,
@@ -291,6 +301,41 @@ function turnCouponByWeChat(mobile){
 	});
 }
 
+//扫码获得优惠券接口 一码多用
+function SendCouponByFlushQR(mobile){
+	$.ajax({
+		url: couponData+ '/vi/send/coupon/SendCouponByFlushQR',
+		type: "post",
+		dataType :'json',
+		data : {
+		   	spreadUserId : spreadUserId,
+		   	ruleId : ruleId,
+		   	userId : userId
+		},
+		success : function(data){
+			if(data.code ==200){
+				//埋点 i  通过扫描优惠券注册
+				zhuge.identify(mobile, {
+					'用户id': userId,
+					'openId': openId
+				});
+				//埋点 t 通过扫描优惠券注册成功 然后跳转
+				zhuge.track('通过扫描优惠券注册成功', {
+					'用户id': userId,
+					'openId': openId,
+					'渠道' : '微信'
+				},function(){
+					window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
+				});
+			}else{
+				alert('SendCouponByFlushQR code !=200');
+			}
+				
+		},
+		error:function(){}
+	});
+}
+
 //弹窗 模拟alert
 function showMask(msg){
 	$('.tc-qx').each(function(){
@@ -303,9 +348,19 @@ function showMask(msg){
 	$('#alert .pc1').empty().text(msg);
 	$('#alert .subBtn').click(function(){closeMask()});
 }//showMask('哈哈哈哈');
+function showFirm(msg){
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2);
+	});
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#Firm').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+}
 function closeMask(){
 	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
-	$('#alert').css({"visibility":"hidden","opacity":"0"});
+	$('.tc-qx').css({"visibility":"hidden","opacity":"0"});
 }
 //截取URL 获取
 function GetQueryString(name){

@@ -39,6 +39,7 @@ var myApp = new Vue({
 			userIdstr:'', //逗号分隔显示
 			snNum:'', 
 			orderNum:'',
+			
 		}
 	},
 	mounted: function() {
@@ -206,25 +207,19 @@ var myApp = new Vue({
 						});
 					}else{console.log(packageData.msg)} //code 200 201之外
 				}
-		).error(function(){alert('findPackage error')})
+			).error(function(){alert('findPackage error')})
 		},
+		hrefRouter:function(pay){
+			if(pay.payChannelType == 3){
+				window.location.href="wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition
+			}else{
+				window.location.href='wxPay_new.html?reportId='+reportId+'&userId='+this.userId+
+			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
+			}
+		}
 
-		// 通过url 获取参数 reportId openId samerUser edition
-		/*initial(){
-			var reportId = getQueryString("reportId");
-			this.reportId = reportId;
-			var openId = getQueryString("openId");
-			this.openId = openId;
-			var sameUser = getQueryString("sameUser");
-			this.sameUser = sameUser;
-			var edition = getQueryString("edition");
-			this.edition = edition;
-			console.log(this.reportId);
-			console.log(this.openId);
-			console.log(this.sameUser);
-			console.log(this.edition);
-		},*/
-	},
+	}
 });
 //获取url参数方法
 function getQueryString(name) {

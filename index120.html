@@ -9,7 +9,6 @@
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<!--<link rel="stylesheet" type="text/css" href="css/style.css?v=201810027" />-->
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body class="bck-col-f4">
@@ -112,9 +111,9 @@
 	
 	<p style="height: .2rem; background: #f4f4f4;"></p>
 	<div class="bx_tit"><span class="lab">实时状态</span></div>
-	<p class="bx_tip">以下是您七大身体实时状态的情况：</p>
+	<p class="bx_tip">以下是您六大身体实时状态的情况：</p>
     <div class="zhuangk_c indexShow">
-    	<div class="c_li" v-for="state in otherPages">
+    	<div class="c_li" v-for="state in otherPages" v-if="state.targetThirdId != 3232">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
     		<div class="v_overlert">
@@ -133,7 +132,6 @@
     		<span class="sta fr" v-else-if="state.abnormalLevel == 0 && state.analysisResults" style="padding: 0;">
     			<em style="font-size: .32rem; line-height: .8rem;">{{state.analysisResults}}</em>
     		</span>
-    		<!--<span class="sta2 fr">{{state.analysisResults}}</span>-->
     		<i class="pop fr" @click="popSta($event)"></i>
     	</div>
     </div>
@@ -189,10 +187,7 @@
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<!--<script src="js/index120.js?v=20181101"></script>-->
 <script>document.write('<script src="js/index120.js?t=' + new Date().getTime() + '"><\/script>')</script>
-
-
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {

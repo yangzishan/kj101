@@ -9,37 +9,62 @@
 <title>支付</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<link rel="stylesheet" type="text/css" href="css/style.css?t=20181018" />
 </head>
-<body>
-<div class="my_view" id="appVUE" style="height: auto; display: none;">
-	<!--<header class="header">
+<body style="background: #f0f0f0;">
+<div class="my_view" id="appVUE">
+	<!--
+	<header class="header">
 		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
 		<a class="t-right fr" href="#"></a>
 		<p class="t-cen txt1"><span>支付</span></p>
-	</header>-->
+	</header>
+	-->
+	<div class=""><img src="img/payfor-tt.jpg" class="img_b"></div>
+	<div style="margin: .22rem .43rem; position: relative; font-size: .28rem;">
+		<p style="position: absolute; width: 100%; text-align: center;">您是第<em style="color: #d22b22; font-size: .38rem;font-weight: bold; margin: 0 .1rem;">{{userId}}</em>位检测的用户
+		</p>
+		<img src="img/payfor-tp.png" class="img_b">
+	</div>
 	
-	<div class=""><img src="img/pay-ban.jpg" class="img_b"></div>
-	
-	<div class="pay_x_cn">
-		<p class="btit"><i class="ico"></i><span class="lab">检测结果</span></p>
-		<div class="xcon">
-			<p class="ptit"><em class="dian"></em>您有 <font>{{abnormalNo}}</font> 个存在风险的指标</p>
-			<p class="ptit"><em class="dian"></em>其中 <font>{{litAbnormal}}</font> 个轻度风险指标</p>
+	<div class="pay_tj_c">
+		<div class="tj_c">
+			<dl class="tens">
+				<dd><img src="img/ten/i-new-xunhuan.png"><font>循环系统</font></dd>
+				<dd><img src="img/ten/i-new-xiaohua.png"><font>消化系统</font></dd>
+				<dd><img src="img/ten/i-new-huxi.png"><font>呼吸系统</font></dd>
+				<dd><img src="img/ten/i-new-neifenmi.png"><font>内分泌</font></dd>
+				<dd><img src="img/ten/i-new-guge.png"><font>骨骼系统</font></dd>
+				<dd><img src="img/ten/i-new-mianyi.png"><font>免疫系统</font></dd>
+				<dd><img src="img/ten/i-new-shengzhi.png"><font>生殖系统</font></dd>
+				<dd><img src="img/ten/i-new-yingyang.png"><font>营养状态</font></dd>
+				<dd><img src="img/ten/i-new-youhai.png"><font>有害物质</font></dd>
+				<dd><img src="img/ten/i-new-pifu.png"><font>皮肤系统</font></dd>
+			</dl>
+			<div class="pay_go" id="pay">
+				<p class="yj">原价:{{oprice}}</p>
+				<p class="p1">优惠价:</p><p class="p2">￥{{price}}</p>
+				<button class="sub">点击支付<i></i></button>
+			</div>
 		</div>
 	</div>
 	
-	<div class="paytentu">
-		<img src="img/pay-ten.jpg" class="img_b">
-		<a class="gogo" href="indicators.html">点击查看指标明细<i></i></a>
-	</div>
-	<p style="text-align: center; color: #7e7e7e; font-size: .34rem; line-height: .44rem;">由知名专家为您提供专属的个性化建议<br><font style="color: #f13733;">食谱、营养素、运动、生活方式</font></p>
 	
-	<div class="pay-x-fix">
-		<button class="pay" id="pay">支付看报告</button>
-		<span class="price">优惠价:<font>￥{{price}}</font></span>
-		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
+	<p class="pay_tj_yc">
+		本次检测您有<span v-if="midAbnormal"><em>{{midAbnormal}}</em>项为中度风险<br/></span><span v-if="litAbnormal"><em>{{litAbnormal}}</em>项为轻度风险</span>
+	</p>
+	
+	<div class="pay_tj_tip">
+		为您提供专属的<em>食谱、营养素、运动及生活方式建议</em>
+		<a href="indicators.html" class="gogo">点击查看指标明细<i></i></a>
 	</div>
+
+	
+	<div class="fix-tpp">
+		<p>您的整体身体状况好于<font>{{ranking}}%</font>的同龄人<em class="aa a1"></em></p>
+	</div>
+	
+	
 
 	<div class="sl-pay">
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
@@ -47,8 +72,11 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
+		<a class="pay-li" id="WordPay"><i class="ikey"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
 		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+		<a class="pay-li" v-for="pay in data" :href="'wxPay_new.html?reportId='+reportId+'&userId='+userId+
+			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
 		</a>
 	</div>	
@@ -85,11 +113,11 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
+
 </body>
 </html>

@@ -95,7 +95,7 @@
 <div class="xqbaogao">
 	<p class="tit"><i class="le"></i>身体状况</p>
 	<div class="bdy-c2">
-		<div class="li_c" v-for="state in status">
+		<div class="li_c" v-for="state in status" v-if="state.targetThirdId != 3232">
 			<label><i><img :src="state.iconUrl"></i><span>{{state.targetThirdName}}</span></label>
 			<input type="hidden" :value="state.abnormalLevel">
 			<p>
@@ -157,9 +157,6 @@
 </div>
 <p style="height: .3rem;"></p>
 
-<!--<div class="go_det"><i></i><span>报告解读</span></div>
-<div class="go_sp" style="display: none;"><i></i><span>健康食谱</span></div>-->
-
 </DIV><!--/my_view-->
 <input type="hidden" id="appId"/>
 <input type="hidden" id="nonceStr"/>
@@ -189,7 +186,8 @@
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
-<script src="js/index.js?v=20181012"></script>
+<!--<script src="js/index.js?v=20181012"></script>-->
+<script>document.write('<script src="js/index.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
