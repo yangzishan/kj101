@@ -6,7 +6,7 @@ function GetQueryString(name){
 };
 var myReportId = GetQueryString('reportId');
 var myopenId = GetQueryString('openId');
-
+var edition =''
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 

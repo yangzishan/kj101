@@ -420,8 +420,12 @@
 .sl-pay .cnn .p1{ line-height:36px; color: #999999; font-size: 15px;}
 .sl-pay .cnn .p2{ line-height: 36px; color: #ff5959; font-size: 24px;}
 .sl-pay .pay-li{ display: block; height: 50px; padding: 0 15px; color: #333333; border-top: #F4F4F4 solid 1px; position: relative;}
-.sl-pay .pay-li i.ico{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
-.sl-pay .pay-li i.ico img{ display: block; width: 100%;}
+.sl-pay .pay-li i{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
+.sl-pay .pay-li i.ikey{ background: url(../img/o-key.png); background-size:contain;}
+.sl-pay .pay-li i.icard{ background: url(../img/o-card.png); background-size:contain;}
+.sl-pay .pay-li i.ico1{ background: url(../img/o-wx.png); background-size:contain;}
+.sl-pay .pay-li i.ico7{ background: url(../img/o-wang.png); background-size:contain;}
+.sl-pay .pay-li i.ico3{ background: url(../img/o-key.png); background-size:contain;}
 .sl-pay .pay-li span{ display: inline-block; vertical-align: top; line-height: 50px; font-size: 15px;}
 .sl-pay .pay-li img.arr{ position: absolute; top: 17px; right: 15px; width: 8px; height: 15px;}
 
@@ -445,12 +449,12 @@
 .healthSta{ height: 1.2rem; padding: .3rem 0; line-height: .6rem; text-align: center; font-size: .36rem;}
 .healthSta .sta{ color: #ee0000;}
 .pay_x_cn{ background: #fff; padding:0 .2rem;}
-.pay_x_cn .btit{ height: .9rem; line-height: .9rem; border-bottom: #f2f2f2 solid .02rem;}
-.pay_x_cn .btit .ico{display: inline-block; vertical-align: top; margin: .21rem .2rem 0 0; width: .48rem; height: .48rem; background: url(../img/pay-x-gz.png) no-repeat center; background-size: .48rem .48rem;}
-.pay_x_cn .btit .lab{ color: #1ebeb1; font-size: .3rem; font-weight: bold;}
-.pay_x_cn .xcon{ padding: .15rem 0 .2rem;}
-.pay_x_cn .xcon .ptit{ height: .5rem; line-height: .5rem; padding-left:.17rem; font-size: .3rem;}
-.pay_x_cn .xcon .ptit .dian{display: inline-block; vertical-align: top; width: .14rem; height: .14rem; border-radius: 50%; background: #1ebeb1; margin: .17rem .32rem 0 0;}
+.pay_x_cn .btit{ height: .7rem; line-height: .7rem; /*border-bottom: #f2f2f2 solid .02rem;*/}
+.pay_x_cn .btit .ico{display: inline-block; vertical-align: top; margin: .11rem .2rem 0 0; width: .48rem; height: .48rem; background: url(../img/pay-x-gz.png) no-repeat center; background-size: .48rem .48rem;}
+.pay_x_cn .btit .lab{ color: #1ebeb1; font-size: .36rem; font-weight: bold;}
+.pay_x_cn .xcon{ padding: 0 0 .15rem;}
+.pay_x_cn .xcon .ptit{ height: .5rem; line-height: .5rem; padding-left:.17rem; font-size: .32rem;}
+.pay_x_cn .xcon .ptit .dian{display: inline-block; vertical-align: top; width: .14rem; height: .14rem; border-radius: 50%; background: #fa0202; margin: .17rem .32rem 0 0;}
 .pay_x_cn .xcon .ptit .kong{display: inline-block; width: .14rem; height: .14rem; border-radius: 50%; margin: .17rem .32rem 0 0;}
 .pay_x_cn .xcon .ptit font{color: #ee0000;}
 .pay_x_cn .ablist{ font-size: 0; padding: .2rem;}
@@ -466,6 +470,12 @@
 .pay-x-fix .price font{ font-size: .46rem; color: #f13733; font-weight: bold;}
 .pay-x-fix .oprice{ padding-left: .2rem; line-height: .88rem; color: #999; font-size: .3rem;}
 .pay-x-fix .oprice font{ font-weight: bold;text-decoration: line-through;}
+.paytentu{ padding: .18rem 0 0; margin: 0 0 .1rem; border-top:#eaeaea solid .02rem; position: relative; }
+.paytentu .gogo{position: absolute; bottom: 0; right: .12rem; line-height: .4rem; color: #fff;}
+.paytentu .gogo i{display: inline-block; vertical-align: top; width: .4rem; height: .4rem;background: url(../img/arr07.png) no-repeat center; background-size:.29rem .2rem;}
+.indicator{ overflow: hidden; padding:.2rem .3rem;}/*指标详细*/
+.indicator dt{ display: block;font-size: .32rem; font-weight: bold; color: #2fbab0;}
+.indicator dd{ float: left;font-size: .28rem; padding: 0 .12rem;}
 /*代付提醒*/
 .daifu_d{ position: fixed; left: .75rem; right: .75rem; height: 6rem; margin: auto; top: 0; bottom: 0; background: #fff; border-radius:.12rem; z-index: 11111; text-align: center; padding: .3rem .3rem 0; display: none;}
 .daifu_d .imo{ width: 3.32rem; height: 2rem; margin: 0 auto;}

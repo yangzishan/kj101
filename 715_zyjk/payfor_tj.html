@@ -42,7 +42,7 @@
 				<dd><img src="img/ten/i-new-pifu.png"><font>皮肤系统</font></dd>
 			</dl>
 			<div class="pay_go" id="pay">
-				<p class="yj">原价:{{oprice}}</p>
+				<p class="yj">原价:<font>{{oprice}}</font></p>
 				<p class="p1">优惠价:</p><p class="p2">￥{{price}}</p>
 				<button class="sub">点击支付<i></i></button>
 			</div>
@@ -72,13 +72,9 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="WordPay"><i class="ikey"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" v-for="pay in data" :href="'wxPay_new.html?reportId='+reportId+'&userId='+userId+
-			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
-			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
-			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
-		</a>
+		<a class="pay-li" id="WordPay"><i class="ico"><img src="img/o-key.png"></i><span>口令支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="wxpay"><i class="ico"><img src="img/o-wx.png"></i><span id="wxPay">微信支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" id="kaPay"><i class="ico"><img src="img/o-card.png"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
 	</div>	
 
 </div>
@@ -148,6 +144,7 @@ success : function(indexData) {
  		var myApp = new Vue({
 			el: '#appVUE',
 			data: {
+				userId : indexData.data.infoView.userId,
 			  	nickName: indexData.data.mentPage.nickName, //昵称
 			  	headimgurl: indexData.data.mentPage.headimgurl, //头像
 			  	totalScore: indexData.data.mentPage.totalScore, //总分
@@ -161,6 +158,7 @@ success : function(indexData) {
 			  	description: indexData.data.infoView.description,  //描述
 			  	abnormalNo: indexData.data.mentPage.abnormal.list4.length+indexData.data.mentPage.abnormal.list3.length+indexData.data.mentPage.abnormal.list2.length, //全部异常项目数
 			  	litAbnormal: indexData.data.mentPage.abnormal.list2.length,
+			  	midAbnormal: indexData.data.mentPage.abnormal.list3.length,
 			  	firstNames: indexData.data.mentPage.firstNames  //得分最低两个系统名字
 			}
 		});
@@ -168,7 +166,11 @@ success : function(indexData) {
 		//判断原价为0的时候  设现价+20
 		var originalPrice = indexData.data.infoView.originalPrice; // 原价
 		if(originalPrice == '' || originalPrice == null){
-			$('.pay-x-fix .oprice font').html('￥'+ (indexData.data.infoView.price + 20));
+			$('.pay_tj_c .tj_c .pay_go .yj font').html('￥'+ (indexData.data.infoView.price + 20));
+		};
+		//判断笑哭脸样式
+		if(indexData.data.mentPage.ranking!=null && indexData.data.mentPage.ranking<50){
+			$('.fix-tpp p .aa').removeClass('a1').addClass('a2');
 		};
 
 		//判断新用户

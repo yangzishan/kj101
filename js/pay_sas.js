@@ -2,10 +2,12 @@ var reportId = getQueryString("reportId");
 var openId = getQueryString("openId");
 var sameUser = getQueryString("sameUser");
 var edition = getQueryString("edition");
+var agentId = getQueryString('agentId');  //代理商id  代理商报告用  康加报告不用
 console.log(reportId);
 console.log(openId);
-console.log(sameUser);
-console.log(edition);
+console.log('sameUser='+sameUser);
+console.log('edition='+edition);
+console.log('agentId='+agentId);
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 var myApp = new Vue({
@@ -39,6 +41,7 @@ var myApp = new Vue({
 			userIdstr:'', //逗号分隔显示
 			snNum:'', 
 			orderNum:'',
+			agentId:'',
 			
 		}
 	},
@@ -67,6 +70,7 @@ var myApp = new Vue({
 						_this.openId = openId,
 						_this.sameUser = sameUser,
 						_this.edition = edition,
+						_this.agentId = agentId,
 						_this.nickName = packageData.data.mentPage.nickName, //昵称
 					  	_this.headimgurl = packageData.data.mentPage.headimgurl, //头像
 					  	_this.totalScore = packageData.data.mentPage.totalScore, //总分
@@ -117,68 +121,13 @@ var myApp = new Vue({
 								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 								$('.daifu_d').css("display","block");
 							}else{
-								//判断用户有没有可用卡
-								$.ajax({
-									url : dataUrl + "/api/v1/cardPay/findUserCards",
-									type : "POST",
-									dataType : 'json',
-									data : {
-										reportId : reportId,
-									   	userId : _this.userId
-									},
-									success : function(data) {
-										//alert('查找用户可用卡');
-										if(data.code == 200){
-											var cards = data.data.List;
-											if(cards == null || cards.length == 0 || cards == ''){
-												$('#kaPay').css("display","none");
-											};
-										}else{
-											console.log('查找用户可用支付卡 code= '+ data.code);
-										}
-									}
-								});	
+								findUserCards(reportId,_this.userId) //判断用户有没有可用卡来显示卡支付
 							};
-							//查询支付通道
-							$.ajax({
-								url : channel + "/pay/v1/channel/getPayChannel",
-								type : "get",
-								dataType : 'json',
-								data : {
-									neNo : _this.snNum,
-								   	terminalType : 1
-								},
-								success : function(data) {
-									if(data.code ==0){
-										_this.data = data.data
-									}else{console.log('支付通道接口'+data.code)}
-								},
-								error : function(){alert('getPayChannel error')}
-							});
+							getPayChannel(_this.snNum) //查询支付通道
 							// 根据价格
 							if(_this.price == 0){
 								$('#pay').on("click",function(){
-									$.ajax({
-										url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
-										type : "post",
-										dataType : 'json',
-										data : {
-										    reportId : reportId,
-										    packageId: _this.packageId,
-										    userId: _this.userId
-										},
-										success : function(data) {
-											if(data.code==200){
-												if(edition == 100){
-													window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
-												}else{
-													window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
-												}
-											}else{
-												alert('支付失败updateFreeOrder code='+data.code);
-											}
-										}
-									})
+									updateFreeOrder(reportId,_this.packageId,_this.userId)
 								});
 							}else{
 								$('#pay').on("click",function(){
@@ -212,6 +161,7 @@ var myApp = new Vue({
 				}
 			).error(function(){alert('findPackage error')})
 		},
+		//支付通道跳转支付
 		hrefRouter: function(pay){
 			if(pay.payChannelType == 3){
 				if(edition == 100){
@@ -230,7 +180,72 @@ var myApp = new Vue({
 			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
 				}
 			}
-		}
+		},
+		//支付通道
+		getPayChannel: function(snNum){
+			$.ajax({
+				url : channel + "/pay/v1/channel/getPayChannel",
+				type : "get",
+				dataType : 'json',
+				data : {
+					neNo : snNum,
+				   	terminalType : 1
+				},
+				success : function(data) {
+					if(data.code ==0){
+						_this.data = data.data
+					}else{console.log('支付通道接口'+data.code)}
+				},
+				error : function(){alert('getPayChannel error')}
+			})
+		},
+		//免费订单
+		updateFreeOrder: function(reportId,packageId,userId){
+			$.ajax({
+				url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
+				type : "post",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    packageId: packageId,
+				    userId: userId
+				},
+				success : function(data) {
+					if(data.code==200){
+						if(edition == 100){
+							window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
+						}else{
+							window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
+						}
+					}else{
+						alert('支付失败updateFreeOrder code='+data.code);
+					}
+				}
+			})
+		},
+		//判断用户有没有可用卡来显示卡支付
+		findUserCards: function(reportId,userId){
+			$.ajax({
+				url : dataUrl + "/api/v1/cardPay/findUserCards",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					reportId : reportId,
+				   	userId : userId
+				},
+				success : function(data) {
+					//alert('查找用户可用卡');
+					if(data.code == 200){
+						var cards = data.data.List;
+						if(cards == null || cards.length == 0 || cards == ''){
+							$('#kaPay').css("display","none");
+						};
+					}else{
+						console.log('查找用户可用支付卡 code= '+ data.code);
+					}
+				}
+			})
+		},
 	}
 });
 //获取url参数方法
