@@ -74,7 +74,7 @@
     	</a>	
     </div>
     <div class="zhuangk_c indexShow" style="display: none;">
-    	<div class="c_li" v-for="state in status">
+    	<div class="c_li" v-for="state in status" v-if="state.targetThirdId != 3232">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
     		<div class="v_overlert">
@@ -87,7 +87,7 @@
     		<span class="sta fr">
     			<i class="on"></i><i class=""></i><i class=""></i><i></i><i></i>
     		</span>
-    		<span class="sta2 fr">{{state.analysisResults}}</span>
+    		<!--<span class="sta2 fr">{{state.analysisResults}}</span>-->
     		<i class="pop fr"></i>
     	</div>
     </div>
@@ -168,7 +168,6 @@
 <input type="hidden" id="age"/>
 <input type="hidden" id="share" value="101"/>
 
-<!--<div id="btn" class="zhiCustomBtn"></div>-->
 
 </DIV>
 <div class="v_overlay"></div>
@@ -207,9 +206,8 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/indexNew.js?v=201807011"></script>
+<script>document.write('<script src="js/indexNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<!--<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>-->
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,

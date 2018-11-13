@@ -122,6 +122,12 @@ if(code == 300){
 	alert('系统异常，请联系管理员');
 }else if(code == 200){
 	console.log('执行成功');
+}else if(code == 701){
+	alert('未获得发券规则');
+}else if(code == 702){
+	alert('发放优惠券失败');
+}else if(code == 703){
+	alert('当前推广用户已经失效');
 };
 
 $.ajax({
@@ -131,7 +137,7 @@ $.ajax({
 	data : {
 	   	customerId : customerId
 	},
-	success : function(data) {
+	success : function(data){
 		if(data.code == 0){
 			$('.my_view').css("display","block");
 			$('.load-overlay').css("display","none");

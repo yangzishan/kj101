@@ -35,7 +35,6 @@ $.ajax({
 					var paymentType = indexData.data.paymentType;
 					var agentId = indexData.data.agentId;
 
-					
 					window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser+"&agentId=" + agentId;
 					
 				}else if(indexData.code == 200){

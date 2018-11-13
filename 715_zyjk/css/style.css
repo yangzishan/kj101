@@ -1,4 +1,4 @@
-my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
+.my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .v_view{ height: 100%;font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .v_port{ padding: 0 .25rem .5rem; -webkit-overflow-scrolling: touch;}
 .k1{height: .2rem;}
@@ -217,7 +217,6 @@ my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','
 .thr_tit span{font-size: .36rem; line-height: .5rem; color: #1ebeb1;}
 .thr_cn{ padding:0 .3rem;}
 .thr_cn .ctxt{ padding-bottom: .3rem; font-size: .3rem; line-height: .56rem;}
-
 
 /*历史报告*/
 .history_b{ height: 100%; background: #fff;}
@@ -474,6 +473,53 @@ my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','
 .daifu_d .tip{ line-height: .32rem; font-size: .26rem; color: #999;}
 .daifu_d .dbtn{ padding: .5rem 0 .2rem;}
 .daifu_d .dbtn button{ width: 2.79rem; height: .68rem; background: #1eceb7; color: #fff; font-size: .32rem; border-radius: .34rem;}
+/*天津支付页面 (现在全国都用)*/
+.pay_tj_c{padding: .7rem 0 .52rem;}
+.pay_tj_c .tj_c{ width: 4.76rem; height: 4.76rem; margin: 0 auto; background: url(../img/payfor-tcb.png) no-repeat; background-size:contain; position: relative;}
+.pay_tj_c .tj_c .tens{}
+.pay_tj_c .tj_c .tens dd{ width: .82rem; height: .82rem; padding: .16rem; border-radius: 50%; position: absolute; background: #60cab7;}
+.pay_tj_c .tj_c .tens dd font{width: .5rem; text-align: center; color: #949494; font-size: .18rem; line-height: .24rem; position: absolute;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(1){ left: 2rem; top: -.3rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(1) font{ top: -.48rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(2){ left: 3.43rem; top: .20rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(2) font{ right: -.52rem; top: 0rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(3){ left: 4.25rem; top: 1.27rem; background: #ffbb1c;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(3) font{ right: -.52rem; top: .2rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(4){ left: 4.25rem; top: 2.7rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(4) font{ right: -.52rem; top: .2rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(5){ left: 3.37rem; top: 3.85rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(5) font{ right: -.45rem; top: .52rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(6){ left: 1.9rem; top: 4.27rem; background: #ffbb1c;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(6) font{ right: -.4rem; top: .6rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(7){ left: .49rem; top: 3.78rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(7) font{ left: -.45rem; top: .52rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(8){ left: -.3rem; top: 2.71rem}
+.pay_tj_c .tj_c .tens dd:nth-of-type(8) font{ left: -.5rem; top: .2rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(9){ left: -.3rem; top: 1.29rem; background: #ffbb1c;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(9) font{ left: -.52rem; top: .2rem;}
+.pay_tj_c .tj_c .tens dd:nth-of-type(10){ left: .58rem; top: .16rem}
+.pay_tj_c .tj_c .tens dd:nth-of-type(10) font{ left: -.5rem; top: 0rem;}
+.pay_tj_c .tj_c .tens dd img{ display: block; margin: 0 auto; width: .5rem; height: .5rem;}
+.pay_tj_c .tj_c .pay_go{ width: 2.9rem; height: 2.9rem; background: url(../img/payfor-tjub.png) no-repeat; background-size: contain; position: absolute; left: .96rem; top: .96rem; text-align: center; color: #e73005;}
+.pay_tj_c .tj_c .pay_go .yj{padding: .25rem 0 .05rem; font-size: .32rem; color: #595757; font-weight: bold; text-decoration: line-through;}
+.pay_tj_c .tj_c .pay_go .p1{ font-size:.37rem ; margin: .05rem 0 .05rem;}
+.pay_tj_c .tj_c .pay_go .p2{ font-size: .6rem; font-weight: bold; margin: 0 0 .1rem;}
+.pay_tj_c .tj_c .pay_go .sub{ position: relative; width: 1.66rem; height: .55rem; line-height: .54rem; border-radius: .06rem; color: #FFFFFF; background: url(../img/payfor-btn.png) no-repeat; background-size:contain; font-size: .32rem; font-weight: bold;}
+.pay_tj_c .tj_c .pay_go .sub i{width: .81rem; height: 1.07rem; position: absolute; background: url(../img/payfor-hand.png) no-repeat; background-size:contain; left: 40%; top: .2rem;}
+.gocheckmx{ display: block; width: 2.86rem; margin: .2rem auto .1rem; text-align: center; line-height: .4rem; color: #1aa78e; font-size: .2345rem; text-decoration: underline;}
+.gocheckmx i{display: inline-block; vertical-align: top; width: .4rem; height: .4rem;background: url(../img/arr08.png) no-repeat center; background-size:.29rem .2rem;}
+.pay_tj_yc{padding: .1rem 0; line-height: .42rem; text-align: center; font-size: .3rem; font-weight: bold; color: #1aa78e;}
+.pay_tj_yc em{font-weight: bold; color: #e73005;}
+.pay_tj_tip{text-align: center; font-size: .28rem; color: #7e7e7e; position: relative; padding: 0 .5rem 1.35rem;}
+.pay_tj_tip em{ color: #de4a3c;}
+.pay_tj_tip .gogo{position: absolute; top: .42rem; right: .48rem; line-height: .4rem; color: #1aa78e; font-size: .2345rem; text-decoration: underline;}
+.pay_tj_tip .gogo i{display: inline-block; vertical-align: top; width: .4rem; height: .4rem;background: url(../img/arr08.png) no-repeat center; background-size:.29rem .2rem;}
+.fix-tpp{ position: fixed; bottom: 0; width: 100%; max-width: 750px; height: .88rem; line-height: .88rem; background: #61cbb8; color: #ffffff;}
+.fix-tpp p{padding: 0 .56rem; font-size:.32rem;}
+.fix-tpp p font{ font-size:.4rem;}
+.fix-tpp p .aa{display: inline-block; width: .43rem; height: .43rem; vertical-align: top; margin: .22rem 0 0 .22rem;}
+.fix-tpp p em.a1{ background: url(../img/i-smile.png) no-repeat; background-size:contain;}
+.fix-tpp p em.a2{ background: url(../img/i-sad.png) no-repeat; background-size:contain;}
 
 /*微信支付页面*/
 .wxpay{ background: #fff; margin: .2rem .3rem .2rem; padding: .3rem .4rem 1.2rem; border-radius: .1rem; color: #000;}

@@ -297,7 +297,7 @@ function turnCouponByWeChat(mobile){
 				window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
 			});
 		},
-		error:function(){}
+		error:function(){alert('turnCouponByWeChat error')}
 	});
 }
 
@@ -313,26 +313,21 @@ function SendCouponByFlushQR(mobile){
 		   	userId : userId
 		},
 		success : function(data){
-			if(data.code ==200){
-				//埋点 i  通过扫描优惠券注册
-				zhuge.identify(mobile, {
-					'用户id': userId,
-					'openId': openId
-				});
-				//埋点 t 通过扫描优惠券注册成功 然后跳转
-				zhuge.track('通过扫描优惠券注册成功', {
-					'用户id': userId,
-					'openId': openId,
-					'渠道' : '微信'
-				},function(){
-					window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
-				});
-			}else{
-				alert('SendCouponByFlushQR code !=200');
-			}
-				
+			//埋点 i  通过扫描优惠券注册
+			zhuge.identify(mobile, {
+				'用户id': userId,
+				'openId': openId
+			});
+			//埋点 t 通过扫描优惠券注册成功 然后跳转
+			zhuge.track('通过扫描优惠券注册成功', {
+				'用户id': userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
+			});
 		},
-		error:function(){}
+		error:function(){alert('SendCouponByFlushQR error')}
 	});
 }
 

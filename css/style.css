@@ -187,7 +187,6 @@
 .bx_tensys .bd_c .woman .i-wei{width: 1rem; height: .85rem; background: url(../img/120/wei.png); background-size: contain; position: absolute; top: 2.77rem; left: .88rem;}
 .bx_tensys .bd_c .woman .i-gu{width: .41rem; height: .82rem; background: url(../img/120/guge.png); background-size: contain; position: absolute; top: 6.28rem; left: 1.48rem;}
 
-
 .bx_tensys .sys_c{padding: .05rem 0 0; position: absolute; right: .25rem; top: .25rem;}
 .bx_tensys .sys_c .c_li{ width: 3.58rem; height: .68rem; background: #DBFDF5; border: #1ECEB7 solid .01rem; border-radius: .39rem; margin-bottom: .3rem; font-size: 0;}
 .bx_tensys .sys_c .c_li i{ display: inline-block; vertical-align: top; width: .6rem; height: .66rem; margin:0 .1rem 0 .2rem;}
@@ -239,15 +238,11 @@
 .bx_abnormal .fx-mid .list .bid i{ display: inline-block; width: .2rem; height: .2rem; border: #FEB4B4 solid .05rem; border-radius: 50%; background: #F10000;}
 .bx_abnormal .fx-mid .list .bid span{ display: inline-block; padding: 0 .1rem; background: #FFE9E9; font-size: .3rem; margin-left: .2rem;}
 .bx_abnormal .fx-mid .list .bid em{color: #F10000; font-size: .3rem;}
-
 .bx_abnormal .fx-mid.lit .pic img{ width: 1.2rem; height: 1.2rem; margin: 0 auto;}
 .bx_abnormal .fx-mid.lit .pic p{ color: #FF8800; font-size: .28rem; font-weight: bold;}
 .bx_abnormal .fx-mid.lit .bid i{ display: inline-block; width: .2rem; height: .2rem; border: #FFC5AA solid .05rem; border-radius: 50%; background: #FF8800;}
 .bx_abnormal .fx-mid.lit .bid span{ display: inline-block; padding: 0 .1rem; background: #FFF1E2; font-size: .3rem; margin-left: .2rem;}
 .bx_abnormal .fx-mid.lit .bid em{color: #FF7200; font-size: .3rem;}
-
-
-
 
 /*二级页*/
 .sysList{background: #fff; padding: .2rem 0; margin: 0 0 .2rem;}/*null-all*/
@@ -633,6 +628,15 @@
 .fix-tpp p em.a1{ background: url(../img/i-smile.png) no-repeat; background-size:contain;}
 .fix-tpp p em.a2{ background: url(../img/i-sad.png) no-repeat; background-size:contain;}
 
+
+
+/*新用户-支付*/
+
+
+
+
+
+
 /*=微信支付页面=*/
 .d-wxpay{ margin-bottom: .2rem;}
 .wxpay{ background: #fff; /*margin: .2rem .3rem .2rem;*/ padding: .3rem .4rem; border-radius: .1rem; color: #000;}
@@ -673,7 +677,6 @@
 .coupon_dd .bid{ width: 1.45rem; height: .42rem; line-height: .4rem; font-size: .24rem; text-align: center; color: #9B9B9B; border: #EAEAEA solid .01rem; border-radius: .21rem; position: absolute; right: .36rem; bottom: .21rem;}
 .coupons .cli.used .coupon_dd .dd-t{background:linear-gradient(90deg,#68E0DE 0%,#16D1B2 100%);}
 .coupons .cli.overdue .coupon_dd .dd-t{background:linear-gradient(90deg,rgba(225,220,220,1) 0%,rgba(170,165,165,1) 100%);}
-
 
 /*优惠券详情*/
 .coupon_b{ padding: .3rem; background: #f2f2f2;}

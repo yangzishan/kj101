@@ -70,7 +70,6 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js?t=201805022"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<!--<script type="text/javascript" src="js/payChannel.js?t=20181101"></script>-->
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -85,7 +84,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);

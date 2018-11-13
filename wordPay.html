@@ -75,10 +75,10 @@ function GetQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myreportId=GetQueryString("reportId");
-var mypackageId=GetQueryString("packageId");
-var myuserId=GetQueryString("userId");
-var myopenId=GetQueryString("openId");
+var reportId=GetQueryString("reportId");
+var packageId=GetQueryString("packageId");
+var userId=GetQueryString("userId");
+var openId=GetQueryString("openId");
 var edition=GetQueryString("edition"); //判断用哪一版页面显示首页
 if(edition==null){
 	edition = '';
@@ -94,19 +94,28 @@ $('#subgo').on("click",function(){
 			type : "POST",
 			dataType : 'json',
 			data : {
-			    reportId : myreportId,//变量myreportId替换
-			    packageId : mypackageId,
-				userId : myuserId,
+			    reportId : reportId,//变量reportId替换
+			    packageId : packageId,
+				userId : userId,
 				wordNum: mywordNum,
 				batchType: 10
 			},
-			success : function(data) {
+			success : function(data){
 				if(data.code == 200){
 					if(data.data == "0"){
-						window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+						if(edition == 100){
+							window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
+						}else{
+							window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
+						}
 					}else if(data.data == "true"){
-						showMask('改报告已支付');
-						window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+						if(edition == 100){
+							showMask('改报告已支付');
+							window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
+						}else{
+							showMask('改报告已支付');
+							window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
+						}
 					}else{
 						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 						showMask(checkMsg(data.data));
@@ -117,13 +126,8 @@ $('#subgo').on("click",function(){
 				}else{
 					showMask('code=' + data.code);
 				}
-					
-	
 			},
-		    error : function(obj,msg){
-		    	//debugger
-		    	alert(obj  + msg);
-		    }
+		    error : function(obj,msg){alert('updateWordPay error')}
 		});
 	
 });
@@ -165,7 +169,6 @@ $('#subgo').on("click",function(){
 
              }
         });
-
         //点击按钮扫描二维码
         document.querySelector('#scanQRCode').onclick = function() {
             wx.scanQRCode({
@@ -179,19 +182,28 @@ $('#subgo').on("click",function(){
 						type : "POST",
 						dataType : 'json',
 						data : {
-						    reportId : myreportId,//变量myreportId替换
-						    packageId : mypackageId,
-							userId : myuserId,
+						    reportId : reportId,//变量reportId替换
+						    packageId : packageId,
+							userId : userId,
 							wordNum: result,
 							batchType: 10
 						},
 						success : function(data) {
 							if(data.code == 200){
 								if(data.data == "0"){
-									window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+									if(edition == 100){
+										window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
+									}else{
+										window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
+									}
 								}else if(data.data == "true"){
-									showMask('改报告已支付');
-									window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+									if(edition == 100){
+										showMask('改报告已支付');
+										window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
+									}else{
+										showMask('改报告已支付');
+										window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
+									}
 								}else{
 									setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 									showMask(checkMsg(data.data));
@@ -202,16 +214,11 @@ $('#subgo').on("click",function(){
 							}else{
 								showMask('code=' + data.code);
 							}
-								
-				
 						},
 					    error : function(obj,msg){
-					    	//alert(obj  + msg);
-					    	showMask("error口令不正确");
-					    	//alert('口令不正确');
+					    	showMask("updateWordPay error 口令有误");
 					    }
 					});
-	                //alert(result);
                 }
             });
         };

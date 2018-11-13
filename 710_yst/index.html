@@ -74,7 +74,7 @@
     	</a>	
     </div>
     <div class="zhuangk_c indexShow" style="display: none;">
-    	<div class="c_li" v-for="state in status">
+    	<div class="c_li" v-for="state in status" v-if="state.targetThirdId != 3232">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
     		<div class="v_overlert">
@@ -206,7 +206,7 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script src="js/indexNew.js?v=20181001"></script>
+<script>document.write('<script src="js/indexNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
