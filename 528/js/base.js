@@ -13,4 +13,5 @@ var shareImgUrl = 'http://image.jiankangzhan.com'; //分享图片
 
 var couponData = 'http://coupon.jiankangzhan.com'; //优惠券
 
-var channel = 'http://pay.jiankangzhan.com'; //支付通道*/
+//var channel = 'http://pay.jiankangzhan.com'; //支付通道*/
+var channel = 'http://47.94.14.217:8765'; //支付通道

@@ -70,8 +70,18 @@ $(document).on("click","#goWxPay",function(){
 		                },function(res){
 		                	//debugger;
 		                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
+		                    	
+		                    	if(tp == 201){
+			                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+myreportId + '&openId=' + myopenId;
+			                	}else{
+			                		if(edition == 100){
+			                			window.location.href="fund/index.html?reportId="+myreportId + '&openId=' + myopenId;
+			                		}else{
+			                			window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+			                		}
+			                	}
 		                        // 支付成功回调
-		                        $.ajax({
+		                        /*$.ajax({
 		                        	//async: false,
 					                url:dataUrl + "/api/v1/reportWxPay/successCallback",
 					              	type : "POST",
@@ -92,7 +102,9 @@ $(document).on("click","#goWxPay",function(){
 					                	}
 					                },
 					                error:function(){alert('successCallback error');}
-		                       });
+		                       	});*/
+		                       	
+		                       	/////////
 		                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 								alert("支付取消");
 								$('#goWxPay').attr("disabled",false);  //新加防呆

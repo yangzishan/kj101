@@ -45,7 +45,6 @@ $.ajax({
 								}else{
 									window.location.href="payfor_coupon.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 								}
-
 							}else{
 								if(paymentType == 1){
 									window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;

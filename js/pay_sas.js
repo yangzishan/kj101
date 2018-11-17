@@ -121,13 +121,13 @@ var myApp = new Vue({
 								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 								$('.daifu_d').css("display","block");
 							}else{
-								findUserCards(reportId,_this.userId) //判断用户有没有可用卡来显示卡支付
+								_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡来显示卡支付
 							};
-							getPayChannel(_this.snNum) //查询支付通道
+							_this.getPayChannel(_this.snNum) //查询支付通道
 							// 根据价格
 							if(_this.price == 0){
 								$('#pay').on("click",function(){
-									updateFreeOrder(reportId,_this.packageId,_this.userId)
+									_this.updateFreeOrder(reportId,_this.packageId,_this.userId)
 								});
 							}else{
 								$('#pay').on("click",function(){
@@ -171,11 +171,11 @@ var myApp = new Vue({
 				}
 			}else{
 				if(edition == 100){
-					window.location.href='../wxPay_new.html?reportId='+reportId+'&userId='+this.userId+
+					window.location.href='../wxPay.html?reportId='+reportId+'&userId='+this.userId+
 			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
 			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
 				}else{
-					window.location.href='wxPay_new.html?reportId='+reportId+'&userId='+this.userId+
+					window.location.href='wxPay.html?reportId='+reportId+'&userId='+this.userId+
 			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
 			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
 				}
@@ -183,6 +183,7 @@ var myApp = new Vue({
 		},
 		//支付通道
 		getPayChannel: function(snNum){
+			var vm = this
 			$.ajax({
 				url : channel + "/pay/v1/channel/getPayChannel",
 				type : "get",
@@ -193,7 +194,7 @@ var myApp = new Vue({
 				},
 				success : function(data) {
 					if(data.code ==0){
-						_this.data = data.data
+						vm.data = data.data
 					}else{console.log('支付通道接口'+data.code)}
 				},
 				error : function(){alert('getPayChannel error')}
