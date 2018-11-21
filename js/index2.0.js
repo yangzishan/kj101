@@ -203,6 +203,94 @@ var myApp = new Vue({
 				error: function(){alert('indexAll error')}
 			});
 		},
+		//与上份报告对比
+		targetImprove: function(userId){
+			var _this = this;
+			$.ajax({
+				url : dataUrl + "/api/v2/reportIndex/targetImprove",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    userId : userId
+				},
+				success : function(data) {
+					if(data.code == 200){
+						if(data.data == null){
+							$('#v_change').empty();
+							return
+						}else{
+							_this.code = data.code,
+							_this.lastDateStr = data.data.lastDateStr, //上次检测日期
+							_this.currentDateStr = data.data.currentDateStr, //当前检测日期
+							_this.okImproves = data.data.okImproves, //已改善
+							_this.noImproves = data.data.noImproves //为改善
+						}
+						
+						/*var myApp2 = new Vue({
+							el:'#v_change',
+							data:{
+								code: data.code,
+								lastDateStr: data.data.lastDateStr, //上次检测日期
+								currentDateStr: data.data.currentDateStr, //当前检测日期
+								okImproves: data.data.okImproves, //已改善
+								noImproves: data.data.noImproves //为改善
+							},
+							filters:{
+					    		getThirdHref:function(val){
+					            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
+					       		}
+						  	}
+						});*/
+						//介绍弹窗
+						$('#zbgs_tc').on("click",function(event){
+							event.stopPropagation();
+							showMask();
+							$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
+							return false;
+						});
+						//tab
+						$('.change_tab span').on("click",function(){
+							$(this).addClass('on').siblings().removeClass('on');
+							$('.changeShow').eq($(this).index()).css("display","block").siblings('.changeShow').css("display","none");
+							sessionStorage.setItem("changeTab", $(this).index());//保存滚动位置
+						});
+						var changeVal = sessionStorage.getItem("changeTab");
+						$('.change_tab span').eq(changeVal).addClass('on').siblings().removeClass('on');
+						$('.changeShow').eq(changeVal).css("display","block").siblings('.changeShow').css("display","none");
+						$(document).scrollTop(_offset);
+						//判断class
+						$('.change_list li .s2').each(function(index){
+							if($(this).text()=='正常'){
+								$(this).addClass('bc1');
+							}else if($(this).text()=='轻度风险'){
+								$(this).addClass('bc2');
+							}else if($(this).text()=='中度风险'){
+								$(this).addClass('bc3');
+							}
+						});
+						//新增
+						$('.change_list li span.s1 i').each(function(){
+							if($(this).text()=='1'){
+								$(this).next('font').css("display","inline-block");
+							}
+						});
+						//判断没有指标项
+						$('.change_list').each(function(index){
+							if($(this).find('li').length == 0){
+								$(this).next('p').css("display","block");
+							}
+						});
+					}
+				},
+			    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}
+			});
+			
+			
+		},
+		
+		
+		
 		//判断优惠券
 		participate: function(paymentType,sameUser){
 			$.ajax({

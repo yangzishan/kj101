@@ -18,6 +18,7 @@ $.ajax({
 	    openId : myopenId
 	},
 	success: function(data){
+		alert('analysisReport code='+data.code); // 调试
 		if(data.code == 200){
 			$.ajax({
 			url : dataUrl + "/api/v1/reportIndex/indexAll",
@@ -29,6 +30,7 @@ $.ajax({
 			},
 			success : function(indexData) {
 				if(indexData.code == 201){
+					alert('indexAll code='+data.code); 
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
 					$.ajax({
@@ -274,9 +276,9 @@ $.ajax({
 						sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
 					});
 					var _offset = sessionStorage.getItem("offsetTop");
-					$(document).scrollTop(_offset); //从（与上份报告对比的异常项改善情况 接口）提出				
+					//$(document).scrollTop(_offset); //从（与上份报告对比的异常项改善情况 接口）提出				
 					//请求与上份报告对比的异常项改善情况 接口
-					/*$.ajax({
+					$.ajax({
 						url : dataUrl + "/api/v2/reportIndex/targetImprove",
 						type : "POST",
 						dataType : 'json',
@@ -347,7 +349,7 @@ $.ajax({
 							}
 						},
 					    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}
-					});*/
+					});
 					
 						
 				}else{

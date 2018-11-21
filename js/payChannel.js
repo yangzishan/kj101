@@ -14,10 +14,7 @@ var myApp = new Vue({
 		return {
 			isShow:false,
 			isActive:[],
-			reportId:'',
-			openId:'',
-			sameUser:'',
-			edition:'', //版本
+			reportId:'', openId:'', sameUser:'', edition:'', //版本
 			data:{},
 			nickName:'',//昵称
 			headimgurl:'',
@@ -39,7 +36,6 @@ var myApp = new Vue({
 			userIdstr:'', //逗号分隔显示
 			snNum:'', 
 			orderNum:'',
-			
 		}
 	},
 	mounted: function() {
@@ -200,7 +196,7 @@ var myApp = new Vue({
 							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
 						
 						}
-					}else if(packageData.code == 1001 || packageData.code == 1002){
+					}else if(packageData.code == 1001){
 						$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 						$('.daifu_d').css("display","block");	
 						$('.daifu_d .tit').text('亲，您的这份报告已经超过48小时未支付，请您再次检测');
@@ -208,10 +204,13 @@ var myApp = new Vue({
 						$('#iknow').click(function(){
 							WeixinJSBridge.call('closeWindow');
 						});
-					}else{console.log(packageData.msg)} //code 200 201之外
+					}else if(packageData.code == 1002){
+						alert('findPackage 1002')
+					}else{console.log(packageData.msg);alert(packageData.msg)} //code 200 201之外
 				}
 			).error(function(){alert('findPackage error')})
 		},
+		//跳转支付
 		hrefRouter: function(pay){
 			if(pay.payChannelType == 3){
 				if(edition == 100){

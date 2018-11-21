@@ -20,25 +20,9 @@ zhuge.track('进入注册页面', {
 	'openId' : openId,
 	'渠道' : '微信'
 });
-//倒计时读秒
-var wait=60;
-document.getElementById("sendMsg").disabled=false;
-function time(tm){
-	if(wait==0){
-		tm.removeAttr("disabled",false);
-		tm.text('获取验证码');
-		wait=60;
-		tm.css({"color":"#1ebeb1","border":"#1ebeb1 solid .02rem"}); //控制样式
-	}else{
-		tm.css({"color":"#999","border":"#999 solid .02rem"}); //控制样式
-		tm.attr("disabled",true);
-		tm.text(wait + "秒后重新发送")
-		wait--;
-		setTimeout(function(){time(tm);},1000);
-	}
-};
 
 $('#age').blur(function(){
+	setTimeout(function() {$('body').css('min-height', historyWindowHeight)}, 10);
 	var age = parseInt($('#age').val());
 	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');
@@ -67,13 +51,12 @@ $('#sendMsg').on("click",function(){
 					$('#getCode').val(codeData.data);
 					getYzm();
 				}else{
-					showMask('获取短信码失败');
+					showMask('获取短信码失败 getCode code='+codeData.code);
 					$("#sendMsg").attr("disabled",false)
 				}
 			},
 			error: function(){
-				alert('获取短信码error');
-				$("#sendMsg").attr("disabled",false)
+				alert('获取短信码 getCode error'); $("#sendMsg").attr("disabled",false)
 			}
 		});  
 	}	
@@ -104,7 +87,7 @@ function getYzm(){
 				$("#sendMsg").attr("disabled",false);
 			}
 		},
-		error : function(){alert('请求短信接口失败了')}
+		error : function(){alert('kjSendMsg error')}
 	});
 };
 
@@ -118,6 +101,7 @@ $('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){
 });
 
 $('#nextAll').on("click",function(){
+	setTimeout(function() {$('body').css('min-height', historyWindowHeight)}, 10);
 	var age = parseInt($('#age').val());
 	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');
@@ -136,8 +120,7 @@ $('.tongyifo span').on("click",function(){
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
 	}else if(tongyifo ==1){	
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-		
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});		
 		var age = parseInt($('#age').val());
 		var mobile = $('#mobile').val();
 		var dxYzm = $.trim($('#dxYzm').val());
@@ -155,18 +138,22 @@ function subAll(mobile,age,dxYzm,checkCode){
 	var userInfo = {
 		mobile : mobile,
 		age : age,
-		checkCode : checkCode,
 		userId : userId,
+		height : parseInt($('#_height').val()),
+		weight : parseInt($('#_weight').val()),
+		nickName : $('#nickName').val(),
+		relatedNo : $('#relatedNo').val(),
+		idCardNo : $('#identity').val(),
 		openId : openId
 	}
 	$.ajax({
-		url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code=" +dxYzm ,
+		url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code="+dxYzm+"&checkCode="+checkCode,
 		type : "post",
 		dataType : 'json',
 		contentType : 'application/json',
         data : JSON.stringify(userInfo),
 		success : function(userData) {
-			//debugger;
+			console.log('请求完善用户接口');
 			if(userData.code == 200){
 				//判断是否是通过优惠券扫码过来
 				if(voucherId != null && voucherId != '' && voucherId!='null'){
@@ -191,7 +178,7 @@ function subAll(mobile,age,dxYzm,checkCode){
 					});
 				}	
 			}else if(userData.code == 1003){
-				showFirm('该手机号已被绑定')
+				showFirm('该手机号已被绑定');
 				$('#Firm .psub a').on("click",function(){
 					var oindex = $(this).index();
 					closeMask();
@@ -207,7 +194,7 @@ function subAll(mobile,age,dxYzm,checkCode){
 					'openId': openId,
 					'渠道' : '微信'
 				});
-				showMask('登录失败，请查看验证码是否有误');
+				showMask('登录失败  perfectUserInfo code='+userData.code);
 				//$(this).attr("disabled",false);
 			}	
 		},
@@ -219,17 +206,21 @@ function creatUser(mobile,age,dxYzm,checkCode){
 	var userInfo = {
 		mobile : mobile,
 		age : age,
-		checkCode : checkCode,
+		height : parseInt($('#_height').val()),
+		weight : parseInt($('#_weight').val()),
+		nickName : $('#nickName').val(),
+		relatedNo : $('#relatedNo').val(),
+		idCardNo : $('#identity').val(),
 		openId : openId
 	}
 	$.ajax({
-		url : dataUrl + "/api/v1/reportUser/createUserBySmsCode?code=" +dxYzm ,
+		url : dataUrl + "/api/v1/reportUser/createUserBySmsCode?code="+dxYzm+"&checkCode="+checkCode,
 		type : "post",
 		dataType : 'json',
 		contentType : 'application/json',
         data : JSON.stringify(userInfo),
 		success : function(userData) {
-			//debugger;
+			console.log('请求创建用户接口');
 			if(userData.code == 200){
 				zhuge.identify(mobile, { //埋点 i  完善用户信息
 					'用户id': userId,
@@ -247,7 +238,7 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					}
 				});
 			}else if(userData.code == 1003){
-				showFirm('该手机号已被绑定')
+				showFirm('该手机号已被绑定');
 				$('#Firm .psub a').on("click",function(){
 					var oindex = $(this).index();
 					closeMask();
@@ -263,7 +254,7 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					'openId': openId,
 					'渠道' : '微信'
 				});
-				showMask('登录失败，请查看验证码是否有误');
+				showMask('登录失败  createUserBySmsCode code='+userData.code);
 				//$(this).attr("disabled",false);
 			}	
 		},
@@ -331,29 +322,64 @@ function SendCouponByFlushQR(mobile){
 	});
 }
 
+//倒计时读秒
+var wait=60;
+function time(tm){
+	if(wait==0){
+		tm.removeAttr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.css({"color":"#1ebeb1","border":"#1ebeb1 solid .02rem"}); //控制样式
+	}else{
+		tm.css({"color":"#999","border":"#999 solid .02rem"}); //控制样式
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+
+const windowHeightSize = String(document.documentElement.clientHeight || document.body.clientHeight );
+if (!(localStorage.getItem('windowHeight'))) {
+  localStorage.setItem('windowHeight' , windowHeightSize);
+}
+const historyWindowHeight = Number(localStorage.getItem('windowHeight'));
+console.log('缓存 列表最小高度' + historyWindowHeight);
+$('body').css('min-height', historyWindowHeight);
+
+
+
 //弹窗 模拟alert
 function showMask(msg){
-	$('.tc-qx').each(function(){
-		var w_height = $(window).height();
-		var this_height = $(this).height();
-		$(this).css("top",(w_height-this_height)/2);
-	});
-	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
-	$('#alert').css({"visibility":"visible","opacity":"1"});
-	$('#alert .pc1').empty().text(msg);
-	$('#alert .subBtn').click(function(){closeMask()});
+	$('body').css("min-height",historyWindowHeight);
+	setTimeout(function(){
+		$('.tc-qx').each(function(){
+			var w_height = $(window).height();
+			var this_height = $(this).height();
+			$(this).css("top",(w_height-this_height)/2);
+		});
+		$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+		$('#alert').css({"visibility":"visible","opacity":"1"});
+		$('#alert .pc1').empty().text(msg);
+		$('#alert .subBtn').click(function(){closeMask()});
+	},20)
+	
 }//showMask('哈哈哈哈');
 function showFirm(msg){
-	$('.tc-qx').each(function(){
-		var w_height = $(window).height();
-		var this_height = $(this).height();
-		$(this).css("top",(w_height-this_height)/2);
-	});
-	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
-	$('#Firm').css({"visibility":"visible","opacity":"1"});
-	$('#alert .pc1').empty().text(msg);
+	$('body').css("min-height",historyWindowHeight);
+	setTimeout(function(){
+		$('.tc-qx').each(function(){
+			var w_height = $(window).height();
+			var this_height = $(this).height();
+			$(this).css("top",(w_height-this_height)/2);
+		});
+		$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+		$('#Firm').css({"visibility":"visible","opacity":"1"});
+		$('#Firm .pc1').empty().text(msg);
+	},20)		
 }
 function closeMask(){
+	$('body').css({"position":"static"});
 	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
 	$('.tc-qx').css({"visibility":"hidden","opacity":"0"});
 }

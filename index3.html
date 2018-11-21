@@ -8,7 +8,7 @@
 <meta content="telephone=no" name="format-detection" />
 <title>健康报告</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/index3.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/index3.css?t=' + new Date().getTime() + '" \/>')</script>
 <link rel="stylesheet" type="text/css" href="css/menu.css" />
 </head>
 <body style="visibility: hidden;">
@@ -57,9 +57,9 @@
 			</div>
 			<!--进度条-->
 			<div class="strip">
-				<div class="active" :style="'width:'+ totalScore +'%'">
+				<div class="active" id="prcc">
 					<div class="dot">
-						<div class="within-dot"><span>{{totalScore}}分</span><p class="trigon"><img src="./images/trigon.png"/></p></div>
+						<div class="within-dot"><span><em id="score"></em>分</span><p class="trigon"><img src="./images/trigon.png"/></p></div>
 					</div>
 				</div>
 			</div>
@@ -238,14 +238,14 @@
 				</div>
 				<div class="number-box number">
 					<span>24</span>
-					<div v-if=" 24 >= data[3].score && data[3].score >18.5" class="active" :style="'width:'+ data[3].score/24*100 +'%;'">
+					<div v-if=" 24 >= data[3].score && data[3].score >18.5" class="active" :style="'width:'+ (data[3].score-18.5)*100/5.5 +'%;'">
 						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
 					</div>
 					<div v-if="  data[3].score > 24 " class="active" :style="'width:'+ 100 +'%;'"></div>
 				</div>
 				<div class="number-box number">
 					<span>28</span>
-					<div v-if=" 28 >= data[3].score && data[3].score >24" class="active" :style="'width:'+ data[3].score/28*100 +'%;'">
+					<div v-if=" 28 >= data[3].score && data[3].score >24" class="active" :style="'width:'+ (data[3].score-24)*25 +'%;'">
 						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
 					</div>
 					<div v-if="  data[3].score > 28 " class="active" :style="'width:'+ 100 +'%;'"></div>
@@ -526,7 +526,8 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script>document.write('<script src="js/index3.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script>document.write('<script src="js/index3.0.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
     var dpr = document.documentElement.getAttribute('data-dpr') || 1
     var width = document.documentElement.offsetWidth

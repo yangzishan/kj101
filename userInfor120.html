@@ -25,6 +25,10 @@
 	<div class="login_cn">
 		<p class="ctit">欢迎来到康加</p>
 		<p class="cpxt">
+			<span class="lab">姓　名</span>
+			<span class="fle"><input type="text" id="nickName" placeholder="请填写姓名" ></span>
+		</p>
+		<p class="cpxt">
 			<span class="lab">年　龄</span>
 			<span class="fle"><input type="number" id="age" placeholder="(18岁~80岁)请填写真实年龄" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
 		</p>
@@ -90,10 +94,15 @@
 	<p class="psub"><a class="subBtn">确定</a></p>
 </div>
 <div class="modal-overlay" style=""></div>
+<div class="tc-qx" id="Firm">
+	<p class="pc1">该手机号已被绑定</p>
+	<p class="psub"><a class="subBtn">找回老用户</a><a class="subBtn">注册新用户</a></p>
+</div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
+<script>document.write('<script src="js/userInfor.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -132,7 +141,7 @@
     }
 })();	
 </script>
-<script>
+<!--<script>
 //弹窗 模拟alert
 function showMask(msg){
 	$('.tc-qx').each(function(){
@@ -279,13 +288,10 @@ $('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){
 
 $('#nextAll').on("click",function(){
 	var age = parseInt($('#age').val());
-	var identity = $('#identity').val();
-	var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+	//var identity = $('#identity').val();
+	//var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
 	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');
-		return;
-	}else if(!reg.test(identity)){
-		showMask('请输入正确的身份号');
 		return;
 	}else{
 		$('.v_overlay').css({"visibility":"visible","opacity":"1"});
@@ -312,6 +318,7 @@ $('.tongyifo span').on("click",function(){
 
 //完善用户
 function subAll(){
+	var nickName = $('#nickName').val();
 	var age = parseInt($('#age').val());
 	var mobile = $('#mobile').val();
 	var userId = myuserId;
@@ -321,6 +328,7 @@ function subAll(){
 	var userInfo = {
 		mobile : mobile,
 		userId : userId,
+		nickName : nickName,
 		age : age,
 		openId : myopenId,
 		relatedNo : relatedNo,
@@ -408,17 +416,19 @@ function subAll(){
 					'openId': myopenId,
 					'渠道' : '微信'
 				});
-				showMask('登录失败，请查看验证码是否有误');
+				alert('perfectUserInfo code='+userData.code)
+				//showMask('登录失败，请查看验证码是否有误');
 				//$(this).attr("disabled",false);
 			}	
 		},
 		error : function(){
-			alert('请求数据失败,请检信息是否输入正确');
+			alert('perfectUserInfo error');
 		}
 	})
 };
 //创建用户
 function creatUser(){
+	var nickName = $('#nickName').val();
 	var age = parseInt($('#age').val());
 	var mobile = $('#mobile').val();
 	var userId = myuserId;
@@ -428,6 +438,7 @@ function creatUser(){
 	var userInfo = {
 		mobile : mobile,
 		//userId : userId,
+		nickName : nickName,
 		age : age,
 		openId : myopenId,
 		relatedNo : relatedNo,
@@ -482,16 +493,17 @@ function creatUser(){
 					'openId': myopenId,
 					'渠道' : '微信'
 				});
-				showMask('登录失败，请查看验证码是否有误');
+				alert('createUserBySmsCode code='+userData.code)
+				//showMask('登录失败，请查看验证码是否有误');
 				//$(this).attr("disabled",false);
 			}	
 		},
 		error : function(){
-			alert('请求数据失败,请检信息是否输入正确');
+			alert('createUserBySmsCode error');
 		}
 	})
 }
 
-</script>
+</script>-->
 </body>
 </html>

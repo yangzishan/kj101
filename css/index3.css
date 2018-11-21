@@ -117,9 +117,11 @@
     float: right;
 }
 .synthesis .strip .active{
+	width: 0rem;
     height: .25rem;
     background: linear-gradient(to top right, #77fcf6, #36b4ad);
     border-radius:.3rem;
+    transition: width 1s;
 }
 .synthesis .strip .active .dot{
     width: .45rem;

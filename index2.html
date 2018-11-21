@@ -132,7 +132,7 @@
   	</section>
 </div>
 
-<!--<div id="v_change">
+<div id="v_change">
     <p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <div class="sy_tit">
     	<span class="">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
@@ -152,8 +152,8 @@
     </div>
     <div class="change_sta">
     	<span class="s1 fl">指标名称</span>
-    	<span class="s2 fr">当前状况<br><i>({{currentDateStr}})</i></span>
-    	<span class="s2 fr">上次状况<br><i>({{lastDateStr}})</i></span>
+    	<span class="s2 fr">当前状况<br><i>({{currentDateStr.slice(0,10)}})</i></span>
+    	<span class="s2 fr">上次状况<br><i>({{lastDateStr.slice(0,10)}})</i></span>
     </div>
     <div class="changeShow">
     	<ul class="change_list">
@@ -181,7 +181,7 @@
 	</div>    
 	    
 </div>
-<p style="background:#f4f4f4; height:10px; margin:0;"></p>-->
+<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 
 <input type="hidden" id="appId"/>
 <input type="hidden" id="nonceStr"/>

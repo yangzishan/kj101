@@ -74,10 +74,10 @@ function GetQueryString(name){
      if(r!=null)return  unescape(r[2]); return null;
 };
 var indexUrl = window.location.href;
-var myreportId=GetQueryString("reportId");
-var mypackageId=GetQueryString("packageId");
-var myuserId=GetQueryString("userId");
-var myopenId=GetQueryString("openId");
+var reportId=GetQueryString("reportId");
+var packageId=GetQueryString("packageId");
+var userId=GetQueryString("userId");
+var openId=GetQueryString("openId");
 var orderNum=GetQueryString("orderNum");
 var payChannelId=GetQueryString("payChannelId");
 var payChannelType=GetQueryString("payChannelType");  //1微信 7招行一网通
@@ -106,7 +106,6 @@ var myApp = new Vue({
   	name: myname, 
     price: myprice,
     payTypeName: payTypeName
-    
   }
 });
 var voucherId = '';
@@ -120,11 +119,12 @@ $(document).on("click","#goWxPay",function(){
 	    type : "POST",
 		dataType : 'json',
 		data : {
-		    attach : myopenId, 
+		    attach : openId, 
 		    orderNum : orderNum,
 		    payChannelId : payChannelId,
 		    payPrice : truePrice,
-		    userId : myuserId,
+		    userId : userId,
+		    voucherId: 0
 		},
 	    success : function(result) {
 	    	if(payChannelType == 1){ //weixin
@@ -140,13 +140,14 @@ $(document).on("click","#goWxPay",function(){
 		                	//debugger;
 		                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
 		                    	
+		                    	//alert('支付成功测试');
 		                    	if(tp == 201){
-			                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+myreportId + '&openId=' + myopenId;
+			                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId;
 			                	}else{
 			                		if(edition == 100){
-			                			window.location.href="fund/index.html?reportId="+myreportId + '&openId=' + myopenId;
+			                			window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
 			                		}else{
-			                			window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+			                			window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
 			                		}
 			                	}
 		                    	
@@ -162,12 +163,12 @@ $(document).on("click","#goWxPay",function(){
 									},
 					                success : function(payreuslt) {
 					                	if(tp == 201){
-					                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+myreportId + '&openId=' + myopenId;
+					                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId;
 					                	}else{
 					                		if(edition == 100){
-					                			window.location.href="fund/index.html?reportId="+myreportId + '&openId=' + myopenId;
+					                			window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
 					                		}else{
-					                			window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+					                			window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
 					                		}
 					                	}
 					                },
@@ -199,6 +200,8 @@ $(document).on("click","#goWxPay",function(){
 	    			var _val = result.result;
 	    			$('#ywtVal').val(_val);
 	    			form.submit();
+	    		}else{
+	    			alert(result.msg);
 	    		}
 	    	//////////
 	    	}
@@ -214,8 +217,8 @@ $.ajax({
     type : "POST",
 	dataType : 'json',
 	data : {
-	    inspectCode : myreportId, //报告ID
-	    customerId : myuserId
+	    inspectCode : reportId, //报告IDl
+	    customerId : userId
 	},
 	success: function(data){
 		//alert('yhq');
@@ -246,15 +249,15 @@ $.ajax({
     type : "POST",
 	dataType : 'json',
 	data : {
-	    reportId : myreportId, 
-	    openId : myopenId
+	    reportId : reportId, 
+	    openId : openId
 	},
 	success: function(data){
 		if(data.code == 200){
 			if(edition == 100){
-    			window.location.href="fund/index.html?reportId="+myreportId + '&openId=' + myopenId;
+    			window.location.href="fund/index.html?reportId="+reportId + '&openId=' + openId;
     		}else{
-    			window.location.href="index"+edition+".html?reportId="+myreportId + '&openId=' + myopenId;
+    			window.location.href="index"+edition+".html?reportId="+reportId + '&openId=' + openId;
     		}
 		}
 	}

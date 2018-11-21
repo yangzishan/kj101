@@ -77,9 +77,9 @@
 		</div>	
 	</div>	
 	<!--健康建议内容 end-->
-	<!--<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
+	<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
 	<div class="thr_tit"><i></i><span>历史趋势</span></div>
-	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>-->	
+	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>	
 	
 	<div id="btn" class="zhiCustomBtn"></div>
 	
@@ -261,7 +261,7 @@ success : function(indexData) {
     }
 });
 //调用三级指标历史趋势
-/*$.ajax({
+$.ajax({
 url : dataUrl + "/api/v2/reportThird/findThirdTrend",
 type : "POST",
 dataType : 'json',
@@ -283,7 +283,7 @@ success : function(trendData) {
 	}
 },
     error : function(obj,msg){alert(obj  + msg);}
-});*/
+});
 
 //查用户信息对接智齿客服
 $.ajax({

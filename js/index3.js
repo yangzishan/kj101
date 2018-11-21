@@ -3,7 +3,8 @@ var reportId = getQueryString("reportId");
 var openId = getQueryString("openId");
 console.log(reportId);
 console.log(openId);
-var _offsetTop;
+var _offsetTop; //存储滚动
+var _bodyoffset;
 new Vue({
 	 el: '.all-view',
     data:function() {
@@ -38,7 +39,6 @@ new Vue({
 		}
 	},
 	mounted: function(){
-		//this.key(),
 		this.reverseMessage()
     },
 	methods: {
@@ -69,6 +69,7 @@ new Vue({
 									if(_this.data[3].score== null){
 										_this.data[3].score = 0
 									};
+									$('#score').animateNumber({ number: indexData.data.indexPage.totalScore },1100);
 								}else if((data.code == 201)){
 									console.log('需要支付');
 									_this.sameUser = data.sameUser;
@@ -77,17 +78,21 @@ new Vue({
 							}
 						).error(function(){alert('queryNewReportDataByReportId error')});
 					}else if(data.code == 402){
+						alert(402);
 						console.log('需完善用户信息');
 						_this.userId = data.data.userId;
 						window.location.href="userInfor3.html?reportId="+reportId+"&userId="+_this.userId+"&openId="+openId+"&edition="+edition;
 					}else if(data.code == 405){
+						alert(405);
 						console.log('需创建用户');
 						window.location.href="userInfor3.html?reportId="+reportId+"&openId="+openId+"&edition="+edition;
 					}else if(data.code == 403){
+						alert(403);
 						console.log('没有年龄');
 						_this.userId = data.data.userId;
 						window.location.href="supAge.html?reportId="+reportId+"&userId="+_this.userId +"&openId="+openId+"&edition="+edition;
 					}else if(data.code == 302){
+						alert(302);
 						console.log('设备未激活');
 						window.location.href="equipmentUnable.html"
 					}else{alert('analysisReport code='+data.code+' '+data.msg)}
@@ -109,35 +114,43 @@ new Vue({
 			this.popupL = false
 			Vue.set(this.isActive, index, !this.isActive[index]);
 			$('body').css("overflow","auto");
+			$("body").css("position","static");
+			$(window).scrollTop(_bodyoffset);
 		},
 		// 综合健康分数
 		clickA: function(){
 			this.popupA = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 亚健康风险
 		clickB: function(){
 			this.popupB = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 睡眠质量
 		clickC: function(){
 			this.popupC = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// BMI
 		clickD: function(){
 			this.popupD = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 皮肤评估
 		clickE: function(){
 			this.popupE = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 快乐指数
 		clickF: function(){
 			this.popupF = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 实时状态
@@ -148,31 +161,37 @@ new Vue({
 		// 营养状态
 		listG: function(){
 			this.popupG = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 免疫能力
 		listH: function(){
 			this.popupH = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 消化能力
 		listI: function(){
 			this.popupI = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 吸收能力
 		listJ: function(){
 			this.popupJ = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 代谢能力
 		listK: function(){
 			this.popupK = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 男女性功能
 		listL: function(){
 			this.popupL = true
+			this.noscorll();
 			$('body').css("overflow","hidden");
 		},
 		// 身高体重更新
@@ -185,15 +204,11 @@ new Vue({
 			this.updateBmi()
 			this.reverseMessage()
 		},
-		// 通过url 获取reportId参数
-		/*key(){
-			var reportId = getQueryString("reportId");
-			this.reportId = reportId;
-			var openId = getQueryString("openId");
-			this.openId = openId;
-			console.log(this.reportId);
-			console.log(this.openId);
-		},*/
+		//定位滚动
+		noscorll: function(){
+			_bodyoffset = $(window).scrollTop();
+			$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
+		},
 		// 点击下一页
 		next: function(){
 			//window.location=`graph.html?sex=${this.sex}&userId=${this.userId}`

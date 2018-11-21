@@ -110,7 +110,7 @@ $.ajax({
 							$('#level').css("transform","rotate("+rodeg+"deg)")
 						},400);
 
-					    //十大系统展示
+					    // 十大系统展示
 					    $('.xqbaogao .con .lee').on("click",function(event){
 					    	var oindex = $(this).parent('.con').index();
 					    	sessionStorage.setItem("tenSindex",oindex);
