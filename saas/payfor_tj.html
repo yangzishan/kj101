@@ -9,35 +9,62 @@
 <title>支付</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<link rel="stylesheet" type="text/css" href="css/style.css?t=20181018" />
 </head>
-<body>
-<div class="my_view" id="appVUE" style="background: #f4faf9; height: auto; padding-bottom: .88rem;">
-	<!--<header class="header">
+<body style="background: #f0f0f0;">
+<div class="my_view" id="appVUE">
+	<!--
+	<header class="header">
 		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
 		<a class="t-right fr" href="#"></a>
 		<p class="t-cen txt1"><span>支付</span></p>
-	</header>-->
+	</header>
+	-->
+	<div class=""><img src="img/payfor-tt.jpg" class="img_b"></div>
+	<div style="margin: .22rem .43rem; position: relative; font-size: .28rem;">
+		<p style="position: absolute; width: 100%; text-align: center;">您是第<em style="color: #d22b22; font-size: .38rem;font-weight: bold; margin: 0 .1rem;">{{userId}}</em>位检测的用户
+		</p>
+		<img src="img/payfor-tp.png" class="img_b">
+	</div>
 	
-	<div class=""><img src="img/pay_t.jpg" class="img_b"></div>
-	
-	<div class="pay_x_cn">
-		<p class="btit"><i class="ico"></i><span class="lab">关注事项</span></p>
-		<div class="xcon">
-			<p class="ptit"><em class="dian"></em>您有 <font>{{abnormalNo}}</font> 个异常指标</p>
-			<p class="ptit"><em class="dian"></em>其中 <font>{{litAbnormal}}</font> 个轻度异常指标</p>
+	<div class="pay_tj_c">
+		<div class="tj_c">
+			<dl class="tens">
+				<dd><img src="img/ten/i-new-xunhuan.png"><font>循环系统</font></dd>
+				<dd><img src="img/ten/i-new-xiaohua.png"><font>消化系统</font></dd>
+				<dd><img src="img/ten/i-new-huxi.png"><font>呼吸系统</font></dd>
+				<dd><img src="img/ten/i-new-neifenmi.png"><font>内分泌</font></dd>
+				<dd><img src="img/ten/i-new-guge.png"><font>骨骼系统</font></dd>
+				<dd><img src="img/ten/i-new-mianyi.png"><font>免疫系统</font></dd>
+				<dd><img src="img/ten/i-new-shengzhi.png"><font>生殖系统</font></dd>
+				<dd><img src="img/ten/i-new-yingyang.png"><font>营养状态</font></dd>
+				<dd><img src="img/ten/i-new-youhai.png"><font>有害物质</font></dd>
+				<dd><img src="img/ten/i-new-pifu.png"><font>皮肤系统</font></dd>
+			</dl>
+			<div class="pay_go" id="pay">
+				<p class="yj">原价:<font>{{oprice}}</font></p>
+				<p class="p1">优惠价:</p><p class="p2">￥{{price}}</p>
+				<button class="sub">点击支付<i></i></button>
+			</div>
 		</div>
 	</div>
-	<p class="pay_x_tip" style="line-height: .57rem; font-size: .3rem;">
-		{{description}}<br>
-		支付即可查看详细指标及知名专家提供的改善方案 (<font>膳食、营养素、运动</font>)
+	
+	
+	<p class="pay_tj_yc">
+		本次检测您有<span v-if="midAbnormal"><em>{{midAbnormal}}</em>项为中度风险<br/></span><span v-if="litAbnormal"><em>{{litAbnormal}}</em>项为轻度风险</span>
 	</p>
 	
-	<div class="pay-x-fix">
-		<button class="pay" id="pay">支 付</button>
-		<span class="price">优惠价:<font>￥{{price}}</font></span>
-		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
+	<div class="pay_tj_tip">
+		为您提供专属的<em>食谱、营养素、运动及生活方式建议</em>
+		<a href="indicators.html" class="gogo">点击查看指标明细<i></i></a>
 	</div>
+
+	
+	<div class="fix-tpp">
+		<p>您的整体身体状况好于<font>{{ranking}}%</font>的同龄人<em class="aa a1"></em></p>
+	</div>
+	
+	
 
 	<div class="sl-pay">
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
@@ -71,10 +98,10 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script>document.write('<script src="../js/pay_sas.js?t=' + new Date().getTime() + '"><\/script>')</script>
-
+<script>document.write('<script src="js/pay_sas.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -88,7 +115,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);

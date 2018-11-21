@@ -1,4 +1,4 @@
-my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
+.my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .v_view{ height: 100%;font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .v_port{ padding: 0 .25rem .5rem; -webkit-overflow-scrolling: touch;}
 .k1{height: .2rem;}
@@ -217,7 +217,6 @@ my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','
 .thr_tit span{font-size: .36rem; line-height: .5rem; color: #1ebeb1;}
 .thr_cn{ padding:0 .3rem;}
 .thr_cn .ctxt{ padding-bottom: .3rem; font-size: .3rem; line-height: .56rem;}
-
 
 /*历史报告*/
 .history_b{ height: 100%; background: #fff;}

@@ -4,8 +4,8 @@ function GetQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myReportId = GetQueryString('reportId');
-var myopenId = GetQueryString('openId');
+var reportId = GetQueryString('reportId');
+var openId = GetQueryString('openId');
 var edition = '';
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
@@ -14,8 +14,8 @@ $.ajax({
 	type : "POST",
 	dataType : 'json',
 	data : {
-	    reportId : myReportId,
-	    openId : myopenId
+	    reportId : reportId,
+	    openId : openId
 	},
 	success: function(data){
 		if(data.code == 200){
@@ -24,15 +24,15 @@ $.ajax({
 			type : "POST",
 			dataType : 'json',
 			data : {
-			    reportId : myReportId,
-				openId : myopenId
+			    reportId : reportId,
+				openId : openId
 			},
 			success : function(indexData) {
 				//alert('you get it')
 				if(indexData.code == 201){
 					var sameUser = indexData.data.sameUser;
 					//var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					window.location.href="../saas/payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					$('.my_view').css("visibility","visible");
@@ -56,7 +56,7 @@ $.ajax({
 					  	},
 					  	filters:{
 				    		getSecondHref:function(val){
-				            return 'second.html?reportId='+myReportId+'&userId='+userId+ '&targetFirstId=' + val 
+				            return '../saas/second.html?reportId='+reportId+'&userId='+userId+ '&targetFirstId=' + val 
 				       		}
 					  	}
 					});
@@ -165,10 +165,10 @@ $.ajax({
 					
 					//跳转历史报告
 					var userId = indexData.data.userId;
-					//$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
-					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiAHistory&reportId=" + myReportId);
+					//$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + openId + '&reportId=' + reportId);
+					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiAHistory&reportId=" + reportId);
 					//跳转用户设置
-					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ myReportId);
+					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ reportId);
 					
 					//生理年龄图
 					var arraySlnl=[],arrayXt=[];
@@ -194,7 +194,7 @@ $.ajax({
 						type : "POST",
 						dataType : 'json',
 						data : {
-						    reportId : myReportId,
+						    reportId : reportId,
 						    userId : userId
 						},
 						success : function(data) {
@@ -214,7 +214,7 @@ $.ajax({
 									},
 									filters:{
 							    		getThirdHref:function(val){
-							            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
+							            return 'third.html?reportId='+reportId+'&targetId='+ val + '&userId='+userId
 							       		}
 								  	}
 								});
@@ -282,7 +282,7 @@ $.ajax({
 				type : "POST",
 				dataType : 'json',
 				data : {
-				    reportId : myReportId  //替换变量 myReportId
+				    reportId : reportId  //替换变量 reportId
 				},
 				success: function(improvesData){
 					//alert('get it');
@@ -323,7 +323,7 @@ $.ajax({
 								};
 							};
 							//跳转建议
-							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ myReportId);
+							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ reportId);
 						}
 					}else{
 						//console.log('首页请求getSuggest成功,但数据不正确')
@@ -336,11 +336,13 @@ $.ajax({
 			});
 
 		}else if(data.code == 402){
-			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+			window.location.href="../saas/userInfor.html?reportId="+reportId+"&userId="+data.data.userId+"&openId="+openId+"&edition="+edition+"&saasId="+saasId;
+		}else if(data.code == 405){
+			window.location.href="../saas/userInfor.html?reportId="+reportId+"&openId="+openId+"&edition="+edition+"&saasId="+saasId;
 		}else if(data.code == 403){
-			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+			window.location.href="../saas/supAge.html?reportId="+reportId+"&userId="+data.data.userId+"&openId="+openId+"&edition="+edition+"&saasId="+saasId;
 		}else if(data.code == 302){
-			window.location.href="equipmentUnable.html"
+			window.location.href="../saas/equipmentUnable.html"
 		}else{
 			console.log('没有解析到新报告,' + data.msg);
 			$('.load-overlay').css("display","none");

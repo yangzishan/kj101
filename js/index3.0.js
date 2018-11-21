@@ -55,7 +55,7 @@ new Vue({
 					openId: openId
 				},
 				success:function(data){
-					alert('analysisReport code='+data.code); // 调试
+					//alert('analysisReport code='+data.code); // 调试
 					if(data.code == 200){
 						_this.queryNewReportDataByReportId(); // 执行获取首页数据
 					}else if(data.code == 402){
@@ -107,7 +107,7 @@ new Vue({
 						},200);
 
 					}else if((data.code == 201)){
-						alert('queryNewReportDataByReportId code='+data.code);
+						//alert('queryNewReportDataByReportId code='+data.code);
 						console.log('需要支付');
 						_this.sameUser = data.sameUser;
 						window.location.href="payfor3.0.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + _this.sameUser+"&edition="+edition;

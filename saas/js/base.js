@@ -8,7 +8,40 @@ var bit_testHealthUrl = 'http://kj201-tt.jiankangzhan.com'; //小机器
 var couponData = 'http://coupon-tt.jiankangzhan.com'; //优惠券*/
 
 //---生产-----
-var dataUrl = 'http://csh.jiankangzhan.com'; //数据接口
+var dataUrl='';
+
+
+switch (saasId)
+{
+	case 528:
+	  dataUrl='http://sc.jiankangzhan.com';
+	  break;
+	case 670:
+	  dataUrl='http://csh.jiankangzhan.com';
+	  break;
+	case 710:
+	 dataUrl='http://yst.jiankangzhan.com';
+	  break;
+	case 715:
+	  dataUrl='http://zyjk.jiankangzhan.com';
+	  break;
+	case 7502:
+	  dataUrl='http://txj.jiankangzhan.com';
+	  break;
+	case 7621:
+	  dataUrl='http://ackq.jiankangzhan.com';
+	  break;
+	default:
+	  dataUrl='http://wx.jiankangzhan.com';
+	  
+}
+
+
+
+
+
+
+//var dataUrl = 'http://csh.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
 

@@ -8,142 +8,204 @@
 <meta content="telephone=no" name="format-detection" />
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
-<link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="../saas/css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="../saas/css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script> var saasId = 528;</script>
 </head>
 <body>
-<div class="my_view bck-col-f4" id="appVUE" style="display: none;">
+<DIV class="my_view" style="visibility: hidden;">
+<div id="appVUE">
 	<header class="header">
-		<a class="t-left fl" id="goSetUp">设置</a>
-		<a class="t-right fr" id="checkHistory">历史报告</a>
+		<a class="t-left fl" id="goSetUp"><i class="i_c"><img src="../saas/img/i-per.png"></i>个人中心</a>
+		<a class="t-right fr" id="checkHistory"><i class="i_c"><img src="../saas/img/i-his.png"></i>历史报告</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
 	<div class="all_score">
-		<div class="circle_b">
-			<div class="circle"> 
-				<i></i><strong></strong>
-				<div class="box-d"></div>
+		<div class="fan_box">
+			<div class="x_b">
+				<div class="b_kd">
+					<p class="pf" id="score">{{totalScore}}</p>
+					<p class="pz">总分</p>
+				</div>
+				<div class="guang_b"></div>
+				<div class="guang"></div>
 			</div>
 		</div>
-		<div class="score_inf">
-			<p class="inf-rk"><i class="i_bronze"></i>基于您身体的异常状况，建议您<em id="sugDay">30</em>日后再次复检</p>
-		</div>
+		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">30</em>日后再次检测</p></div>
+		<div class="explain" id="explain"><i></i><p>说明</p></div>
 	</div>
 	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	
 	<div class="sy_summary">
-		<p class="sstit">亲爱的<span id="dearName"></span>你好！</p>
+		<p class="sstit">亲爱的<span class="inpv" id="dearName"></span>你好！</p>
 		<div class="sstxt">
-			　　感谢您使用素问机器人进行亚健康评估。如您是初次使用，请阅读<a class="nt" id="notice">用户须知</a>。现将您的评估结果汇总分析如下，请您认真阅读。如需帮助请拨打我们的健康热线4001111128，将有我们专业的健康咨询师为您答疑解惑。祝您健康！
+			　　感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！
 		</div>
 		<p class="sstit2">-------汇总分析-------</p>
 		<div class="sstxt">
-			1、本次评估结果您的身体状况<em class="sta" id="bodySta"></em>，
-			<span class="srhAge">您的生理年龄评估为<em class="sta">{{age}}</em>岁，</span>
-			<span class="srhRank">整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人；</span>
+			1、本次评估您身体状况为<em class="sta" id="bodySta"></em><span class="srhAge">，生理年龄评估为<em class="sta">{{age}}</em>岁</span><span class="srhRank">，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
 			<p class="noSeg" id="segTwo">
-				2、本次检测您在<span id="list4" class="list4"></span><span class="list4">为重度异常，</span><span id="list3" class="list3"></span><span class="list3">为中度异常，</span><span class="list2">还有<font id="list2_No"></font>项为轻度异常。</span>
-				希望能够引起您的关注；
-			</p>
-			<p class="noSeg">
-				3、<span id="tipmsg">根据您本次检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题，</span><a class="inpv">请点击查看详情&gt;&gt;</a>
-			</p>
-			
+				2、本次检测您有</span><span id="list3" class="list3 sta"></span><span class="list3">项为中度风险，</span><span class="list2"><font id="list2_No" class="sta"></font>项为轻度风险。</span>
+				<span id="tipmsg">根据检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题。</span>
+			</p>		
 		</div>
+		<a class="gojy"><i></i><span>请点击查看您的专属建议</span></a>
 	</div>
 	
-	<!--<p style="background:#f4f4f4; height:10px; margin:0;"></p>-->
 	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
-	
-	<div class="index_tab clearfix">
-	  	<span class="on">健康指数</span><span>身体状况</span>
+	<div class="sy_tab clearfix">
+	  	<span class="on"><a>健康指数</a></span><span><a>身体状况</a></span>
     </div>
-    <div class="zhibiao_c indexShow">
-    	<a class="c_li" v-for="site in sites" :href="site.targetFirstId|getSecondHref">
-    		<i class="ico"></i><span class="lab">{{site.targetFirstName}}</span><em class="pop"></em>
+    <div class="tenSys_c indexShow">
+    	<a v-for="site in sites" :href="site.targetFirstId|getSecondHref">
+    		<div class="s-chart  fl">
+    			<div class="c_circle"><i class="ico"></i><div class="zzb"></div></div>
+    			<p style="display: none;">{{site.score}}</p>
+    		</div>
+    		<div class="s-inf fl">
+    			<p class="lab"><span>{{site.targetFirstName}}</span><em class="pop">?</em></p>
+    			<p class="tx">{{site.score}}分</p>
+    		</div>
     		<div class="v_overlert">
 				<div class="tc_sy">
 					<p class="bit"><span class="labt">{{site.targetFirstName}}</span><em></em></p>
 					<div class="bxt">{{site.inspectExplain}}</div>
 				</div>
 			</div>
-			<div class="tiptxt">{{site.inspectExplain}}</div>
-    		<i class="arr fr"></i><span class="fen fr">{{site.score}}分</span>
-    	</a>
-    	<div class="sumTit slhide">以下是您生理年龄的评估结果：</div>
-	    <div class="slnl_d">
-			<div class="d-con">
-				<p class="btt">生理年龄</p>
-				<p class="ltt" v-html="reportStr"></p>
-				<div class="ctt" v-html="firstStr"></div>
-			</div>
-		</div>
+    	</a>	
     </div>
     <div class="zhuangk_c indexShow" style="display: none;">
     	<div class="c_li" v-for="state in status" v-if="state.targetThirdId != 3232">
-    		<span class="lab">{{state.targetThirdName}}</span><i class="pop"></i>
+    		<em class="ico"></em>
+    		<span class="lab">{{state.targetThirdName}}</span>
     		<div class="v_overlert">
 				<div class="tc_sy">
 					<p class="bit"><span class="labt">{{state.targetThirdName}}</span><em></em></p>
 					<div class="bxt">{{state.inspectExplain}}</div>
 				</div>
 			</div>
-    		<div class="tiptxt"></div>
     		<div class="lev">{{state.abnormalLevel}}</div>
     		<span class="sta fr">
     			<i class="on"></i><i class=""></i><i class=""></i><i></i><i></i>
     		</span>
     		<!--<span class="sta2 fr">{{state.analysisResults}}</span>-->
+    		<i class="pop fr"></i>
     	</div>
     </div>
-    
-	    
-    
-    <input type="hidden" id="appId"/>
-    <input type="hidden" id="nonceStr"/>
-    <input type="hidden" id="signature"/>
-    <input type="hidden" id="timestamp"/>
-    <input type="hidden" id="age"/>
-    <input type="hidden" id="share" value="101"/>
+  	<section id="noAge">
+  	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="">生理年龄</span><em class="pop" id="slnl_tc">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
+				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
+					生理年龄的高低，主要取决于人的生活方式和健康状况。
+					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="slnl_tit">您的生理年龄评估为<em>{{age}}</em>岁，各个系统如下：</div>
+    <div id="sl_chart" style="width:100%; margin:0 auto; height: 250px; position: relative; top: -30px;"></div>	
+  	</section>
 </div>
+
+<!--<div class="" id="v_change">
+    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">指标改善状况分析</span><em></em></p>
+				<div class="bxt" style="text-align: left;">指标改善状况分析是基于本次报告结果与您上次评估结果的对比分析，上次报告取的是非当日的最近一次评估。 
+已改善是指与上份报告相比风险等级降低的指标，未改善即对比上次未得到改善或好转，新增异常是本次评估新增加的存在风险的指标。 
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="change_tab">
+    	<span class="on"><a>已改善</a></span>
+    	<span><a>未改善及新增异常</a></span>
+    </div>
+    <div class="change_sta">
+    	<span class="s1 fl">指标名称</span>
+    	<span class="s2 fr">当前状况<br><i>({{currentDateStr}})</i></span>
+    	<span class="s2 fr">上次状况<br><i>({{lastDateStr}})</i></span>
+    </div>
+    <div class="changeShow">
+    	<ul class="change_list">
+	    	<li v-for="item in okImproves">
+	    		<a :href="item.targetId|getThirdHref">
+	    		<span class="s1 fl">{{item.tagetName}}</span>
+	    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>
+	    		<span class="s2 fr">{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}</span>
+	    		</a>
+	    	</li>
+	    </ul>
+	    <p class="noctip">暂无已改善指标</p>
+    </div>
+	<div class="changeShow" style="display: none;">
+		<ul class="change_list">
+	    	<li v-for="site in noImproves">
+	    		<a :href="site.targetId|getThirdHref">
+	    		<span class="s1 fl">{{site.tagetName}}<i style="display: none;">{{site.newAdd}}</i><font style="display: none; margin-left: .1rem;">新增</font></span>
+	    		<span class="s2 fr">{{site.currentLevel==1?'正常':(site.currentLevel==2?'轻度风险':(site.currentLevel==3?'中度风险':'中度风险'))}}</span>
+	    		<span class="s2 fr">{{site.lastLevel==1?'正常':(site.lastLevel==2?'轻度风险':(site.lastLevel==3?'中度风险':'中度风险'))}}</span>
+	    		</a>
+	    	</li>
+	    </ul>
+	    <p class="noctip">暂无未改善及新增异常指标</p>
+	</div>     
+</div>
+<p style="background:#f4f4f4; height:10px; margin:0;"></p>-->
+
+<input type="hidden" id="appId"/>
+<input type="hidden" id="nonceStr"/>
+<input type="hidden" id="signature"/>
+<input type="hidden" id="timestamp"/>
+<input type="hidden" id="age"/>
+<input type="hidden" id="share" value="101"/>
+
+</DIV>
 <div class="v_overlay"></div>
-<div class="v_overlert" id="showNotice">
+<div class="v_overlert" id="showExplain">
 	<div class="tc_sy">
 		<em class="close"></em>
 		<p class="bit">
-			<span class="labt">用户须知</span>
+			<span class="labt">欢迎您查看健康报告使用帮助！</span>
 		</p>
 		<div class="bxt2">
-			<p>欢迎您使用素问机器人服务，本人已经阅读素问机器人服务条款并同意本声明。</p>
-					<p>1.素问机器人是针对亚健康人群进行数据指标采集设备，并非医疗器械设备，素问机器人所有资料及数据报告仅供参考使用，不作为个人健康状况的医疗目的衡量指标，也不能替代医生和其他医务人员的专业建议。</p>
-					<p>2.任何情况下，素问机器人所提供数据仅为提升用户体验所用，用户对于其自身健康状况的最终评估仅来自于专业医疗机构的检测手段，素问机器人对于采集数据不做任何形式的保证，不保证所提供数据满足用户的要求，对采集结果的安全性、正确性、及时性均不做担保。故本公司不对因使用本品提供的数据而导致之损失或损害承担任何直接或间接责任。</p>
-					<p>3.素问机器人是为亚健康人群设计，相关指标依据三大人体数据采集系统（人体光谱波、人体生物电、人体脉搏波）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。</p>
-					<p>4.健康分析报告说明：⽬的实现⾃我预防保健。世界卫⽣组织研究报告表明，1/3的疾病是可以通过预防保健避免的，1/3的疾病可以通过信息的有效沟通来提⾼治疗的效果。要从疾病管理为主转向预防保健和⾃我保健为主，素问机器人通过移动互联和素问云健康系统为用户提供⽐较全⾯、系统的健康分析，从⽽有重点地进⾏⾃我预防、有重点地去医疗机构检查！</p>
-					<p>5.本报告主要起预警作⽤，对检测出来⾃⼰也知道的慢性健康问题，继续加以重视；对检测出来提示预警或⾃⼰原来不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所查范围所限未能发现到的情况，仍按原诊断及治疗。本次健康分析报告仅根据本次所查范围所做，可能难以全⾯反映您的健康状况。如有不适症状出现请到相应医院专科就诊。</p>
-					<p>6 素问机器人推送的内容，数据指标、运动调理、健康食谱、健康设备、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况结合专业诊断结果进行本公司不对通过素问机器人服务得到的或在其信息平台上所推介的产品或服务做任何担保。如用户进行采纳素问机器人所推送的内容所产生一切后果，本公司不承担任何责任。</p>
-					<p>7. 素问机器人是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。用户通过素问机器人获取材料或数据由您自己承担风险，同时您将对使用此类材料或数据而导致的人身或财产损失承担全部责任。</p>
-					<p>8.因数据报告里面包含个人隐私问题，当用户分享给它人或朋友圈时，即表示该用户自行同意把隐私公开。 </p>
-					<p>9.用户扫描二维码需要先关注素问公众号/或下载使用素问APP，因其数据报告跟公众号/或APP绑定在一起，会保留历史纪录，方便进行长期数据追踪和分析。</p>
-					<p>10. 本公司重视对用户隐私的保护，保护隐私是本公司的一项基本政策。您提供的登记资料及本公司保留的有关您的若干其他个人资料将受到中国有关隐私的法律法规的保护。非经用户亲自许可或根据相关法律的强制性规定，本公司不会主动的将您的身份信息泄露给其他任何第三方。</p>
-					<p>11. 本公司有权在必要时修改服务条款，服务条款一旦发生变动，将会在相关页面上公布修改后的服务条款。如果不同意所改动的内容，用户应主动取消此项服务。如果用户继续使用服务，则视为接受服务条款的变动。</p>
-					<p>12. 凡以任何方式登录素问机器人， 或对您使用素问机器人、网络平台、与本公司相关的任何内容、服务均视为自愿接受素问机器人声明的约束。无论在任何原因下（包括但不限于疏忽原因），对您或任何人通过使用素问机器人所导致的损失或损害（包括直接、间接的损失或损害），责任均由使用者自行承担（除非该等损失系由本公司产品质量不达标所致）。</p>
-					<p style="text-align: center; padding: .2rem 0;">---END---</p>
+			一、如何查看您的健康报告？<br/>
+1、​综合评估：智能筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
+2、​十大系统：智能筛查机器人针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
+3、​健康指标：智能筛查机器人给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
+4、​实时状态：智能筛查机器人针对您的实时状态给予评估，共计有7项状态评估，有助于您及时了解自己的身体状态。<br/>
+二、关于报告中提示的问题？<br/>
+本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
+三、关于您的专属健康改善建议？<br/>
+报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
 		</div>
 	</div>
 </div>
 
 <div class="load-overlay">
-	<div class="loadimg"><img src="img/loading.gif"></div>
-</div>
-<div style="text-align:center;padding:100px 30px; display: none;" id="error_con">
-    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+	<div class="loadimg"><img src="../saas/img/loading.gif"></div>
 </div>
 
-<script type="text/javascript" src="js/jquery.js"></script>
-<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
-<script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="js/circle-progress.js"></script>
-<script>document.write('<script src="js/index.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
+    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+</div>
+<script type="text/javascript" src="../saas/js/jquery.js"></script>
+<script>document.write('<script src="../saas/js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="../saas/js/vue.min.js"></script>
+<script type="text/javascript" src="../saas/js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="../saas/js/circle-progress.js"></script>
+<script type="text/javascript" src="../saas/js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="../saas/js/indexNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -164,6 +226,26 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<script src="js/wxShare.js"></script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script src="../saas/js/wxShare.js"></script>
 </body>
 </html>

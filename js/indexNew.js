@@ -18,7 +18,7 @@ $.ajax({
 	    openId : myopenId
 	},
 	success: function(data){
-		alert('analysisReport code='+data.code); // 调试
+		//alert('analysisReport code='+data.code); // 调试
 		if(data.code == 200){
 			$.ajax({
 			url : dataUrl + "/api/v1/reportIndex/indexAll",
@@ -30,7 +30,7 @@ $.ajax({
 			},
 			success : function(indexData) {
 				if(indexData.code == 201){
-					alert('indexAll code='+data.code); 
+					//alert('indexAll code='+data.code); 
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
 					$.ajax({
