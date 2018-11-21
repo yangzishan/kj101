@@ -55,7 +55,7 @@ new Vue({
 					openId: openId
 				},
 				success:function(data){
-					//alert('analysisReport code='+data.code); // 调试
+					alert('analysisReport code='+data.code); // 调试
 					if(data.code == 200){
 						_this.queryNewReportDataByReportId(); // 执行获取首页数据
 					}else if(data.code == 402){

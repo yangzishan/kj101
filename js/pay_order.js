@@ -56,6 +56,7 @@ $(document).on("click","#goWxPay",function(){
 		    payChannelId : payChannelId,
 		    payPrice : truePrice,
 		    userId : myuserId,
+		    voucherId: 0
 		},
 	    success : function(result) {
 	    	if(payChannelType == 1){ //weixin
