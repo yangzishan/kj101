@@ -260,6 +260,20 @@ success : function(indexData) {
     	alert(obj  + msg);
     }
 });
+
+//矫正趋势得分
+function reviseScore(score) {
+	if (score != null) {
+		// 偏低
+		if (score < 0) {
+			score = -score;
+		} else if (score > 100) {
+			score = 200 - score;
+		}
+	}
+	return score;
+}
+
 //调用三级指标历史趋势
 $.ajax({
 url : dataUrl + "/api/v2/reportThird/findThirdTrend",
@@ -275,7 +289,8 @@ success : function(trendData) {
 		var arryDate = [],arryVal = [];
 		for(var i=0;i<trendData.data.length;i++){
 			arryDate.push(trendData.data[i].inspectDateStr);
-			arryVal.push(trendData.data[i].score);
+			//arryVal.push(trendData.data[i].score);
+			arryVal.push(reviseScore(trendData.data[i].score));
 		};
 		console.log(arryDate);
 		console.log(arryVal);
@@ -284,6 +299,11 @@ success : function(trendData) {
 },
     error : function(obj,msg){alert(obj  + msg);}
 });
+
+	 
+
+
+
 
 //查用户信息对接智齿客服
 $.ajax({

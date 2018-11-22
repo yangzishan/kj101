@@ -207,7 +207,8 @@ $(document).on("click","#goWxPay",function(){
 	    	}
 	    	
 		    	
-	    }
+	    },
+	    error: function(){alert('payOrder error');$('#goWxPay').attr("disabled",false);}
 	});
 });
 
