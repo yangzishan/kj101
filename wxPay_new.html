@@ -108,7 +108,7 @@ var myApp = new Vue({
     payTypeName: payTypeName
   }
 });
-var voucherId = '';
+var voucherId = 0;
 //点击支付
 $(document).on("click","#goWxPay",function(){
 	//alert('go');
@@ -124,7 +124,7 @@ $(document).on("click","#goWxPay",function(){
 		    payChannelId : payChannelId,
 		    payPrice : truePrice,
 		    userId : userId,
-		    voucherId: 0
+		    voucherId: voucherId
 		},
 	    success : function(result) {
 	    	if(payChannelType == 1){ //weixin

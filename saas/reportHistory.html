@@ -28,7 +28,8 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -50,15 +51,6 @@
 })(document, window);
 </script>
 <script>
-//截取URL 获取
-function GetQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-var myuserId=GetQueryString("userId");
-var myopenId = GetQueryString('openId');
-var agentId = GetQueryString('agentId');  //代理商id  代理商报告用  康加报告不用
 
 //记录索引
 var aIndex = 0;
@@ -68,10 +60,10 @@ url : dataUrl + "/api/v1/reportIndex/historyByUserId",
 type : "POST",
 dataType : 'json',
 data : {
-   	userId : myuserId,
+   	userId : userId,
     firstPage: '0',
     pageSize: 30,
-    agentId: agentId
+    agentId: saasId
 },
 success : function(historyData) {
 	//alert('get it')
@@ -81,7 +73,7 @@ success : function(historyData) {
 			var oa = document.createElement('a');
 			oa.className = 'h_li';
 			oa.innerHTML = '<span class="dat">'+ historyData.data[i].inspectDateStr+ '</span> <i class="arr fr"></i><span class="num fr">'+historyData.data[i].totalScore+'分</span>';
-			oa.href ='index.html?&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+			oa.href ='../'+saasId+'/index.html?&reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 			
 
 			$('.history_b').append(oa); //插入数据
@@ -136,7 +128,7 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 			type : "POST",
 			dataType : 'json',
 			data : {
-			   	userId : myuserId,
+			   	userId : userId,
 			    firstPage: '0',
 			    pageSize: pageSize,
 			    agentId: agentId
@@ -148,7 +140,7 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 						var oa = document.createElement('a');
 						oa.className = 'h_li';
 						oa.innerHTML = '<span class="dat">'+ historyData.data[i].inspectDateStr+ '</span> <i class="arr fr"></i><span class="num fr">'+historyData.data[i].totalScore+'分</span>';
-						oa.href ='index.html?&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+						oa.href ='../'+saasId+'/index.html?&reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 						$('.history_b').append(oa); //插入数据
 						aIndex++;
 						/*if(aIndex == historyData.data.length){

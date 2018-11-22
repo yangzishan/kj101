@@ -147,19 +147,19 @@ var myApp = new Vue({
 		hrefRouter: function(pay){
 			if(pay.payChannelType == 3){
 				if(edition == 100){
-					window.location.href="../wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition
+					window.location.href="../wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition+"&saasId="+saasId
 				}else{
-					window.location.href="wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition
+					window.location.href="wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition+"&saasId="+saasId
 				}
 			}else{
 				if(edition == 100){
 					window.location.href='../wxPay.html?reportId='+reportId+'&userId='+this.userId+
 			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
-			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType+"&saasId="+saasId
 				}else{
 					window.location.href='wxPay.html?reportId='+reportId+'&userId='+this.userId+
 			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
-			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType+"&saasId="+saasId
 				}
 			}
 		},

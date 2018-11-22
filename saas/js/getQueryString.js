@@ -53,3 +53,6 @@ var stop =useurl.indexOf('&',start);
 var myname = useurl.substring(start+5,stop);
 var myprice=getQueryString("price");
 
+var targetFirstId=getQueryString("targetFirstId"); //二级页面
+
+var targetId = getQueryString("targetId");  // 三级页面

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="../saas/css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="../saas/css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script> var saasId = '214913';</script>
+</head>
+<body>
+<DIV class="my_view" style="visibility: hidden;">
+<div id="appVUE">
+	<header class="header">
+		<a class="t-left fl" id="goSetUp"><i class="i_c"><img src="../saas/img/i-per.png"></i>个人中心</a>
+		<a class="t-right fr" id="checkHistory"><i class="i_c"><img src="../saas/img/i-his.png"></i>历史报告</a>
+		<p class="t-cen"><span>{{inspectDate}}</span></p>
+	</header>
+	<div class="all_score">
+		<div class="fan_box">
+			<div class="x_b">
+				<div class="b_kd">
+					<p class="pf" id="score">{{totalScore}}</p>
+					<p class="pz">总分</p>
+				</div>
+				<div class="guang_b"></div>
+				<div class="guang"></div>
+			</div>
+		</div>
+		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">30</em>日后再次检测</p></div>
+		<div class="explain" id="explain"><i></i><p>说明</p></div>
+	</div>
+	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+	
+	<div class="sy_summary">
+		<p class="sstit">亲爱的<span class="inpv" id="dearName"></span>你好！</p>
+		<div class="sstxt">
+			　　感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！
+		</div>
+		<p class="sstit2">-------汇总分析-------</p>
+		<div class="sstxt">
+			1、本次评估您身体状况为<em class="sta" id="bodySta"></em><span class="srhAge">，生理年龄评估为<em class="sta">{{age}}</em>岁</span><span class="srhRank">，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
+			<p class="noSeg" id="segTwo">
+				2、本次检测您有</span><span id="list3" class="list3 sta"></span><span class="list3">项为中度风险，</span><span class="list2"><font id="list2_No" class="sta"></font>项为轻度风险。</span>
+				<span id="tipmsg">根据检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题。</span>
+			</p>		
+		</div>
+		<a class="gojy"><i></i><span>请点击查看您的专属建议</span></a>
+	</div>
+	
+	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
+	<div class="sy_tab clearfix">
+	  	<span class="on"><a>健康指数</a></span><span><a>身体状况</a></span>
+    </div>
+    <div class="tenSys_c indexShow">
+    	<a v-for="site in sites" :href="site.targetFirstId|getSecondHref">
+    		<p class="tarid" style="display: none;">{{site.targetFirstId}}</p>
+    		<div class="s-chart  fl">
+    			<div class="c_circle"><i :class="'ico'+site.targetFirstId"></i><div class="zzb"></div></div>
+    			<p class="s-score" style="display: none;">{{site.score}}</p>
+    		</div>
+    		<div class="s-inf fl">
+    			<p class="lab"><span>{{site.targetFirstName}}</span><em class="pop">?</em></p>
+    			<p class="tx">{{site.score}}分</p>
+    		</div>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{site.targetFirstName}}</span><em></em></p>
+					<div class="bxt">{{site.inspectExplain}}</div>
+				</div>
+			</div>
+    	</a>	
+    </div>
+    <div class="zhuangk_c indexShow" style="display: none;">
+    	<div class="c_li" v-for="state in status" v-if="state.targetThirdId != 3232">
+    		<em class="ico"></em>
+    		<span class="lab">{{state.targetThirdName}}</span>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{state.targetThirdName}}</span><em></em></p>
+					<div class="bxt">{{state.inspectExplain}}</div>
+				</div>
+			</div>
+    		<div class="lev">{{state.abnormalLevel}}</div>
+    		<span class="sta fr">
+    			<i class="on"></i><i class=""></i><i class=""></i><i></i><i></i>
+    		</span>
+    		<!--<span class="sta2 fr">{{state.analysisResults}}</span>-->
+    		<i class="pop fr"></i>
+    	</div>
+    </div>
+  	<section id="noAge">
+  	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="">生理年龄</span><em class="pop" id="slnl_tc">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
+				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
+					生理年龄的高低，主要取决于人的生活方式和健康状况。
+					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="slnl_tit">您的生理年龄评估为<em>{{age}}</em>岁，各个系统如下：</div>
+    <div id="sl_chart" style="width:100%; margin:0 auto; height: 250px; position: relative; top: -30px;"></div>	
+  	</section>
+</div>
+
+<!--<div class="" id="v_change">
+    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">指标改善状况分析</span><em></em></p>
+				<div class="bxt" style="text-align: left;">指标改善状况分析是基于本次报告结果与您上次评估结果的对比分析，上次报告取的是非当日的最近一次评估。 
+已改善是指与上份报告相比风险等级降低的指标，未改善即对比上次未得到改善或好转，新增异常是本次评估新增加的存在风险的指标。 
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="change_tab">
+    	<span class="on"><a>已改善</a></span>
+    	<span><a>未改善及新增异常</a></span>
+    </div>
+    <div class="change_sta">
+    	<span class="s1 fl">指标名称</span>
+    	<span class="s2 fr">当前状况<br><i>({{currentDateStr}})</i></span>
+    	<span class="s2 fr">上次状况<br><i>({{lastDateStr}})</i></span>
+    </div>
+    <div class="changeShow">
+    	<ul class="change_list">
+	    	<li v-for="item in okImproves">
+	    		<a :href="item.targetId|getThirdHref">
+	    		<span class="s1 fl">{{item.tagetName}}</span>
+	    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>
+	    		<span class="s2 fr">{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}</span>
+	    		</a>
+	    	</li>
+	    </ul>
+	    <p class="noctip">暂无已改善指标</p>
+    </div>
+	<div class="changeShow" style="display: none;">
+		<ul class="change_list">
+	    	<li v-for="site in noImproves">
+	    		<a :href="site.targetId|getThirdHref">
+	    		<span class="s1 fl">{{site.tagetName}}<i style="display: none;">{{site.newAdd}}</i><font style="display: none; margin-left: .1rem;">新增</font></span>
+	    		<span class="s2 fr">{{site.currentLevel==1?'正常':(site.currentLevel==2?'轻度风险':(site.currentLevel==3?'中度风险':'中度风险'))}}</span>
+	    		<span class="s2 fr">{{site.lastLevel==1?'正常':(site.lastLevel==2?'轻度风险':(site.lastLevel==3?'中度风险':'中度风险'))}}</span>
+	    		</a>
+	    	</li>
+	    </ul>
+	    <p class="noctip">暂无未改善及新增异常指标</p>
+	</div>     
+</div>
+<p style="background:#f4f4f4; height:10px; margin:0;"></p>-->
+
+<input type="hidden" id="appId"/>
+<input type="hidden" id="nonceStr"/>
+<input type="hidden" id="signature"/>
+<input type="hidden" id="timestamp"/>
+<input type="hidden" id="age"/>
+<input type="hidden" id="share" value="101"/>
+
+</DIV>
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showExplain">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit">
+			<span class="labt">欢迎您查看健康报告使用帮助！</span>
+		</p>
+		<div class="bxt2">
+			一、如何查看您的健康报告？<br/>
+1、​综合评估：智能筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
+2、​十大系统：智能筛查机器人针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
+3、​健康指标：智能筛查机器人给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
+4、​实时状态：智能筛查机器人针对您的实时状态给予评估，共计有7项状态评估，有助于您及时了解自己的身体状态。<br/>
+二、关于报告中提示的问题？<br/>
+本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
+三、关于您的专属健康改善建议？<br/>
+报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+	</div>
+</div>
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="../saas/img/loading.gif"></div>
+</div>
+
+<div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
+    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+</div>
+<script type="text/javascript" src="../saas/js/jquery.js"></script>
+<script>document.write('<script src="../saas/js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="../saas/js/vue.min.js"></script>
+<script type="text/javascript" src="../saas/js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="../saas/js/circle-progress.js"></script>
+<script type="text/javascript" src="../saas/js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="../saas/js/indexNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script src="../saas/js/wxShare.js"></script>
+</body>
+</html>

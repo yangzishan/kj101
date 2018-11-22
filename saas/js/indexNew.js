@@ -32,7 +32,7 @@ $.ajax({
 				if(indexData.code == 201){
 					var sameUser = indexData.data.sameUser;
 					//var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					window.location.href="../saas/payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+					window.location.href="../saas/payfor_tj.html?reportId="+reportId+'&openId='+openId+"&sameUser="+sameUser+"&edition="+edition+"&saasId="+saasId;
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					$('.my_view').css("visibility","visible");
@@ -56,7 +56,7 @@ $.ajax({
 					  	},
 					  	filters:{
 				    		getSecondHref:function(val){
-				            return '../saas/second.html?reportId='+reportId+'&userId='+userId+ '&targetFirstId=' + val 
+				            return '../saas/second2.html?reportId='+reportId+'&userId='+userId+'&saasId='+saasId+ '&targetFirstId=' + val 
 				       		}
 					  	}
 					});
@@ -106,7 +106,7 @@ $.ajax({
 					});
 					
 					//第一个系统不显示
-					$('.tenSys_c a:first').css("display","none");
+					//$('.tenSys_c a:first').css("display","none");
 					//身体状况程度条
 					$('.zhuangk_c .c_li').each(function(){
 						var ilev = 6 - parseInt($(this).find('.lev').text());
@@ -121,30 +121,34 @@ $.ajax({
 						w_cir = 750;
 					};
 					setTimeout(function(){
-						$('.tenSys_c a .s-chart .c_circle').each(function(index){
-							var c_se ='',c_va = $(this).next('p').text();
-							if(index==1){
+						$('.tenSys_c a').each(function(index){
+							//无效系统不显示 1001
+							if($(this).find('.tarid').text() == '1001'){
+								$(this).css("display","none");
+							};
+							var c_se ='',c_va = $(this).find('.s-chart').find('.s-score').text();
+							if($(this).find('.tarid').text()==3087){
 								c_se ='#fabcb9';
-							}else if(index==2){
+							}else if($(this).find('.tarid').text()=='3095'){
 								c_se ='#fbdc89';
-							}else if(index==3){
+							}else if($(this).find('.tarid').text()=='3108'){
 								c_se ='#82ede3';
-							}else if(index==4){
+							}else if($(this).find('.tarid').text()=='3115'){
 								c_se ='#f6c9e6';
-							}else if(index==5){
+							}else if($(this).find('.tarid').text()=='3127'){
 								c_se ='#dcf0a8';
-							}else if(index==6){
+							}else if($(this).find('.tarid').text()=='3135'){
 								c_se ='#f8e8ac';
-							}else if(index==7){
+							}else if($(this).find('.tarid').text()=='3143'){
 								c_se ='#c8bff6';
-							}else if(index==8){
+							}else if($(this).find('.tarid').text()=='3163'){
 								c_se ='#fad6c6';
-							}else if(index==9){
+							}else if($(this).find('.tarid').text()=='3195'){
 								c_se ='#c1d9ff';
-							}else if(index==10){
+							}else if($(this).find('.tarid').text()=='3244'){
 								c_se ='#ffc7da';
 							};
-							$(this).circleProgress({
+							$(this).find('.s-chart').find('.c_circle').circleProgress({
 							    value: c_va/100,
 							    animation: true,
 							    fill: { gradient: [c_se] },
@@ -154,21 +158,21 @@ $.ajax({
 							    //lineCap: 'round',
 							    startAngle: Math.PI*1.5
 							});
-							
 							//分数低于90变色
 							if(c_va<90){
-								$(this).parents('.s-chart').next('.s-inf').find('.tx').css("color","#FF8800");
+								$(this).find('.s-inf').find('.tx').css("color","#FF8800");
 							};
 						});
-						
 					},200);
 					
 					//跳转历史报告
 					var userId = indexData.data.userId;
 					//$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + openId + '&reportId=' + reportId);
-					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiAHistory&reportId=" + reportId);
+					$('#checkHistory').attr("href","../saas/reportHistory.html?userId="+userId+"&saasId="+saasId+"&openId="+openId);
 					//跳转用户设置
-					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ reportId);
+					//$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ reportId);
+					$('#goSetUp').attr("href","../saas/personalData.html?userId=" + userId + '&reportId='+ reportId+"&saasId="+saasId);
+					
 					
 					//生理年龄图
 					var arraySlnl=[],arrayXt=[];
@@ -323,7 +327,7 @@ $.ajax({
 								};
 							};
 							//跳转建议
-							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ reportId);
+							$('.sy_summary .gojy').attr("href","../saas/z_pop.html?reportId="+ reportId+"&saasId="+saasId);
 						}
 					}else{
 						//console.log('首页请求getSuggest成功,但数据不正确')

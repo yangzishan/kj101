@@ -39,7 +39,7 @@ $(document).on("click","#goWxPay",function(){
 		                },function(res){
 		                	//debugger;
 		                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
-		                    	
+
 		                    	if(tp == 201){
 			                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId;
 			                	}else{

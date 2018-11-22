@@ -57,7 +57,8 @@
 <div class="load-overlay" style="display: none;"><img class="loadimg" src="img/loading.gif"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/LCalendar.js"></script>
 <!--<script type="text/javascript" src="js/LCalendar_reg.js"></script>-->
@@ -83,22 +84,14 @@
 
 <script>
 $(function(){
-	//截取URL 获取
-	function GetQueryString(name){
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	};
-	var myuserId=GetQueryString("userId");
-	$('#userId').val(myuserId);
-	
+	$('#userId').val(userId);
 	$.ajax({
 		url : dataUrl + "/api/v1/reportUser/findUserById",
 		type : "post",
 		dataType : 'json',
 		//contentType : 'application/json',
         data : {
-        	userId: myuserId
+        	userId: userId
         },
 		success : function(userData) {
 			console.log(userData)
@@ -125,12 +118,12 @@ $(function(){
 			
 			$('#demo1').val(birthday);
 			//修改昵称和性别身高体重跳转
-			$('#setNickName').attr("href","personal_nickname.html?userId="+myuserId+"&nickName="+nickName);
-			$('#setSex').attr("href","personal_sex.html?userId="+myuserId+"&sex="+sex);
-			$('#setHeight').attr("href","personal_height.html?userId="+myuserId+"&height="+height);
-			$('#setWeight').attr("href","personal_weight.html?userId="+myuserId+"&weight="+weight);
+			$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+nickName);
+			$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+sex);
+			$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+height);
+			$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+weight);
 			//体验卡跳转
-			$('#setCard').attr("href","tjCard.html?userId="+myuserId);
+			$('#setCard').attr("href","tjCard.html?userId="+userId);
 		   	var calendar = new lCalendar();
 			calendar.init({
 				'trigger': '#demo1',

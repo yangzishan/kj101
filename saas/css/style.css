@@ -110,17 +110,19 @@
 .tenSys_c a:nth-child(even){ border-right:#eaeaea solid .01rem;}
 .tenSys_c a .s-chart{ display: inline-block; vertical-align: top; width: 1.4rem; text-align: center; position: relative;}
 .tenSys_c a .s-chart .c_circle{ position: relative; width: 1.2rem; height: 1.2rem; margin: 0 auto;}
-.tenSys_c a .s-chart .ico{ width: .88rem; height: .88rem;  position: absolute; top:.16rem; left:.16rem;} 
-.tenSys_c a:nth-of-type(2) .s-chart .ico{background: url(../img/ten/i-xunhuan.png) no-repeat; background-size: .88rem .88rem;}
-.tenSys_c a:nth-of-type(3) .s-chart .ico{background: url(../img/ten/i-xiaohua.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(4) .s-chart .ico{background: url(../img/ten/i-huxi.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(5) .s-chart .ico{background: url(../img/ten/i-neifenmi.png) no-repeat;  background-size: .88rem .88rem;}
-.tenSys_c a:nth-of-type(6) .s-chart .ico{background: url(../img/ten/i-guge.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(7) .s-chart .ico{background: url(../img/ten/i-mianyi.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(8) .s-chart .ico{background: url(../img/ten/i-shengzhi.png) no-repeat; background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(9) .s-chart .ico{background: url(../img/ten/i-yingyang.png) no-repeat; background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(10) .s-chart .ico{background: url(../img/ten/i-youhai.png) no-repeat;  background-size: .88rem .88rem;} 
-.tenSys_c a:nth-of-type(11) .s-chart .ico{background: url(../img/ten/i-pifu.png) no-repeat; background-size: .88rem .88rem;}
+.tenSys_c a .s-chart i{ width: .88rem; height: .88rem;  position: absolute; top:.16rem; left:.16rem;} 
+
+
+.tenSys_c a .s-chart i.ico3087{background: url(../img/ten/i-xunhuan.png) no-repeat; background-size: .88rem .88rem;}
+.tenSys_c a .s-chart i.ico3095{background: url(../img/ten/i-xiaohua.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3108{background: url(../img/ten/i-huxi.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3115{background: url(../img/ten/i-neifenmi.png) no-repeat;  background-size: .88rem .88rem;}
+.tenSys_c a .s-chart i.ico3127{background: url(../img/ten/i-guge.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3135{background: url(../img/ten/i-mianyi.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3143{background: url(../img/ten/i-shengzhi.png) no-repeat; background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3163{background: url(../img/ten/i-yingyang.png) no-repeat; background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3195{background: url(../img/ten/i-youhai.png) no-repeat;  background-size: .88rem .88rem;} 
+.tenSys_c a .s-chart i.ico3244{background: url(../img/ten/i-pifu.png) no-repeat; background-size: .88rem .88rem;}
 .tenSys_c a .s-chart .c_circle .zzb{ position: absolute; left: -.02rem; top: -.02rem; width: 1.24rem; height: 1.24rem; background: url(../img/i-cir_b.png) no-repeat; background-size: cover;}
 .tenSys_c a .s-inf{ display: inline-block; vertical-align: top;}
 .tenSys_c a .s-inf .lab{ font-size: .32rem; line-height: .66rem;}

@@ -13,26 +13,27 @@ var dataUrl='';
 
 switch (saasId)
 {
-	case 528:
-	  dataUrl='http://sc.jiankangzhan.com';
-	  break;
-	case 670:
-	  dataUrl='http://csh.jiankangzhan.com';
-	  break;
-	case 710:
-	 dataUrl='http://yst.jiankangzhan.com';
-	  break;
-	case 715:
-	  dataUrl='http://zyjk.jiankangzhan.com';
-	  break;
-	case 7502:
-	  dataUrl='http://txj.jiankangzhan.com';
-	  break;
-	case 7621:
-	  dataUrl='http://ackq.jiankangzhan.com';
-	  break;
+	case '100067':
+	  	dataUrl='http://sc.jiankangzhan.com';
+	  	break;
+	case '208653':
+	  	dataUrl='http://csh.jiankangzhan.com';
+	  	break;
+	case '215563':
+	 	dataUrl='http://yst.jiankangzhan.com';
+	  	break;
+	case '208654':
+	  	dataUrl='http://zyjk.jiankangzhan.com';
+	  	break;
+	case '214913':
+	  	dataUrl='http://txj.jiankangzhan.com';
+	  	break;
+	case '215802':
+	  	dataUrl='http://ackq.jiankangzhan.com';
+	  	break;
 	default:
-	  dataUrl='http://wx.jiankangzhan.com';
+		alert(saasId);
+	  	dataUrl='http://wx.jiankangzhan.com';
 	  
 }
 
