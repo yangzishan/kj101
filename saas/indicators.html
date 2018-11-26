@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>指标明细</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?t=20180205" />
+</head>
+<body>
+<div class="my_view" id="appVUE">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>指标明细</span></p>
+	</header>
+
+	<dl class="indicator">
+		<dt class="">循环系统</dt>
+		<dd>血脂</dd><dd>血管弹性</dd><dd>冠状动脉弹性</dd><dd>脑血管弹性</dd><dd>脑组织供血状况</dd><dd>心肌耗氧量</dd><dd>胆固醇结晶</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">消化系统</dt>
+		<dd>胆红素</dd><dd>肝内脂肪含量</dd><dd>蛋白质代谢功能</dd><dd>胃蠕动功能</dd><dd>小肠吸收功能</dd><dd>小肠蠕动功能</dd><dd>胃吸收功能</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">呼吸系统</dt>
+		<dd>动脉血氧含量</dd><dd>呼吸睡眠</dd><dd>肺活量VC</dd><dd>气道阻力RAM</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">内分泌</dt>
+		<dd>糖耐量功能</dd><dd>胰岛素</dd><dd>甲状腺分泌</dd><dd>性腺分泌</dd><dd>松果体分泌</dd><dd>肾上腺分泌</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">骨骼系统</dt>
+		<dd>骨质疏松</dd><dd>骨质增生</dd><dd>颈椎钙化</dd><dd>腰椎钙化</dd><dd>钙流失量</dd><dd>风湿系数</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">免疫系统</dt>
+		<dd>淋巴结</dd><dd>免疫球蛋白</dd><dd>扁桃体免疫力</dd><dd>呼吸道免疫力</dd><dd>脾脏功能</dd><dd>消化道免疫力</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">生殖系统</dt>
+		<dd>雌性激素</dd><dd>黄体酮</dd><dd>内分泌失调指数</dd><dd>盆腔炎指数</dd><dd>宫颈炎指数</dd><dd>阴道炎指数</dd><dd>附件炎指数</dd><dd>乳腺增生风险</dd><dd>勃起功能</dd><dd>促性腺激素</dd><dd>睾丸酮</dd><dd>前列腺增生度</dd><dd>前列腺钙化度</dd><dd>前列腺炎症</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">营养状态</dt>
+		<dd>维生素B12</dd><dd>维生素A</dd><dd>维生素C</dd><dd>维生素K1</dd><dd>维生素B2</dd><dd>维生素B3</dd><dd>维生素B6</dd><dd>维生素E</dd><dd>维生素B1</dd><dd>维生素D3</dd><dd>钙（Ca）</dd><dd>铁(Fe)</dd><dd>锌(Zn)</dd><dd>叶酸</dd><dd>硒(Se)</dd><dd>氨基酸</dd><dd>辅酶Q10</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">有害物质</dt>
+		<dd>其他金属含量</dd><dd>汞(Hg)</dd><dd>铅(Pb)</dd><dd>砷(As)</dd><dd>电磁波辐射</dd><dd>农药残留物</dd>
+	</dl>
+	<dl class="indicator">
+		<dt class="">皮肤系统</dt>
+		<dd>皮肤胶原蛋白</dd><dd>皮肤油脂</dd><dd>皮肤水分</dd><dd>皮肤角质</dd>
+	</dl>
+
+</div>
+
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

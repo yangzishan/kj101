@@ -22,19 +22,10 @@
 
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/checkMsg.js"></script>
 <script>
-//截取URL 获取
-function GetQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-var myreportId=GetQueryString("reportId");
-var mypackageId=GetQueryString("packageId");
-var myuserId=GetQueryString("userId");
-var myopenId=GetQueryString("openId");
 
 $('.btn-go').on("click",function(){
 	$('.btn-go').attr("disabled",true);
@@ -44,25 +35,25 @@ $('.btn-go').on("click",function(){
 			type : "POST",
 			dataType : 'json',
 			data : {
-			    reportId : myreportId,//变量myreportId替换
-			    packageId : mypackageId,
-				userId : myuserId,
+			    reportId : reportId,//变量reportId替换
+			    packageId : packageId,
+				userId : userId,
 				wordNum: mywordNum,
 				batchType: 10
 			},
 			success : function(data) {
 				if(data.code == 200){
 					if(data.data == "0"){
-						window.location.href="index.html?reportId="+myreportId + '&openId=' + myopenId;
+						window.location.href="../"+saasId+"/index.html?reportId="+reportId + '&openId=' + openId;
 					}else if(data.data == "true"){
 						alert('改报告已支付');
-						window.location.href="index.html?reportId="+myreportId + '&openId=' + myopenId;
+						window.location.href="../"+saasId+"/index.html?reportId="+reportId + '&openId=' + openId;
 					}else{
 						setTimeout(function(){$('.btn-go').attr("disabled",false)},1000);
 						alert(checkMsg(data.data));
 					}
 				}else if(data.code == 300){
-					alert('口令输入不正确');
+					alert('口令输入不正确 code=300');
 					setTimeout(function(){$('.btn-go').attr("disabled",false)},1000);
 				}else{
 					alert('code=' + data.code);
@@ -70,9 +61,7 @@ $('.btn-go').on("click",function(){
 					
 	
 			},
-		    error : function(obj,msg){
-		    	//debugger
-		    	alert(obj  + msg);
+		    error : function(obj,msg){ alert('insertWordPay error');
 		    }
 		});
 	

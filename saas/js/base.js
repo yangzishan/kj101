@@ -13,22 +13,22 @@ var dataUrl='';
 
 switch (saasId)
 {
-	case '100067':
+	case '100067':  //素问 康加帮
 	  	dataUrl='http://sc.jiankangzhan.com';
 	  	break;
-	case '208653':
+	case '208653':  // 草珊瑚
 	  	dataUrl='http://csh.jiankangzhan.com';
 	  	break;
-	case '215563':
+	case '215563': // 御膳堂
 	 	dataUrl='http://yst.jiankangzhan.com';
 	  	break;
-	case '208654':
+	case '208654': // 之源健康
 	  	dataUrl='http://zyjk.jiankangzhan.com';
 	  	break;
-	case '214913':
+	case '214913':  // 探险家
 	  	dataUrl='http://txj.jiankangzhan.com';
 	  	break;
-	case '215802':
+	case '215802': //爱齿口腔
 	  	dataUrl='http://ackq.jiankangzhan.com';
 	  	break;
 	default:

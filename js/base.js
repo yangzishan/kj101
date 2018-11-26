@@ -29,6 +29,7 @@ var channel = 'http://39.107.74.133:8081'; //支付通道
 
 
 
+
 //---生产-----
 /*var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
 
