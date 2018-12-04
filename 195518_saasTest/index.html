@@ -10,7 +10,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="../saas/css/basic.css" />
 <script>document.write('<link rel="stylesheet" type="text/css" href="../saas/css/style.css?t=' + new Date().getTime() + '" \/>')</script>
-<script> var saasId = 670;</script>
+<script> var saasId = '195518';</script>
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
@@ -58,9 +58,10 @@
     </div>
     <div class="tenSys_c indexShow">
     	<a v-for="site in sites" :href="site.targetFirstId|getSecondHref">
+    		<p class="tarid" style="display: none;">{{site.targetFirstId}}</p>
     		<div class="s-chart  fl">
     			<div class="c_circle"><i :class="'ico'+site.targetFirstId"></i><div class="zzb"></div></div>
-    			<p style="display: none;">{{site.score}}</p>
+    			<p class="s-score" style="display: none;">{{site.score}}</p>
     		</div>
     		<div class="s-inf fl">
     			<p class="lab"><span>{{site.targetFirstName}}</span><em class="pop">?</em></p>

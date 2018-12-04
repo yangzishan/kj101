@@ -21,7 +21,8 @@
 
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -42,23 +43,15 @@
 })(document, window);
 </script>
 <script type="text/javascript">
-$(window).load(function(){
-	//截取URL 获取
-	function GetQueryString(name){
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	};
-	var myuserId=GetQueryString("userId");	
+$(window).load(function(){	
 	var myurl = window.location;
 	var useurl = decodeURI(myurl);
 	var start =useurl.indexOf('nickName=');
-	//var stop =useurl.indexOf('&',start);
-	var myname = useurl.substring(start+9);
-	if(myname == null){
+	var nickName = useurl.substring(start+9);
+	if(nickName == null){
 		$('#niname').attr("placeholder",'请设置一个您好记昵称');
 	}else{
-		$('#niname').attr("placeholder",myname);	
+		$('#niname').attr("placeholder",nickName);	
 	}
 	//昵称
 	$('.dele').click(function(){
@@ -70,7 +63,7 @@ $(window).load(function(){
 		//var bbb = $("#userId").val();
 		var userInfo = {
 			nickName : niname,
-			userId : myuserId
+			userId : userId
 		}
 		$.ajax({
 			url : dataUrl + "/api/v1/reportUser/updateById",
@@ -81,7 +74,7 @@ $(window).load(function(){
 			success : function(userData) {
 				//debugger;
 				if(userData.code == 200){
-					window.location.href="personalData.html?userId="+myuserId
+					window.location.href="personalData.html?userId="+userId+'&reportId='+ reportId+"&saasId="+saasId
 				}
 			},
 			error : function(){

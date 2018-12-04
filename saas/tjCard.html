@@ -33,7 +33,7 @@
 		</div>
 	</a>
 	
-	<div class="tyk-fix"><a class="tyk-btn" id="goBind" href="addTycard.html">添加年卡</a></div>
+	<div class="tyk-fix"><a class="tyk-btn" id="goBind">添加年卡</a></div>
 </div>	
 </section>
 
@@ -43,7 +43,8 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -68,20 +69,12 @@
 <script>
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
-//截取URL 获取
-function GetQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-var myuserId=GetQueryString("userId");
-
 $.ajax({
 	url : dataUrl + "/api/v1/cardPay/findUserCards",
 	type : "POST",
 	dataType : 'json',
 	data : {
-	   	userId : myuserId
+	   	userId : userId
 	},
 	success : function(data) {
 		//alert('get it');
@@ -96,7 +89,7 @@ $.ajax({
 			  	//过滤器
 			  	filters:{
 		    		getRecordHref:function(val){
-		            	return 'tyCardRecord.html?cardNo=' + val 
+		            	return 'tyCardRecord.html?cardNo=' + val +  "&saasId="+saasId
 		       		}
 			  	}
 			  
@@ -108,7 +101,7 @@ $.ajax({
 				$(this).text(str.replace(reg, "$1********$2"));
 			});
 			//跳转绑卡
-			$('#goBind').attr("href","addTycard.html?userId=" + myuserId);
+			$('#goBind').attr("href","addTycard.html?userId=" + userId+"&saasId="+saasId);
 			
 			//置灰过期卡失效卡
 			$('.g-tyk').each(function(){

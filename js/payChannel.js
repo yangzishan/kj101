@@ -9,9 +9,10 @@ console.log(edition);
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 var myApp = new Vue({
-	 el: '#appVUE',
+	 el: '.my_view',
     data: function() {
 		return {
+			userState:'',
 			isShow:false,
 			isActive:[],
 			reportId:'', openId:'', sameUser:'', edition:'', //版本
@@ -36,10 +37,20 @@ var myApp = new Vue({
 			userIdstr:'', //逗号分隔显示
 			snNum:'', 
 			orderNum:'',
+			day:'',
+			baseInfo:'',
+			ablive1:'', ablive2:'',
+			reportAdd:'',
+			reportDel:'',
+			notStr:'新增' , //为改善 新增称呼
+			firstlist:'',
+			easysize: '', hardsize: '',   //新用户风险指标数目
+			doctor:'',
 		}
 	},
 	mounted: function() {
 		this.goLoad()
+		this.participate(reportId)
     },
 	methods: {
 		goLoad: function() {
@@ -59,35 +70,121 @@ var myApp = new Vue({
 					}else if(packageData.code == 201){
 						$('.my_view').css("display","block");
 						$('.load-overlay').css("display","none");
-						_this.reportId = reportId,
-						_this.openId = openId,
-						_this.sameUser = sameUser,
-						_this.edition = edition,
-						_this.nickName = packageData.data.mentPage.nickName, //昵称
-					  	_this.headimgurl = packageData.data.mentPage.headimgurl, //头像
-					  	_this.totalScore = packageData.data.mentPage.totalScore, //总分
-					  	_this.age = packageData.data.mentPage.age, //生理年龄
-					  	_this.ranking = packageData.data.mentPage.ranking, //排名
-					  	_this.ps = packageData.data.mentPage.ps, //身体状况
-					  	_this.name = packageData.data.infoView.name, //套餐名称
-					  	_this.packageId = packageData.data.infoView.packageId,
-					  	_this.price = packageData.data.infoView.price,  //价格
-					  	_this.oprice = packageData.data.infoView.originalPrice; //原价
+						_this.reportId = reportId
+						_this.openId = openId
+						_this.sameUser = sameUser
+						_this.edition = edition
+	
+						_this.nickName = packageData.data.mentPage.nickName //昵称
+					  	_this.headimgurl = packageData.data.mentPage.headimgurl //头像
+					  	_this.totalScore = packageData.data.mentPage.totalScore //总分
+					  	_this.age = packageData.data.mentPage.age //生理年龄
+					  	_this.ranking = packageData.data.mentPage.ranking //排名
+					  	_this.ps = packageData.data.mentPage.ps //身体状况
+					  	_this.name = packageData.data.infoView.name //套餐名称
+					  	_this.packageId = packageData.data.infoView.packageId
+					  	_this.price = packageData.data.infoView.price  //价格
+					  	_this.oprice = packageData.data.infoView.originalPrice //原价
 					  	if(_this.oprice == '' || _this.oprice == null){
 					  		_this.oprice = _this.price+20; //数据没有原价的情况
-					  	};
-					  	_this.description = packageData.data.infoView.description; //描述
+					  	}
+					  	_this.description = packageData.data.infoView.description //描述
 					  	if(packageData.data.mentPage.abnormal != null && packageData.data.mentPage.abnormal!=''){
 					  		_this.abnormalNo = packageData.data.mentPage.abnormal.list3.length+packageData.data.mentPage.abnormal.list2.length, //全部异常项目数
 					  		_this.litAbnormal = packageData.data.mentPage.abnormal.list2.length,
 					  		_this.midAbnormal = packageData.data.mentPage.abnormal.list3.length
+					  	}
+					  	_this.firstNames = packageData.data.mentPage.firstNames //得分最低两个系统名字
+					  	_this.userId = packageData.data.infoView.userId
+					  	_this.userIdstr = toThousands(packageData.data.infoView.userId)
+					  	_this.isFree = packageData.data.infoView.isFree
+					  	_this.snNum = packageData.data.snNum
+					  	_this.orderNum = packageData.data.orderNum ? packageData.data.orderNum:'15392504132771282'
+					  	_this.userState = packageData.data.userState
+					  	_this.doctor = [
+					  		{
+					  			name:'高岭娣 副教授',
+					  			describe:'首都医科大学卫生与教育管理学院体育学系主任'
+					  		},
+					  		{
+					  			name:'潘晓明 中医博士',
+					  			describe:'北京大学医学部研究中心学术部副主任'
+					  		},
+					  		{
+					  			name:'肖 荣 博士/教授 博士生导师',
+					  			describe:'首都医科大学公共卫生学院营养与食品卫生学系主任'
+					  		},
+					  		{
+					  			name:'佟彤 中医养生专家',
+					  			describe:'电视台节目《养生堂》、《名医讲堂》等特约专家'
+					  		},
+					  		{
+					  			name:'顾晓玲 中国首批注册营养师',
+					  			describe:'兰州大学营养学硕士 、临床营养师'
+					  		},
+					  	];
+					  	if(!isEmptyObject(packageData.data.dataMap)){
+					  		if(packageData.data.userState){
+								if(packageData.data.userState == 1){  //新用户
+									$('#olduser').remove();
+									_this.firstlist = packageData.data.dataMap.abnormalData.firstlist
+									_this.easysize = packageData.data.dataMap.abnormalData.easysize
+									_this.hardsize = packageData.data.dataMap.abnormalData.hardsize
+									
+									console.log('新用户')
+								}else if(packageData.data.userState == 2){ //老用户
+									$('#newuser').remove();
+									_this.day = packageData.data.dataMap.day
+							  		_this.baseInfo = packageData.data.dataMap.baseInfo
+							  		_this.ablive1 = packageData.data.dataMap.ablive1
+							  		_this.ablive2 = packageData.data.dataMap.ablive2
+							  		_this.reportDel = packageData.data.dataMap.reportDel.slice(0,2)
+							  		_this.reportAdd = packageData.data.dataMap.reportAdd.slice(0,2)
+							  		_this.reportNot = packageData.data.dataMap.reportNot.slice(0,2)
+							  		if(_this.reportAdd){
+							  			if(_this.reportAdd.length == 0 || _this.reportAdd == []){
+								  			_this.reportAdd = _this.reportNot
+								  			_this.notStr = '未改善'
+								  		}
+							  		}
+								  	if(_this.baseInfo){
+								  		var dateArr=[],scoreArr=[]
+								  		for(var i =0;_this.baseInfo.length > i;i++){
+									  		dateArr.push(_this.baseInfo[i].reportDate)
+									  		scoreArr.push(_this.baseInfo[i].score)
+									  	}
+								  		oldUserTrend('graph',dateArr,scoreArr);
+								  	}	
+									console.log('老用户')
+								}
+							}
+
+					  		//新用户异常项动画
+					  		var w_cir = $(window).width();
+							if($(window).width() > 750){w_cir = 750};
+							setTimeout(function(){
+								$('.new-pay .list-box .abnormal .con .c_li').each(function(index){
+						  			var pro =  $(this).find('input').val(), c_se= '';
+						  			if($(this).index() == 0){
+						  				c_se = '#d42111'
+						  			}else if($(this).index() == 1){
+						  				c_se = '#f08e33'
+						  			}
+						  			$(this).find('.circle').circleProgress({
+									    value: pro/12,
+									    animation: true,
+									    fill: { gradient: [c_se] },
+									    emptyFill:'#dedbdb',
+									    size: 0.176*w_cir,
+									    thickness: 9,
+									    //lineCap: 'round',
+									    startAngle: Math.PI*1.5
+									}).on('circle-animation-progress', function(event, progress) {
+									    $(this).find('font').html(parseInt(pro * progress));
+									});
+						  		})
+							},200)
 					  	};
-					  	_this.firstNames = packageData.data.mentPage.firstNames; //得分最低两个系统名字
-					  	_this.userId = packageData.data.infoView.userId,
-					  	_this.userIdstr = toThousands(packageData.data.infoView.userId),
-					  	_this.isFree = packageData.data.infoView.isFree,
-					  	_this.snNum = packageData.data.snNum;
-					  	_this.orderNum = packageData.data.orderNum ? packageData.data.orderNum:'15392504132771282';
 					  	
 					  	//判断笑哭脸样式
 						if(_this.ranking!=null && _this.ranking<50){
@@ -114,67 +211,14 @@ var myApp = new Vue({
 								$('.daifu_d').css("display","block");
 							}else{
 								//判断用户有没有可用卡
-								$.ajax({
-									url : dataUrl + "/api/v1/cardPay/findUserCards",
-									type : "POST",
-									dataType : 'json',
-									data : {
-										reportId : reportId,
-									   	userId : _this.userId
-									},
-									success : function(data) {
-										//alert('查找用户可用卡');
-										if(data.code == 200){
-											var cards = data.data.List;
-											if(cards == null || cards.length == 0 || cards == ''){
-												$('#kaPay').css("display","none");
-											};
-										}else{
-											console.log('查找用户可用支付卡 code= '+ data.code);
-										}
-									}
-								});	
+								_this.findUserCards(reportId,_this.userId)
 							};
 							//查询支付通道
-							$.ajax({
-								url : channel + "/pay/v1/channel/getPayChannel",
-								type : "get",
-								dataType : 'json',
-								data : {
-									neNo : _this.snNum,
-								   	terminalType : 1
-								},
-								success : function(data) {
-									if(data.code ==0){
-										_this.data = data.data
-									}else{console.log('支付通道接口'+data.code)}
-								},
-								error : function(){alert('getPayChannel error')}
-							});
+							_this.getPayChannel(_this.snNum)
 							// 根据价格
 							if(_this.price == 0){
 								$('#pay').on("click",function(){
-									$.ajax({
-										url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
-										type : "post",
-										dataType : 'json',
-										data : {
-										    reportId : reportId,
-										    packageId: _this.packageId,
-										    userId: _this.userId
-										},
-										success : function(data) {
-											if(data.code==200){
-												if(edition == 100){
-													window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
-												}else{
-													window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
-												}
-											}else{
-												alert('支付失败updateFreeOrder code='+data.code);
-											}
-										}
-									})
+									_this.updateFreeOrder(reportId,_this.packageId,_this.userId)
 								});
 							}else{
 								$('#pay').on("click",function(){
@@ -229,7 +273,89 @@ var myApp = new Vue({
 			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
 				}
 			}
+		},
+		//支付通道
+		getPayChannel: function(snNum){
+			var vm = this
+			$.ajax({
+				url : channel + "/pay/v1/channel/getPayChannel",
+				type : "get",
+				dataType : 'json',
+				data : {
+					neNo : snNum,
+				   	terminalType : 1
+				},
+				success : function(data) {
+					if(data.code ==0){
+						vm.data = data.data
+					}else{console.log('支付通道接口'+data.code)}
+				},
+				error : function(){alert('getPayChannel error')}
+			})
+		},
+		//免费订单
+		updateFreeOrder: function(reportId,packageId,userId){
+			$.ajax({
+				url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
+				type : "post",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    packageId: packageId,
+				    userId: userId
+				},
+				success : function(data) {
+					if(data.code==200){
+						if(edition == 100){
+							window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
+						}else{
+							window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
+						}
+					}else{
+						alert('支付失败updateFreeOrder code='+data.code);
+					}
+				}
+			})
+		},
+		//判断用户有没有可用卡来显示卡支付
+		findUserCards: function(reportId,userId){
+			$.ajax({
+				url : dataUrl + "/api/v1/cardPay/findUserCards",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					reportId : reportId,
+				   	userId : userId
+				},
+				success : function(data) {
+					//alert('查找用户可用卡');
+					if(data.code == 200){
+						var cards = data.data.List;
+						if(cards == null || cards.length == 0 || cards == ''){
+							$('#kaPay').css("display","none");
+						};
+					}else{
+						console.log('查找用户可用支付卡 code= '+ data.code);
+					}
+				}
+			})
+		},
+		//判断设备是否是发放优惠券
+		participate: function (reportId){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url: couponData+"/vi/send/coupon/participate",
+				dataType : 'json',
+				data : {
+				    inspectCode : reportId
+				},
+				success: function(data){
+					if(data.code == 0){ vm.isShow = false }
+				}
+			});
 		}
+
 	}
 });
 //获取url参数方法
@@ -244,3 +370,104 @@ function getQueryString(name) {
 function toThousands(num) {
     return (num || 0).toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,');
 };
+//判断空对象
+function isEmptyObject(obj){
+	for(var key in obj){
+		return false
+	}
+	return true
+};
+
+//老用户得分趋势图
+function oldUserTrend(el,dateArr,scoreArr){
+	setTimeout(function(){ 
+		var myChart = echarts.init(document.getElementById(el));
+	    var option = {
+	      // 距离左右的距离
+			grid:{
+				left:'10%',
+				right:'5%',
+				top:28,
+				bottom:25
+			},
+			xAxis: {
+				type: 'category',
+				data: dateArr,
+				splitLine:{
+					show:false
+				},
+				// X轴名称样式
+				nameTextStyle:{
+					color:'#9f9f9f',
+				},
+				// X轴字体样式
+				axisLabel: {
+					show: true,
+					textStyle: {
+						color :"#adafaf",
+						//color: '#4aa59e'
+					}
+				},
+				// 坐标轴样式
+				axisLine:{
+					lineStyle:{
+						color:'#e2e2e2',
+						width:'3',
+					},
+				},
+				// 刻度样式
+				axisTick:{
+					show:false,
+					inside:true,
+					lineStyle:{
+						color:'#1eceb7',
+						width:'2'
+					}
+				},
+			},
+			yAxis: {
+				type: 'value',
+				name: '总分',
+				min:60,
+				max:100,
+				splitLine:{
+					show:false
+				},
+				axisTick:{
+					show:false
+				},
+				splitArea:{
+					show:true,
+					interval:'0',
+					areaStyle:{
+						color:['rgba(60,199,188,0.9)','rgba(60,199,188,0.7)','rgba(60,199,188,0.4)','rgba(60,199,188,0.2)','rgba(60,199,188,0.1)'] ,
+					}
+				},
+				axisLabel: {
+					show: true,
+					color :"#adafaf",
+				},
+				nameTextStyle:{
+					color:'#9f9f9f',
+				},
+				axisLine:{
+					lineStyle:{
+						//color:'#effafa',
+						width:'0',
+					},
+				},
+			},
+			series: [{
+				data: scoreArr,
+				type: 'line',
+				smooth: true,
+				color:'#58d1c7'
+			}],
+			
+		};
+	    // 使用刚指定的配置项和数据显示图表。
+		myChart.setOption(option);
+		},
+	100)
+}
+

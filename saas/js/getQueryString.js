@@ -56,3 +56,5 @@ var myprice=getQueryString("price");
 var targetFirstId=getQueryString("targetFirstId"); //二级页面
 
 var targetId = getQueryString("targetId");  // 三级页面
+
+//个人中心设置

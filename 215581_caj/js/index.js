@@ -197,7 +197,8 @@ $.ajax({
 				success: function(improvesData){
 					//alert('get it');
 					if(improvesData.code == 200){
-						var userName = improvesData.data.userName; //用户名
+						var userName = improvesData.data.userName;//用户名
+						if(userName == null){userName = ''};
 						var sexStr = improvesData.data.sexStr; //性别称呼
 						var ps = improvesData.data.ps; // 状态
 						var inspectDay = improvesData.data.inspectDay; // 提醒天数
@@ -254,9 +255,7 @@ $.ajax({
 									$('#listAb').append(oli);
 								};
 							};
-								
-							
-							
+
 							$('.sy_summary .sstxt .inpv').attr("href","proposal.html?reportId="+ myReportId)
 						}
 					}else{

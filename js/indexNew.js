@@ -33,7 +33,7 @@ $.ajax({
 					//alert('indexAll code='+data.code); 
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					$.ajax({
+					/*$.ajax({
 						type:"post",
 						url: couponData+"/vi/send/coupon/participate",
 						dataType : 'json',
@@ -63,7 +63,8 @@ $.ajax({
 								window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 							}
 						}
-					});
+					});*/
+					window.location.href="pay_byuser.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 					
 
 				}else if(indexData.code == 200){

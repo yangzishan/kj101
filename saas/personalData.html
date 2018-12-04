@@ -118,12 +118,12 @@ $(function(){
 			
 			$('#demo1').val(birthday);
 			//修改昵称和性别身高体重跳转
-			$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+nickName);
-			$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+sex);
-			$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+height);
-			$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+weight);
+			$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+nickName+"&saasId="+saasId);
+			$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+sex+"&saasId="+saasId);
+			$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+height+"&saasId="+saasId);
+			$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+weight+"&saasId="+saasId);
 			//体验卡跳转
-			$('#setCard').attr("href","tjCard.html?userId="+userId);
+			$('#setCard').attr("href","tjCard.html?userId="+userId+"&saasId="+saasId);
 		   	var calendar = new lCalendar();
 			calendar.init({
 				'trigger': '#demo1',

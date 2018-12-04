@@ -22,12 +22,17 @@ zhuge.track('进入注册页面', {
 });
 
 $('#age').blur(function(){
-	setTimeout(function() {$('body').css('min-height', historyWindowHeight)}, 10);
-	var age = parseInt($('#age').val());
-	if(age < 18 || age >80 ||  isNaN(age)){
-		showMask('请输入18到80之间的有效年龄');
-		return;
-	}
+	setTimeout(function() {	
+		const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;  //解决微信浏览器键盘收回页面下不来的问题
+        window.scrollTo(0, Math.max(scrollHeight - 1, 0));  //解决微信浏览器键盘收回页面下不来的问题
+
+		var age = parseInt($('#age').val());
+		if(age < 18 || age >80 ||  isNaN(age)){
+			showMask('请输入18到80之间的有效年龄');
+			return;
+		}
+	}, 100);
+	
 });
 
 //点击获取短信验证码
@@ -99,9 +104,14 @@ $('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){
 		$('#nextAll').addClass('off').attr("disabled",true);
 	}
 });
+$('#dxYzm , #mobile').blur(function(){
+	setTimeout(function() {	
+		const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;  //解决微信浏览器键盘收回页面下不来的问题
+        window.scrollTo(0, Math.max(scrollHeight - 1, 0));  //解决微信浏览器键盘收回页面下不来的问题
+	}, 100);
+});
 
 $('#nextAll').on("click",function(){
-	setTimeout(function() {$('body').css('min-height', historyWindowHeight)}, 10);
 	var age = parseInt($('#age').val());
 	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');
@@ -188,6 +198,8 @@ function subAll(mobile,age,dxYzm,checkCode){
 						subAll(mobile,age,dxYzm,'UOY')
 					}
 				});		
+			}else if(userData.code == 303){
+				showMask('验证码错误');
 			}else{
 				zhuge.track('注册失败，查看验证码是否有误', { //埋点 t 注册失败
 					'用户id': userId,
@@ -248,6 +260,8 @@ function creatUser(mobile,age,dxYzm,checkCode){
 						creatUser(mobile,age,dxYzm,'UOY')
 					}
 				});	
+			}else if(userData.code == 303){
+				showMask('验证码错误');
 			}else{
 				zhuge.track('注册失败，查看验证码是否有误', { //埋点 t 注册失败
 					'用户id': userId,

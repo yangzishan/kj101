@@ -127,8 +127,8 @@ var myApp = new Vue({
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.daifu_d').css("display","none");
 							});
 							//支付跳转 +
-							$('#WordPay').attr("href","wordPay.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
-							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
+							//$('#WordPay').attr("href","wordPay.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
+							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition+"&saasId="+saasId);
 						
 						}
 					}else if(packageData.code == 1001 || packageData.code == 1002){

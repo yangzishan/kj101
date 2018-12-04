@@ -1,0 +1,104 @@
+body { background: #f6f9f9; }
+@font-face {
+	font-family:myfont;
+	src: url(Kaiti-SC-Black.ttf);
+}
+
+.health-top { height: 2.85rem; background: #1eceb7; color: #fff; padding: 0 .18rem;}
+.health-top .title { overflow: hidden; display: flex; justify-content: center; align-items: center; padding-top: .35rem;}
+.health-top .title .img { width: .48rem;}
+.health-top .title .text { padding-left: .3rem;}
+.health-top .title .text .big { font-size: .36rem; font-weight: bold;}
+.health-top .title .text .yello {
+ font-size: .3rem; color: #f8e71c; font-weight: bold;}
+.health-top .title .text .little { font-size: .3rem;}
+/* 内容 */
+.content { background: #fff; margin: -1.7rem .18rem 0 .18rem; border-radius: .2rem; padding: .2rem .35rem; box-shadow: 0 3px 10px #ccc; }
+.content .top { background: #99f2de; height: .45rem; color: #333; font-size: .3rem; line-height: .45rem; text-align: center; border-radius: .2rem; width: 4.2rem; margin: 0 auto; }
+.content .list { background: #effafa; border-radius:.2rem; margin-top:.3rem;}
+.content .list-first { width: 6.2rem; margin: .3rem auto 0 auto; position: relative; padding-bottom: .3rem; text-align: center; }
+.content .list-first .this { width: 1.33rem; position: absolute; left: -.07rem; top: .12rem; color: #fff; font-size: .3rem; height: .48rem; line-height: .43rem; text-align: center; background: url(../img/120/this.png) no-repeat; background-size: 100%; }
+.content .list-first .last { width: 1.33rem; position: absolute; right: -.07rem; top: .12rem; color: #fff; font-size: .3rem; height: .48rem; line-height: .43rem;text-align: center; background: url(../img/120/last.png) no-repeat; background-size: 100%; }
+.content .list-first .vs { display: flex; padding: .6rem .4rem .3rem .4rem;}
+.content .list-first .item { flex: 1; font-size: .3rem;color: #f10000 }
+.content .list-first .item-num { padding-top:.45rem;font-weight: bold;}
+.content .list-first .item .big { font-size: .7rem; }
+.content .list-first .item .vs-big {margin: 0 auto; width: .88rem; height: .56rem; background: url(../img/120/VS.png) no-repeat; background-size:contain;}
+.content .list-first .item .anomaly { padding-top: .18rem; color: #333; font-weight: bold; }
+.content .list-first .hint { font-size: .26rem; color: #9b9b9b; }
+.content .trend { padding: .1rem;}
+.content .trend .title { overflow: hidden; display: flex; justify-content: center; align-items: center; color: #333; font-size: .34rem;font-weight: bold; }
+.content .trend .title .img { width: .34rem; margin-right: .2rem;}
+#graph { width: 6rem; height: 3.1rem; margin: 0 auto; }
+.content .anomaly-name { overflow: hidden; padding-top: .3rem;}
+.content .anomaly-name .new { width: 3.4rem; float: left; position: relative; border-radius: .2rem;background: linear-gradient(to bottom, #fdd1d1, #fff3f3); }
+.content .anomaly-name .new .img { font-weight: bold;width: 1.28rem; height: .44rem;background: url(../img/120/new.png) no-repeat; background-size: 100%; top: 0; left: 0; color: #fff; font-size: .3rem; text-align: center;}
+.content .anomaly-name .new ul { padding: 0 0 .21rem .24rem;}
+.content .anomaly-name .new ul li { overflow: hidden; color: #ff3e3f; font-size: .28rem; line-height: .3rem; padding-top:.3rem; font-weight: bold;}
+.content .anomaly-name .new ul li .icon { width: .32rem; height: .32rem; background: url(../img/120/icon.png) no-repeat; background-size: 100%; float: left; }
+.content .anomaly-name .new ul li span { padding-left: .15rem;}
+.content .anomaly-name .improve { width: 2.6rem; float: right; position: relative; border-radius: .2rem;background: linear-gradient(to bottom, #eff5f5, #f2fafa); }
+.content .anomaly-name .improve .img { font-weight: bold; width: 1.52rem; height: .44rem;background: url(../img/120/improve.png) no-repeat; background-size: 100%; top: 0; left: 0; color: #fff; font-size: .3rem; text-indent: .22rem;}
+.content .anomaly-name .improve ul { padding: 0 0 .21rem .24rem;}
+.content .anomaly-name .improve ul li { overflow: hidden; color: #333; font-size: .26rem; line-height: .3rem; padding-top:.3rem;}
+.content .anomaly-name .improve ul li span { padding-left: .15rem;}
+.content .look-more { display: flex; justify-content: center; align-items: center; font-size: .26rem;color: #333; padding-top: .3rem;}
+.content .look-more .hand {width: .32rem; height: .5rem; background: url(../img/120/hand.png) no-repeat; background-size: 100%; margin-left: .08rem;}
+.btn-more { font-size: .3rem; width: 6.6rem; height: .88rem;background: #ff3e3f; color: #fff; line-height: .88rem; margin: .33rem auto;text-align: center; border-radius: 1rem; }
+/* 新用户支付页面 */
+.new-pay .pay-num { height: 2.3rem; background: #1eceb7; color: #fff; font-size: .3rem;text-align: center; }
+.new-pay .pay-num p { padding: .2rem 0 .1rem 0;/*font-family: myfont;*/ font-weight: bold;}
+.new-pay .pay-num p span { color: #f9fc9f; font-size: .36rem;}
+.new-pay .list-box { padding: 0 .2rem; margin-top: -1.5rem; }
+
+
+.new-pay .list-box .abnormal{ box-shadow: 0 3px 10px #ccc; border-radius: .2rem;background: #fff; padding: .25rem .1rem 0 .1rem;margin-bottom: .3rem;}
+
+.new-pay .list-box .abnormal .tit{ text-align: center; font-size: .26rem; font-weight: bold;}
+.new-pay .list-box .abnormal .con{ font-size: 0;}
+.new-pay .list-box .abnormal .con .c_li{ display: inline-block; width: 49.5%; font-size: .28rem; color: #000000; position: relative; text-align: center;}
+.new-pay .list-box .abnormal .con .c_li .ico{position: absolute; top: .35rem; left: .55rem; width: .4rem; height: .52rem; background: url(../img/120/dag_mid.png); background-size:contain;}
+.new-pay .list-box .abnormal .con .c_li:nth-of-type(2) .ico{position: absolute; top: .35rem; left: .5rem; width: .5rem; height: .52rem; background: url(../img/120/dag_lit.png); background-size:contain;}
+.new-pay .list-box .abnormal .con .c_li em{position: absolute; top: .8rem; right: .8rem;}
+.new-pay .list-box .abnormal .con .c_li .circle_d{margin: 0 auto; width: 1.31rem; height: 1.31rem; border-radius: 50%; overflow: hidden; position: relative;}
+.new-pay .list-box .abnormal .con .c_li .circle_d .circle{ width: 1.31rem; height: 1.31rem; background: #ffffff;  font-size: .5rem; font-weight: bold;}
+.new-pay .list-box .abnormal .con .c_li .circle_d .circle font{ position: absolute; width: 100%; left :0 ;top: 36%; color: #d42111;}
+.new-pay .list-box .abnormal .con .c_li:nth-of-type(2) .circle_d .circle font{ position: absolute; width: 100%; left :0 ;top:36%; color: #f08e33;}
+.new-pay .list-box .abnormal .con .c_li .circle_d .zz{position: absolute; top: 0; left: 0; width: 1.31rem; height: 1.31rem; background: url(../img/120/zz.png); background-size:contain;}
+.new-pay .list-box .abnormal .con .c_li p{text-align: center; line-height: .4rem;}
+.new-pay .list-box .abnormal .tip{ text-align: center; color: #7e7e7e; font-size: .24rem; padding: .1rem 0 .2rem; line-height: .4rem;}
+.new-pay .list-box .abnormal .tip .dot{ display: inline-block; width: .13rem; height: .13rem; background: #1eceb7; border-radius: 10rem; margin: .11rem .12rem 0 0;}
+
+
+.new-pay .list-box .list { box-shadow: 0 3px 10px #ccc; border-radius: .2rem;background: #fff; padding: .25rem .13rem 0; margin-bottom: .3rem;}
+.new-pay .list-box .list .title { font-size: .32rem; color: #000; padding-left:.13rem; font-weight: bold;}
+.new-pay .list-box .list .item { overflow: hidden; }
+.new-pay .list-box .list .item-t { padding: .2rem .13rem;}
+.new-pay .list-box .list .item-b { padding:0 0 .15rem .1rem;}
+.new-pay .list-box .list .item-b a { color: #1eceb7; }
+.new-pay .list-box .list .item .dot { display: block; width: .13rem; height: .13rem; background: #1eceb7; border-radius: 10rem; float: left; margin-top: .12rem;}
+.new-pay .list-box .list .item .txt { font-size: .24rem; padding-left:.1rem;}
+.new-pay .list-box .list .system { overflow: hidden; padding: .2rem 0 0;}
+.new-pay .list-box .list .system li { width: 1.26rem; box-shadow: 0 3px 10px #ccc; border-radius: .2rem;background: #fff; float: left; margin:0 .05rem .35rem; position: relative;}
+.new-pay .list-box .list .system li .img { width: .61rem; margin: 0 auto; padding: .2rem 0 0;}
+.new-pay .list-box .list .system li p {line-height: .26rem; font-size: .24rem; text-align: center; padding-bottom: .07rem;}
+.new-pay .list-box .list .system li i{ width: .37rem; height: .37rem; text-align: center; line-height: .37rem; color: #ffffff; background: #ea3621; border-radius: 50%; position: absolute; top: -.2rem; right: -.04rem;}
+.new-pay .list-box .list .system li .red { color: #ea3621; }
+.new-pay .list-box .list .system li .yello { color: #ef8e33; }
+.new-pay .list-box .list .system li .green { color: #1eceb7; }
+.new-pay .list-box .table { background: #f3f3f3; padding: .2rem .2rem;}
+.new-pay .list-box .table .title { padding: 0; }
+.new-pay .list-box .table .specialist { background: #fff; border-radius: .2rem; padding: .2rem 0; margin-top: .2rem;position: relative; display: flex; align-items: center;/*垂直居中*/}
+.new-pay .list-box .table .specialist .prev { position: absolute; width: .2rem; height: .3rem; left: .45rem; top: 50%; margin-top: -.15rem;}
+.new-pay .list-box .table .specialist .next { position: absolute; width: .2rem; height: .3rem; right: .45rem; top: 50%; margin-top: -.15rem;}
+.new-pay .list-box .table .specialist ul { width: 4.6rem; margin: 0 auto; }
+.new-pay .list-box .table .specialist ul li { width: 4.6rem; overflow: hidden; display: flex; align-items: center;/*垂直居中*/ }
+.new-pay .list-box .table .specialist ul li .head-img { width: .67rem; height: .67rem; border: 1px solid #1eceb7; border-radius: 10rem; float: left; overflow: hidden; background: #f5f5f5 url(../img/120/tx.png); background-size: contain;}
+.new-pay .list-box .table .specialist ul li .text { flex: 1; padding-left:.3rem;}
+.new-pay .list-box .table .specialist ul li .text .name {font-size: .26rem; color: #333; }
+.new-pay .list-box .table .specialist ul li .text .name span { padding-right: .3rem;}
+.new-pay .list-box .table .specialist ul li .text .detail { font-size: .24rem; color: #a1a1a1; }
+.new-pay .look-btn { width: 4rem; height: .68rem;text-align: center; line-height: .68rem;color: #fff; font-size: .32rem;border-radius: 10rem; background: #ea3621; margin: 0 auto; }
+.new-pay .hint { color: #7e7e7e; font-size: .22rem;text-align: center; padding: .2rem 0; line-height: .22rem;}
+.new-pay .foot { color: #fff; background: #1eceb7; font-size: .22rem;height: .45rem;text-align: center; line-height: .45rem;}
+

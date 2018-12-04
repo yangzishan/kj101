@@ -157,7 +157,7 @@ function GetQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myReportId = GetQueryString('reportId');
+var reportId = GetQueryString('reportId');
 var targetId = GetQueryString("targetId");
 var userId = GetQueryString('userId');
 $.ajax({
@@ -165,7 +165,7 @@ url : dataUrl + "/api/v1/reportIndex/targetProposal",
 type : "POST",
 dataType : 'json',
 data : {
-    reportId : myReportId,
+    reportId : reportId,
     targetId : targetId
 },
 success : function(indexData) {
@@ -294,15 +294,11 @@ success : function(trendData) {
 		};
 		console.log(arryDate);
 		console.log(arryVal);
-		setTimeout(function(){intchart('ichart','',arryDate,arryVal);},200);
+		intchart('ichart','',arryDate,arryVal);
 	}
 },
     error : function(obj,msg){alert(obj  + msg);}
 });
-
-	 
-
-
 
 
 //查用户信息对接智齿客服
@@ -333,7 +329,7 @@ $.ajax({
 			//zhiManager.set('email','aabb@123.com');
 			zhiManager.set('realname',userData.data.userName);
 			zhiManager.set('tel',userData.data.mobile);
-			zhiManager.set('remark','报告ID： '+myReportId);
+			zhiManager.set('remark','报告ID： '+reportId);
 			
 			zhiManager.on("load", function() {
 			    zhiManager.initBtnDOM();
@@ -343,8 +339,7 @@ $.ajax({
 	},
 	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
 });
-</script>
-<script>
+
 function intchart(el,tit,arryDate,arryVal){
 	var myChart = echarts.init(document.getElementById(el));
 	option = {

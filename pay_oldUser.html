@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>老用户支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/pay.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view" id="appVUE" style="display: none;">
+    <!-- 顶部 -->
+    <div class="health-top">
+        <div class="title">
+            <div class="img"><img src="img/120/hi.png"></div>
+            <div class="text"><span class="big">欢迎回来，</span><span class="little">我们的第</span><span class="yello">{{userIdstr}}</span><span class="little">位用户</span></div>
+        </div>
+    </div>
+    <!-- 内容 -->
+    <div class="content">
+        <div class="top">距离您上次检测已经{{day}}天</div>
+        <!-- VS -->
+        <div class="list list-first">
+            <div class="this">本次</div><div class="last">上次</div>
+            <div class="vs">
+                <div class="item item-num"><span class="big">{{ablive1}}</span>项</div>
+                <div class="item"><p class="big vs-big"></p><p class="anomaly">异常项</p></div>
+                <div class="item item-num"><span class="big">{{ablive2}}</span>项</div>
+            </div>
+            <div class="hint">您是否有按照我们的建议进行生活方式的改善？</div>
+        </div>
+        <!-- 健康趋势 -->
+        <div class="list trend">
+            <div class="title">
+                <div class="img"><img src="img/120/trend.png"></div>
+                <span>健康趋势</span>
+            </div>
+            <div class="graph">
+                <div id="graph"></div>
+            </div>
+        </div>
+        <!-- 异常指标名称 -->
+        <div class="list trend">
+            <div class="title">
+                <div class="img"><img src="img/120/mild.png"></div>
+                <span>异常指标名称</span>
+            </div>
+        </div>
+        <div class="anomaly-name">
+            <div class="new">
+                <div class="img">新增</div>
+                <ul>
+                    <li v-for="item in reportAdd.slice(0,2)">
+                        <div class="icon"></div>
+                        <span>{{item.tagetName}}</span>
+                    </li>
+                    <li>
+                        <div class="icon"></div>
+                        <span>……</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="improve">
+                <div class="img">已改善</div>
+                <ul>
+                    <li v-for="item in reportDel.slice(0,2)">
+                        <span>{{item.tagetName}}</span>
+                    </li>
+                    <li>
+                        <div class="icon"></div>
+                        <span>……</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="look-more">
+            <div class="txt">查看更多指标请点击</div>
+            <div class="hand"></div>
+        </div>
+    </div>
+    <div id="pay" class="btn-more">关爱健康，点击查看</div>
+    
+    <div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{price}}</p>
+		</div>
+		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</a>
+	</div>
+ 
+</div>
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+	
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/echarts.common.min.js"></script>
+<script type="text/javascript" src="js/pay_test.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+</body>
+</html>

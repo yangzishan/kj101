@@ -22,7 +22,8 @@
 
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -45,14 +46,8 @@
 
 <script type="text/javascript">
 $(window).load(function(){
-	//截取URL 获取
-	function GetQueryString(name){
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	};
-	var myuserId=GetQueryString("userId");	
-	var sex=GetQueryString("sex");
+	
+	var sex=getQueryString("sex");
 	//选择男女样式
 	if(sex==2){
 		$('.d-sex label:first').addClass('check')
@@ -69,7 +64,7 @@ $(window).load(function(){
 		//var aaa = $('#niname').val();
 		//var bbb = $("#userId").val();
 		var userInfo = {
-			userId : myuserId,
+			userId : userId,
 			sex : sex
 		}
 		$.ajax({
@@ -81,7 +76,7 @@ $(window).load(function(){
 			success : function(userData) {
 				//debugger;
 				if(userData.code==200){
-					window.location.href="personalData.html?userId="+myuserId
+					window.location.href="personalData.html?userId="+userId+'&reportId='+ reportId+"&saasId="+saasId
 				}
 				
 			},

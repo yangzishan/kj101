@@ -27,7 +27,8 @@
 <div class="modal-overlay" style=""></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/checkMsg.js"></script>
 <script type="text/javascript">
@@ -52,14 +53,6 @@
 
 <script>
 
-//截取URL 获取
-function GetQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-var myuserId=GetQueryString("userId");
-
 $('.tyk-btn').on("click",function(){
 	if($('#cardNo').val() == ''){
 		alert('请先输入兑换码');
@@ -71,7 +64,7 @@ $('.tyk-btn').on("click",function(){
 			type : "POST",
 			dataType : 'json',
 			data : {
-				userId : myuserId,
+				userId : userId,
 				cardNo: cardNo
 			},
 			success : function(data) {
@@ -91,7 +84,7 @@ $('.tyk-btn').on("click",function(){
 				function closeMask(){
 					$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
 					$('#alert').css({"visibility":"hidden","opacity":"0"});
-					window.location.href="tjCard.html?userId="+myuserId;
+					window.location.href="tjCard.html?userId="+userId +"&saasId="+saasId;
 				}
 				//showMask('哈哈哈哈');
 				

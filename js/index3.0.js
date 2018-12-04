@@ -111,6 +111,8 @@ new Vue({
 						console.log('需要支付');
 						_this.sameUser = data.sameUser;
 						window.location.href="payfor3.0.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + _this.sameUser+"&edition="+edition;
+						//window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + _this.sameUser+"&edition="+edition;
+						
 					}else{console.log('queryNewReportDataByReportId,code='+data.code)}
 				},
 				error: function(){alert('queryNewReportDataByReportId error')}
