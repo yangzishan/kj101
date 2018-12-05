@@ -12,7 +12,8 @@
 <link rel="stylesheet" type="text/css" href="css/style.css?v=201807002" />
 </head>
 <body>
-<div class="my_view" id="appVUE" style="display: none;">
+<div class="my_view" style="visibility: hidden;">
+<section id="appVUE">
 	<header class="header">
 		<p class="t-cen txt1"><span>{{targetThirdName}}</span></p>
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
@@ -77,6 +78,9 @@
 		</div>	
 	</div>	
 	<!--健康建议内容 end-->
+</section>
+	
+	
 	<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
 	<div class="thr_tit"><i></i><span>历史趋势</span></div>
 	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>	
@@ -149,7 +153,7 @@
 })(document, window);
 </script>
 <script>
-$('.my_view').css("display","none");
+$('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
 //截取URL 获取
 function GetQueryString(name){
@@ -170,7 +174,7 @@ data : {
 },
 success : function(indexData) {
 	if(indexData.code == 200){
-		$('.my_view').css("display","block");
+		$('.my_view').css("visibility","visible");
 		$('.load-overlay').css("display","none");
 		if(indexData.data.dietList != null){
 			for(var i=0;i<indexData.data.dietList.length;i++){

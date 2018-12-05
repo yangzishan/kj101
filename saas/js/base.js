@@ -53,9 +53,9 @@ var bit_testHealthUrl = 'http://kj201.jiankangzhan.com'; //小机器
 
 var couponData = 'http://coupon.jiankangzhan.com'; //优惠券
 
-//var channel = 'http://pay.jiankangzhan.com'; //支付通道  wx
+var channel = 'http://pay.jiankangzhan.com'; //支付通道  wx
 //var channel = 'http://47.94.14.217:8765'; //支付通道  -tt
-var channel = 'http://39.107.74.133:8081'; //支付通道  -ycs
+//var channel = 'http://39.107.74.133:8081'; //支付通道  -ycs
 
 
 
