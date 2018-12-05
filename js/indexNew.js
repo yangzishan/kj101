@@ -33,40 +33,41 @@ $.ajax({
 					//alert('indexAll code='+data.code); 
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					/*$.ajax({
-						type:"post",
-						url: couponData+"/vi/send/coupon/participate",
-						dataType : 'json',
-						data : {
-						    inspectCode : myReportId
-						},
-						success: function(payTypeData){
-							if(payTypeData.code == 0){
-								if(paymentType == 2){
-									window.location.href="payfor_coupon2.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					if(paymentType == 3){
+						window.location.href="pay_byuser.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					}else{
+						$.ajax({
+							type:"post",
+							url: couponData+"/vi/send/coupon/participate",
+							dataType : 'json',
+							data : {
+							    inspectCode : myReportId
+							},
+							success: function(payTypeData){
+								if(payTypeData.code == 0){
+									if(paymentType == 2){
+										window.location.href="payfor_coupon2.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									}else{
+										window.location.href="payfor_coupon.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									}
 								}else{
-									window.location.href="payfor_coupon.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									if(paymentType == 1){
+										window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									}else{
+										window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									}
 								}
-							}else{
+							},
+							error: function(xhr,status){
+								console.log("error"+xhr+status);
 								if(paymentType == 1){
 									window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 								}else{
 									window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 								}
 							}
-						},
-						error: function(xhr,status){
-							console.log("error"+xhr+status);
-							if(paymentType == 1){
-								window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
-							}else{
-								window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
-							}
-						}
-					});*/
-					window.location.href="pay_byuser.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
-					
-
+						});
+					}
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					//查用户信息对接智齿客服

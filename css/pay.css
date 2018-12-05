@@ -44,7 +44,7 @@ body { background: #f6f9f9; }
 .content .anomaly-name .improve ul li span { padding-left: .15rem;}
 .content .look-more { display: flex; justify-content: center; align-items: center; font-size: .26rem;color: #333; padding-top: .3rem;}
 .content .look-more .hand {width: .32rem; height: .5rem; background: url(../img/120/hand.png) no-repeat; background-size: 100%; margin-left: .08rem;}
-.btn-more { font-size: .3rem; width: 6.6rem; height: .88rem;background: #ff3e3f; color: #fff; line-height: .88rem; margin: .33rem auto;text-align: center; border-radius: 1rem; }
+.btn-more { font-size: .3rem; width: 6.6rem; height: .88rem;background: #ff3e3f; color: #fff; line-height: .88rem; margin: .33rem auto 0;text-align: center; border-radius: 1rem; }
 /* 新用户支付页面 */
 .new-pay .pay-num { height: 2.3rem; background: #1eceb7; color: #fff; font-size: .3rem;text-align: center; }
 .new-pay .pay-num p { padding: .2rem 0 .1rem 0;/*font-family: myfont;*/ font-weight: bold;}
@@ -100,5 +100,5 @@ body { background: #f6f9f9; }
 .new-pay .list-box .table .specialist ul li .text .detail { font-size: .24rem; color: #a1a1a1; }
 .new-pay .look-btn { width: 4rem; height: .68rem;text-align: center; line-height: .68rem;color: #fff; font-size: .32rem;border-radius: 10rem; background: #ea3621; margin: 0 auto; }
 .new-pay .hint { color: #7e7e7e; font-size: .22rem;text-align: center; padding: .2rem 0; line-height: .22rem;}
-.new-pay .foot { color: #fff; background: #1eceb7; font-size: .22rem;height: .45rem;text-align: center; line-height: .45rem;}
+.new-pay .foot { color: #fff; background: #1eceb7; font-size: .22rem; text-align: center; line-height: .45rem; padding: 0 .12rem;}
 

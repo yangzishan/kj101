@@ -251,15 +251,23 @@ new Vue({
 			window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
 		},
 		updateBmi: function(){
-			$.post(analysisreport+'/v3/reportData/UpdateHeightAndWeight',
-				{
-					reportId: reportId,
-					userId : this.userId,
-					height : this.height,
-					weight : this.weight
-				},
-				function(data){console.log('更新bmi')}
-			)
+			if(parseFloat(this.height)>250 || parseInt(this.height)<50){
+				alert('请输入正确的身高');
+				return;
+			}else if(parseFloat(this.weight)>200 || parseInt(this.weight)<20){
+				alert('请输入正确的体重');
+				return;
+			}else{
+				$.post(analysisreport+'/v3/reportData/UpdateHeightAndWeight',
+					{
+						reportId: reportId,
+						userId : this.userId,
+						height : this.height,
+						weight : this.weight
+					},
+					function(data){console.log('更新bmi')}
+				)
+			}	
 		}
 	},
 })

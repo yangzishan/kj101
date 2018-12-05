@@ -37,7 +37,7 @@ $.ajax({
 				if(indexData.code == 201){
 					var sameUser = indexData.data.sameUser;
 					//var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
-					window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+					window.location.href="pay_byuser.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;
 					$('.my_view').css("visibility","visible");

@@ -32,7 +32,18 @@ $('#age').blur(function(){
 			return;
 		}
 	}, 100);
-	
+});
+$('#_height').blur(function(){
+	if(parseFloat($(this).val())>250 || parseInt($(this).val())<50){
+		alert('请输入正确的身高');
+		return;
+	}
+});
+$('#_weight').blur(function(){
+	if(parseFloat($(this).val())>200 || parseInt($(this).val())<20){
+		alert('请输入正确的体重');
+		return;
+	}
 });
 
 //点击获取短信验证码

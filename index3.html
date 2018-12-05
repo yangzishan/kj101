@@ -271,12 +271,12 @@
 				<div v-show="isShow" class="alter-box">
 					<div class="write">
 						<span>身高：</span>
-						<div><input type="number" id="_height" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+						<div><input type="number" id="_height" max="250" min="50" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
 						<span>cm</span>
 					</div>
 					<div class="write">
 						<span>体重：</span>
-						<div><input type="number" id="_weight" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+						<div><input type="number" id="_weight" max="200" min="20" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
 						<span>kg</span>
 					</div>
 					<div class="confirm" @click="sure()">确定</div>

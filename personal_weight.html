@@ -22,7 +22,6 @@
 	<em class="dele">KG</em>
 </div>
 
-<!--<input type="hidden" id="userId" value="101" />-->
 <p class="d-out"><button class="mbtn-sub bg-off" disabled="disabled">保存</button></p>
 
 </section>	
@@ -83,9 +82,12 @@ $(window).load(function(){
 	
 	
 	$(".mbtn-sub").click(function(){
+		if(parseFloat($('#weight').val())>200 || parseInt($('#weight').val())<20){
+			alert('请输入正确的体重');
+			return;
+		}
 		$(this).attr("disabled",true);
 		var myweight = $('#weight').val();
-		//var bbb = $("#userId").val();
 		var userInfo = {
 			weight : myweight,
 			userId : myuserId

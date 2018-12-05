@@ -180,40 +180,44 @@ var myApp = new Vue({
 				error: function(){alert('indexAll error')}
 			});
 		},
-		//判断优惠券
+		//判断优惠券 /支付
 		participate: function(paymentType,sameUser){
-			$.ajax({
-				type:"post",
-				url:couponData+"/vi/send/coupon/participate",
-				async:true,
-				dataType : 'json',
-				data : {
-				    inspectCode : reportId
-				},
-				success: function(data){
-					if(data.code == 0){
-						if(paymentType == 2){
-							window.location.href="payfor_coupon2.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			if(paymentType == 3){
+				window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			}else{
+				$.ajax({
+					type:"post",
+					url:couponData+"/vi/send/coupon/participate",
+					async:true,
+					dataType : 'json',
+					data : {
+					    inspectCode : reportId
+					},
+					success: function(data){
+						if(data.code == 0){
+							if(paymentType == 2){
+								window.location.href="payfor_coupon2.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+							}else{
+								window.location.href="payfor_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+							}
 						}else{
-							window.location.href="payfor_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+							if(paymentType == 1){
+								window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+							}else{
+								window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+							}
 						}
-					}else{
+					},
+					error: function(){
+						console.log('participate error');
 						if(paymentType == 1){
 							window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 						}else{
 							window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 						}
 					}
-				},
-				error: function(){
-					console.log('participate error');
-					if(paymentType == 1){
-						window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-					}else{
-						window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-					}
-				}
-			});
+				});
+			}		
 		},
 		//介绍弹窗
 		popTen: function(e){

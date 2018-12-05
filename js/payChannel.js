@@ -351,7 +351,7 @@ var myApp = new Vue({
 				    inspectCode : reportId
 				},
 				success: function(data){
-					if(data.code == 0){ vm.isShow = false }
+					if(data.code == 0){ vm.isShow = true }
 				}
 			});
 		}

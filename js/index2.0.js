@@ -8,7 +8,7 @@ function GetQueryString(name) {
 };
 var reportId = GetQueryString('reportId');
 var openId = GetQueryString('openId');
-var edition = 120;
+var edition = 2;  //2.0报告
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
 var myApp = new Vue({
@@ -70,7 +70,7 @@ var myApp = new Vue({
 					}else if(data.code == 302){
 						window.location.href="equipmentUnable.html"
 					}else{
-						console.log('没有解析到新报告,' + data.msg);
+						console.log('analysisReport code='+ data.code + data.msg);
 						$('.load-overlay').css("display","none");
 						$('#error_con').css("display","block");
 					}
@@ -94,7 +94,7 @@ var myApp = new Vue({
 					if(indexData.code == 201){
 						_this.sameUser = indexData.data.sameUser;
 						_this.paymentType = indexData.data.paymentType;
-						_this.participate(_this.sameUser,_this.paymentType);  //执行判断优惠券
+						_this.participate(_this.paymentType,_this.sameUser);  //执行判断优惠券
 					}else if(indexData.code == 200){
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
@@ -116,6 +116,7 @@ var myApp = new Vue({
 				  		_this.midNum = indexData.data.map.list3.length;
 				  		_this.abnormalName = indexData.data.map.abnormalName;
 				  		_this.userId = indexData.data.userId;
+				  		_this.targetImprove(_this.userId); //调用与上份报告对比
 				  		
 				  		//总分动画效果
 						setTimeout(function(){
@@ -197,7 +198,7 @@ var myApp = new Vue({
 						});
 						var _offset = sessionStorage.getItem("offsetTop");
 						$(document).scrollTop(_offset); // 记录滚动位置
-
+						
 					}
 				},
 				error: function(){alert('indexAll error')}
@@ -220,28 +221,12 @@ var myApp = new Vue({
 							$('#v_change').empty();
 							return
 						}else{
-							_this.code = data.code,
 							_this.lastDateStr = data.data.lastDateStr, //上次检测日期
 							_this.currentDateStr = data.data.currentDateStr, //当前检测日期
 							_this.okImproves = data.data.okImproves, //已改善
 							_this.noImproves = data.data.noImproves //为改善
 						}
-						
-						/*var myApp2 = new Vue({
-							el:'#v_change',
-							data:{
-								code: data.code,
-								lastDateStr: data.data.lastDateStr, //上次检测日期
-								currentDateStr: data.data.currentDateStr, //当前检测日期
-								okImproves: data.data.okImproves, //已改善
-								noImproves: data.data.noImproves //为改善
-							},
-							filters:{
-					    		getThirdHref:function(val){
-					            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
-					       		}
-						  	}
-						});*/
+					
 						//介绍弹窗
 						$('#zbgs_tc').on("click",function(event){
 							event.stopPropagation();
@@ -258,7 +243,7 @@ var myApp = new Vue({
 						var changeVal = sessionStorage.getItem("changeTab");
 						$('.change_tab span').eq(changeVal).addClass('on').siblings().removeClass('on');
 						$('.changeShow').eq(changeVal).css("display","block").siblings('.changeShow').css("display","none");
-						$(document).scrollTop(_offset);
+						//$(document).scrollTop(_offset);
 						//判断class
 						$('.change_list li .s2').each(function(index){
 							if($(this).text()=='正常'){
@@ -288,43 +273,10 @@ var myApp = new Vue({
 			
 			
 		},
-		
-		
-		
+
 		//判断优惠券
 		participate: function(paymentType,sameUser){
-			$.ajax({
-				type:"post",
-				url:couponData+"/vi/send/coupon/participate",
-				async:true,
-				dataType : 'json',
-				data : {
-				    inspectCode : reportId
-				},
-				success: function(data){
-					if(data.code == 0){
-						if(paymentType == 2){
-							window.location.href="payfor_coupon2.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-						}else{
-							window.location.href="payfor_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-						}
-					}else{
-						if(paymentType == 1){
-							window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-						}else{
-							window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-						}
-					}
-				},
-				error: function(){
-					console.log('participate error');
-					if(paymentType == 1){
-						window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-					}else{
-						window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-					}
-				}
-			});
+			window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 		},
 		//介绍弹窗
 		popTen: function(e){

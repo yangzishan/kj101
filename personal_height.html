@@ -82,8 +82,11 @@ $(window).load(function(){
 	});
 	
 	$(".mbtn-sub").click(function(){
+		if(parseFloat($('#rise').val())>250 || parseInt($('#rise').val())<50){
+			alert('请输入正确的身高');
+			return;
+		}
 		var myheight = $('#rise').val();
-		//var bbb = $("#userId").val();
 		var userInfo = {
 			height : myheight,
 			userId : myuserId
