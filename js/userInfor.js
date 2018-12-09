@@ -123,6 +123,12 @@ $('#dxYzm , #mobile').blur(function(){
 });
 
 $('#nextAll').on("click",function(){
+	if($('#nickName').length > 0){
+		if($('#nickName').val() == ''){
+			showMask('请输入您的姓名');	
+			return ;
+		}
+	};
 	var age = parseInt($('#age').val());
 	if(age < 18 || age >80 ||  isNaN(age)){
 		showMask('请输入18到80之间的有效年龄');

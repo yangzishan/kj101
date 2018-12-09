@@ -13,7 +13,7 @@
 </head>
 <body>
 <div class="new-pay my_view" style="display: none;">
-<section id="newuser" style="padding-bottom: .9rem;">
+<section id="newuser">
 	<div class="pay-num"><p>您是第<span>{{userIdstr}}</span>位检测的用户</p></div>
    <div class="list-box">
    		<!--风险指标数目-->
@@ -90,11 +90,11 @@
         </div>
    </div>
     <!--红色查看按钮 -->
-    <!--<div class="look-btn" id="pay">关爱健康，点击查看</div>-->
+    <div class="look-btn" id="pay">关爱健康，点击查看</div>
     <p class="hint"><span v-show="isShow">支付成功即可获得10元优惠券</span></p>
     <div class="foot">入选工业和信息化部、民政部、国家卫生健康委员会公布的《智慧健康养老产品及服务推广目录》</div>	
 </section>
-<section id="olduser" style="padding-bottom: .9rem;">
+<section id="olduser">
 	<div class="health-top">
         <div class="title">
             <div class="img"><img src="img/120/hi.png"></div>
@@ -163,15 +163,9 @@
             <div class="hand"></div>
         </div>
     </div>
-    <!--<div id="pay" class="btn-more">关爱健康，点击查看</div>-->
+    <div id="pay" class="btn-more">关爱健康，点击查看</div>
     <p class="hint"><span v-show="isShow">支付成功即可获得10元优惠券</span></p>
 </section>
-
-	<div class="pay-x-fix">
-		<button class="pay" id="pay">支 付</button>
-		<span class="price">优惠价:<font>￥{{price}}</font></span>
-		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
-	</div>
    
     <div class="sl-pay">
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>

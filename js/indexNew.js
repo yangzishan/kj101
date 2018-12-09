@@ -4,8 +4,8 @@ function GetQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myReportId = GetQueryString('reportId');
-var myopenId = GetQueryString('openId');
+var reportId = GetQueryString('reportId');
+var openId = GetQueryString('openId');
 var edition = 2;
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
@@ -14,8 +14,8 @@ $.ajax({
 	type : "POST",
 	dataType : 'json',
 	data : {
-	    reportId : myReportId,
-	    openId : myopenId
+	    reportId : reportId,
+	    openId : openId
 	},
 	success: function(data){
 		//alert('analysisReport code='+data.code); // 调试
@@ -25,8 +25,8 @@ $.ajax({
 			type : "POST",
 			dataType : 'json',
 			data : {
-			    reportId : myReportId,
-				openId : myopenId
+			    reportId : reportId,
+				openId : openId
 			},
 			success : function(indexData) {
 				if(indexData.code == 201){
@@ -34,36 +34,36 @@ $.ajax({
 					var sameUser = indexData.data.sameUser;
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
 					if(paymentType == 3){
-						window.location.href="pay_byuser.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+						window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 					}else{
 						$.ajax({
 							type:"post",
 							url: couponData+"/vi/send/coupon/participate",
 							dataType : 'json',
 							data : {
-							    inspectCode : myReportId
+							    inspectCode : reportId
 							},
 							success: function(payTypeData){
 								if(payTypeData.code == 0){
 									if(paymentType == 2){
-										window.location.href="payfor_coupon2.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+										window.location.href="payfor_coupon2.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 									}else{
-										window.location.href="payfor_coupon.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+										window.location.href="payfor_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 									}
 								}else{
 									if(paymentType == 1){
-										window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+										window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 									}else{
-										window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+										window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 									}
 								}
 							},
 							error: function(xhr,status){
 								console.log("error"+xhr+status);
 								if(paymentType == 1){
-									window.location.href="payfor_tj.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 								}else{
-									window.location.href="payfor.html?reportId=" + myReportId + '&openId=' + myopenId + "&sameUser=" + sameUser + "&edition="+edition;
+									window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 								}
 							}
 						});
@@ -96,7 +96,7 @@ $.ajax({
 								zhiManager.set('uname',userData.data.userName);
 								zhiManager.set('realname',userData.data.userName);
 								zhiManager.set('tel',userData.data.mobile);
-								zhiManager.set('remark','报告ID： '+myReportId);
+								zhiManager.set('remark','报告ID： '+reportId);
 								zhiManager.on("load", function() {
 									zhiManager.initBtnDOM();
 								});
@@ -127,7 +127,7 @@ $.ajax({
 					  	},
 					  	filters:{
 				    		getSecondHref:function(val){
-				            return 'second2.html?reportId='+myReportId+'&userId='+userId+ '&targetFirstId=' + val 
+				            return 'second2.html?reportId='+reportId+'&userId='+userId+ '&targetFirstId=' + val 
 				       		}
 					  	}
 					});
@@ -196,7 +196,7 @@ $.ajax({
 					console.log(insDate);
 					if(insDate.getTime() - setDate.getTime() > 0){
 						$('.sy_summary .gosp').css("display","block");
-						$('.sy_summary .gosp').attr("href","recipes.html?reportId="+ myReportId);
+						$('.sy_summary .gosp').attr("href","recipes.html?reportId="+ reportId);
 					};
 					//身体状况程度条
 					$('.zhuangk_c .c_li').each(function(){
@@ -257,9 +257,9 @@ $.ajax({
 					},200);
 					
 					//跳转历史报告
-					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
+					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + openId + '&reportId=' + reportId);
 					//跳转用户设置
-					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ myReportId);
+					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ reportId);
 					
 					//生理年龄图
 					var arraySlnl=[],arrayXt=[];
@@ -285,7 +285,7 @@ $.ajax({
 						type : "POST",
 						dataType : 'json',
 						data : {
-						    reportId : myReportId,
+						    reportId : reportId,
 						    userId : userId
 						},
 						success : function(data) {
@@ -305,7 +305,7 @@ $.ajax({
 									},
 									filters:{
 							    		getThirdHref:function(val){
-							            return 'third.html?reportId='+myReportId+'&targetId='+ val + '&userId='+userId
+							            return 'third.html?reportId='+reportId+'&targetId='+ val + '&userId='+userId
 							       		}
 								  	}
 								});
@@ -369,7 +369,7 @@ $.ajax({
 				type : "POST",
 				dataType : 'json',
 				data : {
-				    reportId : myReportId  //替换变量 myReportId
+				    reportId : reportId  //替换变量 reportId
 				},
 				success: function(improvesData){
 					//alert('get it');
@@ -410,7 +410,7 @@ $.ajax({
 								};
 							};
 							//跳转建议 
-							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ myReportId);
+							$('.sy_summary .gojy').attr("href","z_pop.html?reportId="+ reportId);
 						}
 					}else{
 						//console.log('首页请求getSuggest成功,但数据不正确')
@@ -423,11 +423,11 @@ $.ajax({
 			});
 
 		}else if(data.code == 402){
-			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+			window.location.href="userInfor.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 		}else if(data.code == 405){
-			window.location.href="userInfor.html?reportId=" + myReportId + "&openId=" + myopenId + "&edition="+edition;
+			window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
 		}else if(data.code == 403){
-			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition="+edition;
+			window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 		}else if(data.code == 302){
 			window.location.href="equipmentUnable.html"
 		}else{

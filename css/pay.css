@@ -102,3 +102,10 @@ body { background: #f6f9f9; }
 .new-pay .hint { color: #7e7e7e; font-size: .22rem;text-align: center; padding: .2rem 0; line-height: .22rem;}
 .new-pay .foot { color: #fff; background: #1eceb7; font-size: .22rem; text-align: center; line-height: .45rem; padding: 0 .12rem;}
 
+/*支付按钮修改 */
+.pay-x-fix{ position: fixed; bottom: 0; width: 100%; max-width: 750px; height: .88rem; background: #fff;}
+.pay-x-fix .pay{ float: right; width: 2.2rem; height: .88rem; background: #f13733; color: #fff; text-align: center; font-size: .3rem; font-weight: bold; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
+.pay-x-fix .price{ height: .88rem; line-height: .88rem; float: right; font-size: .3rem; margin-right: .2rem;}
+.pay-x-fix .price font{ font-size: .46rem; color: #f13733; font-weight: bold;}
+.pay-x-fix .oprice{ padding-left: .2rem; line-height: .88rem; color: #999; font-size: .3rem;}
+.pay-x-fix .oprice font{ font-weight: bold;text-decoration: line-through;}

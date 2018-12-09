@@ -59,11 +59,11 @@ new Vue({
 					if(data.code == 200){
 						_this.queryNewReportDataByReportId(); // 执行获取首页数据
 					}else if(data.code == 402){
-						window.location.href="userInfor"+edition+".html?reportId=" + reportId+"&userId=" + data.data.userId + "&openId=" + openId + "&edition="+edition;
+						window.location.href="userInfor"+edition+".html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 405){
 						window.location.href="userInfor"+edition+".html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 403){
-						window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.userId + "&openId=" + openId + "&edition="+edition;
+						window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 302){
 						window.location.href="equipmentUnable.html"
 					}else{
