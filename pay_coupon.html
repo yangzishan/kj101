@@ -49,18 +49,14 @@
 		</div>
 	</div>
 	
-	
-	<a class="gocheckmx" href="indicators.html">点击查看指标明细<i></i></a>
-	<p class="pay_tj_yc">
-		本次检测您有<span v-if="midAbnormal"><em>{{midAbnormal}}</em>项为中度风险<br/></span><span v-if="litAbnormal"><em>{{litAbnormal}}</em>项为轻度风险</span>
-	</p>
-	
-	<div class="pay_tj_tip" style="padding:0 .15rem;">
-		为您提供专属的<em>食谱、营养素、运动及生活方式建议</em>
+	<div style="padding: 0 .15rem 1.35rem;">
+		<a class="gocheckmx" href="indicators.html">点击查看指标明细<i></i></a>
+		<p class="pay_tj_yc">
+			本次检测您有<span v-if="midAbnormal"><em>{{midAbnormal}}</em>项为中度风险<br/></span><span v-if="litAbnormal"><em>{{litAbnormal}}</em>项为轻度风险</span>
+		</p>
+		<div class="pay_tj_tip" style="padding:0 .15rem;">为您提供专属的<em>食谱、营养素、运动及生活方式建议</em></div>
+		<p v-show="isShow" style=" font-size: .3rem; text-align: center; color: #1aa78e;">微信支付成功，即可获得<em style="font-size: .4rem; color: #e73005;">10元</em>优惠券</p>
 	</div>
-	
-	<p style="padding: 0 .15rem 1.35rem; font-size: .3rem; text-align: center; color: #1aa78e;">微信支付成功，即可获得<em style="font-size: .4rem; color: #e73005;">10元</em>优惠券</p>
-
 	
 	<div class="fix-tpp">
 		<p>您的整体身体状况好于<font>{{ranking}}%</font>的同龄人<em class="aa a1"></em></p>
@@ -93,10 +89,8 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js?t=201805022"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<!--<script type="text/javascript" src="js/payChannel.js?t=20181101"></script>-->
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -111,7 +105,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);

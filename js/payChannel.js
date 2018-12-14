@@ -358,7 +358,7 @@ var myApp = new Vue({
 
 	}
 });
-//获取url参数方法
+//获取url参数
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
     if (result == null || result.length < 1) {
@@ -383,8 +383,7 @@ function oldUserTrend(el,dateArr,scoreArr){
 	setTimeout(function(){ 
 		var myChart = echarts.init(document.getElementById(el));
 	    var option = {
-	      // 距离左右的距离
-			grid:{
+			grid:{// 距离左右的距离
 				left:'10%',
 				right:'5%',
 				top:28,
@@ -396,27 +395,23 @@ function oldUserTrend(el,dateArr,scoreArr){
 				splitLine:{
 					show:false
 				},
-				// X轴名称样式
-				nameTextStyle:{
+				nameTextStyle:{// X轴名称样式
 					color:'#9f9f9f',
 				},
-				// X轴字体样式
-				axisLabel: {
+				axisLabel: {// X轴字体样式
 					show: true,
 					textStyle: {
 						color :"#adafaf",
 						//color: '#4aa59e'
 					}
 				},
-				// 坐标轴样式
-				axisLine:{
+				axisLine:{// 坐标轴样式
 					lineStyle:{
 						color:'#e2e2e2',
 						width:'3',
 					},
 				},
-				// 刻度样式
-				axisTick:{
+				axisTick:{// 刻度样式
 					show:false,
 					inside:true,
 					lineStyle:{
@@ -465,7 +460,6 @@ function oldUserTrend(el,dateArr,scoreArr){
 			}],
 			
 		};
-	    // 使用刚指定的配置项和数据显示图表。
 		myChart.setOption(option);
 		},
 	100)

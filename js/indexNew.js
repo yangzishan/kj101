@@ -36,39 +36,11 @@ $.ajax({
 					if(paymentType == 3){
 						window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 					}else if(paymentType == 4){
-						window.location.href="payType4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+						window.location.href="pay_type4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+					}else if(paymentType == 2){
+						window.location.href="pay_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 					}else{
-						$.ajax({
-							type:"post",
-							url: couponData+"/vi/send/coupon/participate",
-							dataType : 'json',
-							data : {
-							    inspectCode : reportId
-							},
-							success: function(payTypeData){
-								if(payTypeData.code == 0){
-									if(paymentType == 2){
-										window.location.href="payfor_coupon2.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-									}else{
-										window.location.href="payfor_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-									}
-								}else{
-									if(paymentType == 1){
-										window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-									}else{
-										window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-									}
-								}
-							},
-							error: function(xhr,status){
-								console.log("error"+xhr+status);
-								if(paymentType == 1){
-									window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-								}else{
-									window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-								}
-							}
-						});
+						window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 					}
 				}else if(indexData.code == 200){
 					var userId = indexData.data.userId;

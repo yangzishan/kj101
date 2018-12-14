@@ -97,7 +97,7 @@ var myApp = new Vue({
 					if(indexData.code == 201){
 						_this.sameUser = indexData.data.sameUser;
 						_this.paymentType = indexData.data.paymentType;
-						_this.participate(_this.paymentType,_this.sameUser);  //执行判断优惠券
+						_this.participate(_this.paymentType,_this.sameUser);  //执行支付判断
 					}else if(indexData.code == 200){
 						if(indexData.data.map.deviceReport == 121){
 							_this.showTip(); //不让看报告
@@ -180,45 +180,16 @@ var myApp = new Vue({
 				error: function(){alert('indexAll error')}
 			});
 		},
-		//判断优惠券 /支付
+		//判断 /支付
 		participate: function(paymentType,sameUser){
 			if(paymentType == 3){
 				window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 			}else if(paymentType == 4){
-				window.location.href="payType4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+				window.location.href="pay_type4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			}else if(paymentType == 2){
+				window.location.href="pay_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 			}else{
-				$.ajax({
-					type:"post",
-					url:couponData+"/vi/send/coupon/participate",
-					async:true,
-					dataType : 'json',
-					data : {
-					    inspectCode : reportId
-					},
-					success: function(data){
-						if(data.code == 0){
-							if(paymentType == 2){
-								window.location.href="payfor_coupon2.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-							}else{
-								window.location.href="payfor_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-							}
-						}else{
-							if(paymentType == 1){
-								window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-							}else{
-								window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-							}
-						}
-					},
-					error: function(){
-						console.log('participate error');
-						if(paymentType == 1){
-							window.location.href="payfor_tj.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-						}else{
-							window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
-						}
-					}
-				});
+				window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 			}		
 		},
 		//介绍弹窗
