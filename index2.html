@@ -157,7 +157,7 @@
     </div>
     <div class="changeShow">
     	<ul class="change_list">
-	    	<li v-for="item in okImproves">
+	    	<li v-for="item in okImproves" v-if="item.lastLevel != 4">
 	    		<a :href="item.targetId|getThirdHref">
 	    		<span class="s1 fl">{{item.tagetName}}</span>
 	    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>

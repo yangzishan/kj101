@@ -237,7 +237,7 @@ function creatUser(mobile,age,dxYzm,checkCode){
 		age : age,
 		height : parseInt($('#_height').val()),
 		weight : parseInt($('#_weight').val()),
-		nickName : $('#nickName').val(),
+		userName : $('#nickName').val(),
 		relatedNo : $('#relatedNo').val(),
 		idCardNo : $('#identity').val(),
 		openId : openId

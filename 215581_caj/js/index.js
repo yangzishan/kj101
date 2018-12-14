@@ -269,9 +269,9 @@ $.ajax({
 				}
 			});
 		}else if(data.code == 402){
-			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId;
+			window.location.href="userInfor.html?reportId=" + myReportId+"&userId=" + data.data.customerId + "&openId=" + myopenId;
 		}else if(data.code == 403){
-			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.userId + "&openId=" + myopenId + "&edition=";
+			window.location.href="supAge.html?reportId=" + myReportId+"&userId=" + data.data.customerId + "&openId=" + myopenId + "&edition=";
 		}else{
 			console.log('没有解析到新报告,' + data.msg);
 			$('.load-overlay').css("display","none");

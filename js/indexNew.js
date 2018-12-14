@@ -35,6 +35,8 @@ $.ajax({
 					var paymentType = indexData.data.paymentType;  //判断用哪个支付页面
 					if(paymentType == 3){
 						window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+					}else if(paymentType == 4){
+						window.location.href="payType4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
 					}else{
 						$.ajax({
 							type:"post",

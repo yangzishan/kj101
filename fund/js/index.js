@@ -4,8 +4,8 @@ function GetQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myReportId = GetQueryString('reportId');
-var myopenId = GetQueryString('openId');
+var reportId = GetQueryString('reportId');
+var openId = GetQueryString('openId');
 var edition = 100;
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
@@ -14,8 +14,8 @@ $.ajax({
 	type : "POST",
 	dataType : 'json',
 	data : {
-	    reportId : myReportId,
-	    openId : myopenId
+	    reportId : reportId,
+	    openId : openId
 	},
 	success: function(data){
 		if(data.code == 200){
@@ -25,7 +25,7 @@ $.ajax({
 				type : "POST",
 				dataType : 'json',
 				data : {
-				    reportId : myReportId  
+				    reportId : reportId  
 				},
 				success:function(improvesData){
 					if(improvesData.code == 200){
@@ -65,8 +65,8 @@ $.ajax({
 				type : "POST",
 				dataType : 'json',
 				data : {
-			    	reportId : myReportId,
-					openId : myopenId
+			    	reportId : reportId,
+					openId : openId
 				},
 				success : function(indexData) {
 					if(indexData.code == 200){
@@ -180,11 +180,11 @@ $.ajax({
 						//$('.bdy-c2 .li_c:last p em').css("display","inline-block");
 					    //指标解读判断跳转  
 					    $('#go_det').on("click",function(){
-					    	window.location.href = "z_pop.html?reportId="+myReportId;
+					    	window.location.href = "z_pop.html?reportId="+reportId;
 					    });
 					    //三级指标跳转判断
 					    $('.xqbaogao .con .lec dd').on("click",function(){
-					    	window.location.href = 'third.html?reportId='+myReportId+'&targetId='+$(this).attr("targetthirdid")+'&userId='+userId
+					    	window.location.href = 'third.html?reportId='+reportId+'&targetId='+$(this).attr("targetthirdid")+'&userId='+userId
 					    });
 					    //判断是否显示食谱入口
 						var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
@@ -194,7 +194,7 @@ $.ajax({
 						if(insDate.getTime() - setDate.getTime() > 0){
 							$('#showSp').css("display","block");
 							$('#go_sp').on("click",function(){
-								window.location.href = "../recipes.html?reportId="+ myReportId;
+								window.location.href = "../recipes.html?reportId="+ reportId;
 							});
 						};
 					    
@@ -269,11 +269,11 @@ $.ajax({
 					    });
 						
 						//跳转支付页
-						$('#gopay').attr("href","payfor.html?reportId=" + myReportId + '&openId=' + myopenId +"&sameUser=" +indexData.data.map.sameUser+ "&edition="+edition);
+						$('#gopay').attr("href","payfor.html?reportId=" + reportId + '&openId=' + openId +"&sameUser=" +indexData.data.map.sameUser+ "&edition="+edition);
 						//跳转历史报告页
-						$('#checkHistory').attr("href","../reportHistory.html?&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
+						$('#checkHistory').attr("href","../reportHistory.html?&userId=" + userId + "&openId=" + openId + '&reportId=' + reportId);
 						//跳转用户设置
-						$('#goSetUp').attr("href","../personalData.html?&userId=" + userId + '&reportId='+ myReportId);
+						$('#goSetUp').attr("href","../personalData.html?&userId=" + userId + '&reportId='+ reportId);
 						
 						//介绍弹窗
 						$('.openpop').on("click",function(){
@@ -296,11 +296,11 @@ $.ajax({
 
 
 		}else if(data.code == 402){
-			window.location.href="../userInfor.html?reportId="+myReportId+"&userId="+data.data.userId+"&openId="+myopenId+"&edition="+edition;
+			window.location.href="../userInfor.html?reportId="+reportId+"&userId="+data.data.customerId+"&openId="+openId+"&edition="+edition;
 		}else if(data.code == 405){
-			window.location.href="../userInfor.html?reportId="+myReportId+"&openId="+myopenId+"&edition="+edition;
+			window.location.href="../userInfor.html?reportId="+reportId+"&openId="+openId+"&edition="+edition;
 		}else if(data.code == 403){
-			window.location.href="../supAge.html?reportId="+myReportId+"&userId="+data.data.userId+"&openId="+myopenId+"&edition="+edition;
+			window.location.href="../supAge.html?reportId="+reportId+"&userId="+data.data.customerId+"&openId="+openId+"&edition="+edition;
 		}else if(data.code == 302){
 			window.location.href="../equipmentUnable.html"
 		}else{
