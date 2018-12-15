@@ -125,19 +125,6 @@ $.ajax({
 						$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");
 						
 					});
-					///// 诸葛事件例子
-					/*$(".tenSys_c a").click(function() {
-						alert(1231);
-						var link = $(this);
-						zhuge.track('菜单导航', {
-						'menuName': '123456'
-						},
-						function() {
-						location.href = link.attr('href'); //继续跳转到⽬标⻚⾯
-						});
-						return false;
-					});*/
-					/////
 					//系统介绍弹窗
 					$('.tenSys_c a .s-inf .lab .pop').on("click",function(event){
 						event.stopPropagation();
