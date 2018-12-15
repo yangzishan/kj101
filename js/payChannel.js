@@ -46,6 +46,8 @@ var myApp = new Vue({
 			firstlist:'',
 			easysize: '', hardsize: '',   //新用户风险指标数目
 			doctor:'',
+			
+			
 		}
 	},
 	mounted: function() {
