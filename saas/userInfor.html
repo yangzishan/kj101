@@ -9,14 +9,19 @@
 <title>用户信息</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t='+new Date().getTime() +'" />')</script>
 </head>
 <body class="bck-col-fff">
 <section class="my_view">
-<div class=""><img src="img/login_t.jpg" class="img_b"></div>
+	
+<div v-if="saasId == '214913'" class="ban_rebg"><img src="img/logo_tsj.png" class="img_b"></div>
+<div v-else><img src="img/login_t.jpg" class="img_b"></div>
+
+
 <div class="d_login" style="height: 4.6rem;">
 	<div class="login_cn" id="cn1">
-		<p class="ctit">欢迎来到康加</p>
+		<p class="ctit" v-if="saasId=='214913'">欢迎来到探险家智能</p>
+		<p class="ctit" v-else>欢迎来到康加</p>
 		<p class="ctxt">
 			<input type="number" id="mobile" placeholder="请输入手机号" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)">
 		</p>
@@ -24,7 +29,8 @@
 	</div>
 	
 	<div class="login_cn" id="cn2">
-		<p class="ctit">欢迎来到康加</p>
+		<p class="ctit" v-if="saasId=='214913'">欢迎来到探险家智能</p>
+		<p class="ctit" v-else>欢迎来到康加</p>
 		<p class="ctxt">
 			<input type="number" id="dxYzm" placeholder="请输入验证码">
 		</p>
@@ -43,6 +49,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/getQueryString.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -62,6 +69,15 @@
 })(document, window);
 </script>
 <script>
+	
+var vm = new Vue({
+	el: ".my_view",
+	data: {
+		saasId : saasId
+	}
+});
+	
+	
 //弹窗 模拟alert
 function showMask(msg){
 	$('.tc-qx').each(function(){
@@ -78,7 +94,6 @@ function closeMask(){
 	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
 	$('#alert').css({"visibility":"hidden","opacity":"0"});
 }
-//showMask('哈哈哈哈');
 
 //手机号校验
 $('#sendMsg').attr("disabled",true);
