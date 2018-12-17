@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+    <meta content="telephone=no" name="format-detection" />
+    <title>皮肤报告</title>
+    <link rel="stylesheet" href="css/basic.css">
+    <!--<link rel="stylesheet" href="css/skin.css">-->
+    <script>document.write('<link rel="stylesheet" href="css/skin.css?t='+new Date().getTime()+' >"')</script>
+</head>
+<body>
+    <div class="loadmore loading"></div>
+    <div id="app_index">
+        <div class="mask" @click="Touchmove();hidePhoto();" ></div>
+        <div class="popup">
+                <i class="close"  @click="Touchmove"></i>
+                <h1>{{skinData.diseaseResult}}</h1>
+                <div class="huadong">
+                    {{skinData.diseaseExpalin}}
+                </div>
+        </div>
+        <div class="photo">
+            <img :src="sex.more" alt="">
+        </div>
+      
+        <div class="personal" :style="`box-shadow:0 0 .2rem .1rem ${sex.yinColor};`">
+                <div class='user_history'>
+                    <span class="user">
+                        <img src="./img/skin/user.png" alt="">
+                        个人中心
+                    </span>
+                    <span class="history">
+                        <img src="./img/skin/history.png" alt="">
+                        历史趋势
+                    </span>
+                </div> 
+                <div class="data">
+                    <div class="data_top">
+                        <div class="data_left">
+                            <div class="progress">
+                                <span class="circle">
+                                    <div class="circle_pro" style="width: 2rem; height: 2rem; position: relative;">
+                                            <em style="position: absolute; top: 40%;left:50%; transform: translate(-50%,0); text-align:center; font-size:.9rem;">89</em><i style="position: absolute;bottom:.58rem;right:.26rem;">分</i>
+                                        </div>
+                                        <div id="angle" style="z-index: 992; width: .36rem; height: 1.1rem; position: absolute;top: -.1rem;left:50%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                                            <img class="img_b" :src="sex.dian">
+                                    </div>
+                                </span>
+                            </div>
+                            <h3 class="title" :style="'color:'+sex.color">皮肤良好</h3>
+                        </div>
+                        <div class="data_right">
+                            <div class="skin_quality" :style="'background-color:'+sex.bgColor">肤质：<i :style="'color:'+sex.color" class="skin_color" v-cloak>{{skinData.skinTypeResult}}</i></div>
+                            <div class="skin_age" :style="'background-color:'+sex.bgColor">肤龄：<i :style="'color:'+sex.color" class="skin_color" v-cloak>{{skinData.age}}</i></div>
+                            <div class="skin_color" :style="'background-color:'+sex.bgColor">肤色：<i :style="'color:'+sex.color" class="skin_color" v-cloak>{{skinData.color}}</i></div>
+                        </div>
+                    </div>
+                    <div class="data_bottom">
+                        <span class="bottom_span1"><img  class="popup_problem" src="img/skin/tips.png">皮肤问题</span>
+                        <span class="bottom_span2" v-cloak>{{skinData.diseaseResult}}<img @click='stopTouchmove' class="popup_question" src="./img/skin/question.png" alt=""></span>
+                    </div>
+                </div>
+        </div>
+        <div class="face">
+                <div class="face_img">
+                    <img class="big_face" :src="sex.face" alt="">
+                    <!-- <img class="more" src="./img/skin/more.png" alt=""> -->
+                    <div class="more"  @click="showPhoto">
+                        <span>查看<br>原图</span>
+                        <img :src="sex.more" alt="">
+                    </div>
+                    <img class="heitou" :style="sex.heitou" src="./img/skin/heitou.png" alt="">
+                    <img class="bandian" :style="sex.bandian" src="./img/skin/bandian.png" alt="">
+                    <img class="huangheban" :style="sex.huangheban" src="./img/skin/huangheban.png" alt="">
+                    <img class="doudou" :style="sex.doudou" src="./img/skin/doudou.png" alt="">
+                    <img class="fenci" :style="sex.fenci" src="./img/skin/fenci.png" alt="">
+                    <img class="zhouwen" :style="sex.zhouwen" src="./img/skin/zhouwen.png" alt="">
+                </div>
+                <div class="face_ul">
+                    <div class="left_ul">
+                        <div>
+                            <div class="skin_pimple skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="doudou" src="./img/skin/doudouxian.png" alt=""></div>
+                            <div class="skin_moisture skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="shuifen" src="./img/skin/shuifenxian.png" alt=""></div>
+                            <div class="skin_pore skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="maokong" src="./img/skin/maokongxian.png" alt=""></div>
+                            <div class="skin_blackhead skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="heitou" src="./img/skin/heitouxian.png" alt=""></div>
+                            <div class="skin_acne skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="fenci" src="./img/skin/fencixian.png" alt=""></div>
+                        </div>
+                    </div>
+                    <div class="right_ul">
+                        <div>
+                            <div class="skin_wrinkle skin_question"><i class="toShowQuestion">痘痘-5分</i><img src="./img/skin/zhouwenxian.png" alt=""></div>
+                            <div class="skin_texture skin_question"><i class="toShowQuestion">痘痘-5分</i><img src="./img/skin/wenlixian.png" alt=""></div>
+                            <div class="skin_spot skin_question"><i class="toShowQuestion">痘痘-5分</i><img src="./img/skin/bandianxian.png" alt=""></div>
+                            <div class="skin_chloasma skin_question"><i class="toShowQuestion">痘痘是-5分</i><img src="./img/skin/huanghebanxian.png" alt=""></div>
+                            <div class="skin_roughness skin_question"><i class="toShowQuestion">粉我刺-5分</i><img src="./img/skin/cucaoduxian.png" alt=""></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <!-- 重点关注 -->
+        <div class="key">
+                <h2><img src="./img/skin/warning.png" alt="">重点关注</h2>
+                <div class="question">
+                    <ul>
+                        <li v-for="(item,index) in skinData.majorList">
+                            <img :src="'./img/skin/pf-'+item.targetName+'-3.png'" alt="">
+                            <i  v-cloak>{{item.name}}</i>
+                            <span  v-cloak>{{item.score}}分</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="javascript:;" @click="goDetails($event)"  data-degree="skinMajor">查看详情及改善方案></a>
+        </div>
+        <!-- 有待改善 -->
+        <div class="warning">
+                <h2><img src="./img/skin/tanhao.png" alt="">有待改善</h2>
+                <div class="question">
+                    <ul>
+                        <li v-for="(item,index) in skinData.awaitList">
+                            <img :src="'./img/skin/pf-'+item.targetName+'-2.png'" alt=""> 
+                            <i v-cloak>{{item.name}}</i>
+                            <span v-cloak>{{item.score}}分</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="javascript:;"  data-degree="skinAwait" @click="goDetails($event)">查看详情及改善方案></a>
+        </div>
+        <!-- 继续保持 -->
+        <div class="keep">
+                <h2><img src="./img/skin/keep.png" alt="">继续保持</h2>
+                <div class="list">
+                    <ul>
+                        <li v-for="(item,index) in skinData.continueList">
+                            <img :src="'./img/skin/pf-'+item.targetName+'-1.png'" alt="">
+                            <i v-cloak>{{item.name}}</i>
+                            <span v-cloak>{{item.score}}分</span>
+                        </li>
+                    </ul>
+                </div>
+                <a href="javascript:;">非常好，继续保持~</a>
+        </div>
+        <!-- 天气 -->
+        <div class="weather">
+                <div class="head">
+                    <h1>天气护肤</h1>
+                    <span class="change_color"></span>
+                    <i></i>
+                </div>
+                <div class="body">
+                    <div class="top">
+                        <img src="./img/skin/address.png" alt="">
+                        <span><span v-cloak>{{weather.basic.admin_area}}</span>&nbsp;&nbsp;<span v-cloak>{{weather.basic.location}}</span></span>
+                    </div>
+                    <div class="box">
+                        <div class="left change_fcolor"  >
+                            <span v-cloak>{{weather.now.tmp}}</span>℃
+                        </div>
+                        <div class="right">
+                            <p><img :src="'./img/skin/'+weather.now.cond_code+'.png'" alt=""><span v-cloak>{{weather.now.cond_txt}}</span></p>
+                            <p><img src="./img/skin/shidu.png" alt=""><i  class="change_fcolor">湿度</i><span v-cloak>{{weather.now.hum}}%</span></p>
+                        </div>  
+                    </div>
+                </div>
+                <div class="foot">
+                    <h1  class="change_fcolor"><i class="change_color "></i>护肤建议</h1>
+                    <div class="blue change_color " >护肤建议：<span ><template v-for="(item,index) in waringName" v-cloak>{{item}}<i v-if="index<item.length">、</i></template></span></div>
+                    <div class="title" v-cloak>
+                        <p v-for="(item,index) in waringName">
+                            <i style="font-weight: 800">{{item}}:</i>
+                            {{waringIndex[index]}}
+                        </p>
+                    </div>
+                </div>
+        </div>
+        <div class="fixed">
+                <img src="./img/skin/fenxiang.png" alt="">
+        </div>
+    
+    </div>
+    <script src="./js/base.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="js/circle-progress.js"></script>
+    <script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js "></script>
+    <script type="text/javascript">
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>=750){
+                        docEl.style.fontSize = '100px';
+                    }else{
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+        
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script>
+        $(function(){
+            var reportCode = getQueryString('reportCode');
+            var openId = getQueryString('openId');
+            var writing =['清洁是皮肤护理的第一步，温和清洁，善待皮肤，保护肌肤屏障。','保湿是皮肤护理的第二步，合理保湿，皮肤柔软平滑，水润不紧绷。','多数皮肤问题都与日晒有关，防晒没有季节性，一定要尽早。','天气变差更要做好肌肤隔离，避免脏污进入皮肤。','保护肌肤屏障，远离敏感泛红。'];
+            var wriname = ['清洁','保湿','防晒','隔离','防敏感'];
+            new Vue({
+                el: '#app_index',
+                data:{
+                    skinData:{
+                        age:'',
+                        awaitList:'',
+                        color:'',
+                        continueList:'',
+                        diseaseExpalin:'',
+                        diseaseResult:'',
+                        filename:'',
+                        inspectScore:'',
+                        lowList:'',
+                        lowShow:[],
+                        majorList:'',
+                        skinTypeResult:''
+                    },
+                    sTop:0,
+                    weather:{
+                        now:{
+                            hum: '%',
+                            vis: '',
+                            pres: '',
+                            pcpn: '',
+                            fl: '',
+                            wind_sc: '',
+                            wind_dir: '',
+                            wind_spd: '',
+                            cloud: '',
+                            wind_deg: '',
+                            tmp: '0',
+                            cond_txt: '',
+                            cond_code: '100'
+                        },
+                        update: {
+                            loc: '',
+                            utc: ''
+                        },
+                        basic: {
+                            admin_area: '',
+                            tz:'',
+                            location:'-',
+                            lon: '',
+                            parent_city: '-',
+                            cnty: '',
+                            lat: '',
+                            cid: ''
+                        }
+                    },
+                    sex:{
+                        num:'1',
+                        color:'color:#4ba0ff;',
+                        bgColor:'background-color:#ecf5fe;',
+                        yinColor:'#e8f5f9',
+                        face:'./img/skin/newmanface.png',
+                        more:'./img/skin/yuehannidepu.jpg',
+                        heitou:'display:none',
+                        bandian:'display:none',
+                        huangheban:'display:none',
+                        doudou:'display:none',
+                        fenci:'display:none',
+                        zhouwen:'display:none',
+                        quan:'./img/skin/pro_m.png',
+                        dian:'img/skin/angle2.png'
+                    },
+                    waringIndex:'',
+                    waringName:''           
+                },
+                mounted:function(){
+                    this.loadData();
+                    this.getWeather();
+                    //this.getWx();
+                },
+                methods:{
+                    stopTouchmove:function(){
+                        $('.mask').addClass('show');
+                        $('.popup').addClass('show');
+                        sTop = $(window).scrollTop();
+                        $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});         
+                    },
+                    Touchmove:function(){
+                        $('.mask').removeClass('show');
+                        $('.popup').removeClass('show');
+                        $('body').css({'position':'static'}); 
+                        $(window).scrollTop(sTop);
+                    },
+                    showPhoto:function(){
+                        console.log(1)
+                        $('.mask').addClass('show');
+                        $('.photo').addClass('show');
+                        sTop = $(window).scrollTop();
+                        $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});
+                        // $('body .face .face_img .more').css({'right':'.68rem'});
+                    },
+                    hidePhoto:function(){
+                        console.log(2);
+                        $('.mask').removeClass('show');
+                        $('.photo').removeClass('show');
+                        $('body').css({'position':'static'}); 
+                        $(window).scrollTop(sTop);
+                    },
+                    loadData:function(){
+                        let that = this;
+                        $.ajax({
+                            url:dataUrl + '/api/v3/skinIndex/indexTarget',
+                            type:'POST',
+                            dataType:'JSON',
+                            data:{
+                                reportCode:'2222',  // reportCode
+                                openId:'oDOut0fcPQIPfIEiZovJged-49Ug'//openId:openId
+                            },
+                            success:function(res){
+                               if(res.code == 200){
+                                
+                                $('.loadmore.loading').css({'display':'none'});
+                                $('#app_index').css({'display':'block'});
+                                that.skinData = res.data;
+                                console.log(that.skinData)
+                                let arr = []
+                                for(let i = 0;i<that.skinData.lowList.length;i++){
+                                    arr.push('skin_'+that.skinData.lowList[i].targetName);
+                                    that.skinData.lowList[i] = that.skinData.lowList[i].name + that.skinData.lowList[i].diffScore + '分';
+                                    $('.'+arr[i]).css({'display':'block'}).find('.toShowQuestion').text(that.skinData.lowList[i])
+                                }
+                                that.skinData.lowShow = arr;
+                                that.sex.num = res.data.sex; 
+                                that.sex.color = res.data.sex == 1 ? '#4ba0ff' : '#ff4b6f';
+                                that.sex.bgColor = res.data.sex == 1 ? '#ecf5fe' : '#ffe9ed';                     
+                                that.sex.face = res.data.sex == 1 ? './img/skin/newmanface.png' : './img/skin/newwomanface.png';
+                                that.sex.yinColor = res.data.sex == 1 ? '#e8f5f9' : '#f5e7e7';
+                                that.sex.heitou = JSON.stringify(arr).indexOf('blackhead')!=-1 ? 'display:block;' : 'display:none;';
+                                that.sex.bandian = JSON.stringify(arr).indexOf('spot')!=-1 ? 'display:block;' : 'display:none;';
+                                that.sex.huangheban  = JSON.stringify(arr).indexOf('chloasma')!=-1 ? 'display:block;' : 'display:none;';
+                                that.sex.doudou = JSON.stringify(arr).indexOf('pimple')!=-1 ? 'display:block;' : 'display:none;';
+                                that.sex.fenci = JSON.stringify(arr).indexOf('acne')!=-1 ? 'display:block;' : 'display:none;';
+                                that.sex.zhouwen = JSON.stringify(arr).indexOf('wrinkle')!=-1 ? 'display:block;' : 'display:none;';
+                                that.sex.quan = res.data.sex == 1 ? './img/skin/pro_m.png' : './img/skin/pro_w.png';
+                                that.sex.dian = res.data.sex == 1 ? 'img/skin/angle2.png' : 'img/skin/angle1.png';
+                                console.log(that.sex);
+                                $('.skin_question .toShowQuestion').css({'background-color':that.sex.bgColor,'border-color':that.sex.color})
+                                $('.change_color').css({'background-color':that.sex.color});
+                                $('.change_fcolor').css({'color':that.sex.color});
+                                var w = $(window).width();
+                                if(w>750){
+                                    w = 750;
+                                }
+                                setTimeout(function(){
+                                	$('.circle_pro').circleProgress({
+	                                    value: that.skinData.inspectScore/100,
+	                                    size:w * 0.267 ,
+									    startAngle: Math.PI*1.5,
+									    emptyFill: '#e8f1f4',
+									    fill:{
+									    	color: '#ecf8fc',
+									    	image: that.sex.quan
+									    }
+									}).on('circle-animation-progress', function(event, progress) {
+									    $(this).find('em').html(parseInt(90 * progress));
+									});
+	                                $('#angle').css("transform","rotate("+ that.skinData.inspectScore/100*360 +"deg)");
+                                },200)
+	                                
+                               }
+                            }
+                        })
+                    },
+                    // 跳转详情
+                    goDetails:function(event){
+                        let degree = event.currentTarget.getAttribute('data-degree');
+                        window.location.href = './skin_details.html?' + 'degree='+degree+ '&openId=' + 'onzW6w6RJpFgt0y2G3I076vOQnTY' + '&reportCode='+'2221' + '&sex=' + this.sex.num// openId// '&reportCode'  + '=onzW6w6RJpFgt0y2G3I076vOQnTY'// +'&reportCode='+ reportCode
+                    },
+                    getWx:function(){
+                        let that = this;
+                        let url = window.location.href;
+                        $.ajax({
+                            url:dataUrl + '/weiXin/wxConfig',
+                            type:'POST',
+                            data:{
+                            	reqUrl:url
+                            },
+                            success:function(res){
+                                if(res.code==200){
+                                    wx.config({
+                                        //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                        appId: res.wxParameter.appId, // 必填，公众号的唯一标识
+                                        timestamp:res.wxParameter.timestamp ,// 必填，生成签名的时间戳
+                                        nonceStr: res.wxParameter.nonceStr, // 必填，生成签名的随机串
+                                        signature: res.wxParameter.signature,// 必填，签名
+                                        jsApiList: ['checkJsApi','getLocation'] // 必填，需要使用的JS接口列表
+                                    });
+                                    wx.error(function(res) {
+                                        alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+                                    });
+                                    wx.ready(function(){
+                                        wx.getLocation({
+                                            type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                                            success: function (res) {
+                                                var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                                                var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                                                var speed = res.speed; // 速度，以米/每秒计
+                                                var accuracy = res.accuracy; // 位置精度
+                                                //alert(latitude,longitude);
+                                                // 获取天气
+                                                that.getWeather(latitude,longitude);
+                                            }
+                                        });
+                                    });
+                                }
+                            }
+                        })
+                    },
+                    getWeather:function(lat,log){
+                        let that = this;
+                        let str = [];
+                        let arr = [];
+                        $.ajax({
+                            url:dataUrl + '/api/work/workUtil/getWeatherByLogAndLat',
+                            type:'POST',
+                            data:{
+                                lat: 37.474, //lat,
+                                log: 114.916//log
+                            },
+                            success:function(res){
+                                if(res.code == 200){
+                                    that.weather = res.data
+                                    if( that.weather.now.cond_code >= 502 && that.weather.now.cond_code <= 515){
+                                        that.waringIndex = '0,1,2,3,4';
+                                    }else if(that.weather.now.cond_code >= 205 && that.weather.now.cond_code <= 213 || that.weather.now.cond_code == 200){
+                                        that.waringIndex = '0,1,2,4';
+                                    }else if(that.weather.now.cond_code >= 100 && that.weather.now.cond_code <= 104){
+                                        that.waringIndex = '0,1,2';
+                                    }else if(that.weather.now.cond_code >= 201 && that.weather.now.cond_code <= 204){
+                                        that.waringIndex = '0,1,2';
+                                    }else if(that.weather.now.cond_code >= 400 && that.weather.now.cond_code <= 501){
+                                        that.waringIndex = '0,1,2';
+                                    }else if(that.weather.now.cond_code >= 900 && that.weather.now.cond_code <= 999){
+                                        that.waringIndex = '0,1,2';
+                                    }else if(that.weather.now.cond_code >= 300 && that.weather.now.cond_code <= 399){
+                                        that.waringIndex = '0,2';
+                                    }else{
+                                        that.waringIndex = '0';
+                                    }
+                                    console.log(that.waringIndex);
+                                    
+                                    for(let i = 0;i < that.waringIndex.split(',').length; i++){
+                                        str.push(writing[that.waringIndex.split(',')[i]]);
+                                        arr.push(wriname[that.waringIndex.split(',')[i]]);
+                                    }
+                                    that.waringIndex = str;
+                                    that.waringName = arr;
+                                }
+                            }
+                        })
+                    }
+                }
+                
+            })
+            // 获取url参数方法
+            function getQueryString(name) {
+                var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+                if (result == null || result.length < 1) {
+                    return "";
+                }
+                return result[1];
+            };
+        });
+    </script>
+</body>
+</html>

@@ -13,11 +13,9 @@ var reportId = getQueryString("reportId");
 
 var openId = getQueryString("openId");
 
-
 var agentId = getQueryString('agentId');  //代理商id  代理商报告用  康加报告不用
 
 var sameUser = getQueryString("sameUser");
-
 
 var userId = getQueryString("userId");
 
