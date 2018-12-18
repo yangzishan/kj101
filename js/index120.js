@@ -1,13 +1,13 @@
 //截取URL
-function GetQueryString(name) {
+function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
     if (result == null || result.length < 1) {
         return "";
     }
     return result[1];
 };
-var reportId = GetQueryString('reportId');
-var openId = GetQueryString('openId');
+var reportId = getQueryString('reportId');
+var openId = getQueryString('openId');
 var edition = 120;
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");

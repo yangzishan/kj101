@@ -1,5 +1,5 @@
 //-----测试 -tt-----
-/*var dataUrl = 'http://wx-tt.jiankangzhan.com'; //数据接口
+var dataUrl = 'http://wx-tt.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = 'http://kj101-tt.jiankangzhan.com'; //大机器
 
@@ -9,7 +9,7 @@ var couponData = 'http://coupon-tt.jiankangzhan.com'; //优惠券
 
 var analysisreport = 'http://analysisreport-tt.jiankangzhan.com';  //3.0新报告接口
 
-var channel = 'http://47.94.14.217:8765'; //支付通道*/
+var channel = 'http://47.94.14.217:8765'; //支付通道
 
 
 
@@ -31,7 +31,7 @@ var channel = 'http://39.107.74.133:8081'; //支付通道*/
 
 
 //---生产-----
-var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
+/*var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
 
@@ -41,7 +41,7 @@ var couponData = 'http://coupon.jiankangzhan.com'; //优惠券
 
 var analysisreport = 'http://report-v3.jiankangzhan.com';  //3.0新报告接口
 
-var channel = 'http://pay.jiankangzhan.com'; //支付通道
+var channel = 'http://pay.jiankangzhan.com'; //支付通道*/
 
 
 
