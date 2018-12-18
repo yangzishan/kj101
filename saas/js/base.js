@@ -12,7 +12,10 @@ var dataUrl='';
 
 
 switch (saasId)
-{
+{	
+	case '195518': //预生产
+	  	dataUrl='http://saas-ysc.jiankangzhan.com';
+	  	break;
 	case '100067':  //素问 康加帮
 	  	dataUrl='http://sc.jiankangzhan.com';
 	  	break;
@@ -31,21 +34,16 @@ switch (saasId)
 	case '215802': //爱齿口腔
 	  	dataUrl='http://ackq.jiankangzhan.com';
 	  	break;
-	case '195518': //预生产
-	  	dataUrl='http://saas-ysc.jiankangzhan.com';
+	case '217094': //湖南力菲
+	  	dataUrl='http://lf.jiankangzhan.com';
 	  	break;
 	default:
-		alert(saasId);
-	  	dataUrl='http://wx.jiankangzhan.com';
-	  
+		alert('saasId='+saasId);
+	  	dataUrl='http://wx.jiankangzhan.com';  
 }
 
 
 
-
-
-
-//var dataUrl = 'http://csh.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
 

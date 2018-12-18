@@ -17,8 +17,6 @@ var myApp = new Vue({
 		return {
 			reportId:'',
 			openId:'',
-			isShow:false,
-			isActive:[],
 			sameUser:'',
 			paymentType:'',
 			totalScore:'',

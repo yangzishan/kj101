@@ -21,10 +21,10 @@ body .personal .data .data_top .data_right div {width:2.94rem;height:.59rem;back
 body .personal .data .data_top .data_right div>i{color:#4ba0ff;font-weight:900;}
 body .personal .data .data_bottom{display:flex;flex-wrap:nowrap;margin-top:.38rem;}
 body .personal .data .data_bottom span>img{width:.32rem;height:.32rem;}
-body .personal .data .data_bottom span {display:flex;align-items: center;color:#333333;font-size:.32rem;font-weight:900;}
+body .personal .data .data_bottom span {display:flex;align-items: center;color:#333333;font-size:.32rem;}
 body .personal .data .data_bottom .bottom_span1 {width:1.92rem;}
 body .personal .data .data_bottom .bottom_span1>img{margin-right:.17rem;}
-body .personal .data .data_bottom .bottom_span2 {margin-left:.46rem;}
+body .personal .data .data_bottom .bottom_span2 {margin-left:.46rem;font-weight:900;}
 body .personal .data .data_bottom .bottom_span2>img{margin-left:.1rem;}
 /* face */
     /* img */
@@ -115,11 +115,12 @@ body .key {background-color:#fff;margin:.15rem 0;padding:.3rem .3rem .3rem .3rem
 body .key h2>img{width:.46rem;height:.41rem;margin-right:.16rem;}
 body .key h2 {color:#ff4b6f;font-size:.36rem;height:.41rem;display:flex;align-items: center;}
 /* body .key .question>ul{width:6.16rem} */
-body .key .question>ul>li>img {width:1.2rem;height:1.2rem;font-size:.32rem;color:#333333;}
-body .key .question>ul>li>i,body .key .question>ul>li>span{display:block;width:100%;text-align: center;}
-body .key .question>ul>li {width:25%;height:2.37rem;display:inline-block;text-align:center;}
+body .key .question>ul>li>img {width:1.2rem;height:1.2rem;font-size:.32rem;color:#333333;margin-bottom:.26rem;}
+body .key .question>ul>li>i,body .key .question>ul>li>span{display:block;width:100%;text-align: center;font-size:.3rem;font-weight:900;}
+body .key .question>ul>li>i{margin-bottom:.1rem;}
+body .key .question>ul>li {width:25%;height:2.37rem;display:inline-block;text-align:center;margin-bottom:.44rem;}
 /* body .key .question>ul {padding-left:.15rem;} */
-body .key .question{margin-top:.43rem;margin-bottom:.44rem;}
+body .key .question{margin-top:.43rem;}
 body .key a {color:#ff4b6f;display: block;text-align:center;}
 body .key .question>ul>li>span {color:#ff4b6f;}
 
@@ -127,9 +128,11 @@ body .key .question>ul>li>span {color:#ff4b6f;}
 body .warning {background-color:#fff;margin:.15rem 0;padding:.3rem .3rem .3rem .3rem;}
 body .warning h2>img{width:.46rem;height:.41rem;margin-right:.16rem;}
 body .warning h2 {color:#ffa71c;font-size:.36rem;height:.41rem;display:flex;align-items: center;}
-body .warning .question>ul>li>img {width:1.2rem;height:1.2rem;font-size:.32rem;color:#333333;}
-body .warning .question>ul>li>i,body .warning .question>ul>li>span{display:block;width:100%;text-align: center;}
-body .warning .question>ul>li {width:24%;height:2.37rem;display:inline-block;text-align:center;}
+body .warning .question>ul>li>img {width:1.2rem;height:1.2rem;font-size:.32rem;color:#333333;margin-bottom:.26rem;}
+body .warning .question>ul>li>i,body .warning .question>ul>li>span{display:block;width:100%;text-align: center;font-size:.3rem;font-weight:900;}
+body .warning .question>ul>li>i{margin-bottom:.1rem;}
+body .warning .question>ul>li {width:25%;height:2.37rem;display:inline-block;text-align:center;margin-bottom:.44rem;}
+/* body .warning .question>ul>li {width:24%;height:2.37rem;display:inline-block;text-align:center;} */
 body .warning .question>ul {padding-left:.15rem;}
 body .warning .question{margin-top:.43rem;margin-bottom:.44rem;}
 body .warning a {color:#ffa71c;display: block;text-align:center;}
@@ -138,9 +141,10 @@ body .warning .question>ul>li>span {color:#ffa71c;}
 body .keep {background-color:#fff;margin:.15rem 0;padding:.3rem .3rem .3rem .3rem;}
 body .keep h2>img{width:.36rem;height:.36rem;margin-right:.16rem;}
 body .keep h2 {color:#04cbb1;font-size:.36rem;height:.41rem;display:flex;align-items: center;}
-body .keep .list>ul>li>img {width:1.2rem;height:1.2rem;font-size:.32rem;color:#333333;}
-body .keep .list>ul>li>i,body .keep .list>ul>li>span{display:block;width:100%;text-align: center;}
-body .keep .list>ul>li {width:24%;height:2.37rem;display:inline-block;text-align:center;}
+body .keep .list>ul>li>img {width:1.2rem;height:1.2rem;font-size:.32rem;color:#333333;margin-bottom:.26rem;}
+body .keep .list>ul>li>i,body .keep .list>ul>li>span{display:block;width:100%;text-align: center;font-size:.3rem;font-weight:900;}
+body .keep .list>ul>li {width:24%;height:2.37rem;display:inline-block;text-align:center;margin-bottom:.44rem;}
+body .keep .list>ul>li>i{margin-bottom:.1rem;}
 body .keep .list>ul {padding-left:.15rem;}
 body .keep .list{margin-top:.43rem;margin-bottom:.44rem;}
 body .keep a {color:#04cbb1;display: block;text-align:center;}
@@ -148,7 +152,7 @@ body .keep .list>ul>li>span {color:#04cbb1;}
 /* weather */
 body .weather {background:#fff;margin-bottom:1.14rem;padding:0 .19rem .4rem .21rem;}
 body .weather .head {font-size: .36rem;text-align:center;height:1.05;}
-body .weather .head>h1{height:.92rem;line-height:.92rem;}
+body .weather .head>h1{height:.92rem;line-height:.92rem;font-size:.35rem;font-weight: 900;}
 body .weather .head>span {display: block;width:.9rem;height:.12rem;background-color:#4ba0ff;border-radius: .06rem;margin: 0 auto;}
 body .weather .head>i {display: block;background-color:#f9f4f4;width:7.1rem;height:.02rem;}
 body .weather .body {padding:.18rem .25rem .44rem;}
@@ -157,16 +161,19 @@ body .weather .body .top>img {width:.4rem;height:.4rem;margin-right:.15rem;}
 body .weather .body .box {display:flex;flex-wrap:nowrap;}
 body .weather .body .box .left{width:3.37rem;color:#4ba0ff;font-size:.8rem;height:1.5rem;line-height:1.5rem;font-weight: 100;}
 body .weather .body .box .left>span{font-size:1.2rem;font-weight: 400;}
-body .weather .body .box .right{padding-top:.12rem;}
+body .weather .body .box .right{padding-top:.23rem;}
 body .weather .body .box .right>p{font-size:.32rem;color:#333333;display:flex;align-items: center;}
-body .weather .body .box .right>p:nth-child(1)>img{width:.48rem;height:.46rem;margin-right:.37rem;line-height:.46rem;}
+body .weather .body .box .right>p:last-child>i{padding-top:.05rem;margin-top:.15rem;}
+body .weather .body .box .right>p:last-child>span{margin-top:.15rem;}
+body .weather .body .box .right>p:nth-child(1)>img{width:.52rem;height:.5rem;margin-right:.37rem;line-height:.46rem;margin-left: -.05rem;}
 body .weather .body .box .right>p:nth-child(2)>img{width:.37rem;height:.41rem;margin-right:.46rem;margin-top:.1rem;}
 body .weather .body .box .right>p:nth-child(2)>i{color:#4ba0ff;font-size:.24rem;margin-right:.05rem;}
 body .weather .foot {padding-left:.08rem;}
 body .weather .foot h1>i{display:inline-block;width:.08rem;height:.34rem;background:#4ba0ff;border-radius:.04rem;margin-right:.08rem;}
-body .weather .foot h1{font-size:.36rem;color:#4ba0ff;height:.36rem;line-height:.36rem; display: flex;flex-wrap: nowrap;align-items: center;margin-bottom:.16rem;}
+body .weather .foot h1{font-size:.36rem;color:#4ba0ff;height:.36rem;line-height:.36rem; display: flex;flex-wrap: nowrap;align-items: center;margin-bottom:.16rem;font-weight: 900;}
 body .weather .foot .blue {display:inline-block;padding:0 .34rem 0 .25rem;height:.58rem;background-color:#4ba0ff;border-radius:.29rem;color:#fff;line-height:.58rem;min-width:2.6rem;margin-bottom:.39rem;}
 body .weather .foot .title {font-size: .32rem;padding-left:.04rem;}
+body .weather .foot .title p{font-size: .28rem;}
 body .fixed{width:1.46rem;height:1.46rem;position:fixed;right:.53rem;bottom:1.35rem;}
 body .fixed>img{width:1.46rem;height:1.46rem;}
 
@@ -247,6 +254,6 @@ body#body .bandian {position: absolute;width:.97rem;height:.15rem;left:1.4rem;to
 body#body .heitou {position: absolute;width:.13rem;height:.09rem;left:1.74rem;top:2.05rem;}
 
 
-.photo {background:skyblue;position:fixed;z-index:1000;top:50%;left:50%;transform: translate(-50%,-50%);visibility: hidden;width:5.98rem;opacity: 0;transition-delay: 400ms;}
+.photo {background:skyblue;position:fixed;z-index:1000;top:50%;left:50%;transform: translate(-50%,-50%);visibility: hidden;width:5.98rem;opacity: 0;transition-duration: 400ms;}
 .foot>.title>p {height:.54;line-height:.54rem;}
 h2{font-weight: 800;}

@@ -11,14 +11,13 @@ var openId = GetQueryString('openId');
 var edition = 2;  //2.0报告
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
+
 var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
 			reportId:'',
 			openId:'',
-			isShow:false,
-			isActive:[],
 			sameUser:'',
 			paymentType:'',
 			totalScore:'',
@@ -39,7 +38,11 @@ var myApp = new Vue({
 			midNum:'',
 			litNum:'',
 			abnormalName:'',
-			showRecipe:''
+			showRecipe:'',
+			lastDateStr:'', 
+			currentDateStr:'',
+			okImproves:'',
+			noImproves:''
 		}
 	},
 	mounted: function(){
@@ -62,11 +65,11 @@ var myApp = new Vue({
 					if(data.code == 200){
 						_this.getData(); // 执行获取首页数据
 					}else if(data.code == 402){
-						window.location.href="userInfor.html?reportId=" + reportId+"&userId=" + data.data.userId + "&openId=" + openId + "&edition="+edition;
+						window.location.href="userInfor.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 405){
 						//window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 403){
-						window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.userId + "&openId=" + openId + "&edition="+edition;
+						window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 302){
 						window.location.href="equipmentUnable.html"
 					}else{
@@ -245,27 +248,30 @@ var myApp = new Vue({
 						$('.changeShow').eq(changeVal).css("display","block").siblings('.changeShow').css("display","none");
 						//$(document).scrollTop(_offset);
 						//判断class
-						$('.change_list li .s2').each(function(index){
-							if($(this).text()=='正常'){
-								$(this).addClass('bc1');
-							}else if($(this).text()=='轻度风险'){
-								$(this).addClass('bc2');
-							}else if($(this).text()=='中度风险'){
-								$(this).addClass('bc3');
-							}
-						});
-						//新增
-						$('.change_list li span.s1 i').each(function(){
-							if($(this).text()=='1'){
-								$(this).next('font').css("display","inline-block");
-							}
-						});
-						//判断没有指标项
-						$('.change_list').each(function(index){
-							if($(this).find('li').length == 0){
-								$(this).next('p').css("display","block");
-							}
-						});
+						setTimeout(function(){
+							$('.change_list li span.s2').each(function(index){
+								if($(this).text()=='正常'){
+									$(this).addClass('bc1');
+								}else if($(this).text()=='轻度风险'){
+									$(this).addClass('bc2');
+								}else if($(this).text()=='中度风险'){
+									$(this).addClass('bc3');
+								}
+							});
+							//新增
+							$('.change_list li span.s1 i').each(function(){
+								if($(this).text()=='1'){
+									$(this).next('font').css("display","inline-block");
+								}
+							});
+							//判断没有指标项
+							$('.change_list').each(function(index){
+								if($(this).find('li').length == 0){
+									$(this).next('p').css("display","block");
+								}
+							});
+						},100)
+							
 					}
 				},
 			    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}

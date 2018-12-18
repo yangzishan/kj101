@@ -8,34 +8,16 @@
 <meta content="telephone=no" name="format-detection" />
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
-<link rel="stylesheet" type="text/css" href="css/basic.css" />
-<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
-<script type="text/javascript">
-(function (doc, win) {
-    var docEl = doc.documentElement,
-        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-        recalc = function () {
-            var clientWidth = docEl.clientWidth;
-            if (!clientWidth) return;
-            if(clientWidth>=750){
-                docEl.style.fontSize = '100px';
-            }else{
-                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
-            }
-        };
-
-    if (!doc.addEventListener) return;
-    win.addEventListener(resizeEvt, recalc, false);
-    doc.addEventListener('DOMContentLoaded', recalc, false);
-})(document, window);
-</script>
+<link rel="stylesheet" type="text/css" href="../saas/css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="../saas/css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script> var saasId = '217094';</script>
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
 	<header class="header">
-		<a class="t-left fl" id="goSetUp"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
-		<a class="t-right fr" id="checkHistory"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+		<a class="t-left fl" id="goSetUp"><i class="i_c"><img src="../saas/img/i-per.png"></i>个人中心</a>
+		<a class="t-right fr" id="checkHistory"><i class="i_c"><img src="../saas/img/i-his.png"></i>历史报告</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
 	<div class="all_score">
@@ -68,7 +50,6 @@
 			</p>		
 		</div>
 		<a class="gojy"><i></i><span>请点击查看您的专属建议</span></a>
-		<a class="gosp" style="display: none;"><i></i><span>请查看您的专属健康食谱</span></a>
 	</div>
 	
 	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
@@ -132,7 +113,7 @@
   	</section>
 </div>
 
-<div id="v_change">
+<!--<div class="" id="v_change">
     <p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <div class="sy_tit">
     	<span class="">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
@@ -152,12 +133,12 @@
     </div>
     <div class="change_sta">
     	<span class="s1 fl">指标名称</span>
-    	<span class="s2 fr">当前状况<br><i>({{currentDateStr.slice(0,10)}})</i></span>
-    	<span class="s2 fr">上次状况<br><i>({{lastDateStr.slice(0,10)}})</i></span>
+    	<span class="s2 fr">当前状况<br><i>({{currentDateStr}})</i></span>
+    	<span class="s2 fr">上次状况<br><i>({{lastDateStr}})</i></span>
     </div>
     <div class="changeShow">
     	<ul class="change_list">
-	    	<li v-for="item in okImproves" v-if="item.lastLevel != 4">
+	    	<li v-for="item in okImproves">
 	    		<a :href="item.targetId|getThirdHref">
 	    		<span class="s1 fl">{{item.tagetName}}</span>
 	    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>
@@ -178,10 +159,9 @@
 	    	</li>
 	    </ul>
 	    <p class="noctip">暂无未改善及新增异常指标</p>
-	</div>    
-	    
+	</div>     
 </div>
-<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+<p style="background:#f4f4f4; height:10px; margin:0;"></p>-->
 
 <input type="hidden" id="appId"/>
 <input type="hidden" id="nonceStr"/>
@@ -189,8 +169,6 @@
 <input type="hidden" id="timestamp"/>
 <input type="hidden" id="age"/>
 <input type="hidden" id="share" value="101"/>
-
-<div id="btn" class="zhiCustomBtn"></div>
 
 </DIV>
 <div class="v_overlay"></div>
@@ -216,23 +194,39 @@
 </div>
 
 <div class="load-overlay">
-	<div class="loadimg"><img src="img/loading.gif"></div>
+	<div class="loadimg"><img src="../saas/img/loading.gif"></div>
 </div>
 
 <div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
 </div>
-
-<script type="text/javascript" src="js/jquery.js"></script>
-<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
-<script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
-<script type="text/javascript" src="js/circle-progress.js"></script>
-<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script>document.write('<script src="js/indexNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="../saas/js/jquery.js"></script>
+<script>document.write('<script src="../saas/js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="../saas/js/vue.min.js"></script>
+<script type="text/javascript" src="../saas/js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="../saas/js/circle-progress.js"></script>
+<script type="text/javascript" src="../saas/js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="../saas/js/indexNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
-<!--<script type="text/javascript" src="zhuge.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
 <script>
 (function () {
     if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
@@ -253,6 +247,6 @@
     }
 })();	
 </script>
-<script src="js/wxShare.js"></script>
+<script src="../saas/js/wxShare.js"></script>
 </body>
 </html>

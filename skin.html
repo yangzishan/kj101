@@ -8,8 +8,7 @@
     <meta content="telephone=no" name="format-detection" />
     <title>皮肤报告</title>
     <link rel="stylesheet" href="css/basic.css">
-    <!--<link rel="stylesheet" href="css/skin.css">-->
-    <script>document.write('<link rel="stylesheet" href="css/skin.css?t='+new Date().getTime()+' >"')</script>
+    <link rel="stylesheet" href="css/skin.css">
 </head>
 <body>
     <div class="loadmore loading"></div>
@@ -60,7 +59,7 @@
                     </div>
                     <div class="data_bottom">
                         <span class="bottom_span1"><img  class="popup_problem" src="img/skin/tips.png">皮肤问题</span>
-                        <span class="bottom_span2" v-cloak>{{skinData.diseaseResult}}<img @click='stopTouchmove' class="popup_question" src="./img/skin/question.png" alt=""></span>
+                        <span class="bottom_span2" :style="'color:'+sex.color" v-cloak>{{skinData.diseaseResult}}<img @click='stopTouchmove' class="popup_question" src="./img/skin/question.png" alt=""></span>
                     </div>
                 </div>
         </div>
@@ -82,20 +81,20 @@
                 <div class="face_ul">
                     <div class="left_ul">
                         <div>
-                            <div class="skin_pimple skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="doudou" src="./img/skin/doudouxian.png" alt=""></div>
-                            <div class="skin_moisture skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="shuifen" src="./img/skin/shuifenxian.png" alt=""></div>
-                            <div class="skin_pore skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="maokong" src="./img/skin/maokongxian.png" alt=""></div>
-                            <div class="skin_blackhead skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="heitou" src="./img/skin/heitouxian.png" alt=""></div>
-                            <div class="skin_acne skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="fenci" src="./img/skin/fencixian.png" alt=""></div>
+                            <div class="skin_pimple skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="doudou" :src="'./img/skin/doudouxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_moisture skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="shuifen" :src="'./img/skin/shuifenxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_pore skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="maokong" :src="'./img/skin/maokongxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_blackhead skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="heitou" :src="'./img/skin/heitouxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_acne skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="fenci" :src="'./img/skin/fencixian'+sex.xian+'.png'" alt=""></div>
                         </div>
                     </div>
                     <div class="right_ul">
                         <div>
-                            <div class="skin_wrinkle skin_question"><i class="toShowQuestion">痘痘-5分</i><img src="./img/skin/zhouwenxian.png" alt=""></div>
-                            <div class="skin_texture skin_question"><i class="toShowQuestion">痘痘-5分</i><img src="./img/skin/wenlixian.png" alt=""></div>
-                            <div class="skin_spot skin_question"><i class="toShowQuestion">痘痘-5分</i><img src="./img/skin/bandianxian.png" alt=""></div>
-                            <div class="skin_chloasma skin_question"><i class="toShowQuestion">痘痘是-5分</i><img src="./img/skin/huanghebanxian.png" alt=""></div>
-                            <div class="skin_roughness skin_question"><i class="toShowQuestion">粉我刺-5分</i><img src="./img/skin/cucaoduxian.png" alt=""></div>
+                            <div class="skin_wrinkle skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/zhouwenxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_texture skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/wenlixian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_spot skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/bandianxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_chloasma skin_question"><i class="toShowQuestion">痘痘是-5分</i><img :src="'./img/skin/huanghebanxian'+sex.xian+'.png'" alt=""></div>
+                            <div class="skin_roughness skin_question"><i class="toShowQuestion">粉我刺-5分</i><img :src="'./img/skin/cucaoduxian'+sex.xian+'.png'" alt=""></div>
                         </div>
                     </div>
                 </div>
@@ -230,7 +229,7 @@
                     sTop:0,
                     weather:{
                         now:{
-                            hum: '%',
+                            hum: '',
                             vis: '',
                             pres: '',
                             pcpn: '',
@@ -273,7 +272,8 @@
                         fenci:'display:none',
                         zhouwen:'display:none',
                         quan:'./img/skin/pro_m.png',
-                        dian:'img/skin/angle2.png'
+                        dian:'img/skin/angle2.png',
+                        xian:''
                     },
                     waringIndex:'',
                     waringName:''           
@@ -319,7 +319,7 @@
                             dataType:'JSON',
                             data:{
                                 reportCode:'2222',  // reportCode
-                                openId:'oDOut0fcPQIPfIEiZovJged-49Ug'//openId:openId
+                                openId:'oDOut0af6l-wmdcojEacrTMp_2Bs'//oDOut0fcPQIPfIEiZovJged-49Ug
                             },
                             success:function(res){
                                if(res.code == 200){
@@ -348,6 +348,7 @@
                                 that.sex.zhouwen = JSON.stringify(arr).indexOf('wrinkle')!=-1 ? 'display:block;' : 'display:none;';
                                 that.sex.quan = res.data.sex == 1 ? './img/skin/pro_m.png' : './img/skin/pro_w.png';
                                 that.sex.dian = res.data.sex == 1 ? 'img/skin/angle2.png' : 'img/skin/angle1.png';
+                                that.sex.xian = res.data.sex == 1 ? '' : '-nv';
                                 console.log(that.sex);
                                 $('.skin_question .toShowQuestion').css({'background-color':that.sex.bgColor,'border-color':that.sex.color})
                                 $('.change_color').css({'background-color':that.sex.color});
@@ -356,22 +357,19 @@
                                 if(w>750){
                                     w = 750;
                                 }
-                                setTimeout(function(){
-                                	$('.circle_pro').circleProgress({
-	                                    value: that.skinData.inspectScore/100,
-	                                    size:w * 0.267 ,
-									    startAngle: Math.PI*1.5,
-									    emptyFill: '#e8f1f4',
-									    fill:{
-									    	color: '#ecf8fc',
-									    	image: that.sex.quan
-									    }
-									}).on('circle-animation-progress', function(event, progress) {
-									    $(this).find('em').html(parseInt(90 * progress));
-									});
-	                                $('#angle').css("transform","rotate("+ that.skinData.inspectScore/100*360 +"deg)");
-                                },200)
-	                                
+                                $('.circle_pro').circleProgress({
+                                    value: that.skinData.inspectScore/100,
+                                    size:w * 0.267 ,
+								    startAngle: Math.PI*1.5,
+								    emptyFill: '#e8f1f4',
+								    fill:{
+								    	color: '#ecf8fc',
+								    	image: that.sex.quan
+								    }
+								}).on('circle-animation-progress', function(event, progress) {
+								    $(this).find('em').html(parseInt(90 * progress));
+								});
+                                $('#angle').css("transform","rotate("+ that.skinData.inspectScore/100*360 +"deg)");
                                }
                             }
                         })
@@ -383,17 +381,17 @@
                     },
                     getWx:function(){
                         let that = this;
-                        let url = window.location.href;
+                        let url = decodeURI(window.location.href);
                         $.ajax({
                             url:dataUrl + '/weiXin/wxConfig',
                             type:'POST',
                             data:{
-                            	reqUrl:url
+                            	reqUrl: url
                             },
                             success:function(res){
                                 if(res.code==200){
                                     wx.config({
-                                        //debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                                        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                                         appId: res.wxParameter.appId, // 必填，公众号的唯一标识
                                         timestamp:res.wxParameter.timestamp ,// 必填，生成签名的时间戳
                                         nonceStr: res.wxParameter.nonceStr, // 必填，生成签名的随机串
@@ -429,8 +427,10 @@
                             url:dataUrl + '/api/work/workUtil/getWeatherByLogAndLat',
                             type:'POST',
                             data:{
-                                lat: 37.474, //lat,
-                                log: 114.916//log
+                                /*lat:53.48,
+                                log:122.37*/
+                                lat:lat,
+                                log:log
                             },
                             success:function(res){
                                 if(res.code == 200){

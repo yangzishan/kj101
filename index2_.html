@@ -120,7 +120,7 @@
   	</section>
 
 
-	<!--<div id="v_change">
+	<div id="v_change">
 	    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	    <div class="sy_tit">
 	    	<span class="">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
@@ -146,7 +146,7 @@
 	    <div class="changeShow">
 	    	<ul class="change_list">
 		    	<li v-for="item in okImproves">
-		    		<a :href="item.targetId|getThirdHref">
+		    		<a :href="'third.html?reportId='+reportId+'&targetId='+item.targetId+'&userId='+userId">
 		    		<span class="s1 fl">{{item.tagetName}}</span>
 		    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>
 		    		<span class="s2 fr">{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}</span>
@@ -158,7 +158,7 @@
 		<div class="changeShow" style="display: none;">
 			<ul class="change_list">
 		    	<li v-for="site in noImproves">
-		    		<a :href="site.targetId|getThirdHref">
+		    		<a :href="'third.html?reportId='+reportId+'&targetId='+site.targetId+'&userId='+userId">
 		    		<span class="s1 fl">{{site.tagetName}}<i style="display: none;">{{site.newAdd}}</i><font style="display: none; margin-left: .1rem;">新增</font></span>
 		    		<span class="s2 fr">{{site.currentLevel==1?'正常':(site.currentLevel==2?'轻度风险':(site.currentLevel==3?'中度风险':'中度风险'))}}</span>
 		    		<span class="s2 fr">{{site.lastLevel==1?'正常':(site.lastLevel==2?'轻度风险':(site.lastLevel==3?'中度风险':'中度风险'))}}</span>
@@ -167,7 +167,7 @@
 		    </ul>
 		    <p class="noctip">暂无未改善及新增异常指标</p>
 		</div>        
-	</div>-->
+	</div>
 	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 </div>
 
@@ -210,7 +210,7 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
