@@ -204,6 +204,14 @@ $(document).on("click","#goWxPay",function(){
 	    			alert(result.msg);
 	    		}
 	    	//////////
+	    	}else if(payChannelType == 12){ //微信-支付
+	    		if(result.code ==0){
+	    			window.location.href = result.mweb_url
+	    		}else{
+	    			alert(result.msg);
+	    		}
+	    		
+	    		
 	    	}
 	    	
 		    	
