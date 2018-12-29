@@ -1,22 +1,29 @@
 //截取URL
-function getQueryString(name) {
+function GetQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
     if (result == null || result.length < 1) {
         return "";
     }
     return result[1];
 };
-var reportId = getQueryString('reportId');
-var openId = getQueryString('openId');
+var reportId = GetQueryString('reportId');
+var openId = GetQueryString('openId');
 var edition = 120;
+
+zhuge.track('进入保险版报告首页', { //埋点t
+	'openId' : openId,
+	'渠道' : '微信'
+});
+
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
 var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
-			reportId:'',
-			openId:'',
+			reportId: reportId,
+			openId: openId,
+			edition: edition,
 			sameUser:'',
 			paymentType:'',
 			totalScore:'',
@@ -95,16 +102,13 @@ var myApp = new Vue({
 					if(indexData.code == 201){
 						_this.sameUser = indexData.data.sameUser;
 						_this.paymentType = indexData.data.paymentType;
-						_this.participate(_this.paymentType,_this.sameUser);  //执行支付判断
+						_this.participate(_this.paymentType,_this.sameUser);  //执行判断优惠券
 					}else if(indexData.code == 200){
 						if(indexData.data.map.deviceReport == 121){
 							_this.showTip(); //不让看报告
 						}else{
 							$('.my_view').css("visibility","visible");
 							$('.load-overlay').css("display","none");
-							_this.reportId = reportId,
-							_this.openId = openId,
-							_this.edition = edition,
 							_this.totalScore = indexData.data.indexPage.totalScore, //全部得分
 					   		_this.inspectDate = indexData.data.indexPage.inspectDate, // 检测日期
 					    	_this.ranking = indexData.data.indexPage.ranking, //排名
@@ -165,6 +169,9 @@ var myApp = new Vue({
 								}
 							}
 							createChart(arrayXt,arraySlnl,_this.age,500);
+							
+							_this.goLook(_this.userId);
+
 							// 抓取滚动位置
 							$(window).scroll(function(){ 
 								sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
@@ -207,11 +214,25 @@ var myApp = new Vue({
 			showMask();
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
-		checkHistory: function(e){ //历史报告
-			window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId
+		checkHistory: function(){ //历史报告
+			let vm = this;
+			zhuge.track('点击历史报告', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId
+			});
 		},
-		goSetUp: function(e){ //个人中心
-			window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
+		goSetUp: function(){ //个人中心
+			let vm = this;
+			zhuge.track('点击个人中心', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
+			});	
 		},
 		showTip: function(){
 			showMask();
@@ -219,7 +240,30 @@ var myApp = new Vue({
 			$('#iknow').click(function(){
 				WeixinJSBridge.call('closeWindow');
 			});
-			
+		},
+		goLook: function(userId){ //埋点 建议 食谱
+			$('.golook li a').click(function(){
+				let link = $(this);
+				zhuge.track('点击'+link.find('em').text(),{
+					'用户id': userId,
+					'openId': openId,
+					'渠道' : '微信'
+				},function(){
+					location.href = link.attr('href');
+				});
+			});
+		},
+		goSecond: function(e,item){ //埋点  十大系统点击
+			let vm = this;
+			zhuge.track('点击十大系统',{
+				'用户id': vm.userId,
+				'系统名称':item.targetFirstName,
+				'得分':item.score,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
+			});
 		}
 	}
 });

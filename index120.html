@@ -59,12 +59,11 @@
 		<dl class="sys_c fr">
 			<dd class="c_li" v-for="ten in firstPages" v-if="ten.targetFirstId != 1001" :class="[
 				{'lit':ten.score < 90 && ten.score >= 80},{'mid':ten.score < 80}]">
-			<a style="display: block;" :href="'second2.html?reportId='+reportId+'&userId='+userId+'&targetFirstId='+ten.targetFirstId">
+			<a style="display: block" @click="goSecond($event,ten)">
 				<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
 				<em>{{ten.score >= 90?'正常':(ten.score < 90 && ten.score >= 80?'轻度风险':'中度风险')}}</em>
 			</a>
 			</dd>
-			
 		</dl>
 	</div>
 	
@@ -135,8 +134,6 @@
     		<i class="pop fr" @click="popSta($event)"></i>
     	</div>
     </div>
-    <p style="height: 1rem;"></p>
-    <a :href="'skin.html?reportCode='+reportId+'&openId='+openId" style="height: 1rem; line-height: 1rem; display: block; background: #2EBAB1; text-align: center;">皮肤报告 测试</a>
 </div>
 
 
@@ -186,6 +183,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
 <script>document.write('<script src="js/index120.js?t=' + new Date().getTime() + '"><\/script>')</script>

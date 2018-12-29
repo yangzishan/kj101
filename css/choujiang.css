@@ -1,0 +1,24 @@
+.hiddd {background:url(./../img/cj-beijing.jpg) no-repeat;background-size:cover;width:7.5rem;display: none;}
+#app {padding-top:3.4rem;width:7.5rem;}
+#app .box {width:6.8rem;height:6.8rem;margin: 0 auto;margin-bottom:.39rem;position: relative;overflow: hidden;}
+#app .box .pan {width:6.8rem;height:6.8rem;background: url(./../img/cj-zhuanpan.png) no-repeat center;background-size:6.8rem;}
+#app .box .btn {outline:none;width:1.7rem; height:2.13rem;background: url(./../img/cj-ready.png) no-repeat center;background-size: 1.7rem 2.13rem;position: absolute;top:50%;left:50%;transform: translate(-50%,-57% )}
+#app .hbg {width:100%;height:1rem;background: url(./../img/cj-hengfu.png) no-repeat center;background-size:5.9rem .74rem;margin-bottom:.27rem;}
+#app .hbg h1 {font-size: .32rem;font-weight: 900;color: #f6373f;text-align: center;height:.6rem;line-height:.8rem;}
+#app .title {width:6.7rem;margin: 0 auto;border-radius: .3rem;border: 3px solid #ffc63e;padding: .4rem .2rem .3rem .3rem;background:#fcf5c5;color:#f6373f;font-size:.3rem;}
+.mask{position:fixed;left:0;right:0;top:0;bottom:0; background-color:rgba(0,0,0,.5);z-index:999;visibility: hidden;opacity: 0;transition-duration: 400ms;}
+.mask.show,.popup.show {visibility: visible;opacity: 1;}
+
+
+.popup{width:5.49rem;height:3.7rem;background:#f33c3c;border-radius:.15rem;position: fixed;top:0;left:0;right:0;bottom:0;margin:auto;z-index:1000;padding:.4rem; opacity: 0;transition-duration: 40ms;padding-top:1.27rem;visibility: hidden;}
+.popup>h1{text-align: center;font-size:.32rem;color:#000;height:.64rem;line-height:.64rem;margin-bottom:.2rem;}
+.popup>div{font-size:.28rem;color: #60666d;max-height:5.6rem;overflow:auto;}
+.popup>img {position: absolute;top:-.81rem;width:3.86rem;height:1.62rem;left:.8rem;}
+.popup>p {color:#fff;font-size:.37rem;text-align: center;margin-bottom:.47rem;}
+.popup>button {width:2.6rem;height: .8rem;border-radius: .4rem;background: #fcf5c5;color:#f33b3d;font-size:.32rem;text-align: center;position: absolute;left:1.45rem;}
+#app .title ol li {list-style-type: disc;margin-left:.31rem;}
+.cheng{height:.58rem;}
+.loadmore {color: #888;font-size: 30px;line-height: 100px;text-align: center;width:100%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1001;}
+.loadmore.loading::before {content: '';width: 40px;height: 40px;margin-top: -10px;margin-right: 10px;display: inline-block;vertical-align: middle;animation: loading 1s steps(12) infinite;background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4=) no-repeat;background-size: 100%;}
+@keyframes loading {from {transform: rotate(0deg);}to {transform: rotate(-360deg);}}
+.loadmore.loading.lll {position:relative;top:1rem;left:45%;font-size:18px;}

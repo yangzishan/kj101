@@ -478,9 +478,6 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 		    		color:'#000',
 		    		fontSize:15
 		    	},
-		        markLine: {
-		        	data:[]
-		        },
 		        color:['#1ccfba','#2f4554', '#61a0a8'],
 		        markLine:{
 		        	lineStyle:{

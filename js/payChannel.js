@@ -138,9 +138,9 @@ var myApp = new Vue({
 							  		_this.baseInfo = packageData.data.dataMap.baseInfo
 							  		_this.ablive1 = packageData.data.dataMap.ablive1
 							  		_this.ablive2 = packageData.data.dataMap.ablive2
-							  		_this.reportDel = packageData.data.dataMap.reportDel.slice(0,2)
-							  		_this.reportAdd = packageData.data.dataMap.reportAdd.slice(0,2)
-							  		_this.reportNot = packageData.data.dataMap.reportNot.slice(0,2)
+							  		if(packageData.data.dataMap.reportDel){_this.reportDel = packageData.data.dataMap.reportDel.slice(0,2)}
+							  		if(packageData.data.dataMap.reportAdd){_this.reportAdd = packageData.data.dataMap.reportAdd.slice(0,2)}
+							  		if(packageData.data.dataMap.reportNot){_this.reportNot = packageData.data.dataMap.reportNot.slice(0,2)}
 							  		if(_this.reportAdd){
 							  			if(_this.reportAdd.length == 0 || _this.reportAdd == []){
 								  			_this.reportAdd = _this.reportNot
@@ -236,7 +236,7 @@ var myApp = new Vue({
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.daifu_d').css("display","none");
 							});
 							//支付跳转 +
-							$('#WordPay').attr("href","wordPay.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
+							//$('#WordPay').attr("href","wordPay.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
 							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
 						
 						}
@@ -307,7 +307,7 @@ var myApp = new Vue({
 				success : function(data) {
 					if(data.code==200){
 						if(edition == 100){
-							window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
+							window.location.href="index.html?reportId="+reportId+"&openId="+openId;
 						}else{
 							window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
 						}

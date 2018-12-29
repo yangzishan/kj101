@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>抽奖</title>
+    <link rel="stylesheet" href="./css/basic.css">
+    <!-- <link rel="stylesheet" href="./css/choujiang.css"> -->
+    <script>
+        document.write('<link rel="stylesheet" href="./css/choujiang.css?t='+new Date().getTime()+'">')
+    </script>
+</head>
+<body>
+    <div class="loadmore loading"></div>
+    <div class="hiddd">
+            <div id="app">
+                    <div class="mask" @click="hideMask" ></div>
+                    <div class="popup">
+                        <img alt="" v-if="arr[index]['img'] != ''" :src="arr[index]['img']" >
+                        <p v-cloak>{{arr[index]['p']}}</p>
+                        <button v-cloak @click="hideMask();go(arr[index]['val'],arr[index]['reload']);">{{arr[index]['btn']}}</button>
+                    </div>
+                    <div class="box">
+                        <div class="pan"></div>
+                        <button class="btn" @click="jisuan($event)"></button>
+                    </div>
+                    <div class="hbg">
+                        <h1>活动规则</h1>
+                    </div>
+                    <div class="title" >
+                        <p>活动时间：2018年12月28日-2019年1月15日<br>
+                            活动说明：所有用户有一次免费抽奖的机会。<br>
+                            奖品说明：</p>
+                        <ol>
+                            <li>获得免费查看报告一次的用户可直接0元查看一次报告；</li>
+                            <li>所有优惠券奖品直接发放至用户个人中心，可直接抵扣报告费用；</li>
+                            <li>实物奖品需获奖者将联系方式、收货地址信息发送至公众号中，我们会在活动结束后7个工作日内为您邮寄；</li>
+                        </ol>
+                        <p>活动解释：凡参与本活动者，即视为接受活动所有规则，北京康加科技有限公司有权在法律允许的范围内对活动规则做出适当调整。活动最终解释权归北京康加科技有限公司所有。<br>
+                            活动咨询：400-6666-787</p>
+                    </div>
+                </div>
+                <div class="cheng" style="height:.58rem;"></div>
+    </div>
+    <script src="./js/jquery.js"></script>
+    <script src="./js/base.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script>
+        (function (doc, win) {
+            var docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>=750){
+                        docEl.style.fontSize = '100px';
+                    }else{
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;              
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script>
+       $(function(){
+           let tt = setTimeout(function(){
+                $('.loadmore.loading').css({'display':'none'});
+                $('.hiddd').css({'display':'block'});
+           },1000)
+        // let inspectCode = 'KJ104IS0014964C181227141486689';
+        let inspectCode=getQueryString('reportId');
+        let reportType=getQueryString('reportType');
+        let customerId=getQueryString('customerId');
+        let openId=getQueryString('openId');
+        new Vue({
+            el:'#app',
+            data:{
+                num:1,
+                quan:3600,
+                arr:[
+                    {'img':'./img/cj-gongxini.png','p':'您获得免费查看报告一次','btn':'立即使用','val':true,'reload':0},
+                    {'img':'./img/cj-gongxini.png','p':'您获得酒精基因检测一次','btn':'查看领取规则','val':false,'reload':0},
+                    {'img':'./img/cj-gongxini.png','p':'您获得15元优惠券','btn':'立即使用','val':true,'reload':0},
+                    {'img':'./img/cj-gongxini.png','p':'您获得10元优惠券','btn':'立即使用','val':true,'reload':0},
+                    {'img':'./img/cj-gongxini.png','p':'您获得5元优惠券','btn':'立即使用','val':true,'reload':0},
+                    {'img':'./img/cj-henyihan.png','p':'谢谢您的参与','btn':'关闭','val':false,'reload':0},
+                    {'img':'','p':'参与人数过多，点击确认重新抽奖','btn':'确认','val':false,'reload':1},
+                    {'img':'','p':'您的抽奖次数已用完','btn':'确认','val':false,'reload':0},
+                ],
+                index:6,
+                timer:null,
+                sTop:0,
+                urlD:{
+                    '2':'index.html',
+                    '5':'index2.html',
+                    '6':'index3.html',
+                    '100':'fund/index.html',
+                    '121':'index120.html'
+                },
+                rul:[2,5,6,100]
+            },
+            
+            methods:{
+                go:function(val,reload){
+                   if(val){
+                        let str = '';
+                        if(this.rul.join('').indexOf(reportType)!=-1){
+                            str += this.urlD[reportType] + '?reportId='+inspectCode+'&openId='+openId ;
+                        }else{
+                            str += 'index'+reportType+'.html' + '?reportId='+inspectCode+'&openId='+openId ;
+                        }
+                        window.location.href = str;
+                   }
+                   if(reload == 1){
+                       window.location.reload(true);
+                   }
+                },
+                showMask:function(){
+                    $('.mask').addClass('show');
+                    $('.popup').addClass('show');
+                    sTop = $(window).scrollTop();
+                    $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'}); 
+                   
+                },
+                hideMask:function(){
+                    $('.mask').removeClass('show');
+                    $('.popup').removeClass('show');
+                    $('body').css({'position':'static'}); 
+                    $(window).scrollTop(sTop);
+                },
+                run:function(){
+                    let that = this;
+                    $('#app .box .pan').css({'transition': 'all 4s linear','transform':'rotate('+ this.quan +'deg)'});
+                },
+                jisuan:function(event){
+                    event.currentTarget.setAttribute('disabled','disabled')
+                    let that = this;
+                    this.run();
+                    $.ajax({
+                        type:'POST',
+                        url: couponData +'/v1/activity/coupon/findUserByUnPay',
+                        data:{
+                            inspectCode:inspectCode
+                        },
+                        success:function(res){
+                            if(res.key == -1){
+                                $('#app .box .pan').css({'transition': 'all 4s ease-out','transform':'rotate(4020deg)'});
+                                that.index = 7;
+                                $('#app .box .pan')[0].addEventListener('transitionend',function(){
+                                    that.showMask();
+                                });
+                                return;
+                            }
+                            $.ajax({
+                                type:'POST',
+                                url: couponData + '/v1/activity/coupon/changeUserLotteryStatus',
+                                data:{
+                                    userId:customerId,
+                                    inspectCode:inspectCode,
+                                    key:res.key
+                                },
+                                success:function(data){
+                                    console.log(data)
+                                    if(data.code != 0){
+                                        that.index = 6;
+                                        $('#app .box .pan').css({'transition': 'all 4s ease-out','transform':'rotate(4020deg)'});
+                                        $('#app .box .pan')[0].addEventListener('transitionend',function(){
+                                            that.showMask();
+                                        })
+                                        return;
+                                    }
+                                    let du = (7-res.key)*60 +that.quan;
+                                    $('#app .box .pan').css({'transition': 'all 4s ease-out','transform':'rotate('+ du +'deg)'});
+                                    that.index =  res.key - 1;
+                                    $('#app .box .pan')[0].addEventListener('transitionend',function(){
+                                        that.showMask();
+                                    });
+                                }
+                            })
+                        },
+                        error:function(){
+                            that.index = 6;
+                            $('#app .box .pan').css({'transition': 'all 4s ease-out','transform':'rotate(4020deg)'});
+                            $('#app .box .pan')[0].addEventListener('transitionend',function(){
+                                that.showMask();
+                            })
+                        }
+                    });
+                }
+            }
+        })
+        function getQueryString(name) {
+            var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+            if (result == null || result.length < 1) {
+                return "";
+            }
+            return result[1];
+        };
+       });
+    </script>
+</body>
+</html>
+
