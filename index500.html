@@ -32,7 +32,7 @@
                             <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
                                 <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
                             </div>
-                            <div id="angle1" style=" width: .36rem; height: .735rem; position: absolute; top: -.15rem; left:29.5%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                            <div id="angle1" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
                                 <img class="img_b" src='./img/skin/501_lvdian.png'>
                             </div>
                         </span>
@@ -49,13 +49,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="list skin">
+                <div class="list skin" v-if="skinTotalScore && skinTotalScore != null && skinTotalScore != 0">
                     <div class="progress">
                         <span class="circle">
                             <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
                                 <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
                             </div>
-                            <div id="angle2" style=" width: .36rem; height: .735rem; position: absolute; top: -.15rem; left:29.5%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                            <div id="angle2" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
                                 <img class="img_b" src='./img/skin/501_fendian.png'>
                             </div>
                         </span>
@@ -128,8 +128,8 @@
     </script>
     <script>
         $(function(){
-            var reportId = getQueryString('reportId');//'KJ111IS00067S4C190102184339730';
-            var openId = getQueryString('openId');//'oDOut0eU-yPSvA-L9sUMZeFIkHyo';
+            var reportId = getQueryString('reportId');//'KJ111IS00067S4C190102184339730';//
+            var openId = getQueryString('openId');//'oDOut0eU-yPSvA-L9sUMZeFIkHyo';//
             var edition = 500;
             // var  customerId = getQueryString('customerId');
             var urlSearch = '';
@@ -225,17 +225,15 @@
                                 }else if(res.code == 405){
                                     window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
                                 }else if(res.code == 2002){
-                                    alert('kj501调用接口调用失败 analysisReport code='+res.code)
+                                    alert('kj501接口调用失败  analysisReport  code=' + res.code)
                                 }else if(res.code == 2003){
-                                    alert('kj501调用接口皮肤数据为空 analysisReport code='+res.code)
+                                    alert('kj501调用接口皮肤数据为空  analysisReport  code=' + res.code)
                                 }else if(res.code == 2004){
-                                    alert('kj501调用接口生物电数据为空 analysisReport code='+res.code)
+                                    alert('kj501调用接口生物电数据为空  analysisReport  code=' + res.code)
                                 }else if(res.code == 2005){
-                                    alert('kj501调用接口心电数据为空 analysisReport code='+res.code)
+                                    alert('kj501调用接口心电数据为空  analysisReport  code=' + res.code)
                                 }else if(res.code == 2006){
-                                    alert('kj501调用接口血氧数据为空 analysisReport code='+res.code)
-                                }else{
-                                	alert('analysisReport code='+res.code)
+                                    alert('kj501调用接口血氧数据为空  analysisReport  code=' + res.code)
                                 }
                             }
                         })

@@ -13,7 +13,6 @@
         document.write('<link rel="stylesheet" href="css/skin.css?t='+new Date().getTime()+'">')
     </script>
 </head>
-
 <body class="fiveone body_loop">
         <div class="loadmore loading"></div>
     <div id='app_501'>
@@ -41,16 +40,17 @@
                             <p v-cloak>{{loop.bloodStatus}}</p>
                         </div>
                     </div>
-                    <div class="ul_501" v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'">
-                        <div>
+                    <div class="ul_501" >
+                            <!-- v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'" -->
+                        <div v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'">
                             <p class="list_title">可能出现的症状</p>
                             <p v-cloak>{{loop.bloodSymptoms}}</p>
                         </div>
-                        <div>
+                        <div v-show="loop.bloodWhy && loop.bloodWhy != '无'">
                             <p class="list_title">引起的原因</p>
                             <p v-cloak>{{loop.bloodWhy}}</p>
                         </div>
-                        <div>
+                        <div v-show="loop.bloodAdvice && loop.bloodAdvice != '无'">
                             <p class="list_title">改善建议</p>
                             <p v-cloak>{{loop.bloodAdvice}}</p>
                         </div>
@@ -67,11 +67,19 @@
                                 <p v-cloak v-if="loop.heathIndex">{{loop.heathIndex}}</p>
                             </div>
                         </div>
-                        <div class="ul_501" v-show="  loop.heathExplain && loop.heathExplain != '无'">
-                            <div>
+                        <div class="ul_501">
+                            <div v-show="loop.heathSymptoms && loop.heathSymptoms != '无'">
+                                <p class="list_title">可能出现的症状</p>
+                                <p v-cloak>{{loop.heathSymptoms}}</p>
+                            </div>
+                            <div v-show="loop.heathWhy && loop.heathWhy != '无'">
+                                <p class="list_title">引起的原因</p>
+                                <p v-cloak>{{loop.heathWhy}}</p>
+                            </div>
+                            <div  v-show="loop.heathExplain && loop.heathExplain != '无'">
                                 <p class="list_title">改善建议</p>
                                 <p v-cloak>{{loop.heathExplain}}</p>
-                            </div>
+                            </div> 
                         </div>
                 </div>
             </div>
@@ -114,7 +122,9 @@
                         "bloodWhy": "",
                         "heathScore": 0,
                         "heathIndex": "",
-                        "heathExplain": ""    
+                        "heathExplain": "" ,
+                        "heathSymptoms" :"",
+                        "heathWhy" :""
                     }                                   
                 },
                 mounted:function(){
@@ -123,14 +133,12 @@
                         type:'POST',
                         url:dataUrl +  '/api/v5/index/bloodOxygenValue',
                         data:{
-                            inspectCode: inspectCode
+                            inspectCode:inspectCode
                         },
                         success:function(res){
                             $('#app_501').css({'display':'block'});
                             $('.loadmore.loading').css({'display':'none'});
-                            console.log(res)
                             that.loop = res.data;
-                            console.log(that.loop.heathExplain)
                         }
                     })
                 },
