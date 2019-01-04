@@ -107,7 +107,7 @@ var myapp = new Vue({
 				   	voucherId : voucherId
 				},
 				success : function(data) {
-					if(data.data != '' || data.data != null){
+					if(data.data != '' && data.data != null){
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.startDate = data.data.startDate

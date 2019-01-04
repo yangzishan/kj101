@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<section class="my_view">
+<DIV class="pay4th" id="appVUE">
+	<p><img src="img/pay3-t.png" class="img_b"></p>
+	<div class="paybox">
+		<p class="btit">您是第<font>{{userIdstr}}</font>位检测的用户</p>
+		<dl class="con">
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay500-1st.png"></i>
+				<div class="pcc">
+					<p class="name">健康报告</p>
+					<p class="txt">全面展示身体健康状况</p>
+				</div>
+			</dd>
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay500-2nd.png"></i>
+				<div class="pcc">
+					<p class="name">皮肤报告</p>
+					<p class="txt">皮肤问题深度剖析</p>
+				</div>
+			</dd>
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay500-3rd.png"></i>
+				<div class="pcc">
+					<p class="name">心脏功能</p>
+					<p class="txt">心脏问题突出展示</p>
+				</div>
+			</dd>
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay500-4th.png"></i>
+				<div class="pcc">
+					<p class="name">微循环</p>
+					<p class="txt">关注细胞新陈代谢</p>
+				</div>
+			</dd>
+		</dl>
+	</div>
+	
+	<div class="pay-x-fix">
+		<button class="pay" id="pay">支付看报告</button>
+		<span class="price">优惠价:<font>￥{{price}}</font></span>
+		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
+	</div>
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{price}}</p>
+		</div>
+		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<a class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</a>
+	</div>	
+</DIV>
+	
+</section>
+<div class="v_overlay"></div>
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<div class="daifu_d">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

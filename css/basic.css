@@ -32,3 +32,7 @@ button{font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei'
 .k1{height: .2rem;}
 .bck-col-f4{background-color: #F4F4F4;}
 .myview{ padding: 0 .3rem;}
+
+/*loading*/
+.load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(204,204,204,0.1); z-index: 9999; display: none;}
+.load-overlay .loadimg{ width: 1.2rem; height: 1.2rem; position: absolute; top: 50%; left: 50%; margin: -.6rem 0 0 -.6rem;}

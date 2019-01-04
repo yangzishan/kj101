@@ -51,23 +51,22 @@
 </script>
 <script>
 //截取URL 获取
-function GetQueryString(name){
+function getQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var myuserId=GetQueryString("userId");
-var myopenId = GetQueryString('openId');
+var userId=getQueryString("userId");
+var openId = getQueryString('openId');
 
 //记录索引
 var aIndex = 0;
-
 $.ajax({
 url : dataUrl + "/api/v1/reportIndex/historyByUserId",
 type : "POST",
 dataType : 'json',
 data : {
-   	userId : myuserId,
+   	userId : userId,
     firstPage: '0',
     pageSize: 30
 },
@@ -80,28 +79,28 @@ success : function(historyData) {
 			oa.className = 'h_li';
 			oa.innerHTML = '<span class="dat">'+ historyData.data[i].inspectDateStr+ '</span> <i class="arr fr"></i><span class="num fr">'+historyData.data[i].totalScore+'分</span>';
 			
-			if(historyData.data[i].reportType == 1){
-				oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
-			}else if(historyData.data[i].reportType == 2){
+			if(historyData.data[i].reportType == 1){  //jsp
+				oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
+			}else if(historyData.data[i].reportType == 2){ //1.0
 				oa.innerHTML = '<span class="dat">'+ historyData.data[i].inspectDateStr+ '</span> <i class="arr fr"></i>';
-				oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;	
-			}else if(historyData.data[i].reportType == 5){
-				oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
-			}else if(historyData.data[i].reportType == 6){
-				oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
-			}else if(historyData.data[i].reportType == 120){
-				oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
-			}else if(historyData.data[i].reportType == 121){
-				oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+				oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + openId;	
+			}else if(historyData.data[i].reportType == 5){ //2.0
+				oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
+			}else if(historyData.data[i].reportType == 6){ //3.0
+				oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
+			}else if(historyData.data[i].reportType == 120 || historyData.data[i].reportType == 121){ 
+				oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 			}else if(historyData.data[i].reportType == 100){
-				oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+				oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
+			}else if(historyData.data[i].reportType == 500){
+				oa.href = 'index500.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 			}else{
 				if(historyData.data[i].deviceType == 1){
-					oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+					oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 				}else if(historyData.data[i].deviceType == 2){
-					oa.href = bit_testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+					oa.href = bit_testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 				}else{
-					oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+					oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 				}
 				
 			}
@@ -158,7 +157,7 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 			type : "POST",
 			dataType : 'json',
 			data : {
-			   	userId : myuserId,
+			   	userId : userId,
 			    firstPage: '0',
 			    pageSize: pageSize
 			},
@@ -171,27 +170,25 @@ if (getScrollTop() + getClientHeight() == getScrollHeight()) {
 						oa.innerHTML = '<span class="dat">'+ historyData.data[i].inspectDateStr+ '</span> <i class="arr fr"></i><span class="num fr">'+historyData.data[i].totalScore+'分</span>';
 						
 						if(historyData.data[i].reportType == 1){
-							oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+							oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 						}else if(historyData.data[i].reportType == 2){
 							oa.innerHTML = '<span class="dat">'+ historyData.data[i].inspectDateStr+ '</span> <i class="arr fr"></i>';
-							oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;	
+							oa.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + historyData.data[i].inspectId + '&openId=' + openId;	
 						}else if(historyData.data[i].reportType == 5){
-							oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+							oa.href = 'index2.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 						}else if(historyData.data[i].reportType == 6){
-							oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
-						}else if(historyData.data[i].reportType == 120){
-							oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
-						}else if(historyData.data[i].reportType == 121){
-							oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+							oa.href = 'index3.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
+						}else if(historyData.data[i].reportType == 120 || historyData.data[i].reportType == 121){
+							oa.href = 'index120.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 						}else if(historyData.data[i].reportType == 100){
-							oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+							oa.href = 'fund/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 						}else{
 							if(historyData.data[i].deviceType == 1){
-								oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+								oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 							}else if(historyData.data[i].deviceType == 2){
-								oa.href = bit_testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+								oa.href = bit_testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 							}else{
-								oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + myopenId;
+								oa.href = testHealthUrl + '/index.html?reportId=' + historyData.data[i].inspectId + '&openId=' + openId;
 							}
 							
 						}

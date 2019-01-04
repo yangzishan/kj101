@@ -1,23 +1,23 @@
-//截取URL
-function GetQueryString(name) {
-    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-    if (result == null || result.length < 1) {
-        return "";
-    }
-    return result[1];
-};
-var reportId = GetQueryString('reportId');
-var openId = GetQueryString('openId');
-var edition = 2;  //2.0报告
+var reportId = getQueryString('reportId');
+var openId = getQueryString('openId');
+var edition = getQueryString('edition');
+if(edition == undefined || edition == null || edition == ''){
+	edition = 2;
+	var indexAll_data = '/api/v1/reportIndex/indexAll'
+	var targetImprove_data = '/api/v2/reportIndex/targetImprove'
+}else if(edition == 500){ //适配501报告
+	var indexAll_data = '/api/v5/reportData/indexAll'
+	var targetImprove_data = '/api/v5/reportData/targetAnalyse'
+	$('header').css("display","none")
+}
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
-
 var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
-			reportId:'',
-			openId:'',
+			reportId: reportId,
+			openId: openId,
 			sameUser:'',
 			paymentType:'',
 			totalScore:'',
@@ -49,13 +49,11 @@ var myApp = new Vue({
 		this.analysisReport();
 	},
 	methods: {
-		// 解析报告
-		analysisReport: function(){
-			var _this = this;
+		analysisReport: function(){ //解析报告
+			var vm = this;
 			$.ajax({
 				type:"post",
 				url:dataUrl + "/api/v1/reportIndex/analysisReport",
-				async:true,
 				dataType:"json",
 				data:{
 					reportId: reportId,
@@ -63,11 +61,11 @@ var myApp = new Vue({
 				},
 				success:function(data){
 					if(data.code == 200){
-						_this.getData(); // 执行获取首页数据
+						vm.getData(); // 执行获取首页数据
 					}else if(data.code == 402){
 						window.location.href="userInfor.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 405){
-						//window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
+						window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 403){
 						window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
 					}else if(data.code == 302){
@@ -81,13 +79,11 @@ var myApp = new Vue({
 				error: function(){alert('analysisReport error')}
 			});
 		},
-		// 获取首页数据
-		getData: function(){
-			var _this = this;
+		getData: function(){ //获取首页数据
+			var vm = this;
 			$.ajax({
 				type:"post",
-				url:dataUrl + "/api/v1/reportIndex/indexAll",
-				async:true,
+				url:dataUrl + indexAll_data,
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
@@ -95,34 +91,28 @@ var myApp = new Vue({
 				},
 				success: function(indexData){
 					if(indexData.code == 201){
-						_this.sameUser = indexData.data.sameUser;
-						_this.paymentType = indexData.data.paymentType;
-						_this.participate(_this.paymentType,_this.sameUser);  //执行判断优惠券
+						vm.participate(indexData.data.paymentType,indexData.data.sameUser);  //执行判断优惠券
 					}else if(indexData.code == 200){
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
-						_this.reportId = reportId,
-						_this.openId = openId,
-						_this.totalScore = indexData.data.indexPage.totalScore, //全部得分
-				   		_this.inspectDate = indexData.data.indexPage.inspectDate, // 检测日期
-				    	_this.ranking = indexData.data.indexPage.ranking, //排名
-				    	_this.age = indexData.data.indexPage.age,
-				  		_this.reportStr = indexData.data.indexPage.reportStr, //生理年龄字句
-				  		_this.firstStr = indexData.data.indexPage.firstStr, //各个系统生理年龄
-				  		_this.firstPages = indexData.data.firstPages, //各个系统
-				  		_this.otherPages = indexData.data.otherPages, //其他状况
-				  		_this.inspectDay = indexData.data.map.inspectDay,
-				  		_this.userName = indexData.data.map.userName,
-				  		_this.sexStr = indexData.data.map.sexStr,
-				  		_this.ps = indexData.data.map.ps;
-				  		_this.litNum = indexData.data.map.list2.length;
-				  		_this.midNum = indexData.data.map.list3.length;
-				  		_this.abnormalName = indexData.data.map.abnormalName;
-				  		_this.userId = indexData.data.userId;
-				  		_this.targetImprove(_this.userId); //调用与上份报告对比
-				  		
-				  		//总分动画效果
-						setTimeout(function(){
+						vm.totalScore = indexData.data.indexPage.totalScore, //全部得分
+				   		vm.inspectDate = indexData.data.indexPage.inspectDate, // 检测日期
+				    	vm.ranking = indexData.data.indexPage.ranking, //排名
+				    	vm.age = indexData.data.indexPage.age,
+				  		vm.reportStr = indexData.data.indexPage.reportStr, //生理年龄字句
+				  		vm.firstStr = indexData.data.indexPage.firstStr, //各个系统生理年龄
+				  		vm.firstPages = indexData.data.firstPages, //各个系统
+				  		vm.otherPages = indexData.data.otherPages, //其他状况
+				  		vm.inspectDay = indexData.data.map.inspectDay,
+				  		vm.userName = indexData.data.map.userName,
+				  		vm.sexStr = indexData.data.map.sexStr,
+				  		vm.ps = indexData.data.map.ps;
+				  		vm.litNum = indexData.data.map.list2.length;
+				  		vm.midNum = indexData.data.map.list3.length;
+				  		vm.abnormalName = indexData.data.map.abnormalName;
+				  		vm.userId = indexData.data.userId;
+				  		vm.targetImprove(vm.userId); //调用与上份报告对比
+						setTimeout(function(){ //总分动画效果
 							$('.guang').css("transform","rotate("+1.8*indexData.data.indexPage.totalScore+"deg)");
 						},100)
 						$('#score').animateNumber({ number: indexData.data.indexPage.totalScore },1100);
@@ -134,7 +124,7 @@ var myApp = new Vue({
 						var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
 						var insDate = new Date(indexData.data.indexPage.inspectDate.replace(/\-/g, "/"));
 						console.log(setDate); console.log(insDate);
-						_this.showRecipe = insDate.getTime() - setDate.getTime();
+						vm.showRecipe = insDate.getTime() - setDate.getTime();
 						//十大系统指标环形进度
 						var w_cir = $(window).width();
 						if($(window).width() > 750){
@@ -175,11 +165,9 @@ var myApp = new Vue({
 								    emptyFill:'#ffffff',
 								    size: 0.16*w_cir,
 								    thickness: 16,
-								    //lineCap: 'round',
 								    startAngle: Math.PI*1.5
 								});
-								//分数低于90变色
-								if(c_va<90){
+								if(c_va<90){//分数低于90变色
 									$(this).find('.s-inf').find('.tx').css("color","#FF8800");
 								};
 							});
@@ -201,7 +189,6 @@ var myApp = new Vue({
 						});
 						var _offset = sessionStorage.getItem("offsetTop");
 						$(document).scrollTop(_offset); // 记录滚动位置
-						
 					}
 				},
 				error: function(){alert('indexAll error')}
@@ -209,9 +196,9 @@ var myApp = new Vue({
 		},
 		//与上份报告对比
 		targetImprove: function(userId){
-			var _this = this;
+			var vm = this;
 			$.ajax({
-				url : dataUrl + "/api/v2/reportIndex/targetImprove",
+				url : dataUrl + targetImprove_data,
 				type : "POST",
 				dataType : 'json',
 				data : {
@@ -224,15 +211,14 @@ var myApp = new Vue({
 							$('#v_change').empty();
 							return
 						}else{
-							_this.lastDateStr = data.data.lastDateStr, //上次检测日期
-							_this.currentDateStr = data.data.currentDateStr, //当前检测日期
-							_this.okImproves = data.data.okImproves, //已改善
-							_this.noImproves = data.data.noImproves //为改善
+							vm.lastDateStr = data.data.lastDateStr, //上次检测日期
+							vm.currentDateStr = data.data.currentDateStr, //当前检测日期
+							vm.okImproves = data.data.okImproves, //已改善
+							vm.noImproves = data.data.noImproves //为改善
 						}
 					
 						//介绍弹窗
 						$('#zbgs_tc').on("click",function(event){
-							event.stopPropagation();
 							showMask();
 							$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 							return false;
@@ -279,10 +265,17 @@ var myApp = new Vue({
 			
 			
 		},
-
-		//判断优惠券
+		//判断支付页面
 		participate: function(paymentType,sameUser){
-			window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			if(paymentType == 3){
+				window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			}else if(paymentType == 4){
+				window.location.href="pay_type4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			}else if(paymentType == 2){
+				window.location.href="pay_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			}else{
+				window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+			}		
 		},
 		//介绍弹窗
 		popTen: function(e){
@@ -309,6 +302,12 @@ var myApp = new Vue({
 		goSetUp: function(e){ //个人中心
 			window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
 		},
+		getSuggest: function(e){ //健康建议
+			window.location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition
+		},
+		getRecipesData: function(e){ //健康食谱
+			window.location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
+		},
 	}
 });
 
@@ -324,15 +323,19 @@ function closeMask(){
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
 		$("body").css("overflow","auto");
 	});
-};				
+};	
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
 function creatMychart(id,arrayY,arrayX,age,msecond){
 	setTimeout(function(){
 		var myChart = echarts.init(document.getElementById(id));
 		option = {
-			/*grid:{
-				left:'11%', 
-				right:'10%'
-			},*/
 		    xAxis: {
 		        type: 'category',
 		        boundaryGap: ['3%','3%'],

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+    <meta content="telephone=no" name="format-detection" />
+    <title>微循环</title>
+    <link rel="stylesheet" href="./css/basic.css">
+    <!-- <link rel="stylesheet" href="./css/skin.css"> -->
+    <script>
+        document.write('<link rel="stylesheet" href="css/skin.css?t='+new Date().getTime()+'">')
+    </script>
+</head>
+
+<body class="fiveone body_loop">
+        <div class="loadmore loading"></div>
+    <div id='app_501'>
+            <div class="mask" @click="Touchmove();" ></div>
+            <div class="popup">
+                <i class="close"  @click="Touchmove"></i>
+                <h1>弹窗</h1>
+                <div class="huadong">
+                    这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容
+                </div>
+            </div>
+            <div class="header_loop">
+                <h1>微循环</h1>
+                <span class="go_black" @click="goHistory()"></span>
+            </div>
+            <div class="center">
+                <div class="show_question">
+                    <div calss="caption"><i class="begin_title"></i><h3 class="til">血氧饱和度</h3><em class="title_img" @click=""></em></div>
+                    <div class="img_box">
+                        <div class="right">
+                            <img src="./img/skin/wxh_501.png" alt="">
+                        </div>  
+                        <div class="left">
+                            <p><i v-cloak>{{loop.bloodScore}}%</i><b>&nbsp;&nbsp;<&nbsp;&nbsp;</b><span>正常的范围(94%-99%)</span></p>
+                            <p v-cloak>{{loop.bloodStatus}}</p>
+                        </div>
+                    </div>
+                    <div class="ul_501" v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'">
+                        <div>
+                            <p class="list_title">可能出现的症状</p>
+                            <p v-cloak>{{loop.bloodSymptoms}}</p>
+                        </div>
+                        <div>
+                            <p class="list_title">引起的原因</p>
+                            <p v-cloak>{{loop.bloodWhy}}</p>
+                        </div>
+                        <div>
+                            <p class="list_title">改善建议</p>
+                            <p v-cloak>{{loop.bloodAdvice}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="show_question">
+                    <div calss="caption"><i class="begin_title"></i><h3 class="til">微循环</h3><em class="title_img"  @click=""></em></div>
+                    <div class="img_box">
+                            <div class="right">
+                                <img src="./img/skin/501_xueguan.png" alt="">
+                            </div>  
+                            <div class="left">
+                                <p><i v-cloak>{{loop.heathScore}}% </i></p>           
+                                <p v-cloak v-if="loop.heathIndex">{{loop.heathIndex}}</p>
+                            </div>
+                        </div>
+                        <div class="ul_501" v-show="  loop.heathExplain && loop.heathExplain != '无'">
+                            <div>
+                                <p class="list_title">改善建议</p>
+                                <p v-cloak>{{loop.heathExplain}}</p>
+                            </div>
+                        </div>
+                </div>
+            </div>
+    </div>
+
+
+    <script src="js/jquery.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/base.js"></script>
+    <script type="text/javascript">
+        (function (doc, win) {
+            var   docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var   clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>=750){
+                        docEl.style.fontSize = '100px';
+                    }else{
+                        docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                    }
+                };
+        
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+    <script>
+        $(function(){
+            var  inspectCode = getQueryString('reportId');
+            new Vue({
+                el:'#app_501',
+                data:{
+                    loop:{
+                        "bloodAdvice": "",
+                        "bloodScore": 0,
+                        "bloodStatus": "",
+                        "bloodSymptoms": "",
+                        "bloodWhy": "",
+                        "heathScore": 0,
+                        "heathIndex": "",
+                        "heathExplain": ""    
+                    }                                   
+                },
+                mounted:function(){
+                    var  that = this;
+                    $.ajax({
+                        type:'POST',
+                        url:dataUrl +  '/api/v5/index/bloodOxygenValue',
+                        data:{
+                            inspectCode: inspectCode
+                        },
+                        success:function(res){
+                            $('#app_501').css({'display':'block'});
+                            $('.loadmore.loading').css({'display':'none'});
+                            console.log(res)
+                            that.loop = res.data;
+                            console.log(that.loop.heathExplain)
+                        }
+                    })
+                },
+                methods:{
+                    stopTouchmove:function(){
+                        $('.mask').addClass('show');
+                        $('.popup').addClass('show');
+                        sTop = $(window).scrollTop();
+                        $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});         
+                    },
+                    Touchmove:function(){
+                        $('.mask').removeClass('show');
+                        $('.popup').removeClass('show');
+                        $('body').css({'position':'static'}); 
+                        $(window).scrollTop(sTop);
+                    },
+                    goHistory:function(){
+                        history.back()
+                    }
+                }
+            });
+             // 获取url参数方法
+            function getQueryString(name) {
+                var   result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+                if (result == null || result.length < 1) {
+                    return "";
+                }
+                return result[1];
+            };
+        });
+    </script>
+</body>

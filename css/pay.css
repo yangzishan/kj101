@@ -3,7 +3,6 @@ body { background: #f6f9f9; }
 	font-family:myfont;
 	src: url(Kaiti-SC-Black.ttf);
 }
-
 .health-top { height: 2.85rem; background: #1eceb7; color: #fff; padding: 0 .18rem;}
 .health-top .title { overflow: hidden; display: flex; justify-content: center; align-items: center; padding-top: .35rem;}
 .health-top .title .img { width: .48rem;}
@@ -50,10 +49,7 @@ body { background: #f6f9f9; }
 .new-pay .pay-num p { padding: .2rem 0 .1rem 0;/*font-family: myfont;*/ font-weight: bold;}
 .new-pay .pay-num p span { color: #f9fc9f; font-size: .36rem;}
 .new-pay .list-box { padding: 0 .2rem; margin-top: -1.5rem; }
-
-
 .new-pay .list-box .abnormal{ box-shadow: 0 3px 10px #ccc; border-radius: .2rem;background: #fff; padding: .25rem .1rem 0 .1rem;margin-bottom: .3rem;}
-
 .new-pay .list-box .abnormal .tit{ text-align: center; font-size: .26rem; font-weight: bold;}
 .new-pay .list-box .abnormal .con{ font-size: 0;}
 .new-pay .list-box .abnormal .con .c_li{ display: inline-block; width: 49.5%; font-size: .28rem; color: #000000; position: relative; text-align: center;}
@@ -68,8 +64,6 @@ body { background: #f6f9f9; }
 .new-pay .list-box .abnormal .con .c_li p{text-align: center; line-height: .4rem;}
 .new-pay .list-box .abnormal .tip{ text-align: center; color: #7e7e7e; font-size: .24rem; padding: .1rem 0 .2rem; line-height: .4rem;}
 .new-pay .list-box .abnormal .tip .dot{ display: inline-block; width: .13rem; height: .13rem; background: #1eceb7; border-radius: 10rem; margin: .11rem .12rem 0 0;}
-
-
 .new-pay .list-box .list { box-shadow: 0 3px 10px #ccc; border-radius: .2rem;background: #fff; padding: .25rem .13rem 0; margin-bottom: .3rem;}
 .new-pay .list-box .list .title { font-size: .32rem; color: #000; padding-left:.13rem; font-weight: bold;}
 .new-pay .list-box .list .item { overflow: hidden; }
@@ -101,11 +95,13 @@ body { background: #f6f9f9; }
 .new-pay .look-btn { width: 4rem; height: .68rem;text-align: center; line-height: .68rem;color: #fff; font-size: .32rem;border-radius: 10rem; background: #ea3621; margin: 0 auto; }
 .new-pay .hint { color: #7e7e7e; font-size: .22rem;text-align: center; padding: .2rem 0; line-height: .22rem;}
 .new-pay .foot { color: #fff; background: #1eceb7; font-size: .22rem; text-align: center; line-height: .45rem; padding: 0 .12rem;}
-
-/*支付按钮修改 */
+/*新老用户界面支付按钮修改 */
 .pay-x-fix{ position: fixed; bottom: 0; width: 100%; max-width: 750px; height: .88rem; background: #fff;}
 .pay-x-fix .pay{ float: right; width: 2.2rem; height: .88rem; background: #f13733; color: #fff; text-align: center; font-size: .3rem; font-weight: bold; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .pay-x-fix .price{ height: .88rem; line-height: .88rem; float: right; font-size: .3rem; margin-right: .2rem;}
 .pay-x-fix .price font{ font-size: .46rem; color: #f13733; font-weight: bold;}
 .pay-x-fix .oprice{ padding-left: .2rem; line-height: .88rem; color: #999; font-size: .3rem;}
 .pay-x-fix .oprice font{ font-weight: bold;text-decoration: line-through;}
+
+/*支付4版*/
+

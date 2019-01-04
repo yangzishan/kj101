@@ -8,7 +8,7 @@
 .header .b-arr{ width: .24rem; height: .88rem; background: url(../img/arr-b.png) no-repeat center; background-size: .18rem .34rem;position: relative;z-index: 999;}
 .header .txt1{ font-size: .34rem; font-weight: bold;}
 .all_score{background:linear-gradient(-1deg, #26d6ac 0%, #2fbab0 100%); color: #fff; padding: 0 .2rem .2rem; text-align: center; position: relative;}
-/*circleProgress*/
+/*1.0*/
 .circle_b{ text-align: center; padding: .01rem;}
 .circle_b .circle { width: 152px; height: 152px; margin:.12rem; display: inline-block; position: relative; text-align: center; line-height: 1.2;border: 1px solid #62ede2; border-radius: 50%;}
 .circle_b .circle canvas {margin: 5px 0 0; vertical-align: top;}
@@ -16,7 +16,6 @@
 .circle_b .circle i { position: absolute; top: 30px; left: 0; width: 100%; text-align: center; line-height: 40px; font-size: 14px;}
 .circle_b .circle span { display: block; color: #aaa; margin-top: 12px;}
 .box-d{ width: 140px; height: 140px; position: absolute; left:5px; top: 5px; border-radius: 50%; box-shadow: 0 0 5px 10px rgba(255,255,255,0.2);}
-/*--*/
 .score_inf{ font-size:.28rem;}
 .score_inf .inf-rk{ margin:.2rem 0;}
 .score_inf .inf-sg{ display:inline-block; padding: 0 .25rem; margin:0 auto; height: .64rem; line-height: .64rem; background: #2fd6c9; border-radius: .32rem; color: #fff;}
@@ -107,7 +106,6 @@
 .tenSys_c a .s-chart{ display: inline-block; vertical-align: top; width: 1.4rem; text-align: center; position: relative;}
 .tenSys_c a .s-chart .c_circle{ position: relative; width: 1.2rem; height: 1.2rem; margin: 0 auto;}
 .tenSys_c a .s-chart i{ width: .88rem; height: .88rem;  position: absolute; top:.16rem; left:.16rem;} 
-
 .tenSys_c a .s-chart i.ico3087{background: url(../img/ten/i-xunhuan.png) no-repeat; background-size: .88rem .88rem;}
 .tenSys_c a .s-chart i.ico3095{background: url(../img/ten/i-xiaohua.png) no-repeat;  background-size: .88rem .88rem;} 
 .tenSys_c a .s-chart i.ico3108{background: url(../img/ten/i-huxi.png) no-repeat;  background-size: .88rem .88rem;} 
@@ -265,7 +263,7 @@
 .infCon .item.cor1 .jy{border:1px solid #ffcb00; color: #ffcb00;}
 .infCon .item.cor2{color: #f75428;}
 .infCon .item.cor2 .jy{border:1px solid #f75428; color: #f75428;}
-/*new 5.0*/
+/*new 2.0*/
 .seCon{ padding: .2rem .2rem 0; margin: 0 0 .18rem 0; background: #fff;}
 .seCon .cdt{}
 .seCon .cdt .lab{ height: .64rem; line-height: .64rem; font-size: .32rem; font-weight: bold; color: #000;}
@@ -288,7 +286,7 @@
 .seCon .cdd .num{}
 .seCon .cdd em{ display: inline-block; width: .15rem; height: .3rem; background: url(../img/arr-rs.png) no-repeat; background-size: 100%; margin-top: .3rem;}
 
-/*~三级指标页面 2018-4-17~ v5.0*/
+/*~三级指标页面 2018-4-17~ v2.0*/
 .thr_sta{ display: -webkit-box; display: box; padding: .2rem .3rem;}
 .thr_sta .sta_i{ width: 2.5rem;}
 .thr_sta .sta_i i{display: block; margin: 0 auto; width: 2.16rem; height: 2.16rem; border-radius: 50%; text-align: center; line-height: 2.16rem; color: #1ebeb1; font-size: .64rem; font-weight: bold;}
@@ -311,21 +309,6 @@
 .history_b .h_li .dat{ line-height: .88rem;}
 .history_b .h_li .arr{ width:.16rem; height: .88rem; background: url(../img/arr-r.png) no-repeat center; background-size: .12rem .24rem; margin-left: .3rem;}
 .history_b .h_li .num{ line-height: .88rem;}
-/*健康建议*/
-.summary{ padding: 0 .24rem .2rem; border-bottom: #ddd solid .01rem; color: #666;}
-.summary .tit{ line-height: .7rem;}
-.summary .txt{ font-size: .28rem; text-indent: .56rem; line-height: .52rem;}
-.jkjy_tit{padding: 0 .24rem; line-height: .96rem; color: #000; font-size: .32rem;border-bottom: #ddd solid .01rem; font-weight: bold;}
-.jyinf_c{color: #666; padding: 0 0 .6rem;}
-.inf_c{ padding: 0 .24rem;}
-.inf_c .btit{ height: .88rem; padding: .24rem 0; line-height: .4rem; font-size: .28rem;}
-.inf_c .btit .lab{ display: inline-block; padding: 0 .25rem; border-left: .1rem solid #01a99c; color: #000; font-weight: bold;}
-.inf_c .btit .yc{ margin-right: .5rem;}
-.inf_c .binf{ line-height: .52rem;}
-.inf_c .binf .tit i{ position: relative; top: .02rem;}
-.inf_c .binf .tit .i01{width: 16px; height: 17px; margin-right: 11px; display: inline-block;  background: url(../img/jy-icon.png) no-repeat center; background-position: 0 0;}
-.inf_c .binf .tit .i02{width: 16px; height: 14px; margin-right: 11px; display: inline-block; background: url(../img/jy-icon.png) no-repeat center; background-position: 0 -17px;}
-.inf_c .binf .txt{}
 /*健康建议改版*/
 .sumTit2{ line-height: .7rem; font-size: .24rem; padding: 0 .3rem; background: #F4F4F4;}
 .jkjy_wrap{ padding: 0 .3rem .2rem;}
@@ -424,39 +407,7 @@
 .kjcopy_d .p2{ color: #666}
 .kjcopy_d .p3{ color: #ccc;}
 
-/* 以下暂时无启用 （一个页面提交） */
-.d_subpson{ text-align: center;}
-.d_subpson button{ width: 3.6rem; height: .88rem; background: #1ebeb1; font-size: .32rem; color: #fff; border-radius: .44rem; outline: none;}
-.sel_sex{position: fixed; bottom: 0; width: 100%; z-index: 11111;-webkit-transform: translateY(110%); -webkit-transition-duration:400ms ;transition-duration: 400ms;}
-.tc_psondata{position: fixed; margin: auto; left: 0; right: 0; bottom: 0; top: 0; width: 4.2rem; height: 2.5rem; z-index: 11111; color: #fff; text-align: center; display: none;}
-.tc_psondata .tit{ font-size: .32rem; font-weight: 700;}
-.tc_psondata .pint{ position: relative; width: 100%; height: 1rem; line-height: 1rem; border-bottom: #fff solid .03rem;}
-.tc_psondata .pint input{ height: 1rem; width: 100%; text-align: center; font-size: .42rem; color: #fff;}
-.tc_psondata .pint em{ position: absolute; width: .5rem; height: 1rem; right: 0; top: 0; font-size: .4rem; /*font-weight: bold;*/ font-family: "微软雅黑";}
-
-/*用户注册信息*/
-.usiTop{ height: 3.34rem; padding: .02rem 0; background: url(../img/us.jpg) no-repeat; background-size: 100%; position: relative;}
-.usiTop .go{width: 1.5rem; height: 1.5rem; border-radius: 50%;position: absolute; top: .6rem; left: 50%; margin-left: -.75rem;}
-.usiTop .tx{ margin-top: 2.2rem; color: #fff; text-align: center;}
-.usiTop .uplod{width: 1.5rem; height: 1.5rem; border-radius: 50%; position: absolute; top: .6rem; left: 50%; margin-left: -.75rem; opacity: 0; z-index: 999;}
-.user-inf{ padding: 0 .3rem;}
-.uinf-d{ display: -webkit-box; display: box; height: 1.2rem; padding: .15rem 0; border-bottom: #eaeaea solid .02rem;}
-.uinf-d .lab{ display: block; width: 1.23rem; text-align: center; line-height: .9rem; margin-right: .2rem; font-size: .3rem;}
-.uinf-d .mid{-webkit-box-flex: 1; position: relative;}
-.uinf-d .mid b{position: absolute; line-height: .9rem; top: 0; right: 0; color: #999; font-size: .3rem; font-weight: 400;}
-.uinf-d .mid label{ display: inline-block; height: .9rem; margin-right: .5rem;}
-.uinf-d .mid label input{ opacity: 0; width: 1px;}
-.uinf-d .mid label i{ display: inline-block; vertical-align: top; width: .36rem; height: .36rem; background: url(../img/sex2.png) no-repeat; background-size:100%; margin:.27rem .15rem 0 0;}
-.uinf-d .mid label em{ display: inline-block; vertical-align: top; line-height: .9rem;}
-.uinf-d .mid label.dx i{ display: inline-block; width: .36rem; height: .36rem; background: url(../img/sex1.png) no-repeat; background-size:100%;}
-.uinf-d .mid input[type^="te"]{ display: block; width: 92%; height: .9rem; font-size: .3rem;}
-.uinf-d .mid input[type^="nu"]{ display: block; width: 92%; height: .9rem; font-size: .3rem;}
-.uinf-d .hqy{ display: block; width: 2rem; height: .58rem; border: #61b757 solid .02rem; border-radius: .29rem; text-align: center; line-height: .56rem; color: #61b757; margin-top: .17rem;}
-.ustip{ margin: .8rem .3rem 0; padding: .2rem .1rem; color: #999999; font-size: .24rem; line-height: .48rem;border-top: #eaeaea solid .02rem;}
-.d-out{ padding: .7rem .2rem 0;}
-.mbtn-sub{ display: block; width:100%;height: .88rem; line-height: .88rem; background: #61b757; color: #fff; font-size: .34rem; border-radius: .1rem;}
-
-/*改 新用户登录注册*/
+/*新用户登录注册*/
 .d_login{ width: 100%; /*height: 3.6rem;*/ overflow: hidden; position: relative;}
 .d_login #cn1{position: absolute; top: 0; left: 0;}/*null*/
 .d_login #cn2{ position: absolute; top: 0; left: 110%;}/*null*/
@@ -494,7 +445,7 @@
 .tc-qx .ppint input{ width: 90%; height: .9rem; font-size: .32rem;}
 
 /*支付*/
-.paytip{background:#d9f5f3; text-align:center; margin:0;line-height:.42rem;padding:.14rem 0;}
+/*.paytip{background:#d9f5f3; text-align:center; margin:0;line-height:.42rem;padding:.14rem 0;}
 .pay-list{ padding: 0 .28rem;}
 .pay-list li{}
 .pay-list .list-top{border-bottom: .01rem solid #e4e4e4; line-height:.6rem; padding:.28rem 0;}
@@ -502,7 +453,7 @@
 .pay-list .list-top .gopay{width: 1.6rem;height:.6rem; line-height: .6rem; background: #07bc12; text-align: center; border-radius: 5px; color: #fff;}
 .pay-list .list-top .price{color: #f15f25;  margin-right:.3rem; font-size: .32rem;}
 .pay-list .list-top .price2{color: #f15f25;  margin-right:.3rem; font-size: .32rem; text-decoration: line-through;}
-.pay-list .list-details{padding: .2rem 0; line-height: .48rem; font-size: .28rem;}
+.pay-list .list-details{padding: .2rem 0; line-height: .48rem; font-size: .28rem;}*/
 .sl-pay{ padding-bottom: .15rem; width: 100%;background: #ffffff;z-index: 10002;position: fixed;bottom: 0;transform: translateY(110%);transition-duration:150ms;}
 .sl-pay .bt{ height: 44px; line-height: 44px;  border-bottom: #f4f4f4 solid 1px; text-align: center; font-size: 15px; position: relative;}
 .sl-pay .bt .close{ position: absolute; top: 13px; right: 12px; padding: 3px}
@@ -519,9 +470,15 @@
 .sl-pay .pay-li i.ico3{ background: url(../img/o-key.png); background-size:contain;}
 .sl-pay .pay-li span{ display: inline-block; vertical-align: top; line-height: 50px; font-size: 15px;}
 .sl-pay .pay-li img.arr{ position: absolute; top: 17px; right: 15px; width: 8px; height: 15px;}
+.pay-x-fix{ position: fixed; bottom: 0; width: 100%; max-width: 750px; height: .88rem; background: #F2F2F2;}
+.pay-x-fix .pay{ float: right; width: 2.2rem; height: .88rem; background: #f13733; color: #fff; text-align: center; font-size: .3rem; font-weight: bold; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
+.pay-x-fix .price{ height: .88rem; line-height: .88rem; float: right; font-size: .3rem; margin-right: .2rem;}
+.pay-x-fix .price font{ font-size: .46rem; color: #f13733; font-weight: bold;}
+.pay-x-fix .oprice{ padding-left: .2rem; line-height: .88rem; color: #999; font-size: .3rem;}
+.pay-x-fix .oprice font{ font-weight: bold;text-decoration: line-through;}
 
 /*新支付页面*/
-.pay_x_bg{ width: 100%; height: 3.52rem; padding: .24rem .2rem 0; background: url(../img/pay-x-bg.png) no-repeat top center;background-size: 100%; color: #fff;}
+/*.pay_x_bg{ width: 100%; height: 3.52rem; padding: .24rem .2rem 0; background: url(../img/pay-x-bg.png) no-repeat top center;background-size: 100%; color: #fff;}
 .pay_x_bg .btit{ height: .48rem;}
 .pay_x_bg .btit .ico{ display: inline-block; vertical-align: top; width: .48rem; height: .48rem; border-radius: 50%; background: #99f2de url(../img/pay-x-t.png) no-repeat center; background-size: .24rem .24rem;}
 .pay_x_bg .btit .lab{ display:inline-block; vertical-align: top; line-height: .48rem; margin-left: .2rem; font-size: .3rem;}
@@ -538,7 +495,7 @@
 .pay_x_bg .bcon .cn_r .rpcn em{ color:#fff000;}
 .pay_x_bg .bcon .cn_r .rpcn .ic{ display: inline-block; vertical-align: top; width: .5rem; height: .5rem; background: url(../img/pay-x-nl.png) no-repeat center; background-size: .24rem .31rem;}
 .healthSta{ height: 1.2rem; padding: .3rem 0; line-height: .6rem; text-align: center; font-size: .36rem;}
-.healthSta .sta{ color: #ee0000;}
+.healthSta .sta{ color: #ee0000;}*/
 .pay_x_cn{ background: #fff; padding:0 .2rem;}
 .pay_x_cn .btit{ height: .7rem; line-height: .7rem; /*border-bottom: #f2f2f2 solid .02rem;*/}
 .pay_x_cn .btit .ico{display: inline-block; vertical-align: top; margin: .11rem .2rem 0 0; width: .48rem; height: .48rem; background: url(../img/pay-x-gz.png) no-repeat center; background-size: .48rem .48rem;}
@@ -555,12 +512,6 @@
 .pay_x_cn .ablist li .nam{ font-size: .3rem; line-height: .5rem;}
 .pay_x_tip{ padding:.3rem .33rem 0; color: #4a4a4a; font-size: .3rem; line-height: .4rem;}
 .pay_x_tip font{color:#f13733;}
-.pay-x-fix{ position: fixed; bottom: 0; width: 100%; max-width: 750px; height: .88rem; background: #fff;}
-.pay-x-fix .pay{ float: right; width: 2.2rem; height: .88rem; background: #f13733; color: #fff; text-align: center; font-size: .3rem; font-weight: bold; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
-.pay-x-fix .price{ height: .88rem; line-height: .88rem; float: right; font-size: .3rem; margin-right: .2rem;}
-.pay-x-fix .price font{ font-size: .46rem; color: #f13733; font-weight: bold;}
-.pay-x-fix .oprice{ padding-left: .2rem; line-height: .88rem; color: #999; font-size: .3rem;}
-.pay-x-fix .oprice font{ font-weight: bold;text-decoration: line-through;}
 .paytentu{ padding: .18rem 0 0; margin: 0 0 .1rem; border-top:#eaeaea solid .02rem; position: relative; }
 .paytentu .gogo{position: absolute; bottom: 0; right: .12rem; line-height: .4rem; color: #fff;}
 .paytentu .gogo i{display: inline-block; vertical-align: top; width: .4rem; height: .4rem;background: url(../img/arr07.png) no-repeat center; background-size:.29rem .2rem;}
@@ -574,7 +525,7 @@
 .daifu_d .tip{ line-height: .32rem; font-size: .26rem; color: #999;}
 .daifu_d .dbtn{ padding: .5rem 0 .2rem;}
 .daifu_d .dbtn button{ width: 2.79rem; height: .68rem; background: #1eceb7; color: #fff; font-size: .32rem; border-radius: .34rem;}
-/*天津支付页面 (现在全国都用)*/
+/*付页 圆形版*/
 .pay_tj_c{padding: .7rem 0 .52rem;}
 .pay_tj_c .tj_c{ width: 4.76rem; height: 4.76rem; margin: 0 auto; background: url(../img/payfor-tcb.png) no-repeat; background-size:contain; position: relative;}
 .pay_tj_c .tj_c .tens{}
@@ -621,15 +572,22 @@
 .fix-tpp p .aa{display: inline-block; width: .43rem; height: .43rem; vertical-align: top; margin: .22rem 0 0 .22rem;}
 .fix-tpp p em.a1{ background: url(../img/i-smile.png) no-repeat; background-size:contain;}
 .fix-tpp p em.a2{ background: url(../img/i-sad.png) no-repeat; background-size:contain;}
+/*paytype4版*/
+.pay4th{ height: 100%; background: #FFFFFF; color: #333333;}
+.pay4th .paybox{position: relative; width: 6.2rem; min-height: 3rem; margin: -1rem auto; padding: .2rem; background: #ffffff; border-radius: .3rem; box-shadow: 0 0 .3rem 0.05rem #dddddd;}
+.pay4th .paybox .btit{line-height: .6rem; text-align: center; font-size: .32rem;}
+.pay4th .paybox .btit font{ color: #FF3E3F;}
+.pay4th .paybox .con{ padding: 0;}
+.pay4th .paybox .con .c_li{ min-height: 1.1rem; padding: .25rem 0 .25rem .5rem; position: relative; display:-webkit-box;}
+.pay4th .paybox .con .c_li .pic{ display: block; width: 1rem; text-align: center; margin: 0 .2rem 0 0;}
+.pay4th .paybox .con .c_li .pic img{width: .8rem; height: .8rem; border-radius: 50%;}
+.pay4th .paybox .con .c_li .pcc{ -webkit-box-flex: 1;}
+.pay4th .paybox .con .c_li .pcc .name{ font-size: .34rem; font-weight: 600;}
+.pay4th .paybox .con .c_li .pcc .txt{font-size: .26rem; color: #9B9B9B;}
 
-/*新用户-支付*/
 
 
-
-
-
-
-/*=微信支付页面=*/
+/*=下单支付页面=*/
 .d-wxpay{ margin-bottom: .2rem;}
 .wxpay{ background: #fff; /*margin: .2rem .3rem .2rem;*/ padding: .3rem .4rem; border-radius: .1rem; color: #000;}
 .wxpay .dtit{ padding: .2rem 0; line-height: .6rem; font-size: .3rem; font-weight: bold;}
@@ -726,7 +684,6 @@
 /*loading*/
 .load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(204,204,204,0.1); z-index: 9999; display: none;}
 .load-overlay .loadimg{ width: 1.2rem; height: 1.2rem; position: absolute; top: 50%; left: 50%; margin: -.6rem 0 0 -.6rem;}
-
 /*=*/
 .v_overlay{position: fixed;left: 0; right: 0; top: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; visibility: hidden; opacity: 0; -webkit-transition-duration:400ms ;transition-duration: 400ms;}
 .v_overlert{position: fixed; left:.76rem; right: .76rem; top: 50%; transform: translate(0,-50%); -webkit-transform: translate(0,-50%); background: #fff; border-radius: .13rem; overflow: hidden; z-index: 1000; opacity: 0; visibility: hidden; transition-duration: 0; max-width: 6rem;}
@@ -781,7 +738,6 @@
 .tyrd-tit span{display: inline-block;font-size: .3rem; text-align: center; line-height: .78rem;}
 .tyrd-tit span:nth-of-type(1){ width: 55%;}
 .tyrd-tit span:nth-of-type(2){ width: 45%;}
-.ty-record{}
 .ty-record .c-li{ height: .88rem;}
 .ty-record .c-li:nth-child(odd){ background: #fff;}
 .ty-record .c-li:nth-child(even){ background: #f2f2f2;}
@@ -815,7 +771,6 @@
 .ns_tens .sf-btn .btn.on{border: .02rem solid #90e8e4; background: #e4fcfa; color: #0e938c;}
 .gohaibao{ width: 5.12rem; margin: 0 auto; padding: .3rem 0 .2rem;}
 .gohaibao img{ display: block; width: 100%;}
-
 .hb_v{ padding: .2rem; background: #3cd5cf;}
 .hb_c{padding: .1rem; background: #fff; border-radius: .3rem;}
 
