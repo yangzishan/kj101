@@ -9,12 +9,10 @@ function GetQueryString(name) {
 var reportId = GetQueryString('reportId');
 var openId = GetQueryString('openId');
 var edition = 120;
-
 zhuge.track('进入保险版报告首页', { //埋点t
 	'openId' : openId,
 	'渠道' : '微信'
 });
-
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
 var myApp = new Vue({

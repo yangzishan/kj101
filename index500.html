@@ -189,8 +189,7 @@
                             type:'POST',
                             success:function(res){
                                if(res.code == 200){
-                                    $('#app_501').css({'display':'block'});
-                                    $('.loadmore.loading').css({'display':'none'});
+                                   
                                     that.totalScore = res.data.totalScore;
                                     that.ps = res.data.ps;
                                     that.inspectDate = new Date(res.data.inspectDate).getFullYear() + '-' + that.buWei(parseInt(new Date(res.data.inspectDate).getMonth()+1)) + '-' + that.buWei(new Date(res.data.inspectDate).getDate()) + ' ' + that.buWei(new Date(res.data.inspectDate).getHours()) + ':' + that.buWei(new Date(res.data.inspectDate).getMinutes()) + ':' + that.buWei(new Date(res.data.inspectDate).getSeconds());
@@ -198,7 +197,11 @@
                                     that.skinTotalScore = res.data.skinTotalScore;
                                     that.totalScore = res.data.totalScore;
                                     that.userId = res.data.userId;
-                                    that.zhuan();
+                                    setTimeout(function(){
+                                        $('#app_501').css({'display':'block'});
+                                        $('.loadmore.loading').css({'display':'none'});
+                                        that.zhuan();
+                                    },5)
                                     urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition ;
                                }else if(res.code = 201){
                                     window.location.href = 'payfor501.html?reportId='+reportId+'&openId='+openId+'&edition='+edition+'&sameUser='+res.data.sameUser;
@@ -255,7 +258,7 @@
                     this.analysisReport();
                 }
             });
-            $('.list').on('click',function(){
+            $('.content').on('click','.list',function(){
                 if($(this).hasClass('jkbaogao')){
                     window.location.href = 'index2.html' + urlSearch+'&openId=' + openId;
                 }else if($(this).hasClass('heart')){

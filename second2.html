@@ -20,7 +20,7 @@
 		<!--<a class="t-right fr" id="gotrend">查看趋势</a>-->
 	</header>
 	<div class="">
-		<dl class="seCon" v-for="ostate in status">
+		<dl class="seCon" v-for="ostate in secondPages">
 			<dt class="cdt" :class="{bcolor1:ostate.score<90 && ostate.score>=80,bcolor2:ostate.score<80}">
 				<p class="lab"><i></i><span>{{ostate.targetSecondName}}</span></p>
 				<div class="b_prc">
@@ -28,11 +28,11 @@
 					<div class="fen fr"><font>{{ostate.score}}</font>分</div>
 				</div>	
 			</dt>
-			<dd class="cdd" v-for="osite in ostate.thirdPages">
-				<a :class="{bcolor1:osite.score<90 && osite.score>=80,bcolor2:osite.score<80}" :href="'third.html?reportId='+reportId+'&targetId='+ osite.targetThirdId + '&userId='+userId">
-					<span class="lab">{{osite.targetThirdName}}</span>
-					<span class="sta">{{osite.score>=90?'正常':(osite.score<90 && osite.score>=80?'轻度风险':'重度风险')}}</span>
-					<span class="num">{{osite.score}}分</span>
+			<dd class="cdd" v-for="item in ostate.thirdPages">
+				<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
+					<span class="lab">{{item.targetThirdName}}</span>
+					<span class="sta">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'重度风险')}}</span>
+					<span class="num">{{item.score}}分</span>
 					<em class="fr"></em>
 				</a>
 			</dd>	
@@ -40,14 +40,12 @@
 	</div>
 </section>
 </DIV>
-
 <div class="v_overlay"></div>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
-
 <div id="btn" class="zhiCustomBtn"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
@@ -93,41 +91,64 @@
 <script>
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
-//截取URL 获取
-function getQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
 var reportId = getQueryString('reportId');
 var targetFirstId=getQueryString("targetFirstId");
 var userId = getQueryString('userId');
 
-$.ajax({
-	url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
-	type : "POST",
-	dataType : 'json',
-	data : {
-	    reportId : reportId,
-	    targetFirstId : targetFirstId
-	},
-	success : function(indexData) {
-		if(indexData.code == 200){
-			$('.my_view').css("display","block");
-			$('.load-overlay').css("display","none");
-			var myApp = new Vue({
-			  	el: '#appVUE',
-			  	data: {
-			    	score: indexData.data.score, //系统得分
-			   		targetFirstName: indexData.data.targetFirstName, //系统名称
-			    	status: indexData.data.secondPages, //二级指标
-			  	}
-			});
-			
+var myApp = new Vue({
+	el: '#appVUE',
+	data: function(){
+		return{
+			reportId: reportId,
+			targetFirstId: targetFirstId,
+			userId: userId,
+			score:'',
+			targetFirstName:'',
+			secondPages:''
 		}
 	},
-	error : function(obj,msg){"getTargetByFirst error"}
+	mounted: function(){
+		this.getTargetByFirst()
+	},
+	methods:{
+		getTargetByFirst: function(){
+			let vm = this;
+			$.ajax({
+				url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetFirstId : targetFirstId
+				},
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("display","block");
+						$('.load-overlay').css("display","none");
+						vm.score = res.data.score //系统得分
+				   		vm.targetFirstName = res.data.targetFirstName //系统名称
+				    	vm.secondPages = res.data.secondPages //二级指标
+					}
+				},
+				error : function(obj,msg){alert("getTargetByFirst error")}
+			});
+		},
+		goThird: function(e,item){
+			let vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'所属系统': vm.targetFirstName,
+				'指标名称':item.targetThirdName,
+				'指标得分':item.score,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+userId
+			});
+		},
+	}
 });
+
+			
 //查用户信息对接智齿客服
 $.ajax({
 	url : dataUrl + "/api/v1/reportUser/findUserById",
@@ -163,6 +184,12 @@ $.ajax({
 	},
 	error : function(obj,msg){console.log(obj+msg + "findUserById error")}
 });
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
 </script>
 </body>
 </html>
