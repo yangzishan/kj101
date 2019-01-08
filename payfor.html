@@ -36,7 +36,7 @@
 	<p style="text-align: center; color: #7e7e7e; font-size: .34rem; line-height: .44rem;">由知名专家为您提供专属的个性化建议<br><font style="color: #f13733;">食谱、营养素、运动、生活方式</font></p>
 	
 	<div class="pay-x-fix">
-		<button class="pay" id="pay">支付看报告</button>
+		<button class="pay" id="pay" @click="goPay($event)">支付看报告</button>
 		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
@@ -70,6 +70,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js?t=201805022"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {

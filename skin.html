@@ -42,7 +42,7 @@
                             <div class="progress">
                                 <span class="circle">
                                     <div class="circle_pro" style="width: 2rem; height: 2rem; position: relative;">
-                                            <em style="position: absolute; top: 40%;left:47%; transform: translate(-50%,0); text-align:center; font-size:.9rem;">89</em><i style="position: absolute;bottom:.58rem;right:.26rem; font-weight: 900;" >分</i>
+                                            <em style="position: absolute; top: 40%;left:45%; transform: translate(-50%,0); text-align:center; font-size:.9rem;">89</em><i style="position: absolute;bottom:.6rem;right:.3rem; font-weight: 900;" >分</i>
                                         </div>
                                         <div id="angle" style="z-index: 992; width: .74rem; height: 1.28rem; position: absolute;top: -.28rem;left:40.5%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
                                             <img class="img_b" :src="sex.dian">
@@ -64,118 +64,116 @@
                 </div>
         </div>
         <div class="face">
-                <div class="face_img">
-                    <img class="big_face" :src="sex.face" alt="">
-                    <!-- <img class="more" src="./img/skin/more.png" alt=""> -->
-                    <div class="more"  @click="showPhoto">
-                        <span>查看<br>原图</span>
-                        <img :src="sex.more" alt="">
-                    </div>
-                    <img class="heitou" :style="sex.heitou" src="./img/skin/heitou.png" alt="">
-                    <img class="bandian" :style="sex.bandian" src="./img/skin/bandian.png" alt="">
-                    <img class="huangheban" :style="sex.huangheban" src="./img/skin/huangheban.png" alt="">
-                    <img class="doudou" :style="sex.doudou" src="./img/skin/doudou.png" alt="">
-                    <img class="fenci" :style="sex.fenci" src="./img/skin/fenci.png" alt="">
-                    <img class="zhouwen" :style="sex.zhouwen" src="./img/skin/zhouwen.png" alt="">
+            <div class="face_img">
+                <img class="big_face" :src="sex.face" alt="">
+                <!-- <img class="more" src="./img/skin/more.png" alt=""> -->
+                <div class="more"  @click="showPhoto">
+                    <span>查看<br>原图</span>
+                    <img :src="sex.more" alt="">
                 </div>
-                <div class="face_ul">
-                    <div class="left_ul">
-                        <div>
-                            <div class="skin_pimple skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="doudou" :src="'./img/skin/doudouxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_moisture skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="shuifen" :src="'./img/skin/shuifenxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_pore skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="maokong" :src="'./img/skin/maokongxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_blackhead skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="heitou" :src="'./img/skin/heitouxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_acne skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="fenci" :src="'./img/skin/fencixian'+sex.xian+'.png'" alt=""></div>
-                        </div>
-                    </div>
-                    <div class="right_ul">
-                        <div>
-                            <div class="skin_wrinkle skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/zhouwenxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_texture skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/wenlixian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_spot skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/bandianxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_chloasma skin_question"><i class="toShowQuestion">痘痘是-5分</i><img :src="'./img/skin/huanghebanxian'+sex.xian+'.png'" alt=""></div>
-                            <div class="skin_roughness skin_question"><i class="toShowQuestion">粉我刺-5分</i><img :src="'./img/skin/cucaoduxian'+sex.xian+'.png'" alt=""></div>
-                        </div>
+                <img class="heitou" :style="sex.heitou" src="./img/skin/heitou.png" alt="">
+                <img class="bandian" :style="sex.bandian" src="./img/skin/bandian.png" alt="">
+                <img class="huangheban" :style="sex.huangheban" src="./img/skin/huangheban.png" alt="">
+                <img class="doudou" :style="sex.doudou" src="./img/skin/doudou.png" alt="">
+                <img class="fenci" :style="sex.fenci" src="./img/skin/fenci.png" alt="">
+                <img class="zhouwen" :style="sex.zhouwen" src="./img/skin/zhouwen.png" alt="">
+            </div>
+            <div class="face_ul">
+                <div class="left_ul">
+                    <div>
+                        <div class="skin_pimple skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="doudou" :src="'./img/skin/doudouxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_moisture skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="shuifen" :src="'./img/skin/shuifenxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_pore skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="maokong" :src="'./img/skin/maokongxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_blackhead skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="heitou" :src="'./img/skin/heitouxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_acne skin_question"><span  class="toShowQuestion">痘痘-5分</span><img class="fenci" :src="'./img/skin/fencixian'+sex.xian+'.png'" alt=""></div>
                     </div>
                 </div>
+                <div class="right_ul">
+                    <div>
+                        <div class="skin_wrinkle skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/zhouwenxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_texture skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/wenlixian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_spot skin_question"><i class="toShowQuestion">痘痘-5分</i><img :src="'./img/skin/bandianxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_chloasma skin_question"><i class="toShowQuestion">痘痘是-5分</i><img :src="'./img/skin/huanghebanxian'+sex.xian+'.png'" alt=""></div>
+                        <div class="skin_roughness skin_question"><i class="toShowQuestion">粉我刺-5分</i><img :src="'./img/skin/cucaoduxian'+sex.xian+'.png'" alt=""></div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!-- 重点关注 -->
-        <div class="key">
-                <h2><img src="./img/skin/warning.png" alt="">重点关注</h2>
-                <div class="question">
-                    <ul>
-                        <li v-for="(item,index) in majorList">
-                            <img :src="'./img/skin/pf-'+item.targetName+'-3.png'" alt="">
-                            <i  v-cloak>{{item.name}}</i>
-                            <span  v-cloak>{{item.score}}分</span>
-                        </li>
-                    </ul>
-                </div>
-                <a href="javascript:;" @click="goDetails($event)"  data-degree="majorList">查看详情及改善方案></a>
+        <div class="key" v-if="majorList != null">
+            <h2><img src="./img/skin/warning.png" alt="">重点关注</h2>
+            <div class="question">
+                <ul>
+                    <li v-for="(item,index) in majorList">
+                        <img :src="'./img/skin/pf-'+item.targetName+'-3.png'" alt="">
+                        <i  v-cloak>{{item.name}}</i>
+                        <span  v-cloak>{{item.score}}分</span>
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:;" @click="goDetails($event)"  data-degree="majorList">查看详情及改善方案></a>
         </div>
         <!-- 有待改善 -->
-        <div class="warning">
-                <h2><img src="./img/skin/tanhao.png" alt="">有待改善</h2>
-                <div class="question">
-                    <ul>
-                        <li v-for="(item,index) in awaitList">
-                            <img :src="'./img/skin/pf-'+item.targetName+'-2.png'" alt=""> 
-                            <i v-cloak>{{item.name}}</i>
-                            <span v-cloak>{{item.score}}分</span>
-                        </li>
-                    </ul>
-                </div>
-                <a href="javascript:;"  data-degree="awaitList" @click="goDetails($event)">查看详情及改善方案></a>
+        <div class="warning" v-if="awaitList != null">
+            <h2><img src="./img/skin/tanhao.png" alt="">有待改善</h2>
+            <div class="question">
+                <ul>
+                    <li v-for="(item,index) in awaitList">
+                        <img :src="'./img/skin/pf-'+item.targetName+'-2.png'" alt=""> 
+                        <i v-cloak>{{item.name}}</i>
+                        <span v-cloak>{{item.score}}分</span>
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:;"  data-degree="awaitList" @click="goDetails($event)">查看详情及改善方案></a>
         </div>
         <!-- 继续保持 -->
-        <div class="keep">
-                <h2><img src="./img/skin/keep.png" alt="">继续保持</h2>
-                <div class="list">
-                    <ul>
-                        <li v-for="(item,index) in continueList">
-                            <img :src="'./img/skin/pf-'+item.targetName+'-1.png'" alt="">
-                            <i v-cloak>{{item.name}}</i>
-                            <span v-cloak>{{item.score}}分</span>
-                        </li>
-                    </ul>
-                </div>
-                <a href="javascript:;">非常好，继续保持~</a>
+        <div class="keep" v-if="continueList != null">
+            <h2><img src="./img/skin/keep.png" alt="">继续保持</h2>
+            <div class="list">
+                <ul>
+                    <li v-for="(item,index) in continueList">
+                        <img :src="'./img/skin/pf-'+item.targetName+'-1.png'" alt="">
+                        <i v-cloak>{{item.name}}</i>
+                        <span v-cloak>{{item.score}}分</span>
+                    </li>
+                </ul>
+            </div>
+            <a href="javascript:;">非常好，继续保持~</a>
         </div>
         <!-- 天气 -->
         <div class="weather">
-                <div class="head">
-                    <h1>天气护肤</h1>
-                    <span class="change_color"></span>
-                    <i></i>
+            <div class="head">
+                <h1>天气护肤</h1>
+                <span class="change_color"></span>
+                <i></i>
+            </div>
+            <div class="body">
+                <div class="top">
+                    <img :src="sex.didian" alt="">
+                    <span><span v-cloak>{{weather.basic.admin_area}}</span>&nbsp;&nbsp;<span v-cloak>{{weather.basic.location}}</span></span>
                 </div>
-                <div class="body">
-                    <div class="top">
-                        <img :src="sex.didian" alt="">
-                        <span><span v-cloak>{{weather.basic.admin_area}}</span>&nbsp;&nbsp;<span v-cloak>{{weather.basic.location}}</span></span>
+                <div class="box">
+                    <div class="left change_fcolor"  >
+                        <span v-cloak>{{weather.now.tmp}}</span>℃
                     </div>
-                    <div class="box">
-                        <div class="left change_fcolor"  >
-                            <span v-cloak>{{weather.now.tmp}}</span>℃
-                        </div>
-                        <div class="right">
-                            <p><img :src="'./img/skin/'+weather.now.cond_code+'.png'" alt=""><span v-cloak>{{weather.now.cond_txt}}</span></p>
-                            <p><img :src="sex.shidu" alt=""><i  class="change_fcolor">湿度</i><span v-cloak>{{weather.now.hum}}%</span></p>
-                        </div>  
-                    </div>
+                    <div class="right">
+                        <p><img :src="'./img/skin/'+weather.now.cond_code+'.png'" alt=""><span v-cloak>{{weather.now.cond_txt}}</span></p>
+                        <p><img :src="sex.shidu" alt=""><i  class="change_fcolor">湿度</i><span v-cloak>{{weather.now.hum}}%</span></p>
+                    </div>  
                 </div>
-                <div class="foot">
-                    <h1  class="change_fcolor"><i class="change_color "></i>护肤建议</h1>
-                    <div class="blue change_color " >护肤建议：<span ><template v-for="(item,index) in waringName" v-cloak>{{item}}<i v-if="index<item.length">、</i></template></span></div>
-                    <div class="title" v-cloak>
-                        <p v-for="(item,index) in waringName">
-                            <i style="font-weight: 800">{{item}}:</i>
-                            {{waringIndex[index]}}
-                        </p>
-                    </div>
+            </div>
+            <div class="foot">
+                <h1  class="change_fcolor"><i class="change_color "></i>护肤建议</h1>
+                <div class="blue change_color " >护肤建议：<span ><template v-for="(item,index) in waringName" v-cloak>{{item}}<i v-if="index<item.length">、</i></template></span></div>
+                <div class="title" v-cloak>
+                    <p v-for="(item,index) in waringName">
+                        <i style="font-weight: 800">{{item}}:</i>
+                        {{waringIndex[index]}}
+                    </p>
                 </div>
+            </div>
         </div>
-    
-    
     </div>
     <script src="./js/base.js"></script>
     <script src="js/jquery.js"></script>
@@ -203,7 +201,7 @@
     </script>
     <script>
         $(function(){
-            var    reportCode = getQueryString('reportId');
+            var    reportCode =  getQueryString('reportId');
             var    openId = getQueryString('openId');
             var    writing =['清洁是皮肤护理的第一步，温和清洁，善待皮肤，保护肌肤屏障。','保湿是皮肤护理的第二步，合理保湿，皮肤柔软平滑，水润不紧绷。','多数皮肤问题都与日晒有关，防晒没有季节性，一定要尽早。','天气变差更要做好肌肤隔离，避免脏污进入皮肤。','保护肌肤屏障，远离敏感泛红。'];
             var    wriname = ['清洁','保湿','防晒','隔离','防敏感'];
@@ -224,6 +222,7 @@
                     totalScore:0,
                     inspectCode:'',
                     diseaseExplain:'',
+                    fileName:'',
                     //新数据结束
                     diseaseResultArr:{
                         'CC':'痤疮',
@@ -345,9 +344,11 @@
                                     that.totalScore = res.data.totalScore;
                                     that.inspectCode = res.data.inspectCode;
                                     that.diseaseExplain = res.data.diseaseExplain.replace(/\/n/g,'<br>');
+                                    //显示真人照片
                                     that.fileName= res.data.fileName;
                                     $.each(res.data.diseaseResult.split(','),function(index,item){
                                         that.diseaseResult.push(that.diseaseResultArr[res.data.diseaseResult.split(',')[index]]);
+                                        
                                     })
                                     that.diseaseResult = that.diseaseResult.join(' ');
                                     that.sex.more = res.data.fileName;

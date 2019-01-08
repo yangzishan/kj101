@@ -80,7 +80,7 @@
 
 	<div class="fix-p">
 		<p class="ctxt">￥{{price}}</p>
-		<button class="go" id="pay">支付</button>
+		<button class="go" id="pay" @click="goPay($event)">支付</button>
 	</div>
 	
 	<div class="sl-pay">
@@ -115,6 +115,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>document.write('<script src="../js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">

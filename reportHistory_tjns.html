@@ -12,21 +12,22 @@
 </head>
 <body>
 <div class="my_view">
-<section id="appVUE">
-	<header class="header">
-		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
-		<a class="t-right fr" href="#"></a>
-		<p class="t-cen txt1"><span>历史报告</span></p>
-	</header>
-	
-	<div class="history_b" id="thelist">
-		<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
-			<span class="dat">{{item.inspectDateStr}}</span>
-			<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
-		</a>
-	</div>
-</section>
+	<section id="appVUE">
+		<header class="header">
+			<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+			<a class="t-right fr" href="#"></a>
+			<p class="t-cen txt1"><span>历史报告</span></p>
+		</header>
+		
+		<div class="history_b" id="thelist">
+			<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+				<span class="dat">{{item.inspectDateStr}}</span>
+				<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
+			</a>
+		</div>
+	</section>
 </div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
@@ -50,6 +51,8 @@
 })(document, window);
 </script>
 <script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
 //截取URL 获取
 function getQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
@@ -67,7 +70,7 @@ var myApp = new Vue({
 	el:'#appVUE',
 	data: function(){
 		return{
-			bencrypt:bencrypt,
+			sign:sign,
 			channelSign:channelSign,
 			userId:'',
 			customerId:'',
@@ -112,6 +115,8 @@ var myApp = new Vue({
 				},
 				success : function(res) {
 					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
 						vm.dataList = res.data
 					}else{alert('historyTjBankByUserId code='+ res.code)}
 				},

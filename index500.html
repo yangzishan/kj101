@@ -16,89 +16,89 @@
 <body class="fiveone">
 <div class="loadmore loading"></div>
 <div id="app_501">
-        <div class="head_bg">
-                <div class="center">
-                    <h2>健康管理</h2>
-                    <div class="user_history">
-                        <img class="yonghu" src="./img/skin/user_501.png" alt="" @click="goSetUp();">
-                        <img class="lishi" src="./img/skin/history_501.png" alt="" @click="checkHistory();">
+    <div class="head_bg">
+        <div class="center">
+            <h2>健康管理</h2>
+            <div class="user_history">
+                <img class="yonghu" src="./img/skin/user_501.png" alt="" @click="goSetUp();">
+                <img class="lishi" src="./img/skin/history_501.png" alt="" @click="checkHistory();">
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="list jkbaogao">
+            <div class="progress">
+                <span class="circle">
+                    <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
+                        <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
                     </div>
+                    <div id="angle1" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                        <img class="img_b" src='./img/skin/501_lvdian.png'>
+                    </div>
+                </span>
+            </div>
+            <div class="title">
+                <div class="left">
+                    <p>健康报告</p>
+                    <span v-cloak>{{inspectDate}}</span>
+                </div>
+                <div class="right">
+                    <!-- <img src="./img/skin/right_501.png" alt=""> -->
+                    <p class="alt" v-cloak>{{ps}}</p>
+                    <p><i></i></p>
                 </div>
             </div>
-            <div class="content">
-                <div class="list jkbaogao">
-                    <div class="progress">
-                        <span class="circle">
-                            <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
-                                <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
-                            </div>
-                            <div id="angle1" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
-                                <img class="img_b" src='./img/skin/501_lvdian.png'>
-                            </div>
-                        </span>
+        </div>
+        <div class="list skin" v-if="skinTotalScore && skinTotalScore != null && skinTotalScore != 0">
+            <div class="progress">
+                <span class="circle">
+                    <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
+                        <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
                     </div>
-                    <div class="title">
-                        <div class="left">
-                            <p>健康报告</p>
-                            <span v-cloak>{{inspectDate}}</span>
-                        </div>
-                        <div class="right">
-                            <!-- <img src="./img/skin/right_501.png" alt=""> -->
-                            <p class="alt" v-cloak>{{ps}}</p>
-                            <p><i></i></p>
-                        </div>
+                    <div id="angle2" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                        <img class="img_b" src='./img/skin/501_fendian.png'>
+                    </div>
+                </span>
+            </div>
+            <div class="title">
+                    <div class="left">
+                        <p>皮肤报告</p>
+                        <span v-cloak>{{inspectDate}}</span>
+                    </div>
+                    <div class="right">
+                        <p><i></i></p>
                     </div>
                 </div>
-                <div class="list skin" v-if="skinTotalScore && skinTotalScore != null && skinTotalScore != 0">
-                    <div class="progress">
-                        <span class="circle">
-                            <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
-                                <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
-                            </div>
-                            <div id="angle2" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
-                                <img class="img_b" src='./img/skin/501_fendian.png'>
-                            </div>
-                        </span>
-                    </div>
-                    <div class="title">
-                            <div class="left">
-                                <p>皮肤报告</p>
-                                <span v-cloak>{{inspectDate}}</span>
-                            </div>
-                            <div class="right">
-                                <p><i></i></p>
-                            </div>
-                        </div>
+        </div>
+        <div class="list heart">
+            <div class="img">
+                <img src="./img/skin/xinzanggongneng_501.png" alt="">
+            </div>
+            <div class="title">
+                <div class="left">
+                    <p>心脏功能</p>
+                    <span v-cloak>{{inspectDate}}</span>
                 </div>
-                <div class="list heart">
-                    <div class="img">
-                        <img src="./img/skin/xinzanggongneng_501.png" alt="">
-                    </div>
-                    <div class="title">
-                        <div class="left">
-                            <p>心脏功能</p>
-                            <span v-cloak>{{inspectDate}}</span>
-                        </div>
-                        <div class="right">
-                            <p><i></i></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="list loop">
-                    <div class="img">
-                        <img src="./img/skin/weixunhuan_501.png" alt="">
-                    </div>
-                    <div class="title">
-                        <div class="left">
-                            <p>微循环</p>
-                            <span v-cloak>{{inspectDate}}</span>
-                        </div>
-                        <div class="right">
-                            <p><i></i></p>
-                        </div>
-                    </div>
+                <div class="right">
+                    <p><i></i></p>
                 </div>
             </div>
+        </div>
+        <div class="list loop">
+            <div class="img">
+                <img src="./img/skin/weixunhuan_501.png" alt="">
+            </div>
+            <div class="title">
+                <div class="left">
+                    <p>微循环</p>
+                    <span v-cloak>{{inspectDate}}</span>
+                </div>
+                <div class="right">
+                    <p><i></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -203,7 +203,7 @@
                                         that.zhuan();
                                     },5)
                                     urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition ;
-                               }else if(res.code = 201){
+                               }else if(res.code == 201){
                                     window.location.href = 'payfor501.html?reportId='+reportId+'&openId='+openId+'&edition='+edition+'&sameUser='+res.data.sameUser;
                                }
                             }
@@ -248,10 +248,10 @@
                         return date;
                     },
                     checkHistory: function(e){ //历史报告
-			            window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId
+			            window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId + '&edition=' + edition ;
 		            },
 		            goSetUp: function(e){ //个人中心
-			            window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
+			            window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId +  '&edition=' + edition ;
 		            },
                 },
                 mounted:function(){
@@ -262,13 +262,10 @@
                 if($(this).hasClass('jkbaogao')){
                     window.location.href = 'index2.html' + urlSearch+'&openId=' + openId;
                 }else if($(this).hasClass('heart')){
-                    console.log(1)
                     window.location.href = 'heart.html' + urlSearch;
                 }else if($(this).hasClass('loop')){
-                    console.log(2)
                     window.location.href = 'loop.html' + urlSearch;
                 }else if($(this).hasClass('skin')){
-                    console.log(3)
                     window.location.href = 'skin.html' + urlSearch;
                 }
             })

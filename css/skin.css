@@ -37,7 +37,7 @@ body.skin  .face .face_img .more>span{border-radius:50%;width:1.01rem;height:1.0
  body#body .showface .more .more_left .img_true  {width:1.01rem;height:1.01rem;right:.68rem;right:-.12rem;bottom:.4rem;border-radius: 50%;position: absolute;overflow: hidden;}
  body#body .showface .more .more_left .img_true>span{width:1.01rem;height:1.01rem;position: absolute;top:0;left:0;background-color:rgba(0,0,0,.7);z-index: 99;font-size:.24rem;color:#fff;text-align: center;line-height:.4rem;padding-top:.1rem;}
  
-body.skin .face .face_img .zhouwen {width:.57rem;top:1.5rem;left:50%;transform: translate(-50%,0);}
+body.skin .face .face_img .zhouwen {width:.57rem;top:1.5rem;left:49%;transform: translate(-50%,0);height:.2rem;}
 body.skin .face .face_img .doudou {width:1.21rem;height:1.35rem;top:1.58rem;left:50%;transform: translate(-50%,0);}
 body.skin .face .face_img .fenci {width:1rem;height:.18rem;top:2.37rem;left:50%;transform: translate(-50%,0);}
 body.skin .face .face_img .huangheban {width:.34rem;height:.33rem;top:2.26rem;left:2.17rem;}
@@ -207,6 +207,7 @@ body#body .proposal .title {padding-bottom:.89rem;padding-right:.2rem;}
 .skin .popup>div{font-size:.28rem;color: #60666d;max-height:5.6rem;overflow:auto;}
 .skin .mask.show,.popup.show,.photo.show{visibility: visible;opacity: 1;}
 .skin #app,#app_index{display: none;}
+.skin .popup .huadong i{font-weight: 900;display: block;position: relative;top:.35rem;}
 
 /*  加载动画 */
 .loadmore {color: #888;font-size: 30px;line-height: 100px;text-align: center;width:100%;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);}
@@ -222,7 +223,7 @@ body#body .doudou {position: absolute;width:1rem;height:1.35rem;left:1.3rem;top:
 body#body .fenci {position: absolute;width:1rem;height:.18rem;left:1.3rem;top:2.2rem;}
 body#body .huangheban {position: absolute;width:.34rem;height:.33rem;left:2.1rem;top:2.1rem;}
 body#body .bandian {position: absolute;width:.97rem;height:.15rem;left:1.4rem;top:1.9rem;}
-body#body .heitou {position: absolute;width:.13rem;height:.09rem;left:1.74rem;top:2.05rem;}
+body#body .heitou {position: absolute;width:.13rem;height:.09rem;left:1.72rem;top:2.03rem;}
 
 
 .photo {background:skyblue;position:fixed;z-index:1000;top:50%;left:50%;transform: translate(-50%,-50%);visibility: hidden;width:5.98rem;opacity: 0;transition-duration: 400ms;}

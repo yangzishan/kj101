@@ -137,10 +137,9 @@ var myApp = new Vue({
 			let vm = this;
 			zhuge.track('用户点击三级指标',{ //埋点
 				'用户id': vm.userId,
-				'所属系统': vm.targetFirstName,
 				'指标名称':item.targetThirdName,
 				'指标得分':item.score,
-				'渠道' : '微信'
+				'方式' : '通过二级页面点击'
 			},function(){
 				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+userId
 			});

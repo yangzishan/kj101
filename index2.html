@@ -53,25 +53,25 @@
 		<a class="gosp" v-if="showRecipe > 0" @click="getRecipesData($event)"><i></i><span>请查看您的专属健康食谱</span></a>
 	</div>
 
-	<div class="sumTit">以下是您10大系统及身体实时状况的评估结果：</div>
+	<div class="sumTit">以下是您<em id="sysNum">10</em>大系统及身体实时状况的评估结果：</div>
 	<div class="sy_tab clearfix">
 	  	<span class="on"><a>健康指数</a></span><span><a>身体状况</a></span>
     </div>
     <div class="tenSys_c indexShow">
-    	<a v-for="site in firstPages" :href="'second2.html?reportId='+reportId+'&userId='+userId+'&targetFirstId='+site.targetFirstId">
-    		<p class="tarid" style="display: none;">{{site.targetFirstId}}</p>
+    	<a v-for="item in firstPages" @click="goSecond($event,item)">
+    		<p class="tarid" style="display: none;">{{item.targetFirstId}}</p>
     		<div class="s-chart  fl">
-    			<div class="c_circle"><i :class="'ico'+site.targetFirstId"></i><div class="zzb"></div></div>
-    			<p class="s-score" style="display: none;">{{site.score}}</p>
+    			<div class="c_circle"><i :class="'ico'+item.targetFirstId"></i><div class="zzb"></div></div>
+    			<p class="s-score" style="display: none;">{{item.score}}</p>
     		</div>
     		<div class="s-inf fl">
-    			<p class="lab"><span>{{site.targetFirstName}}</span><em class="pop" @click.prevent="popTen($event)">?</em></p>
-    			<p class="tx">{{site.score}}分</p>
+    			<p class="lab"><span>{{item.targetFirstName}}</span><em class="pop" @click.prevent="popTen($event)">?</em></p>
+    			<p class="tx">{{item.score}}分</p>
     		</div>
     		<div class="v_overlert">
 				<div class="tc_sy">
-					<p class="bit"><span class="labt">{{site.targetFirstName}}</span><em></em></p>
-					<div class="bxt">{{site.inspectExplain}}</div>
+					<p class="bit"><span class="labt">{{item.targetFirstName}}</span><em></em></p>
+					<div class="bxt">{{item.inspectExplain}}</div>
 				</div>
 			</div>
     	</a>	
@@ -146,26 +146,36 @@
 	    <div class="changeShow">
 	    	<ul class="change_list">
 		    	<li v-for="item in okImproves">
-		    		<a :href="'third.html?reportId='+reportId+'&targetId='+item.targetId+'&userId='+userId">
+		    		<a @click="goThird($event,item)">
 		    		<span class="s1 fl">{{item.tagetName}}</span>
-		    		<span class="s2 fr">{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}</span>
-		    		<span class="s2 fr">{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}</span>
+		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
+		    			{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
+		    			{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
 		    		</a>
 		    	</li>
 		    </ul>
-		    <p class="noctip">暂无已改善指标</p>
+		    <p class="noctip" v-if="okImproves.length == 0">暂无已改善指标</p>
 	    </div>
 		<div class="changeShow" style="display: none;">
 			<ul class="change_list">
-		    	<li v-for="site in noImproves">
-		    		<a :href="'third.html?reportId='+reportId+'&targetId='+site.targetId+'&userId='+userId">
-		    		<span class="s1 fl">{{site.tagetName}}<i style="display: none;">{{site.newAdd}}</i><font style="display: none; margin-left: .1rem;">新增</font></span>
-		    		<span class="s2 fr">{{site.currentLevel==1?'正常':(site.currentLevel==2?'轻度风险':(site.currentLevel==3?'中度风险':'中度风险'))}}</span>
-		    		<span class="s2 fr">{{site.lastLevel==1?'正常':(site.lastLevel==2?'轻度风险':(site.lastLevel==3?'中度风险':'中度风险'))}}</span>
+		    	<li v-for="item in noImproves">
+		    		<a @click="goThird($event,item)">
+		    		<span class="s1 fl">{{item.tagetName}}
+		    			<font v-if="item.newAdd == 1" style="display: inline-block; margin-left: .1rem;">新增</font>
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
+		    			{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
+		    			{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
 		    		</a>
 		    	</li>
 		    </ul>
-		    <p class="noctip">暂无未改善及新增异常指标</p>
+		    <p class="noctip" v-if="noImproves.length == 0">暂无未改善及新增异常指标</p>
 		</div>        
 	</div>
 	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
@@ -211,6 +221,7 @@
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
 <script>document.write('<script src="js/index2.0.js?t=' + new Date().getTime() + '"><\/script>')</script>

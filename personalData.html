@@ -95,6 +95,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/LCalendar.js"></script>
 <!--<script type="text/javascript" src="js/LCalendar_reg.js"></script>-->
 <script type="text/javascript">
@@ -126,6 +127,10 @@ $(function(){
 	};
 	var myuserId=GetQueryString("userId");
 	$('#userId').val(myuserId);
+	zhuge.track('进入个人中心页', { //埋点t
+		'用户id' : myuserId,
+		'渠道' : '微信'
+	});
 	
 	$.ajax({
 		url : dataUrl + "/api/v1/reportUser/findUserById",

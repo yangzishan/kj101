@@ -17,43 +17,43 @@
         <div class="loadmore loading"></div>
    <div id="app_501">
         <div class="header_heart">
-                <h1>心脏功能</h1>
-                <span class="go_black" @click="goHistory()"></span>
+            <h1>心脏功能</h1>
+            <span class="go_black" @click="goHistory()"></span>
+        </div>
+        <div class="num">
+            <h5>心率结果：</h5>
+            <p v-cloak>{{heartRate}}<em>bmp</em></p>
+            <!-- .25rem 是起始位置 -->
+            <div class="img"><img src="./img/skin/bottom_heart.png" alt="" :style="'left:'+kedu+'rem;'"></div>  
+            <div class="progress_heart">
+                <i></i>
+                <span class="yellow_span"></span>
+                <i class="yellow_i"></i>
+                <span class="green_span"></span>
+                <i class="green_i"></i>
+                <span class="red_span"></span>
+                <i class="red_i"></i>
             </div>
-            <div class="num">
-                <h5>心率结果：</h5>
-                <p v-cloak>{{heartRate}}<em>bmp</em></p>
-                <!-- .25rem 是起始位置 -->
-                <div class="img"><img src="./img/skin/bottom_heart.png" alt="" :style="'left:'+kedu+'rem;'"></div>  
-                <div class="progress_heart">
-                    <i></i>
-                    <span class="yellow_span"></span>
-                    <i class="yellow_i"></i>
-                    <span class="green_span"></span>
-                    <i class="green_i"></i>
-                    <span class="red_span"></span>
-                    <i class="red_i"></i>
-                </div>
-                <div class="shuzi">
-                    <em>0</em>
-                    <em>60</em>
-                    <em>100</em>
-                    <em>200</em>
-                </div>
-                <div class="jieshuo">
-                    <em>过缓</em>
-                    <em>正常</em>
-                    <em>过速</em>
-                </div>
+            <div class="shuzi">
+                <em>0</em>
+                <em>60</em>
+                <em>100</em>
+                <em>200</em>
             </div>
-            <div class="title_heart" v-if="paraResult || paraCause">
-                <h5>心脏功能：</h5>
-                <p class="danger" v-if="paraResult"><i></i><span v-cloak >{{paraResult}}</span></p>
-                <div calss="caption" v-if="paraCause"><i class="begin_title"></i><h3 class="til">常见原因</h3></div>
-                <p class="title" v-cloak v-if="paraCause">
-                    {{paraCause}}
-                </p>
+            <div class="jieshuo">
+                <em>过缓</em>
+                <em>正常</em>
+                <em>过速</em>
             </div>
+        </div>
+        <div class="title_heart" v-if="paraResult || paraCause">
+            <h5>心脏功能：</h5>
+            <p class="danger" v-if="paraResult"><i></i><span v-cloak >{{paraResult}}</span></p>
+            <div calss="caption" v-if="paraCause"><i class="begin_title"></i><h3 class="til">常见原因</h3></div>
+            <p class="title" v-cloak v-if="paraCause">
+                {{paraCause}}
+            </p>
+        </div>
    </div>
     <script src="js/jquery.js"></script>
     <script src="./js/vue.min.js"></script>

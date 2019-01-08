@@ -41,7 +41,7 @@
 				<dd><img src="img/ten/i-new-youhai.png"><font>有害物质</font></dd>
 				<dd><img src="img/ten/i-new-pifu.png"><font>皮肤系统</font></dd>
 			</dl>
-			<div class="pay_go" id="pay">
+			<div class="pay_go" id="pay" @click="goPay($event)">
 				<p class="yj">原价:{{oprice}}</p>
 				<p class="p1">优惠价:</p><p class="p2">￥{{price}}</p>
 				<button class="sub">点击支付<i></i></button>
@@ -59,7 +59,7 @@
 	</div>
 	
 	<div class="fix-tpp">
-		<p>您的整体身体状况好于<font>{{ranking}}%</font>的同龄人<em class="aa a1"></em></p>
+		<p>您的整体身体状况好于<font>{{ranking}}%</font>的同龄人<em class="aa" :class="{a1:ranking>=50,a2:ranking<50}"></em></p>
 	</div>
 	
 	<div class="sl-pay">
@@ -90,6 +90,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">

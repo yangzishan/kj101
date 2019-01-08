@@ -14,75 +14,72 @@
     </script>
 </head>
 <body class="fiveone body_loop">
-        <div class="loadmore loading"></div>
+    <div class="loadmore loading"></div>
     <div id='app_501'>
-            <div class="mask" @click="Touchmove();" ></div>
-            <div class="popup">
-                <i class="close"  @click="Touchmove"></i>
-                <h1>弹窗</h1>
-                <div class="huadong">
-                    这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容这是内容内容
-                </div>
-            </div>
-            <div class="header_loop">
-                <h1>微循环</h1>
-                <span class="go_black" @click="goHistory()"></span>
-            </div>
-            <div class="center">
-                <div class="show_question">
-                    <div calss="caption"><i class="begin_title"></i><h3 class="til">血氧饱和度</h3><em class="title_img" @click=""></em></div>
-                    <div class="img_box">
-                        <div class="right">
-                            <img src="./img/skin/wxh_501.png" alt="">
-                        </div>  
-                        <div class="left">
-                            <p><i v-cloak>{{loop.bloodScore}}%</i><b>&nbsp;&nbsp;<&nbsp;&nbsp;</b><span>正常的范围(94%-99%)</span></p>
-                            <p v-cloak>{{loop.bloodStatus}}</p>
-                        </div>
-                    </div>
-                    <div class="ul_501" >
-                            <!-- v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'" -->
-                        <div v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'">
-                            <p class="list_title">可能出现的症状</p>
-                            <p v-cloak>{{loop.bloodSymptoms}}</p>
-                        </div>
-                        <div v-show="loop.bloodWhy && loop.bloodWhy != '无'">
-                            <p class="list_title">引起的原因</p>
-                            <p v-cloak>{{loop.bloodWhy}}</p>
-                        </div>
-                        <div v-show="loop.bloodAdvice && loop.bloodAdvice != '无'">
-                            <p class="list_title">改善建议</p>
-                            <p v-cloak>{{loop.bloodAdvice}}</p>
-                        </div>
+        <div class="mask" @click="Touchmove();" ></div>
+        <div class="popup">
+            <i class="close"  @click="Touchmove"></i>
+            <h1 style="text-align: left;font-weight: 900;">{{tanChuang[questionIndex]['title']}}</h1>
+            <div class="huadong">{{tanChuang[questionIndex]['jishi']}}</div>
+        </div>
+        <div class="header_loop">
+            <h1>微循环</h1>
+            <span class="go_black" @click="goHistory()"></span>
+        </div>
+        <div class="center">
+            <div class="show_question">
+                <div calss="caption"><i class="begin_title"></i><h3 class="til">血氧饱和度</h3><em class="title_img" data-index=0 @click="stopTouchmove($event)"></em></div>
+                <div class="img_box">
+                    <div class="right">
+                        <img src="./img/skin/wxh_501.png" alt="">
+                    </div>  
+                    <div class="left">
+                        <p><i v-cloak>{{loop.bloodScore}}%</i><b>&nbsp;&nbsp;<&nbsp;&nbsp;</b><span>正常的范围(94%-99%)</span></p>
+                        <p v-cloak>{{loop.bloodStatus}}</p>
                     </div>
                 </div>
-                <div class="show_question">
-                    <div calss="caption"><i class="begin_title"></i><h3 class="til">微循环</h3><em class="title_img"  @click=""></em></div>
-                    <div class="img_box">
-                            <div class="right">
-                                <img src="./img/skin/501_xueguan.png" alt="">
-                            </div>  
-                            <div class="left">
-                                <p><i v-cloak>{{loop.heathScore}}% </i></p>           
-                                <p v-cloak v-if="loop.heathIndex">{{loop.heathIndex}}</p>
-                            </div>
-                        </div>
-                        <div class="ul_501">
-                            <div v-show="loop.heathSymptoms && loop.heathSymptoms != '无'">
-                                <p class="list_title">可能出现的症状</p>
-                                <p v-cloak>{{loop.heathSymptoms}}</p>
-                            </div>
-                            <div v-show="loop.heathWhy && loop.heathWhy != '无'">
-                                <p class="list_title">引起的原因</p>
-                                <p v-cloak>{{loop.heathWhy}}</p>
-                            </div>
-                            <div  v-show="loop.heathExplain && loop.heathExplain != '无'">
-                                <p class="list_title">改善建议</p>
-                                <p v-cloak>{{loop.heathExplain}}</p>
-                            </div> 
-                        </div>
+                <div class="ul_501" >
+                    <div v-show="loop.bloodSymptoms && loop.bloodSymptoms != '无'">
+                        <p class="list_title">可能出现的症状</p>
+                        <p v-cloak>{{loop.bloodSymptoms}}</p>
+                    </div>
+                    <div v-show="loop.bloodWhy && loop.bloodWhy != '无'">
+                        <p class="list_title">引起的原因</p>
+                        <p v-cloak>{{loop.bloodWhy}}</p>
+                    </div>
+                    <div v-show="loop.bloodAdvice && loop.bloodAdvice != '无'">
+                        <p class="list_title">改善建议</p>
+                        <p v-cloak>{{loop.bloodAdvice}}</p>
+                    </div>
                 </div>
             </div>
+            <div class="show_question">
+                <div calss="caption"><i class="begin_title"></i><h3 class="til">微循环</h3><em class="title_img" data-index=1 @click="stopTouchmove($event)"></em></div>
+                <div class="img_box">
+                    <div class="right">
+                        <img src="./img/skin/501_xueguan.png" alt="">
+                    </div>  
+                    <div class="left">
+                        <p><i v-cloak>{{loop.heathScore}}% </i></p>           
+                        <p v-cloak v-if="loop.heathIndex">{{loop.heathIndex}}</p>
+                    </div>
+                </div>
+                <div class="ul_501">
+                    <div v-show="loop.heathSymptoms && loop.heathSymptoms != '无'">
+                        <p class="list_title">可能出现的症状</p>
+                        <p v-cloak>{{loop.heathSymptoms}}</p>
+                    </div>
+                    <div v-show="loop.heathWhy && loop.heathWhy != '无'">
+                        <p class="list_title">引起的原因</p>
+                        <p v-cloak>{{loop.heathWhy}}</p>
+                    </div>
+                    <div  v-show="loop.heathExplain && loop.heathExplain != '无'">
+                        <p class="list_title">改善建议</p>
+                        <p v-cloak>{{loop.heathExplain}}</p>
+                    </div> 
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -110,7 +107,7 @@
     </script>
     <script>
         $(function(){
-            var  inspectCode = getQueryString('reportId');
+            var  inspectCode =getQueryString('reportId');
             new Vue({
                 el:'#app_501',
                 data:{
@@ -125,7 +122,12 @@
                         "heathExplain": "" ,
                         "heathSymptoms" :"",
                         "heathWhy" :""
-                    }                                   
+                    },
+                    tanChuang:[
+                        {title:'血氧饱和度',jishi:'血氧饱和度是血液中被氧结合的氧合血红蛋白的容量占全部可结合的血红蛋白容量的百分比，即血液中血氧的浓度，它是呼吸循环的重要生理参数。'},
+                        {title:'微循环',jishi:'微循环是血液流经细小的微动脉，经过毛细血管，流向微静脉的循环。'}
+                    ],
+                    questionIndex:0
                 },
                 mounted:function(){
                     var  that = this;
@@ -138,16 +140,17 @@
                         success:function(res){
                             $('#app_501').css({'display':'block'});
                             $('.loadmore.loading').css({'display':'none'});
-                            that.loop = res.data;
+                            that.loop = res.data.bloodOxygenValue;
                         }
                     })
                 },
                 methods:{
-                    stopTouchmove:function(){
+                    stopTouchmove:function(event){
                         $('.mask').addClass('show');
                         $('.popup').addClass('show');
                         sTop = $(window).scrollTop();
-                        $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});         
+                        $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});       
+                        this.questionIndex = $(event.currentTarget).attr('data-index');
                     },
                     Touchmove:function(){
                         $('.mask').removeClass('show');

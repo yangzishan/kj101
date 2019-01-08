@@ -141,6 +141,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -174,7 +175,9 @@ var reportId=GetQueryString("reportId");
 var openId=GetQueryString("openId");
 var userId=GetQueryString("userId");
 var sex=GetQueryString("sex");
-
+zhuge.track('进入健康建议页面', { //埋点t
+	'渠道' : '微信'
+});
 $.ajax({
 url : analysisreport + "/v3/reportContent/querySuggestByReportId",
 type : "POST",

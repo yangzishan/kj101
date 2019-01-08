@@ -18,7 +18,7 @@
     <div id="app">
             <div class="mask" @click="hidePhoto();" ></div>
             <div class="photo">
-                    <img :src="sex.more" alt="">
+                    <img :src="img[jishuqi]" alt="">
             </div>
             <div class="details_header">
                     <p>{{title}}</p>
@@ -47,7 +47,7 @@
                             <img class="zhouwen" :style="s_obj.zhouwen" src="./img/skin/zhouwen.png" alt="">
                             <div class="img_true"  @click="showPhoto">
                                     <span>查看<br>原图</span>
-                                    <img :src="sex.more" alt="">
+                                    <img :src="img[jishuqi]" alt="">
                             </div>
                         </div>
                         <div class="more_right">
@@ -57,7 +57,7 @@
                             </div>
                             <div class="bottom">
                                 <div class="progress">           
-                                    <span v-bind:style="{width:percent+'%'}"></span>
+                                    <span v-bind:style="{width:percent[jishuqi]+'%'}"></span>
                                 </div>
                                 <p class="colooo" v-cloak>{{bijiao}}</p>
                             </div>
@@ -112,6 +112,7 @@
         var  openId = getQueryString('openId');
         var  degree = getQueryString('degree');
         var  sex =  getQueryString('sex');
+        var imgUrl = 'https://yypf.jiankangzhan.com/fileSvr/get?img_path=';
         var  s_obj = {
             heitou:'display:none',
             bandian:'display:none',
@@ -147,8 +148,9 @@
                 listLifeSuggestion:[],
                 listSkincareSuggestion:[],
                 count:[],
+                percent:[],
                 jishuqi:0,
-                percent:0,//percent,
+                img:[],
                 //新增类型
                 liClass:'',
                 indexnum:[],
@@ -201,21 +203,24 @@
                                 that.inspectCode = res.data.inspectCode;
                                 that.diseaseResult = res.data.diseaseResult;
                                 that.List = res.data[degree];
-                                that.percent = Math.ceil(res.data.percent);
                                 that.sex.more = res.data.fileName;
                                 $.each(res.data[degree],function(index,item){
                                     that.count.push(item['count'] == null ? '' : item['count']);
-
+                                    that.percent.push(parseInt(item['percent']));
                                     that.listName.push(item['name']);
                                     that.listCase.push(item['paraCause'].replace(/\n/g,'<br>'));
                                     that.listLifeSuggestion.push(item['paraLifeSuggestion'].replace(/\n/g,'<br>'));
                                     that.listSkincareSuggestion.push(item['paraSkincareSuggestion'].replace(/\n/g,'<br>'));
+                                    //显示真人问题照片 
+                                    that.img.push(imgUrl + item['img']);
                                 });
-
-                                that.bijiao = '您的状态好于'+that.percent+'%的人';
+                                console.log(that.percent)
+                                console.log(that.img)
+                                that.bijiao = '您的状态好于'+that.percent[that.jishuqi]+'%的人';
                                 $('.loadmore.loading').css({'display':'none'});
                                 $('#app').css({'display':'block'});
-                                setTimeout(function(){$('.details_tab>ul>li:first-child').addClass(classna);
+                                setTimeout(function(){
+                                    $('.details_tab>ul>li:first-child').addClass(classna);
                                     $('.progress span').css({'background': 'linear-gradient(to right,'+that.sex.color_b+',' +that.sex.color_e+')'});
                                     $('h2>span').css({'background':that.sex.color});
                                     $('.img_faker').css({'background':'url(./img/'+that.sex.face+') no-repeat center','background-size':'contain'});
@@ -224,8 +229,8 @@
                                     var bingName = that.listName[0] ;
                                     $('.nindeqingkuang').html('<span></span>您的'+bingName+'情况');
                                     $('.nindeqingkuang>span').css({'background-color':that.sex.color});
-                                },5);
-
+                                    that.showSkinQuestion();
+                                },100);
                             }
                         }
                     });
@@ -234,14 +239,12 @@
                     history.back()
                 },
                 showPhoto:function(){
-                    console.log(1)
                     $('.mask').addClass('show');
                     $('.photo').addClass('show');
                     sTop = $(window).scrollTop();
                     $('body').css({'position':'fixed','top':-sTop});
                 },
                 hidePhoto:function(){
-                    console.log(2);
                     $('.mask').removeClass('show');
                     $('.photo').removeClass('show');
                     $('body').css({'position':'static'}); 
@@ -266,10 +269,20 @@
                     var bingName = $(event.currentTarget).attr('data-name');
                     $('.nindeqingkuang').html('<span></span>您的'+bingName+'情况');
                     $('.nindeqingkuang>span').css({'background-color':this.sex.color});
+                    this.bijiao = '您的状态好于'+this.percent[this.jishuqi]+'%的人';
+                },
+                showSkinQuestion:function(){
+                    
+                    var skinTargetName = $('.details_tab>ul>li:first-child').attr('data-targetname');
+                    s_obj.heitou = skinTargetName == 'blackhead' ? 'display:block;' : 'display:none;';
+                    s_obj.bandian = skinTargetName == 'spot' ? 'display:block;' : 'display:none;';
+                    s_obj.huangheban  = skinTargetName == 'chloasma' ? 'display:block;' : 'display:none;';
+                    s_obj.doudou = skinTargetName == 'pimple' ? 'display:block;' : 'display:none;';
+                    s_obj.fenci =skinTargetName == 'acne' ? 'display:block;' : 'display:none;';
+                    s_obj.zhouwen = skinTargetName == 'wrinkle' ? 'display:block;' : 'display:none;';
                 }
             }
         });
-        
         // 获取url参数方法
         function getQueryString(name) {
             var   result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

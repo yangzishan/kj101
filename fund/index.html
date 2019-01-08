@@ -14,8 +14,8 @@
 <body>
 <DIV class="my_view delayshow" id="appOne">
 <header class="header">
-	<a class="t-left fl" id="goSetUp"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
-	<a class="t-right fr" id="checkHistory"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+	<a class="t-left fl" @click="goSetUp()"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
+	<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
 	<p class="t-cen"><span>{{inspectDate}}</span></p>
 </header>
 <div class="tiptop">
@@ -51,9 +51,9 @@
 		    </div>
 		</div>
 		<div class="chart_f">
-			<p><i></i><span><font>指标正常：</font><em class="item_num normalNum">50</em>项</span></p>
-			<p><i></i><span><font>轻度风险：</font><em class="item_num lightNum">10</em>项</span></p>
-			<p><i></i><span><font>中度风险：</font><em class="item_num severeNum">5</em>项</span></p>
+			<p><i></i><span><font>指标正常：</font><em class="item_num normalNum">{{normalNum}}</em>项</span></p>
+			<p><i></i><span><font>轻度风险：</font><em class="item_num lightNum">{{lightNum}}</em>项</span></p>
+			<p><i></i><span><font>中度风险：</font><em class="item_num severeNum">{{severeNum}}</em>项</span></p>
 		</div>
 	</div>
 </div>
@@ -95,13 +95,14 @@
 <div class="xqbaogao">
 	<p class="tit"><i class="le"></i>身体状况</p>
 	<div class="bdy-c2">
-		<div class="li_c" v-for="state in status" v-if="state.targetThirdId != 3232">
-			<label><i><img :src="state.iconUrl"></i><span>{{state.targetThirdName}}</span></label>
-			<input type="hidden" :value="state.abnormalLevel">
-			<p>
-				<span><i class="on"></i><i></i><i></i><i></i><i></i></span>
-				<em>{{state.analysisResults}}</em>
-			</p>
+		<div class="li_c" v-for="item in otherPages" v-if="item.targetThirdId != 3232 && item.targetThirdId != 3230">
+			<label><i><img :src="item.iconUrl"></i><span>{{item.targetThirdName}}</span></label>
+			<input type="hidden" :value="item.abnormalLevel">
+			<p v-if="item.abnormalLevel == 1 || item.abnormalLevel == 0"><span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></p>
+			<p v-if="item.abnormalLevel == 2"><span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></p>
+			<p v-if="item.abnormalLevel == 3"><span><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></p>
+			<p v-if="item.abnormalLevel == 4"><span><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span></p>
+			<p v-if="item.abnormalLevel == 5"><span><i class="on"></i><i></i><i></i><i></i><i></i></span></p>
 		</div>		
 	</div>
 </div>
@@ -109,10 +110,9 @@
 <p class="g1"></p>
 <div class="mesg_b">
 	<div class="con">
-		<b id="dearName" style=" color: #03a89e;"></b>您好！<br>
-		<p>感谢您使用智能筛查机器人进行亚健康评估。如需帮助请拨打我们的健康热线<a href="tel:4006666787" style="color: #03a89e;">4006666787</a>。
-		</p>
-		<p>本次评估您的健康评估分数为<font>{{totalScore}}</font>分，身体状况为<em class="risk"></em>，有<span class="midfx"><font class="severeNum"></font>项为中度风险，</span><font class="lightNum"></font>项为轻度风险。</p>
+		<b id="dearName" style="color: #03a89e;">{{userName}}{{sexStr}}</b>您好！<br>
+		<p>感谢您使用智能筛查机器人进行亚健康评估。如需帮助请拨打我们的健康热线<a href="tel:4006666787" style="color: #03a89e;">4006666787</a>。</p>
+		<p>本次评估您的健康评估分数为<font>{{totalScore}}</font>分，身体状况为<em class="risk"></em>，有<span class="midfx"><font class="severeNum">{{severeNum}}</font>项为中度风险，</span><font class="lightNum">{{lightNum}}</font>项为轻度风险。</p>
 		<p>我们为您免费提供健康状况整体评估、亚健康风险提示、身体实时状况，还可通过微信公众号免费查看健康资讯以及健康视频。</p>
 	</div>
 </div>
@@ -120,23 +120,22 @@
 <p class="g1"></p>
 <div class="xqbaogao" v-if="isPay == 1">
 	<p class="tit"><i class="le"></i>详情报告</p>
-	<div class="con" v-for="site in sites">
-		<a class="lee">
-			<i class="i01"><img :src="site.iconUrl"></i>
-			<span class="lab">{{site.targetFirstName}}</span><em class="arr or"></em><font>{{site.score}}分</font>
+	<div class="con" v-for="item in firstPages">
+		<a class="lee" :class="{low:item.score<90}" @click="showThird($event,item)">
+			<i class="i01"><img :src="item.iconUrl"></i>
+			<span class="lab">{{item.targetFirstName}}</span><em class="arr or"></em><font>{{item.score}}分</font>
 		</a>
-		<dl class="lec" v-for="second in site.secondPages">
-			<dd v-for="third in second.thirdPages" :targetThirdId="third.targetThirdId">
+		<dl class="lec" v-for="second in item.secondPages">
+			<dd v-for="third in second.thirdPages" :class="{bcolor1:third.score>=80 && third.score<90,bcolor2:third.score<80}" @click="goThird($event,third)">
 				<span class="lab">{{third.targetThirdName}}</span><em class="arr fr"></em>
-				<input class="score" type="hidden" :value="third.score">
-				<span class="fx fr">正常</span>
+				<span class="fx fr">{{third.score>=90?'正常':(third.score>=80 && third.score<90?'轻度风险':'中度风险')}}</span>
 			</dd>
 			
 		</dl>
 	</div>
 	<ul class="golook">
-		<li><span id="go_det"><i></i><em>专属建议</em></span></li>
-		<li id="showSp" style="display: none;"><span id="go_sp"><i></i><em>健康食谱</em></span></li>
+		<li><span @click="goSuggest($event)"><i></i><em>专属建议</em></span></li>
+		<li v-if="showRecipe>0"><span @click="getRecipesData($event)"><i></i><em>健康食谱</em></span></li>
 	</ul>
 </div>
 
@@ -148,7 +147,7 @@
 		<p><i></i><span>7天专属的健康食谱</span></p>
 		<p><i></i><span>10元优惠券</span></p>
 	</div>
-	<a class="gopay" id="gopay">如需服务，点击查看</a>
+	<a class="gopay" @click="goPay()">如需服务，点击查看</a>
 </div>
 <p class="g1"></p>
 <div class="xuanc">
@@ -157,12 +156,15 @@
 </div>
 <p style="height: .3rem;"></p>
 
-</DIV><!--/my_view-->
+
 <input type="hidden" id="appId"/>
 <input type="hidden" id="nonceStr"/>
 <input type="hidden" id="signature"/>
 <input type="hidden" id="timestamp"/>
-<input type="hidden" id="age"/>
+<input type="hidden" id="age" :value="age"/>
+
+</DIV><!--/my_view-->
+
 
 <div class="v_overlert">
 	<div class="tc_sy">
@@ -183,6 +185,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="../js/base.js"></script>
+<script type="text/javascript" src="../zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>

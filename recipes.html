@@ -284,6 +284,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -315,13 +316,13 @@ function getQueryString(name){
 };
 var reportId = getQueryString('reportId');
 var edition=getQueryString("edition");
-if(edition == undefined || edition == null || edition == ''){
-	edition = 2;
-	var _url = '/api/v1/reportIndex/getRecipesData'
-}else if(edition == 500){ //适配501报告
+var _url = '/api/v1/reportIndex/getRecipesData' //默认指定接口 必须放edition判断上边
+if(edition == 500){ //适配501报告
 	var _url = '/api/v5/reportData/getRecipesData'
 }
-
+zhuge.track('进入健康食谱页面', { //埋点t
+	'渠道' : '微信'
+});
 $.ajax({
 	type: "post",
 	url: dataUrl + _url,

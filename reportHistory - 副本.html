@@ -19,18 +19,17 @@
 	</header>
 	
 	<div class="history_b" id="thelist">
-		<!--<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
-			<span class="dat">{{item.inspectDateStr}}</span>
-			<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
+		<!--<a class="h_li" v-for="site in status" :href="site.inspectId|getReportHref">
+			<span class="dat">{{site.inspectDateStr}}</span>
+			<i class="arr fr"></i><span class="num fr">{{site.totalScore}}分</span>
 		</a>-->
 	</div>
 	
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -58,10 +57,7 @@ function getQueryString(name){
 };
 var userId=getQueryString("userId");
 var openId = getQueryString('openId');
-zhuge.track('进入历史列表页', { //埋点t
-	'openId' : openId,  
-	'渠道' : '微信'
-});
+
 //记录索引
 var aIndex = 0;
 $.ajax({

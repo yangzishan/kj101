@@ -40,8 +40,8 @@
 			　　欢迎使用康加智能健康筛查机器人进行亚健康评估，请查阅您的报告（注：本报告为亚健康评估，不作为医学临床诊断之用，<a class="col link" href="notice.html">点击了解更多</a>），如需帮助请拨打我们的健康热线 <a class="col cu" href="tel://4006666787">4006666787</a>，祝您健康！
 		</div>
 		<ul class="golook">
-			<li><a :href="'z_pop.html?reportId='+reportId"><i></i><em>健康建议</em></a></li>
-			<li><a v-if="showRecipe > 0" :href="'recipes.html?reportId='+reportId"><i></i><em>专属食谱</em></a></li>
+			<li><a @click="getSuggest($event)"><i></i><em>健康建议</em></a></li>
+			<li><a v-if="showRecipe > 0" @click="getRecipesData($event)"><i></i><em>专属食谱</em></a></li>
 		</ul>
 	</div>
 	
@@ -74,7 +74,7 @@
 		<div class="fx-mid">
 			<div class="pic fl"><img src="img/120/dag_mid.png"><p>中度风险</p></div>
 			<div class="list fr">
-				<a class="bid" v-for="bid in midbid" :href="'third.html?reportId='+reportId+'&targetId='+bid.targetId+'&userId='+userId">
+				<a class="bid" v-for="bid in midbid" @click="goThird($event,bid)">
 					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
 				</a>
 			</div>
@@ -82,7 +82,7 @@
 		<div class="fx-mid lit">
 			<div class="pic fl"><img src="img/120/dag_lit.png"><p>轻度风险</p></div>
 			<div class="list fr">
-				<a class="bid" v-for="bid in litbid" :href="'third.html?reportId='+reportId+'&targetId='+bid.targetId+'&userId='+userId">
+				<a class="bid" v-for="bid in litbid" @click="goThird($event,bid)">
 					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
 				</a>
 			</div>

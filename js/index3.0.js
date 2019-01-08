@@ -1,8 +1,10 @@
 var edition = 3;
 var reportId = getQueryString("reportId");
 var openId = getQueryString("openId");
-console.log(reportId);
-console.log(openId);
+zhuge.track('进入3.0报告首页', { //埋点t
+	'openId' : openId,
+	'渠道' : '微信'
+});
 var _offsetTop; //存储滚动
 var _bodyoffset;
 new Vue({
@@ -229,26 +231,59 @@ new Vue({
 			_bodyoffset = $(window).scrollTop();
 			$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
 		},
-		// 个人中心
-		goSet: function(){
-			window.location.href=dataUrl+"/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ this.reportId
+		checkHistory: function(){ //历史报告
+			let vm = this;
+			zhuge.track('点击历史报告', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href = dataUrl+"/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + this.openId + '&reportId=' + this.reportId
+			});
 		},
-		// 历史报告
-		checkHistory: function(){
-			window.location.href=dataUrl+"/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + this.openId + '&reportId=' + this.reportId
+		goSetUp: function(){ //个人中心
+			let vm = this;
+			zhuge.track('点击个人中心', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href=dataUrl+"/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ this.reportId
+			});	
 		},
 		// 导航
 		indexHref: function(){
 			window.location='index3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
 		},
 		adviseHref: function(){
-			window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+			let vm = this;
+			zhuge.track('点击健康建议', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+vm.userId
+			});
 		},
 		recipeHref: function(){
-			window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+			let vm = this;
+			zhuge.track('点击健康食谱', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+			});
 		},
 		graphHref: function(){
-			window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+			let vm = this;
+			zhuge.track('查看3.0趋势图', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+			});
 		},
 		updateBmi: function(){
 			if(parseFloat(this.height)>250 || parseInt(this.height)<50){

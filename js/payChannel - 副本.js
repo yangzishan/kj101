@@ -188,6 +188,13 @@ var myApp = new Vue({
 							if(_this.isFree == 1){
 								$('.pay-x-fix .oprice').html('新用户首次免费');
 								$('#pay .sub').html('查看');
+								$('#pay').click(function(){
+									if(edition == 100){
+										window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
+									}else{
+										window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
+									}
+								});
 							};
 							//sameUser 1/2 是否显示卡支付 代付提醒
 							if(_this.sameUser == 2){
@@ -195,11 +202,23 @@ var myApp = new Vue({
 								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 								$('.daifu_d').css("display","block");
 							}else{
-								_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡
+								//判断用户有没有可用卡
+								_this.findUserCards(reportId,_this.userId)
 							};
-							
-							_this.getPayChannel(_this.snNum) //查询支付通道
-							
+							//查询支付通道
+							_this.getPayChannel(_this.snNum)
+							// 根据价格
+							if(_this.price == 0){
+								$('#pay').on("click",function(){
+									_this.updateFreeOrder(reportId,_this.packageId,_this.userId)
+								});
+							}else{
+								$('#pay').on("click",function(){
+									//选择支付方式
+									$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+									$('.sl-pay').css({"transform":"translateY(0%)"});
+								});
+							};
 							//关闭 选择方式
 							$('.close').click(function(){
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.sl-pay').css({"transform":"translateY(110%)"});
@@ -208,7 +227,7 @@ var myApp = new Vue({
 							$('#iknow').click(function(){
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.daifu_d').css("display","none");
 							});
-							//卡支付 
+							//支付跳转 
 							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
 						
 						}
@@ -221,12 +240,11 @@ var myApp = new Vue({
 							WeixinJSBridge.call('closeWindow');
 						});
 					}else if(packageData.code == 1002){
-						alert('findPackage 1002'+packageData.msg)
+						alert('findPackage 1002')
 					}else{console.log(packageData.msg);alert(packageData.msg)} //code 200 201之外
 				}
 			).error(function(){alert('findPackage error')})
 		},
-		//点击支付按钮弹出支付方式
 		goPay: function(e){
 			let vm = this;
 			if(vm.isFree == 1){
@@ -235,13 +253,13 @@ var myApp = new Vue({
 				}else{
 					window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
 				}
-			}else if(vm.price == 0){
+			}else if(price == 0){
 				vm.updateFreeOrder(reportId,vm.packageId,vm.userId)
 			}else{
 				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 				$('.sl-pay').css({"transform":"translateY(0%)"});
 			}
-		},
+		}
 		//跳转支付
 		hrefRouter: function(pay){
 			if(pay.payChannelType == 3){

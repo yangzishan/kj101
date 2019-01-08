@@ -90,7 +90,6 @@
         </div>
    </div>
     <!--红色查看按钮 -->
-    <!--<div class="look-btn" id="pay">关爱健康，点击查看</div>-->
     <p class="hint"><span v-show="isShow">支付成功即可获得10元优惠券</span></p>
     <div class="foot">入选工业和信息化部、民政部、国家卫生健康委员会公布的《智慧健康养老产品及服务推广目录》</div>	
 </section>
@@ -163,12 +162,11 @@
             <div class="hand"></div>
         </div>
     </div>
-    <!--<div id="pay" class="btn-more">关爱健康，点击查看</div>-->
     <p class="hint"><span v-show="isShow">支付成功即可获得10元优惠券</span></p>
 </section>
 
 	<div class="pay-x-fix">
-		<button class="pay" id="pay">支 付</button>
+		<button class="pay" id="pay" @click="goPay($event)">支 付</button>
 		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
@@ -201,6 +199,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts.common.min.js"></script>
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>

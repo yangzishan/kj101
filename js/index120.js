@@ -167,8 +167,6 @@ var myApp = new Vue({
 								}
 							}
 							createChart(arrayXt,arraySlnl,_this.age,500);
-							
-							_this.goLook(_this.userId);
 
 							// 抓取滚动位置
 							$(window).scroll(function(){ 
@@ -239,30 +237,49 @@ var myApp = new Vue({
 				WeixinJSBridge.call('closeWindow');
 			});
 		},
-		goLook: function(userId){ //埋点 建议 食谱
-			$('.golook li a').click(function(){
-				let link = $(this);
-				zhuge.track('点击'+link.find('em').text(),{
-					'用户id': userId,
-					'openId': openId,
-					'渠道' : '微信'
-				},function(){
-					location.href = link.attr('href');
-				});
-			});
+		getSuggest: function(e){ //健康建议
+			let vm = this;
+			zhuge.track('点击健康建议',{
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'z_pop.html?reportId='+reportId
+			})
+		},
+		getRecipesData: function(e){ //健康食谱
+			let vm = this;
+			zhuge.track('点击健康食谱',{
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'recipes.html?reportId='+reportId
+			})
 		},
 		goSecond: function(e,item){ //埋点  十大系统点击
 			let vm = this;
 			zhuge.track('点击十大系统',{
 				'用户id': vm.userId,
 				'系统名称':item.targetFirstName,
-				'得分':item.score,
+				'系统分数':item.score,
 				'openId': openId,
 				'渠道' : '微信'
 			},function(){
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
 			});
-		}
+		},
+		goThird: function(e,item){
+			let vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.targetName,
+				'指标得分':item.score,
+				'方式' : '通过保险版本首页'
+			},function(){
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId
+			});
+		},
 	}
 });
 

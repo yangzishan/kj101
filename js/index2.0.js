@@ -9,7 +9,11 @@ if(edition == undefined || edition == null || edition == ''){
 	var indexAll_data = '/api/v5/reportData/indexAll'
 	var targetImprove_data = '/api/v5/reportData/targetAnalyse'
 	$('header').css("display","none")
-}
+};
+zhuge.track('进入2.0报告首页', { //埋点t
+	'openId' : openId,
+	'渠道' : '微信'
+});
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
 var myApp = new Vue({
@@ -171,6 +175,7 @@ var myApp = new Vue({
 									$(this).find('.s-inf').find('.tx').css("color","#FF8800");
 								};
 							});
+							$('#sysNum').text($('.tenSys_c a').length);
 						},200);
 						//生理年龄图
 						var arraySlnl=[],arrayXt=[];
@@ -216,9 +221,7 @@ var myApp = new Vue({
 							vm.okImproves = data.data.okImproves, //已改善
 							vm.noImproves = data.data.noImproves //为改善
 						}
-					
-						//介绍弹窗
-						$('#zbgs_tc').on("click",function(event){
+						$('#zbgs_tc').on("click",function(event){ //介绍弹窗
 							showMask();
 							$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 							return false;
@@ -232,38 +235,12 @@ var myApp = new Vue({
 						var changeVal = sessionStorage.getItem("changeTab");
 						$('.change_tab span').eq(changeVal).addClass('on').siblings().removeClass('on');
 						$('.changeShow').eq(changeVal).css("display","block").siblings('.changeShow').css("display","none");
-						//$(document).scrollTop(_offset);
-						//判断class
-						setTimeout(function(){
-							$('.change_list li span.s2').each(function(index){
-								if($(this).text()=='正常'){
-									$(this).addClass('bc1');
-								}else if($(this).text()=='轻度风险'){
-									$(this).addClass('bc2');
-								}else if($(this).text()=='中度风险'){
-									$(this).addClass('bc3');
-								}
-							});
-							//新增
-							$('.change_list li span.s1 i').each(function(){
-								if($(this).text()=='1'){
-									$(this).next('font').css("display","inline-block");
-								}
-							});
-							//判断没有指标项
-							$('.change_list').each(function(index){
-								if($(this).find('li').length == 0){
-									$(this).next('p').css("display","block");
-								}
-							});
-						},100)
-							
+						//$(document).scrollTop(_offset);	
 					}
 				},
-			    error : function(obj,msg){console.log(obj  + msg+':异常项改善情况 接口error');}
+			    error : function(obj,msg){console.log('targetImprove error')}
 			});
-			
-			
+
 		},
 		//判断支付页面
 		participate: function(paymentType,sameUser){
@@ -296,18 +273,69 @@ var myApp = new Vue({
 			showMask();
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
-		checkHistory: function(e){ //历史报告
-			window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId
+		checkHistory: function(){ //历史报告
+			let vm = this;
+			zhuge.track('点击历史报告', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId
+			});
 		},
-		goSetUp: function(e){ //个人中心
-			window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
+		goSetUp: function(){ //个人中心
+			let vm = this;
+			zhuge.track('点击个人中心', { //埋点 t
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
+			});	
 		},
 		getSuggest: function(e){ //健康建议
-			window.location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition
+			let vm = this;
+			zhuge.track('点击健康建议',{
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition
+			})
 		},
 		getRecipesData: function(e){ //健康食谱
-			window.location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
+			let vm = this;
+			zhuge.track('点击健康食谱',{
+				'用户id': vm.userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
+			})
 		},
+		goThird: function(e,item){
+			let vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.tagetName,
+				'指标得分':item.score,
+				'方式' : '通过2.0版本首页'
+			},function(){
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId
+			});
+		},
+		goSecond: function(e,item){ //埋点  十大系统点击
+			let vm = this;
+			zhuge.track('点击十大系统',{
+				'用户id': vm.userId,
+				'系统名称':item.targetFirstName,
+				'系统分数':item.score,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
+			});
+		}
 	}
 });
 

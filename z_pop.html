@@ -9,6 +9,7 @@
 <title>健康建议</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/menu.css" />
 <style>
 	.bcon{ font-size: .28rem;}
 </style>
@@ -115,6 +116,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -147,13 +149,13 @@ function getQueryString(name){
 };
 var reportId=getQueryString("reportId");
 var edition=getQueryString("edition");
-if(edition == undefined || edition == null || edition == ''){
-	edition = 2;
-	var _url = '/api/v1/reportIndex/getSuggest'
-}else if(edition == 500){ //适配501报告
+var _url = '/api/v1/reportIndex/getSuggest' //默认指定接口 必须放edition判断上边
+if(edition == 500){ //适配501报告
 	var _url = '/api/v5/reportData/getSuggest'
 }
-
+zhuge.track('进入健康建议页面', { //埋点t
+	'渠道' : '微信'
+});
 $.ajax({
 url : dataUrl + _url,
 type : "POST",
