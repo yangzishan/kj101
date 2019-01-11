@@ -16,7 +16,7 @@ var myApp = new Vue({
 			isShow:false,
 			isActive:[],
 			reportId:'', openId:'', sameUser:'', edition:'', //版本
-			data:{},
+			data:{}, //支付通道数据
 			nickName:'',//昵称
 			headimgurl:'',
 			totalScore:'',//得分
@@ -37,11 +37,11 @@ var myApp = new Vue({
 			userIdstr:'', //逗号分隔显示
 			snNum:'', 
 			orderNum:'',
-			day:'',
-			baseInfo:'',
-			ablive1:'', ablive2:'',
-			reportAdd:'',
-			reportDel:'',
+			day:'',  //距离上次检测天数
+			baseInfo:'', //老用户趋势数据
+			ablive1:'', ablive2:'',  //本次与上次异常项数目
+			reportAdd:'', //新增
+			reportDel:'',  //已改善指标
 			notStr:'新增' , //为改善 新增称呼
 			firstlist:'',
 			easysize: '', hardsize: '',   //新用户风险指标数目
@@ -186,8 +186,7 @@ var myApp = new Vue({
 							$('#pay .sub').css("background","#CCCCCC");
 						}else{
 							if(_this.isFree == 1){
-								$('.pay-x-fix .oprice').html('新用户首次免费');
-								$('#pay .sub').html('查看');
+								$('.pay-x-fix .oprice').html('新用户首次免费');$('#pay .sub').html('查看');
 							};
 							//sameUser 1/2 是否显示卡支付 代付提醒
 							if(_this.sameUser == 2){
@@ -228,7 +227,7 @@ var myApp = new Vue({
 		},
 		//点击支付按钮弹出支付方式
 		goPay: function(e){
-			let vm = this;
+			var vm = this;
 			if(vm.isFree == 1){
 				if(edition == 100){
 					window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
@@ -365,7 +364,6 @@ function isEmptyObject(obj){
 	}
 	return true
 };
-
 //老用户得分趋势图
 function oldUserTrend(el,dateArr,scoreArr){
 	setTimeout(function(){ 

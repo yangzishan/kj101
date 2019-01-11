@@ -18,7 +18,6 @@
 			<a class="t-right fr" href="#"></a>
 			<p class="t-cen txt1"><span>历史报告</span></p>
 		</header>
-		
 		<div class="history_b" id="thelist">
 			<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
 				<span class="dat">{{item.inspectDateStr}}</span>
@@ -44,7 +43,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
@@ -53,63 +51,31 @@
 <script>
 $('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
-//截取URL 获取
-function getQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-var edition=getQueryString("edition");
-var sign=getQueryString("sign");
-var channelSign = getQueryString('channelSign');
-var userId = '';
-//记录索引
-var aIndex = 0;
+var edition = getQueryString("edition");
+var customerId = getQueryString("customerId");
+var aIndex = 0;//记录索引
 
 var myApp = new Vue({
 	el:'#appVUE',
 	data: function(){
 		return{
-			sign:sign,
-			channelSign:channelSign,
-			userId:'',
-			customerId:'',
-			dataList:''
+			userId: customerId,
+			customerId: customerId,
+			dataList: ''
 		}
 	},
 	mounted:function(){
-		this.AppOthersForReportList();
+		this.historyByUserId();
 	},
 	methods:{
-		AppOthersForReportList: function(){
-			let vm = this
-			$.ajax({
-				url : dataUrl + "/api/app/report/AppOthersForReportList",
-				type : "post",
-				dataType : 'json',
-				data : {
-				   	sign : sign,
-				    channelSign: channelSign
-				},
-				success : function(res) {
-					if(res.code == 200){
-						vm.customerId = res.data.customerId
-						vm.historyByUserId(vm.customerId)
-					}else{
-						alert('AppOthersForReportList code='+res.code)
-					}
-				},
-				error: function(){alert('AppOthersForReportList error')}
-			});
-		},
-		historyByUserId: function(userId){
-			let vm = this;
+		historyByUserId: function(){
+			var vm = this;
 			$.ajax({
 				url : dataUrl + "/api/v1/reportIndex/historyTjBankByUserId",
 				type : "POST",
 				dataType : 'json',
 				data : {
-				   	userId : userId,
+				   	userId : customerId,
 				    firstPage: '0',
 				    pageSize: 30
 				},
@@ -124,7 +90,7 @@ var myApp = new Vue({
 			});
 		},
 		gotosee: function(e,item){
-			let vm = this;
+			var vm = this;
 			if(item.reportType == 1){
 				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId;
 			}else if(item.reportType == 2){
@@ -141,6 +107,12 @@ var myApp = new Vue({
 		}
 	}
 });
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
 </script> 
 </body>
 </html>

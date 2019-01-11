@@ -31,7 +31,7 @@
 			<dd class="cdd" v-for="item in ostate.thirdPages">
 				<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
 					<span class="lab">{{item.targetThirdName}}</span>
-					<span class="sta">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'重度风险')}}</span>
+					<span class="sta">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>
 					<span class="num">{{item.score}}分</span>
 					<em class="fr"></em>
 				</a>

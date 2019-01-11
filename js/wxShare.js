@@ -25,7 +25,7 @@ function init(){
 	// config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在 页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready 函数中。  
 	wx.ready(function(){
 		
-		var basePath = testHealthUrl + "/share2.html?reportId="+ myReportId + "&openId=" + myopenId + "&edition="+edition;
+		var basePath = testHealthUrl + "/share2.html?reportId="+ reportId + "&openId=" + edition + "&edition="+edition;
 
 		var titleShare = "生理年龄";
 		if (age != null && age != "" && age != "undefined" && age != 0) {

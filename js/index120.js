@@ -1,13 +1,13 @@
 //截取URL
-function GetQueryString(name) {
+function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
     if (result == null || result.length < 1) {
         return "";
     }
     return result[1];
 };
-var reportId = GetQueryString('reportId');
-var openId = GetQueryString('openId');
+var reportId = getQueryString('reportId');
+var openId = getQueryString('openId');
 var edition = 120;
 zhuge.track('进入保险版报告首页', { //埋点t
 	'openId' : openId,
@@ -211,7 +211,7 @@ var myApp = new Vue({
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
 		checkHistory: function(){ //历史报告
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击历史报告', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -221,7 +221,7 @@ var myApp = new Vue({
 			});
 		},
 		goSetUp: function(){ //个人中心
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击个人中心', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -238,7 +238,7 @@ var myApp = new Vue({
 			});
 		},
 		getSuggest: function(e){ //健康建议
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康建议',{
 				'用户id': vm.userId,
 				'openId': openId,
@@ -248,7 +248,7 @@ var myApp = new Vue({
 			})
 		},
 		getRecipesData: function(e){ //健康食谱
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康食谱',{
 				'用户id': vm.userId,
 				'openId': openId,
@@ -258,7 +258,7 @@ var myApp = new Vue({
 			})
 		},
 		goSecond: function(e,item){ //埋点  十大系统点击
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击十大系统',{
 				'用户id': vm.userId,
 				'系统名称':item.targetFirstName,
@@ -270,7 +270,7 @@ var myApp = new Vue({
 			});
 		},
 		goThird: function(e,item){
-			let vm = this;
+			var vm = this;
 			zhuge.track('用户点击三级指标',{ //埋点
 				'用户id': vm.userId,
 				'指标名称':item.targetName,

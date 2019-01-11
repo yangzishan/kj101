@@ -29,20 +29,16 @@
 	<div class="kj-nav-box">
 		<ul>
 			<li class="active">
-				<div class="index-img"><img src="./images/nav-1.png" /></div>
-				<p>首页</p>
+				<div class="index-img"><img src="./images/nav-1.png" /></div><p>首页</p>
 			</li>
 			<li @click="adviseHref()">
-				<div class="index-img"><img src="./images/nav-02.png" /></div>
-				<p>建议</p>
+				<div class="index-img"><img src="./images/nav-02.png" /></div><p>建议</p>
 			</li>
 			<li @click="recipeHref()">
-				<div class="index-img"><img src="./images/nav-03.png" /></div>
-				<p>食谱</p>
+				<div class="index-img"><img src="./images/nav-03.png" /></div><p>食谱</p>
 			</li>
 			<li @click="graphHref()">
-				<div class="index-img"><img src="./images/nav-04.png" /></div>
-				<p>趋势</p>
+				<div class="index-img"><img src="./images/nav-04.png" /></div><p>趋势</p>
 			</li>
 		</ul>
 	</div>
@@ -76,11 +72,7 @@
 				<p class="bmi-box"><span class="state">亚健康风险</span><span class="explain" @click="clickB()"><img src="./images/explain.png" /></span></p>
 			</div>
 			<div class="text">
-				<div class="pointer" :class="
-					[{'best':100 >= totalScore && totalScore >= 95},
-					{'well':94 >= totalScore && totalScore >= 90},
-					{'second':84 >= totalScore && totalScore >=80},
-					{'bad':80 > totalScore}]"><img src="./images/jt.png" />
+				<div class="pointer"><img src="./images/jt.png" />
 				</div>
 			</div>
 			<p class="advise">
@@ -123,7 +115,7 @@
 				<p class="bmi-box"><span class="state">{{data[0].targetName}}</span><span class="explain" @click="clickF()"><img src="./images/explain.png" /></span></p>
 			</div>
 			<!--best快乐  joviality愉悦  peace平和 depress压抑 gloomy郁闷 -->
-			<div class="happy-box" 
+			<!--<div class="happy-box" 
 			:class="[{
 				'gloomy':data[0].childTarget[0].abLive == 4},
 				{'best':data[0].childTarget[0].abLive == 0},
@@ -136,6 +128,17 @@
 				<span class="peace-title">平和</span>
 				<span class="joviality-title">愉悦</span>
 				<span class="best-title">快乐</span>
+			</div>-->
+			<div class="happy-box" >
+				<span class="gloomy-title">郁闷</span>
+				<span class="depress-title">压抑</span>
+				<span class="peace-title">平和</span>
+				<span class="joviality-title">愉悦</span>
+				<span class="best-title">快乐</span>
+				<div class="klzs_c">
+					<div class="zs_b"></div>
+					<div class="zs_p"></div>
+				</div>
 			</div>
 			<div class="happy-icon"
 			:class="[{

@@ -252,7 +252,7 @@
 .mbtn-sub{ display: block; width:100%;height: .88rem; line-height: .88rem; background: #61b757; color: #fff; font-size: .34rem; border-radius: .1rem;}
 
 /*改 新用户登录注册*/
-.d_login{ width: 100%; /*height: 3.6rem;*/ overflow: hidden; position: relative;}
+.d_login{ width: 100%; height: 3.6rem; overflow: hidden; position: relative;}
 .d_login #cn1{position: absolute; top: 0; left: 0;}/*null*/
 .d_login #cn2{ position: absolute; top: 0; left: 110%;}/*null*/
 .login_cn{ width: 100%; padding: 0 .3rem; transition-duration:200ms; background: #fff;}

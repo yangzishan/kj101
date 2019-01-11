@@ -44,7 +44,7 @@
 </form>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
@@ -60,7 +60,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
@@ -73,7 +72,6 @@ function getQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var indexUrl = window.location.href;
 var reportId=getQueryString("reportId");
 var packageId=getQueryString("packageId");
 var userId=getQueryString("userId");
@@ -90,9 +88,7 @@ if(payChannelType == 1){
 };
 var tp=getQueryString("tp");  //判断kj201
 var edition=getQueryString("edition"); //判断用哪一版页面显示首页
-if(edition==null){
-	edition = '';
-};
+
 var myurl = window.location;
 var useurl = decodeURI(myurl);
 var start =useurl.indexOf('name=');
@@ -178,17 +174,13 @@ $(document).on("click","#goWxPay",function(){
 	    			alert(result.msg);
 	    		}
 	    	//////////
-	    	}else if(payChannelType == 12){ //微信-支付
+	    	}else if(payChannelType == 12){ //微信-H5 支付
 	    		if(result.code ==0){
 	    			window.location.href = result.mweb_url
 	    		}else{
 	    			alert(result.msg);
 	    		}
-	    		
-	    		
 	    	}
-	    	
-		    	
 	    },
 	    error: function(){alert('payOrder error');$('#goWxPay').attr("disabled",false);}
 	});
@@ -204,7 +196,6 @@ $.ajax({
 	    customerId : userId
 	},
 	success: function(data){
-		//alert('yhq');
 		var discount=0;
 		if(data.data == null || data.data == ''){
 			$('#usecoupon').css("display","none");

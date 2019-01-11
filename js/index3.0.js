@@ -57,7 +57,6 @@ new Vue({
 					openId: openId
 				},
 				success:function(data){
-					//alert('analysisReport code='+data.code); // 调试
 					if(data.code == 200){
 						_this.queryNewReportDataByReportId(); // 执行获取首页数据
 					}else if(data.code == 402){
@@ -90,7 +89,6 @@ new Vue({
 					openId : openId
 				},
 				success: function(data){
-					
 					if(data.code == 200){
 						$('body').css("visibility","visible");
 						_this.data = data.result.reportNewThreeViems
@@ -102,25 +100,47 @@ new Vue({
 						_this.inspectDate = data.result.inspectDate
 						if(_this.data[3].score== null){
 							_this.data[3].score = 0
+						}
+						// 风险等级转的度数
+						if(_this.totalScore >= 95){
+							var _deg = 110
+						}else if(_this.totalScore <=  94&& _this.totalScore >= 90){
+							var _deg = 60
+						}else if(_this.totalScore <= 89 && _this.totalScore >= 85){
+							var _deg = 0
+						}else if(_this.totalScore <= 84 && _this.totalScore >= 80){
+							var _deg = -60
+						}else{
+							var _deg = -120
+						};
+						//快乐指数 转的度数
+						if(_this.data[0].childTarget[0].abLive == 4){
+							var _klzs = 95
+						}else if(_this.data[0].childTarget[0].abLive == 3){
+							var _klzs = 76
+						}else if(_this.data[0].childTarget[0].abLive == 2){
+							var _klzs = 52
+						}else if(_this.data[0].childTarget[0].abLive == 1){
+							var _klzs = 30
+						}else if(_this.data[0].childTarget[0].abLive == 0){
+							var _klzs = 10
 						};
 						setTimeout(function(){
 							$('#prcc').css("width",data.result.totalScore+'%');
 							$('#score').animateNumber({ number: data.result.totalScore },1100);
-						},200);
+							$('.sub-health .text .pointer').css("transform","rotate("+_deg+"deg)");
+							$('.klzs_c .zs_p').css("transform","rotate(-"+_klzs+"deg)");
+						},300);
 
 					}else if((data.code == 201)){
 						//alert('queryNewReportDataByReportId code='+data.code);
-						console.log('需要支付');
 						_this.sameUser = data.sameUser;
-						window.location.href="payfor3.0.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + _this.sameUser+"&edition="+edition;
-						//window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + _this.sameUser+"&edition="+edition;
-						
+						location.href="payfor3.0.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + _this.sameUser+"&edition="+edition;	
 					}else{console.log('queryNewReportDataByReportId,code='+data.code)}
 				},
 				error: function(){alert('queryNewReportDataByReportId error')}
 			});
 		},
-		
 		shade: function(index){
 			this.popupA = false
 			this.popupB = false
@@ -232,7 +252,7 @@ new Vue({
 			$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
 		},
 		checkHistory: function(){ //历史报告
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击历史报告', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -242,7 +262,7 @@ new Vue({
 			});
 		},
 		goSetUp: function(){ //个人中心
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击个人中心', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -256,33 +276,33 @@ new Vue({
 			window.location='index3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
 		},
 		adviseHref: function(){
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康建议', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
 				'渠道' : '微信'
 			},function(){
-				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+vm.userId
+				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId
 			});
 		},
 		recipeHref: function(){
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康食谱', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
 				'渠道' : '微信'
 			},function(){
-				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId
 			});
 		},
 		graphHref: function(){
-			let vm = this;
+			var vm = this;
 			zhuge.track('查看3.0趋势图', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
 				'渠道' : '微信'
 			},function(){
-				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId
+				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId
 			});
 		},
 		updateBmi: function(){

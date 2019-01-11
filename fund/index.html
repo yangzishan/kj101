@@ -12,7 +12,8 @@
 <style type="text/css">.highcharts-credits{display: none;}</style>
 </head>
 <body>
-<DIV class="my_view delayshow" id="appOne">
+<DIV class="my_view">
+<section id="appOne">
 <header class="header">
 	<a class="t-left fl" @click="goSetUp()"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
 	<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
@@ -145,7 +146,6 @@
 		<p><i></i><span>身体十大系统70余项指标深度筛查及指标解读</span></p>
 		<p><i></i><span>专属的健康解决方案（膳食、营养素、运动及生活方式）</span></p>
 		<p><i></i><span>7天专属的健康食谱</span></p>
-		<p><i></i><span>10元优惠券</span></p>
 	</div>
 	<a class="gopay" @click="goPay()">如需服务，点击查看</a>
 </div>
@@ -162,7 +162,7 @@
 <input type="hidden" id="signature"/>
 <input type="hidden" id="timestamp"/>
 <input type="hidden" id="age" :value="age"/>
-
+</section>
 </DIV><!--/my_view-->
 
 
@@ -175,9 +175,7 @@
 </div>
 <div class="v_overlay"></div>
 
-<div class="load-overlay">
-	<div class="loadimg"><img src="img/loading.gif"></div>
-</div>
+<div class="load-overlay" style="display: block;"><p class="loadimg"><img src="img/loading.gif"></p></div>
 
 <div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>

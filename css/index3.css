@@ -202,49 +202,32 @@
     height: 2.55rem;
     background: url(../images/yq.png) no-repeat;
     background-size: 100%;
-    margin: 0 auto
+    margin: 0 auto;
+	padding: .68rem 0 0;
 }
 .sub-health .text .pointer{
+	transform:rotate(-145deg);
+	transform-origin:center 80%;
     width: .38rem;
     height: .95rem;
-    margin: 0 auto;
-    padding-top:.9rem;
+    margin: 0 auto; 
+    transition: transform 1s;
 }
 /*良好*/
 .sub-health .text .well{
-    width: .38rem;
-    height: .95rem;
-    margin: 0 auto 0 1.5rem !important;
-    padding-top:.9rem;
-}
-.sub-health .text .well img{
-    transform:rotate(60deg);
+   transform:rotate(60deg);
 }
 /*三级*/
 .sub-health .text .bad{
-    margin: 0 auto 0 1.5rem !important;
-}
-.sub-health .text .bad img{
-    transform:rotate(-120deg);
-    margin-top: 0.08rem;
-    margin-left: -.3rem;
+	transform:rotate(-120deg);
 }
 /*二级*/
 .sub-health .text .second{
-    margin: 0 auto 0 1.5rem !important;
-}
-.sub-health .text .second img{
-    transform:rotate(-48deg);
-    margin-left: -.5rem;
+	transform:rotate(-48deg);
 }
 /*最佳*/
 .sub-health .text .best{
-    margin: 0 auto 0 1.5rem !important;
-}
-.sub-health .text .best img{
-    transform:rotate(120deg);
-    margin-top: 0.08rem;
-    margin-right: -.3rem;
+	transform:rotate(120deg);
 }
 /*快乐指数*/
 .happy .title{
@@ -270,8 +253,8 @@
 }
 /* 11改动代码 */
 .happy .happy-box{
-    width:4.55rem;
-    height: 1.16rem;
+    width:4.93rem;
+    height: 1.34rem;
     margin: 0 auto;
     position: relative;
 }
@@ -281,44 +264,32 @@
     color: #595757;
 }
 .happy .happy-box .gloomy-title{
-    left: -.33rem;
-    top: .3rem;
+    left: -.3rem;
+    top: .4rem;
 }
 .happy .happy-box .depress-title{
     left: .68rem;
     top: -.25rem;
 }
 .happy .happy-box .peace-title{
-    left: 1.97rem;
-    top: -.45rem;
+    left: 2.1rem;
+    top: -.52rem;
 }
 .happy .happy-box .joviality-title{
-    left: 3.3rem;
+    left: 3.5rem;
     top: -.25rem;
 }
 .happy .happy-box .best-title{
-    right: -.33rem;
-    top: .3rem;
+    right: -.3rem;
+    top: .4rem;
 }
-.happy .gloomy{
-    background: url(../images/gloomy.png) no-repeat;
-    background-size: 100%;
-}
-.happy .depress{
-    background: url(../images/depress.png) no-repeat;
-    background-size: 100%;
-}
-.happy .peace{
-    background: url(../images/peace.png) no-repeat;
-    background-size: 100%;
-}
-.happy .joviality{
-    background: url(../images/joviality.png) no-repeat;
-    background-size: 100%;
-}
-.happy .best{
-    background: url(../images/best.png) no-repeat;
-    background-size: 100%;
+.klzs_c{ width: 4.93rem; height: 1.33rem; overflow: hidden; position: relative;}
+.klzs_c .zs_b{ width:4.83rem; height: 2.9rem; margin: 0 auto; background: url(../images/klzs_b.png) no-repeat; background-size:4.83rem 2.9rem;}
+.klzs_c .zs_p{position: absolute; left: 0; top: .05rem; width: 4.93rem; height: 2.9rem; background: url(../images/klzs_p.png) no-repeat; background-size:4.93rem 2.87rem;
+	transform: rotate(-120deg); 
+	transition: transform 1s;
+	transform-origin: center bottom; 
+	
 }
 .happy .happy-icon{
    text-align: center;
@@ -347,7 +318,7 @@
 .happy .joviality-box .img{
     background: url(../images/joviality-icon.png) no-repeat;
     background-size: 100%;
-     width: .53rem;
+    width: .53rem;
     height: .53rem;
     margin: -.6rem auto 0 auto;
 }
@@ -790,7 +761,7 @@
 }
 .condition .txt .declare{
     color: #767575;
-    font-size: .2rem;
+    font-size: .22rem;
     line-height: .3rem;
 }
 /* 男女 */

@@ -100,7 +100,7 @@ var myApp = new Vue({
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.totalScore = indexData.data.indexPage.totalScore, //全部得分
-				   		vm.inspectDate = indexData.data.indexPage.inspectDate, //检测日期
+				   		vm.inspectDate = indexData.data.indexPage.inspectDate, // 检测日期
 				    	vm.ranking = indexData.data.indexPage.ranking, //排名
 				    	vm.age = indexData.data.indexPage.age,
 				  		vm.reportStr = indexData.data.indexPage.reportStr, //生理年龄字句
@@ -256,11 +256,12 @@ var myApp = new Vue({
 		},
 		//介绍弹窗
 		popTen: function(e){
-			e.stopPropagation;
+			$('body').css("overflow","hidden");
 			showMask();
 			$(e.target).parents('.s-inf').next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
 		popSta: function(e){
+			$('body').css("overflow","hidden");
 			showMask();
 			$(e.target).prevAll('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
@@ -339,10 +340,7 @@ var myApp = new Vue({
 });
 
 //弹窗
-var _bodyoffset = '';
 function showMask(){
-	_bodyoffset = $(window).scrollTop();
-	$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
 	$("body").css("overflow","hidden");
 	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 	closeMask();
@@ -352,8 +350,6 @@ function closeMask(){
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
 		$("body").css("overflow","auto");
-		$("body").css("position","static");
-		$(window).scrollTop(_bodyoffset);
 	});
 };	
 //截取URL

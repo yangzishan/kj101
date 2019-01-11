@@ -31,7 +31,7 @@ var myApp = new Vue({
 	  		otherPages: '', //身体状况 otherPages
 	  		isPay:'',
 	  		sameUser:'',
-	  		showRecipe:'',
+	  		showRecipe:''
 		}
 	},
 	mounted: function(){
@@ -39,7 +39,7 @@ var myApp = new Vue({
 	},
 	methods: {
 		getSuggest: function(){
-			let vm = this;
+			var vm = this;
 			$.ajax({
 				type: "post",
 				url: dataUrl + "/api/v1/reportIndex/getSuggest",
@@ -69,7 +69,7 @@ var myApp = new Vue({
 			});
 		},
 		indexTarget: function(){ //首页数据
-			let vm = this;
+			var vm = this;
 			$.ajax({
 				type: "post",
 				url: dataUrl + "/api/v3/reportIndex/indexTarget",
@@ -95,9 +95,6 @@ var myApp = new Vue({
 				  		vm.isPay = res.data.map.isPay
 				  		vm.sameUser = res.data.map.sameUser
 						//首页动画延迟
-						setTimeout(function(){
-							$('.delayshow').css("visibility","visible");
-						},200);
 						var rodeg = null;
 						if(95<=res.data.indexPage.totalScore && res.data.indexPage.totalScore<=100){
 							rodeg = -10;$('.risk').text('最佳状态');	
@@ -160,7 +157,62 @@ var myApp = new Vue({
 						};
 						$('#container').css('height',rad);
 						var chart = null;
-						creatHchart('#container',oaray);  //执行图表
+						//执行图表
+						$('#container').highcharts({
+					        chart: {
+					            plotBackgroundColor: null,
+					            plotBorderWidth: null,
+					            plotShadow: false,
+					            spacing : [0, 0 , 0, 0]
+					        },
+					        title: {
+					            floating:true,
+					            text: '评估结果',
+					            style:{
+					            	 "color": "#333333", "fontSize": "14px"
+					            },
+					        },
+					        tooltip: {
+					            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+					        },
+					        plotOptions: {
+					            pie: {
+					                allowPointSelect: false,
+					                cursor: 'pointer',
+					                dataLabels: {
+					                    enabled: false,
+					                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+					                    style: {
+					                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+					                    }
+					                }
+					            }
+					        },
+					        series: [{
+					            type: 'pie',
+					            innerSize: '72%',
+					            name: '占比',
+					            data: [
+					                {
+					                	name:'正常', y:oaray[0], color:'#55d1c6'
+					                },
+					                {
+					                	name:'轻度', y:oaray[1], color:'#f5c561'
+					                },
+					                {
+					                	name:'中度', y:oaray[2], color:'#f4974d'
+					                }
+					            ]
+					        }]
+					    }, function(c) {
+					        // 环形图圆心
+					        var centerY = c.series[0].center[1],
+					            titleHeight = parseInt(c.title.styles.fontSize);
+					        c.setTitle({
+					            y:centerY + titleHeight/2
+					        });
+					        chart = c;
+					    });
 						//介绍弹窗
 						$('.openpop').on("click",function(){
 							event.stopPropagation();
@@ -175,7 +227,7 @@ var myApp = new Vue({
 			});
 		},
 		analysisReport: function(){  //解析
-			let vm = this;
+			var vm = this;
 			$.ajax({
 				type: "post",
 				url: dataUrl + "/api/v1/reportIndex/analysisReport",
@@ -206,7 +258,7 @@ var myApp = new Vue({
 			});
 		},
 		showThird: function(e,item){
-			let vm = this;
+			var vm = this;
 			var oindex = $(e.target).parent('.con').index();
 	    	sessionStorage.setItem("tenSindex",oindex);
 	    	if($(e.target).next('dl').css("display") == 'none'){
@@ -223,7 +275,7 @@ var myApp = new Vue({
 			
 		},
 		goThird: function(e,item){
-			let vm = this;
+			var vm = this;
 			zhuge.track('用户点击三级指标',{ //埋点
 				'用户id': vm.userId,
 				'指标名称':item.targetThirdName,
@@ -234,7 +286,7 @@ var myApp = new Vue({
 			});
 		},
 		goSuggest: function(e){ //健康建议
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康建议',{
 				'用户id': vm.userId,
 				'openId': openId,
@@ -244,7 +296,7 @@ var myApp = new Vue({
 			})
 		},
 		getRecipesData: function(e){ //健康食谱
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康食谱',{
 				'用户id': vm.userId,
 				'openId': openId,
@@ -254,7 +306,7 @@ var myApp = new Vue({
 			})
 		},
 		checkHistory: function(){ //历史报告
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击历史报告', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -264,7 +316,7 @@ var myApp = new Vue({
 			});
 		},
 		goSetUp: function(){ //个人中心
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击个人中心', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -274,7 +326,7 @@ var myApp = new Vue({
 			});	
 		},
 		goPay: function(){
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击支付', { //埋点 t
 				'用户id': vm.userId,
 				'openId': openId,
@@ -283,7 +335,7 @@ var myApp = new Vue({
 			},function(){
 				location.href = "payfor.html?reportId=" + reportId + '&openId=' + openId +"&sameUser=" + vm.sameUser+ "&edition="+edition
 			});
-		},
+		}
 
 	}
 });
@@ -302,63 +354,6 @@ $.ajax({
 		$("#timestamp").val(result.wxParameter.timestamp);
     }
 });
-function creatHchart(el,arr,){
-	$(el).highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false,
-            spacing : [0, 0 , 0, 0]
-        },
-        title: {
-            floating:true,
-            text: '评估结果',
-            style:{
-            	 "color": "#333333", "fontSize": "14px"
-            },
-        },
-        tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-            pie: {
-                allowPointSelect: false,
-                cursor: 'pointer',
-                dataLabels: {
-                    enabled: false,
-                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-                    style: {
-                        color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
-                    }
-                }
-            }
-        },
-        series: [{
-            type: 'pie',
-            innerSize: '72%',
-            name: '占比',
-            data: [
-                {
-                	name:'正常', y:arr[0], color:'#55d1c6'
-                },
-                {
-                	name:'轻度', y:arr[1], color:'#f5c561'
-                },
-                {
-                	name:'中度', y:arr[2], color:'#f4974d'
-                }
-            ]
-        }]
-    }, function(c) {
-        // 环形图圆心
-        var centerY = c.series[0].center[1],
-            titleHeight = parseInt(c.title.styles.fontSize);
-        c.setTitle({
-            y:centerY + titleHeight/2
-        });
-        chart = c;
-    });
-};	
 //弹窗
 var win_top = 0;
 function showMask(){
