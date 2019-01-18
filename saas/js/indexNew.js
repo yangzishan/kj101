@@ -169,8 +169,8 @@ $.ajax({
 					var userId = indexData.data.userId;
 					$('#checkHistory').attr("href","../saas/reportHistory.html?userId="+userId+"&saasId="+saasId+"&openId="+openId);
 					//跳转用户设置
-					//$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ reportId);
-					$('#goSetUp').attr("href","../saas/personalData.html?userId=" + userId + '&reportId='+ reportId+"&saasId="+saasId);
+					$('#goSetUp').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + userId + '&reportId='+ reportId);
+					//$('#goSetUp').attr("href","../saas/personalData.html?userId=" + userId + '&reportId='+ reportId+"&saasId="+saasId);
 					
 					
 					//生理年龄图

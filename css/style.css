@@ -461,13 +461,14 @@
 .sl-pay .cnn{padding: 8px 0; text-align: center;}
 .sl-pay .cnn .p1{ line-height:36px; color: #999999; font-size: 15px;}
 .sl-pay .cnn .p2{ line-height: 36px; color: #ff5959; font-size: 24px;}
-.sl-pay .pay-li{ display: block; height: 50px; padding: 0 15px; color: #333333; border-top: #F4F4F4 solid 1px; position: relative;}
+.sl-pay .pay-li{ display: block;width: 100%; height: 50px; padding: 0 15px; background: none; outline: none; color: #333333; border-top: #F4F4F4 solid 1px; position: relative; text-align: left;}
 .sl-pay .pay-li i{ display: inline-block; vertical-align: top; width: 22px; height: 22px; margin: 14px 20px 0 0;}
 .sl-pay .pay-li i.ikey{ background: url(../img/o-key.png); background-size:contain;}
 .sl-pay .pay-li i.icard{ background: url(../img/o-card.png); background-size:contain;}
-.sl-pay .pay-li i.ico1{ background: url(../img/o-wx.png); background-size:contain;}
+.sl-pay .pay-li i.ico1,.sl-pay .pay-li i.ico11{ background: url(../img/o-wx.png); background-size:contain;}
 .sl-pay .pay-li i.ico7{ background: url(../img/o-wang.png); background-size:contain;}
 .sl-pay .pay-li i.ico3{ background: url(../img/o-key.png); background-size:contain;}
+.sl-pay .pay-li i.ico5{ background: url(../img/o-ali.png); background-size:contain;}
 .sl-pay .pay-li span{ display: inline-block; vertical-align: top; line-height: 50px; font-size: 15px;}
 .sl-pay .pay-li img.arr{ position: absolute; top: 17px; right: 15px; width: 8px; height: 15px;}
 .pay-x-fix{ position: fixed; bottom: 0; width: 100%; max-width: 750px; height: .88rem; background: #F2F2F2;}
@@ -558,8 +559,6 @@
 .pay_tj_c .tj_c .pay_go .p2{ font-size: .6rem; font-weight: bold; margin: 0 0 .1rem;}
 .pay_tj_c .tj_c .pay_go .sub{ position: relative; width: 1.66rem; height: .55rem; line-height: .54rem; border-radius: .06rem; color: #FFFFFF; background: url(../img/payfor-btn.png) no-repeat; background-size:contain; font-size: .32rem; font-weight: bold;}
 .pay_tj_c .tj_c .pay_go .sub i{width: .81rem; height: 1.07rem; position: absolute; background: url(../img/payfor-hand.png) no-repeat; background-size:contain; left: 40%; top: .2rem;}
-.gocheckmx{ display: block; width: 2.86rem; margin: .2rem auto .1rem; text-align: center; line-height: .4rem; color: #1aa78e; font-size: .2345rem; text-decoration: underline;}
-.gocheckmx i{display: inline-block; vertical-align: top; width: .4rem; height: .4rem;background: url(../img/arr08.png) no-repeat center; background-size:.29rem .2rem;}
 .pay_tj_yc{padding: .1rem 0; line-height: .42rem; text-align: center; font-size: .3rem; font-weight: bold; color: #1aa78e;}
 .pay_tj_yc em{font-weight: bold; color: #e73005;}
 .pay_tj_tip{text-align: center; font-size: .28rem; color: #7e7e7e; position: relative; padding: 0 .5rem 1.35rem;}
@@ -584,7 +583,40 @@
 .pay4th .paybox .con .c_li .pcc{ -webkit-box-flex: 1;}
 .pay4th .paybox .con .c_li .pcc .name{ font-size: .34rem; font-weight: 600;}
 .pay4th .paybox .con .c_li .pcc .txt{font-size: .26rem; color: #9B9B9B;}
-
+/*福利基金支付页面*/
+.cnTop{ height: .88rem; padding: 0 .3rem; background: #0fc1b6;}
+.cnTop .goback{ width: .24rem; height: .88rem; background: url(../img/arr-b.png) no-repeat center; background-size:.22rem .3rem;}
+.plcn-c{ background: #0fc1b6; text-align: center; color: #ffffff;}
+.plcn-c .bit{line-height: .36rem; font-size: .34rem; font-weight: bold; position: relative;top: -.15rem;}
+.plcn-c .tit{line-height: .56rem; font-size: .28rem;}
+.plcn-c ul{ font-size: 0; padding: .7rem 0 .4rem;}
+.plcn-c ul li{ display: inline-block; width: 33.3%;}
+.plcn-c ul li em{ display: block;}
+.plcn-c ul li em img{ display: block; margin: 0 auto; width: .45rem; height: .5rem;}
+.plcn-c ul li font{ display: inline-block; line-height: .6rem; font-size: .28rem;}
+.pcinf{ padding: .2rem .3rem;}
+.pcinf .fc{ padding: .1rem 0; font-size: .3rem; line-height: .4rem; display: -webkit-box;}
+.pcinf .fc i{display: block; width: .08rem; height: .3rem; background: #0fc1b6; margin-right: .2rem; position: relative;top: .05rem;}
+.pcinf .fc span{display: block;-webkit-box-flex: 1;}
+.pcinf .fc font{ color: #0fc1b6;}
+.pczj{ padding: .2rem .3rem;}
+.pczj .bit{ font-size: .3rem; color: #0fc1b6; font-weight: bold;}
+.pczj .zjjs_b{ height: 3.5rem; overflow-y: auto;}
+.pczj .zjjs_b::-webkit-scrollbar{ background-color:none; width: .1rem;}
+.pczj .zjjs_b::-webkit-scrollbar-track{ background-color:#fefefe; width: .1rem;}
+.pczj .zjjs_b::-webkit-scrollbar-thumb{border-radius: .05rem; width: .1rem;
+         -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+        background: #dddddd;}
+.pczj .zjjs{ display: -webkit-box; padding: .3rem 0; border-bottom: #f5f5f5 solid .02rem;}
+.pczj .zjjs:last-of-type{ border-bottom: none;}
+.pczj .zjjs .j-l{ width: 1.12rem; margin-right: .2rem;}
+.pczj .zjjs .j-l img{ display: block; margin: 0 auto; width: 1.1rem; height: 1.1rem;}
+.pczj .zjjs .j-r{-webkit-box-flex: 1;}
+.pczj .zjjs .j-r p:nth-of-type(1){ font-weight: bold; font-size: .3rem;}
+.pczj .zjjs .j-r p:nth-of-type(2){ font-size: .24rem; color: #999999; line-height: .36rem;}
+.fix-p{ position: fixed; width: 100%; bottom: 0; height: 1.2rem; overflow: hidden; background: #FFFFFF;}
+.fix-p .ctxt{ padding: 0 .3rem; float: left; line-height: 1.2rem; font-size: .34rem; color: #ed295c; font-weight: bold;}
+.fix-p .go{ width: 2.2rem; height: 1.2rem; float: right; background: #0fc1b6; color: #fff; font-size: .3rem;}
 
 
 /*=下单支付页面=*/
@@ -683,7 +715,7 @@
 
 /*loading*/
 .load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(204,204,204,0.1); z-index: 9999; display: none;}
-.load-overlay .loadimg{ width: 1.2rem; height: 1.2rem; position: absolute; top: 50%; left: 50%; margin: -.6rem 0 0 -.6rem;}
+.load-overlay .loadimg{ width: .6rem; height: .6rem; position: absolute; top: 50%; left: 50%; margin: -.3rem 0 0 -.3rem;}
 /*=*/
 .v_overlay{position: fixed;left: 0; right: 0; top: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 999; visibility: hidden; opacity: 0; -webkit-transition-duration:400ms ;transition-duration: 400ms;}
 .v_overlert{position: fixed; left:.76rem; right: .76rem; top: 50%; transform: translate(0,-50%); -webkit-transform: translate(0,-50%); background: #fff; border-radius: .13rem; overflow: hidden; z-index: 1000; opacity: 0; visibility: hidden; transition-duration: 0; max-width: 6rem;}

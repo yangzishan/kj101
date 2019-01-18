@@ -44,6 +44,7 @@ body.skin .face .face_img .huangheban {width:.34rem;height:.33rem;top:2.26rem;le
 body.skin .face .face_img .bandian {width:.97rem;height:.15rem;top:2.12rem;left:1.54rem;}
 body.skin .face .face_img .heitou {width:.13rem;height:.09rem;top:2.32rem;left:1.82rem;}
 body.skin .face .face_ul {width:7.1rem;display:flex;flex-wrap: nowrap;justify-content: space-between;position: absolute;top:.53rem;}
+body.skin .face .face_ul .left_ul {padding-left:.12rem;}
 body.skin .face .face_ul div span { font-weight: 900;display:inline-block;font-size:.24rem;color:#333;margin-top:.09rem;padding: 0 .13rem;height:.6rem;line-height:.55rem;border:.02rem solid #4ba0ff;border-radius:.29rem;background-color: #ecf5fe;text-align: center;}
 body.skin .face .face_ul i {font-weight: 900;display:inline-block;font-size:.24rem;color:#333;margin-top:.1rem;padding: 0 .13rem;height:.6rem;line-height:.55rem;border:.02rem solid #4ba0ff;border-radius:.29rem;background-color: #ecf5fe;text-align: center;}
 body.skin .face .face_ul .right_ul>div {width:1.8rem;position: relative;top:-.09rem;padding-top:0.2rem;}
@@ -72,7 +73,7 @@ body.skin .face .face_ul .right_ul>div>div>i{position: relative;z-index: 2;}
 body.skin .face .face_ul .right_ul>div>div.skin_wrinkle {top:.08rem; width:1.6rem;}
 body.skin .face .face_ul .right_ul>div>div.skin_texture {top:.75rem; width:1.6rem;}
 body.skin .face .face_ul .right_ul>div>div.skin_spot {top:1.49rem; width:1.6rem;}
-body.skin .face .face_ul .right_ul>div>div.skin_chloasma {top:2.15rem; width:1.6rem;}
+body.skin .face .face_ul .right_ul>div>div.skin_chloasma {top:2.15rem; width:1.75rem;}
 body.skin .face .face_ul .right_ul>div>div.skin_roughness {top:2.85rem; width:1.7rem;}
 body.skin .face .face_ul .skin_question {display:none;}
 body.skin .face .face_ul .left_ul>div>div{position: absolute;width:2rem;}
@@ -223,7 +224,7 @@ body#body .doudou {position: absolute;width:1rem;height:1.35rem;left:1.3rem;top:
 body#body .fenci {position: absolute;width:1rem;height:.18rem;left:1.3rem;top:2.2rem;}
 body#body .huangheban {position: absolute;width:.34rem;height:.33rem;left:2.1rem;top:2.1rem;}
 body#body .bandian {position: absolute;width:.97rem;height:.15rem;left:1.4rem;top:1.9rem;}
-body#body .heitou {position: absolute;width:.13rem;height:.09rem;left:1.72rem;top:2.03rem;}
+body#body .heitou {position: absolute;width:.13rem;height:.09rem;left:1.74rem;top:2.03rem;}
 
 
 .photo {background:skyblue;position:fixed;z-index:1000;top:50%;left:50%;transform: translate(-50%,-50%);visibility: hidden;width:5.98rem;opacity: 0;transition-duration: 400ms;}
@@ -263,17 +264,22 @@ body.fiveone {background-color:#f6f8fa;position: relative;color:#333;}
 .fiveone .content .list {padding-top:.1rem;padding-right:.28rem;}
 .fiveone .content .list .title {display:flex;flex-wrap: nowrap;justify-content: space-between;}
 .fiveone .content .list .title .right img {display: block;}
-.fiveone .content .list .title .left {font-size:.32rem;color:#333;margin-left:.28rem;margin-right:.77rem;width:2.49rem;padding-top:.05rem;}
+.fiveone .content .list .title .left {font-size:.32rem;color:#333;margin-left:.28rem;margin-right:.77rem;width:2.5rem;padding-top:.05rem;}
 .fiveone .content .list .title .left>span>i {margin-right:.13rem;}
 .fiveone .content .list.skin .title .left {padding-top:.28rem;}
 .fiveone .content .list.jkbaogao .title .left {padding-top:.29rem;}
 .fiveone .content .list .title .left>span {color:#999;font-size:.24rem;}
 .fiveone .content .list>.img {width:1.18rem;height:1.18rem;}
-.fiveone .content .list>.img>img {width:1.07rem;height:1.07rem; }
-.fiveone .content .list .title .right{width:1.65rem;text-align: right;display:flex;flex-direction: column;justify-content: center; }
+.fiveone .content .list>.img>img {width:1.07rem; }
+.fiveone .content .list .title .right{width:2.2rem;text-align: right;display:flex;flex-direction: column;justify-content: center; }
+.fiveone .content .list.skin .title .left{margin-right:.17rem;}
+.fiveone .content .list.jkbaogao .title .left{margin-right:.17rem;}
+.fiveone .content .list.heart .title .left{margin-right:.17rem;}
+.fiveone .content .list.loop .title .left{margin-right:.17rem;}
+
 .fiveone .content .list .title .right p {position: relative;height:.4rem;}
 .fiveone .content .list .title .right p i {position: absolute;right:0;background: #1bc1b3 url(./../img/skin/right_501.png) no-repeat center;background-size: .14rem .24rem;width:.4rem;height:.4rem;border-radius: 50%;}
-.fiveone .content .list .title .right p.alt {display: block;height:.99rem;line-height:.99rem;font-size:.31rem;font-weight: 800;color:#fe0000;}
+.fiveone .content .list .title .right p.alt {display: block;height:.99rem;line-height:.99rem;font-size:.31rem;font-weight: 800;color:#fe0000;float:left;}
 .fiveone .content .list .title .left {font-size:.31rem;font-weight: 800;}
 .fiveone .content .list .title .right {position: relative;}
 .fiveone .content .list .title .right p:nth-of-type(2){position: absolute;top:-.38rem;right:0;}

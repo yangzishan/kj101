@@ -12,7 +12,7 @@
 <script> document.write('<link rel="stylesheet" type="text/css" href="css/index3.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body>
-<section class="my_view" id="appVUE">
+<section class="my_view" id="appVUE" style="display: none;">
 	<p class=""><img src="images/payban.png" class="img_b"></p>
 	<div class="paycnbg">
 		<p class="rinkth">您是第<em>{{userIdstr}}</em>位检测的用户</p>
@@ -20,12 +20,17 @@
 	</div>
 	<p style="margin-bottom: .9rem;"><img src="images/paybot.jpg" class="img_b"></p>
 	
-	<div class="fix-p">
+	<!--<div class="fix-p">
 		<p class="ctxt">
 			<span class="oprice">原价：{{oprice}}</span>
 			<span class="price">优惠价：{{price}}</span>
 		</p>
 		<button class="go" id="pay" @click="goPay($event)">支付</button>
+	</div>-->
+	<div class="pay-x-fix">
+		<button class="pay" id="pay" @click="goPay($event)">支付</button>
+		<span class="price">优惠价:<font>￥{{price}}</font></span>
+		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
 	
 	<div class="sl-pay">
@@ -35,9 +40,9 @@
 			<p class="p2">￥{{price}}</p>
 		</div>
 		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
-		</a>
+		</button>
 	</div>	
 	
 </section>

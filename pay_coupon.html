@@ -12,7 +12,7 @@
 <script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body style="background: #f0f0f0;">
-<div class="my_view" id="appVUE">
+<div class="my_view" id="appVUE" style="display: none;">
 	<!--
 	<header class="header">
 		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
@@ -69,9 +69,9 @@
 			<p class="p2">￥{{price}}</p>
 		</div>
 		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
-		<a class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
-		</a>
+		</button>
 	</div>	
 
 </div>

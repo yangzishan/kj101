@@ -113,44 +113,45 @@
 <script>
 new Vue({
 	el: '.all_view',
-   data() {
+   data:function() {
 	   return {
 		sex:'',
 		userId:'',
 		data:'',
 		reportId:'',
-		openId:''
+		reportType:''
 	   }
    },
-   mounted () {
+   mounted:function () {
 	   this.customerId()
 	   this.reverseMessage()
    },
    methods: {
 	     // 通过url 请求参数
-		customerId(){
+		customerId:function(){
 			var _this = this 
 			var sex = getQueryString("sex");
 			var userId = getQueryString("userId");
 			var reportId = getQueryString("reportId");
-			var openId = getQueryString("openId");
+			var reportType = getQueryString("reportType");
 			 _this.sex = sex
 			 _this.userId = userId
 			 _this.reportId = reportId
-			 _this.openId = openId
+			 _this.reportType = reportType
+
 		},
 		// 导航
 		indexHref(){
-			window.location='index3.html?reportId='+this.reportId+'&openId='+this.openId+'&sex='+this.sex+'&userId='+this.userId
+			window.location='report6.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
 		adviseHref(){
-			window.location='z_pop3.html?reportId='+this.reportId+'&openId='+this.openId+'&sex='+this.sex+'&userId='+this.userId
+			window.location='z_pop3.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
 		recipeHref(){
-			window.location='recipes3.html?reportId='+this.reportId+'&openId='+this.openId+'&sex='+this.sex+'&userId='+this.userId
+			window.location='recipes3.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
 		graphHref(){
-			window.location='graph.html?reportId='+this.reportId+'&openId='+this.openId+'&sex='+this.sex+'&userId='+this.userId
+			window.location='graph.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
    		reverseMessage() {
 			var _this = this

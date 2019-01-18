@@ -15,9 +15,12 @@
 <DIV class="all-view">
 	<!--头部-->
 	<header class="header">
-		<div class="mine header-box">
+		<div class="mine header-box goToPer" v-if="openId">
 			<div class="img-box"><img src="./images/tx-icon.png" /></div>
-			<span @click="goSet()">个人中心</span>
+			<span @click="goSetUp()">个人中心</span>
+		</div>
+		<div class="mine header-box goToShare" v-if="!openId">
+			<button id="goToShare">分享报告</button>
 		</div>
 		<div class="title">{{inspectDate}}</div>
 		<div class="report header-box">
@@ -29,20 +32,16 @@
 	<div class="kj-nav-box">
 		<ul>
 			<li class="active">
-				<div class="index-img"><img src="./images/nav-1.png" /></div>
-				<p>首页</p>
+				<div class="index-img"><img src="./images/nav-1.png" /></div><p>首页</p>
 			</li>
 			<li @click="adviseHref()">
-				<div class="index-img"><img src="./images/nav-02.png" /></div>
-				<p>建议</p>
+				<div class="index-img"><img src="./images/nav-02.png" /></div><p>建议</p>
 			</li>
 			<li @click="recipeHref()">
-				<div class="index-img"><img src="./images/nav-03.png" /></div>
-				<p>食谱</p>
+				<div class="index-img"><img src="./images/nav-03.png" /></div><p>食谱</p>
 			</li>
 			<li @click="graphHref()">
-				<div class="index-img"><img src="./images/nav-04.png" /></div>
-				<p>趋势</p>
+				<div class="index-img"><img src="./images/nav-04.png" /></div><p>趋势</p>
 			</li>
 		</ul>
 	</div>
@@ -76,11 +75,7 @@
 				<p class="bmi-box"><span class="state">亚健康风险</span><span class="explain" @click="clickB()"><img src="./images/explain.png" /></span></p>
 			</div>
 			<div class="text">
-				<div class="pointer" :class="
-					[{'best':100 >= totalScore && totalScore >= 95},
-					{'well':94 >= totalScore && totalScore >= 90},
-					{'second':84 >= totalScore && totalScore >=80},
-					{'bad':80 > totalScore}]"><img src="./images/jt.png" />
+				<div class="pointer"><img src="./images/jt.png" />
 				</div>
 			</div>
 			<p class="advise">
@@ -123,7 +118,7 @@
 				<p class="bmi-box"><span class="state">{{data[0].targetName}}</span><span class="explain" @click="clickF()"><img src="./images/explain.png" /></span></p>
 			</div>
 			<!--best快乐  joviality愉悦  peace平和 depress压抑 gloomy郁闷 -->
-			<div class="happy-box" 
+			<!--<div class="happy-box" 
 			:class="[{
 				'gloomy':data[0].childTarget[0].abLive == 4},
 				{'best':data[0].childTarget[0].abLive == 0},
@@ -136,6 +131,17 @@
 				<span class="peace-title">平和</span>
 				<span class="joviality-title">愉悦</span>
 				<span class="best-title">快乐</span>
+			</div>-->
+			<div class="happy-box" >
+				<span class="gloomy-title">郁闷</span>
+				<span class="depress-title">压抑</span>
+				<span class="peace-title">平和</span>
+				<span class="joviality-title">愉悦</span>
+				<span class="best-title">快乐</span>
+				<div class="klzs_c">
+					<div class="zs_b"></div>
+					<div class="zs_p"></div>
+				</div>
 			</div>
 			<div class="happy-icon"
 			:class="[{
@@ -212,7 +218,7 @@
 						<p v-if="item.abLive == 4"><span class="active"></span><span></span><span></span><span></span><span></span></p>
 						<p v-else-if="item.abLive == 3"><span class="active"></span><span class="active"></span><span></span><span></span><span></span></p>
 						<p v-else-if="item.abLive == 2"><span class="active"></span><span class="active"></span><span class="active"></span><span></span><span></span></p>
-						<p v-else-if="item.abLive == 1"><span class="active"></span><span class="active"></span><span class="active"></span class="active"><span></span><span></span></p>
+						<p v-else-if="item.abLive == 1"><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span></p>
 						<p v-else><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span></p>
 					</div>
 					<div class="thread-txt" v-else>{{item.abLive}}</div>
@@ -433,7 +439,7 @@
 				<div class="shade" v-show="popupL" @click="shade"><div class="popup">{{data[9].explain}}</div></div>
 			</li>
 			<!-- 女性功能 -->
-			<li v-if="sex == 0" class="condition">
+			<li v-if="sex != 1" class="condition">
 				<!-- 指数大于80的时候显示蓝色 -->
 				<div v-show="data[10].score > 80" class="img"><img src="./images/icon6.png" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
@@ -526,10 +532,11 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
-<script>document.write('<script src="js/index3.0.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/report3.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
-    var dpr = document.documentElement.getAttribute('data-dpr') || 1
+    /*var dpr = document.documentElement.getAttribute('data-dpr') || 1
     var width = document.documentElement.offsetWidth
     var fontSize = 100/750 * width;
     document.querySelector('html').style.fontSize = (fontSize)+'px';
@@ -537,7 +544,23 @@
         var width = document.querySelector('html').offsetWidth;
         var fontSize = 100/750 * width;
         document.querySelector('html').style.fontSize = (fontSize)+'px';
-    })
+    })*/
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
 </script> 
 </body>
 </html>

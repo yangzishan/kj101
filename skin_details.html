@@ -163,7 +163,7 @@
                     bgColor:'background-color:#ecf5fe;',
                     face:'./img/skin/newmanface.png',
                     more:'./img/skin/yuehannidepu.jpg'   ,
-                    zhongdian:'./img/skin/lookblue.png',
+                    zhongdian:'./img/skin/lookbluemajorList.png',
                     tanhao:'./img/skin/lantanhao.png'
                 },
                 s_obj:s_obj,
@@ -190,7 +190,8 @@
                                 that.sex.color_b = sex == 1 ? '#c7e1fd' : '#ffcdd7';
                                 that.sex.color_e = sex == 1 ? '#4ba0ff' : '#ff4b6f';
                                 that.sex.tanhao = sex == 1 ? './img/skin/lantanhao.png' : './img/skin/pink.png';
-                                that.sex.zhongdian = sex == 1 ? './img/skin/lookblue.png' : './img/skin/lookpink.png';
+                                that.sex.zhongdian = sex == 1 ? './img/skin/lookblue'+degree+'.png' : './img/skin/lookpink'+degree+'.png';
+                                console.log(that.sex.zhongdian)
                                 that.age = res.data.age;
                                 that.awaitList = res.data.awaitList;
                                 that.color = res.data.color ;
@@ -258,7 +259,7 @@
                     $(event.currentTarget).addClass(classna);
                     var  index = $(event.currentTarget).index();
                     var  en = $('body#body .details_tab>img');
-                    index == 0 ? en.css({'left':'14%','top':'.15rem'}) : index == 1 ?  en.css({'left':'35%','top':'.15rem'}) : index == 2 ? en.css({'left':'58%','top':'.15rem'}) : index == 3 ? en.css({'left':'83%','top':'.15rem'}) : index == 4 ? en.css({'left':'14%','top':'1.3rem'}) : en.css({'left':'14%','top':'.15rem'}) ;
+                    index == 0 ? en.css({'left':'14%','top':'.15rem'}) : index == 1 ?  en.css({'left':'35%','top':'.15rem'}) : index == 2 ? en.css({'left':'58%','top':'.15rem'}) : index == 3 ? en.css({'left':'83%','top':'.15rem'}) : index == 4 ? en.css({'left':'14%','top':'1.3rem'}) : index == 5 ? en.css({'left':'35%','top':'1.3rem'}): index == 6 ? en.css({'left':'58%','top':'1.3rem'}) : index == 7 ? en.css({'left':'83%','top':'1.3rem'})  : index == 8 ? en.css({'left':'14%','top':'2.5rem'}): index == 9 ? en.css({'left':'35%','top':'2.5rem'})  : index == 10 ? en.css({'left':'58%','top':'2.5rem'}): index == 11 ? en.css({'left':'83%','top':'2.5rem'}): en.css({'left':'14%','top':'.15rem'}) ;
                     s_obj.heitou = $(event.currentTarget).attr('data-targetName') == 'blackhead' ? 'display:block;' : 'display:none;';
                     s_obj.bandian = $(event.currentTarget).attr('data-targetName') == 'spot' ? 'display:block;' : 'display:none;';
                     s_obj.huangheban  = $(event.currentTarget).attr('data-targetName') == 'chloasma' ? 'display:block;' : 'display:none;';

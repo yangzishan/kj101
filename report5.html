@@ -15,7 +15,8 @@
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
 	<header class="header">
-		<a class="t-left fl" @click="goSetUp()"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
+		<a class="t-left fl goToPer" @click="goSetUp()" v-if="openId"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
+		<button class="t-left fl goToShare" id="goToShare" v-if="!openId">报告分享</button>
 		<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
@@ -77,7 +78,7 @@
     	</a>	
     </div>
     <div class="zhuangk_c indexShow" style="display: none;">
-    	<div class="c_li" v-for="state in otherPages">
+    	<div class="c_li" v-for="state in otherPages" v-if="state.targetThirdId != 3232">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
     		<div class="v_overlert">
@@ -224,7 +225,7 @@
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script>document.write('<script src="js/indexApp.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/report2.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
 <script>

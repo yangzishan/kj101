@@ -1,7 +1,13 @@
 var reportId = getQueryString("reportId");
 var openId = getQueryString("openId");
+var userId = getQueryString("userId");
+var reportType = getQueryString("reportType");
 var sameUser = getQueryString("sameUser");
 var edition = getQueryString("edition");
+var terminalType = 1;
+if(!openId){
+	terminalType = 2
+}
 zhuge.track('进入支付页面', { //埋点t
 	'openId' : openId,
 	'渠道' : '微信'
@@ -15,7 +21,7 @@ var myApp = new Vue({
 			userState:'',
 			isShow:false,
 			isActive:[],
-			reportId:'', openId:'', sameUser:'', edition:'', //版本
+			reportId:'', openId:'', sameUser:'', edition:'',reportType:'', //版本
 			data:{}, //支付通道数据
 			nickName:'',//昵称
 			headimgurl:'',
@@ -46,27 +52,24 @@ var myApp = new Vue({
 			firstlist:'',
 			easysize: '', hardsize: '',   //新用户风险指标数目
 			doctor:'',
+			clientType:'',
 		}
 	},
 	mounted: function() {
-		this.goLoad()
-		this.participate(reportId)
+		this.findPackage();
+		this.participate(reportId);
     },
 	methods: {
-		goLoad: function() {
-			var _this = this 
-			$.post(dataUrl + "/api/v1/reportWxPay/findPackage",
+		findPackage: function() {
+			var _this = this; 
+			$.post(dataUrl + "/api/v1/reportWxPay/findPackage2",
 				{
 					reportId: reportId,
-					openId : openId
+					userId : userId
 				},
 				function (packageData) {
 					if(packageData.code == 200){
-						if(edition == 100){ //福利基金
-							window.location.href="fund/index.html?reportId="+reportId+"&openId=" + openId;
-						}else{
-							window.location.href="index"+edition+".html?reportId="+reportId+"&openId=" + openId;
-						}
+						_this.goReportIndex(reportId,userId,reportType);
 					}else if(packageData.code == 201){
 						$('.my_view').css("display","block");
 						$('.load-overlay').css("display","none");
@@ -84,6 +87,10 @@ var myApp = new Vue({
 					  	_this.packageId = packageData.data.infoView.packageId
 					  	_this.price = packageData.data.infoView.price  //价格
 					  	_this.oprice = packageData.data.infoView.originalPrice //原价
+					  	_this.clientType = packageData.data.mentPage.clientType  //判断支付通道类型用
+					  	if(_this.clientType == 'tjnsyh'){
+					  		terminalType = 3
+					  	}
 					  	if(_this.oprice == '' || _this.oprice == null){
 					  		_this.oprice = _this.price+20; //数据没有原价的情况
 					  	}
@@ -197,8 +204,8 @@ var myApp = new Vue({
 								_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡
 							};
 							
-							_this.getPayChannel(_this.snNum) //查询支付通道
-							
+							_this.getPayChannel(_this.snNum) //查询支付通道  公众号用
+
 							//关闭 选择方式
 							$('.close').click(function(){
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.sl-pay').css({"transform":"translateY(110%)"});
@@ -208,7 +215,7 @@ var myApp = new Vue({
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.daifu_d').css("display","none");
 							});
 							//卡支付 
-							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&edition="+edition);
+							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition);
 						
 						}
 					}else if(packageData.code == 1001){
@@ -225,15 +232,10 @@ var myApp = new Vue({
 				}
 			).error(function(){alert('findPackage error')})
 		},
-		//点击支付按钮弹出支付方式
-		goPay: function(e){
+		goPay: function(e){ //点击支付按钮弹出支付方式
 			var vm = this;
 			if(vm.isFree == 1){
-				if(edition == 100){
-					window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
-				}else{
-					window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
-				}
+				vm.goReportIndex(reportId,userId,reportType);
 			}else if(vm.price == 0){
 				vm.updateFreeOrder(reportId,vm.packageId,vm.userId)
 			}else{
@@ -241,36 +243,33 @@ var myApp = new Vue({
 				$('.sl-pay').css({"transform":"translateY(0%)"});
 			}
 		},
-		//跳转支付
-		hrefRouter: function(pay){
+		hrefRouter: function(pay){ //跳转order
+			var vm = this;
 			if(pay.payChannelType == 3){
-				if(edition == 100){
-					window.location.href="../wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition
-				}else{
-					window.location.href="wordPay.html?reportId="+reportId+"&userId="+this.userId+"&packageId="+this.packageId+'&openId='+ openId+"&edition="+edition
-				}
+				location.href='wordPay.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+'&packageId='+this.packageId+'&openId='+ openId+'&edition='+edition
+			}else if(pay.payChannelType == 5){ //支付宝app
+				setupWebViewJavascriptBridge(function(bridge) {
+					bridge.callHandler('aliPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
+				})
+			}else if(pay.payChannelType == 11){  //微信 app
+				setupWebViewJavascriptBridge(function(bridge) {
+					bridge.callHandler('wxPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
+				})
 			}else{
-				if(edition == 100){
-					window.location.href='../wxPay_new.html?reportId='+reportId+'&userId='+this.userId+
-			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
-			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
-				}else{
-					window.location.href='wxPay_new.html?reportId='+reportId+'&userId='+this.userId+
-			'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
-			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
-				}
+				location.href='payOrder.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+
+				'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
+				'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
 			}
 		},
-		//支付通道
-		getPayChannel: function(snNum){
-			var vm = this
+		getPayChannel: function(snNum){ //支付通道
+			var vm = this;
 			$.ajax({
 				url : channel + "/pay/v1/channel/getPayChannel",
 				type : "get",
 				dataType : 'json',
 				data : {
 					neNo : snNum,
-				   	terminalType : 1
+				   	terminalType : terminalType  //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 				},
 				success : function(data) {
 					if(data.code ==0){
@@ -280,8 +279,8 @@ var myApp = new Vue({
 				error : function(){alert('getPayChannel error')}
 			})
 		},
-		//免费订单
-		updateFreeOrder: function(reportId,packageId,userId){
+		updateFreeOrder: function(reportId,packageId,userId){ //免费订单
+			var vm = this;
 			$.ajax({
 				url : dataUrl + "/api/v1/reportWxPay/updateFreeOrder",
 				type : "post",
@@ -293,19 +292,14 @@ var myApp = new Vue({
 				},
 				success : function(data) {
 					if(data.code==200){
-						if(edition == 100){
-							window.location.href="index.html?reportId="+reportId+"&openId="+openId;
-						}else{
-							window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
-						}
+						vm.goReportIndex(reportId,userId,reportType);
 					}else{
 						alert('支付失败updateFreeOrder code='+data.code);
 					}
 				}
 			})
 		},
-		//判断用户有没有可用卡来显示卡支付
-		findUserCards: function(reportId,userId){
+		findUserCards: function(reportId,userId){ //判断用户有没有可用卡来显示卡支付
 			$.ajax({
 				url : dataUrl + "/api/v1/cardPay/findUserCards",
 				type : "POST",
@@ -327,9 +321,8 @@ var myApp = new Vue({
 				}
 			})
 		},
-		//判断设备是否是发放优惠券
-		participate: function (reportId){
-			var vm = this
+		participate: function (reportId){ //判断设备是否是发放优惠券
+			var vm = this;
 			$.ajax({
 				type:"post",
 				url: couponData+"/vi/send/coupon/participate",
@@ -341,8 +334,17 @@ var myApp = new Vue({
 					if(data.code == 0){ vm.isShow = true }
 				}
 			});
-		}
-
+		},
+		goReportIndex: function(reportId,userId,reportType){ //跳转查看报告
+			var vm = this;
+			if(reportType == 121){
+				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+			}else if(reportType == 501){
+				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+			}else{
+				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+			}
+		},
 	}
 });
 //获取url参数
@@ -364,6 +366,32 @@ function isEmptyObject(obj){
 	}
 	return true
 };
+
+/*******************************交互逻辑*****************************/
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+/*******************************交互逻辑*****************************/
+setupWebViewJavascriptBridge(function(bridge) {
+	//注册JS方法供OC调用
+	bridge.registerHandler('reloadReport', function(data, responseCallback) {
+		if(reportType == 121){
+			location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
+		}else if(reportType == 501){
+			location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
+		}else{
+			location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
+		}
+	})
+});
+
 //老用户得分趋势图
 function oldUserTrend(el,dateArr,scoreArr){
 	setTimeout(function(){ 

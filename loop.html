@@ -34,8 +34,8 @@
                         <img src="./img/skin/wxh_501.png" alt="">
                     </div>  
                     <div class="left">
-                        <p><i v-cloak>{{loop.bloodScore}}%</i><b>&nbsp;&nbsp;<&nbsp;&nbsp;</b><span>正常的范围(94%-99%)</span></p>
-                        <p v-cloak>{{loop.bloodStatus}}</p>
+                        <p><i v-cloak>{{loop.bloodScore}}%</i><b>&nbsp;&nbsp;<em v-if="loop.bloodScore < 94"><</em>&nbsp;&nbsp;</b><span>正常的范围(94%-99%)</span></p>
+                        <p v-cloak v-if=" loop.bloodStatus && loop.bloodStatus != '无'" >{{loop.bloodStatus}}</p>
                     </div>
                 </div>
                 <div class="ul_501" >
@@ -122,6 +122,7 @@
                         "heathExplain": "" ,
                         "heathSymptoms" :"",
                         "heathWhy" :""
+                        
                     },
                     tanChuang:[
                         {title:'血氧饱和度',jishi:'血氧饱和度是血液中被氧结合的氧合血红蛋白的容量占全部可结合的血红蛋白容量的百分比，即血液中血氧的浓度，它是呼吸循环的重要生理参数。'},

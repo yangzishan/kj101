@@ -1,17 +1,43 @@
 var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
-var edition = getQueryString('edition');
-if(edition == undefined || edition == null || edition == ''){
-	edition = 2;
-	var indexAll_data = '/api/v1/reportIndex/indexAll'
+var reportType = getQueryString('reportType');
+var customerId = getQueryString('userId');
+var edition = 2;
+if(reportType == 5){
+	var indexAll_data = '/api/v1/reportIndex/indexAll2'
 	var targetImprove_data = '/api/v2/reportIndex/targetImprove'
-}else if(edition == 500){ //适配501报告
-	var indexAll_data = '/api/v5/reportData/indexAll'
+}else if(reportType == 500){ //适配501报告
+	var indexAll_data = '/api/v5/reportData/indexAll2'
 	var targetImprove_data = '/api/v5/reportData/targetAnalyse'
 	$('header').css("display","none")
 };
-zhuge.track('进入2.0报告首页', { //埋点t
-	'openId' : openId,
+var payStr = '';
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId;
+if(!openId){
+	//alert('now in app');
+	gohistoryUrl = 'historyRecord.html?userId='+customerId;
+}
+/*******************************交互逻辑*****************************/
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+setupWebViewJavascriptBridge(function(bridge) {
+	//为按钮注册方法
+	$(document).on("click","#goToShare",function(){
+		alert('click share');
+		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
+	});
+})
+/*******************************交互逻辑*****************************/
+zhuge.track('进入2.0报告首页', {//埋点t
+	'用户id' : customerId,
 	'渠道' : '微信'
 });
 $('.load-overlay').css("display","block");
@@ -21,7 +47,9 @@ var myApp = new Vue({
 	data: function(){
 		return {
 			reportId: reportId,
+			reportType:reportType,
 			openId: openId,
+			customerId:customerId,
 			sameUser:'',
 			paymentType:'',
 			totalScore:'',
@@ -31,7 +59,7 @@ var myApp = new Vue({
 			headimgurl:'',
 			height:'',
 			weight:'',
-			userId:'',
+			userId: customerId,
 			inspectDate:'',
 			firstPages:'',
 			otherPages:'',
@@ -50,39 +78,9 @@ var myApp = new Vue({
 		}
 	},
 	mounted: function(){
-		this.analysisReport();
+		this.getData();
 	},
 	methods: {
-		analysisReport: function(){ //解析报告
-			var vm = this;
-			$.ajax({
-				type:"post",
-				url:dataUrl + "/api/v1/reportIndex/analysisReport",
-				dataType:"json",
-				data:{
-					reportId: reportId,
-					openId: openId
-				},
-				success:function(data){
-					if(data.code == 200){
-						vm.getData(); // 执行获取首页数据
-					}else if(data.code == 402){
-						window.location.href="userInfor.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
-					}else if(data.code == 405){
-						window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
-					}else if(data.code == 403){
-						window.location.href="supAge.html?reportId=" + reportId+"&userId=" + data.data.customerId + "&openId=" + openId + "&edition="+edition;
-					}else if(data.code == 302){
-						window.location.href="equipmentUnable.html"
-					}else{
-						console.log('analysisReport code='+ data.code + data.msg);
-						$('.load-overlay').css("display","none");
-						$('#error_con').css("display","block");
-					}
-				},
-				error: function(){alert('analysisReport error')}
-			});
-		},
 		getData: function(){ //获取首页数据
 			var vm = this;
 			$.ajax({
@@ -91,42 +89,42 @@ var myApp = new Vue({
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
-					openId : openId
+					customerId : customerId
 				},
-				success: function(indexData){
-					if(indexData.code == 201){
-						vm.participate(indexData.data.paymentType,indexData.data.sameUser);  //执行判断优惠券
-					}else if(indexData.code == 200){
+				success: function(res){
+					if(res.code == 201){
+						vm.participate(res.data.paymentType,res.data.sameUser);  //执行判断优惠券
+					}else if(res.code == 200){
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
-						vm.totalScore = indexData.data.indexPage.totalScore, //全部得分
-				   		vm.inspectDate = indexData.data.indexPage.inspectDate, // 检测日期
-				    	vm.ranking = indexData.data.indexPage.ranking, //排名
-				    	vm.age = indexData.data.indexPage.age,
-				  		vm.reportStr = indexData.data.indexPage.reportStr, //生理年龄字句
-				  		vm.firstStr = indexData.data.indexPage.firstStr, //各个系统生理年龄
-				  		vm.firstPages = indexData.data.firstPages, //各个系统
-				  		vm.otherPages = indexData.data.otherPages, //其他状况
-				  		vm.inspectDay = indexData.data.map.inspectDay,
-				  		vm.userName = indexData.data.map.userName,
-				  		vm.sexStr = indexData.data.map.sexStr,
-				  		vm.ps = indexData.data.map.ps;
-				  		vm.litNum = indexData.data.map.list2.length;
-				  		vm.midNum = indexData.data.map.list3.length;
-				  		vm.abnormalName = indexData.data.map.abnormalName;
-				  		vm.userId = indexData.data.userId;
+						vm.totalScore = res.data.indexPage.totalScore, //全部得分
+				   		vm.inspectDate = res.data.indexPage.inspectDate, //检测日期
+				    	vm.ranking = res.data.indexPage.ranking, //排名
+				    	vm.age = res.data.indexPage.age,
+				  		vm.reportStr = res.data.indexPage.reportStr, //生理年龄字句
+				  		vm.firstStr = res.data.indexPage.firstStr, //各个系统生理年龄
+				  		vm.firstPages = res.data.firstPages, //各个系统
+				  		vm.otherPages = res.data.otherPages, //其他状况
+				  		vm.inspectDay = res.data.map.inspectDay,
+				  		vm.userName = res.data.map.userName,
+				  		vm.sexStr = res.data.map.sexStr,
+				  		vm.ps = res.data.map.ps;
+				  		vm.litNum = res.data.map.list2.length;
+				  		vm.midNum = res.data.map.list3.length;
+				  		vm.abnormalName = res.data.map.abnormalName;
+				  		vm.userId = res.data.userId;
 				  		vm.targetImprove(vm.userId); //调用与上份报告对比
 						setTimeout(function(){ //总分动画效果
-							$('.guang').css("transform","rotate("+1.8*indexData.data.indexPage.totalScore+"deg)");
+							$('.guang').css("transform","rotate("+1.8*res.data.indexPage.totalScore+"deg)");
 						},100)
-						$('#score').animateNumber({ number: indexData.data.indexPage.totalScore },1100);
+						$('#score').animateNumber({ number: res.data.indexPage.totalScore },1100);
 						$('.sy_tab span').on("click",function(){
 							$(this).addClass('on').siblings().removeClass('on');
 							$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");
 						});
 						//判断是否显示食谱入口
 						var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
-						var insDate = new Date(indexData.data.indexPage.inspectDate.replace(/\-/g, "/"));
+						var insDate = new Date(res.data.indexPage.inspectDate.replace(/\-/g, "/"));
 						console.log(setDate); console.log(insDate);
 						vm.showRecipe = insDate.getTime() - setDate.getTime();
 						//十大系统指标环形进度
@@ -179,21 +177,23 @@ var myApp = new Vue({
 						},200);
 						//生理年龄图
 						var arraySlnl=[],arrayXt=[];
-						for(var n=0;indexData.data.firstPages.length>n;n++){
-							if(indexData.data.firstPages[n].physiologicalAge!=null){
-								arraySlnl.push(indexData.data.firstPages[n].physiologicalAge);
-								arrayXt.push(indexData.data.firstPages[n].targetFirstName);
+						for(var n=0;res.data.firstPages.length>n;n++){
+							if(res.data.firstPages[n].physiologicalAge!=null){
+								arraySlnl.push(res.data.firstPages[n].physiologicalAge);
+								arrayXt.push(res.data.firstPages[n].targetFirstName);
 							}
 						}
-						creatMychart('sl_chart',arraySlnl,arrayXt,indexData.data.indexPage.age,1000);
+						creatMychart('sl_chart',arraySlnl,arrayXt,res.data.indexPage.age,1000);
 						$(window).scroll(function(){
 							if($(this).scrollTop()>1.2*$(window).height()){
-								creatMychart('sl_chart',arraySlnl,arrayXt,indexData.data.indexPage.age,100);
+								creatMychart('sl_chart',arraySlnl,arrayXt,res.data.indexPage.age,100);
 							};
 							sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
 						});
 						var _offset = sessionStorage.getItem("offsetTop");
 						$(document).scrollTop(_offset); // 记录滚动位置
+					}else{
+						alert('indexAll code='+res.code+res.msg)
 					}
 				},
 				error: function(){alert('indexAll error')}
@@ -244,24 +244,24 @@ var myApp = new Vue({
 		},
 		//判断支付页面
 		participate: function(paymentType,sameUser){
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType
 			if(paymentType == 3){
-				window.location.href="pay_byuser.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+				location.href="pay_byuser.html"+payStr
 			}else if(paymentType == 4){
-				window.location.href="pay_type4.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+				location.href="pay_type4.html"+payStr
 			}else if(paymentType == 2){
-				window.location.href="pay_coupon.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+				location.href="pay_coupon.html"+payStr
 			}else{
-				window.location.href="payfor.html?reportId=" + reportId + '&openId=' + openId + "&sameUser=" + sameUser + "&edition="+edition;
+				location.href="payfor.html"+payStr
 			}		
 		},
 		//介绍弹窗
 		popTen: function(e){
-			$('body').css("overflow","hidden");
+			e.stopPropagation;
 			showMask();
 			$(e.target).parents('.s-inf').next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
 		popSta: function(e){
-			$('body').css("overflow","hidden");
 			showMask();
 			$(e.target).prevAll('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
@@ -274,47 +274,43 @@ var myApp = new Vue({
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
 		checkHistory: function(){ //历史报告
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击历史报告', { //埋点 t
 				'用户id': vm.userId,
-				'openId': openId,
 				'渠道' : '微信'
 			},function(){
-				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + this.userId + "&openId=" + openId + '&reportId=' + reportId
+				location.href = gohistoryUrl
 			});
 		},
 		goSetUp: function(){ //个人中心
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击个人中心', { //埋点 t
 				'用户id': vm.userId,
-				'openId': openId,
 				'渠道' : '微信'
 			},function(){
-				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId
+				location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId
 			});	
 		},
 		getSuggest: function(e){ //健康建议
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康建议',{
 				'用户id': vm.userId,
-				'openId': openId,
 				'渠道' : '微信'
 			},function(){
 				location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition
 			})
 		},
 		getRecipesData: function(e){ //健康食谱
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击健康食谱',{
 				'用户id': vm.userId,
-				'openId': openId,
 				'渠道' : '微信'
 			},function(){
 				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
 			})
 		},
 		goThird: function(e,item){
-			let vm = this;
+			var vm = this;
 			zhuge.track('用户点击三级指标',{ //埋点
 				'用户id': vm.userId,
 				'指标名称':item.tagetName,
@@ -325,12 +321,11 @@ var myApp = new Vue({
 			});
 		},
 		goSecond: function(e,item){ //埋点  十大系统点击
-			let vm = this;
+			var vm = this;
 			zhuge.track('点击十大系统',{
 				'用户id': vm.userId,
 				'系统名称':item.targetFirstName,
 				'系统分数':item.score,
-				'openId': openId,
 				'渠道' : '微信'
 			},function(){
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
@@ -340,7 +335,10 @@ var myApp = new Vue({
 });
 
 //弹窗
+var _bodyoffset = '';
 function showMask(){
+	_bodyoffset = $(window).scrollTop();
+	$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
 	$("body").css("overflow","hidden");
 	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 	closeMask();
@@ -350,6 +348,8 @@ function closeMask(){
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
 		$("body").css("overflow","auto");
+		$("body").css("position","static");
+		$(window).scrollTop(_bodyoffset);
 	});
 };	
 //截取URL

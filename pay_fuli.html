@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<section class="my_view" id="appVUE" style="display: none;">
+	<div class="cnTop">
+		<a class="goback fl" href="javascript:history.go(-1);"></a>
+	</div>
+	
+	<div class="plcn-c">
+		<p class="bit">健康报告解读</p>
+		<p class="tit">3000000+人用过，99%的用户满意度</p>
+		<ul class="">
+			<li><em><img src="img/fuli/i-01.png"></em><font>指标解读</font></li>
+			<li><em><img src="img/fuli/i-03.png"></em><font>改善建议</font></li>
+			<li><em><img src="img/fuli/i-02.png"></em><font>趋势管理</font></li>
+		</ul>
+	</div>
+	
+	<p class="g1" style="height: .21rem; background: #F4F4F4;"></p>
+	<div class="pcinf">
+		<p class="fc">
+			<i></i><span>为您提供全部指标的解读与健康趋势管理。</span>
+		</p>
+		<p class="fc">
+			<i></i><span>为您量身定制专属的健康解决方案：<font>食谱、营养、运动及生活方式建议</font>。</span>
+		</p>
+	</div>
+	
+	<p class="g1" style="height: .21rem; background: #F4F4F4;"></p>
+	<div class="pczj">
+		<p class="bit">健康专家团队</P>
+		<ul class="zjjs_b">
+			<li class="zjjs">
+				<div class="j-l"><img src="img/fuli/doc.png"></div>
+				<div class="j-r">
+					<p>高岭娣 副教授</p>
+					<p>首都医科大学卫生与教育管理学院体育学系主任</p>
+				</div>
+			</li>
+			<li class="zjjs">
+				<div class="j-l"><img src="img/fuli/doc.png"></div>
+				<div class="j-r">
+					<p>潘晓明   中医博士</p>
+					<p>北京大学医学部研究中心学术部副主任</p>
+				</div>
+			</li>
+			<li class="zjjs">
+				<div class="j-l"><img src="img/fuli/doc.png"></div>
+				<div class="j-r">
+					<p>肖 荣   博士/教授  博士生导师</p>
+					<p>首都医科大学公共卫生学院营养与食品卫生学系主任</p>
+				</div>
+			</li>
+			<li class="zjjs">
+				<div class="j-l"><img src="img/fuli/doc.png"></div>
+				<div class="j-r">
+					<p>佟彤      中医养生专家</p>
+					<p>北京电视台《养生堂》、山东卫视《养生》、江苏卫视《万家灯火》、MSN《名医讲堂》等特约专家</p>
+				</div>
+			</li>
+			<li class="zjjs">
+				<div class="j-l"><img src="img/fuli/doc.png"></div>
+				<div class="j-r">
+					<p>顾晓玲 中国首批注册营养师</p>
+					<p>兰州大学营养学硕士 、临床营养师</p>
+				</div>
+			</li>
+		</ul>	
+	</div>
+
+	<div class="fix-p">
+		<p class="ctxt">￥{{price}}</p>
+		<button class="go" id="pay" @click="goPay($event)">支付</button>
+	</div>
+	
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/fuli/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{price}}</p>
+		</div>
+		<!--<a class="pay-li" v-for="pay in data" :href="'../wxPay_new.html?reportId='+reportId+'&userId='+userId+
+			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
+			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/fuli/o-arr.png">
+		</a>-->
+		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/fuli/o-arr.png">
+		</button>
+	</div>	
+	
+</section>
+
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/fuli/loading.gif"></div>
+</div>
+
+<div class="daifu_d">
+	<p class="imo"><img src="img/fuli/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

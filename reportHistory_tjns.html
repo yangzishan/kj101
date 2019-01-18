@@ -51,7 +51,6 @@
 <script>
 $('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
-var edition = getQueryString("edition");
 var customerId = getQueryString("customerId");
 var aIndex = 0;//记录索引
 
@@ -92,17 +91,17 @@ var myApp = new Vue({
 		gotosee: function(e,item){
 			var vm = this;
 			if(item.reportType == 1){
-				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId;
+				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
 			}else if(item.reportType == 2){
-				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId;
+				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
 			}else if(item.reportType == 5){
-				window.location.href = 'index2.html?reportId=' + item.reportCode + '&userId=' + vm.customerId;
+				window.location.href = 'report5.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
 			}else if(item.reportType == 6){
-				window.location.href = 'index3.html?reportId=' + item.reportCode + '&userId=' + vm.customerId;
+				window.location.href = 'report6.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
 			}else if(item.reportType == 100){
-				window.location.href = 'fund/index.html?reportId=' + item.reportCode + '&userId=' + vm.customerId;
+				window.location.href = 'report100.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
 			}else if(item.reportType == 120 || item.reportType == 121){
-				window.location.href = 'index120.html?reportId=' + item.reportCode + '&userId=' + vm.customerId;
+				window.location.href = 'report120.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
 			}
 		}
 	}

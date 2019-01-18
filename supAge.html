@@ -87,6 +87,7 @@ function GetQueryString(name){
 var userId = GetQueryString("userId");
 var edition=GetQueryString("edition");
 var reportId = GetQueryString('reportId');
+var reportType = GetQueryString('reportType');
 var openId = GetQueryString('openId');
 if(edition==null){
 	edition = '';
@@ -120,10 +121,12 @@ $("#nextAll").click(function(){
 	        data : JSON.stringify(userInfo),
 			success : function(userData) {
 				if(userData.code == 200){
-					if(edition == 100){
-						window.location.href="fund/index.html?reportId="+reportId+"&openId="+openId;
+					if(reportType == 121){
+						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
+					}else if(reportType == 501){
+						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 					}else{
-						window.location.href="index"+edition+".html?reportId="+reportId+"&openId="+openId;
+						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 					}	
 				}else{
 					showMask('错误 code='+userData.code);

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+    <meta content="telephone=no" name="format-detection" />
+    <title>健康管理</title>
+    <link rel="stylesheet" href="./css/basic.css">
+    <!-- <link rel="stylesheet" href="./css/skin.css"> -->
+    <script>
+        document.write('<link rel="stylesheet" href="css/skin.css?t='+new Date().getTime()+'">')
+    </script>
+</head>
+<body class="fiveone">
+<div class="loadmore loading"></div>
+<div id="app_501">
+    <div class="head_bg">
+        <div class="center">
+            <h2>健康管理</h2>
+            <div class="user_history">
+                <img class="yonghu" src="./img/skin/user_501.png" @click="goSetUp();" v-if="openId">
+                <img class="lishi" src="./img/skin/history_501.png" @click="checkHistory();">
+            </div>
+        </div>
+    </div>
+    <div class="content">
+        <div class="list jkbaogao">
+            <div class="progress">
+                <span class="circle">
+                    <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
+                        <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
+                    </div>
+                    <div id="angle1" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                        <img class="img_b" src='./img/skin/501_lvdian.png'>
+                    </div>
+                </span>
+            </div>
+            <div class="title">
+                <div class="left">
+                    <p>健康报告</p>
+                    <span v-cloak>{{inspectDate}}</span>
+                </div>
+                <div class="right">
+                    <!-- <img src="./img/skin/right_501.png" alt=""> -->
+                    <p class="alt" v-cloak>{{ps}}</p>
+                    <p><i></i></p>
+                </div>
+            </div>
+        </div>
+        <div class="list skin" v-if="skinTotalScore && skinTotalScore != null && skinTotalScore != 0">
+            <div class="progress">
+                <span class="circle">
+                    <div class="circle_pro" style="width: 1.18rem; height: 1.18rem; position: relative;">
+                        <em style="position: absolute; top: 35%;left:42.5%; transform: translate(-50%,0); text-align:center; font-size:.48rem;font-weight: 900;">0</em><i style="position: absolute;bottom:.30rem;right:.15rem;font-size:.24rem;font-weight: 900;">分</i>
+                    </div>
+                    <div id="angle2" style=" width: .6rem; height: .86rem; position: absolute; top: -.25rem; left:24%; margin-left: -.18rem; transform-origin: bottom center; transition: transform 1000ms cubic-bezier(0.57, -0.04, 0.65, 0.98) 0s;">
+                        <img class="img_b" src='./img/skin/501_fendian.png'>
+                    </div>
+                </span>
+            </div>
+            <div class="title">
+                    <div class="left">
+                        <p>皮肤报告</p>
+                        <span v-cloak>{{inspectDate}}</span>
+                    </div>
+                    <div class="right">
+                        <p><i></i></p>
+                    </div>
+                </div>
+        </div>
+        <div class="list heart">
+            <div class="img">
+                <img src="./img/skin/xinzanggongneng_501.png" alt="">
+            </div>
+            <div class="title">
+                <div class="left">
+                    <p>心脏功能</p>
+                    <span v-cloak>{{inspectDate}}</span>
+                </div>
+                <div class="right">
+                    <p><i></i></p>
+                </div>
+            </div>
+        </div>
+        <div class="list loop">
+            <div class="img">
+                <img src="./img/skin/weixunhuan_501.png" alt="">
+            </div>
+            <div class="title">
+                <div class="left">
+                    <p>微循环</p>
+                    <span v-cloak>{{inspectDate}}</span>
+                </div>
+                <div class="right">
+                    <p><i></i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.js"></script>
+<script src="./js/vue.min.js"></script>
+<script src="js/circle-progress.js"></script>
+<script src="./js/base.js"></script>
+<script type="text/javascript">
+    (function (doc, win) {
+        var   docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var   clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if(clientWidth>=750){
+                    docEl.style.fontSize = '100px';
+                }else{
+                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+                }
+            };
+    
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+</script>
+<script>document.write('<script src="js/report500.js?t=' + new Date().getTime() + '"><\/script>')</script>
+</body>

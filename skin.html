@@ -100,7 +100,7 @@
             </div>
         </div>
         <!-- 重点关注 -->
-        <div class="key" v-if="majorList != null">
+        <div class="key" v-if="majorList != null && majorList.length >= 1">
             <h2><img src="./img/skin/warning.png" alt="">重点关注</h2>
             <div class="question">
                 <ul>
@@ -114,7 +114,7 @@
             <a href="javascript:;" @click="goDetails($event)"  data-degree="majorList">查看详情及改善方案></a>
         </div>
         <!-- 有待改善 -->
-        <div class="warning" v-if="awaitList != null">
+        <div class="warning" v-if="awaitList != null && awaitList.length >= 1">
             <h2><img src="./img/skin/tanhao.png" alt="">有待改善</h2>
             <div class="question">
                 <ul>
@@ -128,7 +128,7 @@
             <a href="javascript:;"  data-degree="awaitList" @click="goDetails($event)">查看详情及改善方案></a>
         </div>
         <!-- 继续保持 -->
-        <div class="keep" v-if="continueList != null">
+        <div class="keep" v-if="continueList != null && continueList.length>= 1">
             <h2><img src="./img/skin/keep.png" alt="">继续保持</h2>
             <div class="list">
                 <ul>
@@ -228,7 +228,7 @@
                         'CC':'痤疮',
                         'MGJF':'敏感皮肤',
                         'PY':'皮炎',
-                        'none':'健康'
+                        'NONE':'健康'
                     },
                     colorArr:{
                         'toubai':'透白',

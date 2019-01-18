@@ -2,11 +2,15 @@ var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var customerId = getQueryString('customerId');
 var userId = getQueryString('customerId');
+var clientType = '';
 console.log(reportId);
 console.log(openId);
 console.log(customerId);
 if(openId){
 	analysisReport2(reportId,'',openId)
+}
+if(customerId){
+	analysisReport2(reportId,customerId,'')
 }
 
 /*******************************交互逻辑*****************************/
@@ -36,11 +40,12 @@ setupWebViewJavascriptBridge(function(bridge) { // 注册JS方法供OC调用
 
 		reportId = obj.reportId;
 		reportType = obj.reportType;
+		clientType = obj.clientType;
 		customerId = obj.customerId;
 		
-		alert(reportId+'----'+reportType+'----'+customerId);
+		alert(reportId+'----'+clientType+'----'+customerId);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
-		if (inspectCode) {
+		if (customerId) {
 			setTimeout(function(){
 				analysisReport2(reportId,customerId,'')
 			},500)
@@ -59,33 +64,38 @@ function analysisReport2(report,user,open){
 			openId: open
 		},
 		success:function(res){
-			if(data.code == 200){
-				var reportType == res.data.reportType;
-				if(reportType == 1){
-					location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + report + '&userId=' + user
-				}else if(reportType == 2){
-					location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + report + '&userId=' + user
-				}else if(reportType == 5){
-					location.href = 'index2.html?reportId=' + report + '&userId=' + user
-				}else if(reportType == 6){
-					location.href = 'index3.html?reportId=' + item.reportCode + '&userId=' + user
-				}else if(reportType == 100){
-					location.href = 'index100.html?reportId=' + item.reportCode + '&userId=' + user
-				}else if(reportType == 120 || res.data.reportType == 121){
-					location.href = 'index120.html?reportId=' + item.reportCode + '&userId=' + user
+			if(res.code == 200){
+				var reportType = res.data.reportType;
+				if(reportType == 121){
+					location.href = 'report120.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
+				}else if(reportType == 501){
+					location.href = 'report500.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
+				}else{
+					location.href = 'report'+res.data.reportType+'.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
 				}
-			}else if(data.code == 402){
-				//window.location.href="userInfor.html?reportId=" + reportId+"&userId=" + res.data.customerId + "&openId=" + openId + "&edition="+edition;
-			}else if(data.code == 405){
-				//window.location.href="userInfor.html?reportId=" + reportId + "&openId=" + openId + "&edition="+edition;
-			}else if(data.code == 403){
-				//window.location.href="supAge.html?reportId=" + reportId+"&userId=" + res.data.customerId + "&openId=" + openId + "&edition="+edition;
-			}else if(data.code == 302){
-				//window.location.href="equipmentUnable.html"
-			}else{
-				console.log('analysisReport code='+ data.code + data.msg);
-				$('.load-overlay').css("display","none");
-				$('#error_con').css("display","block");
+			}else if(res.code == 402){
+				location.href="register.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType
+			}else if(res.code == 405){
+				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType
+			}else if(res.code == 403){
+				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType
+			}else if(res.code == 302){
+				window.location.href="equipmentUnable.html"
+			}else if(res.code == 2002){
+                alert('kj501接口调用失败  analysisReport  code=' + res.code)
+            }else if(res.code == 2003){
+                alert('kj501调用接口皮肤数据为空  analysisReport  code=' + res.code)
+            }else if(res.code == 2004){
+                alert('kj501调用接口生物电数据为空  analysisReport  code=' + res.code)
+            }else if(res.code == 2005){
+                alert('kj501调用接口心电数据为空  analysisReport  code=' + res.code)
+            }else if(res.code == 2006){
+                alert('kj501调用接口血氧数据为空  analysisReport  code=' + res.code)
+            }else{
+				console.log('analysisReport code='+ res.code + res.msg);
+				alert('analysisReport2 code='+ res.code + res.msg)
+				//$('.load-overlay').css("display","none");
+				//$('#error_con').css("display","block");
 			}
 		},
 		error: function(){alert('analysisReport error')}
