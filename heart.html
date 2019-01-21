@@ -50,7 +50,7 @@
             <h5>心脏功能：</h5>
             <p class="danger" v-if="paraResult"><i></i><span v-cloak >{{paraResult}}</span></p>
             <div calss="caption" v-if="paraCause"><i class="begin_title"></i><h3 class="til">常见原因</h3></div>
-            <p class="title" v-cloak v-if="paraCause">
+            <p class="title" v-cloak v-if="paraCause && paraCause != null && paraCause != '无'">
                 {{paraCause}}
             </p>
         </div>
@@ -103,13 +103,23 @@
                             inspectCode:inspectCode
                         },
                         success:function(res){
-                            $('#app_501').css({'display':'block'});
-                            $('.loadmore.loading').css({'display':'none'});
-                            that.kedu = res.data.heartRate >= 100 ? 4.13 + .0223 * (res.data.heartRate-100) : res.data.heartRate >= 60 ?1.96 +0.05425 *  (res.data.heartRate-60) : .25 + 0.0285 *res.data.heartRate
-                            that.inspectCode = res.data.inspectCode;
-                            that.paraCause = res.data.paraCause;
-                            that.paraResult =  res.data.paraResult;
-                            that.heartRate = res.data.heartRate;
+                            if(res.data.heartRate == 0 ){
+                                $('body').html('<div class="popup" style="visibility: visible;opacity: 1;"><i class="close" ></i><h1 style="text-align: center;font-weight: 900;">您好，您的心脏功能报告暂无数据。</h1></div>');
+                                $('.popup .close').click(function(){
+                                    $(".popup").css({"visibility": "hidden","opacity": 0});
+                                    history.back();
+                                });
+                                return;
+                            }
+                            if(res.code == 200 ){
+                                $('#app_501').css({'display':'block'});
+                                $('.loadmore.loading').css({'display':'none'});
+                                that.kedu = res.data.heartRate >= 100 ? 4.13 + .0223 * (res.data.heartRate-100) : res.data.heartRate >= 60 ?1.96 +0.05425 *  (res.data.heartRate-60) : .25 + 0.0285 *res.data.heartRate
+                                that.inspectCode = res.data.inspectCode;
+                                that.paraCause = res.data.paraCause;
+                                that.paraResult =  res.data.paraResult;
+                                that.heartRate = res.data.heartRate;
+                            }
                         }
                     });
                 }

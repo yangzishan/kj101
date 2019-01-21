@@ -17,7 +17,7 @@
 <div class="pson_t">
 	<p class="btit">完善资料</p>
 	<div class="nikimg">
-		<p><img :src="headimgurl"></p>
+		<p><img :src="headimgurl" id="userImg"></p>
 	</div>
 	<p class="nikname"><a id="setNickName">{{nickName}}</a></p>
 </div>
@@ -120,25 +120,77 @@
 
 <script>
 $(function(){
-	function GetQueryString(name){
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	};
-	var myuserId=GetQueryString("userId");
-	$('#userId').val(myuserId);
-	zhuge.track('进入个人中心页', { //埋点t
-		'用户id' : myuserId,
-		'渠道' : '微信'
-	});
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+var userId=getQueryString("userId");
+if(userId){
+	getUserInfor(userId)
+}
+//$('#userId').val(userId);
+zhuge.track('进入个人中心页', { //埋点t
+	'用户id' : userId,
+	'渠道' : '微信'
+});
+
+/*******************************交互逻辑*****************************/
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+
+setupWebViewJavascriptBridge(function(bridge) {
+	// 注册JS方法供OC调用
+	bridge.registerHandler('getUserId', function(data, responseCallback) {
+		//alert('哈哈哈哈')
+		//判断iOS和Android
+		var u = navigator.userAgent;
+		if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
+			var obj = eval("("+data+")");	
+		} else if (u.indexOf('iPhone') > -1) {//苹果手机
+			var obj = eval(data);
+		} else if (u.indexOf('Windows Phone') > -1) {//winphone手机
+			alert("不支持该手机设备");
+		}
+		userId = obj.userId;
+		
+		//$('#userId').val(userId);
+		
+		//var responseData = { 'code':'200' };responseCallback(responseData);
+		if (userId) {
+			getUserInfor(userId);
+		};
 	
+	})
+	
+	// 为按钮注册方法
+	$(document).on("click","#userImg",function(){
+		//alert('hahahha');
+		bridge.callHandler('upLoadIco', {'price':'100'}, function responseCallback(responseData) {
+			
+		});
+	});
+
+	
+})
+/*******************************交互逻辑*****************************/
+
+function getUserInfor(userId){
 	$.ajax({
 		url : dataUrl + "/api/v1/reportUser/findUserById",
 		type : "post",
 		dataType : 'json',
-        data : {
-        	userId: myuserId
-        },
+	    data : {
+	    	userId: userId
+	    },
 		success : function(userData) {
 			console.log(userData)
 			var myApp = new Vue({
@@ -164,14 +216,14 @@ $(function(){
 			
 			$('#demo1').val(birthday);
 			//修改昵称和性别身高体重跳转
-			$('#setNickName').attr("href","personal_nickname.html?userId="+myuserId+"&nickName="+nickName);
-			$('#setSex').attr("href","personal_sex.html?userId="+myuserId+"&sex="+sex);
-			$('#setHeight').attr("href","personal_height.html?userId="+myuserId+"&height="+height);
-			$('#setWeight').attr("href","personal_weight.html?userId="+myuserId+"&weight="+weight);
+			$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+nickName);
+			$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+sex);
+			$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+height);
+			$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+weight);
 			//体验卡跳转
-			$('#setCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
+			$('#setCard').attr("href",testHealthUrl+"/tjCard.html?userId="+userId);
 			//优惠券跳转
-			$('#setCoupon').attr("href",testHealthUrl+"/couponList.html?userId="+myuserId);
+			$('#setCoupon').attr("href",testHealthUrl+"/couponList.html?userId="+userId);
 		   	var calendar = new lCalendar();
 			calendar.init({
 				'trigger': '#demo1',
@@ -200,6 +252,9 @@ $(function(){
 		
 		}
 	});
+}
+
+
 
 })
 	

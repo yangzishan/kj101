@@ -128,7 +128,7 @@ $('.content').on('click','.list',function(){
     	if(reportType == 500){
     		window.location.href = 'report5.html' + urlSearch;
     	}else if(reportType == 501){
-    		window.location.href = 'report6.html' + urlSearch;
+    		window.location.href = 'report6.html' + urlSearch+'&terminal=app';
     	}
     }else if($(this).hasClass('heart')){
         window.location.href = 'heart.html' + urlSearch;

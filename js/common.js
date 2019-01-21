@@ -26,7 +26,7 @@ function setupWebViewJavascriptBridge(callback) {
 }
 setupWebViewJavascriptBridge(function(bridge) { // 注册JS方法供OC调用
 	bridge.registerHandler('analysisReport', function(data, responseCallback) {
-		alert('test_oc');
+		//alert('test_oc');
 		//判断iOS和Android
 		var u = navigator.userAgent;
 		//alert('u='+u);

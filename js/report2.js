@@ -331,6 +331,7 @@ var myApp = new Vue({
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
 			});
 		}
+		
 	}
 });
 
