@@ -19,7 +19,7 @@
 .nrep_top .date{position: absolute; left:.3rem; top: 0; line-height: .88rem; font-size: .24rem; color: #fff;}
 .nrep_top .his{ position: absolute; right:.3rem; top: 0; line-height: .88rem; font-size: .24rem; color: #fff;}
 .nrep_top .his img{ width: .16rem; height: .21rem; margin-right: .07rem;}
-.tiptop{ padding: .1rem .16rem; background: #f5f5f5; line-height: .28rem; color: #aaaaaa; font-size: .22rem; overflow: hidden;}
+.tiptop{ width: 100%; padding: .1rem .16rem; background: #f5f5f5; line-height: .28rem; color: #aaaaaa; font-size: .22rem; overflow: hidden;}
 .tiptop a{ color: #03a89e;}.tiptop a img{ height: .26rem; margin-left: .07rem; position: relative; top: .04rem;}
 .sp_warp{font-family: 'PingFang SC','San Francisco','Droid Sans';}
 .sp_warp .btit{ height: 1rem; position: relative;}

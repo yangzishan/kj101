@@ -50,7 +50,8 @@
             <h5>心脏功能：</h5>
             <p class="danger" v-if="paraResult"><i></i><span v-cloak >{{paraResult}}</span></p>
             <div calss="caption" v-if="paraCause"><i class="begin_title"></i><h3 class="til">常见原因</h3></div>
-            <p class="title" v-cloak v-if="paraCause && paraCause != null && paraCause != '无'">
+            <!--<p class="title" v-cloak v-if="paraCause && paraCause != null && paraCause != '无'">-->
+            <p class="title" v-cloak v-if="paraCause && paraCause != null">
                 {{paraCause}}
             </p>
         </div>

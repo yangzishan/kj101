@@ -5,6 +5,18 @@ var reportType = getQueryString("reportType");
 var sameUser = getQueryString("sameUser");
 var edition = getQueryString("edition");
 var terminalType = 1;
+var findPackage = "/api/v1/reportWxPay/findPackage2"
+var dataInfor = {
+	reportId:reportId,
+	userId:userId
+}
+if(!userId && openId){
+	findPackage = "/api/v1/reportWxPay/findPackage"
+	dataInfor = {
+		reportId:reportId,
+		openId:openId
+	}
+}
 if(!openId){
 	terminalType = 2
 }
@@ -62,14 +74,12 @@ var myApp = new Vue({
 	methods: {
 		findPackage: function() {
 			var _this = this; 
-			$.post(dataUrl + "/api/v1/reportWxPay/findPackage2",
-				{
-					reportId: reportId,
-					userId : userId
-				},
+			$.post(dataUrl + findPackage,
+				dataInfor,
 				function (packageData) {
 					if(packageData.code == 200){
-						_this.goReportIndex(reportId,userId,reportType);
+						location.href = "common.html?reportId="+reportId+'&openId='+openId
+						//_this.goReportIndex(reportId,userId,reportType);
 					}else if(packageData.code == 201){
 						$('.my_view').css("display","block");
 						$('.load-overlay').css("display","none");

@@ -79,12 +79,12 @@ new Vue({
 			var _this = this;
 			$.ajax({
 				type:"post",
-				url:analysisreport + '/v3/reportContent/queryNewReportDataByReportId2',
+				url:analysisreport + '/v3/reportContent/queryNewReportDataByReportIdAndCustomerId',
 				async:true,
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
-					userId : customerId
+					customerId : customerId
 				},
 				success: function(data){
 					if(data.code == 200){
@@ -134,9 +134,9 @@ new Vue({
 						//alert('queryNewReportDataByReportId code='+data.code);
 						_this.sameUser = data.sameUser;
 						location.href = 'payfor3.0.html?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType;
-					}else{alert('queryNewReportDataByReportId,code='+data.code+data.msg)}
+					}else{alert('queryNewReportDataByReportIdAndCustomerId,code='+data.code+data.msg)}
 				},
-				error: function(){alert('queryNewReportDataByReportId error')}
+				error: function(){alert('queryNewReportDataByReportIdAndCustomerId error')}
 			});
 		},
 		shade: function(index){

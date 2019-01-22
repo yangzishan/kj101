@@ -56,11 +56,11 @@ $.ajax({
 					var userId = indexData.data.userId;
 					$('.my_view').css("display","block");
 					$('.load-overlay').css("display","none");
-					$("#appId").val(indexData.wxParameter.appId);
-					$("#nonceStr").val(indexData.wxParameter.nonceStr);
-					$("#signature").val(indexData.wxParameter.signature);
-					$("#timestamp").val(indexData.wxParameter.timestamp);
-					$("#age").val(indexData.data.indexPage.age);
+					//$("#appId").val(indexData.wxParameter.appId);
+					//$("#nonceStr").val(indexData.wxParameter.nonceStr);
+					//$("#signature").val(indexData.wxParameter.signature);
+					//$("#timestamp").val(indexData.wxParameter.timestamp);
+					//$("#age").val(indexData.data.indexPage.age);
 					var myApp = new Vue({
 					  el: '#appVUE',
 					  data: {
