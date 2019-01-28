@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康建议</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view" id="appVUE">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>健康建议</span></p>
+	</header>
+	
+	<div class="bid-li">
+		<div class="li-name"><i class="ico"></i><span class="name">维生素B2</span></div>
+		<p class="b-tit"><i class="don"></i><span class="lab">指标解释</span></p>
+		<div class="ctxt">
+			维生素B2又叫核黄素，微溶于水，在中性或酸性溶液中加热是稳定的。当缺乏时影响机体的生物氧化，使代谢发生障碍。
+		</div>
+		<p class="b-tit"><i class="don"></i><span class="lab">健康建议</span></p>
+		<div class="item_ad">
+			<p class="">膳食建议</p>
+			<p class="">一、多吃富含维生素B2的食物<i class=""></i></p>
+			<div class="ctxt">
+				维生素B2又叫核黄素，微溶于水，在中性或酸性溶液中加热是稳定的。当缺乏时影响机体的生物氧化，使代谢发生障碍。
+			</div>
+		</div>
+		<div class="item_ad">
+			<p class="">运动和生活方式建议</p>
+			<p class="">一、多吃富含维生素B2的食物<i class=""></i></p>
+			<div class="ctxt">
+				维生素B2又叫核黄素，微溶于水，在中性或酸性溶液中加热是稳定的。当缺乏时影响机体的生物氧化，使代谢发生障碍。
+			</div>
+		</div>
+
+	</div>
+	
+</div>
+
+
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+//$('.my_view').css("display","none");
+//$('.load-overlay').css("display","block");
+//获取url参数
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+}
+var reportId=getQueryString("reportId");
+var targetId=getQueryString("targetId");
+
+</script>
+</body>
+</html>

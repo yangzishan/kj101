@@ -33,7 +33,7 @@ var myApp = new Vue({
 			userState:'',
 			isShow:false,
 			isActive:[],
-			reportId:'', openId:'', sameUser:'', edition:'',reportType:'', //版本
+			reportId:'', openId:'', sameUser:'', edition:'',reportType:reportType, //版本
 			data:{}, //支付通道数据
 			nickName:'',//昵称
 			headimgurl:'',

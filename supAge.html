@@ -79,16 +79,16 @@ function closeMask(){
 //showMask('哈哈哈哈');
 
 //截取URL 获取
-function GetQueryString(name){
+function getQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var userId = GetQueryString("userId");
-var edition=GetQueryString("edition");
-var reportId = GetQueryString('reportId');
-var reportType = GetQueryString('reportType');
-var openId = GetQueryString('openId');
+var userId = getQueryString("userId"); var faceUserId = getQueryString("faceUserId");
+var edition=getQueryString("edition");
+var reportId = getQueryString('reportId');
+var reportType = getQueryString('reportType');
+var openId = getQueryString('openId');
 if(edition==null){
 	edition = '';
 }
@@ -121,7 +121,7 @@ $("#nextAll").click(function(){
 	        data : JSON.stringify(userInfo),
 			success : function(userData) {
 				if(userData.code == 200){
-					location.href="common.html?reportId="+reportId+'&openId='+openId
+					location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+userId+'&faceUserId='+faceUserId
 					/*if(reportType == 121){
 						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 					}else if(reportType == 501){

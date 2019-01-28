@@ -3,7 +3,7 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var edition = 2;
-if(reportType == 5){
+if(reportType == 5 || reportType < 6){
 	var indexAll_data = '/api/v1/reportIndex/indexAll2'
 	var targetImprove_data = '/api/v2/reportIndex/targetImprove'
 }else if(reportType == 500){ //适配501报告
@@ -31,7 +31,7 @@ function setupWebViewJavascriptBridge(callback) {
 setupWebViewJavascriptBridge(function(bridge) {
 	//为按钮注册方法
 	$(document).on("click","#goToShare",function(){
-		alert('click share');
+		//alert('click share');
 		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
 	});
 })
@@ -74,7 +74,9 @@ var myApp = new Vue({
 			lastDateStr:'', 
 			currentDateStr:'',
 			okImproves:'',
-			noImproves:''
+			noImproves:'',
+			deviceSnNum:'',
+			banData:''
 		}
 	},
 	mounted: function(){
@@ -112,6 +114,7 @@ var myApp = new Vue({
 				  		vm.litNum = res.data.map.list2.length;
 				  		vm.midNum = res.data.map.list3.length;
 				  		vm.abnormalName = res.data.map.abnormalName;
+				  		vm.deviceSnNum = res.data.map.deviceSnNum;
 				  		vm.userId = res.data.userId;
 				  		vm.targetImprove(vm.userId); //调用与上份报告对比
 						setTimeout(function(){ //总分动画效果
@@ -184,6 +187,7 @@ var myApp = new Vue({
 							}
 						}
 						creatMychart('sl_chart',arraySlnl,arrayXt,res.data.indexPage.age,1000);
+						vm.wheelsort(vm.deviceSnNum,reportId);//轮播广告
 						$(window).scroll(function(){
 							if($(this).scrollTop()>1.2*$(window).height()){
 								creatMychart('sl_chart',arraySlnl,arrayXt,res.data.indexPage.age,100);
@@ -330,11 +334,60 @@ var myApp = new Vue({
 			},function(){
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
 			});
-		}
+		},
+		wheelsort: function(deviceSn,reportId){ //广告接口
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl + "/api/banner/wheelsort",
+				async: true,
+				dataType: 'json',
+				data:{
+					deviceSn: deviceSn,
+					reportId: reportId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.banData = res.data;
+						banSlide(res.data.length);
+					}
+				},
+				error: function(){console.log('wheelsort error')}
+			});
+		},
 		
 	}
 });
-
+//广告轮播
+function banSlide(page_count){ 
+	var page_now=1;
+	var page_num=1; //一页显示几个
+	var v_width = $('.v_content').width();
+	console.log(page_count)
+	function next(){	
+		if(!$('.v_list').is(':animated')){
+			if(page_now == page_count){
+				$('.v_list').animate({left:'0px'},'slow');
+				page_now=1;
+			}else{
+				$('.v_list').animate({left:'-='+v_width},'slow');
+				page_now++;
+			}
+		}
+	};
+	function prev(){
+		if(!$('.v_list').is(':animated')){
+			if(page_now == 1){
+				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				page_now=page_count;
+			}else{
+				$('.v_list').animate({left:'+='+v_width},'slow');
+				page_now--;
+			}
+		}
+	};
+	var toNext=setInterval(next,3000);
+};
 //弹窗
 var _bodyoffset = '';
 function showMask(){

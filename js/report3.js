@@ -6,7 +6,6 @@ var edition = 3;
 if(reportType == 501){
 	$('.skin').remove();
 }
-
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId;
 if(!openId){
 	//alert('now in app');
@@ -26,7 +25,7 @@ function setupWebViewJavascriptBridge(callback) {
 setupWebViewJavascriptBridge(function(bridge) {
 	//为按钮注册方法
 	$(document).on("click","#goToShare",function(){
-		alert('click share');
+		//alert('click share');
 		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
 	});
 })
@@ -67,7 +66,9 @@ new Vue({
 			sameUser:'',
 			inspectDate:'',
 			ranking:'',
-			targetName:''
+			targetName:'',
+			banData:'',
+			deviceSnNum:''
 		}
 	},
 	mounted: function(){
@@ -96,10 +97,11 @@ new Vue({
 						_this.userId = data.result.userId
 						_this.headimgurl = data.result.headimgurl
 						_this.inspectDate = data.result.inspectDate
+						_this.deviceSnNum = data.result.deviceSnNum
 						if(_this.data[3].score== null){
 							_this.data[3].score = 0
 						}
-						// 风险等级转的度数
+						// 风险等级转的度数 现在是从低到高
 						if(_this.totalScore >= 95){
 							var _deg = 110
 						}else if(_this.totalScore <=  94&& _this.totalScore >= 90){
@@ -128,8 +130,9 @@ new Vue({
 							$('#score').animateNumber({ number: data.result.totalScore },1100);
 							$('.sub-health .text .pointer').css("transform","rotate("+_deg+"deg)");
 							$('.klzs_c .zs_p').css("transform","rotate(-"+_klzs+"deg)");
+							_this.wheelsort(_this.deviceSnNum,reportId);//轮播广告
 						},300);
-
+						
 					}else if((data.code == 201)){
 						//alert('queryNewReportDataByReportId code='+data.code);
 						_this.sameUser = data.sameUser;
@@ -324,9 +327,60 @@ new Vue({
 					}
 				)
 			}	
-		}
+		},
+		wheelsort: function(deviceSn,reportId){ //广告接口
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl + "/api/banner/wheelsort",
+				async: true,
+				dataType: 'json',
+				data:{
+					deviceSn: deviceSn,
+					reportId: reportId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.banData = res.data;
+						banSlide(res.data.length);
+					}
+				},
+				error: function(){console.log('wheelsort error')}
+			});
+		},
 	},
 });
+//广告轮播
+function banSlide(page_count){ 
+	var page_now=1;
+	var page_num=1; //一页显示几个
+	var v_width = $('.v_content').width();
+	console.log(page_count)
+	console.log(v_width);
+	function next(){	
+		if(!$('.v_list').is(':animated')){
+			if(page_now == page_count){
+				$('.v_list').animate({left:'0px'},'slow');
+				page_now=1;
+			}else{
+				$('.v_list').animate({left:'-='+v_width},'slow');
+				page_now++;
+			}
+		}
+	};
+	function prev(){
+		if(!$('.v_list').is(':animated')){
+			if(page_now == 1){
+				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				page_now=page_count;
+			}else{
+				$('.v_list').animate({left:'+='+v_width},'slow');
+				page_now--;
+			}
+		}
+	};
+	var toNext=setInterval(next,3000);
+};
 // 获取url参数方法
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

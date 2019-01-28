@@ -23,7 +23,7 @@ function setupWebViewJavascriptBridge(callback) {
 setupWebViewJavascriptBridge(function(bridge) {
 	//为按钮注册方法
 	$(document).on("click","#goToShare",function(){
-		alert('click share');
+		//alert('click share');
 		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
 	});
 })
@@ -66,7 +66,9 @@ var myApp = new Vue({
 			midbid:'',
 			abnormalName:'',
 			showRecipe:'',
-			deviceReport:''
+			deviceReport:'',
+			banData:'', //轮播广告
+			deviceSnNum:''
 		}
 	},
 	mounted: function(){
@@ -115,6 +117,7 @@ var myApp = new Vue({
 					  		_this.litbid = res.data.map.list2;
 					  		_this.midbid = res.data.map.list3;
 					  		_this.abnormalName = res.data.map.abnormalName;
+					  		_this.deviceSnNum = res.data.map.deviceSnNum;
 					  		_this.userId = res.data.userId;
 					  		//总分动画效果
 							setTimeout(function(){
@@ -156,6 +159,8 @@ var myApp = new Vue({
 								}
 							}
 							createChart(arrayXt,arraySlnl,_this.age,500);
+
+							_this.wheelsort(_this.deviceSnNum,reportId);//轮播广告
 
 							// 抓取滚动位置
 							$(window).scroll(function(){ 
@@ -264,9 +269,58 @@ var myApp = new Vue({
 				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId
 			});
 		},
+		wheelsort: function(deviceSn,reportId){ //广告接口
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl + "/api/banner/wheelsort",
+				async: true,
+				dataType: 'json',
+				data:{
+					deviceSn: deviceSn,
+					reportId: reportId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.banData = res.data;
+						banSlide(res.data.length);
+					}
+				},
+				error: function(){console.log('wheelsort error')}
+			});
+		},
 	}
 });
-
+//广告轮播
+function banSlide(page_count){ 
+	var page_now=1;
+	var page_num=1; //一页显示几个
+	var v_width = $('.v_content').width();
+	console.log(page_count)
+	function next(){	
+		if(!$('.v_list').is(':animated')){
+			if(page_now == page_count){
+				$('.v_list').animate({left:'0px'},'slow');
+				page_now=1;
+			}else{
+				$('.v_list').animate({left:'-='+v_width},'slow');
+				page_now++;
+			}
+		}
+	};
+	function prev(){
+		if(!$('.v_list').is(':animated')){
+			if(page_now == 1){
+				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				page_now=page_count;
+			}else{
+				$('.v_list').animate({left:'+='+v_width},'slow');
+				page_now--;
+			}
+		}
+	};
+	var toNext=setInterval(next,3000);
+};
 //弹窗
 function showMask(){
 	$("body").css("overflow","hidden");

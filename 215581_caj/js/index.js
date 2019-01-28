@@ -171,7 +171,7 @@ $.ajax({
 					
 					//跳转历史报告
 					var userId = indexData.data.userId;
-					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistory&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
+					$('#checkHistory').attr("href",dataUrl + "/wxUser/wxUserReport?jumpUrl=uiHistoryCaj&userId=" + userId + "&openId=" + myopenId + '&isAgent=caj');
 					//$('#checkHistory').attr("href","reportHistory.html?&userId=" + userId + "&openId=" + myopenId + '&reportId=' + myReportId);
 					
 					//跳转用户设置

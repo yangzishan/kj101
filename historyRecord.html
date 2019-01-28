@@ -54,6 +54,7 @@ $('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
 var userId = getQueryString("userId");
 var openId = getQueryString('openId');
+var isAgent = getQueryString('isAgent');
 if(openId == null || openId == undefined){
 	openId = ''
 }
@@ -102,6 +103,12 @@ var myApp = new Vue({
 				location.href = 'report500.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
 			}else if(item.reportType == 120 || item.reportType == 121){
 				location.href = 'report120.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+			}else if(item.reportType < 6){
+				if(isAgent == 'caj'){  //慈爱家
+					location.href = '215581/index.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId
+				}else{
+					location.href = 'report5.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+				}
 			}else{
 				location.href = 'report'+item.reportType+'.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
 			}

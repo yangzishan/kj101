@@ -37,5 +37,5 @@
             window.zhuge._init(b, x)
         }
     };
-    window.zhuge.load('07df4c15f6df4721a617a957d804f5e2');
+    window.zhuge.load('72b0928f8c36422a9c674fc9013414d9');
 })();

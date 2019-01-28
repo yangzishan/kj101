@@ -198,12 +198,12 @@
 }
 /* 11改动代码 */
 .sub-health .text{
-    width: 2.99rem;
-    height: 2.55rem;
-    background: url(../images/yq.png) no-repeat;
+    width: 3.43rem;
+    height: 2.92rem;
+    background: url(../images/pan.png) no-repeat;
     background-size: 100%;
     margin: 0 auto;
-	padding: .68rem 0 0;
+	padding: .95rem 0 0;
 }
 .sub-health .text .pointer{
 	transform:rotate(-145deg);
@@ -232,7 +232,7 @@
 /*快乐指数*/
 .happy .title{
     overflow: hidden;
-    margin: .1rem auto .6rem auto;
+    margin: .1rem auto 1rem auto;
     font-size: .33rem;
     color: #30c6bf;
     display: flex;
@@ -485,8 +485,7 @@
 .real-time ul li .thread{
     width: 2.88rem;
     height: .15rem;
-    border: 1px solid #a6a7a6;
-    background: #e9eae9;
+   
     float: right;
     margin-top: .175rem;
     display: flex;
@@ -508,7 +507,7 @@
     display: block !important;
 }
 .real-time ul li .thread span{
-    flex: 1;
+    flex: 1;  background: #e9eae9;
     border-right:1px solid #e7f9f8; 
 }
 .real-time ul li .thread .active{
@@ -761,8 +760,8 @@
 }
 .condition .txt .declare{
     color: #767575;
-    font-size: .22rem;
-    line-height: .3rem;
+    font-size: .26rem;
+    line-height: .38rem;
 }
 /* 男女 */
 .condition .txt .title .ln{

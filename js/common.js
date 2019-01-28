@@ -1,16 +1,16 @@
+alert(window.location.href);
 var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var customerId = getQueryString('customerId');
 var userId = getQueryString('customerId');
+var faceUserId = getQueryString('faceUserId');
+var sendCustomerId = ''
 var clientType = '';
 console.log(reportId);
 console.log(openId);
 console.log(customerId);
 if(openId){
-	analysisReport2(reportId,'',openId)
-}
-if(customerId){
-	analysisReport2(reportId,customerId,'')
+	analysisReportFace(reportId,'',faceUserId,openId)
 }
 
 /*******************************交互逻辑*****************************/
@@ -39,27 +39,30 @@ setupWebViewJavascriptBridge(function(bridge) { // 注册JS方法供OC调用
 		}
 
 		reportId = obj.reportId;
-		reportType = obj.reportType;
-		clientType = obj.clientType;
+		sendCustomerId = obj.sendCustomerId;
 		customerId = obj.customerId;
+		clientType = obj.clientType;
+		var reportType = obj.reportType;
 		
-		alert(reportId+'----'+clientType+'----'+customerId);
+		//alert(dataUrl);
+		alert(reportId+'--'+sendCustomerId+'--'+customerId+'--'+clientType+'--'+reportType);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
 		if (customerId) {
 			setTimeout(function(){
-				analysisReport2(reportId,customerId,'')
+				analysisReportFace(reportId,'',customerId,'')
 			},500)
 		}	
 	})
 })
 /*******************************交互逻辑*****************************/
-function analysisReport2(report,user,open){
+function analysisReportFace(report,sendCustom,user,open){
 	$.ajax({
 		type:"post",
-		url:dataUrl + "/api/v1/reportIndex/analysisReport2",
+		url:dataUrl + "/api/v1/reportIndex/analysisReportFace",
 		dataType:"json",
 		data:{
 			reportId: report,
+			sendCustomerId: sendCustom,
 			customerId: user,
 			openId: open
 		},
@@ -74,31 +77,31 @@ function analysisReport2(report,user,open){
 					location.href = 'report'+res.data.reportType+'.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
 				}
 			}else if(res.code == 402){
-				location.href="register.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType
+				location.href="register.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 			}else if(res.code == 405){
-				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType
+				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 			}else if(res.code == 403){
-				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType
+				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 			}else if(res.code == 302){
 				window.location.href="equipmentUnable.html"
 			}else if(res.code == 2002){
-                alert('kj501接口调用失败  analysisReport  code=' + res.code)
+                alert('kj501接口调用失败  analysisReportFace  code=' + res.code)
             }else if(res.code == 2003){
-                alert('kj501调用接口皮肤数据为空  analysisReport  code=' + res.code)
+                alert('kj501调用接口皮肤数据为空  analysisReportFace  code=' + res.code)
             }else if(res.code == 2004){
-                alert('kj501调用接口生物电数据为空  analysisReport  code=' + res.code)
+                alert('kj501调用接口生物电数据为空  analysisReportFace  code=' + res.code)
             }else if(res.code == 2005){
-                alert('kj501调用接口心电数据为空  analysisReport  code=' + res.code)
+                alert('kj501调用接口心电数据为空  analysisReportFace  code=' + res.code)
             }else if(res.code == 2006){
-                alert('kj501调用接口血氧数据为空  analysisReport  code=' + res.code)
+                alert('kj501调用接口血氧数据为空  analysisReportFace  code=' + res.code)
             }else{
-				console.log('analysisReport code='+ res.code + res.msg);
-				alert('analysisReport2 code='+ res.code + res.msg)
+				console.log('analysisReportFace code='+ res.code + res.msg);
+				alert('analysisReportFace code='+ res.code + res.msg)
 				//$('.load-overlay').css("display","none");
 				//$('#error_con').css("display","block");
 			}
 		},
-		error: function(){alert('analysisReport error')}
+		error: function(){alert('analysisReportFace error')}
 	});
 };
 

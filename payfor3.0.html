@@ -9,30 +9,70 @@
 <title>支付</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
-<script> document.write('<link rel="stylesheet" type="text/css" href="css/index3.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body>
-<section class="my_view" id="appVUE" style="display: none;">
-	<p class=""><img src="images/payban.png" class="img_b"></p>
-	<div class="paycnbg">
-		<p class="rinkth">您是第<em>{{userIdstr}}</em>位检测的用户</p>
-		<p><img src="images/paycn.jpg" class="img_b"></p>
+<section class="my_view" style="display: none;">
+<DIV class="pay4th" id="appVUE" style="padding-bottom: .88rem;">
+	<p><img src="img/pay3-t2.png" class="img_b"></p>
+	<div class="paybox" style="margin: -1.6rem auto 0;">
+		<p class="btit">您是第<font>{{userIdstr}}</font>位检测的用户</p>
+		<dl class="con">
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay3-1st.png"></i>
+				<div class="pcc">
+					<p class="name">整体健康</p>
+					<p class="txt">六大模块反应整体健康状况</p>
+				</div>
+			</dd>
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay3-2nd.png"></i>
+				<div class="pcc">
+					<p class="name">健康建议</p>
+					<p class="txt">根据健康状况提供专业健康建议</p>
+				</div>
+			</dd>
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay3-3rd.png"></i>
+				<div class="pcc">
+					<p class="name">健康食谱</p>
+					<p class="txt">专业营养师为您定制一周食谱</p>
+				</div>
+			</dd>
+			<dd class="c_li">
+				<i class="pic"><img src="img/pay3-4th.png"></i>
+				<div class="pcc">
+					<p class="name">历史趋势</p>
+					<p class="txt">持续监测了解健康趋势变化</p>
+				</div>
+			</dd>
+		</dl>
 	</div>
-	<p style="margin-bottom: .9rem;"><img src="images/paybot.jpg" class="img_b"></p>
 	
-	<!--<div class="fix-p">
-		<p class="ctxt">
-			<span class="oprice">原价：{{oprice}}</span>
-			<span class="price">优惠价：{{price}}</span>
-		</p>
-		<button class="go" id="pay" @click="goPay($event)">支付</button>
-	</div>-->
+	<!--专家轮播-->
+    <div class="zjlist">
+        <p class="title">健康专家为您提供专属的改善方案</p>
+        <div class="specialist">
+            <div class="prev"><img src="img/120/left.png"></div>
+            <div class="next"><img src="img/120/right.png"></div>
+            <div class="v_doctor" style="width:4.6rem; height: 1.2rem; margin: 0 auto; overflow: hidden; position: relative;">
+            	<ul class="v_list" style="width: 500%; position: absolute; overflow: hidden;">
+                    <li v-for="item in doctor" style="float: left;">
+                        <div class="head-img"></div>
+                        <div class="text">
+                            <p class="name">{{item.name}}</p>
+                            <p class="detail">{{item.describe}}</p>
+                        </div>
+                    </li>
+                </ul>
+            </div> 
+        </div>   
+    </div>
+	
 	<div class="pay-x-fix">
 		<button class="pay" id="pay" @click="goPay($event)">支付</button>
 		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
-	
 	<div class="sl-pay">
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
 		<div class="cnn">
@@ -44,13 +84,11 @@
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
 		</button>
 	</div>	
+</DIV>
 	
 </section>
-
 <div class="v_overlay"></div>
-<div class="load-overlay">
-	<div class="loadimg"><img src="img/loading.gif"></div>
-</div>
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
 
 <div class="daifu_d">
 	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
@@ -60,7 +98,7 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
@@ -77,11 +115,50 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
+</script>
+<script>
+setTimeout(function(){
+	var page_now=1;
+	var itemNum=1;  //一页显示几个
+	var v_width = $('.v_doctor').width();
+	var v_len = $('.v_list li').length;
+	//var page_count = Math.ceil(v_len/itemNum);
+	var page_count = 5;
+	function next(){	
+			if(!$('.v_list').is(':animated')){
+			if(page_now == page_count){
+				$('.v_list').animate({left:'0px'},'slow');
+				page_now=1;
+			}else{
+				$('.v_list').animate({left:'-='+v_width},'slow');
+				page_now++;
+			}
+			$('.heighlight_tip span').eq(page_now-1).addClass('current').siblings().removeClass('current');
+			}
+		};
+	function prev(){
+			if(!$('.v_list').is(':animated')){
+			if(page_now == 1){
+				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				page_now=page_count;
+			}else{
+				$('.v_list').animate({left:'+='+v_width},'slow');
+				page_now--;
+			}
+			$('.heighlight_tip span').eq(page_now-1).addClass('current').siblings().removeClass('current');
+			}
+		};
+	$('.next').bind('click',function(){ next() });	
+	$('.prev').bind('click',function(){ prev() });
+	var toNext=setInterval(next,3000);
+},500)
+	
+
+
 </script>
 </body>
 </html>

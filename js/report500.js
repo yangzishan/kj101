@@ -22,7 +22,7 @@ function setupWebViewJavascriptBridge(callback) {
 setupWebViewJavascriptBridge(function(bridge) {
 	//为按钮注册方法
 	$(document).on("click","#goToShare",function(){
-		alert('click share');
+		//alert('click share');
 		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
 	});
 })

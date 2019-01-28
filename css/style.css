@@ -572,17 +572,30 @@
 .fix-tpp p em.a1{ background: url(../img/i-smile.png) no-repeat; background-size:contain;}
 .fix-tpp p em.a2{ background: url(../img/i-sad.png) no-repeat; background-size:contain;}
 /*paytype4版*/
-.pay4th{ height: 100%; background: #FFFFFF; color: #333333;}
-.pay4th .paybox{position: relative; width: 6.2rem; min-height: 3rem; margin: -1rem auto; padding: .2rem; background: #ffffff; border-radius: .3rem; box-shadow: 0 0 .3rem 0.05rem #dddddd;}
+.pay4th{ background: #FFFFFF; color: #333333;}
+.pay4th .paybox{position: relative; width: 6.4rem; min-height: 3rem; margin: -1.05rem auto 0; padding: .4rem .2rem .2rem; background: #ffffff; border-radius: .3rem; box-shadow: 0 0 .3rem 0.05rem #dddddd;}
 .pay4th .paybox .btit{line-height: .6rem; text-align: center; font-size: .32rem;}
-.pay4th .paybox .btit font{ color: #FF3E3F;}
+.pay4th .paybox .btit font{ color: #FF3E3F; font-weight: bold;}
 .pay4th .paybox .con{ padding: 0;}
-.pay4th .paybox .con .c_li{ min-height: 1.1rem; padding: .25rem 0 .25rem .5rem; position: relative; display:-webkit-box;}
-.pay4th .paybox .con .c_li .pic{ display: block; width: 1rem; text-align: center; margin: 0 .2rem 0 0;}
+.pay4th .paybox .con .c_li{ min-height: 1.1rem; padding: .32rem 0 .32rem .4rem; position: relative; display:-webkit-box;}
+.pay4th .paybox .con .c_li .pic{ display: block; width: 1rem; text-align: center; margin: 0 .3rem 0 0;}
 .pay4th .paybox .con .c_li .pic img{width: .8rem; height: .8rem; border-radius: 50%;}
 .pay4th .paybox .con .c_li .pcc{ -webkit-box-flex: 1;}
 .pay4th .paybox .con .c_li .pcc .name{ font-size: .34rem; font-weight: 600;}
 .pay4th .paybox .con .c_li .pcc .txt{font-size: .26rem; color: #9B9B9B;}
+.pay4th .zjlist {width: 6.4rem; margin: .3rem auto; background: #fff; padding: .2rem 0; border-radius: .2rem; box-shadow: 0 0 .3rem 0.05rem #dddddd;}
+.pay4th .zjlist .title { padding: 0;  color: #4A4A4A; text-align: center; font-size: .3rem;}
+.pay4th .zjlist .specialist { background: #fff;  padding: .1rem 0; position: relative; display: flex; align-items: center;/*垂直居中*/}
+.pay4th .zjlist .specialist .prev { position: absolute; width: .2rem; height: .3rem; left: .45rem; top: 50%; margin-top: -.15rem;}
+.pay4th .zjlist .specialist .next { position: absolute; width: .2rem; height: .3rem; right: .45rem; top: 50%; margin-top: -.15rem;}
+.pay4th .zjlist .specialist ul { width: 4.6rem; margin: 0 auto; }
+.pay4th .zjlist .specialist ul li { width: 4.6rem; overflow: hidden; display: flex; align-items: center;/*垂直居中*/ }
+.pay4th .zjlist .specialist ul li .head-img { width: .67rem; height: .67rem; border: 1px solid #1eceb7; border-radius: 10rem; float: left; overflow: hidden; background: #f5f5f5 url(../img/120/tx.png); background-size: contain;}
+.pay4th .zjlist .specialist ul li .text { flex: 1; padding-left:.3rem;}
+.pay4th .zjlist .specialist ul li .text .name {font-size: .26rem; color: #333; }
+.pay4th .zjlist .specialist ul li .text .name span { padding-right: .3rem;}
+.pay4th .zjlist .specialist ul li .text .detail { font-size: .24rem; color: #a1a1a1; }
+
 /*福利基金支付页面*/
 .cnTop{ height: .88rem; padding: 0 .3rem; background: #0fc1b6;}
 .cnTop .goback{ width: .24rem; height: .88rem; background: url(../img/arr-b.png) no-repeat center; background-size:.22rem .3rem;}
@@ -842,3 +855,14 @@
 .tc-spcd .hlul{}
 .tc-spcd .hlul li{width: 3.8rem; line-height: .47rem; overflow: hidden;}
 .tc-spcd .hlul li span{}
+
+/*=3.0报告二级建议页=*/
+.bid-li{}
+.bid-li .li-name{ line-height: .68rem; line-height: .68rem;}
+.bid-li .li-name .ico{ display: inline-block; vertical-align: top; width: .44rem; height: .68rem; background: url(../img/bidt.png) no-repeat center; background-size:.42rem .44rem;}
+.bid-li .li-name .name{ font-size: .33rem; color: #4ba59e;}
+.bid-li .b-tit{}
+.bid-li .b-tit .don{ width: .12rem; height: .12rem; background: #30c6bf; border-radius: 50%;}
+.bid-li .b-tit .lab{ color: #30c6bf; font-size: .3rem;}
+.item_ad{}
+
