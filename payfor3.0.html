@@ -15,7 +15,7 @@
 <DIV class="pay4th" id="appVUE" style="padding-bottom: .88rem;">
 	<p><img src="img/pay3-t2.png" class="img_b"></p>
 	<div class="paybox" style="margin: -1.6rem auto 0;">
-		<p class="btit">您是第<font>{{userIdstr}}</font>位检测的用户</p>
+		<!--<p class="btit">您是第<font>{{userIdstr}}</font>位检测的用户</p>-->
 		<dl class="con">
 			<dd class="c_li">
 				<i class="pic"><img src="img/pay3-1st.png"></i>
@@ -49,7 +49,7 @@
 	</div>
 	
 	<!--专家轮播-->
-    <div class="zjlist">
+    <!--<div class="zjlist">
         <p class="title">健康专家为您提供专属的改善方案</p>
         <div class="specialist">
             <div class="prev"><img src="img/120/left.png"></div>
@@ -66,7 +66,7 @@
                 </ul>
             </div> 
         </div>   
-    </div>
+    </div>-->
 	
 	<div class="pay-x-fix">
 		<button class="pay" id="pay" @click="goPay($event)">支付</button>
@@ -121,7 +121,7 @@
 })(document, window);
 </script>
 <script>
-setTimeout(function(){
+/*setTimeout(function(){
 	var page_now=1;
 	var itemNum=1;  //一页显示几个
 	var v_width = $('.v_doctor').width();
@@ -155,7 +155,7 @@ setTimeout(function(){
 	$('.next').bind('click',function(){ next() });	
 	$('.prev').bind('click',function(){ prev() });
 	var toNext=setInterval(next,3000);
-},500)
+},500)*/
 	
 
 

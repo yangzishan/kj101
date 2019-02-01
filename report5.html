@@ -89,11 +89,11 @@
 			</div>
     		<div class="lev">{{state.abnormalLevel}}</div>
     		<span class="sta fr" v-if="state.abnormalLevel == 0 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
-    		<span class="sta fr" v-else-if="state.abnormalLevel == 1 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
-    		<span class="sta fr" v-else-if="state.abnormalLevel == 2 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
-    		<span class="sta fr" v-else-if="state.abnormalLevel == 3 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
-    		<span class="sta fr" v-else-if="state.abnormalLevel == 4 && !state.analysisResults"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
-    		<span class="sta fr" v-else-if="state.abnormalLevel == 5 && !state.analysisResults"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 1 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 2 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 3 && !state.analysisResults"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 4 && !state.analysisResults"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 5 && !state.analysisResults"><i></i><i></i><i></i><i></i><i></i></span>
     		<span class="sta fr" v-else-if="state.abnormalLevel == 0 && state.analysisResults" style="padding: 0;">
     			<em style="font-size: .32rem; line-height: .8rem;">{{state.analysisResults}}</em>
     		</span>

@@ -1,4 +1,4 @@
-alert(window.location.href);
+//alert(window.location.href);
 var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var customerId = getQueryString('customerId');
@@ -45,11 +45,11 @@ setupWebViewJavascriptBridge(function(bridge) { // 注册JS方法供OC调用
 		var reportType = obj.reportType;
 		
 		//alert(dataUrl);
-		alert(reportId+'--'+sendCustomerId+'--'+customerId+'--'+clientType+'--'+reportType);
+		//alert(reportId+'--'+sendCustomerId+'--'+customerId+'--'+clientType+'--'+reportType);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
-		if (customerId) {
+		if(customerId) {
 			setTimeout(function(){
-				analysisReportFace(reportId,'',customerId,'')
+				analysisReportFace(reportId,sendCustomerId,customerId,'')
 			},500)
 		}	
 	})

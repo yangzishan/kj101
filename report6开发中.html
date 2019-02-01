@@ -292,178 +292,31 @@
 		</div>
 		<!--健康状态表-->
 		<ul>
-			<!-- 营养状态 -->
-			<li class="condition" @click="goAdvise(data[4].targetId,data[4].score,data[4].childTarget)">
+			<li class="condition" v-for="item in data" v-if="item.targetId >= 1005 && item.targetId <=1011">
 				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[4].score > 80" class="img"><img src="./images/icon1005.png" /></div>
+				<div v-show="item.score > 80" class="img"><img :src="'./images/icon'+item.targetId+'.png'" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[4].score" class="img"><img src="./images/icon1005-1.png" /></div>
+				<div v-show="80 >= item.score" class="img"><img :src="'./images/icon'+item.targetId+'-1.png'" /></div>
 				<div class="txt">
 					<p class="title">
 						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[4].score > 80">{{data[4].targetName}}</span>
+						<span v-show="item.score > 80">{{item.targetName}}</span>
 						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[4].score" class="yello">{{data[4].targetName}}</span>
-						<span class="explain" @click.stop="listG()"><img src="./images/explain.png"><span>
+						<span v-show="80 >= item.score" class="yello">{{item.targetName}}</span>
+						<span class="explain" @click="listG()"><img src="./images/explain.png"><span>
 					</p>
-					<p class="declare">{{data[4].hintName}}</p>
+					<p class="declare">{{item.hintName}}</p>
 				</div>
-				<div v-show="data[4].score >= 70" class="amount" :class="{'yello-img': 80 >= data[4].score}">
+				<div v-show="item.score >= 70" class="amount" :class="{'yello-img': 80 >= item.score}">
 					<div class="active">
-						<p :style="'height:'+data[4].score +'%;'" :class="{'yello-color': 80 >= data[4].score}"></p>
+						<p :style="'height:'+item.score +'%;'" :class="{'yello-color': 80 >= item.score}"></p>
 					</div>
 				</div>
-				<div v-show="70 >= data[4].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupG" @click.stop="shade"><div class="popup">{{data[4].explain}}</div></div>
+				<div v-show="70 >= item.score" class="amount-yello"></div>
+				<div class="shade" v-show="popupG" @click="shade"><div class="popup">{{item.explain}}</div></div>
 			</li>
-			<!-- 免疫能力 -->
-			<li class="condition" @click="goAdvise(data[5].targetId,data[5].score,data[5].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[5].score > 80" class="img"><img src="./images/icon1006.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[5].score" class="img"><img src="./images/icon1006-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[5].score > 80">{{data[5].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[5].score" class="yello">{{data[5].targetName}}</span>
-						<span class="explain" @click.stop="listH()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[5].hintName}}</p>
-				</div>
-				<div v-show="data[5].score >= 70" class="amount" :class="{'yello-img': 80 >= data[5].score}">
-					<div class="active">
-						<p :style="'height:'+data[5].score +'%;'" :class="{'yello-color': 80 >= data[5].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[5].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupH" @click.stop="shade"><div class="popup">{{data[5].explain}}</div></div>
-			</li>
-			<!-- 消化能力 -->
-			<li class="condition" @click="goAdvise(data[6].targetId,data[6].score,data[6].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[6].score > 80" class="img"><img src="./images/icon1007.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[6].score" class="img"><img src="./images/icon1007-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[6].score > 80">{{data[6].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[6].score" class="yello">{{data[6].targetName}}</span>
-						<span class="explain" @click.stop="listI()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[6].hintName}}</p>
-				</div>
-				<div v-show="data[6].score >= 70" class="amount" :class="{'yello-img': 80 >= data[6].score}">
-					<div class="active">
-						<p :style="'height:'+data[6].score +'%;'" :class="{'yello-color': 80 >= data[6].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[6].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupI" @click.stop="shade"><div class="popup">{{data[6].explain}}</div></div>
-			</li>
-			<!-- 吸收能力 -->
-			<li class="condition" @click="goAdvise(data[7].targetId,data[7].score,data[7].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[7].score > 80" class="img"><img src="./images/icon1008.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[7].score" class="img"><img src="./images/icon1008-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[7].score > 80">{{data[7].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[7].score" class="yello">{{data[7].targetName}}</span>
-						<span class="explain" @click.stop="listJ()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[7].hintName}}</p>
-				</div>
-				<div v-show="data[7].score >= 70" class="amount" :class="{'yello-img': 80 >= data[7].score}">
-					<div class="active">
-						<p :style="'height:'+data[7].score +'%;'" :class="{'yello-color': 80 >= data[7].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[7].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupJ" @click.stop="shade"><div class="popup">{{data[7].explain}}</div></div>
-			</li>
-			<!-- 代谢能力 -->
-			<li class="condition" @click="goAdvise(data[8].targetId,data[8].score,data[8].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[8].score > 80" class="img"><img src="./images/icon1009.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[8].score" class="img"><img src="./images/icon1009-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[8].score > 80">{{data[8].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[8].score" class="yello">{{data[8].targetName}}</span>
-						<span class="explain" @click.stop="listK()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[8].hintName}}</p>
-				</div>
-				<div v-show="data[8].score >= 70" class="amount" :class="{'yello-img': 80 >= data[8].score}">
-					<div class="active">
-						<p :style="'height:'+data[8].score +'%;'" :class="{'yello-color': 80 >= data[8].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[8].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupK" @click.stop="shade"><div class="popup">{{data[8].explain}}</div></div>
-			</li>
-			<!-- 男性功能 -->
-			<li v-if="sex == 1" class="condition" @click="goAdvise(data[9].targetId,data[9].score,data[9].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[9].score > 80" class="img"><img src="./images/icon1010.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[9].score" class="img"><img src="./images/icon1010-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[9].score > 80">{{data[9].targetName}}</span>
-						<span v-show="data[9].score > 80" class="ln"><img src="./images/ln2.png"></span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[9].score" class="yello">{{data[9].targetName}}</span>
-						<span v-show="80 >= data[9].score" class="ln"><img src="./images/ln.png"></span>
-						<span class="explain" @click.stop="listL()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[9].hintName}}</p>
-				</div>
-				<div v-show="data[9].score >= 70" class="amount" :class="{'yello-img': 80 >= data[9].score}">
-					<div class="active">
-						<p :style="'height:'+data[9].score +'%;'" :class="{'yello-color': 80 >= data[9].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[9].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{data[9].explain}}</div></div>
-			</li>
-			<!-- 女性功能 -->
-			<li v-if="sex != 1" class="condition"  @click="goAdvise(data[10].targetId,data[10].score,data[10].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[10].score > 80" class="img"><img src="./images/icon1011.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[10].score" class="img"><img src="./images/icon1011-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[10].score > 80">{{data[10].targetName}}</span>
-						<span v-show="data[10].score > 80" class="ln"><img src="./images/hg2.png"></span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[10].score" class="yello">{{data[10].targetName}}</span>
-						<span v-show="80 >= data[10].score" class="ln"><img src="./images/hg.png"></span>
-						<span class="explain" @click.stop="listL()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[10].hintName}}</p>
-				</div>
-				<div v-show="data[10].score >= 70" class="amount" :class="{'yello-img': 80 >= data[10].score}">
-					<div class="active">
-						<p :style="'height:'+data[10].score +'%;'" :class="{'yello-color': 80 >= data[10].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[10].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{data[10].explain}}</div></div>
-			</li>
+			
+			
 		</ul>
 		<!--皮肤评估-->
 		<div class="skin">

@@ -857,12 +857,18 @@
 .tc-spcd .hlul li span{}
 
 /*=3.0报告二级建议页=*/
-.bid-li{}
+.bid_det{padding: 0 .3rem;}
+.bid-li{padding: .2rem 0;}
 .bid-li .li-name{ line-height: .68rem; line-height: .68rem;}
 .bid-li .li-name .ico{ display: inline-block; vertical-align: top; width: .44rem; height: .68rem; background: url(../img/bidt.png) no-repeat center; background-size:.42rem .44rem;}
-.bid-li .li-name .name{ font-size: .33rem; color: #4ba59e;}
-.bid-li .b-tit{}
-.bid-li .b-tit .don{ width: .12rem; height: .12rem; background: #30c6bf; border-radius: 50%;}
+.bid-li .li-name .name{ margin-left: .2rem; font-size: .33rem; color: #4ba59e;}
+.bid-li .b-tit{ line-height: .52rem;}
+.bid-li .b-tit .don{display: inline-block; vertical-align: top; margin: .2rem .12rem 0 0; width: .12rem; height: .12rem; background: #30c6bf; border-radius: 50%;}
 .bid-li .b-tit .lab{ color: #30c6bf; font-size: .3rem;}
-.item_ad{}
+
+.bid-li .ctxt{ line-height: .5rem; font-size: .28rem;}
+.bid-li .advise_c{ font-size: .28rem;}
+.bid-li .name-t{ font-weight: bold; line-height: .6rem;}
+.advise_c .t-tip{ line-height: .5rem; color: #000000;}
+.advise_c .t-tip .arr{ width: .5rem; height: .5rem; background: url(../img/arr-d.png) no-repeat center; background-size:.29rem .29rem;}
 

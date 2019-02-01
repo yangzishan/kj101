@@ -101,7 +101,7 @@ new Vue({
 						if(_this.data[3].score== null){
 							_this.data[3].score = 0
 						}
-						// 风险等级转的度数 现在是从低到高
+						// 风险等级转的度数
 						if(_this.totalScore >= 95){
 							var _deg = 110
 						}else if(_this.totalScore <=  94&& _this.totalScore >= 90){
@@ -328,6 +328,16 @@ new Vue({
 				)
 			}	
 		},
+		goAdvise: function(targetId,score,arr){ //跳二级页
+			console.log(targetId);
+			console.log(arr);
+			for(var i=0;arr.length>i;i++ ){
+				if(arr[i].score<90){
+					
+					location.href = 'advise.html?reportId='+reportId+'&targetId='+targetId
+				}
+			}	
+		},
 		wheelsort: function(deviceSn,reportId){ //广告接口
 			var vm = this;
 			$.ajax({
@@ -342,7 +352,11 @@ new Vue({
 				success: function(res){
 					if(res.code == 200){
 						vm.banData = res.data;
-						banSlide(res.data.length);
+						if(res.data.length == 0){
+							$('.ban_gg').remove()
+						}else{
+							banSlide(res.data.length);
+						}
 					}
 				},
 				error: function(){console.log('wheelsort error')}

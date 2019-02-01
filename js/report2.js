@@ -350,6 +350,9 @@ var myApp = new Vue({
 					if(res.code == 200){
 						vm.banData = res.data;
 						banSlide(res.data.length);
+						if(res.data.length == 0){
+							$('.ban_gg').remove()
+						}
 					}
 				},
 				error: function(){console.log('wheelsort error')}
