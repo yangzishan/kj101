@@ -37,6 +37,9 @@ switch (saasId)
 	case '217094': //湖南力菲
 	  	dataUrl='http://lf.jiankangzhan.com';
 	  	break;
+	case '217806': //康浩科技
+	  	dataUrl='http://kh.jiankangzhan.com';
+	  	break;
 	default:
 		alert('saasId='+saasId);
 	  	dataUrl='http://wx.jiankangzhan.com';  

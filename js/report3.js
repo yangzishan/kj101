@@ -98,6 +98,7 @@ new Vue({
 						_this.headimgurl = data.result.headimgurl
 						_this.inspectDate = data.result.inspectDate
 						_this.deviceSnNum = data.result.deviceSnNum
+						$('.header-img').remove();  //删除头像
 						if(_this.data[3].score== null){
 							_this.data[3].score = 0
 						}

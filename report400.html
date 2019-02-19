@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告4.0</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<DIV class="my_view">
+<div id="report4" class="report4" v-cloak>
+	<section v-for="item in parentList" v-if="item.targetId == 'total_score'">
+		<p class="btit"><span class="lab">健康活力</span><i class="pop" @click="pop($event,item)">{{item.inspectContent}}</i></p>
+		<div class="vitality" :class="{bg1:item.score >= 90,bg2:item.score < 90 && item.score >= 80,bg3:item.score < 80}">
+			<p class="score"><b>{{item.score}}</b>分</p>
+			<p class="lev">{{item.xtbmName}}</p>
+		</div>
+	</section>
+	
+	<ul class="state">
+		<li class="s_li" v-for="item in parentList" v-if="item.targetId == 'A1004' || item.targetId == 'A1005' || item.targetId == 'A1007'" :class="item.targetId" @click="goSecond($event,item)">
+			<div class="call"><i><img :src="'img/4.0/'+item.targetId+'.png'"></i><span>{{item.inspectName}}</span></div>
+			<p class="res">{{item.xtbmName}}</p>
+		</li>
+		
+	</ul>
+	<section v-for="item in parentList" v-if="item.targetId == 'A1001'">
+		<p class="btit"><span class="lab">体型</span><i class="pop" @click="pop($event,item)">{{item.inspectContent}}</i></p>
+		<div class="shape" :class="{bg1:item.score<18.5,bg2:item.score>=18.5 && item.score<24,bg3:item.score>=24 && item.score<28,bg4:item.score>=28}">
+			<div class="bmibox">
+				<p class="v_num">BMI={{item.score}}</p>
+				<p>{{item.xtbmName}}</p>
+			</div>
+			<p class="tip">{{item.xtbmContent}}</p>
+		</div>
+	</section>
+		
+	<ul class="state">
+		<li class="s_li" v-for="item in parentList" v-if="item.targetId == 'A1006' || item.targetId == 'A1008' || item.targetId == 'A1009'" :class="item.targetId" @click="goSecond($event,item)">
+			<div class="call"><i><img :src="'img/4.0/'+item.targetId+'.png'"></i><span>{{item.inspectName}}</span></div>
+			<p class="res">{{item.xtbmName}}</p>
+		</li>
+	</ul>
+	<section v-for="item in parentList" v-if="item.targetId == 'A1002'">
+		<p class="btit"><span class="lab">心情</span><i class="pop" @click="pop($event,item)">{{item.inspectContent}}</i></p>
+		<div class="mood" :class="{bg1:item.abLive >= 4,bg2:item.abLive == 3,bg3: item.abLive <3}">
+			<p class="sta">{{item.xtbmName}}</p>
+			<p class="tip">{{item.xtbmContent}}</p>
+		</div>
+	</section>
+		
+	<ul class="state">
+		<li class="s_li" v-for="item in parentList" v-if="item.targetId == 'A1003' || item.targetId == 'A1010' || item.targetId == 'A1011'" :class="item.targetId" @click="goSecond($event,item)">
+			<div class="call"><i><img :src="'img/4.0/'+item.targetId+'.png'"></i><span>{{item.inspectName}}</span></div>
+			<p class="res">{{item.xtbmName}}</p>
+		</li>
+	</ul>
+</div>
+</DIV>
+
+<div class="v_overlay"></div>
+<div class="v_overlert">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit" style="text-align: center; font-weight: bold;"></p>
+		<div class="bxt" style="text-align: left;"></div>
+	</div>
+</div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<!--<script>document.write('<script src="js/report120.js?t=' + new Date().getTime() + '"><\/script>')</script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+// 获取url参数方法
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+var reportId = getQueryString('reportId');
+var customerId = getQueryString('userId');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+/*var reportId = "KJ104IS0013414C19021510474523127";
+var customerId = 3820522;*/
+var edition = 400;
+var myApp = new Vue({
+	el:'#report4',
+	data: function(){
+		return {
+			reportId:reportId,
+			customerId: customerId,
+			sex:'',
+			age:'',
+			inspectDateStr:'',
+			parentList:'', //各个指标集合
+		}
+	},
+	methods: {
+		queryV4Report: function (){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:analysisreport+"/v4/reportData/queryV4Report",
+				async:true,
+				dataType:'json',
+				data:{
+					reportId: reportId,
+					customerId: customerId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.sex = res.result.sex
+						vm.age = res.result.age
+						vm.inspectDateStr = res.result.inspectDateStr
+						vm.parentList = res.result.parentList 
+						$('.load-overlay').css("display","none");
+						$('.my_view').css("visibility","visible");
+					}else if(res.code == 201){
+						vm.participate(res.paymentType,res.sameUser)
+					}else{
+						alert('queryV4Report code='+res.code)
+					}
+					
+				},
+				error: function(){alert('queryV4Report error')}
+			});
+		},
+		//点击查看二级页面
+		goSecond: function(e,item){
+			var vm = this;
+			location.href = 'category.html?reportId='+reportId+'&targetId='+item.targetId
+		},
+		//解释弹框
+		pop: function(e,item){
+			var vm = this;
+			$('.v_overlert .tc_sy .bit').text(item.inspectName);
+			$('.v_overlert .tc_sy .bxt').text(item.inspectContent);
+			showMask();
+		},
+		//判断支付页面
+		participate: function(paymentType,sameUser){
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType
+			/*if(paymentType == 3){
+				location.href="pay_byuser.html"+payStr
+			}else if(paymentType == 4){
+				location.href="pay_type4.html"+payStr
+			}else if(paymentType == 2){
+				location.href="pay_coupon.html"+payStr
+			}else{
+				location.href="payfor.html"+payStr
+			}*/
+			location.href="pay_type4.html"+payStr
+		},
+	},
+	mounted: function(){
+		this.queryV4Report();
+	}
+	
+});
+//弹窗
+var _bodyoffset = '';
+function showMask(){
+	_bodyoffset = $(window).scrollTop();
+	$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
+	$("body").css("overflow","hidden");
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	$('.v_overlert').css({"visibility":"visible","opacity":"1"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$("body").css("overflow","auto");
+		$("body").css("position","static");
+		$(window).scrollTop(_bodyoffset);
+	});
+};	
+</script>
+</body>
+</html>

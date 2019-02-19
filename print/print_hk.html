@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/print_hk.css">
+</head>
+<body>
+<div id="app">
+    <div class="title">
+        <img src="./img/title.png" alt="">
+        <h1>航康亚健康评估报告</h1><span>编码：<i></i></span>
+    </div>
+    <div class="details">
+        <div class="line">
+            <!--<div class="num">个人编号：<span v-cloak>{{tree.reportView.titleSex}}</span></div>-->
+            <div class="num">个人编号：<span v-cloak>{{userCode}}</span></div>
+            <div class="sex">性别：<span v-cloak>{{tree.reportView.sex == 1 ? '男' : '女'}}</span></div>
+            <div class="age">年龄：<span v-cloak>{{tree.reportView.age}}</span></div>
+            <div class="date">检测日期：<span v-cloak>{{tree.reportView.inspectDateStr.split(' ')[0]}}</span></div>
+        </div>
+        <p class="beg">整体健康评估</p>
+        <div class="thead">
+            <span class="fen">总分：<i v-text="tree.reportView.totalScore"></i></span>
+            <span class="percentage">综合得分好于&nbsp;&nbsp;<i v-cloak>{{tree.reportView.ranking}}</i>%&nbsp;&nbsp;的人(航康系统近&nbsp;&nbsp;<em v-cloak>60</em>&nbsp;&nbsp;天排名)</span>
+        </div>
+    </div>
+    <div class="tit-b">评估报告</div>
+
+
+    <div class="txt-c">
+        <div class="sstxt">
+            1、本次评估结果身体状况<em class="sta" id="bodySta" v-cloak>{{proposal.ps}}</em>
+            <span class="srhAge">，生理年龄评估为<em class="sta" v-cloak>{{proposal.age}}</em>岁</span>
+            <span class="srhRank">，整体状况较同年龄段好于<em class="sta" v-cloak>{{proposal.ranking}}%</em>的人</span>；
+            <p class="noSeg" id="segTwo">
+                2、本次检测您在<span id="list4" class="list4" v-cloak>{{proposal.abnormal.list4}}</span>为中度异常，<span id="list3" class="list3" v-cloak>{{proposal.abnormal.list2}}</span>项为轻度异常。
+                希望能够引起关注；
+            </p>
+            <p class="noSeg">
+                3、<span id="tipmsg">根据您本次检测结果，给专属健康建议重点解决</span><span id="listAb" v-cloak>{{proposal.abnormal.list4}}</span><span class="buchong">指标的问题；</span>
+            </p>
+        </div>
+    </div>
+   
+
+    <div class="tit-b">详细指标评估结果</div>
+    <div class="xxzb_c" v-for="(item,index) in tree.reportView.firsts">
+        <p class="c_tit"><span v-cloak>{{item.targetName}}</span><span class="iscore">{{item.score}}</span><span v-cloak :style="'color:' + (item.score >= 90 ? '#000' :  item.score >= 80 ? '#ffcb00' : '#ed2222' )">{{item.score >= 90 ? '正常' :  item.score >= 80 ? '轻度风险' : '中度度风险'}}</span></p>
+        <div class="c_con" v-for="(i,o) in item.seconds">
+            <div class="second" >
+                <span class="">
+                    <em v-cloak>{{i.targetName}}</em>
+                    <em class="iscore" v-cloak>{{i.score}}</em>
+                    <em v-cloak :style="'color:' + (i.score >= 90 ? '#000' :  i.score >= 80 ? '#ffcb00' : '#ed2222') ">{{i.score >= 90 ? '正常' :  i.score >= 80 ? '轻度风险' : '中度度风险'}}</em></span>
+            </div>
+            <p class="third">
+                <span class="ite"  v-for="(v,b) in i.thirds">
+                    <em v-cloak>{{v.targetName}}</em>
+                    <em class="iscore" v-cloak>{{v.score}}</em>
+                    <em v-cloak :style="'color:' + (v.score >= 90 ? '#000' :  v.score >= 80 ? '#ffcb00' : '#ed2222' )">{{v.score >= 90 ? '正常' :  v.score >= 80 ? '偏高' : '偏低'}}</em>
+                </span>
+            </p>
+        </div>
+    </div>
+    <div class="tit-b">实时状态评估</div>
+    <div class="sta_1">
+        <p class="plin" v-for="(item,index) in tree.reportView.conditions" v-if="item.targetId != 3232">
+            <label v-cloak>{{item.targetName}}</label>
+            <span class="sst" :style="'width:'+ (.85 - item.abnormalLevel * .15)+'rem;'"><img src="./img/star.png"><img src="./img/star.png"><img src="./img/star.png"><img src="./img/star.png"><img src="./img/star.png"></span>
+        </p>
+    </div>
+    <!-- 表 -->
+    <div class="tit-b" style="margin-top:1rem;">十大系统变化趋势</div>
+    <div class="biaobiao">
+        
+    </div>
+    
+    <div class="tit-b">指标改善状况分析</div>
+
+    <div class="like_table">
+        <div class="th bor borRight">已改善指标</div>
+        <div class="t_time">
+            <div class="name_h bor">指标名称</div>
+            <div class="name_b bor"><span>上次状况</span><span class="time">（2018-11-22）</span></div>
+            <div class="name_e bor borRight"><span>当前状况</span><span class="time">（2018-11-22）</span></div>
+        </div>
+        <div class="t_title"  v-for="(item,index) in change.okImproves">
+            <div class="name_t bor" v-cloak>{{item.tagetName}}</div>
+            <div class="title_t bor" v-cloak>{{item.lastLevel == 1 ? '正常' : item.lastLevel == 2 ? '轻度风险' : '中度风险'}}</div>
+            <div class="title_e bor borRight" v-cloak>{{item.currentLevel == 1 ? '正常' : item.currentLevel == 2 ? '轻度风险' : '中度风险'}}</div>
+        </div>
+
+        <div class="th bor borRight">未改善指标</div>
+        <div class="t_time">
+            <div class="name_h bor">指标名称</div>
+            <div class="name_b bor"><span>上次状况</span><span class="time">（2018-11-22）</span></div>
+            <div class="name_e bor borRight"><span>当前状况</span><span class="time">（2018-11-22）</span></div>
+        </div>
+        <div class="t_title" v-for="(item,index) in change.noImproves">
+            <div class="name_t bor" v-cloak>{{item.tagetName}}</div>
+            <div class="title_t bor" v-cloak>{{item.lastLevel == 1 ? '正常' : item.lastLevel == 2 ? '轻度风险' : '中度风险'}}</div>
+            <div class="title_e bor borRight" v-cloak>{{item.currentLevel == 1 ? '正常' : item.currentLevel == 2 ? '轻度风险' : '中度风险'}}</div>
+        </div>
+       
+
+        <div class="th bor borRight" v-if="flag">新增异常指标</div>
+        <div class="t_time"  v-if="flag">
+            <div class="name_h bor" >指标名称</div>
+            <div class="name_b bor" ><span>上次状况</span><span class="time">（2018-11-22）</span></div>
+            <div class="name_e bor borRight" ><span>当前状况</span><span class="time">（2018-11-22）</span></div>
+        </div>
+        <div class="t_title"  v-if="flag" v-for="(item,index) in changeFlag">
+            <div class="name_t bor" v-cloak>{{item.tagetName}}</div>
+            <div class="title_t bor" v-cloak>{{item.lastLevel == 1 ? '正常' : item.lastLevel == 2 ? '轻度风险' : '中度风险'}}</div>
+            <div class="title_e bor borRight" v-cloak>{{item.currentLevel == 1 ? '正常' : item.currentLevel == 2 ? '轻度风险' : '中度风险'}}</div>
+        </div>
+     
+    </div>
+
+    <!-- 建议 -->
+    <div class="tit-b">健康建议</div>
+        <div class="jk_sug">
+            <p class="btit">膳食建议</p>
+            <p class="ztit">
+                航康膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
+                肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+            </p>
+            <div class="box_c" v-for="(item,index) in proposal.healthAdviceVo.dietList">
+                <span class="lab" v-cloak>{{proNum[index] +item.indexName}}</span>
+                <div class="con">
+                    <p class="txt1" v-cloak>{{item.personality}}</p>
+                    <p class="txt2" v-html=" repp(item.proposal)"></p>
+                </div>
+            </div>
+        </div>
+        <div class="jk_sug">
+            <p class="btit">营养建议</p>
+            <p class="ztit">
+                航康膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
+                肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+            </p>
+            <div class="box_c" v-for="(item,index) in proposal.healthAdviceVo.nutritionList">
+                <span class="lab" v-cloak>{{proNum[index] +item.indexName}}</span>
+                <div class="con">
+                    <p class="txt1" v-cloak >{{item.personality}}</p>
+                    <p class="txt2"></p>
+                </div>
+            </div>
+        </div>
+        <div class="jk_sug">
+            <p class="btit">运动建议</p>
+            <p class="ztit">
+                航康运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。<br>
+                高岭娣　首都医科大学卫生与教育管理学院体育学系主任/副教授<br/>
+                潘晓明　中医博士、北京大学医学部研究中心学术部副主任、深圳市中医药健康服务协会副会长；<br/>
+            </p>
+            <div class="box_c" v-for="(item,index) in proposal.healthAdviceVo.motionList">
+                <div class="con">
+                    <p class="txt1" v-html="index+1+'.' + repp(item.personality)"></p>
+                </div>
+            </div>
+        </div>
+        <p class="bgtip">基于本次对健康评估建议您于<span id="sugDay">15</span>天后再次进行检测，以便能够连续跟踪健康情况。</p>
+        <div class="wxtip">
+            温馨提示：1、航康亚健康智能评估仪是为亚健康人群设计，相关指标依据三大人体数据采集系统（人体光谱波、人体生物电、人体脉搏波）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。2、是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。3、推送的内容，数据指标、运动调理、健康食谱、健康设备、调养方法等均作为个人健康管理所需的参考，不作为处方。
+        </div>
+
+</div>
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>
+$(function(){
+    var reportId = getQueryString("reportId");
+    var viewType = getQueryString("viewType");
+    var go = 0;
+	function goPrint(n){
+		if(n == 4){
+			window.print();
+		}
+	};
+    if(viewType == 2){
+    	go = 10 //随便给个数 不让调用打印
+    }
+    var userCode = getQueryString("userCode");
+    //var reportId = 'KJ104IS0014964C181209110964509';
+    
+    
+    Vue.prototype.repp = function(value){
+       try{
+        return value.replace(/\n/g,'<br>');
+       }catch(err){
+       }
+    }
+    new Vue({
+        el:'#app',
+        data:{
+        	userCode:userCode,
+            bNum:0,
+            matching:{
+                '3087':'循环系统',
+                '3095':'消化系统',
+                '3108':'呼吸系统',
+                '3115':'内分泌',
+                '3127':'骨骼系统',
+                '3135':'免疫系统',
+                '3143':'生殖系统',
+                '3163':'营养状态',
+                '3195':'有害物质',
+                '3244':'皮肤系统'
+            },
+            proNum:['一、','二、','三、','四、','五、','六、','七、','八、','九、','十、','十一、','十二、','十三、','十四、','十五','十六、','十七、','十八、'],
+            //biaoListDate:'',
+            //biaoListSocre:'',
+            proposal:{
+                abnormal:{
+                    list1:'',
+                    list2:'',
+                    list3:'',
+                    list4:''
+                },
+                healthAdviceVo:{
+                        dietList:['/n'],
+                        nutritionList:['/n'],
+                        proposal:['/n'],
+                        motionList:['/n']
+                }
+            },
+            tree:{
+                reportView:{
+                    "inspectId": reportId,
+                    "userId": 184,
+                    "totalScore": 87,
+                    "ranking": 45,
+                    "inspectDate": 1544326376036,
+                    "inspectDateStr": "2018-12-09 11:32:56",
+                    "age": 19,
+                    "inspectType": 120,
+                    "isCharge": 2,
+                    "agentId": "189723",
+                    "reportType": 120,
+                    "improves": [],
+                    "firsts": [],
+                    sex:1,
+                    conditions:[]
+                },
+                firsts:[],
+            },
+            change:{
+                noImproves:[{
+                    currentLevel:'',
+                    lastLevel:'',
+                    score:'',
+                    tagetName:'',
+                    targetId:'',
+                    newAdd:0
+                }] ,
+                okImproves:[]
+            },
+            changeFlag:[],
+            flag:true
+
+        },
+        mounted:function(){
+			this.getReportPrint(reportId);
+			this.getSuggest(reportId);
+            $('#app .sta_1:first').css({'border-top':'2px solid #333'});  
+            setTimeout(function(){
+                $('#app .jk_sug:last').css({'margin-bottom':'0'})
+            })     
+        },
+        methods:{
+        	//首页打印
+        	getReportPrint: function(reportId){
+        		var that = this;
+        		$.ajax({
+                    type:'POST',
+                    url:dataUrl + '/api/v1/printReport/getReportPrint',
+                    data:{
+                        reportId:reportId
+                    },
+                    success:function(res){
+                        that.tree = res.data;
+                        that.userCode = (userCode?userCode:res.data.reportView.titleSex);
+                        document.title = that.userCode;
+                        that.targetImprove(reportId,res.data.reportView.userId);
+                        that.trendPrint(res.data.reportView.userId)
+                        go++;
+                        goPrint(go);
+                    }
+               });
+        	},
+        	//指标改善
+        	targetImprove : function(reportId,userId){
+        		var that = this;
+        		$.ajax({
+                    type:'POST',
+                    url:dataUrl + '/api/v2/reportIndex/targetImprove',
+                    data:{
+                        reportId:reportId,
+                        userId:userId
+                    },
+                    success:function(res){
+                        that.change = res.data;
+                        $.each(that.change.noImproves,function(index,item){
+                            if(res.data.noImproves[0].newAdd > 0){
+                                that.changeFlag =  that.changeFlag.concat(that.change.noImproves.splice(index,1))
+                            }
+                        })
+                        that.flag = !!that.changeFlag.length
+                        go++;
+                        goPrint(go);
+                    }
+                })
+        	},
+        	//建议
+        	getSuggest: function(reportId){
+        		var that = this;
+        		$.ajax({
+                    type:'POST',
+                    url:dataUrl+'/api/v1/reportIndex/getSuggest',
+                    data:{
+                        reportId:reportId
+                    },
+                    success:function(res){
+                        console.log(res)
+                        that.proposal = res.data;
+                        that.proposal.abnormal.list4 = that.proposal.abnormal.list4.join('、') +'、'+ that.proposal.abnormal.list3.join('、');
+                        that.proposal.abnormal.list2 = that.proposal.abnormal.list2.length;
+						go++;
+						goPrint(go);
+                    }
+                })
+        	},
+        	//系统图
+        	trendPrint: function(customerId){
+        		var that = this;
+        		$.ajax({
+                    type:'POST',
+                    url: dataUrl + '/api/v1/printReport/trendPrint',
+                    data:{
+                        'customerId' : customerId
+                    },
+                    success:function(res){
+                        var arr = [];
+                        var brr = [];
+                        $.each(res.data,function(index,item){
+                            that.biaoList = [];
+                            arr = [];
+                            brr = [];
+                                $.each(item,function(i,o){
+                                    arr.push(o['inspectDateStr'].replace('2018-','').replace(/\-/g,'/'));
+                                    brr.push(o['score']);
+                                })  
+                            that.biaoList.push(that.matching[index])
+                            arr[0] ='2018/' + arr[0];
+                            that.init(arr,brr,that.biaoList);   
+                            // console.log($('.b_ming').eq(5))
+
+                        })  
+                        go++;
+                        goPrint(go);
+                    }
+                });
+        	},
+
+            init:  function(arr,brr,srr){
+                var that = this;
+                $('.biaobiao').append($('<div class="b_b" style="position: relative;top:.4rem;text-align: center;font-weight: 900;">'+srr+'</div><div class="b_ming" id="echa'+this.bNum+'" style="width:750px;height:250px;position: relative;left:-48px;"></div>'))
+                var mycahr = echarts.init(document.querySelector('#echa'+this.bNum));
+                //alert('#echa'+this.bNum)
+                var option = {
+                        title: {
+                        },
+                        tooltip: {},
+                       
+                        xAxis: {
+                            data:arr ,
+                            axisLabel:{interval:0,},
+                            type:'category',
+                            scale:true
+                            // boundaryGap:['20%']
+                        },
+                        legend:{
+                            left:1000
+                        },
+                        yAxis: {
+                            type: 'value',
+                            scale:true,
+                            max:100,
+                            min:60
+                        },
+                        series: [{
+                            type: 'line',
+                            data: brr,
+                            itemStyle:{
+                                normal: {
+                                    label : {show: true},
+                                    color:'#52c300',
+                                }
+                            },
+                            symbol:'circle',
+                            symbolSize: 10
+                        }],
+                    }
+                mycahr.setOption(option);
+                this.bNum++;
+            }
+        }
+    });
+    //截取URL
+	function getQueryString(name) {
+	    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+	    if (result == null || result.length < 1) {
+	        return "";
+	    }
+	    return result[1];
+	};
+});
+   
+    
+</script>
+</body>
+</html>
+

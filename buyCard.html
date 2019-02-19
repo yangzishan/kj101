@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>我的年卡</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body class="bck-col-fff">
+
+<section class="my_view">
+<!--<header class="header">
+	<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+	<a class="t-right fr" href=""></a>
+	<p class="t-cen txt1"><span>我的年卡</span></p>
+</header>-->	
+<div class="tjk_v" id="appVUE">
+	<a class="g-tyk" v-for="card in cards" :href="card.password|getRecordHref">
+		<div class="tyk_x">
+			<em class="mask">已绑定</em>
+			<p class="tit"><span class="nam">VIP</span><span class="nam_lit">(年)</span></p>
+			<p class="tnum">卡号 <span>{{card.password}}</span></p>
+			<input class="kaNo" type="hidden" :value="card.password" />
+			<p class="remainder">剩余<span class="sxValue">{{card.value}}</span>次</p>
+			<p class="date">有效期至 <span class="sxDate">{{card.endTime}}</span></p>
+			<i class="sel"></i>
+			<input type="radio" />
+		</div>
+	</a>
+	<div class="tyk-fix"><a class="tyk-btn" id="goBind" href="addTycard.html">立即购买</a></div>
+</div>	
+
+<div class="cardIntro">
+	<p class="tit">一、年卡VIP会给您带来？</p>
+	<div class="txt">
+		1. 年度健康筛查12次，每月关注健康变化；<br/> 
+		2. 建立专属健康档案，健康趋势分析跟踪；<br/>
+		3. 专业的膳食和运动调理建议。<br/>
+	</div>
+	<p class="tit">二、年卡VIP会给您带来？</p>
+	<div class="txt">
+		1. 订单支付成功后，您将获得12次VIP健康筛查服务，年卡有效期为1年，自您支付日期起开始生效；<br/>
+		2. 年卡支付后，后续健康筛查、报告查看、档案建立和健康数据分析等均不收取任何费用； <br/>
+		3. 因个人健康档案建立后，每月会形成健康趋势分析，建议您个人使用，不要转他人使用，以免影响您的健康档案精确性。<br/>
+	</div>
+</div>
+
+</section>
+
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+
+</body>
+</html>

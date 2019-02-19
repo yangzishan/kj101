@@ -115,7 +115,7 @@ var myApp = new Vue({
 					  	_this.userIdstr = toThousands(packageData.data.infoView.userId)
 					  	_this.isFree = packageData.data.infoView.isFree
 					  	_this.snNum = packageData.data.snNum
-					  	_this.orderNum = packageData.data.orderNum ? packageData.data.orderNum:'15392504132771282'
+					  	_this.orderNum = packageData.data.orderNum
 					  	_this.userState = packageData.data.userState
 					  	_this.doctor = [
 					  		{
@@ -206,14 +206,15 @@ var myApp = new Vue({
 								$('.pay-x-fix .oprice').html('新用户首次免费');$('#pay .sub').html('查看');
 							};
 							//sameUser 1/2 是否显示卡支付 代付提醒
-							if(_this.sameUser == 2){
+							/*if(_this.sameUser == 2){
 								$('#kaPay').css("display","none");
 								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 								$('.daifu_d').css("display","block");
 							}else{
 								_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡
-							};
+							};*/
 							
+							_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡
 							_this.getPayChannel(_this.snNum) //查询支付通道  公众号用
 
 							//关闭 选择方式

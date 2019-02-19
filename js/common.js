@@ -10,7 +10,8 @@ console.log(reportId);
 console.log(openId);
 console.log(customerId);
 if(openId){
-	analysisReportFace(reportId,'',faceUserId,openId)
+	//analysisReportFace(reportId,'',faceUserId,openId)
+	analysisReportFace(reportId,'','',openId) //测试4.0用
 }
 
 /*******************************交互逻辑*****************************/
@@ -70,11 +71,13 @@ function analysisReportFace(report,sendCustom,user,open){
 			if(res.code == 200){
 				var reportType = res.data.reportType;
 				if(reportType == 121){
-					location.href = 'report120.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
+					location.href = 'report120.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 				}else if(reportType == 501){
-					location.href = 'report500.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
+					location.href = 'report500.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+				}else if(reportType < 5){
+					location.href = 'report5.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 				}else{
-					location.href = 'report'+res.data.reportType+'.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType
+					location.href = 'report'+res.data.reportType+'.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 				}
 			}else if(res.code == 402){
 				location.href="register.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId

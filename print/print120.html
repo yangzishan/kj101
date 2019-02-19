@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>打印首页</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/print120.css" />
+</head>
+<body>
+	<div class="print" id="print" style="visibility:hidden;">
+		<!-- 首页 -->
+		<div class="print-index">
+			<div class="logo"><img src="img/logo.png"></div>
+			<div class="title">
+				<p>全身健康监测报告</p>
+				<p class="english">CENERAL HEALTH REPORT</p>
+			</div>
+			<ul>
+				<li>
+					<div class="left">
+						<div class="key">姓名</div>
+						<div class="value">：{{nickName}}</div>
+					</div>
+					<div class="right">
+							<div class="key">性别</div>
+							<div class="value">：{{sex==1?'男':'女'}}</div>
+					</div>
+				</li>
+				<li>
+					<div class="left">
+						<div class="key">监测时间</div>
+						<div class="value">：{{inspectDateStr.slice(0,10)}}</div>
+					</div>
+					<div class="right">
+							<div class="key">经理人</div>
+							<div class="value">：{{relatedNo}}</div>
+					</div>
+				</li>
+				<li>
+					<div class="left">
+						<div class="key">联系方式</div>
+						<div class="value">：{{mobile}}</div>
+					</div>
+					<div class="right">
+							<div class="key">支付码</div>
+							<div class="value">：{{payNum}}</div>
+					</div>
+				</li>
+			</ul>
+			<div class="banner"><img src="img/banner.png"></div>
+			<div class="slogan">
+				<div>人工智能</div>
+				<div>健康筛查</div>
+			</div>
+			<div class="bottom">4G智能筛查机器人</div>
+		</div>
+		
+		<p style="height: 350px;"></p>
+		<!-- 十大评估系统 -->
+		<div class="print-assess">
+			<div class="title">以下是您十大系统的评估结果</div>
+			<ul>
+				<li  v-for="item in list" :class="[
+					{'normal':item.score >= 90},
+					{'mild':90 > item.score && item.score >= 80},
+					{'severity':80 > item.score},
+					]" v-if="item.targetId !=1001">
+					<div v-if="item.score >= 90" class="img"><img :src="'img/'+item.targetId+'.png'"></div>
+					<div v-else-if="90 > item.score && item.score >= 80" class="img"><img :src="'img/'+item.targetId+'-2.png'"></div>
+					<div v-else class="img"><img :src="'img/'+item.targetId+'-3.png'"></div>
+					<div class="txt">
+						<p class="grade">{{item.score}}</p>
+						<p class="name">{{item.targetName}}</p>
+						<p v-show="item.score >= 90" class="state">正常</p>
+						<p v-show="90 > item.score && item.score >= 80" class="state">轻度风险</p>
+						<p v-show="80 > item.score" class="state">中度风险</p>
+					</div>
+				</li>
+				
+			</ul>
+		</div>
+		
+		<p style="height: 200px;"></p>
+		<!-- 异常建议 -->
+		<div class="print print-advise">
+			<ul>
+				<li class="advise-list" v-for="item in list" v-if="item.targetId !=1001">
+					<div class="title">
+						<div class="img"><img :src="'img/'+item.targetId+'.png'"></div>
+						<span>{{item.targetName}}评估</span>
+					</div>
+					<div class="grid">
+						<div class="grid-name">
+							<div class="grid-left"><span>{{item.targetName}}</span><span>{{item.score}}</span></div>
+							<div v-show="90  > item.score && item.score >=80" class="state">轻度异常</div>
+							<div v-show="80 > item.score" class="state">中度异常</div>
+						</div>
+						<div class="list" v-for="list in item.seconds" v-if="list.score != 0">
+							<div class="left">
+								<span class="name">{{list.targetName}}</span>
+								<span class="score">{{list.score}}</span>
+								<span v-show="90  > item.score && item.score >=80" class="state active">轻度异常</span>
+								<span v-show="80 > item.score" class="state active">中度异常</span>
+							</div>
+							<div class="right" v-if="list.targetName != '氨基酸'">
+								<div class="item" v-for="tList in list.thirds">
+									<div class="name">{{tList.targetName}}<span class="score">{{tList.score}}</span></div>
+									<span v-if="tList.inspectStandard == 1" class="state">正常</span>
+									<span v-else-if="tList.inspectStandard == 2" class="state active">偏高</span>
+									<span v-else class="state active">偏低</span>
+								</div>
+							</div>
+							<div class="right" v-else="list.targetName = '氨基酸'">
+								<div class="item" v-for="tList in list.thirds" v-if="tList.targetId == 3234">
+									<div class="name">{{tList.targetName}}<span class="score">{{tList.score}}</span></div>
+									<span v-if="tList.inspectStandard == 1" class="state">正常</span>
+									<span v-else-if="tList.inspectStandard == 2" class="state active">偏高</span>
+									<span v-else class="state active">偏低</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div v-for="list in item.seconds">
+						<div class="detail" v-for="tList in list.thirds" v-show="tList.inspectStandard != 1 && tList.healthAdviceVo != null && (tList.targetId < 3176 || tList.targetId > 3185)">
+							<div class="title" style="height: 40px; border:#000 solid 1px">
+								<!--<img src="img/item.png">-->
+								<div class="nav" style="color: #000;">{{tList.targetName}}</div>
+							</div>
+							<div class="img-box">
+								<div v-show="95  > tList.score && tList.score >=80" class="img"><img src="img/state-2.png"><span>{{tList.score}}</span></div>
+								<div v-show="80 > tList.score" class="img"><img src="img/state-3.png"><span>{{tList.score}}</span></div>
+								<div class="state"><span>评估结果：</span>
+									<span class="result" v-show="tList.inspectStandard == 2">偏高</span>
+									<span class="result" v-show="tList.inspectStandard == 3">偏低</span>
+								</div>
+							</div>
+							<div class="explain">
+								<p>指标解读</p>
+								<div>{{tList.explain}}</div>
+							</div>
+							<div class="suggest" v-if="tList.healthAdviceVo != null">
+								<p class="suggest-title">改善建议</p>
+								<ul>
+									<li class="food" v-if="tList.healthAdviceVo.dietList != null">
+										<p>膳食建议</p>
+										<ol>
+											<li v-for="sList in tList.healthAdviceVo.dietList">
+												<div class="sList">{{sList.indexName}}</div>
+												<div>{{sList.personality}}</div>
+												<div>{{sList.proposal}}</div>
+											</li>
+										</ol>
+									</li>
+									<li class="exercise" v-if="tList.healthAdviceVo.nutritionList != null">
+										<p>营养素建议</p>
+										<ol>
+											<li v-for="sList in tList.healthAdviceVo.nutritionList">
+												<div>{{sList.personality}}</div>
+											</li>
+										</ol>
+									</li>
+									<li class="exercise" v-if="tList.healthAdviceVo.motionList != null">
+										<p>运动和生活方式建议</p>
+										<ol>
+											<li v-for="sList in tList.healthAdviceVo.motionList">
+												<div>{{sList.personality}}</div>
+											</li>
+										</ol>
+									</li>
+								</ul>
+							</div>
+						</div>
+				</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script type="text/javascript" src="js/jquery.a.js"></script>
+	<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+	<script type="text/javascript" src="js/vue.min.a.js"></script>
+	<script type="text/javascript" src="js/print120.js"></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ if(userId == null || userId == ''){
 };
 var edition=getQueryString("edition");
 var reportType = getQueryString("reportType");
-if(reportType == 6){ //3.0
+if(reportType == 6 || reportType == 400){ //3.0  4.0
 	$('.reportType120').remove();
 }else if(reportType == 120 || reportType == 121){  //保险
 	$('.reportType6').remove();
@@ -204,6 +204,7 @@ function subAll(mobile,age,dxYzm,checkCode){
 						'渠道' : '微信'
 					},function(){
 						location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId
+						//location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId
 					});
 				}	
 			}else if(userData.code == 1003){
@@ -263,6 +264,7 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					'渠道' : '微信'
 				},function(){
 					location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+faceUserId
+					//location.href="common.html?reportId="+reportId+'&openId='+openId
 				});
 			}else if(userData.code == 1003){
 				showFirm('该手机号已被绑定');

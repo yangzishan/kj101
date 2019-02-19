@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" type="text/css" href="css/print3.0.css" />
+<title>打印报告-3.0</title>
+</head>
+<body>
+<section id="print">
+	
+<div style="padding:.2rem 0 0; position: relative;">
+	<img class="img_b" src="img/top.jpg"/>
+	<p style="position: absolute; right: .1rem; top: .3rem; font-size: .14rem;">为您的健康加分</p>
+</div>
+<div class="top_cn">
+	<p class="btt">康加亚健康评估报告<span class="bm">编码：</span></p>
+	<div class="info">手机号：{{mobile}} 　　　　　性别：{{sex==1?'男':'女'}} 　　　　　<span class="realAge">年龄：{{age}}</span>　　　　　检测日期：{{inspectDateStr}} </div>
+</div>
+<div>
+	尊敬的{{titleSex}} 您好！<br/>
+	　　感谢您使用健康筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。如需帮助请拨打我们的健康热线400-6666-787，将有我们专业的健康咨询师为您答疑解惑。祝您健康！
+</div>
+<div class="tit-b">整体健康评估</div>
+<div class="state-c">
+	<span>总分:</span><font>{{totalScore}}</font><em>您的综合得分好于<i>{{ranking}}%</i> 的人(康加系统近 60 天排名)</em>
+</div>
+<div class="state-c">
+	<span>亚健康风险</span>
+	<font  v-if="100 >= totalScore && totalScore >= 95">最佳状态</font>
+	<font  v-else-if="94 >= totalScore && totalScore >= 90">良好状态</font>
+	<font  v-else-if="89 >= totalScore && totalScore >=85">一级风险</font>
+	<font  v-else-if="84 >= totalScore && totalScore >=80">二级风险</font>
+	<font  v-else>三级风险</font>
+	<em  v-if="100 >= totalScore && totalScore >= 95">健康状态优秀、生理状态最佳。</em>
+	<em  v-else-if="94 >= totalScore && totalScore >= 90">健康状态良好、生理状态较佳。</em>
+	<em  v-else-if="89 >= totalScore && totalScore >=85">健康状态较好、机体功能轻度紧张。</em>
+	<em  v-else-if="84 >= totalScore && totalScore >=80">健康状态下降、机体功能中度紊乱或紧张。</em>
+	<em  v-else>健康状态不佳、机体功能紊乱程度较高。</em>
+</div>
+
+<div class="tit-b">详细评估结果</div>
+<div class="x_bg">
+	<!--快乐指数-->
+	<template v-for="site in reportNewThreeViems" v-if="site.targetId == 1001">
+		<p class="x-tit">{{site.targetName}}</p>
+		<div class="x-cn" v-for="item in site.childTarget">
+			<div class="cn-l">
+				<p class="pic" v-if="item.abLive == 4"><img src="img/best-icon.png"><span>郁闷</span></p>
+				<p class="pic" v-if="item.abLive == 3"><img src="img/best-icon.png"><span>压抑</span></p>
+				<p class="pic" v-if="item.abLive == 2"><img src="img/best-icon.png"><span>平和</span></p>
+				<p class="pic" v-if="item.abLive == 1"><img src="img/best-icon.png"><span>愉悦</span></p>
+				<p class="pic" v-if="item.abLive == 0"><img src="img/best-icon.png"><span>快乐</span></p>
+			</div>
+			<div class="cn-r">
+				<span v-if="item.abLive == 4">情绪较差，偶有悲观厌世，关注美好事物，重获愉悦心情。</span>
+				<span v-if="item.abLive == 3">情绪低落，心情压抑，关注美好事物，重获愉悦心情。</span>
+				<span v-if="item.abLive == 2">情绪平和，心情稳定，请放松心情保持良好状态。</span>
+				<span v-if="item.abLive == 1">情绪较好，心情愉悦，请继续保持好心情。</span>
+				<span v-if="item.abLive == 0">情绪良好，心灵满足，请继续保持好心情。</span>
+			</div>
+		</div>	
+	</template>
+	<!--睡眠质量-->
+	<template v-for="site in reportNewThreeViems" v-if="site.targetId == 1002">
+		<p class="x-tit">{{site.targetName}}</p>
+		<div class="x-cn">
+			<div class="cn-l">
+				<p class="pic" v-show="site.score >= 95"><img src="img/moon3.png"><span>良好</span></p>
+				<p class="pic" v-show="site.score < 95 && site.score >= 90"><img src="img/moon2.png"><span>正常</span></p>
+				<p class="pic" v-show="site.score < 90"><img src="img/moon.png"><span>有待改善</span></p>
+			</div>
+			<div class="cn-r">
+				<span v-show="site.score >= 95">睡眠质量良好，请保持规律作息和舒缓心情。</span>
+				<span v-show="site.score < 95 && site.score >= 90">睡眠质量正常，建议规律作息，舒缓心情。</span>
+				<span v-show="site.score < 90">睡眠质量有待改善，与作息时间不规律有关。</span>
+			</div>
+		</div>
+	</template>
+	<!--BMI-->
+	<template v-for="site in reportNewThreeViems" v-if="site.targetId == 1004">
+		<p class="x-tit">{{site.targetName}}</p>
+		<div class="x-cn">
+			<div class="cn-l">
+				<p class="pic" v-show="site.score < 18.5"><span>{{site.score}} 偏轻</span></p>
+				<p class="pic" v-show="site.score >= 18.5 && site.score < 23.9"><span>{{site.score}} 健康</span></p>
+				<p class="pic" v-show="site.score < 27 && site.score >= 23.9"><span>{{site.score}} 超重</span></p>
+				<p class="pic" v-show="site.score >= 27"><span>{{site.score}} 肥胖</span></p>
+			</div>
+			<div class="cn-r">
+				<p class="pic" v-show="site.score < 18.5"><span>建议增加营养摄入，配合力量训练，增加体重。</span></p>
+				<p class="pic" v-show="site.score >= 18.5 && site.score < 23.9"><span>建议维持目前的饮食结构和运动强度。</span></p>
+				<p class="pic" v-show="site.score < 27 && site.score >= 23.9"><span>建议调整膳食，控制能量摄入，并增加运动量。</span></p>
+				<p class="pic" v-show="site.score >= 27"><span>建议控制饮食，增加运动，必要时可以选择其他减肥方案介入。</span></p>
+			</div>
+		</div>
+	</template>
+	<!--实时状态-->
+	<template v-for="site in reportNewThreeViems" v-if="site.targetId == 1003">
+		<p class="x-tit">{{site.targetName}}</p>
+		<div class="x-cn" v-for="item in site.childTarget"  v-if="item.targetId != 3232">
+			<div class="cn-l">
+				<p class="pic"><span>{{item.targetName}}</span></p>
+			</div>
+			<div class="cn-r" v-if="item.targetId != 3232">
+				<p class="star" v-if="item.abLive == 4"><img src="img/star.png"></p>
+				<p class="star" v-else-if="item.abLive == 3"><img src="img/star.png"><img src="img/star.png"></p>
+				<p class="star" v-else-if="item.abLive == 2"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"></p>
+				<p class="star" v-else-if="item.abLive == 1"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"></p>
+				<p class="star" v-else><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"></p>
+			</div>
+			<div class="cn-r" v-if="item.targetId == 3232"><p class="star"> 　{{item.abLive}}<p></div>
+		</div>
+	</template>
+	
+	<p class="x-tit">人体机能评估</p>
+	<div class="x-cn" v-for="site in reportNewThreeViems" v-if="site.targetId >= 1005 && site.targetId < 1010">
+		<div class="cn-l">
+			<p class="pic"><span>{{site.targetName}}</span></p>
+		</div>
+		<div class="cn-r">
+			<p class="txt">{{site.hintName}}</p>
+		</div>
+	</div>
+	<!--男性功能-->
+	<div class="x-cn" v-for="site in reportNewThreeViems" v-if="site.targetId == 1010 && sex == 1">
+		<div class="cn-l">
+			<p class="pic"><span>{{site.targetName}}</span></p>
+		</div>
+		<div class="cn-r">
+			<p class="txt">{{site.hintName}}</p>
+		</div>
+	</div>
+	<!--女性功能-->
+	<div class="x-cn" v-for="site in reportNewThreeViems" v-if="site.targetId == 1011 && sex == 0">
+		<div class="cn-l">
+			<p class="pic"><span>{{site.targetName}}</span></p>
+		</div>
+		<div class="cn-r">
+			<p class="txt">{{site.hintName}}</p>
+		</div>
+	</div>
+	<!--皮肤系统-->
+	<template v-for="site in reportNewThreeViems" v-if="site.targetId == 1012">
+		<p class="x-tit">{{site.targetName}}</p>
+		<div class="x-cn" v-for="item in site.childTarget">
+			<div class="cn-l">
+				<p class="pic">{{item.targetName}}</p>
+			</div>
+			<div class="cn-r">
+				<p class="txt">{{(item.explain == null || item.explain == "")?'正常':item.explain}}</p>
+			</div>
+		</div>
+	</template>
+</div>
+
+<div class="tit-b">健康建议</div>
+<div class="jk_sug">
+	<p class="btit">膳食建议</p>
+	<p class="ztit">
+		康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
+		肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+	</p>
+	<div class="box_c" v-for="(site,index) in dietList">
+		<span class="lab">{{options[index]}}、{{site.indexName}}</span>
+		<div class="con">
+			<p class="txt1">{{site.personality}}</p>
+			<p class="txt2" v-html="site.proposal"></p>
+		</div>
+	</div>
+</div>
+<div class="jk_sug">
+	<p class="btit">营养建议</p>
+	<p class="ztit">
+		康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
+		肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+	</p>
+	<div class="box_c" v-for="(oli,index) in nutritionList">
+		<span class="lab">{{options[index]}}、{{oli.indexName}}</span>
+		<div class="con">
+			<p class="txt1">{{oli.personality}}</p>
+			<p class="txt2" v-html="oli.proposal"></p>
+		</div>
+	</div>
+</div>
+<div class="jk_sug">
+	<p class="btit">运动建议</p>
+	<p class="ztit">
+		康加运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。<br>
+		高岭娣　首都医科大学卫生与教育管理学院体育学系主任/副教授<br/>
+		潘晓明　中医博士、北京大学医学部研究中心学术部副主任、深圳市中医药健康服务协会副会长；<br/>
+	</p>
+	<div class="box_c" v-for="(sport,index) in motionList">
+		<div class="con">
+			<p class="txt1">{{index+1}}.{{sport.personality}}</p>
+		</div>
+	</div>
+</div>
+
+<div class="tit-b">专属食谱</div>
+<div class="x-sptip">
+	康加首席营养师顾晓玲领衔的团队为您提供。<br/>
+	顾晓玲 中国首批注册营养师 山东中医药大学营养学学士 兰州大学营养学硕士 临床营养师<br/>
+	公共营养师 中国营养学会会员<br/>
+</div>
+
+<div class="sp-dcn" v-for="(day,index) in recipes">
+	<p class="cnt"><span>day{{index+1}}</span></em></p>
+	<div class="cnc">
+		<div class="tt"><span>名称</span><em>荤菜</em><em>素菜</em><em>主食</em></div>
+		<dl class="tli">
+			<dt><p class="ce"><font>早餐</font></p></dt>
+			<dd>
+				<template v-for="bre in day.breakfast.meat">
+					<span>{{bre.foodName}}</span>
+				</template>	
+			</dd>
+			<dd>
+				<template v-for="bre in day.breakfast.vegetable">
+					<span>{{bre.foodName}}</span>
+				</template>
+			</dd>
+			<dd>
+				<template v-for="bre in day.breakfast.main">
+					<span>{{bre.foodName}}</span>
+				</template>
+			</dd>
+		</dl>
+		<dl class="tli">
+			<dt><p class="ce"><font>早加餐</font></p></dt>
+			<dd>
+				<template v-for="ba in day.breakfastAdd.BA">
+					<span>{{ba.foodName}}</span>
+				</template>
+			</dd>
+		</dl>
+		<dl class="tli">
+			<dt><p class="ce"><font>午餐</font></p></dt>
+			<dd>
+				<template v-for="lun in day.lunch.meat">
+					<span>{{lun.foodName}}</span>
+				</template>
+			</dd>
+			<dd>
+				<template v-for="lun in day.lunch.vegetable">
+					<span>{{lun.foodName}}</span>
+				</template>
+			</dd>
+			<dd>
+				<template v-for="lun in day.lunch.main">
+					<span>{{lun.foodName}}</span>
+				</template>
+			</dd>
+		</dl>
+		<dl class="tli">
+			<dt><p class="ce"><font>午加餐</font></p></dt>
+			<dd>
+				<template v-for="la in day.lunchAdd.LA">
+					<span>{{la.foodName}}</span>
+				</template>
+			</dd>
+		</dl>
+		<dl class="tli">
+			<dt><p class="ce"><font>晚餐</font></p></dt>
+			<dd>
+				<template v-for="lun in day.dinner.meat">
+					<span>{{lun.foodName}}</span>
+				</template>
+			</dd>
+			<dd>
+				<template v-for="lun in day.dinner.vegetable">
+					<span>{{lun.foodName}}</span>
+				</template>
+			</dd>
+			<dd>
+				<template v-for="lun in day.dinner.main">
+					<span>{{lun.foodName}}</span>
+				</template>
+			</dd>
+		</dl>
+	</div>
+</div>
+
+
+</section>
+
+<p style="height: .6rem;"></p>
+<div class="wxtip">
+	温馨提示：1、康加亚健康智能评估仪是为亚健康人群设计，相关指标依据三大人体数据采集系统（人体光谱波、人体生物电、人体脉搏波）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。2、是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。3、推送的内容，数据指标、运动调理、健康食谱、健康设备、调养方法等均作为个人健康管理所需的参考，不作为处方。
+</div>
+<p class="k1"></p>
+
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script src="js/print3.0.js"></script>
+</body>
+</html>

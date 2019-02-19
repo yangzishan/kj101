@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告4.0</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<DIV class="my_view">
+<div id="category" class="category" v-cloak>
+	<div class="ca_name" :class="targetId">
+		<p class="pic"><img :src="'img/4.0/e-'+targetId+'.png'"></p>
+	</div>
+	<div class="ca_box">
+		<p class="box-t" :class="targetId">
+			<img :src="'img/4.0/j-'+targetId+'-t.png'" class="img_b"><span>指标解释</span>
+		</p>
+		<div class="box-c">
+			<div class="c-l fl">
+				<p class="pic"><img src="img/4.0/s1.png" class="s1"></p>
+			</div>
+			<div class="c-r fr">
+				<p class="txt">{{inspectContent}} </p> 
+			</div>
+		</div>
+		<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
+	</div>
+	<div class="ca_box" v-if="suggestContent">
+		<p class="box-t" :class="targetId">
+			<img :src="'img/4.0/j-'+targetId+'-t.png'" class="img_b"><span>膳食建议</span>
+		</p>
+		<div class="box-c">
+			<div class="c-l fl">
+				<p class="pic"><img src="img/4.0/s2.png" class="s2"></p>
+			</div>
+			<div class="c-r fr">
+				<p class="txt">{{suggestContent}}</p> 
+			</div>
+		</div>
+		<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
+	</div>
+	<div class="ca_box" v-if="improvementProgram">
+		<p class="box-t" :class="targetId">
+			<img :src="'img/4.0/j-'+targetId+'-t.png'" class="img_b"><span>生活建议</span>
+		</p>
+		<div class="box-c">
+			<div class="c-l fl">
+				<p class="pic"><img src="img/4.0/s3.png" class="s3"></p>
+			</div>
+			<div class="c-r fr">
+				<p class="txt">{{improvementProgram}}</p> 
+			</div>
+		</div>
+		<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
+	</div>
+</div>
+</DIV>
+
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<!--<script>document.write('<script src="js/report120.js?t=' + new Date().getTime() + '"><\/script>')</script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script>
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+// 获取url参数方法
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+var reportId = getQueryString('reportId');
+var targetId = getQueryString('targetId');
+var myApp = new Vue({
+	el:'#category',
+	data: function(){
+		return {
+			reportId:reportId,
+			targetId: targetId,
+			xtbmName:'',
+			inspectName:'',
+			inspectContent:'',
+			xtbmContent:'',
+			suggestContent:'',
+			improvementProgram:'',
+			sex:'',
+			abLive:''
+		}
+	},
+	methods: {
+		queryV4ReportTarget: function (){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:analysisreport+"/v4/reportData/queryV4ReportTarget",
+				async:true,
+				dataType:'json',
+				data:{
+					reportId: reportId,
+					targetId: targetId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.sex = res.result.sex
+						vm.xtbmName = res.result.xtbmName
+						vm.inspectName = res.result.inspectName
+						vm.inspectContent = res.result.inspectContent
+						vm.xtbmContent = res.result.xtbmContent 
+						vm.suggestContent = res.result.suggestContent 
+						vm.improvementProgram = res.result.improvementProgram
+						$('.load-overlay').css("display","none");
+						$('.my_view').css("visibility","visible");
+					}
+				},
+				error: function(){alert('queryV4ReportTarget error')}
+			});
+		}
+	},
+	mounted: function(){
+		this.queryV4ReportTarget();
+	}
+	
+});
+</script>
+</body>
+</html>
