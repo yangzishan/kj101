@@ -6,6 +6,7 @@ if(userId == null || userId == ''){
 	userOropen = openId;
 };
 var edition=getQueryString("edition");
+var saasId = getQueryString('saasId');
 var reportType = getQueryString("reportType");
 if(reportType == 6 || reportType == 400){ //3.0  4.0
 	$('.reportType120').remove();
@@ -121,7 +122,7 @@ $('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){
 		$('#nextAll').addClass('off').attr("disabled",true);
 	}
 });
-$('#dxYzm , #mobile').blur(function(){
+$('#dxYzm , #mobile, #_height, #_weight').blur(function(){
 	setTimeout(function() {	
 		const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;  //解决微信浏览器键盘收回页面下不来的问题
         window.scrollTo(0, Math.max(scrollHeight - 1, 0));  //解决微信浏览器键盘收回页面下不来的问题
@@ -132,6 +133,18 @@ $('#nextAll').on("click",function(){
 	if($('#nickName').length > 0){
 		if($('#nickName').val() == ''){
 			showMask('请输入您的姓名');	
+			return ;
+		}
+	};
+	if($('#_height').length > 0){
+		if($('#_height').val() == ''){
+			showMask('请输入您的身高');	
+			return ;
+		}
+	};
+	if($('#_weight').length > 0){
+		if($('#_weight').val() == ''){
+			showMask('请输入您的体重');	
 			return ;
 		}
 	};
@@ -198,12 +211,13 @@ function subAll(mobile,age,dxYzm,checkCode){
 						'用户id': userId,
 						'openId': openId
 					});
-					zhuge.track('完善用户信息注册成功', { //埋点 t   完善用户信息注册成功 然后跳转
+					zhuge.track('注册成功', { //埋点 t   完善用户信息注册成功 然后跳转
+						'方式': '完善用户信息',
 						'用户id': userId,
 						'openId': openId,
 						'渠道' : '微信'
 					},function(){
-						location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId
+						location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
 						//location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId
 					});
 				}	
@@ -219,10 +233,15 @@ function subAll(mobile,age,dxYzm,checkCode){
 					}
 				});		
 			}else if(userData.code == 303){
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'验证码错误 code='+userData.code,
+					'openId': openId,
+					'渠道' : '微信'
+				});
 				showMask('验证码错误');
 			}else{
-				zhuge.track('注册失败，查看验证码是否有误', { //埋点 t 注册失败
-					'用户id': userId,
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'code = '+userData.code,
 					'openId': openId,
 					'渠道' : '微信'
 				});
@@ -258,12 +277,13 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					'用户id': userData.customerId, //要拿返回的数据才对
 					'openId': openId
 				});
-				zhuge.track('创建用户 注册成功', { //埋点 t   创建用户 注册成功 然后跳转
+				zhuge.track('注册成功', { //埋点 t   创建用户 注册成功 然后跳转
+					'方式':'创建用户',
 					'用户id': userData.customerId, //要拿返回的数据才对
 					'openId': openId,
 					'渠道' : '微信'
 				},function(){
-					location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+faceUserId
+					location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
 					//location.href="common.html?reportId="+reportId+'&openId='+openId
 				});
 			}else if(userData.code == 1003){
@@ -278,9 +298,15 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					}
 				});	
 			}else if(userData.code == 303){
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'验证码错误 code = '+userData.code,
+					'openId': openId,
+					'渠道' : '微信'
+				});
 				showMask('验证码错误');
 			}else{
-				zhuge.track('注册失败，查看验证码是否有误', { //埋点 t 注册失败
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'code = '+userData.code,
 					'openId': openId,
 					'渠道' : '微信'
 				});
@@ -310,7 +336,8 @@ function turnCouponByWeChat(mobile){
 				'openId': openId
 			});
 			//埋点 t   通过扫描优惠券注册成功 然后跳转
-			zhuge.track('通过扫描优惠券注册成功', {
+			zhuge.track('注册成功', {
+				'方式': '通过扫描优惠券',
 				'用户id': userId,
 				'openId': openId,
 				'渠道' : '微信'
@@ -340,7 +367,8 @@ function SendCouponByFlushQR(mobile){
 				'openId': openId
 			});
 			//埋点 t 通过扫描优惠券注册成功 然后跳转
-			zhuge.track('通过扫描优惠券注册成功', {
+			zhuge.track('注册成功', {
+				'方式': '通过扫描优惠券',
 				'用户id': userId,
 				'openId': openId,
 				'渠道' : '微信'

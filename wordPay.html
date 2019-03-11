@@ -80,6 +80,7 @@ var reportType = getQueryString("reportType");
 var packageId=getQueryString("packageId");
 var userId=getQueryString("userId");
 var openId=getQueryString("openId");
+var saasId=getQueryString("saasId");
 var reqUrl = window.location.href;
 var myApp = new Vue({
 	el: '.keypay-c',
@@ -89,7 +90,8 @@ var myApp = new Vue({
 			reportType: reportType,
 			packageId: packageId,
 			userId: userId,
-			openId: openId
+			openId: openId,
+			saasId: saasId
 		}
 	},
 	methods:{
@@ -160,28 +162,29 @@ function goMethod(resultdata){
 		    packageId : packageId,
 			userId : userId,
 			wordNum: resultdata,
-			batchType: 10
+			batchType: 10,
+			saasId: saasId
 		},
 		success : function(data) {
 			if(data.code == 200){
 				if(data.data == "0"){
 					if(reportType == 121){
-						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 					}else if(reportType == 501){
-						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 					}else{
-						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 					}
 				}else if(data.data == "true"){
 					if(reportType == 121){
 						showMask('改报告已支付');
-						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 					}else if(reportType == 501){
 						showMask('改报告已支付');
-						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 					}else{
 						showMask('改报告已支付');
-						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 					}
 				}else{
 					setTimeout(function(){$('#subgo').attr("disabled",false)},1000);

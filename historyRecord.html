@@ -55,6 +55,7 @@ $('.load-overlay').css("display","block");
 var userId = getQueryString("userId");
 var openId = getQueryString('openId');
 var isAgent = getQueryString('isAgent');
+var saasId = getQueryString('saasId');
 if(openId == null || openId == undefined){
 	openId = ''
 }
@@ -79,11 +80,12 @@ var myApp = new Vue({
 		historyByUserId: function(){
 			var vm = this;
 			$.ajax({
-				url : dataUrl + "/api/v1/reportIndex/historyByUserId",
+				url : dataUrl + "/api/v1/ne/findHistoryReport",
 				type : "POST",
 				dataType : 'json',
 				data : {
-				   	userId : userId,
+				   	customerId : userId,
+				   	companyId: saasId,
 				    firstPage: '0',
 				    pageSize: 50
 				},
@@ -92,9 +94,9 @@ var myApp = new Vue({
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.dataList = res.data
-					}else{alert('historyTjBankByUserId code='+ res.code)}
+					}else{alert('findHistoryReport code='+ res.code)}
 				},
-				error : function(obj,msg){alert('historyTjBankByUserId error')}
+				error : function(obj,msg){alert('findHistoryReport error')}
 			});
 		},
 		gotosee: function(e,item){

@@ -3,7 +3,10 @@ var viewType = getQueryString("viewType");
 var go = 0;
 function goPrint(n){
 	if(n == 2){
-		window.print();
+		setTimeout(function(){
+			window.print();
+		},300)
+		
 	}
 };
 if(viewType == 2){

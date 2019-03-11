@@ -687,6 +687,7 @@ window.lCalendar = (function() {
 				var birthday = $('#demo1').val();
                 var myuserId = $('#userId').val();
                 //alert(birthday);
+                console.log($('#userId').val());
 				var userInfo = {
 					birthday : birthday,
 					userId : myuserId

@@ -74,6 +74,7 @@ function getQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
+var saasId=getQueryString("saasId");
 var reportId=getQueryString("reportId");
 var reportType=getQueryString("reportType"); //版本 新
 var packageId=getQueryString("packageId");
@@ -103,6 +104,7 @@ var myApp = new Vue({
   	el: '#appVUE',
   	data: function(){
   		return{
+  			saasId:saasId,
   			reportId: reportId,
   			reportType: reportType,
   			openId: openId,
@@ -148,6 +150,30 @@ var myApp = new Vue({
 				error: function(){console.log('isUsableByCustomerIdAndNeId error')}
 			});
   		},
+  		//更新SaaS用户最近一份报告ID
+  		updateCustomerSaas: function(){
+  			var vm = this;
+  			$.ajax({
+  				type:"post",
+  				url: dataUrl+"/api/v1/ne/updateCustomerSaas",
+  				dataType : 'json',
+  				data:{
+  					saasId: saasId,
+  					openId: openId,
+  					reportId: reportId
+  				},
+  				success: function(res){
+  					vm.goReport();
+  					console.log(res);
+  					//alert('updateCustomerSaas success')
+  				},
+  				error: function(){
+  					alert('updateCustomerSaas error');
+  					vm.goReport();
+  				}
+  			});
+  		},
+  		
   		gotoPay: function(e){ //点击支付
   			var vm = this;
 			$(e.target).attr("disabled",true);//新加防呆
@@ -178,18 +204,7 @@ var myApp = new Vue({
 					                	//debugger;
 					                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
 					                    	//alert('支付成功测试');
-					                    	
-					                    	if(tp == 201){
-						                		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId;
-						                	}else{
-						                		if(reportType == 121){
-													location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
-												}else if(reportType == 501){
-													location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
-												}else{
-													location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
-												}
-						                	}
+					                    	vm.updateCustomerSaas();
 			
 					                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 											alert("支付取消");
@@ -249,21 +264,36 @@ var myApp = new Vue({
 				success: function(data){
 					if(data.code == 200){
 						if(reportType == 121){
-							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}else if(reportType == 501){
-							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}else{
-							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}
 					}
 				}
 			});
+  		},
+  		//跳转报告逻辑
+  		goReport: function(){
+  			if(tp == 201){
+        		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId+'&saasId='+saasId;
+        	}else{
+        		if(reportType == 121){
+					location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}else if(reportType == 501){
+					location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}else{
+					location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}
+        	}
   		},
   		
   	},
   	mounted:function(){
   		this.findPackage();
   		this.isUsableByCustomerIdAndNeId();
+  		//this.updateCustomerSaas();
   	}
 });
 </script>

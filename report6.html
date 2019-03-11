@@ -413,7 +413,7 @@
 				<div class="shade" v-show="popupK" @click.stop="shade"><div class="popup">{{data[8].explain}}</div></div>
 			</li>
 			<!-- 男性功能 -->
-			<li v-if="sex == 1" class="condition" @click="goAdvise(data[9].targetId,data[9].score,data[9].childTarget)">
+			<li v-if="sex == 1 && showSex" class="condition" @click="goAdvise(data[9].targetId,data[9].score,data[9].childTarget)">
 				<!-- 指数大于80的时候显示蓝色 -->
 				<div v-show="data[9].score > 80" class="img"><img src="./images/icon1010.png" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
@@ -439,7 +439,7 @@
 				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{data[9].explain}}</div></div>
 			</li>
 			<!-- 女性功能 -->
-			<li v-if="sex != 1" class="condition"  @click="goAdvise(data[10].targetId,data[10].score,data[10].childTarget)">
+			<li v-if="sex != 1 && showSex" class="condition"  @click="goAdvise(data[10].targetId,data[10].score,data[10].childTarget)">
 				<!-- 指数大于80的时候显示蓝色 -->
 				<div v-show="data[10].score > 80" class="img"><img src="./images/icon1011.png" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->

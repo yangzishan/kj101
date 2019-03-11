@@ -4,14 +4,15 @@ var openId = getQueryString('openId');
 var customerId = getQueryString('customerId');
 var userId = getQueryString('customerId');
 var faceUserId = getQueryString('faceUserId');
+var saasId = getQueryString('saasId');
 var sendCustomerId = ''
 var clientType = '';
 console.log(reportId);
 console.log(openId);
 console.log(customerId);
 if(openId){
-	//analysisReportFace(reportId,'',faceUserId,openId)
-	analysisReportFace(reportId,'','',openId) //测试4.0用
+	analysisReportFace(reportId,'',faceUserId,openId,saasId)
+	//analysisReportFace(reportId,'','',openId) //测试用 不过人脸
 }
 
 /*******************************交互逻辑*****************************/
@@ -25,7 +26,7 @@ function setupWebViewJavascriptBridge(callback) {
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
-setupWebViewJavascriptBridge(function(bridge) { // 注册JS方法供OC调用
+setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 	bridge.registerHandler('analysisReport', function(data, responseCallback) {
 		//alert('test_oc');
 		//判断iOS和Android
@@ -50,13 +51,13 @@ setupWebViewJavascriptBridge(function(bridge) { // 注册JS方法供OC调用
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
 		if(customerId) {
 			setTimeout(function(){
-				analysisReportFace(reportId,sendCustomerId,customerId,'')
+				analysisReportFace(reportId,sendCustomerId,customerId,'','')
 			},500)
 		}	
 	})
 })
 /*******************************交互逻辑*****************************/
-function analysisReportFace(report,sendCustom,user,open){
+function analysisReportFace(report,sendCustom,user,open,saas){
 	$.ajax({
 		type:"post",
 		url:dataUrl + "/api/v1/reportIndex/analysisReportFace",
@@ -65,24 +66,27 @@ function analysisReportFace(report,sendCustom,user,open){
 			reportId: report,
 			sendCustomerId: sendCustom,
 			customerId: user,
-			openId: open
+			openId: open,
+			saasId: saas
 		},
 		success:function(res){
 			if(res.code == 200){
 				var reportType = res.data.reportType;
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId;
 				if(reportType == 121){
-					location.href = 'report120.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+					location.href = 'report120.html'+reportUrl
 				}else if(reportType == 501){
-					location.href = 'report500.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+					location.href = 'report500.html'+reportUrl
 				}else if(reportType < 5){
-					location.href = 'report5.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+					location.href = 'report5.html'+reportUrl
 				}else{
-					location.href = 'report'+res.data.reportType+'.html?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+					location.href = 'report'+res.data.reportType+'.html'+reportUrl
 				}
 			}else if(res.code == 402){
-				location.href="register.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId;
+				location.href='register.html'+ reportUrl
 			}else if(res.code == 405){
-				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId;
 			}else if(res.code == 403){
 				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
 			}else if(res.code == 302){

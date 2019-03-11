@@ -4,13 +4,14 @@ var userId = getQueryString("userId");
 var reportType = getQueryString("reportType");
 var sameUser = getQueryString("sameUser");
 var edition = getQueryString("edition");
-var terminalType = 1;
+var saasId = getQueryString("saasId");
+var terminalType = 1; //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 var findPackage = "/api/v1/reportWxPay/findPackage2"
 var dataInfor = {
 	reportId:reportId,
 	userId:userId
 }
-if(!userId && openId){
+if(!userId && openId){ //适配老链接未支付，后期时间长了（等客户老链接被淹没 可删）
 	findPackage = "/api/v1/reportWxPay/findPackage"
 	dataInfor = {
 		reportId:reportId,
@@ -18,7 +19,7 @@ if(!userId && openId){
 	}
 }
 if(!openId){
-	terminalType = 2
+	terminalType = 2 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 }
 zhuge.track('进入支付页面', { //埋点t
 	'openId' : openId,
@@ -65,12 +66,9 @@ var myApp = new Vue({
 			easysize: '', hardsize: '',   //新用户风险指标数目
 			doctor:'',
 			clientType:'',
+			cardPrice:'', cardUseCount:'' //购买年卡用
 		}
 	},
-	mounted: function() {
-		this.findPackage();
-		this.participate(reportId);
-    },
 	methods: {
 		findPackage: function() {
 			var _this = this; 
@@ -99,7 +97,7 @@ var myApp = new Vue({
 					  	_this.oprice = packageData.data.infoView.originalPrice //原价
 					  	_this.clientType = packageData.data.mentPage.clientType  //判断支付通道类型用
 					  	if(_this.clientType == 'tjnsyh'){
-					  		terminalType = 3
+					  		terminalType = 3 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 					  	}
 					  	if(_this.oprice == '' || _this.oprice == null){
 					  		_this.oprice = _this.price+20; //数据没有原价的情况
@@ -139,6 +137,7 @@ var myApp = new Vue({
 					  			describe:'兰州大学营养学硕士 、临床营养师'
 					  		},
 					  	];
+					  	_this.findYearCardInfo(_this.snNum); //调用  查看配置购买年卡接口
 					  	if(!isEmptyObject(packageData.data.dataMap)){
 					  		if(packageData.data.userState){
 								if(packageData.data.userState == 1){  //新用户
@@ -243,7 +242,7 @@ var myApp = new Vue({
 				}
 			).error(function(){alert('findPackage error')})
 		},
-		goPay: function(e){ //点击支付按钮弹出支付方式
+		goPay: function(e){//点击支付按钮弹出支付方式
 			var vm = this;
 			if(vm.isFree == 1){
 				vm.goReportIndex(reportId,userId,reportType);
@@ -252,12 +251,17 @@ var myApp = new Vue({
 			}else{
 				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 				$('.sl-pay').css({"transform":"translateY(0%)"});
-			}
+			};
+			zhuge.track('进入支付页面', { //埋点t
+				'用户id': vm.userId,
+				'渠道' : '微信',
+				'方式': '通过支付界面支付按钮'
+			});
 		},
 		hrefRouter: function(pay){ //跳转order
 			var vm = this;
-			if(pay.payChannelType == 3){
-				location.href='wordPay.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+'&packageId='+this.packageId+'&openId='+ openId+'&edition='+edition
+			if(pay.payChannelType == 3){ //口令支付
+				location.href='wordPay.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+'&packageId='+this.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId
 			}else if(pay.payChannelType == 5){ //支付宝app
 				setupWebViewJavascriptBridge(function(bridge) {
 					bridge.callHandler('aliPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
@@ -349,14 +353,47 @@ var myApp = new Vue({
 		goReportIndex: function(reportId,userId,reportType){ //跳转查看报告
 			var vm = this;
 			if(reportType == 121){
-				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else if(reportType == 501){
-				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else{
-				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}
 		},
-	}
+		//判断是否配置购买年卡活动
+		findYearCardInfo: function(sn){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v5/yearCard/findYearCardInfo",
+				dataType: 'json',
+				data: {
+					inspectCode: reportId,
+					neSn: sn
+				},
+				success: function(res){
+					if(res.code == 200){
+						$('#pay_fix').remove();
+						$('#pay_buy').css("display","block");
+						vm.cardPrice = res.data.price
+						vm.cardUseCount = res.data.useCount //暂时先注销  目前payorder不支持年卡微信支付
+					}else{
+						$('#pay_buy').remove();
+					}
+				},
+				error: function(){ console.log('findYearCardInfo error')}
+			});
+		},
+		//购买年卡跳转
+		goBuyCard: function(){
+			var vm = this;
+			location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&saasId='+saasId
+		}
+	},
+	mounted: function() {
+		this.findPackage();
+		this.participate(reportId);
+    },
 });
 //获取url参数
 function getQueryString(name) {

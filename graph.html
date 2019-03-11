@@ -85,11 +85,11 @@
 		<div id="listI"></div><div class="bottom-box"></div>
 	</div>
 	<!-- 男性功能趋势 -->
-	<div class="list" v-show="sex == 1 && data.a1010">
+	<div class="list" v-show="sex == 1 && data.a1010 && showSex">
 		<div id="listJ"></div><div class="bottom-box"></div>
 	</div>
 	<!-- 女性功能趋势 -->
-	<div class="list" v-show="sex == 0 && data.a1011">
+	<div class="list" v-show="sex == 0 && data.a1011 && showSex">
 		<div id="listK"></div><div class="bottom-box"></div>
 	</div>
 </div>
@@ -115,6 +115,7 @@ new Vue({
 	el: '.all_view',
    data:function() {
 	   return {
+	   	showSex: false, //不显示男女功能
 		sex:'',
 		userId:'',
 		data:'',

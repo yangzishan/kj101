@@ -67,24 +67,10 @@
             </div> 
         </div>   
     </div>-->
-    
-    <div>
-    	<ul class="choosePay">
-	    	<li class="p_li pay">
-	    		<p class="lab">查看报告</p>
-	    		<p class="guize"><span>￥29.90/</span><font>1次</font></p>
-	    	</li>
-	    	<li class="p_li card">
-	    		<p class="lab">查看报告</p>
-	    		<p class="guize"><span>￥29.90/</span><font>1次</font></p>
-	    	</li>
-	    </ul>
-    </div>
-    
 	
 	<div class="pay-x-fix">
-		<button class="pay" id="pay" @click="goPay($event)">支付</button>
-		<span class="price">优惠价:<font>￥{{price}}</font></span>
+		<button class="pay" id="pay" @click="goPay($event)" style="background: #fb6048;">立即支付</button>
+		<span class="price" style="color: #f15c44;">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
 	<div class="sl-pay">

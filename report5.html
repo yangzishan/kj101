@@ -43,12 +43,12 @@
 		</div>
 		<p class="sstit2">-------汇总分析-------</p>
 		<div class="sstxt">
-			1、本次评估您身体状况为<em class="sta">{{ps}}</em><span v-if="ranking!=0 && ranking!=null">，生理年龄评估为<em class="sta">{{age}}</em>岁</span>
-			<span>，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
-			<p class="noSeg" id="segTwo">
+			　　本次评估您身体状况为<em class="sta">{{ps}}</em><span v-if="ranking!=0 && ranking!=null">，生理年龄评估为<em class="sta">{{age}}</em>岁</span>
+			<span>，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>。
+			<!--<p class="noSeg" id="segTwo">
 				2、本次检测您有<span><font class="sta">{{midNum}}</font>项为中度风险，</span><span><font class="sta">{{litNum}}</font>项为轻度风险。</span>
 				根据检测结果，给您的专属健康建议重点解决<i v-for="bid in abnormalName"> {{bid}}</i>指标的问题。
-			</p>		
+			</p>-->		
 		</div>
 		<a class="gojy" @click="getSuggest($event)"><i></i><span>请点击查看您的专属建议</span></a>
 		<a class="gosp" v-if="showRecipe > 0" @click="getRecipesData($event)"><i></i><span>请查看您的专属健康食谱</span></a>
@@ -146,7 +146,7 @@
 	    </div>
 	    <div class="changeShow">
 	    	<ul class="change_list">
-		    	<li v-for="item in okImproves">
+		    	<li v-for="item in okImproves" v-if="item.targetId != 3089 && item.targetId != 3207 && item.targetId != 3097 && item.targetId != 3110 && item.targetId != 3211 && item.targetId != 3219 && item.targetId != 3139">
 		    		<a @click="goThird($event,item)">
 		    		<span class="s1 fl">{{item.tagetName}}</span>
 		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
@@ -162,7 +162,7 @@
 	    </div>
 		<div class="changeShow" style="display: none;">
 			<ul class="change_list">
-		    	<li v-for="item in noImproves">
+		    	<li v-for="item in noImproves" v-if="item.targetId != 3089 && item.targetId != 3207 && item.targetId != 3097 && item.targetId != 3110 && item.targetId != 3211 && item.targetId != 3219 && item.targetId != 3139">
 		    		<a @click="goThird($event,item)">
 		    		<span class="s1 fl">{{item.tagetName}}
 		    			<font v-if="item.newAdd == 1" style="display: inline-block; margin-left: .1rem;">新增</font>

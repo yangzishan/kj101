@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>健康报告4.0</title>
+<title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
@@ -16,7 +16,7 @@
 <div id="report4" class="report4" v-cloak>
 	<section v-for="item in parentList" v-if="item.targetId == 'total_score'">
 		<p class="btit"><span class="lab">健康活力</span><i class="pop" @click="pop($event,item)">{{item.inspectContent}}</i></p>
-		<div class="vitality" :class="{bg1:item.score >= 90,bg2:item.score < 90 && item.score >= 80,bg3:item.score < 80}">
+		<div class="vitality" :class="{bg1:item.score >= 90,bg2:item.score < 90 && item.score >= 80,bg3:item.score < 80}" @click="goSecond($event,item)">
 			<p class="score"><b>{{item.score}}</b>分</p>
 			<p class="lev">{{item.xtbmName}}</p>
 		</div>
@@ -31,12 +31,26 @@
 	</ul>
 	<section v-for="item in parentList" v-if="item.targetId == 'A1001'">
 		<p class="btit"><span class="lab">体型</span><i class="pop" @click="pop($event,item)">{{item.inspectContent}}</i></p>
-		<div class="shape" :class="{bg1:item.score<18.5,bg2:item.score>=18.5 && item.score<24,bg3:item.score>=24 && item.score<28,bg4:item.score>=28}">
+		<div class="shape" :class="{bg1:item.score<18.5,bg2:item.score>=18.5 && item.score<24,bg3:item.score>=24 && item.score<28,bg4:item.score>=28}" @click="goSecond($event,item)">
 			<div class="bmibox">
 				<p class="v_num">BMI={{item.score}}</p>
 				<p>{{item.xtbmName}}</p>
+				<p class="update" @click.stop="goUpdate">更新数据</p>
 			</div>
 			<p class="tip">{{item.xtbmContent}}</p>
+			<div class="alter-box" v-show="showUpdateBmi" @click.stop="">
+				<div class="write">
+					<span>身高：</span>
+					<div><input type="number" id="_height" max="250" min="50" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+					<span>cm</span>
+				</div>
+				<div class="write">
+					<span>体重：</span>
+					<div><input type="number" id="_weight" max="200" min="20" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+					<span>kg</span>
+				</div>
+				<div class="confirm" @click.stop="updateBmi()">确定</div>
+			</div>
 		</div>
 	</section>
 		
@@ -48,7 +62,7 @@
 	</ul>
 	<section v-for="item in parentList" v-if="item.targetId == 'A1002'">
 		<p class="btit"><span class="lab">心情</span><i class="pop" @click="pop($event,item)">{{item.inspectContent}}</i></p>
-		<div class="mood" :class="{bg1:item.abLive >= 4,bg2:item.abLive == 3,bg3: item.abLive <3}">
+		<div class="mood" :class="{bg1:item.abLive >= 4,bg2:item.abLive == 3,bg3: item.abLive <3}" @click="goSecond($event,item)">
 			<p class="sta">{{item.xtbmName}}</p>
 			<p class="tip">{{item.xtbmContent}}</p>
 		</div>
@@ -60,6 +74,23 @@
 			<p class="res">{{item.xtbmName}}</p>
 		</li>
 	</ul>
+	
+	<div class="fix-dh">
+		<ul class="daohang">
+			<li class="dh-li active">
+				<div class="pic"><img src="img/4.0/dh-rp-1.png"></div>
+				<p class="txt">报告</p>
+			</li>
+			<li class="dh-li" @click="getRecipesData()">
+				<div class="pic"><img src="img/4.0/dh-sp-0.png"></div>
+				<p class="txt">食谱</p>
+			</li>
+			<li class="dh-li" @click="checkHistory()">
+				<div class="pic"><img src="img/4.0/dh-ls-0.png"></div>
+				<p class="txt">历史</p>
+			</li>
+		</ul>
+	</div>
 </div>
 </DIV>
 
@@ -113,19 +144,28 @@ var reportId = getQueryString('reportId');
 var customerId = getQueryString('userId');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
-/*var reportId = "KJ104IS0013414C19021510474523127";
-var customerId = 3820522;*/
+var saasId = getQueryString('saasId');
 var edition = 400;
+var payStr = '';
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
+if(!openId){
+	//alert('now in app');
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId;
+}
 var myApp = new Vue({
 	el:'#report4',
 	data: function(){
 		return {
 			reportId:reportId,
 			customerId: customerId,
+			userId: customerId,
 			sex:'',
 			age:'',
 			inspectDateStr:'',
 			parentList:'', //各个指标集合
+			height:'',
+			weight:'',
+			showUpdateBmi: false,
 		}
 	},
 	methods: {
@@ -172,23 +212,69 @@ var myApp = new Vue({
 		},
 		//判断支付页面
 		participate: function(paymentType,sameUser){
-			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType
-			/*if(paymentType == 3){
-				location.href="pay_byuser.html"+payStr
-			}else if(paymentType == 4){
-				location.href="pay_type4.html"+payStr
-			}else if(paymentType == 2){
-				location.href="pay_coupon.html"+payStr
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId
+			location.href="payfor400.html"+payStr
+		},
+		//调出bmi更新框
+		goUpdate: function(){
+			this.showUpdateBmi = true
+		},
+		//更新BMI
+		updateBmi: function(){
+			var vm = this;
+			if(vm.height == '' || vm.weight == ''){
+				vm.showUpdateBmi = false;
+				return;
+			}
+			if(parseFloat(vm.height)>250 || parseInt(vm.height)<50){
+				alert('请输入正确的身高');
+				return;
+			}else if(parseFloat(vm.weight)>200 || parseInt(vm.weight)<20){
+				alert('请输入正确的体重');
+				return;
 			}else{
-				location.href="payfor.html"+payStr
-			}*/
-			location.href="pay_type4.html"+payStr
+				vm.showUpdateBmi = false;
+				$.post(analysisreport+'/v4/reportData/updateBMIById',
+					{
+						reportId: reportId,
+						customerId : customerId,
+						customerId : customerId,
+						height : vm.height,
+						weight : vm.weight
+					},
+					function(data){
+						if(data.code == 200){
+							vm.queryV4Report();
+							console.log('更新bmi')
+						}else{
+							alert('BMI更新失败 updateBMIById code='+data.code)
+						}
+					}
+				)
+			}	
+		},
+		checkHistory: function(){ //历史报告
+			var vm = this;
+			zhuge.track('点击历史报告', { //埋点 t
+				'用户id': vm.userId,
+				'渠道' : '微信'
+			},function(){
+				location.href = gohistoryUrl
+			});
+		},
+		getRecipesData: function(){ //健康食谱
+			var vm = this;
+			zhuge.track('点击健康食谱',{
+				'用户id': vm.userId,
+				'渠道' : '微信'
+			},function(){
+				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
+			})
 		},
 	},
 	mounted: function(){
 		this.queryV4Report();
 	}
-	
 });
 //弹窗
 var _bodyoffset = '';

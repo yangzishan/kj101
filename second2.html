@@ -28,7 +28,7 @@
 					<div class="fen fr"><font>{{ostate.score}}</font>分</div>
 				</div>	
 			</dt>
-			<dd class="cdd" v-for="item in ostate.thirdPages">
+			<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3097 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
 				<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
 					<span class="lab">{{item.targetThirdName}}</span>
 					<span class="sta">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>

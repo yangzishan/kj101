@@ -67,8 +67,22 @@
             </div> 
         </div>   
     </div>-->
+    
+    <div id="pay_buy">
+    	<ul class="choosePay">
+	    	<li class="p_li pay" @click="goPay($event)">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{price}}/</span><font>1次</font></p>
+	    	</li>
+	    	<li class="p_li card" @click="goBuyCard()">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{cardPrice}}/</span><font>{{cardUseCount}}次</font></p>
+	    	</li>
+	    </ul>
+    </div>
+    
 	
-	<div class="pay-x-fix">
+	<div class="pay-x-fix" id="pay_fix">
 		<button class="pay" id="pay" @click="goPay($event)">支付</button>
 		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>

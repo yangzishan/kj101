@@ -16,7 +16,7 @@
 	<div class="sp-tit">根据您的健康状况，我们为您推荐一周的食谱，点击食谱中菜名即可查看餐品标准配比及营养成分。
 		<br><img src="img/pay_fail.png" style="height: .28rem; margin-right:.1rem; position: relative; top: .05rem;">如果您存在基础病，请以遵医嘱为先。
 	</div>
-	<div class="sp-zj"><em class="fr ssjy"></em></div>
+	<div class="sp-zj"><em class="fr ssjy" @click="popZj()"></em></div>
 	<div class="sp-dcn" v-for="(day,index) in recipes">
 		<p class="cnt"><span class="fl">day{{index+1}}</span></em></p>
 		<div class="cnc">
@@ -25,7 +25,7 @@
 				<dt><p class="ce"><img src="img/sp-i-mianbao.png"><font>早餐</font></p></dt>
 				<dd>
 					<template v-for="bre in day.breakfast.meat">
-						<span>{{bre.foodName}}</span>
+						<span @click="popOrder($event)">{{bre.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{bre.foodName}}</p>
@@ -45,7 +45,7 @@
 				</dd>
 				<dd>
 					<template v-for="bre in day.breakfast.vegetable">
-						<span>{{bre.foodName}}</span>
+						<span @click="popOrder($event)">{{bre.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{bre.foodName}}</p>
@@ -65,7 +65,7 @@
 				</dd>
 				<dd>
 					<template v-for="bre in day.breakfast.main">
-						<span>{{bre.foodName}}</span>
+						<span @click="popOrder($event)">{{bre.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{bre.foodName}}</p>
@@ -88,7 +88,7 @@
 				<dt><p class="ce"><img src="img/sp-i-binggan.png"><font>早加餐</font></p></dt>
 				<dd>
 					<template v-for="ba in day.breakfastAdd.BA">
-						<span>{{ba.foodName}}</span>
+						<span @click="popOrder($event)">{{ba.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{ba.foodName}}</p>
@@ -111,7 +111,7 @@
 				<dt><p class="ce"><img src="img/sp-i-niurou.png"><font>午餐</font></p></dt>
 				<dd>
 					<template v-for="lun in day.lunch.meat">
-						<span>{{lun.foodName}}</span>
+						<span @click="popOrder($event)">{{lun.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{lun.foodName}}</p>
@@ -131,7 +131,7 @@
 				</dd>
 				<dd>
 					<template v-for="lun in day.lunch.vegetable">
-						<span>{{lun.foodName}}</span>
+						<span @click="popOrder($event)">{{lun.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{lun.foodName}}</p>
@@ -151,7 +151,7 @@
 				</dd>
 				<dd>
 					<template v-for="lun in day.lunch.main">
-						<span>{{lun.foodName}}</span>
+						<span @click="popOrder($event)">{{lun.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{lun.foodName}}</p>
@@ -174,7 +174,7 @@
 				<dt><p class="ce"><img src="img/sp-i-mangguo.png"><font>午加餐</font></p></dt>
 				<dd>
 					<template v-for="la in day.lunchAdd.LA">
-						<span>{{la.foodName}}</span>
+						<span @click="popOrder($event)">{{la.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{la.foodName}}</p>
@@ -197,7 +197,7 @@
 				<dt><p class="ce"><img src="img/sp-i-jitui.png"><font>晚餐</font></p></dt>
 				<dd>
 					<template v-for="lun in day.dinner.meat">
-						<span>{{lun.foodName}}</span>
+						<span @click="popOrder($event)">{{lun.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{lun.foodName}}</p>
@@ -217,7 +217,7 @@
 				</dd>
 				<dd>
 					<template v-for="lun in day.dinner.vegetable">
-						<span>{{lun.foodName}}</span>
+						<span @click="popOrder($event)">{{lun.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{lun.foodName}}</p>
@@ -237,7 +237,7 @@
 				</dd>
 				<dd>
 					<template v-for="lun in day.dinner.main">
-						<span>{{lun.foodName}}</span>
+						<span @click="popOrder($event)">{{lun.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
 								<p class="tit">{{lun.foodName}}</p>
@@ -316,52 +316,70 @@ function getQueryString(name){
 };
 var reportId = getQueryString('reportId');
 var edition=getQueryString("edition");
-var _url = '/api/v1/reportIndex/getRecipesData' //默认指定接口 必须放edition判断上边
+var _url = dataUrl + '/api/v1/reportIndex/getRecipesData' //默认指定接口 必须放edition判断上边
 if(edition == 500){ //适配501报告
-	var _url = '/api/v5/reportData/getRecipesData'
+	_url = dataUrl + '/api/v5/reportData/getRecipesData'
+}else if(edition == 400){
+	_url = analysisreport + '/v4/reportData/getReportRecipesData'
 }
 zhuge.track('进入健康食谱页面', { //埋点t
 	'渠道' : '微信'
 });
-$.ajax({
-	type: "post",
-	url: dataUrl + _url,
-	dataType: 'json',
-	data:{
-		reportId: reportId,
-	},
-	success:function(data){
-		if(data.code==200){
-			$('.my_view').css("display","block");
-			$('.load-overlay').css("display","none");
-			var myApp = new Vue({
-				el: '#myvue',
-				data: {
-					recipes: data.data.daylist
-				}
-			});
-			
-			//点菜名弹出窗
-			$('.sp-dcn .cnc .tli dd span').on("click",function(){
-				event.stopPropagation();
-				showMask();
-				$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
-				return false;
-			});
-			//弹专家
-			$('.ssjy').on("click",function(){
-				event.stopPropagation();
-				showMask();
-				$('#ssjyTab').css({"visibility":"visible","opacity":"1"});
-				return false;
-			});
-		}else{
-			alert(data.msg +' :code='+data.code);
-			window.history.go(-1);
+
+var myApp = new Vue({
+	el: '#myvue',
+	data: function(){
+		return{
+			reportId: reportId,
+			edition: edition,
+			recipes: '',
 		}
 	},
-	error: function(obj,msg){console.log(obj+msg + ":"+data.msg);}
+	methods: {
+		getRecipesData: function(){
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: _url,
+				dataType: 'json',
+				data:{
+					reportId: reportId,
+				},
+				success:function(data){
+					if(data.code==200){
+						$('.my_view').css("display","block");
+						$('.load-overlay').css("display","none");
+						vm.recipes = data.data.daylist
+
+					}else{
+						alert(data.msg +' :code='+data.code);
+						window.history.go(-1);
+					}
+				},
+				error: function(obj,msg){console.log(obj+msg + ":"+data.msg);}
+			});
+		},
+		//点击菜名
+		popOrder: function(e){
+			event.stopPropagation();
+			showMask();
+			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
+			return false;
+		},
+		//弹专家
+		popZj:function(){
+			event.stopPropagation();
+			showMask();
+			$('#ssjyTab').css({"visibility":"visible","opacity":"1"});
+			return false;
+		}
+	},
+	mounted: function(){
+		this.getRecipesData()
+	}
 });
+
+
 
 //弹窗
 var win_top = 0;

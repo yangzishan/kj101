@@ -2,12 +2,13 @@ var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
 var edition = 120;
 var payStr = '';
-var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId;
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId;
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
 }
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
@@ -176,7 +177,7 @@ var myApp = new Vue({
 		},
 		//判断 /支付
 		participate: function(paymentType,sameUser){
-			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId;
 			if(paymentType == 3){
 				location.href="pay_byuser.html"+payStr
 			}else if(paymentType == 4){

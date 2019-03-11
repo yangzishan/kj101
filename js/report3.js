@@ -2,14 +2,15 @@ var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
 var edition = 3;
 if(reportType == 501){
 	$('.skin').remove();
 }
-var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId;
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId;
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
 }
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
@@ -42,6 +43,7 @@ new Vue({
 		return {
 			openId:openId,
 			userId: customerId,
+			showSex:false, //过滤两性功能模块
 			isShow:false,
 			isActive:[],
 			popupA:false,
@@ -137,7 +139,7 @@ new Vue({
 					}else if((data.code == 201)){
 						//alert('queryNewReportDataByReportId code='+data.code);
 						_this.sameUser = data.sameUser;
-						location.href = 'payfor3.0.html?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType;
+						location.href = 'payfor3.0.html?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType+'&saasId='+saasId
 					}else{alert('queryNewReportDataByReportIdAndCustomerId,code='+data.code+data.msg)}
 				},
 				error: function(){alert('queryNewReportDataByReportIdAndCustomerId error')}
@@ -303,6 +305,9 @@ new Vue({
 		},
 		updateBmi: function(){
 			var vm = this;
+			if(vm.height == '' || vm.weight == ''){
+				return;
+			}
 			if(parseFloat(this.height)>250 || parseInt(this.height)<50){
 				alert('请输入正确的身高');
 				return;

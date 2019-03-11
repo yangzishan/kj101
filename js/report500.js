@@ -2,11 +2,12 @@ var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var customerId = getQueryString('userId');
 var reportType = getQueryString('reportType');
+var saasId = getQueryString('saasId');
 var edition = 500;
-var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId;
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId;
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId;
 }
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
@@ -99,7 +100,7 @@ new Vue({
                         },100)
                         urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition+'&userId='+ customerId+'&reportType='+reportType+'&openId='+openId;
                    }else if(res.code == 201){
-                        location.href = 'payfor501.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&reportType='+reportType+'&edition='+edition+'&sameUser='+res.data.sameUser;
+                        location.href = 'payfor501.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&reportType='+reportType+'&edition='+edition+'&sameUser='+res.data.sameUser+'&saasId='+saasId
                    }else{
                    		alert('inspectIndex2 code='+res.code+res.msg)
                    }

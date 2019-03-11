@@ -2,11 +2,12 @@ var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
 var edition = 100;
-var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId;
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId;
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
 }
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
@@ -329,7 +330,7 @@ var myApp = new Vue({
 				'渠道' : '微信',
 				'方式': '通过福利基金首页点击'
 			},function(){
-				location.href = 'pay_fuli.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&sameUser='+vm.sameUser+'&edition='+edition+'&reportType='+reportType
+				location.href = 'pay_fuli.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&sameUser='+vm.sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId
 			});
 		},
 		wheelsort: function(deviceSn,reportId){ //广告接口

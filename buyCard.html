@@ -6,34 +6,26 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>我的年卡</title>
+<title>购买年卡</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body class="bck-col-fff">
-
 <section class="my_view">
-<!--<header class="header">
-	<a class="b-arr fl" href="javascript:history.go(-1);"></a>
-	<a class="t-right fr" href=""></a>
-	<p class="t-cen txt1"><span>我的年卡</span></p>
-</header>-->	
-<div class="tjk_v" id="appVUE">
-	<a class="g-tyk" v-for="card in cards" :href="card.password|getRecordHref">
+<div class="" id="appVUE" style="padding: .5rem .3rem;">
+	<a class="g-tyk">
 		<div class="tyk_x">
 			<em class="mask">已绑定</em>
 			<p class="tit"><span class="nam">VIP</span><span class="nam_lit">(年)</span></p>
-			<p class="tnum">卡号 <span>{{card.password}}</span></p>
-			<input class="kaNo" type="hidden" :value="card.password" />
-			<p class="remainder">剩余<span class="sxValue">{{card.value}}</span>次</p>
-			<p class="date">有效期至 <span class="sxDate">{{card.endTime}}</span></p>
+			<p class="tnum">卡号 <span>YB02*************2987</span></p>
+			<p class="remainder">剩余<span class="sxValue">{{useCount}}</span>次</p>
+			<p class="date">有效期至 <span class="sxDate">{{expirationTime}}</span></p>
 			<i class="sel"></i>
 			<input type="radio" />
 		</div>
 	</a>
-	<div class="tyk-fix"><a class="tyk-btn" id="goBind" href="addTycard.html">立即购买</a></div>
+	<div class="tyk-fix"><button class="tyk-btn" id="goWxPay" @click="gotoPay($event)">立即购买</button></div>
 </div>	
-
 <div class="cardIntro">
 	<p class="tit">一、年卡VIP会给您带来？</p>
 	<div class="txt">
@@ -48,17 +40,13 @@
 		3. 因个人健康档案建立后，每月会形成健康趋势分析，建议您个人使用，不要转他人使用，以免影响您的健康档案精确性。<br/>
 	</div>
 </div>
-
 </section>
-
-
-<div class="load-overlay">
-	<div class="loadimg"><img src="img/loading.gif"></div>
-</div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -77,6 +65,153 @@
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
+</script>
+<script>
+var reportId = getQueryString("reportId");
+var openId = getQueryString("openId");
+var userId = getQueryString("userId");
+var reportType = getQueryString("reportType");
+var snNum = getQueryString("snNum");
+var saasId = getQueryString("saasId");
+var payChannelType = 1  //微信支付
+
+var myapp = new Vue({
+	el:'#appVUE',
+	data: function(){
+		return{
+			reportId: reportId,openId: openId,userId: userId,reportType: reportType,snNum: snNum,saasId: saasId,
+			orderNum:'',
+			payPrice:'',
+			expirationTime: '',//有限期
+			useCount: '',  //次数
+		}
+	},
+	methods:{
+		//生成年卡订单
+		insertPaymentGoodsPayOrder: function(){
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl+"/api/v5/yearCard/insertPaymentGoodsPayOrder",
+				dataType: 'json',
+				data: {
+					customerId: userId,
+					neSn: snNum,
+					inspectCode: reportId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.orderNum = res.data.orderNum
+						vm.payPrice = res.data.price
+						vm.expirationTime = res.data.expirationTime
+						vm.useCount = res.data.useCount
+					}else{
+						alert('insertPaymentGoodsPayOrder code='+res.code)
+					}
+				},
+				error: function(){ alert('insertPaymentGoodsPayOrder error')}
+			});
+		},
+		//下单支付
+		gotoPay: function(e){ //点击支付
+  			var vm = this;
+			$(e.target).attr("disabled",true);//新加防呆
+			$.ajax({
+			    url:channel + "/pay/v1/commodity/payOrder",
+			    type : "POST",
+				dataType : 'json',
+				data : {
+				    attach : openId, 
+				    orderNum : vm.orderNum,
+				    payChannelId : 1,//payChannelId 1微信支付 暂时未配置支付通道
+				    payPrice : vm.payPrice,
+				    userId : userId
+				},
+			    success : function(result) {
+			    	if(result.code == 0){
+			    		if(payChannelType == 1){ //weixin
+				            WeixinJSBridge.invoke('getBrandWCPayRequest',{  
+				                "appId" : result.result.appId,              //公众号名称，由商户传入  
+				                "timeStamp": result.result.timeStamp,       //时间戳，自 1970 年以来的秒数  
+				                "nonceStr" : result.result.nonceStr,        //随机串  
+				                "package" : result.result.package,          //商品包信息 
+				                "signType" : result.result.signType,       //微信签名方式
+				                "paySign" : result.result.sign            //微信签名  
+				                },function(res){
+				                	//debugger;
+				                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
+				                    	//alert('支付成功测试');
+				                    	
+				                    	vm.updatePaymentGoodsPayorder(vm.orderNum);
+		
+				                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+										alert("支付取消");
+										$('#goWxPay').attr("disabled",false);  //新加防呆
+									}else if (res.err_msg == "get_brand_wcpay_request:fail") {
+										alert("支付失败："+res.err_desc);
+										$('.wxpay .dtit i').addClass('fail');
+										$('.wxpay .dtit span').html('支付失败');
+										$('#goWxPay').attr("disabled",false);  //新加防呆
+									}
+				                }
+				            ); 
+				    	}
+			    	}else{
+			    		alert('payOrder code='+result.code+result.msg)
+			    	}
+				    	
+			    },
+			    error: function(){alert('payOrder error');$('#goWxPay').attr("disabled",false);}
+			});	
+  		},
+		//支付成功回调  参数订单
+		updatePaymentGoodsPayorder: function(orderNum){
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl+"/api/v5/yearCard/updatePaymentGoodsPayorder",
+				dataType: 'json',
+				data: {
+					inspectCode: reportId,
+					neSn: snNum,
+					orderNum: orderNum
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.goReportIndex(reportId,userId,reportType)
+					}else{
+						alert('updatePaymentGoodsPayorder code='+res.code)
+					}
+				},
+				error: function(){ alert('updatePaymentGoodsPayorder error')}
+			});
+		},
+		//跳转报告
+		goReportIndex: function(reportId,userId,reportType){ //跳转查看报告
+			var vm = this;
+			if(reportType == 121){
+				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			}else if(reportType == 501){
+				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			}else{
+				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			}
+		},
+
+	},
+	mounted: function(){
+		this.insertPaymentGoodsPayOrder()
+	}
+});
+
+//获取url参数
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+}
 </script>
 
 </body>

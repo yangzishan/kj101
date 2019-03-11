@@ -125,11 +125,12 @@ function getQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
-var userId=getQueryString("userId");
+var userId = getQueryString("userId");
 if(userId){
 	getUserInfor(userId)
 }
 $('#userId').val(userId);  //修改生日用
+
 zhuge.track('进入个人中心页', { //埋点t
 	'用户id' : userId,
 	'渠道' : '微信'

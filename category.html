@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>健康报告4.0</title>
+<title></title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
@@ -31,7 +31,7 @@
 		</div>
 		<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
 	</div>
-	<div class="ca_box" v-if="suggestContent">
+	<div class="ca_box" v-if="suggestContent" v-if="targetId != 'total_score'">
 		<p class="box-t" :class="targetId">
 			<img :src="'img/4.0/j-'+targetId+'-t.png'" class="img_b"><span>膳食建议</span>
 		</p>
@@ -45,7 +45,7 @@
 		</div>
 		<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
 	</div>
-	<div class="ca_box" v-if="improvementProgram">
+	<div class="ca_box" v-if="improvementProgram" v-if="targetId != 'total_score'">
 		<p class="box-t" :class="targetId">
 			<img :src="'img/4.0/j-'+targetId+'-t.png'" class="img_b"><span>生活建议</span>
 		</p>
@@ -58,6 +58,24 @@
 			</div>
 		</div>
 		<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
+	</div>
+	<!-- 2019年3月8日 新加total_score -->
+	<div class="new_box" v-if="targetId == 'total_score'">
+
+		<div class="ca_box" v-for="item in suggestList" >
+			<p class="box-t" :class="targetId">
+				<img :src="'img/4.0/j-'+targetId+'-t.png'" class="img_b"><span>{{item.dietSuggestion}}</span>
+			</p>
+			<div class="box-c">
+				<div class="c-l fl">
+					<p class="pic"><img :src="'img/4.0/u'+item.detailId+'.png'" class="s3"></p>
+				</div>
+				<div class="c-r fr">
+					<p class="txt">{{item.dietDetail}}</p> 
+				</div>
+			</div>
+			<p class="box-b"><img :src="'img/4.0/j-'+targetId+'-b.png'" class="img_b"></p>
+		</div>	
 	</div>
 </div>
 </DIV>
@@ -136,7 +154,8 @@ var myApp = new Vue({
 			suggestContent:'',
 			improvementProgram:'',
 			sex:'',
-			abLive:''
+			abLive:'',
+			suggestList:''
 		}
 	},
 	methods: {
@@ -160,8 +179,11 @@ var myApp = new Vue({
 						vm.xtbmContent = res.result.xtbmContent 
 						vm.suggestContent = res.result.suggestContent 
 						vm.improvementProgram = res.result.improvementProgram
+						vm.suggestList = res.result.suggestList
 						$('.load-overlay').css("display","none");
 						$('.my_view').css("visibility","visible");
+						document.title = res.result.inspectName;
+						console.log(vm.suggestList)
 					}
 				},
 				error: function(){alert('queryV4ReportTarget error')}
@@ -171,7 +193,6 @@ var myApp = new Vue({
 	mounted: function(){
 		this.queryV4ReportTarget();
 	}
-	
 });
 </script>
 </body>

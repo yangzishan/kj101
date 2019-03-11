@@ -180,7 +180,9 @@ $(function(){
     var go = 0;
 	function goPrint(n){
 		if(n == 4){
-			window.print();
+			setTimeout(function(){
+				window.print();
+			},300)
 		}
 	};
     if(viewType == 2){

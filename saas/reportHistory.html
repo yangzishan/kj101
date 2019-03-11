@@ -56,14 +56,15 @@
 var aIndex = 0;
 
 $.ajax({
-url : dataUrl + "/api/v1/reportIndex/historyByUserId",
+url : dataUrl + "/api/v1/ne/findHistoryReport",
 type : "POST",
 dataType : 'json',
 data : {
-   	userId : userId,
+   	customerId : userId,
+   	companyId: saasId,
     firstPage: '0',
-    pageSize: 30,
-    agentId: saasId
+    pageSize: 30
+    
 },
 success : function(historyData) {
 	//alert('get it')
