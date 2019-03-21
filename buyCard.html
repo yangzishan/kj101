@@ -72,6 +72,7 @@ var openId = getQueryString("openId");
 var userId = getQueryString("userId");
 var reportType = getQueryString("reportType");
 var snNum = getQueryString("snNum");
+var packageId = getQueryString("packageId");
 var saasId = getQueryString("saasId");
 var payChannelType = 1  //微信支付
 
@@ -174,7 +175,10 @@ var myapp = new Vue({
 				data: {
 					inspectCode: reportId,
 					neSn: snNum,
-					orderNum: orderNum
+					orderNum: orderNum,
+					customerId: userId,
+					packageId: packageId,
+					saasId: saasId
 				},
 				success: function(res){
 					if(res.code == 200){

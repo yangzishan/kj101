@@ -68,7 +68,7 @@
         </div>   
     </div>-->
     
-    <div id="pay_buy">
+    <div id="pay_buy" style="display: none;">
     	<ul class="choosePay">
 	    	<li class="p_li pay" @click="goPay($event)">
 	    		<p class="lab">查看报告</p>
@@ -81,19 +81,19 @@
 	    </ul>
     </div>
     
-	
 	<div class="pay-x-fix" id="pay_fix">
 		<button class="pay" id="pay" @click="goPay($event)">支付</button>
 		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
+	
 	<div class="sl-pay">
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
 		<div class="cnn">
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<button class="pay-li" id="kaPay" @click="gopayBycard($event)"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></button>
 		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
 		</button>

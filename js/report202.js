@@ -3,15 +3,11 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
-var edition = 2;
-if(reportType == 5 || reportType < 6){
-	var indexAll_data = '/api/v1/reportIndex/indexAll2'
-	var targetImprove_data = '/api/v2/reportIndex/targetImprove'
-}else if(reportType == 500){ //适配501报告
-	var indexAll_data = '/api/v5/reportData/indexAll2'
-	var targetImprove_data = '/api/v5/reportData/targetAnalyse'
-	$('header').css("display","none")
-};
+var edition = 202;
+
+var indexAll_data = '/api/v1/reportIndex/indexAll2'
+var targetImprove_data = '/api/v202/report/targetImprove'
+
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
@@ -37,7 +33,7 @@ setupWebViewJavascriptBridge(function(bridge) {
 	});
 })
 /*******************************交互逻辑*****************************/
-zhuge.track('进入2.0报告首页', {//埋点t
+zhuge.track('进入202报告首页', {//埋点t
 	'用户id' : customerId,
 	'渠道' : '微信'
 });
@@ -78,7 +74,7 @@ var myApp = new Vue({
 			noImproves:'',
 			deviceSnNum:'',
 			banData:'',
-			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
+			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1EA9F6;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
 		}
 	},
@@ -103,13 +99,13 @@ var myApp = new Vue({
 						vm.saasLogo = res.data.saasLogo
 					}
 				},
-				error: function(){}
+				error: function(){alert('getSaasTenantByCompanyId error')}
 			});
 		},
 		getData: function(){ //获取首页数据
 			var vm = this;
-			if(saasId){  //如果有saasId调用查询 SaaS信息
-				vm.getSaasTenantByCompanyId()
+			if(saasId){ //如果有saasId调用查询 SaaS信息
+				vm.getSaasTenantByCompanyId();
 			};
 			$.ajax({
 				type:"post",
@@ -203,7 +199,7 @@ var myApp = new Vue({
 									$(this).find('.s-inf').find('.tx').css("color","#FF8800");
 								};
 							});
-							$('#sysNum').text($('.tenSys_c a').length);
+							$('#sysNum').text($('.zhibiao_c .c_li').length);
 						},200);
 						//生理年龄图
 						var arraySlnl=[],arrayXt=[];
@@ -276,21 +272,13 @@ var myApp = new Vue({
 		//判断支付页面
 		participate: function(paymentType,sameUser){
 			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId
-			if(paymentType == 3){
-				location.href="pay_byuser.html"+payStr
-			}else if(paymentType == 4){
-				location.href="pay_type4.html"+payStr
-			}else if(paymentType == 2){
-				location.href="pay_coupon.html"+payStr
-			}else{
-				location.href="payfor.html"+payStr
-			}		
+			location.href="payfor202.html"+payStr	
 		},
 		//介绍弹窗
 		popTen: function(e){
 			e.stopPropagation;
 			showMask();
-			$(e.target).parents('.s-inf').next('.v_overlert').css({"visibility":"visible","opacity":"1"});
+			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
 		popSta: function(e){
 			showMask();
@@ -388,6 +376,43 @@ var myApp = new Vue({
 		
 	}
 });
+
+//查用户信息对接智齿客服
+$.ajax({
+	url : dataUrl + "/api/v1/reportUser/findUserById",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	    userId : customerId
+	},
+	success : function(userData) {
+		if(userData.code == 200){
+			//初始化智齿咨询组件实例
+			var zhiManager = (getzhiSDKInstance());
+			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+			zhiManager.set('location',1); //位置
+			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+			zhiManager.set('lan', 'zh'); //支持语言
+			zhiManager.set('moduleType',3); //机器人客服优先模式
+			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+			zhiManager.set('customMargin', 200);
+			//设置用户信息
+			zhiManager.set('uname',userData.data.userName);
+			zhiManager.set('realname',userData.data.userName);
+			zhiManager.set('tel',userData.data.mobile);
+			zhiManager.set('remark','报告ID： '+reportId);
+			zhiManager.on("load", function() {
+			    zhiManager.initBtnDOM();
+			});
+		//////
+		}
+	},
+	error : function(obj,msg){console.log(obj+msg + "findUserById error")}
+});
+
 //广告轮播
 function banSlide(page_count){ 
 	var page_now=1;
@@ -500,7 +525,7 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 		        markLine: {
 		        	data:[]
 		        },
-		        color:['#1ccfba','#2f4554', '#61a0a8'],
+		        color:['#1EA9F6','#2f4554', '#61a0a8'],
 		        markLine:{
 		        	lineStyle:{
 		        		width:2,

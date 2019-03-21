@@ -60,8 +60,8 @@
 	  	<span class="on">健康指数</span><span>身体状况</span>
     </div>
     <div class="zhibiao_c indexShow">
-    	<a class="c_li" v-for="site in sites" :href="site.targetFirstId|getSecondHref">
-    		<i class="ico"></i><span class="lab">{{site.targetFirstName}}</span><em class="pop"></em>
+    	<a class="c_li" v-for="site in sites" @click="goSecond($event,site)">
+    		<i class="ico" :class="'ico'+site.targetFirstId"></i><span class="lab">{{site.targetFirstName}}</span><em class="pop" @click.prevent.stop="popTen($event)"></em>
     		<div class="v_overlert">
 				<div class="tc_sy">
 					<p class="bit"><span class="labt">{{site.targetFirstName}}</span><em></em></p>

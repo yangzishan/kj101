@@ -77,8 +77,21 @@
 			</li>
 		</ul>	
 	</div>-->
-
-	<div class="fix-p">
+	
+	<div id="pay_buy" style="display: none;">
+    	<ul class="choosePay">
+	    	<li class="p_li pay" @click="goPay($event)">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{price}}/</span><font>1次</font></p>
+	    	</li>
+	    	<li class="p_li card" @click="goBuyCard()">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{cardPrice}}/</span><font>{{cardUseCount}}次</font></p>
+	    	</li>
+	    </ul>
+    </div>
+	
+	<div class="fix-p" id="pay_fix">
 		<p class="ctxt">￥{{price}}</p>
 		<button class="go" id="pay" @click="goPay($event)">支付</button>
 	</div>
@@ -89,11 +102,6 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<!--<a class="pay-li" v-for="pay in data" :href="'../wxPay_new.html?reportId='+reportId+'&userId='+userId+
-			'&packageId='+packageId+'&name='+name+'&price='+price+'&openId='+openId+
-			'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+orderNum+'&payChannelType='+pay.payChannelType">
-			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/fuli/o-arr.png">
-		</a>-->
 		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/fuli/o-arr.png">
 		</button>

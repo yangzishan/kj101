@@ -21,6 +21,7 @@
 	<p class="">健康筛查机器人为我的评估如下：</p>
 	<div>
 		<span>总分：</span>
+		<span id="language"></span>
 	</div>
 </div>
 	
@@ -48,6 +49,24 @@
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
+</script>
+<script>
+	console.log(navigator.language);
+	$('#language').text(navigator.language)
+	$.ajax({
+		type: "post",
+		url: "http://saas-ysc.jiankangzhan.com/api/v1/initTenant/getSaasTenantByCompanyId",
+		async:true,
+		dataType: 'json',
+		data: {
+			saasId: 217829
+		},
+		success: function(res){
+			console.log(res)
+		},
+		error: function(){alert('error')}
+	})
+	
 </script>
 </body>
 </html>

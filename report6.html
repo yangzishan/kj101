@@ -46,7 +46,7 @@
 		</ul>
 	</div>
 	<!--报告说明-->
-	<div class="report-box">注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。<a href="notice3.html">了解更多</a></div>
+	<div class="report-box">注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。<a @click="seeMore()">了解更多</a></div>
 	<div class="kj-box">
 	<!--综合健康分数-->
 		<div class="sleep-box synthesis">
@@ -547,15 +547,6 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script>document.write('<script src="js/report3.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
-    /*var dpr = document.documentElement.getAttribute('data-dpr') || 1
-    var width = document.documentElement.offsetWidth
-    var fontSize = 100/750 * width;
-    document.querySelector('html').style.fontSize = (fontSize)+'px';
-    window.addEventListener('resize',function(){
-        var width = document.querySelector('html').offsetWidth;
-        var fontSize = 100/750 * width;
-        document.querySelector('html').style.fontSize = (fontSize)+'px';
-    })*/
 (function (doc, win) {
     var docEl = doc.documentElement,
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',

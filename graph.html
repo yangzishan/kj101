@@ -111,6 +111,12 @@
 	})
 </script> 
 <script>
+var sex = getQueryString("sex");
+var userId = getQueryString("userId");
+var reportId = getQueryString("reportId");
+var reportType = getQueryString("reportType");
+var openId = getQueryString("openId");
+
 new Vue({
 	el: '.all_view',
    data:function() {
@@ -143,16 +149,16 @@ new Vue({
 		},
 		// 导航
 		indexHref(){
-			window.location='report6.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
+			window.location='report6.html?reportId='+this.reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
 		adviseHref(){
-			window.location='z_pop3.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
+			window.location='z_pop3.html?reportId='+this.reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
 		recipeHref(){
-			window.location='recipes3.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
+			window.location='recipes3.html?reportId='+this.reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
 		graphHref(){
-			window.location='graph.html?reportId='+this.reportId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
+			window.location='graph.html?reportId='+this.reportId+'&openId='+openId+'&sex='+this.sex+'&userId='+this.userId+'&reportType='+this.reportType
 		},
    		reverseMessage() {
 			var _this = this

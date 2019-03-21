@@ -9,18 +9,22 @@
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<link rel="stylesheet" type="text/css" href="css/style.css?v=201809027" />
+<style>
+.change_tab span a{ display: inline-block; width: 3.3rem; height: .8rem; line-height: .8rem; border: #1EA9F6 solid .02rem; border-radius: .1rem;}
+.change_tab span.on a{ background: #1EA9F6; color: #fff;}
+</style>
 </head>
-<body class="bck-col-f4">
+<body>
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
-	<header class="header">
+	<header class="header" style="background: #1EA9F6;">
 		<a class="t-left fl goToPer" @click="goSetUp()" v-if="openId"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
 		<button class="t-left fl goToShare" id="goToShare" v-if="!openId">报告分享</button>
 		<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
-	<div class="all_score">
+	<div class="all_score" style="background: #1EA9F6;background: linear-gradient(-1deg, #67bfef 0%, #1EA9F6 100%);">
 		<div class="fan_box">
 			<div class="x_b">
 				<div class="b_kd">
@@ -34,83 +38,43 @@
 		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">{{inspectDay}}</em>日后再次检测</p></div>
 		<div class="explain" @click="explain()"><i></i><p>说明</p></div>
 	</div>
+	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	
-	<div class="bx_exp">
-		<p class="sstit">亲爱的<span class="col">{{userName}}{{sexStr}}</span>你好！</p>
+	<div class="sy_summary">
+		<p class="sstit">亲爱的<span class="inpv" style="color: #1EA9F6;">{{userName}}{{sexStr}}</span>你好！</p>
 		<div class="sstxt" v-html="saasTel"></div>
-		<ul class="golook">
-			<li><a @click="getSuggest($event)"><i></i><em>健康建议</em></a></li>
-			<li><a v-if="showRecipe > 0" @click="getRecipesData($event)"><i></i><em>专属食谱</em></a></li>
-		</ul>
-	</div>
-	
-	<div class="bx_tit"><span class="lab">十大系统状况</span></div>
-	<p class="bx_tip">以下是您身体十大系统的评估结果：</p>
-	<div class="bx_tensys">
-		<div :class="'fl bd_c bd_c'+sex">
-			<div class="man" v-if="sex == 1">
-				<i class="nao"></i><i class="gu"></i><i class="fei"></i><i class="wei"></i>
-			</div>
-			<div class="woman" v-if="sex == 0">
-				<i class="nao"></i><i class="gu"></i><i class="fei"></i><i class="wei"></i>
-			</div>
-		</div>
-		<dl class="sys_c fr">
-			<dd class="c_li" v-for="ten in firstPages" v-if="ten.targetFirstId != 1001" :class="[
-				{'lit':ten.score < 90 && ten.score >= 80},{'mid':ten.score < 80}]">
-			<a style="display: block" @click="goSecond($event,ten)">
-				<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
-				<em>{{ten.score >= 90?'正常':(ten.score < 90 && ten.score >= 80?'轻度风险':'中度风险')}}</em>
-			</a>
-			</dd>
-		</dl>
-	</div>
-	
-	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">异常指标项</span></div>
-	<p class="bx_tip">以下是您身体存在亚健康风险的指标：</p>
-	<div class="bx_abnormal">
-		<div class="fx-mid">
-			<div class="pic fl"><img src="img/120/dag_mid.png"><p>中度风险</p></div>
-			<div class="list fr">
-				<a class="bid" v-for="bid in midbid" @click="goThird($event,bid)">
-					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
-				</a>
-			</div>
-		</div>
-		<div class="fx-mid lit">
-			<div class="pic fl"><img src="img/120/dag_lit.png"><p>轻度风险</p></div>
-			<div class="list fr">
-				<a class="bid" v-for="bid in litbid" @click="goThird($event,bid)">
-					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
-				</a>
-			</div>
+		<p class="sstit2" style="color: #1EA9F6;">-------汇总分析-------</p>
+		<div class="sstxt">
+			本次评估您身体状况为<em class="sta">{{ps}}</em><span v-if="ranking!=0 && ranking!=null">，生理年龄评估为<em class="sta">{{age}}</em>岁</span>
+			<span>，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>。
+			<!--<p class="noSeg" id="segTwo">
+				2、本次检测您有<span><font class="sta">{{midNum}}</font>项为中度风险，</span><span><font class="sta">{{litNum}}</font>项为轻度风险。</span>
+				根据检测结果，给您的专属健康建议重点解决<i v-for="bid in abnormalName"> {{bid}}</i>指标的问题。
+			</p>-->		
 		</div>
 	</div>
-	
-	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">生理年龄</span><i class="pop" @click="phyage($event)"></i>
-		<div class="v_overlert">
-			<div class="tc_sy">
-				<em class="close"></em>
-				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
-				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
-					生理年龄的高低，主要取决于人的生活方式和健康状况。
-					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+
+	<div class="sumTit">以下是您<em id="sysNum"></em>大系统及身体实时状况的评估结果：</div>
+	<div class="sy_tab clearfix">
+	  	<span class="on"><a>健康指数</a></span><span><a>身体状况</a></span>
+   </div>
+    <div class="zhibiao_c indexShow">
+    	<a class="c_li" v-for="site in firstPages" @click="goSecond($event,site)" style="color: #1EA9F6;">
+    		<i class="ico" style="background: #1EA9F6; width: .8rem; height: .8rem; padding: .2rem; top: .2rem;"><img :src="site.iconUrl"></i>
+    		<span class="lab" style="color: #333333;">{{site.targetFirstName}}</span>
+    		<em class="pop" @click.prevent.stop="popTen($event)"></em>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{site.targetFirstName}}</span><em></em></p>
+					<div class="bxt">{{site.inspectExplain}}</div>
 				</div>
 			</div>
-		</div>
-	</div>
-		
-	<p class="bx_tip">您的生理年龄评估为<em style="color: #4ba59e;">{{age}}</em>岁，各个系统如下：</p>
-	<div class="agebar" style="background: #fff;">
-		<div id="ageChart" style="width: 100%; height:280px; position: relative;top: -30px;"></div>
-	</div>
-	
-	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><span class="lab">实时状态</span></div>
-	<p class="bx_tip">以下是您六大身体实时状态的情况：</p>
-    <div class="zhuangk_c indexShow">
+			<div class="tiptxt">{{site.inspectExplain}}</div>
+    		<i class="arr fr"></i><span class="fen fr">{{site.score}}分</span>
+    	</a>
+    </div>
+    
+    <div class="zhuangk_c indexShow" style="display: none;">
     	<div class="c_li" v-for="state in otherPages" v-if="state.targetThirdId != 3232">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
@@ -130,11 +94,90 @@
     		<span class="sta fr" v-else-if="state.abnormalLevel == 0 && state.analysisResults" style="padding: 0;">
     			<em style="font-size: .32rem; line-height: .8rem;">{{state.analysisResults}}</em>
     		</span>
+    		<!--<span class="sta2 fr">{{state.analysisResults}}</span>-->
     		<i class="pop fr" @click="popSta($event)"></i>
     	</div>
     </div>
-    
-    <!---广告--->
+  	<section id="noAge">
+  	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="" style="color: #1EA9F6;">生理年龄</span><em class="pop" @click="phyage($event)">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
+				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
+					生理年龄的高低，主要取决于人的生活方式和健康状况。
+					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+				</div>
+			</div>
+		</div>
+    </div>
+    <div class="slnl_tit">您的生理年龄评估为<em style="color: #1EA9F6;">{{age}}</em>岁，各个系统如下：</div>
+    <div id="sl_chart" style="width:100%; margin:0 auto; height: 250px; position: relative; top: -30px;"></div>	
+  	</section>
+
+
+	<div id="v_change">
+	    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+	    <div class="sy_tit">
+	    	<span class="" style="color: #1EA9F6;">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
+	    	<div class="v_overlert">
+				<div class="tc_sy">
+					<em class="close"></em>
+					<p class="bit"><span class="labt">指标改善状况分析</span><em></em></p>
+					<div class="bxt" style="text-align: left;">指标改善状况分析是基于本次报告结果与您上次评估结果的对比分析，上次报告取的是非当日的最近一次评估。 
+	已改善是指与上份报告相比风险等级降低的指标，未改善即对比上次未得到改善或好转，新增异常是本次评估新增加的存在风险的指标。 
+					</div>
+				</div>
+			</div>
+	    </div>
+	    <div class="change_tab">
+	    	<span class="on"><a>已改善</a></span>
+	    	<span><a>未改善及新增异常</a></span>
+	    </div>
+	    <div class="change_sta">
+	    	<span class="s1 fl">指标名称</span>
+	    	<span class="s2 fr">当前状况<br><i>({{currentDateStr.slice(0,10)}})</i></span>
+	    	<span class="s2 fr">上次状况<br><i>({{lastDateStr.slice(0,10)}})</i></span>
+	    </div>
+	    <div class="changeShow">
+	    	<ul class="change_list">
+		    	<li v-for="item in okImproves" v-if="item.targetId != 3089 && item.targetId != 3207 && item.targetId != 3097 && item.targetId != 3110 && item.targetId != 3211 && item.targetId != 3219 && item.targetId != 3139">
+		    		<a @click="goThird($event,item)">
+		    		<span class="s1 fl">{{item.tagetName}}</span>
+		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
+		    			{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
+		    			{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
+		    		</a>
+		    	</li>
+		    </ul>
+		    <p class="noctip" v-if="okImproves.length == 0">暂无已改善指标</p>
+	    </div>
+		<div class="changeShow" style="display: none;">
+			<ul class="change_list">
+		    	<li v-for="item in noImproves" v-if="item.targetId != 3089 && item.targetId != 3207 && item.targetId != 3097 && item.targetId != 3110 && item.targetId != 3211 && item.targetId != 3219 && item.targetId != 3139">
+		    		<a @click="goThird($event,item)">
+		    		<span class="s1 fl">{{item.tagetName}}
+		    			<font v-if="item.newAdd == 1" style="display: inline-block; margin-left: .1rem;">新增</font>
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
+		    			{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
+		    			{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}
+		    		</span>
+		    		</a>
+		    	</li>
+		    </ul>
+		    <p class="noctip" v-if="noImproves.length == 0">暂无未改善及新增异常指标</p>
+		</div>        
+	</div>
+	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+	<!---广告--->
     <section class="ban_gg" style="width: 100%;">
     	<div class="v_content" style="width: 6.9rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
 	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
@@ -144,10 +187,9 @@
 	    	</ul>
 	    </div>
     </section>
-     <!---广告end--->
-    
+    <!---广告end--->
+	
 </div>
-
 
 <input type="hidden" id="appId"/>
 <input type="hidden" id="nonceStr"/>
@@ -155,8 +197,8 @@
 <input type="hidden" id="timestamp"/>
 <input type="hidden" id="age"/>
 <input type="hidden" id="share" value="101"/>
-
 </DIV>
+
 <div class="v_overlay"></div>
 <div class="v_overlert" id="showExplain">
 	<div class="tc_sy">
@@ -179,27 +221,25 @@
 	</div>
 </div>
 
-<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 
 <div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
 </div>
 
-<div class="daifu_d" style="height: 5rem;">
-	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
-	<p class="tit">亲，请联系您的保险业务员查看报告</p>
-	<p class="dbtn"><button id="iknow">知道了</button></p>
-</div>
+<div id="btn" class="zhiCustomBtn"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/circle-progress.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script>document.write('<script src="js/report120.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/report202.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script type="text/javascript">
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
+<script>
 (function (doc, win) {
     var docEl = doc.documentElement,
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
@@ -212,6 +252,7 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
+
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
@@ -237,6 +278,5 @@
     }
 })();	
 </script>
-<script src="js/wxShare.js"></script>
 </body>
 </html>

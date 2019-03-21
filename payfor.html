@@ -35,7 +35,20 @@
 	</div>
 	<p style="text-align: center; color: #7e7e7e; font-size: .34rem; line-height: .44rem;">由知名专家为您提供专属的个性化建议<br><font style="color: #f13733;">食谱、营养素、运动、生活方式</font></p>
 	
-	<div class="pay-x-fix">
+	<div id="pay_buy" style="display: none;">
+    	<ul class="choosePay">
+	    	<li class="p_li pay" @click="goPay($event)">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{price}}/</span><font>1次</font></p>
+	    	</li>
+	    	<li class="p_li card" @click="goBuyCard()">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{cardPrice}}/</span><font>{{cardUseCount}}次</font></p>
+	    	</li>
+	    </ul>
+    </div>
+	
+	<div class="pay-x-fix" id="pay_fix">
 		<button class="pay" id="pay" @click="goPay($event)">支付看报告</button>
 		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
@@ -47,7 +60,7 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<button class="pay-li" id="kaPay" @click="gopayBycard($event)"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></button>
 		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
 		</button>

@@ -68,7 +68,7 @@
 			<p class="p1">支付金额</p>
 			<p class="p2">￥{{price}}</p>
 		</div>
-		<a class="pay-li" id="kaPay"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></a>
+		<button class="pay-li" id="kaPay" @click="gopayBycard($event)"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></button>
 		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
 		</button>

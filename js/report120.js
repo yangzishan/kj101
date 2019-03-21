@@ -69,13 +69,37 @@ var myApp = new Vue({
 			showRecipe:'',
 			deviceReport:'',
 			banData:'', //轮播广告
-			deviceSnNum:''
+			deviceSnNum:'',
+			banData:'',
+			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
+			saasName:'',saasLogo:'',
 		}
 	},
 	mounted: function(){
 		this.getData();
+		//this.getSaasTenantByCompanyId();
 	},
 	methods: {
+		getSaasTenantByCompanyId: function(){//查询SaaS信息
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:saasUrl+ "/api/v1/initTenant/getSaasTenantByCompanyId",
+				async:true,
+				dataType: 'json',
+				data: {
+					saasId:saasId
+				},
+				success: function(res){
+					if(res.code == 200){
+						//vm.saasTel = res.data.saasTel
+						vm.saasName = res.data.saasName
+						vm.saasLogo = res.data.saasLogo
+					}
+				},
+				error: function(){alert('getSaasTenantByCompanyId error')}
+			});
+		},
 		// 获取首页数据
 		getData: function(){
 			var _this = this;

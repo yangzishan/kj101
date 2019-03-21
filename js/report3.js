@@ -87,7 +87,8 @@ new Vue({
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
-					customerId : customerId
+					customerId : customerId,
+					saasId: saasId
 				},
 				success: function(data){
 					if(data.code == 200){
@@ -137,7 +138,6 @@ new Vue({
 						},300);
 						
 					}else if((data.code == 201)){
-						//alert('queryNewReportDataByReportId code='+data.code);
 						_this.sameUser = data.sameUser;
 						location.href = 'payfor3.0.html?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType+'&saasId='+saasId
 					}else{alert('queryNewReportDataByReportIdAndCustomerId,code='+data.code+data.msg)}
@@ -168,77 +168,116 @@ new Vue({
 			this.popupA = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'综合健康分数'
+			});
 		},
 		// 亚健康风险
 		clickB: function(){
 			this.popupB = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'亚健康风险'
+			});
 		},
 		// 睡眠质量
 		clickC: function(){
 			this.popupC = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'睡眠质量'
+			});
 		},
 		// BMI
 		clickD: function(){
 			this.popupD = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'BMI'
+			});
 		},
 		// 皮肤评估
 		clickE: function(){
 			this.popupE = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'皮肤评估'
+			});
 		},
 		// 快乐指数
 		clickF: function(){
 			this.popupF = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'快乐指数'
+			});
 		},
 		// 实时状态
 		liClick: function(index){
 			Vue.set(this.isActive, index, !this.isActive[index]);
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'实时状态'
+			});
 		},
 		// 营养状态
 		listG: function(){
 			this.popupG = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'营养状态'
+			});
 		},
 		// 免疫能力
 		listH: function(){
 			this.popupH = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'免疫能力'
+			});
 		},
 		// 消化能力
 		listI: function(){
 			this.popupI = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'消化能力'
+			});
 		},
 		// 吸收能力
 		listJ: function(){
 			this.popupJ = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'吸收能力'
+			});
 		},
 		// 代谢能力
 		listK: function(){
 			this.popupK = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'代谢能力'
+			});
 		},
 		// 男女性功能
 		listL: function(){
 			this.popupL = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
+			zhuge.track('3.0报告问号点击',{
+				'问号名称':'男女性功能'
+			});
 		},
 		// 身高体重更新
 		update: function(){
@@ -253,6 +292,14 @@ new Vue({
 		noscorll: function(){
 			_bodyoffset = $(window).scrollTop();
 			$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
+		},
+		seeMore: function(){
+			var vm = this;
+			zhuge.track('点击了解更多',{
+				'报告版本': '3.0报告'
+			},function(){
+				location.href = 'notice3.html'
+			})
 		},
 		checkHistory: function(){ //历史报告
 			var vm = this;
@@ -282,7 +329,7 @@ new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				window.location='z_pop3.html?reportId='+reportId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
+				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
 			});
 		},
 		recipeHref: function(){
@@ -291,7 +338,7 @@ new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				window.location='recipes3.html?reportId='+reportId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
+				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
 			});
 		},
 		graphHref: function(){
@@ -300,7 +347,7 @@ new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				window.location='graph.html?reportId='+reportId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
+				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
 			});
 		},
 		updateBmi: function(){
@@ -340,7 +387,7 @@ new Vue({
 			for(var i=0;arr.length>i;i++ ){
 				if(arr[i].score<90){
 					
-					location.href = 'advise.html?reportId='+reportId+'&targetId='+targetId
+					location.href = 'advise.html?reportId='+reportId+'&targetId='+targetId+'&reportType='+reportType
 				}
 			}	
 		},

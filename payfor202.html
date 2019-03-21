@@ -11,12 +11,11 @@
 <script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body>
-<section class="my_view" id="appVUE" style="display: none;">
-	<p class=""><img src="img/pay400.jpg" class="img_b"></p>
-	
-	<p style="padding-bottom: 1rem;"><img src="img/pay400-c.jpg" class="img_b"></p>
-	
-	<div id="pay_buy" style="display: none;">
+<section class="my_view" style="display: none;">
+<DIV style="padding-bottom: .88rem;">
+	<img src="img/pay202.jpg" class="img_b">	
+
+    <div id="pay_buy" style="display: none;">
     	<ul class="choosePay">
 	    	<li class="p_li pay" @click="goPay($event)">
 	    		<p class="lab">查看报告</p>
@@ -28,10 +27,10 @@
 	    	</li>
 	    </ul>
     </div>
-	
+    
 	<div class="pay-x-fix" id="pay_fix">
-		<button class="pay" id="pay" @click="goPay($event)" style="background: #fb6048;">立即支付</button>
-		<span class="price" style="color: #f15c44;">优惠价:<font>￥{{price}}</font></span>
+		<button class="pay" id="pay" @click="goPay($event)">支付</button>
+		<span class="price">优惠价:<font>￥{{price}}</font></span>
 		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
 	</div>
 	
@@ -46,13 +45,11 @@
 			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
 		</button>
 	</div>	
+</DIV>
 	
 </section>
-
 <div class="v_overlay"></div>
-<div class="load-overlay">
-	<div class="loadimg"><img src="img/loading.gif"></div>
-</div>
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
 
 <div class="daifu_d">
 	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
@@ -62,7 +59,7 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
@@ -79,7 +76,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);

@@ -46,6 +46,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/checkMsg.js"></script>
@@ -145,25 +146,24 @@ $.ajax({
 						},
 						success : function(resultData){
 							if(resultData.code == 200){
-								if(resultData.data == "0"){
-									if(reportType == 121){
-										location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-									}else if(reportType == 501){
-										location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-									}else{
-										location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-									}
-								}else if(resultData.data == "true"){
-									alert('该报告已支付');
-									if(reportType == 121){
-										location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-									}else if(reportType == 501){
-										location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-									}else{
-										location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-									}
+								if(resultData.data == "0" || resultData.data == "true"){
+									zhuge.track('支付成功', { //埋点t
+										'方式': '卡支付'
+									},function(){
+										if(reportType == 121){
+											location.href='report120.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+										}else if(reportType == 501){
+											location.href='report500.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+										}else{
+											location.href='report'+reportType+'.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+										}
+									});	
 								}else{
 									setTimeout(function(){$('#goPay').attr("disabled",false)},500);
+									zhuge.track('支付失败',{
+										'方式': '卡支付',
+										'原因': checkMsg(resultData.data)
+									});
 									alert(checkMsg(resultData.data));
 								}
 							}else if(resultData.code == 300){
@@ -201,11 +201,11 @@ $.ajax({ //判断是否已经支付，若支付就跳转报告
 	success: function(data){
 		if(data.code == 200){
 			if(reportType == 121){
-				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else if(reportType == 501){
-				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else{
-				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId
+				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}
 		}
 	}

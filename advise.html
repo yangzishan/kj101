@@ -117,6 +117,7 @@ function getQueryString(name) {
 }
 var reportId=getQueryString("reportId");
 var targetId=getQueryString("targetId");
+var reportType=getQueryString("reportType");
 var myApp = new Vue({
 	el: '#appVUE',
 	data: {
@@ -132,7 +133,8 @@ var myApp = new Vue({
 				dataType: 'json',
 				data:{
 					reportId: reportId,
-					targetId: targetId
+					targetId: targetId,
+					reportType: reportType
 					//reportId: 'KJ104IS0014964C19011518124928212',
 					//targetId: 1008
 					

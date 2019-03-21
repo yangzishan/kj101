@@ -1,21 +1,21 @@
 var reportId = getQueryString("reportId");
 var openId = getQueryString('openId');
-var userId = getQueryString("userId"); var faceUserId = getQueryString("faceUserId");
+var userId = getQueryString("userId"); 
+var faceUserId = getQueryString("faceUserId");
 var userOropen = userId;
 if(userId == null || userId == ''){
 	userOropen = openId;
 };
-var edition=getQueryString("edition");
+var edition=getQueryString("edition");  //暂时没用了
 var saasId = getQueryString('saasId');
 var reportType = getQueryString("reportType");
 if(reportType == 6 || reportType == 400){ //3.0  4.0
 	$('.reportType120').remove();
-}else if(reportType == 120 || reportType == 121){  //保险
+}else if(reportType == 120 || reportType == 121){ //保险
 	$('.reportType6').remove();
 }else{  
 	$('.reportType6').remove();$('.reportType120').remove();
 }
-
 /*扫码转增优惠券用  带userId*/
 var voucherId = getQueryString("voucherId"); //优惠券id
 var customerId = getQueryString("customerId"); //转增人id
@@ -202,7 +202,7 @@ function subAll(mobile,age,dxYzm,checkCode){
 			console.log('请求完善用户接口');
 			if(userData.code == 200){
 				//判断是否是通过优惠券扫码过来
-				if(voucherId != null && voucherId != '' && voucherId!='null'){
+				if(voucherId){
 					turnCouponByWeChat(mobile) //转增优惠券接口
 				}else if(spreadUserId){
 					SendCouponByFlushQR(mobile) //扫码得优惠券接口 一码多用
@@ -218,7 +218,6 @@ function subAll(mobile,age,dxYzm,checkCode){
 						'渠道' : '微信'
 					},function(){
 						location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
-						//location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId
 					});
 				}	
 			}else if(userData.code == 1003){
@@ -284,7 +283,6 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					'渠道' : '微信'
 				},function(){
 					location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
-					//location.href="common.html?reportId="+reportId+'&openId='+openId
 				});
 			}else if(userData.code == 1003){
 				showFirm('该手机号已被绑定');

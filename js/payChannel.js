@@ -9,19 +9,21 @@ var terminalType = 1; //终端类型 1、微信 2、APP  'tjnsyh' 天津农商�
 var findPackage = "/api/v1/reportWxPay/findPackage2"
 var dataInfor = {
 	reportId:reportId,
-	userId:userId
+	userId:userId,
+	saasId:saasId
 }
 if(!userId && openId){ //适配老链接未支付，后期时间长了（等客户老链接被淹没 可删）
 	findPackage = "/api/v1/reportWxPay/findPackage"
 	dataInfor = {
 		reportId:reportId,
-		openId:openId
+		openId:openId,
 	}
 }
 if(!openId){
 	terminalType = 2 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 }
 zhuge.track('进入支付页面', { //埋点t
+	'报告版本': reportType,
 	'openId' : openId,
 	'渠道' : '微信'
 });
@@ -34,7 +36,7 @@ var myApp = new Vue({
 			userState:'',
 			isShow:false,
 			isActive:[],
-			reportId:'', openId:'', sameUser:'', edition:'',reportType:reportType, //版本
+			reportId: reportId, openId: openId, sameUser: sameUser,reportType:reportType, //版本
 			data:{}, //支付通道数据
 			nickName:'',//昵称
 			headimgurl:'',
@@ -81,10 +83,6 @@ var myApp = new Vue({
 					}else if(packageData.code == 201){
 						$('.my_view').css("display","block");
 						$('.load-overlay').css("display","none");
-						_this.reportId = reportId
-						_this.openId = openId
-						_this.sameUser = sameUser
-						_this.edition = edition
 						_this.nickName = packageData.data.mentPage.nickName //昵称
 					  	_this.headimgurl = packageData.data.mentPage.headimgurl //头像
 					  	_this.totalScore = packageData.data.mentPage.totalScore //总分
@@ -117,24 +115,19 @@ var myApp = new Vue({
 					  	_this.userState = packageData.data.userState
 					  	_this.doctor = [
 					  		{
-					  			name:'高岭娣 副教授',
-					  			describe:'首都医科大学卫生与教育管理学院体育学系主任'
+					  			name:'高岭娣 副教授', describe:'首都医科大学卫生与教育管理学院体育学系主任'
 					  		},
 					  		{
-					  			name:'潘晓明 中医博士',
-					  			describe:'北京大学医学部研究中心学术部副主任'
+					  			name:'潘晓明 中医博士', describe:'北京大学医学部研究中心学术部副主任'
 					  		},
 					  		{
-					  			name:'肖 荣 博士/教授 博士生导师',
-					  			describe:'首都医科大学公共卫生学院营养与食品卫生学系主任'
+					  			name:'肖 荣 博士/教授 博士生导师', describe:'首都医科大学公共卫生学院营养与食品卫生学系主任'
 					  		},
 					  		{
-					  			name:'佟彤 中医养生专家',
-					  			describe:'电视台节目《养生堂》、《名医讲堂》等特约专家'
+					  			name:'佟彤 中医养生专家', describe:'电视台节目《养生堂》、《名医讲堂》等特约专家'
 					  		},
 					  		{
-					  			name:'顾晓玲 中国首批注册营养师',
-					  			describe:'兰州大学营养学硕士 、临床营养师'
+					  			name:'顾晓玲 中国首批注册营养师', describe:'兰州大学营养学硕士 、临床营养师'
 					  		},
 					  	];
 					  	_this.findYearCardInfo(_this.snNum); //调用  查看配置购买年卡接口
@@ -224,9 +217,6 @@ var myApp = new Vue({
 							$('#iknow').click(function(){
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.daifu_d').css("display","none");
 							});
-							//卡支付 
-							$('#kaPay').attr("href","selectTycard.html?reportId="+reportId+"&userId="+_this.userId+"&packageId="+_this.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition);
-						
 						}
 					}else if(packageData.code == 1001){
 						$('.v_overlay').css({"visibility":"visible","opacity":"1"});
@@ -252,29 +242,37 @@ var myApp = new Vue({
 				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 				$('.sl-pay').css({"transform":"translateY(0%)"});
 			};
-			zhuge.track('进入支付页面', { //埋点t
-				'用户id': vm.userId,
-				'渠道' : '微信',
-				'方式': '通过支付界面支付按钮'
-			});
 		},
 		hrefRouter: function(pay){ //跳转order
 			var vm = this;
-			if(pay.payChannelType == 3){ //口令支付
-				location.href='wordPay.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+'&packageId='+this.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId
-			}else if(pay.payChannelType == 5){ //支付宝app
-				setupWebViewJavascriptBridge(function(bridge) {
-					bridge.callHandler('aliPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
-				})
-			}else if(pay.payChannelType == 11){  //微信 app
-				setupWebViewJavascriptBridge(function(bridge) {
-					bridge.callHandler('wxPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
-				})
-			}else{
-				location.href='payOrder.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+
-				'&packageId='+this.packageId+'&name='+this.name+'&price='+this.price+'&openId='+openId+
-				'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+this.orderNum+'&payChannelType='+pay.payChannelType
-			}
+			zhuge.track('选择支付方式点击',{ //埋点
+				'支付方式': pay.payChannelName,
+				'支付类型': pay.payChannelType
+			},function(){
+				if(pay.payChannelType == 3){ //口令支付
+					location.href='wordPay.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+'&packageId='+vm.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId
+				}else if(pay.payChannelType == 5){ //支付宝app
+					setupWebViewJavascriptBridge(function(bridge) {
+						bridge.callHandler('aliPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
+					})
+				}else if(pay.payChannelType == 11){  //微信 app
+					setupWebViewJavascriptBridge(function(bridge) {
+						bridge.callHandler('wxPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
+					})
+				}else{
+					location.href='payOrder.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+
+					'&packageId='+vm.packageId+'&name='+vm.name+'&price='+vm.price+'&openId='+openId+
+					'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+vm.orderNum+'&payChannelType='+pay.payChannelType+'&saasId='+saasId
+				}
+			});	
+		},
+		gopayBycard: function(e){ //跳转卡支付
+			var vm = this;
+			zhuge.track('选择支付方式点击',{
+				'支付方式': '卡支付'
+			},function(){
+				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition
+			});
 		},
 		getPayChannel: function(snNum){ //支付通道
 			var vm = this;
@@ -289,7 +287,7 @@ var myApp = new Vue({
 				success : function(data) {
 					if(data.code ==0){
 						vm.data = data.data
-					}else{console.log('支付通道接口'+data.code)}
+					}else{console.log('getPayChannel'+data.code)}
 				},
 				error : function(){alert('getPayChannel error')}
 			})
@@ -360,7 +358,7 @@ var myApp = new Vue({
 				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}
 		},
-		//判断是否配置购买年卡活动
+		//配置购买年卡活动 判断是否配置
 		findYearCardInfo: function(sn){
 			var vm = this;
 			$.ajax({
@@ -376,7 +374,7 @@ var myApp = new Vue({
 						$('#pay_fix').remove();
 						$('#pay_buy').css("display","block");
 						vm.cardPrice = res.data.price
-						vm.cardUseCount = res.data.useCount //暂时先注销  目前payorder不支持年卡微信支付
+						vm.cardUseCount = res.data.useCount 
 					}else{
 						$('#pay_buy').remove();
 					}
@@ -387,7 +385,7 @@ var myApp = new Vue({
 		//购买年卡跳转
 		goBuyCard: function(){
 			var vm = this;
-			location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&saasId='+saasId
+			location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&packageId='+vm.packageId+'&saasId='+saasId
 		}
 	},
 	mounted: function() {
@@ -464,7 +462,6 @@ function oldUserTrend(el,dateArr,scoreArr){
 					show: true,
 					textStyle: {
 						color :"#adafaf",
-						//color: '#4aa59e'
 					}
 				},
 				axisLine:{// 坐标轴样式

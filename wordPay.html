@@ -31,6 +31,7 @@
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/checkMsg.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
@@ -167,27 +168,24 @@ function goMethod(resultdata){
 		},
 		success : function(data) {
 			if(data.code == 200){
-				if(data.data == "0"){
-					if(reportType == 121){
-						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-					}else if(reportType == 501){
-						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-					}else{
-						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-					}
-				}else if(data.data == "true"){
-					if(reportType == 121){
-						showMask('改报告已支付');
-						location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-					}else if(reportType == 501){
-						showMask('改报告已支付');
-						location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-					}else{
-						showMask('改报告已支付');
-						location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-					}
+				if(data.data == "0" || data.data == "true"){
+					zhuge.track('支付成功',{
+						'方式': '口令支付'
+					},function(){
+						if(reportType == 121){
+							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+						}else if(reportType == 501){
+							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+						}else{
+							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+						}
+					});
 				}else{
 					setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+					zhuge.track('支付失败',{
+						'方式': '口令支付',
+						'原因': checkMsg(data.data)
+					});
 					showMask(checkMsg(data.data));
 				}
 			}else if(data.code == 300){

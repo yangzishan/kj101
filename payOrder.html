@@ -47,6 +47,7 @@
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
@@ -165,7 +166,6 @@ var myApp = new Vue({
   				success: function(res){
   					vm.goReport();
   					console.log(res);
-  					//alert('updateCustomerSaas success')
   				},
   				error: function(){
   					alert('updateCustomerSaas error');
@@ -175,6 +175,9 @@ var myApp = new Vue({
   		},
   		
   		gotoPay: function(e){ //点击支付
+  			zhuge.track('订单提交页面支付按钮点击', { //埋点t
+				'提交方式': '微信/一网通',
+			});
   			var vm = this;
 			$(e.target).attr("disabled",true);//新加防呆
 			$.ajax({
@@ -203,14 +206,22 @@ var myApp = new Vue({
 					                },function(res){
 					                	//debugger;
 					                    if(res.err_msg == "get_brand_wcpay_request:ok" ) { //支付成功
-					                    	//alert('支付成功测试');
-					                    	vm.updateCustomerSaas();
-			
+					                    	zhuge.track('支付成功', {
+												'方式': '微信'
+											},function(){
+												vm.updateCustomerSaas()
+											});
 					                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 											alert("支付取消");
+											zhuge.track('支付取消', {
+												'方式': '微信'
+											});
 											$('#goWxPay').attr("disabled",false);  //新加防呆
 										}else if (res.err_msg == "get_brand_wcpay_request:fail") {
 											alert("支付失败："+res.err_desc);
+											zhuge.track('支付失败', {
+												'方式': '微信'
+											});
 											$('.wxpay .dtit i').addClass('fail');
 											$('.wxpay .dtit span').html('支付失败');
 											$('#goWxPay').attr("disabled",false);  //新加防呆

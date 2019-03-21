@@ -384,16 +384,16 @@ $.ajax({
 			});
 			//导航
 			$('#index').click(function(){
-				window.location='report6.html?reportId='+reportId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
+				window.location='report6.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
 			});
 			$('#advise').click(function(){
-				window.location='z_pop3.html?reportId='+reportId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
+				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
 			});
 			/*$('#recipe').click(function(){
 				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
 			});*/
 			$('#graph').click(function(){
-				window.location='graph.html?reportId='+reportId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
+				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
 			});
 		}else{
 			alert(data.msg +' :code='+data.code);
