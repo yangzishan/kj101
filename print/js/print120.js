@@ -45,11 +45,13 @@ new Vue({
 				if(data.code == 200){
 					$('#print').css("visibility","visible");
 					if(data.data.infoView != null){
-						_this.nickName = data.data.infoView.nickName,
-					 	_this.sex = data.data.reportView.sex,
-					 	_this.mobile = data.data.infoView.mobile,
+						_this.nickName = data.data.infoView.nickName
+					 	_this.sex = data.data.reportView.sex
+					 	_this.mobile = data.data.infoView.mobile
 					 	_this.relatedNo = data.data.infoView.relatedNo
-						document.title = data.data.infoView.nickName + data.data.infoView.mobile
+						document.title = _this.nickName + _this.mobile;
+						if(_this.nickName == null){document.title = _this.mobile}
+						if(_this.nickName == null && _this.mobile == null){document.title = '打印报告'}
 					}
 				 	_this.inspectDateStr = data.data.reportView.inspectDateStr,
 				 	_this.payNum = data.data.payNum,

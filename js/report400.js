@@ -13,6 +13,7 @@ var customerId = getQueryString('userId');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var saasId = getQueryString('saasId');
+var clientType = getQueryString("clientType");
 var edition = 400;
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
@@ -81,7 +82,7 @@ var myApp = new Vue({
 		},
 		//判断支付页面
 		participate: function(paymentType,sameUser){
-			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType
 			location.href="payfor400.html"+payStr
 		},
 		//调出bmi更新框

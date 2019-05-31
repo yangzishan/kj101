@@ -5,27 +5,42 @@ var customerId = getQueryString('customerId');
 var userId = getQueryString('customerId');
 var faceUserId = getQueryString('faceUserId');
 var saasId = getQueryString('saasId');
+var source = getQueryString('source'); //来源  例：天津农商行:tjnsh
+var kjInviteType = getQueryString("kjInviteType"); //康加邀约类型   暂时不用了
 var sendCustomerId = ''
 var clientType = '';
+
 console.log(reportId);
 console.log(openId);
 console.log(customerId);
+
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+   var language = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = 'en';
+}
+console.log(language);
+
 if(openId){
-	analysisReportFace(reportId,'',faceUserId,openId,saasId)
-	//analysisReportFace(reportId,'','',openId) //测试用 不过人脸
+	analysisReportFace(reportId,'',faceUserId,openId,saasId,language);
+}else{
+	if(source == 'tjnsh'){
+		analysisReportFace(reportId,'',customerId,'',saasId,language);
+	}else if(kjInviteType){
+		if(faceUserId){
+			analysisReportFace(reportId,'',faceUserId,'',saasId,language);	
+		}else{
+			analysisReportFace(reportId,'',customerId,'',saasId,language);	
+		}
+		
+	}else{
+		analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);	
+	}
 }
 
+
 /*******************************交互逻辑*****************************/
-function setupWebViewJavascriptBridge(callback) {
-	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-	window.WVJBCallbacks = [callback];
-	var WVJBIframe = document.createElement('iframe');
-	WVJBIframe.style.display = 'none';
-	WVJBIframe.src = 'https://__bridge_loaded__';
-	document.documentElement.appendChild(WVJBIframe);
-	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
-}
 setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 	bridge.registerHandler('analysisReport', function(data, responseCallback) {
 		//alert('test_oc');
@@ -42,22 +57,22 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 
 		reportId = obj.reportId;
 		sendCustomerId = obj.sendCustomerId;
-		customerId = obj.customerId;
+		var appCustomerId = obj.customerId;
 		clientType = obj.clientType;
 		var reportType = obj.reportType;
 		
 		//alert(dataUrl);
 		//alert(reportId+'--'+sendCustomerId+'--'+customerId+'--'+clientType+'--'+reportType);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
-		if(customerId) {
+		if(appCustomerId) {
 			setTimeout(function(){
-				analysisReportFace(reportId,sendCustomerId,customerId,'','')
+				analysisReportFace(reportId,sendCustomerId,appCustomerId,'','',language)
 			},500)
 		}	
 	})
 })
-/*******************************交互逻辑*****************************/
-function analysisReportFace(report,sendCustom,user,open,saas){
+/*******************************交互逻辑end***************************/
+function analysisReportFace(report,sendCustom,user,open,saas,language){
 	$.ajax({
 		type:"post",
 		url:dataUrl + "/api/v1/reportIndex/analysisReportFace",
@@ -67,15 +82,16 @@ function analysisReportFace(report,sendCustom,user,open,saas){
 			sendCustomerId: sendCustom,
 			customerId: user,
 			openId: open,
-			saasId: saas
+			saasId: saas,
+			language: language
 		},
 		success:function(res){
 			if(res.code == 200){
 				var reportType = res.data.reportType;
-				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId;
-				if(reportType == 121){
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType;
+				if(reportType == 121 || reportType == 122){
 					location.href = 'report120.html'+reportUrl
-				}else if(reportType == 501){
+				}else if(reportType == 501 || reportType == 502 ){
 					location.href = 'report500.html'+reportUrl
 				}else if(reportType < 5){
 					location.href = 'report5.html'+reportUrl
@@ -83,14 +99,14 @@ function analysisReportFace(report,sendCustom,user,open,saas){
 					location.href = 'report'+res.data.reportType+'.html'+reportUrl
 				}
 			}else if(res.code == 402){
-				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId;
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType
 				location.href='register.html'+ reportUrl
 			}else if(res.code == 405){
-				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId;
+				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType
 			}else if(res.code == 403){
-				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId
+				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&clientType='+clientType
 			}else if(res.code == 302){
-				window.location.href="equipmentUnable.html"
+				location.href="equipmentUnable.html"
 			}else if(res.code == 2002){
                 alert('kj501接口调用失败  analysisReportFace  code=' + res.code)
             }else if(res.code == 2003){
@@ -102,16 +118,24 @@ function analysisReportFace(report,sendCustom,user,open,saas){
             }else if(res.code == 2006){
                 alert('kj501调用接口血氧数据为空  analysisReportFace  code=' + res.code)
             }else{
-				console.log('analysisReportFace code='+ res.code + res.msg);
-				alert('analysisReportFace code='+ res.code + res.msg)
-				//$('.load-overlay').css("display","none");
-				//$('#error_con').css("display","block");
+				console.log('analysisReportFace code='+res.code+' '+res.msg)
 			}
 		},
-		error: function(){alert('analysisReportFace error')}
+		error: function(){console.log('analysisReportFace error')}
 	});
 };
 
+//app交互
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
 //截取url
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

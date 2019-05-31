@@ -3,6 +3,7 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
+var clientType = getQueryString("clientType"); 
 var edition = 2;
 if(reportType == 5 || reportType < 6){
 	var indexAll_data = '/api/v1/reportIndex/indexAll2'
@@ -17,6 +18,19 @@ var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+cus
 if(!openId){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
+};
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
 }
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
@@ -80,6 +94,7 @@ var myApp = new Vue({
 			banData:'',
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
+			language: language,  //默认中文
 		}
 	},
 	mounted: function(){
@@ -118,7 +133,8 @@ var myApp = new Vue({
 				data : {
 				    reportId : reportId,
 					customerId : customerId,
-					saasId: saasId
+					saasId: saasId,
+					language: languageStr
 				},
 				success: function(res){
 					if(res.code == 201){
@@ -239,7 +255,8 @@ var myApp = new Vue({
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
-				    userId : userId
+				    userId : userId,
+				    language:languageStr
 				},
 				success : function(data) {
 					if(data.code == 200){
@@ -275,16 +292,28 @@ var myApp = new Vue({
 		},
 		//判断支付页面
 		participate: function(paymentType,sameUser){
-			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId
-			if(paymentType == 3){
-				location.href="pay_byuser.html"+payStr
-			}else if(paymentType == 4){
-				location.href="pay_type4.html"+payStr
-			}else if(paymentType == 2){
-				location.href="pay_coupon.html"+payStr
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType
+			if(languageStr == 'en'){
+				location.href="pay_en.html"+payStr
 			}else{
-				location.href="payfor.html"+payStr
-			}		
+				if(paymentType == 3){
+					location.href="pay_byuser.html"+payStr
+				}else if(paymentType == 4){
+					location.href="pay_type4.html"+payStr
+				}else if(paymentType == 2){
+					location.href="pay_coupon.html"+payStr
+				}else{
+					location.href="payfor.html"+payStr
+				}
+			}			
+		},
+		seeMore: function(){
+			var vm = this;
+			zhuge.track('点击了解更多',{
+				'报告版本': '2.0报告'
+			},function(){
+				location.href = 'instructions.html?reportType='+ reportType
+			})
 		},
 		//介绍弹窗
 		popTen: function(e){
@@ -328,7 +357,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition
+				location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType
 			})
 		},
 		getRecipesData: function(e){ //健康食谱
@@ -337,7 +366,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
+				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType
 			})
 		},
 		goThird: function(e,item){
@@ -418,6 +447,41 @@ function banSlide(page_count){
 	};
 	var toNext=setInterval(next,3000);
 };
+//查用户信息对接智齿客服
+$.ajax({
+	url : dataUrl + "/api/v1/reportUser/findUserById",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	    userId : customerId
+	},
+	success : function(userData) {
+		if(userData.code == 200){
+			//初始化智齿咨询组件实例
+			var zhiManager = (getzhiSDKInstance());
+			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+			zhiManager.set('location',1); //位置
+			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+			zhiManager.set('lan', 'zh'); //支持语言
+			zhiManager.set('moduleType',3); //机器人客服优先模式
+			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+			zhiManager.set('customMargin', 200);
+			//设置用户信息
+			zhiManager.set('uname',userData.data.userName);
+			zhiManager.set('realname',userData.data.userName);
+			zhiManager.set('tel',userData.data.mobile);
+			zhiManager.set('remark','报告ID： '+reportId);
+			zhiManager.on("load", function() {
+			    zhiManager.initBtnDOM();
+			});
+		//////
+		}
+	},
+	error : function(obj,msg){console.log(obj+msg + "findUserById error")}
+});
 //弹窗
 var _bodyoffset = '';
 function showMask(){
@@ -493,7 +557,7 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 		        data: arrayY,
 		        label:{
 		    		show:true,
-		    		formatter:'{c}岁',
+		    		formatter:'{c}',//formatter:'{c}岁',
 		    		color:'#000',
 		    		fontSize:15
 		    	},
@@ -507,23 +571,23 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 		        		opacity:0.5,
 		        		type:'dotted'
 		        	},
-		        	 data:[
-	                        [
-	                            {
-	                                name:'     '+age+'岁',
-	                                coord:[0,age],
-	                                symbol:'pin',
-	                                symbolSize:2
-	                            },{
-	                                coord:[7, age],
-	                                symbol:'pin',
-	                                symbolSize:2,
-	                                label:{
-	                                	position:'end'
-	                                }
-	                            }
-	                        ]
-	                    ]
+		        	data:[
+                        [
+                            {
+                                name:'     '+age+'岁',
+                                coord:[0,age],
+                                symbol:'pin',
+                                symbolSize:2
+                            },{
+                                coord:[7, age],
+                                symbol:'pin',
+                                symbolSize:2,
+                                label:{
+                                	position:'end'
+                                }
+                            }
+                        ]
+                    ]
 		        }
 		    }]
 		};

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>用户信息</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+<style type="text/css">
+.tongyifo{ position: absolute; bottom: 0; width: 100%; display: -webkit-box; border-top: #f2f2f2 solid .02rem; background: #fff;}
+.tongyifo span{display:block; width: 50%; -webkit-box-flex: 1; line-height: .88rem;text-align: center; font-size: .32rem;}
+.tongyifo span.on{ background: #1ebeb1; color: #fff;}
+.tc_sy .bxt2{ font-size: .26rem;}
+.login_cn .cpxt .lab{ min-width: 1.3rem;}
+</style>
+</head>
+<body class="bck-col-fff">
+<section class="my_view">
+<div class=""><img src="img/login_t.jpg" class="img_b"></div>
+<div class="d_login">
+	<div class="login_cn">
+		<p class="ctit">{{language.la_welcome}}</p>
+		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 123">
+			<span class="lab">{{language.la_name}}</span><!--昵称-->
+			<span class="fle"><input type="text" id="nickName" :placeholder="language.la_namePlace" ></span>
+		</p>
+		<p class="cpxt">
+			<span class="lab">{{language.la_age}}</span>
+			<span class="fle"><input type="number" id="age" :placeholder="language.la_agePlace" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+		</p>
+		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 122">
+			<span class="lab">身份证号</span>
+			<span class="fle"><input type="text" id="identity" placeholder="请输入您的身份证号" oninput="if(value.length>18)value=value.slice(0,18)"></span>
+		</p>
+		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 123">
+			<span class="lab">业务员号</span>
+			<span class="fle"><input type="number" id="relatedNo" placeholder="请输入您的保险业务员号" pattern="[0-9]*"></span>
+		</p>
+		<p class="cpxt reportType6 reportType400" v-if="reportType == 6 || reportType == 400">
+			<span class="lab">{{language.la_height}}</span>
+			<span class="fle"><input type="number" id="_height" :placeholder="language.la_heightPlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
+		</p>
+		<p class="cpxt reportType6 reportType400" v-if="reportType == 6 || reportType == 400">
+			<span class="lab">{{language.la_weight}}</span>
+			<span class="fle"><input type="number" id="_weight" :placeholder="language.la_weightPlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
+		</p>
+		<p class="cpxt">
+			<span class="lab">{{language.la_cell}}</span><!--手机号-->
+			<span class="fle">
+				<input type="number" id="mobile" :placeholder="language.la_cellPlace" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)">
+			</span>
+		</p>
+		<p class="cpxt">
+			<span class="lab">{{language.la_yzm}}</span><!--验证码-->
+			<span class="fle"><input type="number" id="dxYzm" :placeholder="language.la_yzmPlace"></span>
+			<button class="send" id="sendMsg">{{language.la_getyzm}}</button><!--发送验证码-->
+		</p>
+		<p class="cbtn"><button class="off" id="nextAll" disabled="disabled">{{language.la_complete}}</button></p>
+	</div>
+</div>
+<input id="getCode" type="hidden" value="">
+
+<div class="v_overlay"></div>
+
+</section>
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay" style=""></div>
+<div class="tc-qx" id="Firm">
+	<p class="pc1">该手机号已被绑定</p>
+	<p class="psub"><a class="subBtn">找回老用户</a><a class="subBtn">注册新用户</a></p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script>document.write('<script src="js/register.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

@@ -9,23 +9,40 @@ if(userId == null || userId == ''){
 var edition=getQueryString("edition");  //暂时没用了
 var saasId = getQueryString('saasId');
 var reportType = getQueryString("reportType");
-if(reportType == 6 || reportType == 400){ //3.0  4.0
-	$('.reportType120').remove();
-}else if(reportType == 120 || reportType == 121){ //保险
-	$('.reportType6').remove();
-}else{  
-	$('.reportType6').remove();$('.reportType120').remove();
-}
+
 /*扫码转增优惠券用  带userId*/
 var voucherId = getQueryString("voucherId"); //优惠券id
 var customerId = getQueryString("customerId"); //转增人id
 /*扫码获得优惠券用 带userId*/
 var spreadUserId = getQueryString("spreadUserId");  //优惠券发券人ID
 var ruleId = getQueryString("ruleId");  //规则ID
+
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Complete the information'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Complete the information'
+}
+
 //埋点 t
 zhuge.track('进入注册页面', {
 	'openId' : openId,
 	'渠道' : '微信'
+});
+
+var myapp = new Vue({
+	el: '.my_view',
+	data: {
+		reportType: reportType,
+		language: language
+	}
 });
 
 $('#age').blur(function(){

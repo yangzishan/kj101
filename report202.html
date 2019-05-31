@@ -11,6 +11,19 @@
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css?v=201809027" />
 <style>
+.sy_tab span a{ display: inline-block; padding: 0 .1rem;}
+.sy_tab span.on a{ color: #1EA9F6; border-bottom: #1EA9F6 solid .08rem; line-height: .92rem; font-weight: bold;}
+
+.zhuangk_c .c_li:nth-of-type(1) .ico{background: #1EA9F6 url(../img/ico-z-2.png) no-repeat center; background-size:.5rem .5rem;}
+.zhuangk_c .c_li:nth-of-type(2) .ico{background: #1EA9F6 url(../img/ico-z-1.png) no-repeat center; background-size:.5rem .5rem;}
+.zhuangk_c .c_li:nth-of-type(3) .ico{background: #1EA9F6 url(../img/ico-z-3.png) no-repeat center; background-size:.5rem .5rem;}
+.zhuangk_c .c_li:nth-of-type(4) .ico{background: #1EA9F6 url(../img/ico-z-4.png) no-repeat center; background-size:.5rem .5rem;}
+.zhuangk_c .c_li:nth-of-type(5) .ico{background: #1EA9F6 url(../img/ico-z-7.png) no-repeat center; background-size:.5rem .5rem;}
+.zhuangk_c .c_li:nth-of-type(6) .ico{background: #1EA9F6 url(../img/ico-z-5.png) no-repeat center; background-size:.5rem .5rem;}
+.zhuangk_c .c_li:nth-of-type(7) .ico{background: #1EA9F6 url(../img/ico-z-6.png) no-repeat center; background-size:.5rem .5rem;}
+
+.zhuangk_c .c_li .sta i.on{background: #1EA9F6;}
+
 .change_tab span a{ display: inline-block; width: 3.3rem; height: .8rem; line-height: .8rem; border: #1EA9F6 solid .02rem; border-radius: .1rem;}
 .change_tab span.on a{ background: #1EA9F6; color: #fff;}
 </style>
@@ -174,7 +187,7 @@
 		    	</li>
 		    </ul>
 		    <p class="noctip" v-if="noImproves.length == 0">暂无未改善及新增异常指标</p>
-		</div>        
+		</div>  
 	</div>
 	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	<!---广告--->
@@ -188,7 +201,7 @@
 	    </div>
     </section>
     <!---广告end--->
-	
+	<div id="btn" class="zhiCustomBtn" v-show="openId"></div>
 </div>
 
 <input type="hidden" id="appId"/>
@@ -209,8 +222,8 @@
 		<div class="bxt2">
 			一、如何查看您的健康报告？<br/>
 1、​综合评估：智能筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
-2、​十大系统：智能筛查机器人针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
-3、​健康指标：智能筛查机器人给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
+2、七大系统：智能筛查机器人针对人体7大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
+3、​健康指标：智能筛查机器人给予7大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见异常指标健康建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
 4、​实时状态：智能筛查机器人针对您的实时状态给予评估，共计有6项状态评估，有助于您及时了解自己的身体状态。<br/>
 二、关于报告中提示的问题？<br/>
 本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
@@ -227,7 +240,6 @@
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
 </div>
 
-<div id="btn" class="zhiCustomBtn"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>

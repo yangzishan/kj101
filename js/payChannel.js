@@ -1,10 +1,25 @@
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Pay';
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Pay';
+};
 var reportId = getQueryString("reportId");
 var openId = getQueryString("openId");
+if(openId == 'undefined' || openId == 'null'){openId = ''};
 var userId = getQueryString("userId");
 var reportType = getQueryString("reportType");
 var sameUser = getQueryString("sameUser");
 var edition = getQueryString("edition");
 var saasId = getQueryString("saasId");
+var clientType = getQueryString("clientType"); 
 var terminalType = 1; //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 var findPackage = "/api/v1/reportWxPay/findPackage2"
 var dataInfor = {
@@ -19,7 +34,7 @@ if(!userId && openId){ //适配老链接未支付，后期时间长了（等客�
 		openId:openId,
 	}
 }
-if(!openId){
+if(!openId && clientType){
 	terminalType = 2 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 }
 zhuge.track('进入支付页面', { //埋点t
@@ -68,7 +83,8 @@ var myApp = new Vue({
 			easysize: '', hardsize: '',   //新用户风险指标数目
 			doctor:'',
 			clientType:'',
-			cardPrice:'', cardUseCount:'' //购买年卡用
+			cardPrice:'', cardUseCount:'', //购买年卡用
+			language: language
 		}
 	},
 	methods: {
@@ -93,6 +109,7 @@ var myApp = new Vue({
 					  	_this.packageId = packageData.data.infoView.packageId
 					  	_this.price = packageData.data.infoView.price  //价格
 					  	_this.oprice = packageData.data.infoView.originalPrice //原价
+					  	_this.userId = packageData.data.infoView.userId //套餐名称
 					  	_this.clientType = packageData.data.mentPage.clientType  //判断支付通道类型用
 					  	if(_this.clientType == 'tjnsyh'){
 					  		terminalType = 3 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
@@ -224,7 +241,8 @@ var myApp = new Vue({
 						$('.daifu_d .tit').text('亲，您的这份报告已经超过48小时未支付，请您再次检测');
 						$('.daifu_d .tip').remove();
 						$('#iknow').click(function(){
-							WeixinJSBridge.call('closeWindow');
+							//WeixinJSBridge.call('closeWindow');
+							location.href = 'historyRecord.html?userId='+userId+'&saasId='+saasId;
 						});
 					}else if(packageData.code == 1002){
 						alert('findPackage 1002'+packageData.msg)
@@ -250,7 +268,7 @@ var myApp = new Vue({
 				'支付类型': pay.payChannelType
 			},function(){
 				if(pay.payChannelType == 3){ //口令支付
-					location.href='wordPay.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+'&packageId='+vm.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId
+					location.href='wordPay.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+'&packageId='+vm.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId+'&clientType='+clientType
 				}else if(pay.payChannelType == 5){ //支付宝app
 					setupWebViewJavascriptBridge(function(bridge) {
 						bridge.callHandler('aliPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
@@ -260,7 +278,7 @@ var myApp = new Vue({
 						bridge.callHandler('wxPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
 					})
 				}else{
-					location.href='payOrder.html?reportId='+reportId+'&userId='+this.userId+'&reportType='+reportType+
+					location.href='payOrder.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+
 					'&packageId='+vm.packageId+'&name='+vm.name+'&price='+vm.price+'&openId='+openId+
 					'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+vm.orderNum+'&payChannelType='+pay.payChannelType+'&saasId='+saasId
 				}
@@ -285,7 +303,7 @@ var myApp = new Vue({
 				   	terminalType : terminalType  //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 				},
 				success : function(data) {
-					if(data.code ==0){
+					if(data.code == 0){
 						vm.data = data.data
 					}else{console.log('getPayChannel'+data.code)}
 				},
@@ -350,9 +368,9 @@ var myApp = new Vue({
 		},
 		goReportIndex: function(reportId,userId,reportType){ //跳转查看报告
 			var vm = this;
-			if(reportType == 121){
+			if(reportType == 121 || reportType == 121){
 				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-			}else if(reportType == 501){
+			}else if(reportType == 501 || reportType == 502){
 				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else{
 				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -430,7 +448,7 @@ setupWebViewJavascriptBridge(function(bridge) {
 	bridge.registerHandler('reloadReport', function(data, responseCallback) {
 		if(reportType == 121){
 			location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
-		}else if(reportType == 501){
+		}else if(reportType == 501 || reportType == 502){
 			location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 		}else{
 			location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType

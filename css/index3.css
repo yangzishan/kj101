@@ -205,7 +205,15 @@
     margin: 0 auto;
 	padding: .95rem 0 0;
 }
-.sub-health .text .pointer{
+.sub-health .text_en{
+    width: 3.43rem;
+    height: 2.92rem;
+    background: url(../images/pan_en.png) no-repeat;
+    background-size: 100%;
+    margin: 0 auto;
+	padding: .95rem 0 0;
+}
+.sub-health .pointer{
 	transform:rotate(-145deg);
 	transform-origin:center 80%;
     width: .38rem;
@@ -563,7 +571,7 @@
     right: 0;
 }
 .bmi .alter .title{
-    width: .6rem;
+    width: .9rem;
     height: .28rem;
     line-height: .28rem;
     margin: 0 auto .05rem auto;

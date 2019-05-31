@@ -18,41 +18,19 @@
 	<header class="header">
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
 		<a class="t-right fr" href="#"></a>
-		<p class="t-cen txt1"><span>健康建议</span></p>
+		<p class="t-cen txt1"><span>{{language.la_jkAdvice}}</span></p>
 	</header>
 	<section class="bid_det">
-		<!--<div class="bid-li">
-			<div class="li-name"><i class="ico"></i><span class="name">维生素B2</span></div>
-			<p class="b-tit"><i class="don"></i><span class="lab">指标解释</span></p>
-			<div class="ctxt">
-				维生素B2又叫核黄素，微溶于水，在中性或酸性溶液中加热是稳定的。当缺乏时影响机体的生物氧化，使代谢发生障碍。
-			</div>
-			<p class="b-tit"><i class="don"></i><span class="lab">健康建议</span></p>
-			<div class="advise_c">
-				<p class="name-t">膳食建议</p>
-				<p class="t-tip">一、多吃富含维生素B2的食物<i class=""></i></p>
-				<div class="ctxt">
-					维生素B2又叫核黄素，微溶于水，在中性或酸性溶液中加热是稳定的。当缺乏时影响机体的生物氧化，使代谢发生障碍。
-				</div>
-			</div>
-			<div class="advise_c">
-				<p class="name-t">运动和生活方式建议</p>
-				<p class="t-tip">一、多吃富含维生素B2的食物<i class="arr fr"></i></p>
-				<div class="ctxt">
-					维生素B2又叫核黄素，微溶于水，在中性或酸性溶液中加热是稳定的。当缺乏时影响机体的生物氧化，使代谢发生障碍。
-				</div>
-			</div>
-		</div>-->
 		<div class="bid-li" v-for="item in bidList">
 			<div class="li-name"><i class="ico"></i><span class="name">{{item.targetName}}</span></div>
 			<section style="padding: 0 0 0 .2rem;">
-				<p class="b-tit"><i class="don"></i><span class="lab">指标解释</span></p>
+				<p class="b-tit"><i class="don"></i><span class="lab">{{language.la_bid_int}}</span></p>
 				<div class="ctxt">
 					{{item.explain}}
 				</div>
-				<p class="b-tit"><i class="don"></i><span class="lab">健康建议</span></p>
+				<p class="b-tit"><i class="don"></i><span class="lab">{{language.la_jkAdvice}}</span></p>
 				
-				<p class="name-t">膳食建议</p>
+				<p class="name-t">{{language.la_sug_diet}}</p>
 				<div class="advise_c" v-for="(ssjy,index) in item.healthAdviceVo.dietList">
 					<p class="t-tip" @click="showPop($event,ssjy)">{{options[index]}}、{{ssjy.indexName}}<i class="arr fr"></i></p>
 					<div :class="'showHide h'+ssjy.indexTypeId" style="display: none;">
@@ -61,12 +39,12 @@
 					</div>
 				</div>
 				
-				<p class="name-t" v-if="item.healthAdviceVo.motionList && item.healthAdviceVo.motionList.length > 0">营养素建议</p>
+				<p class="name-t" v-if="item.healthAdviceVo.motionList && item.healthAdviceVo.motionList.length > 0">{{language.la_sug_nut}}</p>
 				<div class="advise_c" v-for="(yyjy,index) in item.healthAdviceVo.motionList">
 					<div class="ctxt">{{index+1}}、{{yyjy.personality}}<br>{{yyjy.simpleDescription}}</div>
 				</div>
 				
-				<p class="name-t" v-if="item.healthAdviceVo.nutritionList && item.healthAdviceVo.nutritionList.length > 0">运动和生活方式建议</p>
+				<p class="name-t" v-if="item.healthAdviceVo.nutritionList && item.healthAdviceVo.nutritionList.length > 0">{{language.la_sug_sport}}</p>
 				<div class="advise_c" v-for="(ydsh,index) in item.healthAdviceVo.nutritionList">
 					<div class="ctxt">{{index+1}}、{{ydsh.personality}}</div>
 					<div class="ctxt" v-html="ydsh.simpleDescription"></div>
@@ -76,16 +54,14 @@
 			<p class="lasthiden" style="margin: .5rem 0 0; height: .3rem; background: #e2e2e2; border-radius: .15rem;"></p>
 		</div>
 	</section>
-	
-	
 </div>
-
 
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -118,11 +94,22 @@ function getQueryString(name) {
 var reportId=getQueryString("reportId");
 var targetId=getQueryString("targetId");
 var reportType=getQueryString("reportType");
+
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+   var language = zh;
+   var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Suggestions on health';
+}
 var myApp = new Vue({
 	el: '#appVUE',
 	data: {
 		bidList:'',
-		options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六']
+		options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
+		language: language,
 	},
 	methods:{
 		getTargetDetails: function(){
@@ -134,9 +121,8 @@ var myApp = new Vue({
 				data:{
 					reportId: reportId,
 					targetId: targetId,
-					reportType: reportType
-					//reportId: 'KJ104IS0014964C19011518124928212',
-					//targetId: 1008
+					reportType: reportType,
+					language: languageStr
 					
 				},
 				success: function(res){

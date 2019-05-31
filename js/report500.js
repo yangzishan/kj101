@@ -3,6 +3,7 @@ var openId = getQueryString('openId');
 var customerId = getQueryString('userId');
 var reportType = getQueryString('reportType');
 var saasId = getQueryString('saasId');
+var clientType = getQueryString("clientType");
 var edition = 500;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
@@ -128,7 +129,7 @@ $('.content').on('click','.list',function(){
     if($(this).hasClass('jkbaogao')){
     	if(reportType == 500){
     		window.location.href = 'report5.html' + urlSearch;
-    	}else if(reportType == 501){
+    	}else if(reportType == 501 || reportType == 502){
     		window.location.href = 'report6.html' + urlSearch+'&terminal=app';
     	}
     }else if($(this).hasClass('heart')){
@@ -136,7 +137,11 @@ $('.content').on('click','.list',function(){
     }else if($(this).hasClass('loop')){
         window.location.href = 'loop.html' + urlSearch;
     }else if($(this).hasClass('skin')){
-        window.location.href = 'skin.html' + urlSearch;
+        if(reportType == 502 || reportType == 500){
+            window.location.href = 'skin_new.html' + urlSearch;
+        }else{
+            window.location.href = 'skin.html' + urlSearch;
+        }
         }
     })
    // 获取url参数方法

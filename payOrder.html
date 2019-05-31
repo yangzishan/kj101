@@ -20,11 +20,11 @@
 	</header>
 	<div class="d-wxpay">
 		<div class="wxpay">
-			<div class="dtit"><i class=""></i><span class="">订单已提交成功，请您尽快付款</span></div>
-			<p class="p1"><span>订单名称：</span><font>{{name}}</font></p>
-			<p class="p1"><span>订单金额：</span><font>{{price}}</font>元套餐</p>
+			<div class="dtit"><i class=""></i><span class="">{{language.la_tjTip}}</span></div>
+			<p class="p1"><span>{{language.la_orderNane}}：</span><font>{{name}}</font></p>
+			<p class="p1"><span>{{language.la_orderPrice}}：</span><font>￥{{price}}</font></p>
 		</div>
-		<p class="xiaoji"><span><em id="xgj">共计</em>：￥</span><font>{{price}}</font></p>
+		<p class="xiaoji"><span><em id="xgj">{{language.la_total}}</em>：￥</span><font>{{price}}</font></p>
 	</div>
 	
 	<div class="d-wxpay" id="usecoupon" style="display: none;">
@@ -34,9 +34,9 @@
 		</div>
 		<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font id="subprice">{{subprice}}</font></p>
 	</div>
-	<p style="padding: 0 .3rem; font-size: .24rem;">注：请您在48小时内付款，超出48小时后此报告将无法查看</p>
+	<p style="padding: 0 .3rem; font-size: .24rem;">{{language.la_note48hour}}</p>
 	
-	<div class="subpay"><button class="btn_pay" id="goWxPay" @click="gotoPay($event)">支付</button></div>
+	<div class="subpay"><button class="btn_pay" id="goWxPay" @click="gotoPay($event)">{{language.la_pay}}</button></div>
 </section>
 </div>
 
@@ -49,6 +49,7 @@
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -69,12 +70,20 @@
 })(document, window);
 </script>
 <script>
-//截取URL 获取
-function getQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Pay'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Pay'
 };
+
 var saasId=getQueryString("saasId");
 var reportId=getQueryString("reportId");
 var reportType=getQueryString("reportType"); //版本 新
@@ -120,6 +129,7 @@ var myApp = new Vue({
 			discount: 0,
 			voucherId: 0,
 			subprice: myprice,
+			language: language,
   		}
   	},
   	methods:{
@@ -173,7 +183,28 @@ var myApp = new Vue({
   				}
   			});
   		},
-  		
+  		// 根据报告id获取openId
+  		getOpenIdByReportId: function() {
+  			var vm = this;
+  			$.ajax({
+  				type:"post",
+  				url: dataUrl+"/api/v1/neUnLock/getOpenIdByReportId",
+  				dataType : 'json',
+  				data:{
+  					reportId: reportId
+  				},
+  				success: function(res){
+					if(res.code == 200){
+						if(!openId){
+							vm.openId = res.data
+						}
+					}
+  				},
+  				error: function(){
+  					console.log('getOpenIdByReportId error');
+  				}
+  			});
+  		},
   		gotoPay: function(e){ //点击支付
   			zhuge.track('订单提交页面支付按钮点击', { //埋点t
 				'提交方式': '微信/一网通',
@@ -185,7 +216,8 @@ var myApp = new Vue({
 			    type : "POST",
 				dataType : 'json',
 				data : {
-				    attach : openId, 
+				    attach : vm.openId, 
+				    //attach : 'oDOut0aocy2VoHhsO3FmQHtsbFW4', 
 				    orderNum : orderNum,
 				    payChannelId : payChannelId,
 				    payPrice : vm.subprice,
@@ -274,9 +306,9 @@ var myApp = new Vue({
 				},
 				success: function(data){
 					if(data.code == 200){
-						if(reportType == 121){
+						if(reportType == 121 || reportType == 122){
 							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else if(reportType == 501){
+						}else if(reportType == 501 || reportType == 502){
 							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}else{
 							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -290,9 +322,9 @@ var myApp = new Vue({
   			if(tp == 201){
         		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId+'&saasId='+saasId;
         	}else{
-        		if(reportType == 121){
+        		if(reportType == 121 || reportType == 122){
 					location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-				}else if(reportType == 501){
+				}else if(reportType == 501 || reportType == 502){
 					location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 				}else{
 					location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -303,10 +335,17 @@ var myApp = new Vue({
   	},
   	mounted:function(){
   		this.findPackage();
+  		this.getOpenIdByReportId();
   		this.isUsableByCustomerIdAndNeId();
   		//this.updateCustomerSaas();
   	}
 });
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
 </script>
 
 

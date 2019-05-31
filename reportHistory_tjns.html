@@ -19,7 +19,7 @@
 			<p class="t-cen txt1"><span>历史报告</span></p>
 		</header>
 		<div class="history_b" id="thelist">
-			<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+			<a class="h_li" v-for="item in dataList" @click="findParOrder(item)">
 				<span class="dat">{{item.inspectDateStr}}</span>
 				<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
 			</a>
@@ -83,25 +83,46 @@ var myApp = new Vue({
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.dataList = res.data
-					}else{alert('historyTjBankByUserId code='+ res.code)}
+					}else{alert('historyTjBankByUserId msg='+ res.msg)}
 				},
 				error : function(obj,msg){alert('historyTjBankByUserId error');}
 			});
 		},
-		gotosee: function(e,item){
+		//查询支付状态
+		findParOrder: function(item){
 			var vm = this;
-			if(item.reportType == 1){
-				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiIndexJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
-			}else if(item.reportType == 2){
-				window.location.href = dataUrl + '/wxUser/wxUserReport?jumpUrl=uiSimpleJsp&reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
-			}else if(item.reportType == 5){
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/app/order/findParOrder",
+				dataType: 'json',
+				data: {
+					payNum: item.reportCode,
+					payChannel: 8
+				},
+				success: function(res){
+					if(res.code == 200){
+						console.log('已经支付');
+						vm.gotosee(item);		
+					}else if(res.code == 201){
+						location.href = 'pay_type4.html?reportId='+item.reportCode+'&userId='+customerId+'&reportType='+item.reportType
+					}else{
+						console.log('findParOrder code= '+ res.code)
+					}
+				},
+				error: function(){ console.log('findParOrder error')}
+			});	
+		},
+		//去查看报告
+		gotosee: function(item){
+			var vm = this;
+			if(item.reportType < 5){
 				window.location.href = 'report5.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
-			}else if(item.reportType == 6){
-				window.location.href = 'report6.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
-			}else if(item.reportType == 100){
-				window.location.href = 'report100.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
-			}else if(item.reportType == 120 || item.reportType == 121){
-				window.location.href = 'report120.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
+			}else if(item.reportType == 121){
+				window.location.href = 'report120.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType				
+			}else if(item.reportType == 501){
+				window.location.href = 'report500.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType		
+			}else{
+				window.location.href = 'report'+ item.reportType +'.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType		
 			}
 		}
 	}

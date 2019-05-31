@@ -12,17 +12,19 @@
 </head>
 <body>
 <section class="my_view bck-col-f4">
-<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">性别</span></div>
+<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">{{language.la_sex}}</span></div>
 <div class="k1"></div>
 <div class="d-sex">
-	<label for="nv"><span>女</span><input id="nv" type="radio" name="sex" value="2"><i></i></label>
-	<label for="nan"><span>男</span><input id="nan" type="radio" name="sex" value="1"><i></i></label>
+	<label for="nv"><span>{{language.la_female}}</span><input id="nv" type="radio" name="sex" value="2"><i></i></label>
+	<label for="nan"><span>{{language.la_male}}</span><input id="nan" type="radio" name="sex" value="1"><i></i></label>
 </div>
-<p class="d-out"><button class="mbtn-sub">保存</button></p>
+<p class="d-out"><button class="mbtn-sub">{{language.la_ok}}</button></p>
 
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -36,7 +38,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
@@ -45,14 +46,29 @@
 
 <script type="text/javascript">
 $(window).load(function(){
-	//截取URL 获取
-	function GetQueryString(name){
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	};
-	var myuserId=GetQueryString("userId");	
-	var sex=GetQueryString("sex");
+	var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+	if(JsSrc.indexOf('zh')>=0){
+		var language = zh;
+		var languageStr = 'zh';
+	}else if(JsSrc.indexOf('en')>=0){
+	    var language = en;
+	    var languageStr = 'en';
+	    document.title = 'SEX'
+	}else{
+		var language = en;
+	    var languageStr = 'en';
+	    document.title = 'SEX'
+	}
+	var userId=getQueryString("userId");	
+	var sex=getQueryString("sex");
+	
+	var myApp = new Vue({
+		el: '.my_view',
+		data: {
+			language: language
+		},
+	});
+	
 	//选择男女样式
 	if(sex==2){
 		$('.d-sex label:first').addClass('check');
@@ -71,7 +87,7 @@ $(window).load(function(){
 		//var aaa = $('#niname').val();
 		//var bbb = $("#userId").val();
 		var userInfo = {
-			userId : myuserId,
+			userId : userId,
 			sex : sex
 		}
 		$.ajax({
@@ -83,7 +99,7 @@ $(window).load(function(){
 			success : function(userData) {
 				//debugger;
 				if(userData.code==200){
-					window.location.href="personalData.html?userId="+myuserId
+					window.location.href="personalData.html?userId="+userId
 				}
 				
 			},
@@ -91,7 +107,13 @@ $(window).load(function(){
 				alert('请求失败了')
 			}
 		})
-	})
+	});
+	//截取URL 获取
+	function getQueryString(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	};
 });
 </script>
 </body>

@@ -25,14 +25,14 @@
 				<p class="lab"><i></i><span>{{ostate.targetSecondName}}</span></p>
 				<div class="b_prc">
 					<div class="prc fl"><span :style="'width:'+ostate.score+'%'"><i></i></span></div>	
-					<div class="fen fr"><font>{{ostate.score}}</font>分</div>
+					<div class="fen fr"><font>{{ostate.score}}</font>{{language.la_fen}}</div>
 				</div>	
 			</dt>
 			<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3097 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
 				<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
 					<span class="lab">{{item.targetThirdName}}</span>
-					<span class="sta">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>
-					<span class="num">{{item.score}}分</span>
+					<span class="sta">{{item.score>=90?language.la_normal:(item.score<90 && item.score>=80?language.la_MildSisk:language.la_ModerateSisk)}}</span>
+					<span class="num">{{item.score}}{{language.la_fen}}</span>
 					<em class="fr"></em>
 				</a>
 			</dd>	
@@ -47,6 +47,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
 <script type="text/javascript">
@@ -95,6 +96,18 @@ var reportId = getQueryString('reportId');
 var targetFirstId=getQueryString("targetFirstId");
 var userId = getQueryString('userId');
 
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+}else{
+	var language = en;
+    var languageStr = 'en';
+}
+
 var myApp = new Vue({
 	el: '#appVUE',
 	data: function(){
@@ -104,7 +117,8 @@ var myApp = new Vue({
 			userId: userId,
 			score:'',
 			targetFirstName:'',
-			secondPages:''
+			secondPages:'',
+			language: language,
 		}
 	},
 	mounted: function(){
@@ -112,7 +126,7 @@ var myApp = new Vue({
 	},
 	methods:{
 		getTargetByFirst: function(){
-			let vm = this;
+			var vm = this;
 			$.ajax({
 				url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
 				type : "POST",
@@ -134,7 +148,7 @@ var myApp = new Vue({
 			});
 		},
 		goThird: function(e,item){
-			let vm = this;
+			var vm = this;
 			zhuge.track('用户点击三级指标',{ //埋点
 				'用户id': vm.userId,
 				'指标名称':item.targetThirdName,

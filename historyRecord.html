@@ -101,7 +101,7 @@ var myApp = new Vue({
 		},
 		gotosee: function(e,item){
 			var vm = this;
-			if(item.reportType == 500 || item.reportType == 501){
+			if(item.reportType == 500 || item.reportType == 501 || item.reportType == 502){
 				location.href = 'report500.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
 			}else if(item.reportType == 120 || item.reportType == 121){
 				location.href = 'report120.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;

@@ -17,8 +17,8 @@
 	<div class="tipc">输入口令</div>
 	<div class="intdiv"><input type="text" placeholder="请输入口令" id="wordNum" onkeyup="this.value=this.value.replace(/\s+/g,'')"></div>
 	<div class="btndiv"><button class="btn-go" id="subgo" @click="gouseBtn($event)">立即使用</button></div>
-	<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="openId" @click="gotoSaoMa()">扫口令码使用</button></div>
-	<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId">扫码使用口令</button></div>
+	<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">扫口令码使用</button></div>
+	<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType">扫码使用口令</button></div>
 	<div class="tipc2">请输入您获得的口令字符，立即使用，即可支付</div>
 </div>
 
@@ -76,12 +76,23 @@ function getQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
+//截取str 获取参数
+function getParameter(str,name){
+    var result = str.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+
 var reportId=getQueryString("reportId");
 var reportType = getQueryString("reportType");
 var packageId=getQueryString("packageId");
 var userId=getQueryString("userId");
 var openId=getQueryString("openId");
 var saasId=getQueryString("saasId");
+var clientType = getQueryString("clientType");
+
 var reqUrl = window.location.href;
 var myApp = new Vue({
 	el: '.keypay-c',
@@ -102,8 +113,17 @@ var myApp = new Vue({
 		            needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 		            scanType : [ "qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
 		            success : function(res) {
-		                var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-		                goMethod(result);
+		                var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+		                //alert(resultcode);
+						var codeType = getParameter(resultcode,"type");
+						//alert(codeType);
+						var passwd_val = getParameter(resultcode,"passwd_val");
+						//alert(passwd_val);
+		                if(codeType == 2){
+		                	updateYearWordPay(passwd_val);
+		                }else{
+		                	goMethod(resultcode);
+		                }
 		            }
 		        })
 			});
@@ -152,7 +172,7 @@ var myApp = new Vue({
 	}
 });
 
-//拿到参数执行方法
+//拿到参数执行方法 口令
 function goMethod(resultdata){
 	$.ajax({
 		url : dataUrl + "/api/v1/cardPay/updateWordPay",
@@ -172,9 +192,9 @@ function goMethod(resultdata){
 					zhuge.track('支付成功',{
 						'方式': '口令支付'
 					},function(){
-						if(reportType == 121){
+						if(reportType == 121 || reportType == 122){
 							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else if(reportType == 501){
+						}else if(reportType == 501 || reportType == 502){
 							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}else{
 							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -198,7 +218,53 @@ function goMethod(resultdata){
 	    error : function(obj,msg){showMask("updateWordPay error")}
 	});
 };
-
+//卡号支付
+function updateYearWordPay(resultdata){
+	$.ajax({
+		type:"post",
+		url:dataUrl+"/api/v1/cardPay/updateYearWordPay",
+		dataType : 'json',
+		data:{
+			reportId: reportId,
+			packageId: packageId,
+			userId: userId,
+			batchType: 20,
+			saasId: saasId,
+			wordNum: resultdata
+		},
+		success: function(data){
+			if(data.code == 200){
+				if(data.data == "0" || data.data == "true"){
+					zhuge.track('支付成功',{
+						'方式': '口令支付'
+					},function(){
+						if(reportType == 121 || reportType == 122){
+							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+						}else if(reportType == 501 || reportType == 502){
+							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+						}else{
+							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+						}
+					});
+				}else{
+					setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+					zhuge.track('支付失败',{
+						'方式': '口令支付',
+						'原因': checkMsg(data.data)
+					});
+					showMask(checkMsg(data.data));
+				}
+			}else if(data.code == 300){
+				showMask('口令不正确');
+				setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+			}else{
+				showMask('code=' + data.code);
+			}
+		},
+		error: function(){showMask('updateYearWordPay error')}
+	});
+	
+}
 
 var occode = '';
 /*******************************交互逻辑*****************************/

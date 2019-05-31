@@ -3,6 +3,7 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
+var clientType = getQueryString("clientType");
 var edition = 100;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
@@ -330,7 +331,7 @@ var myApp = new Vue({
 				'渠道' : '微信',
 				'方式': '通过福利基金首页点击'
 			},function(){
-				location.href = 'pay_fuli.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&sameUser='+vm.sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId
+				location.href = 'pay_fuli.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&sameUser='+vm.sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType
 			});
 		},
 		wheelsort: function(deviceSn,reportId){ //广告接口

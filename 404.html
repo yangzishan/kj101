@@ -25,7 +25,9 @@
 		<p class="t404" id="megTxt">找不到此页面...</p>
 		<a id="goAddCard" href="" style="display: none; margin: 0 .3rem; background: #DEBB47; color: #fff; font-size: .3rem; border-radius: .1rem; line-height: .88rem; text-align: center;">去添加年卡</a>
 	</div>
+<script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -45,7 +47,6 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<script type="text/javascript" src="js/jquery.js"></script>
 <script>
 //截取URL 获取
 function GetQueryString(name){
@@ -55,22 +56,49 @@ function GetQueryString(name){
 };
 var mycode=GetQueryString("code");
 var myuserId=GetQueryString("userId");
-//alert(mycode);
 
 if(mycode == 401){
 	$('#megTxt').empty().html('微信授权失败');
+	zhuge.track('进入用户无报告页面', {//埋点t
+		'用户id' : myuserId,
+		'原因' : '微信授权失败'
+	});
 }else if(mycode == 402){
 	$('#megTxt').empty().html('创建微信用户失败');
-}else if(mycode == 403){
-	$('#megTxt').empty().html('用户没有报告');
+	zhuge.track('进入用户无报告页面', {//埋点t
+		'用户id' : myuserId,
+		'原因' : '创建微信用户失败'
+	});
+}else if(mycode == 403){ //用户没有报告
+	$('#megTxt').empty().html('<div style="text-align: left;">尊敬的用户您好：<br/>'+
+       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您是由“健康多活20年”公众号迁移至此公众号的用户，为了给您提供更好的健康服务和更多的专属健康建议，'+
+       '我们正在进行后台信息升级，请您3-5个工作日后来查看您的健康报告，届时我们将为您提供内容更加全面的健康报告以及专业营养师为您打造的专属食谱，敬请期待！<br/>'+
+       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您是“为您的健康加分”公众号新用户，请您到健康筛查机器人进行健康检测，检测后即可查看您的健康报告！<br/>'+
+       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如需帮助请联系我们：400-666-6787。</div>');
 	$('#goAddCard').css("display","block");
 	$('#goAddCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
+	zhuge.track('进入用户无报告页面', {//埋点t
+		'用户id' : myuserId,
+		'原因' : '用户没有报告'
+	});
 }else if(mycode == 406){
 	$('#megTxt').empty().html(' 参数空');
+	zhuge.track('进入用户无报告页面', {//埋点t
+		'用户id' : myuserId,
+		'原因' : '参数空'
+	});
 }else if(mycode == 407){
 	$('#megTxt').empty().html(' 密钥不匹配');
+	zhuge.track('进入用户无报告页面', {//埋点t
+		'用户id' : myuserId,
+		'原因' : '密钥不匹配'
+	});
 }else{
 	$('#megTxt').empty().html('找不到页面...');
+	zhuge.track('进入用户无报告页面', {//埋点t
+		'用户id' : myuserId,
+		'原因' : '找不到页面'
+	});
 }
 
 

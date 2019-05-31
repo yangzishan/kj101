@@ -9,15 +9,16 @@
 <title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
-<link rel="stylesheet" type="text/css" href="css/style.css?v=201809027" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
+	<div class="report-box">{{language.la_toptip}}<a @click="seeMore()">{{language.la_learnMore}}</a></div>
 	<header class="header">
-		<a class="t-left fl goToPer" @click="goSetUp()" v-if="openId"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
+		<a class="t-left fl goToPer" @click="goSetUp()" v-if="openId"><i class="i_c"><img src="img/i-per.png"></i>{{language.la_perCen}}</a>
 		<button class="t-left fl goToShare" id="goToShare" v-if="!openId">报告分享</button>
-		<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+		<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>{{language.la_hisRepo}}</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
 	<div class="all_score">
@@ -25,36 +26,37 @@
 			<div class="x_b">
 				<div class="b_kd">
 					<p class="pf" id="score">{{totalScore}}</p>
-					<p class="pz">总分</p>
+					<p class="pz">{{language.la_zongfen}}</p>
 				</div>
 				<div class="guang_b"></div>
 				<div class="guang"></div>
 			</div>
 		</div>
-		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">{{inspectDay}}</em>日后再次检测</p></div>
-		<div class="explain" @click="explain()"><i></i><p>说明</p></div>
+		<div class="score_inf"><p class="inf-rk">{{language.la_testAgain_before}}<em id="sugDay">{{inspectDay}}</em>{{language.la_testAgain_after}}</p></div>
+		<!--<div class="explain" @click="explain()"><i></i><p>说明</p></div>-->
 	</div>
 	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	
 	<div class="sy_summary">
-		<p class="sstit">亲爱的<span class="inpv">{{userName}}{{sexStr}}</span>你好！</p>
-		<div class="sstxt" v-html="saasTel"></div>
-		<p class="sstit2">-------汇总分析-------</p>
+		<p class="sstit">{{language.la_dear}}<span class="inpv">{{userName}}</span>{{language.la_hello}}</p>
+		<div class="sstxt">{{language.la_thanksForUse}}</div>
+		<p class="sstit2">-------{{language.la_hz_t}}-------</p>
 		<div class="sstxt">
-			　　本次评估您身体状况为<em class="sta">{{ps}}</em><span v-if="ranking!=0 && ranking!=null">，生理年龄评估为<em class="sta">{{age}}</em>岁</span>
-			<span>，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>。
+			{{language.la_hzContent_0}}<em class="sta">{{ps}}</em><span v-if="language == en"> in this evaluation.</span>
+			<span v-if="ranking!=0 && ranking!=null">{{language.la_hzContent_1}}<em class="sta">{{age}}</em>{{language.la_hzContent_2}}</span>
+			<span>{{language.la_hzContent_3}}<em class="sta">{{ranking}}</em>{{language.la_hzContent_4}}</span>
 			<!--<p class="noSeg" id="segTwo">
 				2、本次检测您有<span><font class="sta">{{midNum}}</font>项为中度风险，</span><span><font class="sta">{{litNum}}</font>项为轻度风险。</span>
 				根据检测结果，给您的专属健康建议重点解决<i v-for="bid in abnormalName"> {{bid}}</i>指标的问题。
 			</p>-->		
 		</div>
-		<a class="gojy" @click="getSuggest($event)"><i></i><span>请点击查看您的专属建议</span></a>
-		<a class="gosp" v-if="showRecipe > 0" @click="getRecipesData($event)"><i></i><span>请查看您的专属健康食谱</span></a>
+		<a class="gojy" @click="getSuggest($event)"><i></i><span>{{language.la_seeAdv}}</span></a>
+		<a class="gosp" v-if="showRecipe > 0 && languageStr == 'zh'" @click="getRecipesData($event)"><i></i><span>{{language.la_seeRec}}</span></a>
 	</div>
 
-	<div class="sumTit">以下是您<em id="sysNum">10</em>大系统及身体实时状况的评估结果：</div>
+	<div class="sumTit">{{language.la_system_tit_before}}<em id="sysNum">10</em>{{language.la_system_tit_after}}</div>
 	<div class="sy_tab clearfix">
-	  	<span class="on"><a>健康指数</a></span><span><a>身体状况</a></span>
+	  	<span class="on"><a><em>{{language.la_healthInd}}</em></a></span><span><a><em>{{language.la_physicalInd}}</em></a></span>
     </div>
     <div class="tenSys_c indexShow">
     	<a v-for="item in firstPages" @click="goSecond($event,item)">
@@ -64,8 +66,8 @@
     			<p class="s-score" style="display: none;">{{item.score}}</p>
     		</div>
     		<div class="s-inf fl">
-    			<p class="lab"><span>{{item.targetFirstName}}</span><em class="pop" @click.prevent="popTen($event)">?</em></p>
-    			<p class="tx">{{item.score}}分</p>
+    			<p class="lab"><span>{{item.targetFirstName}}</span><em class="pop" @click.prevent.stop="popTen($event)">?</em></p>
+    			<p class="tx">{{item.score}}{{language.la_fen}}</p>
     		</div>
     		<div class="v_overlert">
 				<div class="tc_sy">
@@ -102,45 +104,40 @@
   	<section id="noAge">
   	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <div class="sy_tit">
-    	<span class="">生理年龄</span><em class="pop" @click="phyage($event)">?</em>
+    	<span class="">{{language.la_physiologicalAge}}</span><em class="pop" @click="phyage($event)">?</em>
     	<div class="v_overlert">
 			<div class="tc_sy">
 				<em class="close"></em>
-				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
-				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
-					生理年龄的高低，主要取决于人的生活方式和健康状况。
-					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
-				</div>
+				<p class="bit"><span class="labt">{{language.la_physiologicalAge}}</span><em></em></p>
+				<div class="bxt" style="text-align: left;">{{language.la_phyAgedDescription}}</div>
 			</div>
 		</div>
     </div>
-    <div class="slnl_tit">您的生理年龄评估为<em>{{age}}</em>岁，各个系统如下：</div>
-    <div id="sl_chart" style="width:100%; margin:0 auto; height: 250px; position: relative; top: -30px;"></div>	
+    <div class="slnl_tit">{{language.la_phyAgeStr_before}}<em>{{age}}</em>{{language.la_phyAgeStr_after}}</div>
+    <div id="sl_chart" style="width:100%; margin:0 auto; height: 300px; position: relative; top: -30px;"></div>	
   	</section>
 
 
 	<div id="v_change">
 	    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	    <div class="sy_tit">
-	    	<span class="">指标改善状况分析</span><em class="pop" id="zbgs_tc">?</em>
+	    	<span class="">{{language.la_bidImprovement}}</span><em class="pop" id="zbgs_tc">?</em>
 	    	<div class="v_overlert">
 				<div class="tc_sy">
 					<em class="close"></em>
-					<p class="bit"><span class="labt">指标改善状况分析</span><em></em></p>
-					<div class="bxt" style="text-align: left;">指标改善状况分析是基于本次报告结果与您上次评估结果的对比分析，上次报告取的是非当日的最近一次评估。 
-	已改善是指与上份报告相比风险等级降低的指标，未改善即对比上次未得到改善或好转，新增异常是本次评估新增加的存在风险的指标。 
-					</div>
+					<p class="bit"><span class="labt">{{language.la_bidImprovement}}</span><em></em></p>
+					<div class="bxt" style="text-align: left;">{{language.la_bidImprDescription}}</div>
 				</div>
 			</div>
 	    </div>
 	    <div class="change_tab">
-	    	<span class="on"><a>已改善</a></span>
-	    	<span><a>未改善及新增异常</a></span>
+	    	<span class="on"><a><em>{{language.la_improved}}</em></a></span>
+	    	<span><a><em>{{language.la_unimproved}}</em></a></span>
 	    </div>
 	    <div class="change_sta">
-	    	<span class="s1 fl">指标名称</span>
-	    	<span class="s2 fr">当前状况<br><i>({{currentDateStr.slice(0,10)}})</i></span>
-	    	<span class="s2 fr">上次状况<br><i>({{lastDateStr.slice(0,10)}})</i></span>
+	    	<span class="s1 fl">{{language.la_indName}}</span>
+	    	<span class="s2 fr">{{language.la_currentSta}}<br><i>({{currentDateStr.slice(0,10)}})</i></span>
+	    	<span class="s2 fr">{{language.la_lastSta}}<br><i>({{lastDateStr.slice(0,10)}})</i></span>
 	    </div>
 	    <div class="changeShow">
 	    	<ul class="change_list">
@@ -148,15 +145,15 @@
 		    		<a @click="goThird($event,item)">
 		    		<span class="s1 fl">{{item.tagetName}}</span>
 		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
-		    			{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}
+		    			{{item.currentLevel==1?language.la_normal:(item.currentLevel==2?language.la_MildSisk:(item.currentLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
 		    		</span>
 		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
-		    			{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}
+		    			{{item.lastLevel==1?language.la_normal:(item.lastLevel==2?language.la_MildSisk:(item.lastLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
 		    		</span>
 		    		</a>
 		    	</li>
 		    </ul>
-		    <p class="noctip" v-if="okImproves.length == 0">暂无已改善指标</p>
+		    <p class="noctip" v-if="okImproves.length == 0">{{language.la_noimproved}}</p>
 	    </div>
 		<div class="changeShow" style="display: none;">
 			<ul class="change_list">
@@ -166,15 +163,15 @@
 		    			<font v-if="item.newAdd == 1" style="display: inline-block; margin-left: .1rem;">新增</font>
 		    		</span>
 		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
-		    			{{item.currentLevel==1?'正常':(item.currentLevel==2?'轻度风险':(item.currentLevel==3?'中度风险':'中度风险'))}}
+		    			{{item.currentLevel==1?language.la_normal:(item.currentLevel==2?language.la_MildSisk:(item.currentLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
 		    		</span>
 		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
-		    			{{item.lastLevel==1?'正常':(item.lastLevel==2?'轻度风险':(item.lastLevel==3?'中度风险':'中度风险'))}}
+		    			{{item.lastLevel==1?language.la_normal:(item.lastLevel==2?language.la_MildSisk:(item.lastLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
 		    		</span>
 		    		</a>
 		    	</li>
 		    </ul>
-		    <p class="noctip" v-if="noImproves.length == 0">暂无未改善及新增异常指标</p>
+		    <p class="noctip" v-if="noImproves.length == 0">{{language.la_Noimprovement}}</p>
 		</div>        
 	</div>
 	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
@@ -189,6 +186,27 @@
 	    </div>
     </section>
     <!---广告end--->
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showExplain">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit">
+			<span class="labt">{{language.la_instructionWel}}！</span>
+		</p>
+		<div class="bxt2">
+			{{language.la_instruction1}}<br/>
+			{{language.la_instruction1_1}}<br/>
+			{{language.la_instruction1_2}}<br/>
+			{{language.la_instruction1_3}}<br/>
+			{{language.la_instruction1_4}}<br/>
+			{{language.la_instruction2}}<br/>
+			{{language.la_instruction2_1}}<br/>
+			{{language.la_instruction3}}<br/>
+			{{language.la_instruction3_1}}<br/>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">{{language.la_k_company}}<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+	</div>
+</div>
 	
 </div>
 
@@ -200,27 +218,7 @@
 <input type="hidden" id="share" value="101"/>
 </DIV>
 
-<div class="v_overlay"></div>
-<div class="v_overlert" id="showExplain">
-	<div class="tc_sy">
-		<em class="close"></em>
-		<p class="bit">
-			<span class="labt">欢迎您查看健康报告使用帮助！</span>
-		</p>
-		<div class="bxt2">
-			一、如何查看您的健康报告？<br/>
-1、​综合评估：智能筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
-2、​十大系统：智能筛查机器人针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
-3、​健康指标：智能筛查机器人给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
-4、​实时状态：智能筛查机器人针对您的实时状态给予评估，共计有6项状态评估，有助于您及时了解自己的身体状态。<br/>
-二、关于报告中提示的问题？<br/>
-本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
-三、关于您的专属健康改善建议？<br/>
-报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
-			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
-		</div>
-	</div>
-</div>
+
 
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 
@@ -228,9 +226,12 @@
     <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
 </div>
 
+<div id="btn" class="zhiCustomBtn"></div>
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/circle-progress.js"></script>

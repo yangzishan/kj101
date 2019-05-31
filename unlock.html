@@ -44,6 +44,12 @@ var saasId = getQueryString('saasId');
 var deviceSn = getQueryString('deviceSn');
 var jumpUrl = getQueryString('jumpUrl');
 
+// 判断
+if(saasId == 218051){
+	window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl
+	
+}
+
 var info = {
 	openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl	
 }

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>解锁</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style>
+	body {
+	  padding-top: .2rem;
+	}
+	body .jiesuo {
+	  position: relative;
+	  top: 1rem;
+	}
+	body .new .form {
+	  width: 100%;
+	  padding: 5%;
+	  margin-bottom:.6rem;
+	  /* border-bottom: 2px solid #eee; */
+	  padding-bottom: .2rem;
+	}
+	body .new .form > div {
+	  display: inline-block;
+	  width: 45%;
+	  height: 1.3rem;
+	  text-align: center;
+	  line-height: 1.3rem;
+	  font-size: .48rem;
+	  border-radius: 25px 7px;
+	}
+	body .new .form > div:last-child {
+	  float: right;
+	}
+	body .new .form .active {
+	  background: #00d6ca;
+	  color: #fff;
+	}
+	body .new .box-form {
+	  padding-left: .7rem;
+	  padding-top: .3rem;
+	  display: none;
+	  border-radius: 5px;
+	  padding-bottom: .3rem;
+	}
+	body .new .box-form .list {
+	  margin-bottom: .5rem;
+	}
+	body .new .box-form .list > .keky {
+	  width: 1.5rem;
+	  display: inline-block;
+	}
+	body .new .box-form .list:not(:nth-child(2)) > input {
+	  -webkit-appearance: input;
+	  height: .6rem;
+	  border-radius: 3px;
+	  border: 1px solid #000;
+	  text-align: right;
+	  padding-right: 7px;
+	}
+	body .new .box-form .list:nth-child(2) > input {
+	  -webkit-appearance: radio;
+	  vertical-align: -0.02rem;
+	  border: 1px solid #000;
+
+	}
+	body .new .box-form .list [for=sex1] {
+	  margin-right: .5rem;
+	}
+	body .new .box-form .list #height,
+	body .new .box-form .list #weight {
+	  margin-right: 6px;
+	}
+	body .new .box-form .tishi {
+	  font-size: .24rem;
+	  color: red;
+	  display: none;
+	}
+
+
+</style>
+</head>
+<body>
+<section id="vm" style="padding:.3rem;">
+	<div class="new">
+		<div class="form">
+			<div class="zjc active">个人检测</div>
+			<div class="yyyh">邀约用户</div>
+		</div>
+			
+		
+		<div class="box-form">
+			<div class="list">
+				<label for="age" class="keky">年 龄</label><input type="number" id="age" name="age" pattern="\d*"/>
+			</div>
+			<div class="list">
+				<span class="keky">性 别</span><input type="radio" id="sex1" name="sex"  value="1"><label for="sex1">男</label> <input type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label>
+			</div>
+			<div class="list">
+				<label for="height" class="keky">身 高</label><input type="number" id="height" name="height" pattern="\d*"/>cm
+			</div>
+			<div class="list">
+				<label for="weight" class="keky">体 重</label><input type="number" id="weight" name="weight" pattern="\d*"/>kg
+			</div>
+			<div class="list">
+				<label for="tel" class="keky">手机号</label><input type="tel" id="tel" name="tel" pattern="\d*"/>
+			</div>
+			<div class="list tishi">
+				请填写必填内容
+			</div>
+		</div>
+	</div>
+
+<button @click="unlock()" class="jiesuo" style=" display: block; width:100%; height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .35rem; text-align: center; line-height: .88rem;">解 锁</button>
+</section>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var data = {};
+var openId = getQueryString('openId');
+var saasId = getQueryString('saasId');
+var deviceSn = getQueryString('deviceSn');
+var jumpUrl = getQueryString('jumpUrl');
+
+var info = {
+	openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl	
+}
+
+var myApp = new Vue({
+	el: '#vm',
+	data: function(){
+		return{
+			openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl
+		}
+	},
+	methods: {
+		unlock: function(){
+			var vm = this;
+
+			if($('.yyyh').hasClass('active')){
+				var flag = false;
+				$('.tishi').css('display','none');
+				data.age = $('#age').val();
+				data.gender = $('[name=sex]:checked').val();
+				data.height = $('#height').val();
+				data.weight = $('#weight').val();
+				data.userTel = $('#tel').val();
+				data.registerUser = 1;
+				data.saasId = saasId;
+				data.deviceSn = deviceSn;
+				data.inviterId = openId;
+				$.each(data,function(key,val){
+					console.log(val)
+					if(val == '' || val == undefined){
+						flag = true;
+					}
+				})
+				console.log(data)
+				if(flag){console.log(flag);$('.tishi').css('display','block');return;}
+				$.ajax({
+					type:"post",
+					url: saasUrl+ "/api/v1/invite/invitePeopleDetection",
+					dataType: 'json',
+					contentType : 'application/json',
+					data : JSON.stringify(data),
+					success: function(res){
+						if(res.code == 200){
+							console.log('success')
+							WeixinJSBridge.call('closeWindow');
+						}else if(res.code == 40001){
+							alert(res.msg)
+						}else if(res.code == 300){
+							alert(res.msg)
+						}
+					},
+					error: function(err){alert('unlock error');
+						console.log(err)
+					}
+
+				});
+			}else{
+				$.ajax({
+					type:"post",
+					url: saasUrl+ "/api/v1/ne/neUnlock",
+					dataType: 'json',
+					contentType : 'application/json',
+					data : JSON.stringify(info),
+					success: function(res){
+						console.log('success')
+						WeixinJSBridge.call('closeWindow');
+					},
+					error: function(){alert('unlock error')}
+
+				});
+			}
+		}
+	},
+	mounted: function(){
+		
+	}
+});
+
+	
+//获取url参数
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+}
+
+</script>
+<script>
+	$(function(){
+		$('.form').on('click','div',function(){
+			// if($(this).hasClass('active')){ return}
+			$('.active').removeClass('active');
+			$(this).addClass('active');
+			if($(this).hasClass('yyyh')){
+				$('.box-form').show();
+			}else{
+				$('.box-form').hide();		
+			}
+		})
+	});
+</script>
+</body>
+</html>

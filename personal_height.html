@@ -15,7 +15,7 @@
 </head>
 <body>
 <section class="my_view bck-col-f4">
-<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">身高</span></div>
+<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">{{language.la_height}}</span></div>
 <p class="k1"></p>
 <div class="ncdint">
 	<input id="rise" type="number" placeholder="" pattern="[0-9]*" >
@@ -23,11 +23,13 @@
 </div>
 
 <!--<input type="hidden" id="userId" value="101" />-->
-<p class="d-out"><button class="mbtn-sub bg-off" disabled="disabled">保存</button></p>
+<p class="d-out"><button class="mbtn-sub bg-off" disabled="disabled">{{language.la_ok}}</button></p>
 
 </section>	
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -41,7 +43,6 @@
                 docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
             }
         };
-
     if (!doc.addEventListener) return;
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
@@ -49,18 +50,33 @@
 </script>
 <script type="text/javascript">
 $(window).load(function(){
-	//截取URL 获取
-	function GetQueryString(name){
-	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-	     var r = window.location.search.substr(1).match(reg);
-	     if(r!=null)return  unescape(r[2]); return null;
-	};
-	var myuserId=GetQueryString("userId");
-	var myheight=GetQueryString("height");	
-	if(myheight == null || myheight == '' || myheight == 'null'){
+	var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+	if(JsSrc.indexOf('zh')>=0){
+		var language = zh;
+		var languageStr = 'zh';
+	}else if(JsSrc.indexOf('en')>=0){
+	    var language = en;
+	    var languageStr = 'en';
+	    document.title = 'Height'
+	}else{
+		var language = en;
+	    var languageStr = 'en';
+	    document.title = 'Height'
+	}
+	var userId=getQueryString("userId");
+	var height=getQueryString("height");	
+	
+	var myApp = new Vue({
+		el: '.my_view',
+		data: {
+			language: language
+		},
+	});
+	
+	if(height == null || height == '' || height == 'null'){
 		$('#rise').attr("placeholder",'请设置您的身高');
 	}else{
-		$('#rise').attr("placeholder",myheight);
+		$('#rise').attr("placeholder",height);
 	}
 	
 	$('#rise').on("keyup keypress input",function(){
@@ -86,10 +102,10 @@ $(window).load(function(){
 			alert('请输入正确的身高');
 			return;
 		}
-		var myheight = $('#rise').val();
+		var height = $('#rise').val();
 		var userInfo = {
-			height : myheight,
-			userId : myuserId
+			height : height,
+			userId : userId
 		}
 		$.ajax({
 			url : dataUrl + "/api/v1/reportUser/updateById",
@@ -100,14 +116,21 @@ $(window).load(function(){
 			success : function(userData) {
 				//debugger;
 				if(userData.code == 200){
-					window.location.href="personalData.html?userId="+myuserId
+					window.location.href="personalData.html?userId="+userId
 				}
 			},
 			error : function(){
 				alert('请求失败了')
 			}
 		})
-	})
+	});
+	
+	//截取URL 获取
+	function getQueryString(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	};
 });
 </script>
 </body>

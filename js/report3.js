@@ -3,6 +3,7 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
+var clientType = getQueryString("clientType");
 var edition = 3;
 if(reportType == 501){
 	$('.skin').remove();
@@ -12,6 +13,21 @@ if(!openId){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
 }
+
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+   var language = zh;
+   var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}
+
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
 	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
@@ -37,7 +53,7 @@ zhuge.track('进入3.0报告首页', {//埋点t
 });
 var _offsetTop; //存储滚动
 var _bodyoffset;
-new Vue({
+var myApp = new Vue({
 	 el: '.all-view',
     data:function() {
 		return {
@@ -70,7 +86,8 @@ new Vue({
 			ranking:'',
 			targetName:'',
 			banData:'',
-			deviceSnNum:''
+			deviceSnNum:'',
+			language: language,  //默认中文
 		}
 	},
 	mounted: function(){
@@ -132,14 +149,19 @@ new Vue({
 						setTimeout(function(){
 							$('#prcc').css("width",data.result.totalScore+'%');
 							$('#score').animateNumber({ number: data.result.totalScore },1100);
-							$('.sub-health .text .pointer').css("transform","rotate("+_deg+"deg)");
+							$('.sub-health .pointer').css("transform","rotate("+_deg+"deg)");
 							$('.klzs_c .zs_p').css("transform","rotate(-"+_klzs+"deg)");
 							_this.wheelsort(_this.deviceSnNum,reportId);//轮播广告
 						},300);
 						
 					}else if((data.code == 201)){
 						_this.sameUser = data.sameUser;
-						location.href = 'payfor3.0.html?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType+'&saasId='+saasId
+						var payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType
+						if(languageStr == 'en'){
+							location.href = 'pay_en.html'+payStr
+						}else{
+							location.href = 'payfor3.0.html'+payStr
+						}
 					}else{alert('queryNewReportDataByReportIdAndCustomerId,code='+data.code+data.msg)}
 				},
 				error: function(){alert('queryNewReportDataByReportIdAndCustomerId error')}
@@ -298,7 +320,7 @@ new Vue({
 			zhuge.track('点击了解更多',{
 				'报告版本': '3.0报告'
 			},function(){
-				location.href = 'notice3.html'
+				location.href = 'instructions.html?reportType='+reportType
 			})
 		},
 		checkHistory: function(){ //历史报告
@@ -329,7 +351,7 @@ new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
+				window.location='z_pop.html?reportId='+reportId+'&openId='+openId+'&sex='+vm.sex+'&userId='+vm.userId+'&reportType='+reportType
 			});
 		},
 		recipeHref: function(){
@@ -448,6 +470,41 @@ function banSlide(page_count){
 	};
 	var toNext=setInterval(next,3000);
 };
+//查用户信息对接智齿客服
+//$.ajax({
+//	url : dataUrl + "/api/v1/reportUser/findUserById",
+//	type : "POST",
+//	dataType : 'json',
+//	data : {
+//	    userId : customerId
+//	},
+//	success : function(userData) {
+//		if(userData.code == 200){
+//			//初始化智齿咨询组件实例
+//			var zhiManager = (getzhiSDKInstance());
+//			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+//			zhiManager.set('location',1); //位置
+//			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+//			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+//			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+//			zhiManager.set('lan', 'zh'); //支持语言
+//			zhiManager.set('moduleType',3); //机器人客服优先模式
+//			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+//			//zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+//			zhiManager.set('customMargin', 200);
+//			//设置用户信息
+//			zhiManager.set('uname',userData.data.userName);
+//			zhiManager.set('realname',userData.data.userName);
+//			zhiManager.set('tel',userData.data.mobile);
+//			zhiManager.set('remark','报告ID： '+reportId);
+//			zhiManager.on("load", function() {
+//			    zhiManager.initBtnDOM();
+//			});
+//		//////
+//		}
+//	},
+//	error : function(obj,msg){console.log(obj+msg + "findUserById error")}
+//});
 // 获取url参数方法
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

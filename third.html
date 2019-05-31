@@ -21,15 +21,15 @@
 	</header>
 	
 	<div class="thr_sta">
-		<p class="sta_i"><i v-bind:class="abnormalLevelStr">{{score}}</i></p>
+		<p class="sta_i"><i :class="abnormalLevelStr">{{score}}</i></p>
 		<p class="sta_t">
-			<span>评估结果：
-				<em>{{inspectStandard==1?'正常':(inspectStandard==2?'偏高':'偏低')}}</em>
+			<span>{{language.la_ass_results}}：
+				<em>{{inspectStandard==1?language.la_normal:(inspectStandard==2?language.la_piangao:language.la_piandi)}}</em>
 			</span>
 		</p>
 	</div>
 	
-	<div class="thr_tit"><i></i><span>指标解读</span></div>
+	<div class="thr_tit"><i></i><span>{{language.la_bid_int}}</span></div>
 	<div class="thr_cn">	
 		<div class="ctxt">
 			{{inspectExplain}}
@@ -37,11 +37,11 @@
 	</div>
 	<p style=" height: .2rem; background: #F2F2F2;"></p>
 	
-	<div class="thr_tit thr_jy"><i></i><span>健康建议</span></div>
+	<div class="thr_tit thr_jy"><i></i><span>{{language.la_jkAdvice}}</span></div>
 	<!--健康建议内容-->
 	<div class="">
 		<div class="jkjy_wrap" v-if="dietList">
-			<p class="btite"><span class="lab">膳食建议</span><i class="ico" @click="ssjyTab()"></i></p>
+			<p class="btite"><span class="lab">{{language.la_sug_diet}}</span><i class="ico" @click="ssjyTab()"></i></p>
 			<div class="box-c" v-for="(site,index) in dietList">
 				<p class="tit02" @click="showHide($event)">{{options[index]}}、{{site.indexName}}<i class="fr"></i></p>
 				<div class="txt03">
@@ -53,7 +53,7 @@
 		<p v-if="dietList" style="height: .3rem; background: #F4F4F4;"></p>
 	
 		<div class="jkjy_wrap" v-if="motionList">
-			<p class="btite"><span class="lab">运动和生活方式建议</span><i class="ico" @click="yysTab()"></i></p>
+			<p class="btite"><span class="lab">{{language.la_sug_sport}}</span><i class="ico" @click="yysTab()"></i></p>
 			<div class="box-c" v-for="(msite,index) in motionList">
 				<!--<p class="tit01"></p>-->
 				<div class="txt02">
@@ -64,7 +64,7 @@
 		<p v-if="motionList" style="height: .3rem; background: #F4F4F4;"></p>
 		
 		<div class="jkjy_wrap" v-if="nutritionList">
-			<p class="btite"><span class="lab">营养素建议</span><i class="ico" @click="yysTab()"></i></p>
+			<p class="btite"><span class="lab">{{language.la_sug_nut}}</span><i class="ico" @click="yysTab()"></i></p>
 			<div class="box-c" v-for="(osite,index) in nutritionList">
 				<p class="tit01">{{options[index]}}.{{osite.indexName}}</p>
 				<div class="txt02">
@@ -75,10 +75,11 @@
 		</div>	
 	</div>	
 	<!--健康建议内容 end-->
-</section>
 	<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
-	<div class="thr_tit"><i></i><span>历史趋势</span></div>
-	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>	
+	<div class="thr_tit"><i></i><span>{{language.la_histTre}}</span></div>
+	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
+</section>
+		
 	
 	<div id="btn" class="zhiCustomBtn"></div>
 	
@@ -122,6 +123,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
 <script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
 <script type="text/javascript">
@@ -149,7 +151,20 @@ $('.load-overlay').css("display","block");
 var reportId = getQueryString('reportId');
 var targetId = getQueryString("targetId");
 var userId = getQueryString('userId');
-
+var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+console.log(JsSrc);
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Report details'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Report details'
+}
 var myApp = new Vue({
 	el:'#appVUE',
 	data: function(){
@@ -166,7 +181,8 @@ var myApp = new Vue({
 			dietList:'',//膳食
 			nutritionList:'',// 营养
 			motionList:'', //运动
-			options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六']
+			options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
+			language: language
 		}
 	},
 	mounted: function(){
@@ -175,7 +191,7 @@ var myApp = new Vue({
 	},
 	methods:{
 		targetProposal: function(){ //获取数据
-			let vm = this;
+			var vm = this;
 			$.ajax({
 				url : dataUrl + "/api/v1/reportIndex/targetProposal",
 				type : "POST",
@@ -198,7 +214,7 @@ var myApp = new Vue({
 				   		vm.score = res.data.guideThirdVo.score //指标得分
 				   		vm.inspectStandard = res.data.guideThirdVo.inspectStandard //偏高偏低
 				   		vm.abnormalLevel = res.data.guideThirdVo.abnormalLevel //异常成度
-				   		vm.abnormalLevelStr = "bcc"+res.data.guideThirdVo.abnormalLevel //class+异常成度
+				   		vm.abnormalLevelStr = languageStr+res.data.guideThirdVo.abnormalLevel //class+异常成度
 				   		vm.inspectExplain = res.data.guideThirdVo.inspectExplain //指标介绍
 				   		vm.dietList = res.data.dietList //膳食
 					    vm.nutritionList = res.data.nutritionList //营养
@@ -233,7 +249,7 @@ var myApp = new Vue({
 			return false;
 		},
 		findThirdTrend: function(){ //调用三级指标历史趋势
-			let vm = this;
+			var vm = this;
 			$.ajax({
 				url : dataUrl + "/api/v2/reportThird/findThirdTrend",
 				type : "POST",

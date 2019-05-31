@@ -16,6 +16,8 @@ function checkMsg (num){
 		msg = '使用失败';
 	}else if(num == '20'){
 		msg = '绑定失败';
+	}else if(num == '21'){
+		msg = '不记名年卡无法绑定';
 	}else{
 		msg = '请输入正确的兑换码';
 	};

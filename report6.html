@@ -17,14 +17,14 @@
 	<header class="header">
 		<div class="mine header-box goToPer" v-if="openId">
 			<div class="img-box"><img src="./images/tx-icon.png" /></div>
-			<span @click="goSetUp()">个人中心</span>
+			<span @click="goSetUp()">{{language.la_perCen}}</span>
 		</div>
 		<div class="mine header-box goToShare" v-if="!openId">
 			<button id="goToShare">分享报告</button>
 		</div>
 		<div class="title">{{inspectDate}}</div>
 		<div class="report header-box">
-			<span @click="checkHistory()">历史报告</span>
+			<span @click="checkHistory()">{{language.la_hisRepo}}</span>
 			<div class="img-box"><img src="./images/ls-icon.png" /></div>
 		</div>
 	</header>
@@ -37,107 +37,76 @@
 			<li @click="adviseHref()">
 				<div class="index-img"><img src="./images/nav-02.png" /></div><p>建议</p>
 			</li>
-			<li @click="recipeHref()">
+			<li @click="recipeHref()" v-if="languageStr == 'zh'">
 				<div class="index-img"><img src="./images/nav-03.png" /></div><p>食谱</p>
 			</li>
-			<li @click="graphHref()">
+			<li @click="graphHref()" v-if="languageStr == 'zh'">
 				<div class="index-img"><img src="./images/nav-04.png" /></div><p>趋势</p>
 			</li>
 		</ul>
 	</div>
 	<!--报告说明-->
-	<div class="report-box">注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。<a @click="seeMore()">了解更多</a></div>
+	<div class="report-box">{{language.la_toptip}}<a @click="seeMore()">{{language.la_learnMore}}</a></div>
 	<div class="kj-box">
 	<!--综合健康分数-->
 		<div class="sleep-box synthesis">
 			<!--<div class="header-img"><img :src="headimgurl"/></div>--><!--用户头像-->
 			<div class="title">
-				<p class="bmi-box"><span class="state">综合分数</span><span class="explain" @click="clickA()"><img src="./images/explain.png" /></span></p>
+				<p class="bmi-box"><span class="state">{{language.la_zonghefenshu}}</span><span class="explain" @click="clickA()"><img src="./images/explain.png" /></span></p>
 			</div>
 			<!--进度条-->
 			<div class="strip">
 				<div class="active" id="prcc">
 					<div class="dot">
-						<div class="within-dot"><span><em id="score"></em>分</span><p class="trigon"><img src="./images/trigon.png"/></p></div>
+						<div class="within-dot"><span><em id="score"></em>{{language.la_fen}}</span><p class="trigon"><img src="./images/trigon.png"/></p></div>
 					</div>
 				</div>
 			</div>
 			<p class="num"><spn class="left">0</spn><spn class="right">100</spn></p>
-			<p class="advise"><span class="dot-box"></span>您的分数好于<span class="greater">{{ranking}}%</span>的人</p>
+			<p class="advise">
+				<span class="dot-box"></span>
+				<span>{{language.la_comp_befor}}<b class="greater">{{ranking}}%</b>{{language.la_comp_after}}</span>
+			</p>
 			<div class="bottom-box"></div>
 			<div class="shade" v-show="popupA" @click="shade">
-				<div class="popup">智能筛查机器人针对您的整体健康状况给予综合健康得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态。</div>
+				<div class="popup">{{language.la_zhfs_description}}</div>
 			</div>
 		</div>
 		<!--亚健康风险-->
 		<div class="sleep-box sub-health">
 			<div class="title">
-				<p class="bmi-box"><span class="state">亚健康风险</span><span class="explain" @click="clickB()"><img src="./images/explain.png" /></span></p>
+				<p class="bmi-box"><span class="state">{{language.la_yjkrisk}}</span><span class="explain" @click="clickB()"><img src="./images/explain.png" /></span></p>
 			</div>
-			<div class="text">
+			<div :class="{text:language == zh,text_en:language == en}">
 				<div class="pointer"><img src="./images/jt.png" />
 				</div>
 			</div>
 			<p class="advise">
 				<span class="dot-box"></span>
-				<span  v-if="100 >= totalScore && totalScore >= 95">健康状态优秀、生理状态最佳。</span>
-				<span  v-else-if="94 >= totalScore && totalScore >= 90">健康状态良好、生理状态较佳。</span>
-				<span  v-else-if="89 >= totalScore && totalScore >=85">健康状态较好、机体功能轻度紧张。</span>
-				<span  v-else-if="84 >= totalScore && totalScore >=80">健康状态下降、机体功能中度紊乱或紧张。</span>
-				<span  v-else>健康状态不佳、机体功能紊乱程度较高。</span>
+				<span  v-if="100 >= totalScore && totalScore >= 95">{{language.la_bestConditionTip}}</span>
+				<span  v-else-if="94 >= totalScore && totalScore >= 90">{{language.la_goodConditionTip}}</span>
+				<span  v-else-if="89 >= totalScore && totalScore >=85">{{language.la_levelOneTip}}</span>
+				<span  v-else-if="84 >= totalScore && totalScore >=80">{{language.la_levelTwoTip}}</span>
+				<span  v-else>{{language.la_levelThreeTip}}</span>
 			</p>
 			<div class="bottom-box"></div>
 			<div class="shade" v-show="popupB" @click="shade">
-				<div class="popup">
-					<div>
-						<p>最佳状态（95-100）</p>
-						<p>健康状态优秀、生理状态最佳。</p>
-					</div>
-					<div>
-						<p>良好状态（90-94）</p>
-						<p>健康状态良好、生理状态较佳。</p>
-					</div>
-					<div>
-						<p>一级风险（85-89）</p>
-						<p>健康状态较好、机体功能轻度紧张。</p>
-					</div>
-					<div>
-						<p>二级风险（80-84）</p>
-						<p>健康状态下降、机体功能中度紊乱或紧张。</p>
-					</div>
-					<div>
-						<p>三级风险（80分以下）</p>
-						<p>健康状态不佳、机体功能紊乱程度较高。</p>
-					</div>
+				<div class="popup" v-html="language.la_yjkfx_description">
 				</div>
 			</div>
 		</div>
 		<!-- 快乐指数 -->
-		<div class="sleep-box  happy">
+		<div class="sleep-box  happy" v-for="item in data" v-if="item.targetId == 1001">
 			<div class="title">
-				<p class="bmi-box"><span class="state">{{data[0].targetName}}</span><span class="explain" @click="clickF()"><img src="./images/explain.png" /></span></p>
+				<p class="bmi-box"><span class="state">{{item.targetName}}</span><span class="explain" @click="clickF()"><img src="./images/explain.png" /></span></p>
 			</div>
-			<!--best快乐  joviality愉悦  peace平和 depress压抑 gloomy郁闷 -->
-			<!--<div class="happy-box" 
-			:class="[{
-				'gloomy':data[0].childTarget[0].abLive == 4},
-				{'best':data[0].childTarget[0].abLive == 0},
-				{'joviality':data[0].childTarget[0].abLive == 1},
-				{'peace':data[0].childTarget[0].abLive == 2},
-				{'depress':data[0].childTarget[0].abLive == 3}
-			]">
-				<span class="gloomy-title">郁闷</span>
-				<span class="depress-title">压抑</span>
-				<span class="peace-title">平和</span>
-				<span class="joviality-title">愉悦</span>
-				<span class="best-title">快乐</span>
-			</div>-->
+			
 			<div class="happy-box" >
-				<span class="gloomy-title">郁闷</span>
-				<span class="depress-title">压抑</span>
-				<span class="peace-title">平和</span>
-				<span class="joviality-title">愉悦</span>
-				<span class="best-title">快乐</span>
+				<span class="gloomy-title">{{language.la_depressed}}</span>
+				<span class="depress-title">{{language.la_repressive}}</span>
+				<span class="peace-title">{{language.la_calm}}</span>
+				<span class="joviality-title">{{language.la_cheerful}}</span>
+				<span class="best-title">{{language.la_happy}}</span>
 				<div class="klzs_c">
 					<div class="zs_b"></div>
 					<div class="zs_p"></div>
@@ -145,332 +114,243 @@
 			</div>
 			<div class="happy-icon"
 			:class="[{
-				'gloomy-box':data[0].childTarget[0].abLive == 4},
-				{'best-box':data[0].childTarget[0].abLive == 0},
-				{'joviality-box':data[0].childTarget[0].abLive == 1},
-				{'peace-box':data[0].childTarget[0].abLive == 2},
-				{'depress-box':data[0].childTarget[0].abLive == 3}
+				'gloomy-box':item.childTarget[0].abLive == 4},
+				{'best-box':item.childTarget[0].abLive == 0},
+				{'joviality-box':item.childTarget[0].abLive == 1},
+				{'peace-box':item.childTarget[0].abLive == 2},
+				{'depress-box':item.childTarget[0].abLive == 3}
 			]">
 				<div class="img"></div>
-				<p v-if="data[0].childTarget[0].abLive == 4">郁闷</p>
-				<p v-else-if="data[0].childTarget[0].abLive == 0">快乐</p>
-				<p v-else-if="data[0].childTarget[0].abLive == 1">愉悦</p>
-				<p v-else-if="data[0].childTarget[0].abLive == 2">平和</p>
-				<p v-else>压抑</p>
+				<p v-if="item.childTarget[0].abLive == 4">{{language.la_depressed}}</p>
+				<p v-else-if="item.childTarget[0].abLive == 0">{{language.la_happy}}</p>
+				<p v-else-if="item.childTarget[0].abLive == 1">{{language.la_cheerful}}</p>
+				<p v-else-if="item.childTarget[0].abLive == 2">{{language.la_calm}}</p>
+				<p v-else>{{language.la_repressive}}</p>
 			</div>
-			<p v-if="data[0].childTarget[0].abLive == 4" class="advise"><span class="dot-box"></span><span>情绪较差，偶有悲观厌世，关注美好事物，重获愉悦心情</span></p>
-			<p v-else-if="data[0].childTarget[0].abLive == 0" class="advise"><span class="dot-box"></span><span>情绪良好，心灵满足，请继续保持好心情。</span></p>
-			<p v-else-if="data[0].childTarget[0].abLive == 1" class="advise"><span class="dot-box"></span><span>情绪较好，心情愉悦，请继续保持好心情。</span></p>
-			<p v-else-if="data[0].childTarget[0].abLive == 2" class="advise"><span class="dot-box"></span><span>情绪平和，心情稳定，请放松心情保持良好状态。</span></p>
-			<p v-else class="advise"><span class="dot-box"></span><span>情绪低落，心情压抑，关注美好事物，重获愉悦心情。</span></p>
+			<p v-if="item.childTarget[0].abLive == 4" class="advise"><span class="dot-box"></span><span>{{language.la_depressedTip}}</span></p>
+			<p v-else-if="item.childTarget[0].abLive == 0" class="advise"><span class="dot-box"></span><span>{{language.la_happyTip}}</span></p>
+			<p v-else-if="item.childTarget[0].abLive == 1" class="advise"><span class="dot-box"></span><span>{{language.la_cheerfulTip}}</span></p>
+			<p v-else-if="item.childTarget[0].abLive == 2" class="advise"><span class="dot-box"></span><span>{{language.la_calmTip}}</span></p>
+			<p v-else class="advise"><span class="dot-box"></span><span>{{language.la_repressiveTip}}</span></p>
 			<div class="bottom-box"></div>
-			<div class="shade" v-show="popupF" @click="shade"><div class="popup">{{data[0].explain}}</div></div>
+			<div class="shade" v-show="popupF" @click="shade"><div class="popup">{{item.explain}}</div></div>
 		</div>
 		<!--睡眠质量-->
-		<div class="sleep-box quality">
+		<div class="sleep-box quality" v-for="item in data" v-if="item.targetId == 1002">
 			<div class="title-img"><img src="./images/deng-icon.png" /></div>
 			<div class="sleep-text">
-				<p class="bmi-box"><span class="state">{{data[1].targetName}}</span><span class="explain" @click="clickC()"><img src="./images/explain.png" /></span></p>
+				<p class="bmi-box"><span class="state">{{item.targetName}}</span><span class="explain" @click="clickC()"><img src="./images/explain.png" /></span></p>
 			</div>
 			<div class="percent">
 				<p class="yello"></p>
 				<p class="blue"></p>
 				<p class="last-child"></p>
-				<div  v-show="90 > data[1].score" class="active" style="width:19%;"><div class="dot"><p></p></div></div>
-				<div v-show="95 > data[1].score && data[1].score >= 90" class="active" style="width:52%;"><div class="dot"><p></p></div></div>
-				<div  v-show="data[1].score >= 95" class="active" style="width:85%;"><div class="dot"><p></p></div></div>
+				<div  v-show="90 > item.score" class="active" style="width:19%;"><div class="dot"><p></p></div></div>
+				<div v-show="95 > item.score && item.score >= 90" class="active" style="width:52%;"><div class="dot"><p></p></div></div>
+				<div  v-show="item.score >= 95" class="active" style="width:85%;"><div class="dot"><p></p></div></div>
 			</div>
 			<!--身体质量条-->
 			<div class="drawing-box">
 				<div class="bad-box">
 					<div class="drawing-img"><img src="./images/moon.png" /></div>
-					<span>有待改善</span>
+					<span>{{language.la_sleep3}}</span>
 				</div>
 				<div class="normal-box">
 					<div class="drawing-img"><img src="./images/moon2.png" /></div>
-					<span>正常</span>
+					<span>{{language.la_sleep2}}</span>
 				</div>
 				<div class="excellent-box">
 					<div class="drawing-img"><img src="./images/moon3.png" /></div>
-					<span>良好</span>
+					<span>{{language.la_sleep1}}</span>
 				</div>
 			</div>
 			<p class="advise">
 				<span class="dot-box"></span>
-				<span v-show="90 > data[1].score">睡眠质量有待改善，与作息时间不规律有关。</span>
-				<span v-show="95 > data[1].score && data[1].score >= 90">睡眠质量正常，建议规律作息，舒缓心情。</span>
-				<span v-show="data[1].score >= 95">睡眠质量良好，请保持规律作息和舒缓心情。</span>
+				<span v-show="90 > item.score">{{language.la_sleep3_tip}}</span>
+				<span v-show="95 > item.score && item.score >= 90">{{language.la_sleep2_tip}}</span>
+				<span v-show="item.score >= 95">{{language.la_sleep1_tip}}</span>
 			</p>
 			<div class="bottom-box"></div>
-			<div class="shade" v-show="popupC" @click="shade"><div class="popup">{{data[1].explain}}</div></div>
+			<div class="shade" v-show="popupC" @click="shade"><div class="popup">{{item.explain}}</div></div>
 		</div>
 		<!--实时状态-->
-		<div class="sleep-box real-time">
-			<p class="title">{{data[2].targetName}}</p>
+		<div class="sleep-box real-time" v-for="item in data" v-if="item.targetId == 1003">
+			<p class="title">{{item.targetName}}</p>
 			<ul>
-				<li :class="'listImg'+index" v-for="(item,index) in data[2].childTarget" v-if="item.targetId != 3232">
+				<li :class="'listImg'+index" v-for="(site,index) in item.childTarget" v-if="item.targetId != 3232">
 					<div class="caption">
 						<span class="img-box"></span>
-						<span class="text">{{item.targetName}}</span>
+						<span class="text">{{site.targetName}}</span>
 						<span class="explain" @click="liClick(index)"><img src="./images/explain.png" /></span>
 					</div>
-					<div v-if="item.targetId !='3232'" class="thread">
-						<p v-if="item.abLive == 4"><span class="active"></span><span></span><span></span><span></span><span></span></p>
-						<p v-else-if="item.abLive == 3"><span class="active"></span><span class="active"></span><span></span><span></span><span></span></p>
-						<p v-else-if="item.abLive == 2"><span class="active"></span><span class="active"></span><span class="active"></span><span></span><span></span></p>
-						<p v-else-if="item.abLive == 1"><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span></p>
+					<div v-if="site.targetId !='3232'" class="thread">
+						<p v-if="site.abLive == 4"><span class="active"></span><span></span><span></span><span></span><span></span></p>
+						<p v-else-if="site.abLive == 3"><span class="active"></span><span class="active"></span><span></span><span></span><span></span></p>
+						<p v-else-if="site.abLive == 2"><span class="active"></span><span class="active"></span><span class="active"></span><span></span><span></span></p>
+						<p v-else-if="site.abLive == 1"><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span></span></p>
 						<p v-else><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span><span class="active"></span></p>
 					</div>
-					<div class="thread-txt" v-else>{{item.abLive}}</div>
-					<div class="shade" v-show='isActive[index]' @click="shade(index)"><div class="popup">{{item.explain}}</div></div>
+					<div class="thread-txt" v-else>{{site.abLive}}</div>
+					<div class="shade" v-show='isActive[index]' @click="shade(index)"><div class="popup">{{site.explain}}</div></div>
 				</li>
 			</ul>
 			<div class="bottom-box"></div>
 		</div>
 		<!--BMI健康状态-->
-		<div class="sleep-box bmi">
+		<div class="sleep-box bmi" v-for="item in data" v-if="item.targetId == 1004">
 			<p class="title-img"><img src="./images/ybp.png"/></p>
-			<p class="bmi-box"><span class="title">{{data[3].targetName}}</span><span class="explain" @click="clickD()"><img src="./images/explain.png" /></span></p>
+			<p class="bmi-box"><span class="title">{{item.targetName}}</span><span class="explain" @click="clickD()"><img src="./images/explain.png" /></span></p>
 			<div class="percent">
 				<div class="number-box number">
 					<span>18.5</span>
-					<div v-if=" 18.5 >= data[3].score && data[3].score > 14" class="active" :style="'width:'+ data[3].score/18.5*100 +'%;'">
-						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					<div v-if=" 18.5 >= item.score && item.score > 14" class="active" :style="'width:'+ item.score/18.5*100 +'%;'">
+						<div class="dot"><p><span>{{item.score}}</span></p></div>
 					</div>
-					<div v-if=" 14 >= data[3].score" class="active" :style="'width:'+ 0 +'%;'">
-						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					<div v-if=" 14 >= item.score" class="active" :style="'width:'+ 0 +'%;'">
+						<div class="dot"><p><span>{{item.score}}</span></p></div>
 					</div>
-					<div v-if="  data[3].score > 18.5 " class="active" :style="'width:'+ 100 +'%;'"></div>
+					<div v-if="  item.score > 18.5 " class="active" :style="'width:'+ 100 +'%;'"></div>
 				</div>
 				<div class="number-box number">
 					<span>24</span>
-					<div v-if=" 24 >= data[3].score && data[3].score >18.5" class="active" :style="'width:'+ (data[3].score-18.5)*100/5.5 +'%;'">
-						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					<div v-if=" 24 >= item.score && item.score >18.5" class="active" :style="'width:'+ (item.score-18.5)*100/5.5 +'%;'">
+						<div class="dot"><p><span>{{item.score}}</span></p></div>
 					</div>
-					<div v-if="  data[3].score > 24 " class="active" :style="'width:'+ 100 +'%;'"></div>
+					<div v-if="  item.score > 24 " class="active" :style="'width:'+ 100 +'%;'"></div>
 				</div>
 				<div class="number-box number">
 					<span>28</span>
-					<div v-if=" 28 >= data[3].score && data[3].score >24" class="active" :style="'width:'+ (data[3].score-24)*25 +'%;'">
-						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					<div v-if=" 28 >= item.score && item.score >24" class="active" :style="'width:'+ (item.score-24)*25 +'%;'">
+						<div class="dot"><p><span>{{item.score}}</span></p></div>
 					</div>
-					<div v-if="  data[3].score > 28 " class="active" :style="'width:'+ 100 +'%;'"></div>
+					<div v-if="  item.score > 28 " class="active" :style="'width:'+ 100 +'%;'"></div>
 				</div>
 				<div class="number-box last-child">
-					<div v-if=" 32 >= data[3].score && data[3].score >28" class="active" :style="'width:'+ data[3].score/32*100 +'%;'">
-						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					<div v-if=" 32 >= item.score && item.score >28" class="active" :style="'width:'+ item.score/32*100 +'%;'">
+						<div class="dot"><p><span>{{item.score}}</span></p></div>
 					</div>
-					<div v-if="data[3].score > 32" class="active" :style="'width:'+ 100 +'%;'">
-						<div class="dot"><p><span>{{data[3].score}}</span></p></div>
+					<div v-if="item.score > 32" class="active" :style="'width:'+ 100 +'%;'">
+						<div class="dot"><p><span>{{item.score}}</span></p></div>
 					</div>
 				</div>
 			</div>
-			<div class="weight"><p>偏轻</p><p>健康</p><p>超重</p><p>肥胖</p></div>
-			<p v-show="18.5 > data[3].score" class="advise"><span class="dot-box"></span><span>建议增加营养摄入，配合力量训练，增加体重。</span></p>
-			<p v-show="23.9 > data[3].score && data[3].score > 18.5" class="advise"><span class="dot-box"></span><span>建议维持目前的饮食结构和运动强度。</span></p>
-			<p v-show="27 > data[3].score && data[3].score > 24" class="advise"><span class="dot-box"></span><span>建议调整膳食，控制能量摄入，并增加运动量。</span></p>
-			<p v-show="data[3].score  > 28 " class="advise"><span class="dot-box"></span><span>建议控制饮食，增加运动，必要时可以选择其他减肥方案介入。</span></p>
+			<div class="weight"><p>{{language.la_underweight}}</p><p>{{language.la_jkweight}}</p><p>{{language.la_overweight}}</p><p>{{language.la_obesity}}</p></div>
+			<p v-show="18.5 > item.score" class="advise"><span class="dot-box"></span><span>{{language.la_underweightTip}}</span></p>
+			<p v-show="23.9 > item.score && item.score > 18.5" class="advise"><span class="dot-box"></span><span>{{language.la_jkweightTip}}</span></p>
+			<p v-show="27 > item.score && item.score > 24" class="advise"><span class="dot-box"></span><span>{{language.la_overweightTip}}</span></p>
+			<p v-show="item.score  > 28 " class="advise"><span class="dot-box"></span><span>{{language.la_obesityTip}}</span></p>
 			<div class="bottom-box"></div>
 			<!--修改身体信息-->
 			<div class="alter">
-				<div class="title" @click="update()">更新</div>
+				<div class="title" @click="update()">{{language.la_update}}</div>
 				<div v-show="isShow" class="alter-box">
 					<div class="write">
-						<span>身高：</span>
+						<span>{{language.la_height}}：</span>
 						<div><input type="number" id="_height" max="250" min="50" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
 						<span>cm</span>
 					</div>
 					<div class="write">
-						<span>体重：</span>
+						<span>{{language.la_weight}}：</span>
 						<div><input type="number" id="_weight" max="200" min="20" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
 						<span>kg</span>
 					</div>
-					<div class="confirm" @click="sure()">确定</div>
+					<div class="confirm" @click="sure()">{{language.la_ok}}</div>
 				</div>
 			</div>
-			<div class="shade" v-show="popupD" @click="shade"><div class="popup">{{data[3].explain}}</div></div>
+			<div class="shade" v-show="popupD" @click="shade"><div class="popup">{{item.explain}}</div></div>
 		</div>
 		<!--健康状态表-->
 		<ul>
 			<!-- 营养状态 -->
-			<li class="condition" @click="goAdvise(data[4].targetId,data[4].score,data[4].childTarget)">
+			<template v-for="item in data" v-if="item.targetId >= 1005 && item.targetId <= 1009">
+			<li class="condition" @click="goAdvise(item.targetId,item.score,item.childTarget)">
 				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[4].score > 80" class="img"><img src="./images/icon1005.png" /></div>
+				<div v-show="item.score > 80" class="img"><img src="./images/icon1005.png" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[4].score" class="img"><img src="./images/icon1005-1.png" /></div>
+				<div v-show="80 >= item.score" class="img"><img src="./images/icon1005-1.png" /></div>
 				<div class="txt">
 					<p class="title">
 						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[4].score > 80">{{data[4].targetName}}</span>
+						<span v-show="item.score > 80">{{item.targetName}}</span>
 						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[4].score" class="yello">{{data[4].targetName}}</span>
+						<span v-show="80 >= item.score" class="yello">{{item.targetName}}</span>
 						<span class="explain" @click.stop="listG()"><img src="./images/explain.png"><span>
 					</p>
-					<p class="declare">{{data[4].hintName}}</p>
+					<p class="declare">{{item.hintName}}</p>
 				</div>
-				<div v-show="data[4].score >= 70" class="amount" :class="{'yello-img': 80 >= data[4].score}">
+				<div v-show="item.score >= 70" class="amount" :class="{'yello-img': 80 >= item.score}">
 					<div class="active">
-						<p :style="'height:'+data[4].score +'%;'" :class="{'yello-color': 80 >= data[4].score}"></p>
+						<p :style="'height:'+item.score +'%;'" :class="{'yello-color': 80 >= item.score}"></p>
 					</div>
 				</div>
-				<div v-show="70 >= data[4].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupG" @click.stop="shade"><div class="popup">{{data[4].explain}}</div></div>
+				<div v-show="70 >= item.score" class="amount-yello"></div>
+				<div class="shade" v-show="popupG" @click.stop="shade"><div class="popup">{{item.explain}}</div></div>
 			</li>
-			<!-- 免疫能力 -->
-			<li class="condition" @click="goAdvise(data[5].targetId,data[5].score,data[5].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[5].score > 80" class="img"><img src="./images/icon1006.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[5].score" class="img"><img src="./images/icon1006-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[5].score > 80">{{data[5].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[5].score" class="yello">{{data[5].targetName}}</span>
-						<span class="explain" @click.stop="listH()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[5].hintName}}</p>
-				</div>
-				<div v-show="data[5].score >= 70" class="amount" :class="{'yello-img': 80 >= data[5].score}">
-					<div class="active">
-						<p :style="'height:'+data[5].score +'%;'" :class="{'yello-color': 80 >= data[5].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[5].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupH" @click.stop="shade"><div class="popup">{{data[5].explain}}</div></div>
-			</li>
-			<!-- 消化能力 -->
-			<li class="condition" @click="goAdvise(data[6].targetId,data[6].score,data[6].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[6].score > 80" class="img"><img src="./images/icon1007.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[6].score" class="img"><img src="./images/icon1007-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[6].score > 80">{{data[6].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[6].score" class="yello">{{data[6].targetName}}</span>
-						<span class="explain" @click.stop="listI()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[6].hintName}}</p>
-				</div>
-				<div v-show="data[6].score >= 70" class="amount" :class="{'yello-img': 80 >= data[6].score}">
-					<div class="active">
-						<p :style="'height:'+data[6].score +'%;'" :class="{'yello-color': 80 >= data[6].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[6].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupI" @click.stop="shade"><div class="popup">{{data[6].explain}}</div></div>
-			</li>
-			<!-- 吸收能力 -->
-			<li class="condition" @click="goAdvise(data[7].targetId,data[7].score,data[7].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[7].score > 80" class="img"><img src="./images/icon1008.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[7].score" class="img"><img src="./images/icon1008-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[7].score > 80">{{data[7].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[7].score" class="yello">{{data[7].targetName}}</span>
-						<span class="explain" @click.stop="listJ()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[7].hintName}}</p>
-				</div>
-				<div v-show="data[7].score >= 70" class="amount" :class="{'yello-img': 80 >= data[7].score}">
-					<div class="active">
-						<p :style="'height:'+data[7].score +'%;'" :class="{'yello-color': 80 >= data[7].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[7].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupJ" @click.stop="shade"><div class="popup">{{data[7].explain}}</div></div>
-			</li>
-			<!-- 代谢能力 -->
-			<li class="condition" @click="goAdvise(data[8].targetId,data[8].score,data[8].childTarget)">
-				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[8].score > 80" class="img"><img src="./images/icon1009.png" /></div>
-				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[8].score" class="img"><img src="./images/icon1009-1.png" /></div>
-				<div class="txt">
-					<p class="title">
-						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[8].score > 80">{{data[8].targetName}}</span>
-						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[8].score" class="yello">{{data[8].targetName}}</span>
-						<span class="explain" @click.stop="listK()"><img src="./images/explain.png"><span>
-					</p>
-					<p class="declare">{{data[8].hintName}}</p>
-				</div>
-				<div v-show="data[8].score >= 70" class="amount" :class="{'yello-img': 80 >= data[8].score}">
-					<div class="active">
-						<p :style="'height:'+data[8].score +'%;'" :class="{'yello-color': 80 >= data[8].score}"></p>
-					</div>
-				</div>
-				<div v-show="70 >= data[8].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupK" @click.stop="shade"><div class="popup">{{data[8].explain}}</div></div>
-			</li>
+			</template>
+			
 			<!-- 男性功能 -->
-			<li v-if="sex == 1 && showSex" class="condition" @click="goAdvise(data[9].targetId,data[9].score,data[9].childTarget)">
+			<template v-for="item in data" v-if="item.targetId == 1010">
+			<li v-if="sex == 1 && showSex" class="condition" @click="goAdvise(item.targetId,item.score,item.childTarget)">
 				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[9].score > 80" class="img"><img src="./images/icon1010.png" /></div>
+				<div v-show="item.score > 80" class="img"><img src="./images/icon1010.png" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[9].score" class="img"><img src="./images/icon1010-1.png" /></div>
+				<div v-show="80 >= item.score" class="img"><img src="./images/icon1010-1.png" /></div>
 				<div class="txt">
 					<p class="title">
 						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[9].score > 80">{{data[9].targetName}}</span>
-						<span v-show="data[9].score > 80" class="ln"><img src="./images/ln2.png"></span>
+						<span v-show="item.score > 80">{{item.targetName}}</span>
+						<span v-show="item.score > 80" class="ln"><img src="./images/ln2.png"></span>
 						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[9].score" class="yello">{{data[9].targetName}}</span>
-						<span v-show="80 >= data[9].score" class="ln"><img src="./images/ln.png"></span>
+						<span v-show="80 >= item.score" class="yello">{{item.targetName}}</span>
+						<span v-show="80 >= item.score" class="ln"><img src="./images/ln.png"></span>
 						<span class="explain" @click.stop="listL()"><img src="./images/explain.png"><span>
 					</p>
-					<p class="declare">{{data[9].hintName}}</p>
+					<p class="declare">{{item.hintName}}</p>
 				</div>
-				<div v-show="data[9].score >= 70" class="amount" :class="{'yello-img': 80 >= data[9].score}">
+				<div v-show="item.score >= 70" class="amount" :class="{'yello-img': 80 >= item.score}">
 					<div class="active">
-						<p :style="'height:'+data[9].score +'%;'" :class="{'yello-color': 80 >= data[9].score}"></p>
+						<p :style="'height:'+item.score +'%;'" :class="{'yello-color': 80 >= item.score}"></p>
 					</div>
 				</div>
-				<div v-show="70 >= data[9].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{data[9].explain}}</div></div>
+				<div v-show="70 >= item.score" class="amount-yello"></div>
+				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{item.explain}}</div></div>
 			</li>
+			</template>
 			<!-- 女性功能 -->
-			<li v-if="sex != 1 && showSex" class="condition"  @click="goAdvise(data[10].targetId,data[10].score,data[10].childTarget)">
+			<template v-for="item in data" v-if="item.targetId == 1011">
+			<li v-if="sex != 1 && showSex" class="condition"  @click="goAdvise(item.targetId,item.score,item.childTarget)">
 				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="data[10].score > 80" class="img"><img src="./images/icon1011.png" /></div>
+				<div v-show="item.score > 80" class="img"><img src="./images/icon1011.png" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= data[10].score" class="img"><img src="./images/icon1011-1.png" /></div>
+				<div v-show="80 >= item.score" class="img"><img src="./images/icon1011-1.png" /></div>
 				<div class="txt">
 					<p class="title">
 						<!-- 指数大于80的时候显示蓝色 -->
-						<span v-show="data[10].score > 80">{{data[10].targetName}}</span>
-						<span v-show="data[10].score > 80" class="ln"><img src="./images/hg2.png"></span>
+						<span v-show="item.score > 80">{{item.targetName}}</span>
+						<span v-show="item.score > 80" class="ln"><img src="./images/hg2.png"></span>
 						<!-- 指数小于等于80的时候显示黄色 -->
-						<span v-show="80 >= data[10].score" class="yello">{{data[10].targetName}}</span>
-						<span v-show="80 >= data[10].score" class="ln"><img src="./images/hg.png"></span>
+						<span v-show="80 >= item.score" class="yello">{{item.targetName}}</span>
+						<span v-show="80 >= item.score" class="ln"><img src="./images/hg.png"></span>
 						<span class="explain" @click.stop="listL()"><img src="./images/explain.png"><span>
 					</p>
-					<p class="declare">{{data[10].hintName}}</p>
+					<p class="declare">{{item.hintName}}</p>
 				</div>
-				<div v-show="data[10].score >= 70" class="amount" :class="{'yello-img': 80 >= data[10].score}">
+				<div v-show="item.score >= 70" class="amount" :class="{'yello-img': 80 >= item.score}">
 					<div class="active">
-						<p :style="'height:'+data[10].score +'%;'" :class="{'yello-color': 80 >= data[10].score}"></p>
+						<p :style="'height:'+item.score +'%;'" :class="{'yello-color': 80 >= item.score}"></p>
 					</div>
 				</div>
-				<div v-show="70 >= data[10].score" class="amount-yello"></div>
-				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{data[10].explain}}</div></div>
+				<div v-show="70 >= item.score" class="amount-yello"></div>
+				<div class="shade" v-show="popupL" @click.stop="shade"><div class="popup">{{item.explain}}</div></div>
 			</li>
+			</template>
 		</ul>
 		<!--皮肤评估-->
-		<div class="skin">
+		<div class="skin" v-for="item in data" v-if="item.targetId == 1012">
 			<p class="title">
-				<span>{{data[11].targetName}}</span>
+				<span>{{item.targetName}}</span>
 				<span class="explain" @click="clickE()"><img src="./images/explain.png"></span>
-				<span class="normal" v-if="data[11].childTarget[0].abLevel == 1 && data[11].childTarget[1].abLevel == 1 && data[11].childTarget[2].abLevel == 1 && data[11].childTarget[3].abLevel == 1 ">正常</span>
+				<span class="normal" v-if="item.childTarget[0].abLevel == 1 && item.childTarget[1].abLevel == 1 && item.childTarget[2].abLevel == 1 && item.childTarget[3].abLevel == 1 ">{{language.la_normal}}</span>
 			</p>
 			<div class="skin-box">
 				<div class="img-box">
@@ -480,52 +360,52 @@
 							<img v-else src="./images/girl.png"/>
 						</div>
 						<div class="list">
-							<p><span class="img-box-a">油脂</span><span class="img-box-b">角质</span></p>
-							<p><span class="img-box-c">水分</span><span class="img-box-d">胶原蛋白</span></p>
+							<p><span class="img-box-a">{{language.la_youzhi}}</span><span class="img-box-b">{{language.la_jiaozhi}}</span></p>
+							<p><span class="img-box-c">{{language.la_shuifen}}</span><span class="img-box-d">{{language.la_jiaoyuan}}</span></p>
 						</div>
 					</div>
 				</div>
-				<div v-if="data[11].childTarget[0].abLevel != 1 || data[11].childTarget[1].abLevel != 1 || data[11].childTarget[2].abLevel != 1 || data[11].childTarget[3].abLevel != 1 " class="text-box">
-					<p class="title">需重点关注改善：</p>
+				<div v-if="item.childTarget[0].abLevel != 1 || item.childTarget[1].abLevel != 1 || item.childTarget[2].abLevel != 1 || item.childTarget[3].abLevel != 1 " class="text-box">
+					<p class="title">{{language.la_FocusImpro}}：</p>
 					<!-- 胶原蛋白 -->
-					<div class="suggest-box" v-show="90 > data[11].childTarget[0].score">
+					<div class="suggest-box" v-show="90 > item.childTarget[0].score">
 							<div class="card">
 								<p><span class="img"><img src="./images/dot.png"/></span><span>胶原</span></p>
 								<p class="moisture">蛋白</p>
 							</div>
-							<div class="suggest"><p v-show="data[11].childTarget[0].abLevel != 1">胶原蛋白轻微异常，可能出现肌肤干燥、皱纹、色斑、毛孔粗大等问题。</p>		
+							<div class="suggest"><p v-show="item.childTarget[0].abLevel != 1">{{language.la_skin_danbai}}</p>		
 							</div>
 					</div>
 					<!-- 皮肤油脂 -->
-					<div class="suggest-box" v-show="90 > data[11].childTarget[1].score">
+					<div class="suggest-box" v-show="90 > item.childTarget[1].score">
 						<div class="card">
 							<p><span class="img"><img src="./images/dot.png"/></span><span>皮肤</span></p>
 							<p class="moisture">油脂</p>
 						</div>
-						<div class="suggest"><p v-show="data[11].childTarget[1].abLevel != 1">皮肤油脂轻微异常，可能出现痤疮、脂溢性皮炎等皮肤问题。</p></div>
+						<div class="suggest"><p v-show="item.childTarget[1].abLevel != 1">{{language.la_skin_youzhi}}</p></div>
 					</div>
 					<!-- 皮肤水分 -->
-					<div class="suggest-box" v-show="90 > data[11].childTarget[2].score">
+					<div class="suggest-box" v-show="90 > item.childTarget[2].score">
 						<div class="card">
 							<p><span class="img"><img src="./images/dot.png"/></span><span>皮肤</span></p>
 							<p class="moisture">水分</p>
 						</div>
-						<div class="suggest"><p v-show="data[11].childTarget[2].abLevel != 1">皮肤水分轻微异常，可能出现皮肤松弛、干燥、发痒等问题。</p></div>
+						<div class="suggest"><p v-show="item.childTarget[2].abLevel != 1">{{language.la_skin_shuifen}}</p></div>
 					</div>	
 					<!-- 皮肤角质 -->	
-					<div class="suggest-box" v-show="90 > data[11].childTarget[3].score">
+					<div class="suggest-box" v-show="90 > item.childTarget[3].score">
 						<div class="card">
 							<p><span class="img"><img src="./images/dot.png"/></span><span>皮肤</span></p>
 							<p class="moisture">角质</p>
 						</div>
 						<div class="suggest">
-						<p v-show="data[11].childTarget[3].abLevel == 2">皮肤角质偏厚，可能出现粉刺、毛孔粗大等皮肤问题。</p>	
-						<p v-show="data[11].childTarget[3].abLevel > 2">皮肤角质偏薄，可能出现肌肤敏感、发红、易过敏等问题。</p>	
+							<p v-show="item.childTarget[3].abLevel == 2">{{language.la_skin_jiaozhi1}}</p>	
+							<p v-show="item.childTarget[3].abLevel > 2">{{language.la_skin_jiaozhi2}}</p>	
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="shade" v-show="popupE" @click="shade"><div class="popup">{{data[11].explain}}</div></div>
+			<div class="shade" v-show="popupE" @click="shade"><div class="popup">{{item.explain}}</div></div>
 		</div>
 	</div>
 	<!---广告--->
@@ -539,13 +419,16 @@
 	    </div>
     </section>
     <!---广告end--->
+    <!--<div id="btn" class="zhiCustomBtn"></div>-->
 </DIV>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script>document.write('<script src="js/report3.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
 <script>
 (function (doc, win) {
     var docEl = doc.documentElement,

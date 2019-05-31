@@ -63,7 +63,9 @@ new Vue({
 					 	//_this.weight = data.data.infoView.weight,
 					 	_this.birthdayStr = data.data.infoView.birthdayStr,
 					 	_this.userId = data.data.infoView.userId
-					 	document.title = data.data.infoView.nickName + data.data.infoView.mobile
+					 	document.title = _this.nickName + _this.mobile;
+						if(_this.nickName == null){document.title = _this.mobile}
+						if(_this.nickName == null && _this.mobile == null){document.title = '打印报告'}
 					}
 					_this.sex = data.data.reportBaseThreeData.sex,
 				 	_this.inspectDateStr = data.data.reportBaseThreeData.inspectDateStr,

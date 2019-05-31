@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<DIV class="my_view" id="vm">
+<div class="pf-top">
+	<p style="height: .44rem;"></p>
+	<div class="charbj">
+		<div class="biao"></div><!--外圈数字-->
+		<div class="fullcolor"><!--进度条填充低色-->
+			<div class="arclg" :style="'transform: rotate('+deg+'deg)'"></div>
+			<div class="shel_right" v-show="show_right"></div>
+			<div class="shel_top" v-show="show_top"></div>
+			<div class="shel_left" v-show="show_left"></div>
+		</div>
+		<div class="keduPan">
+			<p class="score"><span>88</span></p>
+			<p class="nto">皮肤急需改善</p>
+		</div><!--刻度-->
+		
+	</div>
+	<p style="height: .72rem;"></p>
+</div>
+<div class="pf-main myview">
+	<div class="pifu_zls">
+		<p class="tit"><span>肤质</span><span>肤龄</span><span style="border: none;">肤色</span></p>
+		<p class="txt"><span>中性</span><span>23</span><span>白皙</span></p>
+	</div>
+</div>
+
+
+</DIV>
+
+<div class="v_overlay"></div>
+
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<!--<script>document.write('<script src="js/report400.js?t=' + new Date().getTime() + '"><\/script>')</script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var timer = null
+var myapp = new Vue({
+	el: '#vm',
+	data: function(){
+		return {
+			deg: -264,
+			score: 88,
+			show_left: false,
+			show_top: true,
+			show_right: true
+		}
+	},
+	methods: {
+		godo: function(){
+			var vm = this
+			timer = setInterval(function(){
+				vm.deg+=1
+				if(vm.deg == -214){
+					vm.show_top = false
+				}else if(vm.deg == -123){
+					vm.show_right = false
+					vm.show_left = true
+				}else if(vm.deg == -Math.round(2.64*(100-vm.score))){
+					clearInterval(timer)
+				}
+			},1)
+		},
+		stop: function(){
+			clearInterval(timer)
+		}
+	},
+	mounted:function(){
+		this.godo()
+	},
+	computed: {
+		
+	}
+	
+})
+</script>
+</body>
+</html>

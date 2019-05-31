@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>邀约用户</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+<style type="text/css">
+.tongyifo{ position: absolute; bottom: 0; width: 100%; display: -webkit-box; border-top: #f2f2f2 solid .02rem; background: #fff;}
+.tongyifo span{display:block; width: 50%; -webkit-box-flex: 1; line-height: .88rem;text-align: center; font-size: .32rem;}
+.tongyifo span.on{ background: #1ebeb1; color: #fff;}
+.tc_sy .bxt2{ font-size: .26rem;}
+.login_cn .cpxt .lab{ min-width: 1.3rem;}
+.may_sex #sex1 , #sex2{
+  -webkit-appearance: radio;
+  vertical-align: -0.02rem;
+  border: 1px solid #000;
+  width:.26rem;
+  height:.26rem;
+}
+.may_sex label{
+  margin-right:.4rem;
+}
+.login_cn .cpxt .fle{
+  line-height:.86rem;
+}
+body .loadmore {
+  color: #888;
+  font-size: 30px;
+  line-height: 100px;
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+body .loadmore.loading::before {
+  content: '';
+  width: 40px;
+  height: 40px;
+  margin-top: -10px;
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: middle;
+  animation: loading 1s steps(12) infinite;
+  background: transparent url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMGgxMDB2MTAwSDB6Ii8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTlFOUU5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTMwKSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iIzk4OTY5NyIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgzMCAxMDUuOTggNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjOUI5OTlBIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDYwIDc1Ljk4IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0EzQTFBMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSg5MCA2NSA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNBQkE5QUEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoMTIwIDU4LjY2IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0IyQjJCMiIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgxNTAgNTQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjQkFCOEI5IiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKDE4MCA1MCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDMkMwQzEiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTE1MCA0NS45OCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNDQkNCQ0IiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTEyMCA0MS4zNCA2NSkiLz48cmVjdCB3aWR0aD0iNyIgaGVpZ2h0PSIyMCIgeD0iNDYuNSIgeT0iNDAiIGZpbGw9IiNEMkQyRDIiIHJ4PSI1IiByeT0iNSIgdHJhbnNmb3JtPSJyb3RhdGUoLTkwIDM1IDY1KSIvPjxyZWN0IHdpZHRoPSI3IiBoZWlnaHQ9IjIwIiB4PSI0Ni41IiB5PSI0MCIgZmlsbD0iI0RBREFEQSIgcng9IjUiIHJ5PSI1IiB0cmFuc2Zvcm09InJvdGF0ZSgtNjAgMjQuMDIgNjUpIi8+PHJlY3Qgd2lkdGg9IjciIGhlaWdodD0iMjAiIHg9IjQ2LjUiIHk9IjQwIiBmaWxsPSIjRTJFMkUyIiByeD0iNSIgcnk9IjUiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAtNS45OCA2NSkiLz48L3N2Zz4=) no-repeat;
+  background-size: 100%;
+}
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+body .loadmore.loading.lll {
+  position: relative;
+  top: 1rem;
+  left: 45%;
+  font-size: 18px;
+}
+body .loadmore {
+  display: block;
+}
+.my_view{
+  display:none;
+}
+</style>
+</head>
+<body class="bck-col-fff">
+<div class="loadmore loading"></div>
+<section class="my_view">
+<div class=""><img src="img/login_t.jpg" class="img_b"></div>
+<div class="d_login">
+	<div class="login_cn">
+		<p class="ctit">{{language.la_welcome}}</p>
+    <p class="cpxt reportType120" >
+        <span class="lab">{{language.la_cell}}</span><!--电话-->
+        <span class="fle"><input type="number" id="mobile" :placeholder="language.la_cellPlace" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)"></span>
+      </p>
+    <p class="cpxt reportType120 may_sex" >
+			<span class="lab">{{language.la_sex1}}</span><!--性别-->
+			<span class="fle"><input type="radio" id="sex1" name="sex"  value="1" checked><label for="sex1">男</label> <input type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label></span>
+    </p>
+    <p class="cpxt reportType120" >
+			<span class="lab">{{language.la_height}}</span><!--身高-->
+			<span class="fle"><input type="number" id="height" :placeholder="language.la_heightPlace"   pattern="[0-9]*"></span>
+    </p>
+    <p class="cpxt reportType120" >
+			<span class="lab">{{language.la_weight}}</span><!--体重-->
+			<span class="fle"><input type="number" id="weight" :placeholder="language.la_weightPlace"   pattern="[0-9]*"></span>
+    </p>
+    <p class="cpxt reportType120" >
+			<span class="lab">{{language.la_age}}</span><!--年龄-->
+			<span class="fle"><input type="number" id="age" :placeholder="language.la_agePlace"   pattern="[0-9]*"></span>
+		</p>
+		<p class="cbtn"><button id="yaoyue_kj"  style="background: #2ebab1;">确定</button></p>
+	</div>
+</div>
+</section>
+<div class="tc-qx" id="alert">
+  <p class="pc1">请完善用户信息</p>
+  <p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay" style=""></div>
+
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script>document.write('<script src="js/register.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script>
+$(function(){
+  var userData = {}
+  var flag = false;
+  var reqUrl = window.location.href;
+  
+  (function(){
+    $.ajax({
+      type:"post",
+      url: dataUrl+ "/weiXin/wxConfig",
+      data:{
+        reqUrl: reqUrl
+      },
+      success:function(result){
+          $('.loadmore').css('display','none')
+          $('.my_view').css('display','block')
+          flag = true
+          wx.config({
+            // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            debug: false,
+            // 必填，公众号的唯一标识
+            appId: result.wxParameter.appId,
+            // 必填，生成签名的时间戳
+            timestamp:""+result.wxParameter.timestamp,
+            // 必填，生成签名的随机串
+            nonceStr:result.wxParameter.nonceStr,
+             // 必填，签名，见附录1
+             signature:result.wxParameter.signature,
+			       // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+			       jsApiList : [ 'checkJsApi', 'scanQRCode' ]
+           });
+          },
+          error:function(){
+            location.reload() 
+          }
+			});
+			wx.error(function(res) {
+          flag = false
+          alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+			});
+  })();
+  function getQueryString(name){
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  unescape(r[2]); return null;
+  };
+  function sendP(){
+    $.ajax({
+      url: dataUrl+'/api/v1/neUnLock/invite',
+      type:'POST',
+      contentType : 'application/json',
+      dataType : 'json',
+      data:JSON.stringify(userData),
+      success:function(res){
+        if(res.code == 400){
+          showMask(res.msg)
+        }else if(res.code == 200){
+          WeixinJSBridge.call('closeWindow');
+        }
+      },
+      error:function(err){
+      }
+    })
+  }
+    $('#height,#mobile,#weight,#age').blur(function(){
+      setTimeout(function() {	
+  		var scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;  //解决微信浏览器键盘收回页面下不来的问题
+          window.scrollTo(0, Math.max(scrollHeight - 1, 0));  //解决微信浏览器键盘收回页面下不来的问题
+        }, 100);
+  });
+  $('#height').blur(function(){
+    if($(this).val() == '' || $(this).val() == undefined || $(this).val() == NaN ||parseFloat($(this).val())>250 || parseInt($(this).val())<50){
+      showMask('请输入正确的身高');
+      $(this).attr('data-false','false');
+      return false;
+    }else{
+      $(this).attr('data-false','true');
+    }
+  });
+  $('#mobile').blur(function(){
+    var mobile = $('#mobile').val();
+    if(!(/^1[3456789]\d{9}$/.test(mobile))){ 
+      showMask('请输入正确的手机号码');
+      $(this).attr('data-false','false');
+      return false;
+    }else{
+      $(this).attr('data-false','true');
+    }
+  });
+  $('#weight').blur(function(){
+    if($(this).val() == '' || $(this).val() == undefined || $(this).val() == NaN || parseFloat( $(this).val())>200 || parseInt($(this).val())<20 ){
+      showMask('请输入正确的体重')
+      $(this).attr('data-false','false');
+      return false;
+    }else{
+      $(this).attr('data-false','true');
+    }
+  });
+  $('#age').blur(function(){
+		var age = parseInt($('#age').val());
+		if($(this).val() == '' || $(this).val() == undefined || age < 18 || age >80 ||  isNaN(age)){
+			showMask('请输入18到80之间的有效年龄');
+			$(this).attr('data-false','false');
+      return false;
+		}else{
+      $(this).attr('data-false','true');
+    }
+});
+
+
+
+
+  $('#yaoyue_kj').on('click',function(){
+    setTimeout(function(){
+      if($('[name=sex]:checked').length <= 0 ){
+        showMask('请完善用户信息')
+        $('[name=sex]:checked').attr('data-false','false');
+        return false;
+      }else{
+        $('[name=sex]:checked').attr('data-false','true');
+      }
+      $.each($('input'),function(key,val){
+        if($(val).attr('data-false') == 'false' ){
+          flag = false;
+          return false;
+        }else{
+          flag = true
+        }
+      })
+      userData.age = $('#age').val();
+      userData.userTel = $('#mobile').val();
+      userData.gender = $('[name=sex]:checked').val();
+      userData.height = $('#height').val();
+      userData.weight = $('#weight').val();
+      userData.inviterId = getQueryString('openId')
+      var clo = $('[data-false=false]').length
+      if(flag && clo <=0){ 
+        // erweima
+        wx.ready(function() {
+          wx.scanQRCode({
+		        needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            scanType : [ "qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            success : function(res) {
+              userData.qrUrl = res.resultStr
+              sendP();
+            }
+          })
+		  	});
+      }
+    },50)
+  })
+})
+</script>
+</body>
+</html>

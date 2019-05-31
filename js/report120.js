@@ -3,6 +3,7 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
+var clientType = getQueryString("clientType");
 var edition = 120;
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
@@ -201,7 +202,7 @@ var myApp = new Vue({
 		},
 		//判断 /支付
 		participate: function(paymentType,sameUser){
-			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId;
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType;
 			if(paymentType == 3){
 				location.href="pay_byuser.html"+payStr
 			}else if(paymentType == 4){
@@ -251,7 +252,15 @@ var myApp = new Vue({
 			showMask();
 			$('.daifu_d').css("display","block");	
 			$('#iknow').click(function(){
-				WeixinJSBridge.call('closeWindow');
+				if(openId){
+					//WeixinJSBridge.call('closeWindow');
+					location.href = gohistoryUrl;
+				}else{
+					location.href = gohistoryUrl;
+					/*window.opener = null;
+			        window.open("", "_self", "");
+			        window.close();*/
+				}
 			});
 		},
 		getSuggest: function(e){ //健康建议
