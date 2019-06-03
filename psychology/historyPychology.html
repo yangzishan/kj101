@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>历史报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<div class="my_view">
+	<section id="appVUE">
+		<header class="header">
+			<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+			<a class="t-right fr" href="#"></a>
+			<p class="t-cen txt1"><span>历史报告</span></p>
+		</header>
+		<div class="history_b" id="thelist">
+			<a class="h_li" v-for="item in dataList" @click="goPychology($event,item)">
+				<span class="dat">{{item.inspectTime}}</span>
+				<i class="arr fr"></i><span class="num fr">{{item.title}}</span>
+			</a>
+		</div>
+	</section>
+</div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<!-- <script type="text/javascript" src="zhuge.js"></script> -->
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+// 跳转首页
+var pychology = 'pychology.html?inspectCode='
+
+
+var userId = getQueryString("userId");
+var openId = getQueryString('openId');
+var isAgent = getQueryString('isAgent');
+var saasId = getQueryString('saasId');
+
+var customerId = getQueryString('customerId');
+var companyId = getQueryString('companyId');
+if(openId == null || openId == undefined){
+	openId = ''
+}
+// zhuge.track('进入历史列表页', { //埋点t
+// 	'openId' : openId,  
+// 	'渠道' : '微信'
+// });
+var aIndex = 0;//记录索引
+
+
+var sendData = {
+							companyId:companyId,
+							customerId:customerId,
+				    	firstPage: '0',
+				    	pageSize: 50
+						}
+var myApp = new Vue({
+	el:'#appVUE',
+	data: function(){
+		return{
+			userId: userId,
+			dataList: ''
+		}
+	},
+	mounted:function(){
+		this.historyByUserId();
+	},
+	methods:{
+		historyByUserId: function(){
+			var vm = this;
+			$.ajax({
+				url : "http://psyc-t.konstarmall.com/report/v1/userHistoryReport",
+				type : "GET",
+				dataType : 'json',
+				data : sendData,
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.dataList = res.data
+					}else{alert('findHistoryReport code='+ res.code)}
+				},
+				error : function(obj,msg){alert('findHistoryReport error')}
+			});
+		},
+		goPychology : function(event,item){
+			console.log(00)
+			location.href = pychology  + item.inspcetCode
+		}
+		// gotosee: function(e,item){
+		// 	var vm = this;
+		// 	if(item.reportType == 500 || item.reportType == 501){
+		// 		location.href = 'report500.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+		// 	}else if(item.reportType == 120 || item.reportType == 121){
+		// 		location.href = 'report120.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+		// 	}else if(item.reportType < 6){
+		// 		if(isAgent == 'caj'){  //慈爱家
+		// 			location.href = '215581/index.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId
+		// 		}else{
+		// 			location.href = 'report5.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+		// 		}
+		// 	}else{
+		// 		location.href = 'report'+item.reportType+'.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+		// 	}
+		// }
+	}
+});
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+</script> 
+</body>
+</html>

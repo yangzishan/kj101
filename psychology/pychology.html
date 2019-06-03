@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>性格档案</title>
+  <link rel="stylesheet" href="css/basic.css">
+  <script>
+      document.write('<link rel="stylesheet" href="css/pychology.css?t='+new Date().getTime()+'">')
+  </script>
+</head>
+<body>
+  <div class="loadmore loading"></div>
+  <div id="app">
+    <div class="mask" @click="Touchmove" ></div>
+    <div class="popup">
+      <i class="close"  @click="Touchmove"></i>
+      <h1>展示区</h1>
+      <div class="huadong">
+      </div>
+    </div>
+    <div class="list1">
+      <div class="bg" :style="info.personalityTypology == undefined ? 'padding-bottom:0;':''">
+        <div class="header_1">
+          <h1>性格档案</h1>
+          <span class="fq"></span>
+          <div class="his" @click="goHis($event,info.customerId,info.inspcetCode)">
+            <em></em>
+            <i>历史报告</i>
+          </div>
+        </div>
+        <div class="center_1" v-if="info.personalityTypology">
+          <div class="zp_wenzi"></div>
+          <div class="zz" data-target="xuanzhuan" :style = "'transform:rotate('+setHtml.zz+');'">
+            <span></span>
+            <em v-if="info.personalityTypology" :style=" info.personalityTypology.typologyId == 1 ? 'transform: rotate(217deg);' :  'transform: rotate(35deg);'">{{info.personalityTypology.typologyName}}</em>
+          </div>
+          <div class="qq" >
+          </div>
+          <div class="header_img" :style="'background: #F598B0 url('+info.headimgurl+') no-repeat center;background-size:1.2rem;'"></div>
+        </div>
+        <div class="bq" v-if="info.personalityTypology && info.personalityTypology.typologyKeyword"><span  v-for="(item,index) in info.personalityTypology.typologyKeyword">{{item}}</span></div>
+      </div>
+      <div class="box">
+        <div class="alert_1" v-if="info.personalityTypology">
+          <div>{{setHtml.shenglue}}</div>
+          <span class="btn_1" @click='stopTouchmove();' data-h="详解">
+              更多解读请点击
+              <i></i>
+          </span>
+        </div>
+        <div class="yjzj" v-if="info.personalityTypology">
+          <span class="h2" >遇见更好的自己</span>
+          <div class="text" v-if="info.personalityTypology && info.personalityTypology.typologySuggest">
+            {{info.personalityTypology.typologySuggest}}
+          </div>
+        </div>
+        <div class="xingge" v-if="info.constantCharacterList">
+          <span class="h2 biaoti">{{info.constantCharacterList[0].resultName}}</span>
+          <div class="big"><span class="list5" data-left=".53rem" data-color="linear-gradient(to right, #9CF4FE , #A8EAF9)" :data-in="5">典型内向</span><span class="list4" data-left="1.78rem" data-color="linear-gradient(to right, #AEE4F6 , #BBD8EF) " :data-in="4">比较内向</span><span class="list3" data-left="3rem" data-color="linear-gradient(to right, #BFD4ED , #D0C5E4) "  :data-in="3">内外向平衡</span><span class="list2" data-left="4.2rem" data-color="linear-gradient(to right, #D2C3E2 , #E6B1D9) "  :data-in="2">比较外向</span><span class="list1" data-left="5.5rem" data-color="linear-gradient(to right, #EDAAD4 , #FB9ECE)"  :data-in="1">典型外向</span></div>
+          <div class="jd">
+            <em></em>
+            <i><img src="./img/face.png" alt=""></i>
+          </div>
+          <div class="small"><span class="list5">典型内向</span><span class="list4">比较内向</span><span class="list3">内外向平衡</span><span class="list2">比较外向</span><span class="list1">典型外向</span></div>
+          <div class="text" v-if="info.constantCharacterList">
+            {{info.constantCharacterList[0].explain}} 
+          </div>
+        </div>
+        <div class="qingxu" v-if="info.constantCharacterList">
+          <span class="h2 biaoti">{{info.constantCharacterList[1].resultName}}</span>
+          <div class="zhuanpan">
+            <div class="biaopan1">
+              <span class="s1">过于稳定</span>
+              <span class="s2">相对稳定</span>
+              <span class="s3">稳定</span>
+              <span class="s4">不稳定</span>
+              <span class="s5">非常不稳定</span>
+            </div>
+            <div class="box2">
+              <div class="no1">
+                <span class="lv"></span>
+                <span class="hui" :style="'transform:rotate('+setHtml.yibiaopan.p+');'" ><em></em></span>
+                <span class="zhong"><i></i><em :style="'transform:rotate('+setHtml.yibiaopan.z+');'"></em></span>
+              </div>
+              <div class="tet" v-if="info.constantCharacterList && info.constantCharacterList[1]">
+                {{info.constantCharacterList[1].explain}}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="juejiang"  v-if="info.constantCharacterList && info.constantCharacterList[2]">
+          <span class="h2 biaoti liazi" >{{info.constantCharacterList[2].resultName}}</span>
+          <div class="tet">
+            {{info.constantCharacterList[2].explain}}
+          </div>
+        </div>
+        <div class="chengshu" v-if="info.constantCharacterList && info.constantCharacterList[2]">
+          <span class="h2 biaoti liazi">{{info.constantCharacterList[3].resultName}}</span>
+          <div class="tet">
+            {{info.constantCharacterList[3].explain}} 
+          </div>
+        </div>
+        <div class="xinggeyuqizhi" v-if="info.constantTemperament">
+          <span class="h2 biaoti">气质与性格</span><em class="blue_biaoti">{{info.constantTemperament.ename}}</em>
+          <div class="new_qzbox" :style="'background-image:url('+setHtml.new_img[info.constantTemperament.nname]+')' "></div>
+          <!-- <div class="qizhi_box" :style="'background: url('+setHtml.bg_img[info.constantTemperament.nname]+') no-repeat center;background-size: 5.6rem;'">
+            <div class="center" v-if="info.constantTemperament.explain"  :style="setHtml.coordinate[info.constantTemperament.nname]"><span :class="'pp'+ (index+1) " v-for="(item,index) in info.constantTemperament.explain">{{item}}</span><em>{{info.constantTemperament.ename}}</em></div>
+          </div> -->
+        </div>
+            <!-- <span class="pp1">性情平性</span><span class="pp2">性情性情</span><span class="pp3">性情平和</span><span class="pp4">性情平和</span><span class="pp5">性情平和</span><span class="pp6">性情平和</span><span class="pp7">性情平和</span><span class="pp8">性情平和</span> -->
+        <div class="last_box">
+          <h3 v-if="info.realtimeThreshholdList">实时情绪</h3 >
+          <div class="ll_box" v-if="info.realtimeThreshholdList">
+            <div class="tanchu" style="width:7rem;height:6.06rem;margin:0 auto;" >
+              <em  v-for="(item,index) in setHtml.leida_zidian" :class="'em'+index" >{{item.data_h.replace('度','')}}<i @click='stopTouchmove();'   :data-h="item.data_h"    :data-alter="item.data_alter"></i></em>
+            </div>
+            <div class="eahar" id="main" style="width:5.45rem;height:6.2rem;position: relative;left:.52rem;" ></div>
+          </div>
+          <!-- <div class="like show_ai">
+            <div class="hh"><h5>自信度</h5><em  @click='stopTouchmove();'>小贴士</em></div>
+            <div class="pro">
+              <span></span>
+              <em></em>
+            </div>
+            <p><i>高</i><i>低</i></p>
+            <div class="text">
+              塑造成长型人格，正确面对自卑，不断精进自己；检讨评价标准，建立自我认可；正视自己的缺点，并和谐共处；悦纳自己，保持进步的能力。 
+            </div>
+          </div> -->
+
+          <div class="ox" v-if="info.realtimeThreshholdList">
+            <div class="like show_ai"  v-for="(item,index) in info.realtimeThreshholdList" :data-last="'last_'+index">
+              <div class="hh"><h5>{{setHtml.leidatu_text[item.metricId]['text']}}</h5><em  @click='stopTouchmove();' v-if="item.explainTip != ''" :data-alter="item.explainTip" :data-h="setHtml.leidatu_text[item.metricId]['text']">小贴士</em></div>
+              <div class="pro">
+                <span></span>
+                <em :style=" 'background: url(' + setHtml.leidatu_text[item.metricId]['img'] + ') no-repeat center;background-size: .48rem;' + setHtml.leidatu_text[item.metricId]['left']"  :data-index="'em'+index"></em>
+              </div>
+              <p><i>低</i><i>高</i></p>
+              <div class="text">
+                {{item.threshholdExplain}}
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+
+    </div>
+  </div>
+<script src="./js/base.js"></script>
+<script src="js/jquery.js"></script>
+<script src="./js/vue.min.js"></script> 
+<script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script> 
+<script src="http://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+<!-- <script src="./js/pychology.js" ></script> -->
+<script>
+  document.write('<script src="./js/pychology.js?t= '+new Date().getTime()+'"><\/script>')
+</script>
+<script type="text/javascript">
+  (function (doc, win) {
+    var    docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var    clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+</script>
+
+</body>
+
+</html>

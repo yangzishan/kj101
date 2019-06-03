@@ -1,0 +1,477 @@
+body{
+  position: relative;
+}
+body #qrcode {
+  position: absolute;
+  top:.43rem;
+  right:.7rem;
+  width:1.6rem;
+  height:1.6rem;
+  border:1px solid #333;
+}
+body #app .box {
+  padding: .13rem .46rem .5rem .46rem;
+  background: #E0CEBA;
+  color: #333333;
+}
+body #app .box .user {
+  margin-bottom: .07rem;
+}
+body #app .box .user .user-left {
+  float: left;
+}
+body #app .box .user .user-left .name-box {
+  display: inline-block;
+  height: .6rem;
+  line-height: .6rem;
+}
+body #app .box .user .user-left .name-box > span {
+  display: inline-block;
+  vertical-align: top;
+}
+body #app .box .user .user-left .name-box .img {
+  width: .6rem;
+  height: .6rem;
+  background: url(../img/user.png) no-repeat center;
+  background-size: .6rem;
+  margin-right: .05rem;
+}
+body #app .box .user .user-left .name-box .name {
+  height: .6rem;
+  line-height: .6rem;
+  font-size: .24rem;
+  margin-right: .27rem;
+}
+body #app .box .user .user-left .time-box {
+  color: #845F48;
+  font-size: .2rem;
+  display: inline-block;
+  margin-right: .25rem;
+}
+body #app .box .user .user-left .time-box .year {
+  margin-right: .05rem;
+}
+body #app .box .user .user-left .button—history {
+  width: 1.23rem;
+  height: .38rem;
+  display: inline-block;
+  font-size: .2rem;
+  color: #FFFFFF;
+  line-height: .38rem;
+  background: #845F48;
+  border-radius: .08rem;
+  text-align: center;
+}
+body #app .box .user .user-right {
+  float: right;
+  padding-top: .15rem;
+}
+body #app .box .user .user-right > span {
+  display: inline-block;
+}
+body #app .box .user .user-right .close-img {
+  vertical-align: -0.03rem;
+  width: .24rem;
+  height: .24rem;
+  background: url(../img/close.png) no-repeat center;
+  background-size: .24rem;
+  margin-right: .03rem;
+}
+body #app .box .user .user-right .close-text {
+  font-size: .24rem;
+}
+body #app .box .content {
+  background: #F7EBD8;
+  padding: .3rem .24rem .26rem .24rem;
+  box-shadow: 0px 0px 2px 1px #3333334f;
+}
+body #app .box .content .header {
+  position: relative;
+  top: 2px;
+  width: 100%;
+}
+body #app .box .content .header .header-box {
+  border: 2px solid rgba(0, 0, 0, 0);
+  width: 25%;
+  display: inline-block;
+  padding: .07rem .08rem .23rem .08rem;
+  color: #845F48;
+  font-size: .36rem;
+}
+body #app .box .content .header .header-box > span {
+  display: block;
+  width: 100%;
+  background: url(../img/tabw.png) no-repeat center;
+  background-size: 2rem .68rem;
+  line-height: .68rem;
+  height: .68rem;
+  text-align: center;
+}
+body #app .box .content .header .active {
+  border: 2px solid #845F48;
+  position: relative;
+  z-index: 10;
+}
+body #app .box .content .header .active > span {
+  background: url(../img/tabb.png) no-repeat center;
+  background-size: 2rem .68rem;
+  color: #FFFFFF;
+}
+body #app .box .content .header .active > em {
+  display: block;
+  width: 100%;
+  height: .05rem;
+  background: #F7EBD8;
+  position: absolute;
+  bottom: -0.05rem;
+  left: 0;
+}
+body #app .box .content .middle {
+  width: 100%;
+  border: 2px solid #845F48;
+  overflow-x: hidden;
+}
+body #app .box .content .middle .header {
+  font-size: .36rem;
+  text-align: center;
+  height: .5rem;
+  line-height: .5rem;
+  margin-bottom: .05rem;
+}
+body #app .box .content .middle .label p {
+  text-align: center;
+}
+body #app .box .content .middle .label p > span {
+  display: inline-block;
+  height: .56rem;
+  background: url(../img/label.png) no-repeat center;
+  background-size: 100%;
+  padding: 0 .37rem;
+  color: #FFFFFF;
+  font-size: .24rem;
+  line-height: .56rem;
+  margin: 0 .65rem;
+}
+body #app .box .content .middle .label p:last-child {
+  margin-bottom: .15rem;
+}
+body #app .box .content .middle .show-box {
+  margin:0 auto;
+  width:8.8rem;
+  position: relative;
+  margin-bottom: .19rem;
+}
+body #app .box .content .middle .show-box .left,
+body #app .box .content .middle .show-box .right,
+body #app .box .content .middle .show-box .center,
+body #app .box .content .middle .show-box .center1,
+body #app .box .content .middle .show-box .center2 {
+  width: 3.38rem;
+  height: 3.84rem;
+  background: url(../img/showImg.png) no-repeat center;
+  background-size: 3.38rem 3.84rem;
+  padding-top: .15rem;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding-left: .09rem;
+  padding-right: .05rem;
+  color: #333;
+  display: inline-block;
+  overflow-y: scroll;
+  transition: opacity .2s;
+}
+body #app .box .content .middle .show-box .left h1,
+body #app .box .content .middle .show-box .right h1,
+body #app .box .content .middle .show-box .center h1,
+body #app .box .content .middle .show-box .center1 h1,
+body #app .box .content .middle .show-box .center2 h1 {
+  color: #6E3D1F;
+  font-size: .24rem;
+  text-align: center;
+  margin-bottom: .07rem;
+}
+body #app .box .content .middle .show-box .left > div,
+body #app .box .content .middle .show-box .right > div,
+body #app .box .content .middle .show-box .center > div,
+body #app .box .content .middle .show-box .center1 > div,
+body #app .box .content .middle .show-box .center2 > div {
+  margin-bottom: .03rem;
+}
+body #app .box .content .middle .show-box .left > div h2,
+body #app .box .content .middle .show-box .right > div h2,
+body #app .box .content .middle .show-box .center > div h2,
+body #app .box .content .middle .show-box .center1 > div h2,
+body #app .box .content .middle .show-box .center2 > div h2 {
+  font-size: .2rem;
+  color: #6E3D1F;
+  font-weight: bold;
+}
+body #app .box .content .middle .show-box .left > div h2 > i,
+body #app .box .content .middle .show-box .right > div h2 > i,
+body #app .box .content .middle .show-box .center > div h2 > i,
+body #app .box .content .middle .show-box .center1 > div h2 > i,
+body #app .box .content .middle .show-box .center2 > div h2 > i {
+  display: inline-block;
+  width: .24rem;
+  height: .21rem;
+  background: url(../img/fdj.png) no-repeat center;
+  background-size: .24rem .21rem;
+  vertical-align: -0.03rem;
+  margin-right: .06rem;
+}
+body #app .box .content .middle .show-box .left > div > div,
+body #app .box .content .middle .show-box .right > div > div,
+body #app .box .content .middle .show-box .center > div > div,
+body #app .box .content .middle .show-box .center1 > div > div,
+body #app .box .content .middle .show-box .center2 > div > div {
+  font-size: .18rem;
+  line-height: 22px;
+  width: 2.76rem;
+  margin-left: .3rem;
+}
+body #app .box .content .middle .show-box .left > div:last-child,
+body #app .box .content .middle .show-box .right > div:last-child,
+body #app .box .content .middle .show-box .center > div:last-child,
+body #app .box .content .middle .show-box .center1 > div:last-child,
+body #app .box .content .middle .show-box .center2 > div:last-child {
+  margin-bottom: 0;
+}
+body #app .box .content .middle .show-box .left {
+  position: absolute;
+  left: -9%;
+  transform: scale(0.8);
+  overflow-y: hidden;
+}
+body #app .box .content .middle .show-box .right {
+  position: absolute;
+  left: 71%;
+  transform: scale(0.8);
+  overflow-y: hidden;
+}
+body #app .box .content .middle .show-box .center1 {
+  position: relative;
+  left: 26%;
+}
+body #app .box .content .middle .show-box .center2 {
+  position: relative;
+  left: 36%;
+}
+body #app .box .content .middle .dishes > h1 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  background: url(../img/ysjy.png) no-repeat center;
+  background-size: 5.76rem .55rem;
+  text-align: center;
+  margin-bottom: .18rem;
+}
+body #app .box .content .middle .dishes > h1 > span {
+  display: block;
+  width: 2.12rem;
+  height: .79rem;
+  background: url(../img/ysjyb.png) no-repeat center;
+  text-align: center;
+  line-height: .79rem;
+  background-size: 2.12rem .5rem;
+  margin: 0 auto;
+  font-weight: bold;
+}
+body #app .box .content .middle .dishes > div {
+  padding-left: .24rem;
+  padding-right: .24rem;
+  padding-bottom: .15rem;
+  position: relative;
+  height: 100%;
+}
+body #app .box .content .middle .dishes > div > h2 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  font-weight: bold;
+  margin-bottom: .1rem;
+}
+body #app .box .content .middle .dishes > div > div {
+  padding-bottom: .1rem;
+  padding-left: .05rem;
+}
+body #app .box .content .middle .dishes > div > div > h3 {
+  font-size: .2rem;
+  font-weight: bold;
+  color: #6E3D1F;
+  margin-bottom: .05rem;
+  position: relative;
+}
+body #app .box .content .middle .dishes > div > div > h3 > i {
+  display: block;
+  width: .16rem;
+  height: .16rem;
+  background: linear-gradient(180deg, #fad961 0%, #f28648 100%);
+  position: absolute;
+  top: 0.08rem;
+  left: -0.11rem;
+  border-radius: 50%;
+  z-index: 10;
+}
+body #app .box .content .middle .dishes > div > div > p {
+  color: #333;
+  font-size: .18rem;
+  line-height: 25px;
+  margin-left: .15rem;
+}
+body #app .box .content .middle .dishes > div > div:last-child {
+  margin-bottom: 0rem;
+}
+body #app .box .content .middle .dishes > div > em {
+  display: block;
+  position: absolute;
+  width: 2px;
+  height: 60%;
+  background: #CBBAA0;
+  left: .25rem;
+  top: .65rem;
+}
+body #app .box .content .middle .preservation > h1 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  background: url(../img/ysjy.png) no-repeat center;
+  background-size: 5.76rem .55rem;
+  text-align: center;
+  margin-bottom: .18rem;
+}
+body #app .box .content .middle .preservation > h1 > span {
+  display: block;
+  width: 2.12rem;
+  height: .79rem;
+  background: url(../img/ysjyb.png) no-repeat center;
+  text-align: center;
+  line-height: .79rem;
+  background-size: 2.12rem .5rem;
+  margin: 0 auto;
+  font-weight: bold;
+}
+body #app .box .content .middle .preservation > div {
+  padding-left: .24rem;
+  padding-right: .24rem;
+  padding-bottom: .15rem;
+  position: relative;
+}
+body #app .box .content .middle .preservation > div > h2 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  font-weight: bold;
+  margin-bottom: .1rem;
+}
+body #app .box .content .middle .preservation > div > p {
+  color: #333;
+  font-size: .18rem;
+  line-height: 30px;
+  padding-left: .3rem;
+  position: relative;
+  margin-bottom: .1rem;
+}
+body #app .box .content .middle .preservation > div > p > i {
+  display: block;
+  width: .16rem;
+  height: .16rem;
+  background: linear-gradient(180deg, #fad961 0%, #f28648 100%);
+  position: absolute;
+  top: 0.08rem;
+  left: 0;
+  border-radius: 50%;
+  z-index: 10;
+}
+body #app .box .content .middle .diet > h1 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  background: url(../img/ysjy.png) no-repeat center;
+  background-size: 5.76rem .55rem;
+  text-align: center;
+  margin-bottom: .18rem;
+}
+body #app .box .content .middle .diet > h1 > span {
+  display: block;
+  width: 2.12rem;
+  height: .79rem;
+  background: url(../img/ysjyb.png) no-repeat center;
+  text-align: center;
+  line-height: .79rem;
+  background-size: 2.12rem .5rem;
+  margin: 0 auto;
+  font-weight: bold;
+}
+body #app .box .content .middle .diet > div {
+  padding-left: .48rem;
+  padding-bottom: .08rem;
+  padding-right: .3rem;
+  margin-bottom: .15rem;
+}
+body #app .box .content .middle .diet > div > h4 {
+  color: #6E3D1F;
+  font-size: .2rem;
+  position: relative;
+}
+body #app .box .content .middle .diet > div > h4 > i {
+  display: block;
+  width: .16rem;
+  height: .16rem;
+  background: linear-gradient(180deg, #fad961 0%, #f28648 100%);
+  position: absolute;
+  top: 0.08rem;
+  left: -0.24rem;
+  border-radius: 50%;
+  z-index: 10;
+}
+body #app .box .content .middle .diet > div > p {
+  font-size: .18rem;
+  color: #333;
+  line-height: 25px;
+}
+body #app .box .content .middle .face_zhen > h1 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  background: url(../img/ysjy.png) no-repeat center;
+  background-size: 5.76rem .55rem;
+  text-align: center;
+  margin-bottom: .18rem;
+}
+body #app .box .content .middle .face_zhen > h1 > span {
+  display: block;
+  width: 2.12rem;
+  height: .79rem;
+  background: url(../img/ysjyb.png) no-repeat center;
+  text-align: center;
+  line-height: .79rem;
+  background-size: 2.12rem .5rem;
+  margin: 0 auto;
+  font-weight: bold;
+}
+body #app .box .content .middle .face_zhen > div {
+  padding-left: .24rem;
+  padding-right: .24rem;
+  padding-bottom: .15rem;
+  position: relative;
+}
+body #app .box .content .middle .face_zhen > div > h2 {
+  font-size: .24rem;
+  color: #6E3D1F;
+  font-weight: bold;
+  margin-bottom: .1rem;
+}
+body #app .box .content .middle .face_zhen > div > p {
+  color: #333;
+  font-size: .18rem;
+  line-height: 30px;
+  padding-left: .3rem;
+  position: relative;
+  margin-bottom: .1rem;
+}
+body #app .box .content .middle .face_zhen > div > p > i {
+  display: block;
+  width: .16rem;
+  height: .16rem;
+  background: linear-gradient(180deg, #fad961 0%, #f28648 100%);
+  position: absolute;
+  top: 0.08rem;
+  left: 0;
+  border-radius: 50%;
+  z-index: 10;
+}
