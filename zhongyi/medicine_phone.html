@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./css/medicine.css">
 </head>
 <body>
-    <div id="qrcode"><span style="display:block;position: absolute;top:-.12rem;left:-.34rem;width:7%;line-height:100%;color:#6E3D1F;font-weight: 600;">﹃ 扫码取报告 ﹄</span></div>
     <div id="app">
         <div class="box">
             <div class="content">
@@ -143,21 +142,7 @@
             var customerId = getQueryString('customerId')
             var saasId = getQueryString('saasId')
             var hre = window.location.href
-            var qrcode = new QRCode(document.getElementById("qrcode"), {
-            	// width : 57,
-            	// height : 57
-            });
-            setTimeout(function(){
-                $('#qrcode > img').css({
-                    'width':$('#qrcode ').width(),
-                    'height':$('#qrcode ').height()
-                })
-                $('#qrcode > canvas').css({
-                    'width':$('#qrcode ').width(),
-                    'height':$('#qrcode ').height()
-                })
-            })
-            qrcode.makeCode(hre);
+            
             function go(){
                 var jieliu = false;
                 var timer = null;
