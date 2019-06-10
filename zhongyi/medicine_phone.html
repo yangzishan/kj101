@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>评估结果</title>
+    <link rel="stylesheet" href="./css/basic.css">
+    <link rel="stylesheet" href="./css/medicine.css">
+</head>
+<body>
+    <div id="app">
+        <div class="box">
+            <div class="content">
+                <div class="middle">
+                    <div class="header">评估结果</div>
+                    <div class="label">
+                        <p v-if="data.disease && data.disease[0]"><span v-cloak v-if="data.disease && data.disease[0]">{{data.disease[0]["diseaseName"]}}</span></p>
+                        <p v-if="data.disease && data.disease[1]"><span v-cloak v-if="data.disease && data.disease[1]">{{data.disease[1]["diseaseName"]}}</span><span v-cloak v-if="data.disease && data.disease[2]">{{data.disease[2]["diseaseName"]}}</span></p>
+                    </div>
+                    <div class="show-box">
+                        <div :data-index='index' :class="index == 0 && data.disease.length > 2  ? 'left' : index == 0 && data.disease.length == 1  ? 'center' : index == 0 && data.disease.length == 2 ? 'center1'  : index == 1 && data.disease.length == 2 ? 'center2' : index == 1 &&  data.disease.length > 2 ? 'center' : 'right'" data-target="target" v-cloak v-if="data.disease" v-for="(item,index) in data.disease">
+                            <h1>{{item.diseaseName}}</h1>
+                            <div class="zhfx">
+                                <h2><i></i>证候分析</h2>
+                                <div>{{item.diseaseExplain}}</div>
+                            </div>
+                            <div class="cjyy">
+                                <h2><i></i>常见原因</h2>
+                                <div v-html="item.diseaseCause == '' ? '无' : item.diseaseCause"></div>
+                            </div>
+                            <div class="ysyz">
+                                <h2><i></i>养生原则</h2>
+                                <div>{{item.nourishPrinciple}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dishes" v-cloak v-if="data.medicined && data.medicined[0].medicinedDietName != null">
+                        <h1><span>药膳建议</span></h1>
+                        <div v-for="(item,index) in data.medicined">
+                            <h2>{{item.medicinedDietName}}</h2>
+                            <div class="zc">
+                                <h3><i></i>【组成】</h3>
+                                <p>{{item.medicinedDietComponent}}</p>
+                            </div>
+                            <div class="prff">
+                                <h3><i></i>【烹饪方法】</h3>
+                                <p>{{item.medicinedDietCook}}</p>
+                            </div>
+                            <em></em>
+                        </div>
+                    </div>
+                    <div class="preservation">
+                        <h1><span>养生改善</span></h1>
+                        <div v-cloak v-if="data.sport && data.sport[0].sportsId != null">
+                            <h2>运动保健</h2>
+                            <p v-for="(item,index) in data.sport"><i></i>{{item.sportsDetail}}</p>
+                        </div>
+                        <div v-cloak v-if="data.living && data.living[0].livingId != null ">
+                            <h2>起居调理</h2>
+                            <p v-for="(item,index) in data.living"><i></i>{{item.livingDetail}}</p>
+                        </div>
+                        <div v-cloak v-if="data.emotion && data.emotion[0].emotionId != null">
+                            <h2>情志调适</h2>
+                            <p v-for="(item,index) in data.emotion"><i></i>{{item.emotionDetail}}</p>
+                        </div>
+                        <div v-cloak v-if="data.physiotherapy && data.physiotherapy[0].physiotherapyId !=null">
+                            <h2>理疗建议</h2>
+                            <p v-for="(item,index) in data.physiotherapy" ><i></i>{{item.physiotherapyDetail}}</p>
+                        </div>
+                    </div>
+                    <div class="diet" v-cloak v-if="data.food && data.food[0].foodId != null">
+                        <h1><span>饮食建议</span></h1>
+                        <div v-for="(item,index) in data.food">
+                            <h4><i></i>{{item.foodName}}</h4>
+                            <p>{{item.foodDetail}}</p>
+                        </div>
+                    </div>
+                    <div class=" face_zhen" v-cloak v-if="(data.faceResult && data.faceResult.faceUrl != null)  || (data.tongueResult && data.tongueResult.tongueUrl != null )  ">
+                        <h1><span><b v-if="data.faceResult " style="    font-weight: bold;"> 面诊、</b><b  v-if="data.tongueResult" style="    font-weight: bold;">舌诊</b></span></h1>
+                        <div>
+                            <h2 v-if="data.faceResult && data.faceResult.faceUrl != null">面诊</h2>
+                            <div style="position: relative;" v-if="data.faceResult && data.faceResult.faceUrl != null">
+                                <img :src="data.faceResult.faceUrl" alt="" style="display:inline-block;width:28%;margin-right:.4rem;">
+                                <div class="bb" style="position: absolute;display:inline-block;">
+                                    <p style='display:inline-block;line-height:.50rem;'v-for="(item,index) in data.faceResult.xtbm"><span style="color:#6E3D1F;" >{{item.name}}</span><em v-if=" data.faceResult.xtbm && (index + 1) < data.faceResult.xtbm.length"  style="color:#6E3D1F;">，</em></p>
+                                </div>
+                            </div>
+                            <h2 v-if="data.tongueResult && data.tongueResult.tongueUrl != null ">舌诊</h2>
+                            <div style="position: relative;" v-if="data.tongueResult && data.tongueResult.tongueUrl != null ">
+                                <img :src="data.tongueResult.tongueUrl" alt="" style="display:inline-block;width:28%;margin-right:.4rem;">
+                                <div class="bb" style="position: absolute;display:inline-block;">
+                                    <p style='display:inline-block;line-height:.50rem;'v-for="(item,index) in data.tongueResult.xtbm"><span style="color:#6E3D1F;" >{{item.name}}</span><em v-if=" data.tongueResult.xtbm && (index + 1) < data.tongueResult.xtbm.length" style="color:#6E3D1F;">，</em></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/jquery.js"></script>
+    <script src="./js/vue.min.js"></script>
+    <script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+    <script type="text/javascript">
+        (function (doc, win) {
+            var   docEl = doc.documentElement,
+                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+                recalc = function () {
+                    var   clientWidth = docEl.clientWidth;
+                    if (!clientWidth) return;
+                    if(clientWidth>=1024){
+                        docEl.style.fontSize = '100px';
+                    }else{
+                        docEl.style.fontSize = 100 * (clientWidth / 1024) + 'px';
+                    }
+                };
+            if (!doc.addEventListener) return;
+            win.addEventListener(resizeEvt, recalc, false);
+            doc.addEventListener('DOMContentLoaded', recalc, false);
+        })(document, window);
+    </script>
+
+    <script>
+        $(function(){
+            //截取url
+            function getQueryString(name) {
+                var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+                if (result == null || result.length < 1) {
+                    return "";
+                }
+                return result[1];
+            };
+            // var diseaseIds = getQueryString('diseaseIds');
+            var aaa = getQueryString('aaa');
+            // var url = 'http://medicine-ysc.jiankangzhan.com/tcms/solution/queryReport'
+            var url = 'http://analysisreport-tt.jiankangzhan.com/ccms/report/queryCcmsReport'
+
+            var reportId = getQueryString('reportId')
+            var customerId = getQueryString('customerId')
+            var saasId = getQueryString('saasId')
+            var hre = window.location.href
+            
+            function go(){
+                var jieliu = false;
+                var timer = null;
+                var jl = 0;
+                var endPos = {x:0};
+                var startPos = null;
+                var leftXY = null;
+                var centerXY = null;
+                var rightXY = null;
+                var elem = $('.show-box')[0];
+                var l = null;
+                var c = null;
+                var r = null;
+                var index = -1;
+                var o = -1;
+                var p = -1;
+                if($('.show-box').find('div[data-index]').length < 3 ) return;
+                function start(event){
+                    var touch = event.targetTouches[0];     //touches数组对象获得屏幕上所有的touch，取第一个touch
+                    startPos = {x:touch.pageX,y:touch.pageY,time:+new Date};    //取第一个touch的坐标值
+                    isScrolling = 0;   //这个参数判断是垂直滚动还是水平滚动
+                    l = $('.show-box .left');
+                    c = $('.show-box .center');
+                    r = $('.show-box .right');
+                    leftXy = {'left':l.css('left'),'top':l.css('right'),'scale':l.css('transform')};
+                    centerXy = {'left':c.css('left'),'top':c.css('right'),'scale':c.css('transform')};
+                    rightXy = {'left':r.css('left'),'top':r.css('right'),'scale':r.css('transform')};
+                    l.css({
+                        'opacity':0
+                    });
+                    r.css({
+                        'opacity':0
+                    });
+                    index = c.attr('data-index');
+                    o = parseInt(index) - 1 < 0 ? 2 : parseInt(index) - 1 ;
+                    p = parseInt(index) + 1 > 2 ? 0 : parseInt(index) + 1 ;
+                    elem.addEventListener('touchmove',move,false)
+                    elem.addEventListener('touchend',end,false)
+                }
+                function move(event){
+                    if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+                    var touch = event.targetTouches[0];
+                    endPos = {x:touch.pageX - startPos.x,y:touch.pageY - startPos.y};
+                    isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0;    //isScrolling为1时，表示纵向滑动，0为横向滑动
+                    if(isScrolling === 0){
+                        event.preventDefault();      //阻止触摸事件的默认行为，即阻止滚屏
+                    }
+                    var tx = touch.pageX
+                    if(jl == 0 ){jl = tx;}
+                    if(jl - tx >=0 ){
+                        var wid = parseFloat($(elem).css('width'));
+                        var wx = parseInt(Math.abs(endPos.x));
+                        c.css({
+                            'left':parseFloat(centerXy.left) + endPos.x
+                            // ,'opacity':(wid-wx)/wid
+                        })
+                    }else if(jl - tx <=0){
+                        c.css({
+                            'left':parseFloat(centerXy.left) + endPos.x
+                            // ,'opacity':(wid-wx)/wid
+                        })
+                    }else{
+                        console.log('meidong')
+                    }
+                    jl = tx
+                }
+                function end(event){
+                    l.css({
+                        'opacity':1
+                    });
+                    r.css({
+                        'opacity':1
+                    });
+                    var duration = +new Date - startPos.time;    //滑动的持续时间
+                    if(isScrolling === 0){    //当为水平滚动时
+                        if(Number(duration) > 10){     
+                            //判断是左移还是右移，当偏移量大于10时执行
+                            if(endPos.x > 30){
+                                $('.show-box').find('[data-index = '+ index +']').removeClass('center').addClass('right')
+                                $('.show-box').find('[data-index = '+ o +']').removeClass('left').addClass('center');
+                                $('.show-box').find('[data-index = '+ p +']').removeClass('right').addClass('left');
+                            }else if(endPos.x < -30){
+                                $('.show-box').find('[data-index = '+ index +']').removeClass('center').addClass('left')
+                                $('.show-box').find('[data-index = '+ o +']').removeClass('left').addClass('right');
+                                $('.show-box').find('[data-index = '+ p +']').removeClass('right').addClass('center');
+                            }
+                            setTimeout(function(){
+                                $('.show-box').find('[data-index = '+ index +']').removeAttr('style')
+                                endPos.x = 0;
+                            },20)
+                        }
+                    }
+
+                    elem.removeEventListener('touchmove',move,false)
+                    elem.removeEventListener('touchend',end,false)
+                }
+                elem.addEventListener('touchstart',start,false);
+                $('.show-box').on('click','[data-target=target]',function(e){
+                    var that = this;
+                    if(jieliu){
+                        clearTimeout(timer);
+                    }else{
+                        jieliu = true;
+                        timer = setTimeout(function(){
+                            if($(that).hasClass('left')){
+                                $('.show-box').find('[data-index = '+ index +']').removeClass('center').addClass('right')
+                                $('.show-box').find('[data-index = '+ o +']').removeClass('left').addClass('center');
+                                $('.show-box').find('[data-index = '+ p +']').removeClass('right').addClass('left');
+                            }else if($(that).hasClass('right')){
+                                $('.show-box').find('[data-index = '+ index +']').removeClass('center').addClass('left')
+                                $('.show-box').find('[data-index = '+ o +']').removeClass('left').addClass('right');
+                                $('.show-box').find('[data-index = '+ p +']').removeClass('right').addClass('center');
+                            }
+                            jieliu = false;
+                        },10)
+                    }
+                })
+            }
+
+var myapp = new Vue({
+	el:'#app',
+	data: {
+		data:{}
+	},
+	methods: {
+		getdata: function(){
+			var vm = this;
+			$.ajax({
+                url:url,
+                type:'POST',
+                data:{
+                    reportId:reportId,
+                    customerId:customerId,
+                    saasId:saasId
+                },
+                dataType:"json",
+                success:function(res){
+                    //alert('调用成功'+res.code)
+                    if(res.code == 200){
+                        vm.data = res.data;
+                        setTimeout(function(){
+                        	go()
+                        },100)
+                        
+                    }
+                },
+                error:function(err){alert('error')}
+           });
+		}
+	},
+	mounted: function(){
+		this.getdata()
+	}
+	
+});
+
+
+        });
+    </script>
+</body>
+</html>
