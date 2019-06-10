@@ -34,7 +34,7 @@ if(!userId && openId){ //适配老链接未支付，后期时间长了（等客�
 		openId:openId,
 	}
 }
-if(!openId && clientType){
+if(!openId){
 	terminalType = 2 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 }
 zhuge.track('进入支付页面', { //埋点t
