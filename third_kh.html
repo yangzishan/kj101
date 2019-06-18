@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>报告详情</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<DIV class="my_view" style="visibility: hidden;">
+<header class="kh-second-head">
+	<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>
+	<p class="tit">{{targetName}}</p>
+</header>
+<div class="kh-third-sta" style="margin: -1.7rem .3rem .2rem; min-height: 1.8rem;">
+	<p class="thrsta">
+		<span>正常</span><span>轻度风险</span><span>中度风险</span>
+		<i style="left: 16%;" v-if="score>=90"></i>
+		<i style="left: 47%;" v-if="score<90 && score>=80"></i>
+		<i style="left: 78%;" v-if="score<80"></i>
+	</p>
+	<p class="thrsul" v-if="offset">本次测量结果：<span :class="{zc:offset == 1}">{{offset==1?'正常':(offset==2?'偏高':'偏低')}}</span></p>
+</div>
+<p class="tirBtit"><i></i><span>指标解释</span><i></i></p>
+<div class="kh-third-sta">
+	<div class="dtxt">{{explain}}</div>
+</div>
+
+<p class="tirBtit" v-if="proposalLength"><i></i><span>健康建议</span><i></i></p>
+<div class="kh-third-sta" v-if="proposalLength">
+	<section style="">
+		<template v-if="healthAdviceVo.dietList != null && healthAdviceVo.dietList.length != 0">
+			<p class="dtit">膳食建议</p>
+			<template v-for="item in healthAdviceVo.dietList">
+				<div class="dtxt">{{item.personality}}</div>
+			</template>
+		</template>
+		
+		<template v-if="healthAdviceVo.motionList != null && healthAdviceVo.motionList.length != 0">
+			<p class="dtit">营养素建议</p>
+			<template v-for="item in healthAdviceVo.motionList">
+				<div class="dtxt">{{item.personality}}</div>
+			</template>
+		</template>
+		
+		<template v-if="healthAdviceVo.nutritionList != null && healthAdviceVo.nutritionList.length != 0">
+			<p class="dtit">运动建议</p>
+			<template v-for="item in healthAdviceVo.nutritionList">
+				<div class="dtxt">{{item.personality}}</div>
+			</template>
+		</template>
+
+	</section>
+	<!--<div style="color: #428FE8; line-height: .6rem; text-align: center;"><p>查看更多</p><span></span></div>-->
+</div>
+
+<p class="tirBtit"><i></i><span>健康趋势</span><i></i></p>
+<div class="kh-third-sta">
+	<div class="" id="ichart" style=" width: 100%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
+</div>
+
+</DIV>
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId = getQueryString('reportId');
+var targetId = getQueryString("targetId");
+var myApp = new Vue({
+	el: '.my_view',
+	data: function(){
+		return{
+			reportId: reportId,
+			targetId: targetId,
+			targetName: '',
+			explain:'',
+			score:'',
+			abLevel:'',
+			offset:'',
+			customerId: '',
+			healthAdviceVo: {},
+			targetList:[],
+			proposalLength: 0 //健康建议总长度
+		}
+	},
+	mounted: function(){
+		this.queryInsureThirdTarget()
+	},
+	methods:{
+		queryInsureThirdTarget: function(){
+			var vm = this;
+			$.ajax({
+				url : analysisreport + "/insure/report/queryInsureThirdTarget",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetId : targetId
+				},
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.customerId = res.data.customerId 
+						vm.score = res.data.score 
+				   		vm.targetName = res.data.targetName
+				    	vm.score = res.data.score
+				    	vm.offset = res.data.offset //偏移量
+				    	vm.abLevel = res.data.abLevel
+				    	vm.explain = res.data.explain
+				    	vm.healthAdviceVo = res.data.healthAdviceVo //建议
+				    	vm.proposalLength = vm.healthAdviceVo.dietList.length+vm.healthAdviceVo.motionList.length+vm.healthAdviceVo.nutritionList.length
+				    	vm.targetList = res.data.targetList //趋势 
+				    	vm.findThirdTrend()
+					}
+				},
+				error : function(obj,msg){alert("queryInsureThirdTarget error")}
+			});
+		},
+		findThirdTrend: function(){ //趋势
+			var vm = this;
+			var arryDate = [],arryVal = [];
+			for(var i=0;i<vm.targetList.length;i++){
+				arryDate.push(vm.targetList[i].inspectDate);
+				arryVal.push(reviseScore(vm.targetList[i].score));
+			};
+			console.log(arryDate);
+			console.log(arryVal);
+			intchart('ichart','',arryDate,arryVal);
+		}
+	}
+});
+
+			
+
+//截取url
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+//判断空对象
+function isEmptyObject(obj){
+	for(var key in obj){
+		return false
+	}
+	return true
+};
+//矫正趋势得分
+function reviseScore(score) {
+	if (score != null) {
+		if (score < 0) {// 偏低
+			score = -score;
+		} else if (score > 100) {
+			score = 200 - score;
+		}
+	}
+	return score;
+};
+function intchart(el,tit,arryDate,arryVal){
+	var myChart = echarts.init(document.getElementById(el));
+	option = {
+	    title: {
+	    	//show: false,
+	        text: tit
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	    	show:false
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '10%',
+	        bottom: '10%',
+	        containLabel: true
+	    },
+	    xAxis: {
+	        type: 'category',
+	        boundaryGap: false,
+	        axisLabel:{
+	            textStyle:{
+	                color:"#222"
+	        }},
+	        data: arryDate
+	    },
+	    yAxis: {
+	        type: 'value',
+	        scale:true,
+		    boundaryGap:['10%','0%'],
+		    max:100
+	    },
+	    series: [
+	        {
+	            name:'得分',
+	            type:'line',
+	            stack: '总量',
+	            data:arryVal,
+	            itemStyle:{
+	                normal:{
+	                    color:'#2c886f',  
+	                    lineStyle:{  
+	                        color:'#2c886f'  
+	                    }  
+	                }
+	            }
+	        }
+	        
+	    ]
+	};
+	myChart.setOption(option);
+}
+</script>
+</body>
+</html>

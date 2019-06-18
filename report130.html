@@ -10,20 +10,205 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/kanghao130.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
-<body class="bck-col-f4">
+<body>
 <DIV class="my_view" style="visibility: hidden;">
-
-
+<section class="bodySta">
+	<div class="toper">
+		<div class="gao">
+			<!--<div class="fl per"><img src="img/kh130/i-per.png" @click="goSetUp()"><p>个人中心</p></div>-->
+			<div class="fr per"><img src="img/kh130/i-his.png" @click="checkHistory()"><p>历史报告</p></div>
+		</div>
+		<div class="staer">
+			<p style="position: absolute; left: 14%; top: 71%;">最佳状态</p>
+			<p style="position: absolute; left: 13%; top: 17%;">良好状态</p>
+			<p style="position: absolute; left: 45%; top: -17%;">一级风险</p>
+			<p style="position: absolute; left: 76%; top: 17%;">二级风险</p>
+			<p style="position: absolute; left: 75%; top: 71%;">三级风险</p>
+			<div class="stabg"><i id="pointer" class="pointer"></i></div>
+		</div>
+	</div>
+	<div class="bodyqg">
+		<div class="qglist">
+			<a class="qgitem" v-for="item in firsts" :key="item.targetId">
+				<div class="cn" :class="{ risk: item.score<90 }" @click="goSecond(item)">
+					<i><img :src="'img/kh130/qg-'+item.targetId+'.png'"></i>
+					<p>{{item.targetName}}</p>
+				</div>
+			</a>
+		</div>
+		<div class="renti" :class="{woman:sex!=1}">
+			<span class="biditem" :class="item.targetId" v-for="item in firsts" @click="goSecond(item)"><i></i></span>
+		</div>
+	</div>	
+</section>
+<section class="riskSta">
+	<p class="btit"><i></i><span>异常指标项</span><i></i></p>
+	<ul class="tabrisk">
+		<li class="tabitm"><p @click.stop="showRiskItems(1)"><i></i><span>中度风险</span></p></li>
+		<li class="tabitm"><p @click.stop="showRiskItems(2)"><i></i><span>轻度风险</span></p></li>
+	</ul>
+	<div class="tabriskcon" v-show="activeRiskItems == 1">
+		<em class="jiao"></em>
+		<ul>
+			<li v-for="item in mild" :key="item.targetId" @click="goThird(item)">
+				<i></i><span class="lab">{{item.targetName}}</span>
+			</li>
+		</ul>
+	</div>
+	<div class="tabriskcon lit" v-show="activeRiskItems == 2">
+		<em class="jiao"></em>
+		<ul>
+			<li v-for="item in moderate" :key="item.targetId" @click="goThird(item)">
+				<i></i><span class="lab">{{item.targetName}}</span>
+			</li>
+		</ul>
+	</div>
+	<p class="btit"><i></i><span>皮肤状态</span><i></i></p>
+	<div style="padding: .2rem 0 .3rem;">
+		<div class="pf-main">
+			<div class="pifu_zls">
+				<p class="tit" ><span>肤质</span><span>肤龄</span><span style="border: none;">肤色</span></p>
+				<p class="txt"><span>{{inspectSkinView.skinTypeResult}}</span><span>{{inspectSkinView.age}}</span><span>{{skinColor[inspectSkinView.color]}}</span></p>
+			</div>
+		</div>
+		<div class="questionZS">
+            <div class="box" :style="sex.qianBg">
+            	<i class="i"></i><span>肌肤问题</span><span class="weight"><em v-for="item in diseaseResult">{{item}}</em></span><i class="q" @click="showskinQe(inspectSkinView.diseaseExplain)"></i>
+            </div>
+        </div>  
+        <div class="new_face">
+            <div class="user_face" @click="originImg()"><img class="show_photo" :src="inspectSkinView.fileName" ></img><span class="xg">查看<br>原图</span></div>
+            <div class="last_q" :class="{man:sex == 1}">
+                <div class="img_q">
+                    <span :class="item.targetName" v-for="item in inspectSkinView.minList"></span>
+                </div>
+            </div>
+            <div class="text_q" >
+                <div class="l_q">
+                	<span :class="item.targetName" v-for="item in inspectSkinView.minList"></span>
+                </div>
+            </div>
+        </div>
+        <div class="pifutab">
+        	<div class="btitem zd" @click="gotoSkin()">
+        		<p class="tit"><i></i><span>重点关注</span></p><p class="txt">({{inspectSkinView.majorList.length}}项)</p>
+        	</div>
+        	<div class="btitem yd" @click="gotoSkin()">
+        		<p class="tit"><i></i><span>有待改善</span></p><p class="txt">({{inspectSkinView.awaitList.length}}项)</p>
+        	</div>
+        	<div class="btitem jx" @click="gotoSkin()">
+        		<p class="tit"><i></i><span>继续保持</span></p><p class="txt">({{inspectSkinView.continueList.length}}项)</p>
+        	</div>
+        </div>
+        <p class="gotoskin"><button @click="gotoSkin()">查看更多</button></p>
+		
+	</div>
+	
+	<p class="btit"><i></i><span>生理年龄</span><i></i></p>
+	<div class="phyage">
+		<div class="agecn">
+			<span><b>{{customerAge}}</b>岁</span> <span><b>{{physicalAge}}</b>岁</span> <span>{{physicalAge-customerAge}}</span>
+		</div>
+		<p class="titname"><span>实际年龄</span><span>生理年龄</span><span>年龄差</span></p>
+		<p class="tip" v-if="physicalAge-customerAge < 0">您的生理年龄低于实际年龄，身体年轻态，请继续保持哦！</p>
+		<p class="tip" v-if="physicalAge-customerAge > 0">您的生理年龄高于实际年龄，请注意管理健康哦！</p>
+		<p class="tip" v-if="physicalAge-customerAge == 0">您的生理年龄与实际年龄相当，请继续努力，力争变的更年轻哦！</p>
+	</div>
+	<p class="btit"><i></i><span>身体状况</span><i></i></p>
+	<div class="stjk">
+		<div class="huoli s_li">
+			<p class="tt"><span>健康活力值</span><i>?</i></p>
+			<p class="bo"><em></em><span class="fr">{{totalScore}}</span></p>
+		</div>
+		<div class="bmi s_li">
+			<p class="tt"><span>体型</span><i @click="popExplain('体型',bmiexplain)">?</i><button class="fr" @click.stop="goUpdate()">更新</button></p>
+			<p class="bo"><em></em>
+				<span class="fr" v-if="bmi<18.5">偏轻</span>
+				<span class="fr" v-if="bmi<24 && bmi>=18.5">健康</span>
+				<span class="fr" v-if="bmi<28 && bmi>=24">超重</span>
+				<span class="fr"v-if="bmi>=28">肥胖</span>
+			</p>
+			<div class="alter-box" v-show="showUpdateBmi" @click.stop="">
+				<div class="write">
+					<span>身高：</span>
+					<div><input type="number" id="_height" max="250" min="50" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+					<span>cm</span>
+				</div>
+				<div class="write">
+					<span>体重：</span>
+					<div><input type="number" id="_weight" max="200" min="20" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+					<span>kg</span>
+				</div>
+				<div class="confirm" @click.stop="updateBmi()">确定</div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="zk_list">
+		<div class="zk_item" :class="item.targetId" v-for="item in conditions" :key="item.targetId">
+			<em class="ico"></em><span class="lab">{{item.targetName}}</span><i class="pop" @click="popExplain(item.targetName,item.explain)">?</i>
+			<p class="leve fr" v-if="item.targetId != 'C3230' && item.targetId != 'C3231'">
+				<template v-if="item.abLevel == 1">
+					<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em>
+				</template>
+				<template v-if="item.abLevel == 2">
+					<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em></em>
+				</template>
+				<template v-if="item.abLevel == 3">
+					<em class="on"></em><em class="on"></em><em class="on"></em><em></em><em></em>
+				</template>
+				<template v-if="item.abLevel == 4">
+					<em class="on"></em><em class="on"></em><em></em><em></em><em></em>
+				</template>
+				<template v-if="item.abLevel == 5">
+					<em class="on"></em><em></em><em></em><em></em><em></em>
+				</template>
+			</p>
+			<p class="leve fr" v-if="item.targetId == 'C3230'">
+				<template v-if="item.abLevel == 1">
+					<em></em><em></em><em></em><em></em><em class="active"></em>
+				</template>
+				<template v-if="item.abLevel == 2">
+					<em></em><em></em><em></em><em class="active"></em><em></em>
+				</template>
+				<template v-if="item.abLevel == 3">
+					<em></em><em></em><em class="active"></em><em></em><em></em>
+				</template>
+				<template v-if="item.abLevel == 4">
+					<em></em><em class="active"></em><em></em><em></em><em></em>
+				</template>
+				<template v-if="item.abLevel == 5">
+					<em class="active"></em><em></em><em></em><em></em><em></em>
+				</template>
+			</p>
+			<div class="leve fr" v-if="item.targetId == 'C3231'">
+				<p class="probj"></p>
+				<p class="progress" style="width: 100%;" v-if="item.abLevel == 1"></p>
+				<p class="progress" style="width: 80%;" v-if="item.abLevel == 2"></p>
+				<p class="progress" style="width: 60%;" v-if="item.abLevel == 3"></p>
+				<p class="progress" style="width: 40%;" v-if="item.abLevel == 4"></p>
+				<p class="progress" style="width: 20%;" v-if="item.abLevel == 5"></p>
+			</div>
+		</div>
+	</div>
+</section>
+<div class="orginImg"><img class="img_b" :src="inspectSkinView.fileName"></div>
+<div class="jysp">
+	<p class="" @click="getSuggest()"><i></i><span>专属建议</span></p>
+	<p class="" @click="getRecipesData()"><i></i><span>健康食谱</span></p>
+</div>
 </DIV>
 <div class="v_overlay"></div>
-
-<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
-
-<div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
-    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+<div class="v_overlert">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit"><span class="labt">test</span><em></em></p>
+		<div class="bxt" style="text-align: left;">test</div>
+	</div>
 </div>
-
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
@@ -31,7 +216,7 @@
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script>document.write('<script src="js/report120.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/report130.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -71,6 +256,5 @@
     }
 })();	
 </script>
-<script src="js/wxShare.js"></script>
 </body>
 </html>

@@ -999,27 +999,3 @@
 .fix-dh .daohang .dh-li .pic{}
 .fix-dh .daohang .dh-li .pic img{height: .43rem;}
 .fix-dh .daohang .dh-li .txt{line-height: .2rem; font-size: .2rem;}
-
-/*--新版怕皮肤报告--*/
-.pf-top{ background:linear-gradient(0deg,rgba(57,144,242,1) 0%,rgba(85,188,254,1) 100%); }
-.pf-top_nv{ background:linear-gradient(0deg,rgba(251,130,176,1) 1%,rgba(253,107,162,1) 100%);}
-
-.pf-top .charbj{ width: 5.47rem; height: 4.04rem; margin:0 auto; position: relative; overflow: hidden;}
-.pf-top .charbj .biao{width:5.47rem; height: 4.05rem; background: url(../img/502/slices_blue.png) no-repeat center; background-size:100%; position: absolute; left: 0; top: 0;}
-.pf-top .charbj .fullcolor{ width: 4.89rem; height: 4.89rem; border-radius: 50%; background: #3991f2; overflow: hidden; position: absolute; left: .29rem; top: .02rem;}
-
-.pf-top .charbj .arclg{ width: 4.11rem; height: 3.49rem; position: absolute; left: .38rem; top: .39rem; background: url(../img/502/arc.png) no-repeat center; background-size:100%; transform-origin: 50% 58.9%; transform: rotate(-264deg);}
-.pf-top .charbj .shel_right{ width: 1.2rem; height: 4.9rem; background: #3991f2; position: absolute; right: 0; top: 0;}
-.pf-top .charbj .shel_top{ width: 4.2rem; height: 1.2rem; background: #3991f2; position: absolute; left: .62rem; top: 0;}
-.pf-top .charbj .shel_left{ width: 2.45rem; height: 4.9rem; background: #ffffff; position: absolute; left: 0; top: 0;}
-
-.pf-top .charbj .keduPan{ width: 4.95rem; height: 4.05rem; background: url(../img/502/kd_blue.png) no-repeat; background-size: 100%; position: absolute; left: .25rem; top: 0; overflow: hidden; color: #ffffff; text-align: center; padding: 1.6rem 0 0;}
-.pf-top .charbj .keduPan .score{font-size: 1.2rem;font-weight: bold; line-height: 1.2rem;}
-.pf-top .charbj .keduPan .nto{ margin: .3rem 0 0; font-size: .34rem; line-height: .4rem;}
-
-.pf-main{}
-.pifu_zls{ width: 6.3rem; height: 1.2rem; margin: -.6rem auto 0; padding: .13rem 0 0; background: #ffffff; font-size: 0; border-radius: .1rem; box-shadow: 0 .1rem .2rem #f3f1f1;}
-.pifu_zls .tit{ height: .75rem; line-height: .75rem; text-align: center;}
-.pifu_zls .tit span{ width: 33.3%; display: inline-block; font-size: .28rem; border-right: #eaeaea solid .02rem;}
-.pifu_zls .txt{margin: -.15rem 0 0; color: #3991F2; text-align: center; line-height: .36rem;}
-.pifu_zls .txt span{ width: 33.3%; display: inline-block; font-size: .28rem; font-weight: bold;}

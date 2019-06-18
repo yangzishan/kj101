@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>改善建议</title>
+  <link rel="stylesheet" href="css/basic.css">
+  <script>
+      document.write('<link rel="stylesheet" href="css/style.css?t='+new Date().getTime()+'">')
+  </script>
+</head>
+<body>
+  <div class="advice my_view" style="visibility: hidden;">
+    <div class="head">
+      <a href="javascript:history.go(-1);"></a>
+      <h1>健康建议</h1>
+    </div>
+    <div class="body">
+      <div class="box1" data-target="box" v-if="dietList.length != 0">
+        <h2><span></span>膳食建议</h2>
+        <div class="center">
+          <div class="tab_list">
+          	<span class="dataactive" :data-index="index" v-for="(item,index) in dietList" @click="showActive(index)">
+          		{{item.indexCode}}<em class="cursor" v-show="dietIndex == index"></em>
+          	</span>
+          	
+          </div>
+          <div class="tab_box">
+            <div :data-index="index" v-for="(item,index) in dietList" v-show="dietIndex == index">{{item.personality}} </div>
+          </div>
+        </div>
+      </div>
+      <div class="box2"  data-target="box" v-if="nutritionList.length != 0">
+        <h2><span></span>营养建议</h2>
+        <div class="center">
+          <div class="tab_list">
+          	<span class="dataactive" :data-index="index" v-for="(item,index) in nutritionList" @click="showDiv(index)">
+          		{{item.indexCode}}<em class="cursor" v-show="nutritionIndex == index"></em>
+          	</span>
+          </div>
+          <div class="tab_box">
+            <div :data-index="index" v-for="(item,index) in nutritionList" v-show="nutritionIndex == index">{{item.simpleDescription}} </div>
+          </div>
+        </div>
+      </div>
+      <div class="box3"  data-target="box" v-if="motionList.length != 0">
+        <h2><span></span>运动与生活</h2>
+        <div class="center">
+          <p v-for="item in motionList"><i></i>{{item.personality}}</p> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./js/base.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="./js/vue.min.js"></script> 
+  <script type="text/javascript">
+    (function (doc, win) {
+      var    docEl = doc.documentElement,
+          resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+          recalc = function () {
+              var    clientWidth = docEl.clientWidth;
+              if (!clientWidth) return;
+              if(clientWidth>=750){
+                  docEl.style.fontSize = '100px';
+              }else{
+                  docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+              }
+          };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+  </script>
+ 
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId=getQueryString("reportId");
+var reportType=getQueryString("reportType");
+var openId=getQueryString("openId");
+var userId=getQueryString("userId");
+var sex=getQueryString("sex");
+
+var myApp = new Vue({
+	el: '.my_view',
+	data: function(){
+		return{
+			reportId:reportId,
+			reportType:reportType,
+			dietList: [],
+			nutritionList:[],
+			motionList:[],
+			dietIndex: 0,
+			nutritionIndex: 0
+		}
+	},
+	methods: {
+		queryInsureSuggest: function(){
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: analysisreport + '/insure/report/queryInsureSuggest',
+				dataType: 'json',
+				data:{
+					reportId: reportId,
+				},
+				success:function(res){
+					if(res.code==200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.dietList = res.data.dietList
+						vm.nutritionList = res.data.nutritionList
+						vm.motionList = res.data.motionList
+					}else{
+						console.log('queryInsureSuggest code=' + res.code)
+						//window.history.go(-1);
+					}
+				},
+				error: function(obj,msg){console.log('queryInsureSuggest error')}
+			});
+		},
+		showActive: function(index){
+			var vm = this
+			vm.dietIndex = index
+		},
+		showDiv: function(index){
+			var vm = this
+			vm.nutritionIndex = index
+		}
+	},
+	mounted: function(){
+		this.queryInsureSuggest()
+	}
+});
+	
+	
+//截取url
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

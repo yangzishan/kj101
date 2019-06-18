@@ -315,12 +315,15 @@ function getQueryString(name){
      if(r!=null)return  unescape(r[2]); return null;
 };
 var reportId = getQueryString('reportId');
+var reportType = getQueryString('reportType');
 var edition=getQueryString("edition");
 var _url = dataUrl + '/api/v1/reportIndex/getRecipesData' //默认指定接口 必须放edition判断上边
-if(edition == 500){ //适配501报告
+if(reportType == 500){ //适配501报告  原来是edition
 	_url = dataUrl + '/api/v5/reportData/getRecipesData'
-}else if(edition == 400){
+}else if(reportType == 400){ //原来是edition
 	_url = analysisreport + '/v4/reportData/getReportRecipesData'
+}else if(reportType == 130){
+	_url = analysisreport + '/insure/report/queryInsureRecipes'
 }
 zhuge.track('进入健康食谱页面', { //埋点t
 	'渠道' : '微信'
@@ -353,7 +356,7 @@ var myApp = new Vue({
 
 					}else{
 						alert(data.msg +' :code='+data.code);
-						window.history.go(-1);
+						//window.history.go(-1);
 					}
 				},
 				error: function(obj,msg){console.log(obj+msg + ":"+data.msg);}
@@ -378,8 +381,6 @@ var myApp = new Vue({
 		this.getRecipesData()
 	}
 });
-
-
 
 //弹窗
 var win_top = 0;

@@ -101,18 +101,19 @@ var myApp = new Vue({
 		},
 		gotosee: function(e,item){
 			var vm = this;
+			var reportUrl = '?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType+'&saasId='+saasId
 			if(item.reportType == 500 || item.reportType == 501 || item.reportType == 502){
-				location.href = 'report500.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+				location.href = 'report500.html'+reportUrl;
 			}else if(item.reportType == 120 || item.reportType == 121){
-				location.href = 'report120.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+				location.href = 'report120.html'+reportUrl;
 			}else if(item.reportType < 6){
 				if(isAgent == 'caj'){  //慈爱家
 					location.href = '215581/index.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId
 				}else{
-					location.href = 'report5.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+					location.href = 'report5.html'+reportUrl;
 				}
 			}else{
-				location.href = 'report'+item.reportType+'.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType;
+				location.href = 'report'+item.reportType+'.html'+reportUrl;
 			}
 		}
 	}

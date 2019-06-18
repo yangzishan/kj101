@@ -177,7 +177,7 @@
 		<div class="sleep-box real-time" v-for="item in data" v-if="item.targetId == 1003">
 			<p class="title">{{item.targetName}}</p>
 			<ul>
-				<li :class="'listImg'+index" v-for="(site,index) in item.childTarget" v-if="item.targetId != 3232">
+				<li :class="'listImg'+index" v-for="(site,index) in item.childTarget" v-if="site.targetId != 3232">
 					<div class="caption">
 						<span class="img-box"></span>
 						<span class="text">{{site.targetName}}</span>

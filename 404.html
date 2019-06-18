@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>康加报告</title>
+<title>健康报告</title>
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -18,7 +18,7 @@
 	<header class="header">
 		<!--<a class="b-arr fl" href="javascript:history.go(-1);"></a>-->
 		<a class="t-right fr" href="#"></a>
-		<p class="t-cen txt1"><span>康加报告</span></p>
+		<p class="t-cen txt1"><span>健康报告</span></p>
 	</header>
 	<div class="myview">
 		<p class="m404"><img class="img_b" src="img/404.jpg"></p>
@@ -71,12 +71,10 @@ if(mycode == 401){
 	});
 }else if(mycode == 403){ //用户没有报告
 	$('#megTxt').empty().html('<div style="text-align: left;">尊敬的用户您好：<br/>'+
-       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您是由“健康多活20年”公众号迁移至此公众号的用户，为了给您提供更好的健康服务和更多的专属健康建议，'+
-       '我们正在进行后台信息升级，请您3-5个工作日后来查看您的健康报告，届时我们将为您提供内容更加全面的健康报告以及专业营养师为您打造的专属食谱，敬请期待！<br/>'+
-       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果您是“为您的健康加分”公众号新用户，请您到健康筛查机器人进行健康检测，检测后即可查看您的健康报告！<br/>'+
-       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如需帮助请联系我们：400-666-6787。</div>');
-	$('#goAddCard').css("display","block");
-	$('#goAddCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
+       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您还没有健康报告，请您到健康筛查机器人进行健康检测，检测后即可查看您的健康报告！<br/>'+
+       ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>');
+	//$('#goAddCard').css("display","block");
+	//$('#goAddCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
 	zhuge.track('进入用户无报告页面', {//埋点t
 		'用户id' : myuserId,
 		'原因' : '用户没有报告'

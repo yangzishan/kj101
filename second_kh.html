@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>报告详情</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<DIV class="my_view" style="visibility: hidden;">
+<header class="kh-second-head">
+	<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>
+	<p class="tit">{{targetName}}</p>
+</header>
+<div class="kh-seconditem">
+	<ul>
+		<template v-for="item in seconds" v-if="item.thirds.length == 0">
+			<li :class="{mid:item.score<90 && item.score>=80,lit:item.score<80}" @click="goThird(item)">
+				<span class="lab">{{item.targetName}}</span><em class="arr fr"></em>
+				<span class="lev fr">
+					{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}
+				</span>
+			</li>
+		</template>
+		<template v-for="item in seconds" v-if="item.thirds.length != 0">
+			<li :class="{mid:site.score<90 && site.score>=80,lit:site.score<80}" v-for="site in item.thirds"  @click="goThird(item)">
+				<span class="lab">{{site.targetName}}</span><em class="arr fr"></em>
+				<span class="lev fr">
+					{{site.score>=90?'正常':(site.score<90 && site.score>=80?'轻度风险':'中度风险')}}
+				</span>
+			</li>
+		</template>
+	</ul>
+</div>
+	
+</DIV>
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId = getQueryString('reportId');
+var targetId = getQueryString("targetId");
+var myApp = new Vue({
+	el: '.my_view',
+	data: function(){
+		return{
+			reportId: reportId,
+			targetId: targetId,
+			score:'',
+			targetName:'',
+			seconds:[],
+			customerId:''
+		}
+	},
+	mounted: function(){
+		this.queryInsureSecondaryTarget()
+	},
+	methods:{
+		queryInsureSecondaryTarget: function(){
+			var vm = this;
+			$.ajax({
+				url : analysisreport + "/insure/report/queryInsureSecondaryTarget",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetId : targetId
+				},
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.score = res.data.score //系统得分
+				   		vm.targetName = res.data.targetName //系统名称
+				    	vm.seconds = res.data.seconds //二级指标
+				    	vm.customerId = res.data.customerId
+					}
+				},
+				error : function(obj,msg){alert("queryInsureSecondaryTarget error")}
+			});
+		},
+		goThird: function(item){
+			var vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.targetThirdName,
+				'指标得分':item.score,
+				'方式' : '通过二级页面点击'
+			},function(){
+				location.href = 'third_kh.html?reportId='+reportId+'&targetId='+ item.targetId
+			});
+		},
+	}
+});
+
+//截取url
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

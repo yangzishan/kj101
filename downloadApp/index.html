@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>下载</title>
+    <style type="text/css">
+		/* 初始化开始*/
+		html {-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+		*{margin:0; padding:0; border:none;box-sizing:border-box;}
+		html,body{height: 100%;margin:0;padding:0;}
+		body{background-color:#f2f2f2;color:#333333;font:.26rem/.4rem "Microsoft YaHei"; max-width: 750px; margin: 0 auto;}
+		div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+		margin:0;
+		padding:0;
+		}
+		ol,ul,li{ list-style: none;}
+		img {max-width: 100%;height: auto;width:auto\9; /* ie8 */border: none;}
+		em,i,b{font-weight: normal;font-style: normal;}
+		a{text-decoration:none; color: #333333;}
+		li{list-style:none;}
+		h1, h2, h3, h4, h5, h6{ font-size:100%;font-weight: normal;}
+		.clearfix{zoom:1;}
+		.fl{float:left;}
+		.fr{float:right;}
+		.clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
+		.img_b{ display: block; width: 100%;}
+		input,textarea{ background: none; outline: none; font-family: "微软雅黑";}
+		input[type="submit"],
+		input[type="reset"],
+		input[type="button"],
+		input{-webkit-appearance:none; resize: none;}
+		/* 初始化结束 */
+		.view-port{/* height: 100%; overflow: auto;*/ padding-bottom: .98rem;}
+		.myview{ padding: 0 .3rem;}
+		.bck-col-fff{background-color: #fff;}
+		/*下载页面*/
+		.dlod-bj{ background: url(./dlod2-b.png) no-repeat top center; background-size: 100%;}
+		.dlod-tt{ position: absolute; left: 0; top: 4.5rem; width: 100%; text-align: center; color: #fff; font-size: .36rem; font-family:arial,"宋体"; font-weight: bold;}
+		.dlod-cn{ padding: .6rem 1.55rem; position: absolute; top: 8.32rem; text-align: center;}
+		.dlod-bt{display: block; width: 4.4rem; height: 1rem; margin-bottom: .7rem;}
+		.dlod-tip{ position: absolute; left: 0; top:10.3rem; width: 100%; text-align: center; color: #fff; font-size: .36rem; font-family:arial,"宋体"; font-weight: bold;}
+				
+	</style>
+  </head>
+ <body style=" background: #0795a5;">
+	<div class="dlod-bj">
+		<div class="dlod-tt">请扫描二维码下载健康宝APP</div>
+		<div class="dlod-cn">
+			<a class="dlod-bt" id="showIos" href="https://itunes.apple.com/cn/app/id1441735695"><img src="http://wx.jiankangzhan.com/stylesheets/images/dl-apple.png"></a>
+			<a class="dlod-bt" id="showAndriod" href="http://app.mi.com/details?id=com.kangjia.jiankangbao&ref=search"><img src="http://wx.jiankangzhan.com/stylesheets/images/dl-andriod.png"></a>
+		</div>
+		<p class="dlod-tip" style="display:none">请使用浏览器打开</p>
+	</div>
+	
+	<script type="text/javascript"  src="http://wx.jiankangzhan.com/mobile/inspect/jquery.js"></script>
+	<script type="text/javascript">
+	(function (doc, win) {
+	    var docEl = doc.documentElement,
+	        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+	        recalc = function () {
+	            var clientWidth = docEl.clientWidth;
+	            if (!clientWidth) return;
+	            if(clientWidth>=750){
+	                docEl.style.fontSize = '100px';
+	            }else{
+	                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+	            }
+	        };
+	
+	    if (!doc.addEventListener) return;
+	    win.addEventListener(resizeEvt, recalc, false);
+	    doc.addEventListener('DOMContentLoaded', recalc, false);
+	})(document, window);
+	</script>
+	<script type="text/javascript">
+	$(function(){
+		$('.dlod-bj').css("height",$(window).height())
+	})
+	</script>
+	<script language="javascript">
+		window.onload = function () {
+		var showIos = document.getElementById('showIos');
+		var sowAndriod = document.getElementById('showAndriod');
+		var u = navigator.userAgent;
+		if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
+		//alert("安卓手机");
+		showIos.style.display = "none";
+		showAndriod.style.display = "block";
+		} else if (u.indexOf('iPhone') > -1) {//苹果手机
+		//alert("苹果手机");
+		showAndriod.style.display = "none";
+		showIos.style.display = "block";
+		} else if (u.indexOf('Windows Phone') > -1) {//winphone手机
+		alert("winphone手机");
+		// window.location.href = "mobile/index.html";
+		}
+		}
+</script>
+</body>
+</html>

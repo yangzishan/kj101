@@ -93,7 +93,7 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
-						//vm.saasTel = res.data.saasTel
+						vm.saasTel = res.data.saasTel
 						vm.saasName = res.data.saasName
 						vm.saasLogo = res.data.saasLogo
 					}

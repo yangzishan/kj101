@@ -138,7 +138,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition
+				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType
 			})
 		},
 	},

@@ -99,7 +99,7 @@ new Vue({
                             $('.loadmore.loading').css({'display':'none'});
                             that.zhuan();
                         },100)
-                        urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition+'&userId='+ customerId+'&reportType='+reportType+'&openId='+openId;
+                        urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition+'&userId='+ customerId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId;
                    }else if(res.code == 201){
                         location.href = 'payfor501.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&reportType='+reportType+'&edition='+edition+'&sameUser='+res.data.sameUser+'&saasId='+saasId
                    }else{

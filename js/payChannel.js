@@ -242,7 +242,7 @@ var myApp = new Vue({
 						$('.daifu_d .tip').remove();
 						$('#iknow').click(function(){
 							//WeixinJSBridge.call('closeWindow');
-							location.href = 'historyRecord.html?userId='+userId+'&saasId='+saasId;
+							location.href = 'historyRecord.html?userId='+userId+'&openId='+openId+'&saasId='+saasId;
 						});
 					}else if(packageData.code == 1002){
 						alert('findPackage 1002'+packageData.msg)

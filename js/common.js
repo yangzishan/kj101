@@ -33,7 +33,6 @@ if(openId){
 		}else{
 			analysisReportFace(reportId,'',customerId,'',saasId,language);	
 		}
-		
 	}else{
 		analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);	
 	}
@@ -43,7 +42,7 @@ if(openId){
 /*******************************交互逻辑*****************************/
 setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 	bridge.registerHandler('analysisReport', function(data, responseCallback) {
-		//alert('test_oc');
+		alert('test_oc');
 		//判断iOS和Android
 		var u = navigator.userAgent;
 		//alert('u='+u);
@@ -61,8 +60,8 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 		clientType = obj.clientType;
 		var reportType = obj.reportType;
 		
-		//alert(dataUrl);
-		//alert(reportId+'--'+sendCustomerId+'--'+customerId+'--'+clientType+'--'+reportType);
+		alert('dataUrl='+dataUrl);
+		alert(reportId+'--'+sendCustomerId+'--customerId='+appCustomerId+'--'+clientType+'--'+reportType);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
 		if(appCustomerId) {
 			setTimeout(function(){

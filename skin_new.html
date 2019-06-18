@@ -50,7 +50,11 @@
             <img src="img/new_skin/head.jpg" alt="">
         </div>
         <div class="questionZS">
-            <div class="box" :style="sex.qianBg"><i class="i"></i><span>肌肤问题</span><span class="weight"><em  v-for="item in diseaseResult">{{item}}</em></span><i class="q show_question"   :data-text="info.diseaseExplain" data-h="皮肤问题"  ></i></div>
+            <div class="box" :style="sex.qianBg">
+            	<i class="i"></i><span>肌肤问题</span>
+            	<span class="weight"><em  v-for="item in diseaseResult">{{item}}</em></span>
+            	<i class="q show_question"></i>
+            </div>
         </div>  
         <div class="new_face">
             <div class="user_face show_image"  :data-img="sex.face"><img class="show_photo" :src="sex.face" ></img><span class="xg">查看<br>原图</span></div>
