@@ -34,7 +34,7 @@ if(openId){
 			analysisReportFace(reportId,'',customerId,'',saasId,language);	
 		}
 	}else{
-		analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);	
+		//analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);	
 	}
 }
 
@@ -42,7 +42,7 @@ if(openId){
 /*******************************交互逻辑*****************************/
 setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 	bridge.registerHandler('analysisReport', function(data, responseCallback) {
-		alert('test_oc');
+		//alert('test_oc');
 		//判断iOS和Android
 		var u = navigator.userAgent;
 		//alert('u='+u);
@@ -60,8 +60,8 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 		clientType = obj.clientType;
 		var reportType = obj.reportType;
 		
-		alert('dataUrl='+dataUrl);
-		alert(reportId+'--'+sendCustomerId+'--customerId='+appCustomerId+'--'+clientType+'--'+reportType);
+		//alert('dataUrl='+dataUrl);
+		//alert(reportId+'--'+sendCustomerId+'--customerId='+appCustomerId+'--'+clientType+'--'+reportType);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
 		if(appCustomerId) {
 			setTimeout(function(){
@@ -117,10 +117,11 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
             }else if(res.code == 2006){
                 alert('kj501调用接口血氧数据为空  analysisReportFace  code=' + res.code)
             }else{
-				console.log('analysisReportFace code='+res.code+' '+res.msg)
+				//console.log('analysisReportFace code='+res.code+' '+res.msg)
+				alert('analysisReportFace code='+res.code+' '+res.msg)
 			}
 		},
-		error: function(){console.log('analysisReportFace error')}
+		error: function(){alert('analysisReportFace error')}
 	});
 };
 

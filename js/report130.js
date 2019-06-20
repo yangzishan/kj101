@@ -1,4 +1,4 @@
-$('.my_view').css("visibility","hidden");
+$('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 var reportId = getQueryString('reportId');
 //var reportId = 'KJ501JS000001BC190610161335832';
@@ -20,10 +20,12 @@ var myApp = new Vue({
 			reportId:reportId,openId:openId,reportType:reportType,customerId:customerId,saasId:saasId,clientType:clientType,
 			result:{},
 			totalScore:'',
+			healthExplain:'',
 			sex:'',
 			userId: '',
 			inspectDateStr:'',
 			customerAge:'',
+			age:'',
 			physicalAge:'',
 			firsts:[], //18系统
 			mild:[], //中度异常
@@ -77,12 +79,14 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
-						$('.my_view').css("visibility","visible");
+						$('.my_view').css("display","block");
 						$('.load-overlay').css("display","none");
 						vm.result = res.data 
 						vm.totalScore = res.data.totalScore
+						vm.healthExplain = res.data.healthExplain
 						vm.sex = res.data.sex
-						vm.customerAge = res.data.customerAge
+						//vm.customerAge = res.data.customerAge
+						vm.customerAge = res.data.age
 						vm.physicalAge = res.data.physicalAge
 						vm.firsts = res.data.firsts
 						vm.mild = res.data.abnormalTarget.mild
@@ -105,7 +109,7 @@ var myApp = new Vue({
 						}else{
 							var du = 106
 						}
-				    	$('#pointer').css("transform","rotate("+du+"deg)")
+						setTimeout(function(){$('#pointer').css("transform","rotate("+du+"deg)")},100)
 					}else if(res.code == 201){
 						vm.goPay(res.paymentType,res.sameUser)
 					}else{

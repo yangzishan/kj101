@@ -318,7 +318,7 @@ var reportId = getQueryString('reportId');
 var reportType = getQueryString('reportType');
 var edition=getQueryString("edition");
 var _url = dataUrl + '/api/v1/reportIndex/getRecipesData' //默认指定接口 必须放edition判断上边
-if(reportType == 500){ //适配501报告  原来是edition
+if(reportType == 500 || edition ==500){ //适配501报告  原来是edition
 	_url = dataUrl + '/api/v5/reportData/getRecipesData'
 }else if(reportType == 400){ //原来是edition
 	_url = analysisreport + '/v4/reportData/getReportRecipesData'

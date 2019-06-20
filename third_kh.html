@@ -10,6 +10,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/kanghao130.css" />
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
@@ -36,22 +37,28 @@
 	<section style="">
 		<template v-if="healthAdviceVo.dietList != null && healthAdviceVo.dietList.length != 0">
 			<p class="dtit">膳食建议</p>
-			<template v-for="item in healthAdviceVo.dietList">
-				<div class="dtxt">{{item.personality}}</div>
-			</template>
-		</template>
-		
-		<template v-if="healthAdviceVo.motionList != null && healthAdviceVo.motionList.length != 0">
-			<p class="dtit">营养素建议</p>
-			<template v-for="item in healthAdviceVo.motionList">
-				<div class="dtxt">{{item.personality}}</div>
+			<template v-for="(item,index) in healthAdviceVo.dietList">
+				<div class="dtxt">
+					<p>{{index+1}}、{{item.personality}}</p> 
+            		<p>{{item.simpleDescription}}</p> 
+				</div>
 			</template>
 		</template>
 		
 		<template v-if="healthAdviceVo.nutritionList != null && healthAdviceVo.nutritionList.length != 0">
-			<p class="dtit">运动建议</p>
-			<template v-for="item in healthAdviceVo.nutritionList">
-				<div class="dtxt">{{item.personality}}</div>
+			<p class="dtit">营养素建议</p>
+			<template v-for="(item,index) in healthAdviceVo.nutritionList">
+				<div class="dtxt">
+					<p>{{index+1}}、{{item.personality}}</p> 
+            		<p>{{item.simpleDescription}}</p> 
+				</div>
+			</template>
+		</template>
+		
+		<template v-if="healthAdviceVo.motionList != null && healthAdviceVo.motionList.length != 0">
+			<p class="dtit">运动/生活方式建议</p>
+			<template v-for="(item,index) in healthAdviceVo.motionList">
+				<div class="dtxt">{{index+1}}、{{item.personality}}</div>
 			</template>
 		</template>
 
@@ -59,10 +66,13 @@
 	<!--<div style="color: #428FE8; line-height: .6rem; text-align: center;"><p>查看更多</p><span></span></div>-->
 </div>
 
-<p class="tirBtit"><i></i><span>健康趋势</span><i></i></p>
-<div class="kh-third-sta">
-	<div class="" id="ichart" style=" width: 100%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
-</div>
+<template>
+	<p class="tirBtit"><i></i><span>健康趋势</span><i></i></p>
+	<div class="kh-third-sta">
+		<div class="" id="ichart" style=" width: 100%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
+	</div>
+</template>
+	
 
 </DIV>
 <div class="v_overlay"></div>
@@ -131,6 +141,7 @@ var myApp = new Vue({
 			customerId: '',
 			healthAdviceVo: {},
 			targetList:[],
+			targetListLength:'',  //健康趋势长度
 			proposalLength: 0 //健康建议总长度
 		}
 	},
@@ -162,6 +173,8 @@ var myApp = new Vue({
 				    	vm.healthAdviceVo = res.data.healthAdviceVo //建议
 				    	vm.proposalLength = vm.healthAdviceVo.dietList.length+vm.healthAdviceVo.motionList.length+vm.healthAdviceVo.nutritionList.length
 				    	vm.targetList = res.data.targetList //趋势 
+				    	vm.targetListLength = res.data.targetList.length
+				    	
 				    	vm.findThirdTrend()
 					}
 				},

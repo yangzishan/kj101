@@ -10,6 +10,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/kanghao130.css" />
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
@@ -17,26 +18,41 @@
 	<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>
 	<p class="tit">{{targetName}}</p>
 </header>
-<div class="kh-seconditem">
+<section style="margin-top: -1.8rem;">
+<div class="kh-seconditem" v-if="targetId != 'A3163'">
 	<ul>
 		<template v-for="item in seconds" v-if="item.thirds.length == 0">
-			<li :class="{mid:item.score<90 && item.score>=80,lit:item.score<80}" @click="goThird(item)">
+			<li :class="{lit:item.score<90 && item.score>=80,mid:item.score<80}" @click="goThird(item)">
 				<span class="lab">{{item.targetName}}</span><em class="arr fr"></em>
 				<span class="lev fr">
 					{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}
 				</span>
 			</li>
 		</template>
-		<template v-for="item in seconds" v-if="item.thirds.length != 0">
-			<li :class="{mid:site.score<90 && site.score>=80,lit:site.score<80}" v-for="site in item.thirds"  @click="goThird(item)">
+		<!--<template v-for="item in seconds" v-if="item.thirds.length != 0">
+			<li :class="{mid:site.score<90 && site.score>=80,lit:site.score<80}" v-for="site in item.thirds"  @click="goThird(site)">
 				<span class="lab">{{site.targetName}}</span><em class="arr fr"></em>
 				<span class="lev fr">
 					{{site.score>=90?'正常':(site.score<90 && site.score>=80?'轻度风险':'中度风险')}}
 				</span>
 			</li>
-		</template>
+		</template>-->
 	</ul>
 </div>
+
+<div class="kh-seconditem" v-if="targetId == 'A3163'" v-for="item in seconds">
+	<p style="line-height: 1rem; font-size: .36rem; font-weight: 600; padding: 0 .4rem;">{{item.targetName}}</p>
+	<ul>
+		<li :class="{lit:site.score<90 && site.score>=80,mid:site.score<80}" v-for="site in item.thirds"  @click="goThird(site)">
+			<span class="lab">{{site.targetName}}</span><em class="arr fr"></em>
+			<span class="lev fr">
+				{{site.score>=90?'正常':(site.score<90 && site.score>=80?'轻度风险':'中度风险')}}
+			</span>
+		</li>
+	</ul>
+</div>
+</section>
+
 	
 </DIV>
 <div class="v_overlay"></div>

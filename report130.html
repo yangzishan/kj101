@@ -13,7 +13,7 @@
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/kanghao130.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
 <body>
-<DIV class="my_view" style="visibility: hidden;">
+<DIV class="my_view" style="display: none;">
 <section class="bodySta">
 	<div class="toper">
 		<div class="gao">
@@ -21,9 +21,9 @@
 			<div class="fr per"><img src="img/kh130/i-his.png" @click="checkHistory()"><p>历史报告</p></div>
 		</div>
 		<div class="staer">
-			<p style="position: absolute; left: 14%; top: 71%;">最佳状态</p>
-			<p style="position: absolute; left: 13%; top: 17%;">良好状态</p>
-			<p style="position: absolute; left: 45%; top: -17%;">一级风险</p>
+			<p style="position: absolute; left: 12%; top: 71%;">最佳状态</p>
+			<p style="position: absolute; left: 11%; top: 17%;">良好状态</p>
+			<p style="position: absolute; left: 44%; top: -17%;">一级风险</p>
 			<p style="position: absolute; left: 76%; top: 17%;">二级风险</p>
 			<p style="position: absolute; left: 75%; top: 71%;">三级风险</p>
 			<div class="stabg"><i id="pointer" class="pointer"></i></div>
@@ -32,14 +32,14 @@
 	<div class="bodyqg">
 		<div class="qglist">
 			<a class="qgitem" v-for="item in firsts" :key="item.targetId">
-				<div class="cn" :class="{ risk: item.score<90 }" @click="goSecond(item)">
+				<div class="cn" :class="{ lit:item.score<90 && item.score>=80,mid:item.score<80 }" @click="goSecond(item)">
 					<i><img :src="'img/kh130/qg-'+item.targetId+'.png'"></i>
 					<p>{{item.targetName}}</p>
 				</div>
 			</a>
 		</div>
 		<div class="renti" :class="{woman:sex!=1}">
-			<span class="biditem" :class="item.targetId" v-for="item in firsts" @click="goSecond(item)"><i></i></span>
+			<span class="biditem" :class="item.targetId" v-for="item in firsts" v-if="item.score<90" @click="goSecond(item)"><i></i></span>
 		</div>
 	</div>	
 </section>
@@ -52,7 +52,7 @@
 	<div class="tabriskcon" v-show="activeRiskItems == 1">
 		<em class="jiao"></em>
 		<ul>
-			<li v-for="item in mild" :key="item.targetId" @click="goThird(item)">
+			<li v-for="item in moderate" :key="item.targetId" @click="goThird(item)">
 				<i></i><span class="lab">{{item.targetName}}</span>
 			</li>
 		</ul>
@@ -60,7 +60,7 @@
 	<div class="tabriskcon lit" v-show="activeRiskItems == 2">
 		<em class="jiao"></em>
 		<ul>
-			<li v-for="item in moderate" :key="item.targetId" @click="goThird(item)">
+			<li v-for="item in mild" :key="item.targetId" @click="goThird(item)">
 				<i></i><span class="lab">{{item.targetName}}</span>
 			</li>
 		</ul>
@@ -119,7 +119,7 @@
 	<p class="btit"><i></i><span>身体状况</span><i></i></p>
 	<div class="stjk">
 		<div class="huoli s_li">
-			<p class="tt"><span>健康活力值</span><i>?</i></p>
+			<p class="tt"><span>健康活力值</span><i @click="popExplain('健康活力值',healthExplain)">?</i></p>
 			<p class="bo"><em></em><span class="fr">{{totalScore}}</span></p>
 		</div>
 		<div class="bmi s_li">
