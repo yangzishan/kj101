@@ -54,9 +54,14 @@
 </div>
 <p class="psontip">{{language.la_rushi}}</p>
 
-<div class="kjcopy_d">
-	<p class="p1"><span id="notice">《{{language.la_titUp}}》</span></p>
+<div class="kjcopy_d" v-if="reportType != 130">
+	<p class="p1"><span id="notice">{{language.la_titUp}}</span></p>
 	<p class="p2">{{language.la_k_company}}</p>
+	<!--<p class="p3">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</p>-->
+</div>
+<div class="kjcopy_d" v-if="reportType == 130">
+	<p class="p1"><span id="notice">用户协议</span></p>
+	<p class="p2">康浩公司 版权所有</p>
 	<!--<p class="p3">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</p>-->
 </div>
 
@@ -70,7 +75,7 @@
 		<p class="bit">
 			<span class="labt">{{language.la_noteTit}}</span>
 		</p>
-		<div class="bxt2">
+		<div class="bxt2" v-if="reportType != 130">
 			<p>{{language.la_noteWel}}</p>
 			<p>{{language.la_noto1}}</p>
 			<p>{{language.la_note2}}</p>
@@ -85,6 +90,22 @@
 			<p>{{language.la_note11}}</p>
 			<p>{{language.la_note12}}</p>
 			<p style="text-align: center; padding: .2rem 0; color: #666;">{{language.la_k_company}}<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+		<div class="bxt2" v-if="reportType == 130">
+			<p>欢迎您使用康浩云健康检测仪服务，本人已经阅读康浩云健康检测仪服务条款并同意本声明。12223</p>
+			<p>1.	康浩云健康检测仪是针对亚健康人群进行数据采集设备，并非医疗器械设备，康浩云健康检测仪所有资料及数据报告仅供参考使用，不作为个人健康状况的医疗目的衡量标准，也不能替代医生和其他医务人员的专业建议。</p>
+			<p>2.	康浩云健康检测仪是为亚健康人群设计，以中医数字化技术、脉搏波检测技术、生物电阻抗检测技术为基础，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。</p>
+			<p>3.	任何情况下，康浩云健康检测仪所提供数据仅为提升用户体验所用，用户对于其自身健康状况的最终评估仅来自于专业医疗机构的检测手段，康浩云健康检测仪对于采集数据不做任何形式的保证，不保证所提供数据满足用户的要求，对采集结果的安全性、正确性、及时性均不做担保。故本公司不对因使用本品提供的数据而导致之损失或损害承担任何直接或间接责任。</p>
+			<p>4.	本报告主要起预警作⽤，对检测出来⾃⼰也知道的慢性健康问题，继续加以重视；对检测出来提示预警或⾃⼰原来不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所查范围所限未能发现到的情况，仍按原诊断及治疗。本次健康分析报告仅根据本次所查范围所做，可能难以全⾯反映您的健康状况。如有不适症状出现请到相应医院专科就诊。</p>
+			<p>5.	健康分析报告说明：⽬的实现⾃我预防保健。世界卫⽣组织研究报告表明，1/3的疾病是可以通过预防保健避免的，1/3的疾病可以通过信息的有效沟通来提⾼治疗的效果。要从疾病管理为主转向预防保健和⾃我保健为主，康浩云健康检测仪通过移动互联和康浩云健康系统为用户提供⽐较全⾯、系统的健康分析，从⽽有重点地进⾏⾃我预防、有重点地去医疗机构检查。</p>
+			<p>6.	康浩云健康检测仪评估报告推送的内容，含膳食建议、营养建议、运动建议、健康食谱、调养方法等均作为个人健康管理所需的参考，不作为处方。本公司不对通过康浩云健康检测仪在其信息平台提供的相关产品或服务做任何担保。</p>
+			<p>7.	因健康报告里面包含个人隐私问题，当用户分享给它人或朋友圈时，即表示该用户自行同意把隐私公开。</p>
+			<p>8.	康浩云健康检测仪是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。用户通过康浩云健康检测仪获取材料或数据由您自己承担风险，同时您将对使用此类材料或数据而导致的人身或财产损失承担全部责任。 </p>
+			<p>9.	用户下载使用康浩APP查看健康报告，会保留历史纪录，方便进行长期数据追踪和分析。</p>
+			<p>10.	本公司重视对用户隐私的保护，保护隐私是本公司的一项基本政策。您提供的登记资料及本公司保留的有关您的若干其他个人资料将受到中国有关隐私的法律法规的保护。健康报告会引用您的基础数据进行大数据建模，非经用户亲自许可或根据相关法律的强制性规定，本公司不会主动的将您的身份信息泄露给其他任何第三方。</p>
+			<p>11.	本公司有权在必要时修改服务条款，服务条款一旦发生变动，将会在相关页面上公布修改后的服务条款。如果不同意所改动的内容，用户应主动取消此项服务。如果用户继续使用服务，则视为接受服务条款的变动。</p>
+			<p>12.	凡以任何方式登录康浩云健康检测仪， 或对您使用康浩云健康检测仪、网络平台、与本公司相关的任何内容、服务均视为自愿接受康浩云健康检测仪声明的约束。无论在任何原因下（包括但不限于疏忽原因），对您或任何人通过使用康浩云健康检测仪所导致的损失或损害（包括直接、间接的损失或损害），责任均由使用者自行承担（除非该等损失系由本公司产品质量不达标所致）。</p>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">康浩公司 版权所有<br><em style="color: #999; font-size: .2rem;">Copyright  2011-2019 Kang Hao.All Rights Reserved.</em></p>
 		</div>
 	</div>
 </div>
@@ -118,6 +139,7 @@
 </script>
 <script>
 var userId = getQueryString("userId");
+var reportType = getQueryString("reportType");
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
 	var language = zh;
@@ -132,7 +154,7 @@ if(JsSrc.indexOf('zh')>=0){
     document.title = 'Personal Center'
 }
 if(userId){
-	getUserInfor(userId)
+	getUserInfor(userId,reportType)
 }
 $('#userId').val(userId);  //修改生日用
 
@@ -155,10 +177,12 @@ setupWebViewJavascriptBridge(function(bridge) {
 			alert("不支持该手机设备");
 		}
 		userId = obj.userId;
+		reportType = obj.reportType;
+		//alert('userId='+userId+'& reportType='+reportType);
 		$('#userId').val(userId);  //修改生日用
 		//var responseData = { 'code':'200' };responseCallback(responseData);
 		if (userId) {
-			getUserInfor(userId);
+			getUserInfor(userId,reportType);
 		};
 	})
 	// 为按钮注册方法
@@ -168,11 +192,12 @@ setupWebViewJavascriptBridge(function(bridge) {
 	});
 })
 /*******************************交互逻辑*****************************/
-function getUserInfor(userId){
+function getUserInfor(userId,type){
 	var myapp = new Vue({
 		el: '#appVUE',
 		data: function(){
 			return{
+				reportType: type,
 				headimgurl: '', //用户头像
 			    nickName: '', //用户昵称
 			    mobile: '', //手机号
