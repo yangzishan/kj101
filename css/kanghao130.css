@@ -14,7 +14,7 @@
 .toper .gao .per img{ height: .36rem;}
 .staer{position: relative; font-size: .24rem;}
 .staer .stabg{margin: -.1rem auto 0; width: 3.16rem; height: 2.68rem; padding: .45rem 0 0; background: url(../img/kh130/sta.png) no-repeat center; background-size:3.16rem 2.68rem;}
-.stabg .pointer{ display: block; margin: 0 auto; width: .28rem; height: 1.22rem; background: url(../img/kh130/pronter.png) no-repeat center; background-size:.28rem 1.22rem; transition: transform 1s; transform:rotate(134deg); transform-origin:50% 91%;}
+.stabg .pointer{ display: block; margin: 0 auto; width: .28rem; height: 1.22rem; background: url(../img/kh130/pronter.png) no-repeat center; background-size:.28rem 1.22rem; transition: transform 1s; transform:rotate(-134deg); transform-origin:50% 91%;}
 .bodyqg{ position: relative; margin: -.6rem 0 0; background: url(../img/kh130/ground.png) no-repeat bottom center; background-size: 100% 100%;}
 .qglist{padding: .6rem .3rem .15rem; font-size: 0;}
 .qglist .qgitem{ display: inline-block; vertical-align: top; width: 49.9%; color: #ffffff;}
@@ -23,8 +23,10 @@
 .qglist .qgitem:nth-child(even) .cn{float: right;}
 .qglist .qgitem .cn i{ display: block; margin: 0 auto; padding: .18rem 0 0; width: .72rem; height: .72rem; background: #ffffff; border-radius: 50%; box-shadow:0px 4px 4px 0px rgba(66,143,232,1);}
 .qglist .qgitem .cn i img{ width: .36rem; height: .36rem;}
-.qglist .qgitem .cn.risk i{background: #CE0019;}
-.qglist .qgitem .cn.risk i img{-webkit-filter: brightness(100);filter: brightness(100);filter: brightness;}
+.qglist .qgitem .cn.mid i{background: #CE0019;}
+.qglist .qgitem .cn.mid i img{-webkit-filter: brightness(100);filter: brightness(100);filter: brightness;}
+.qglist .qgitem .cn.lit i{background: #F58B00;}
+.qglist .qgitem .cn.lit i img{-webkit-filter: brightness(100);filter: brightness(100);filter: brightness;}
 .qglist .qgitem .cn p{line-height: .4rem; padding: .13rem 0 0; font-size: .24rem;}
 .bodyqg .renti{ width: 4.56rem; height: 11.26rem; position: absolute; left: 50%; transform: translateX(-50%); top: 1.5rem; background: url(../img/kh130/s_man.png); background-size:4.56rem 11.26rem ;}
 .bodyqg .renti.woman{background: url(../img/kh130/s_woman.png); background-size:4.56rem 11.26rem ;}
@@ -78,9 +80,9 @@
 .phyage .tip{line-height: .4rem; margin-top: .3rem; font-size: .28rem; text-align: center;}
 .stjk{display: -webkit-flex; display: flex; -webkit-justify-content: space-between; justify-content: space-between; padding:.3rem;}
 .stjk .s_li{ display: block; width: 3.2rem; height: 1.6rem; padding: .2rem; background: #F7FAFF; border-radius: .24rem;}
-.stjk .s_li .tt{}
-.stjk .s_li .tt span{font-size: .28rem; margin-right: .2rem;}
-.stjk .s_li .tt i{ display: inline-block; width: .28rem; height: .28rem; border: #C8BFF7 solid .02rem; 
+.stjk .s_li .tt{ height: .4rem;}
+.stjk .s_li .tt span{font-size: .28rem; margin-right: .2rem; display: inline-block; line-height: .4rem; vertical-align: top;}
+.stjk .s_li .tt i{ display: inline-block; vertical-align: top; margin: .06rem 0; width: .28rem; height: .28rem; border: #C8BFF7 solid .02rem; 
 border-radius: 50%; color: #C8BFF7; font-size: .2rem; text-align: center; line-height: .24rem;}
 .stjk .s_li .tt button{width: .8rem; height: .36rem; background: none; color: #428FE8; border: #428FE8 solid .02rem; border-radius: .18rem; outline: none;}
 .stjk .s_li .bo{height: .8rem; line-height: .8rem; overflow: hidden; padding: 0 .4rem 0 0;}
@@ -96,7 +98,7 @@ border-radius: 50%; color: #C8BFF7; font-size: .2rem; text-align: center; line-h
 .zk_item .lab{ display: inline-block; max-width: .8rem; overflow: hidden; white-space: nowrap; line-height: .88rem; margin: 0 .24rem 0 0;}
 .zk_item .pop{ display: inline-block; width: .28rem; height: .28rem; vertical-align: top; margin-top: .3rem; border: #C8BFF7 solid .02rem; 
 border-radius: 50%; color: #C8BFF7; font-size: .2rem; text-align: center; line-height: .24rem;}
-.zk_item .leve{width: 4.34rem; font-size: 0; position: relative;}
+.zk_item .leve{width: 66%; font-size: 0; position: relative;}
 .zk_item .leve em{display: inline-block; width: 20%; height: .88rem; -webkit-filter: grayscale(100%);filter: grayscale(100%);filter: gray;}
 .zk_item .leve em.on{ -webkit-filter: none;filter: none;}
 .zk_item.C3230 .ico{ background:#428FE8 url(../img/kh130/i-zk-xq.png) no-repeat center; background-size:.32rem .28rem;}
@@ -186,7 +188,7 @@ border-radius: 50%; color: #C8BFF7; font-size: .2rem; text-align: center; line-h
 .kh-second-head .bac .b-arr{ width: .6rem; height: .66rem; background: url(../img/arr-b.png) no-repeat center left; background-size: .18rem .34rem;}
 .kh-second-head .tit{ line-height: .88rem; color: #ffffff; font-size: .48rem; font-weight: 600;}
 
-.kh-seconditem{margin: -1.8rem .3rem .3rem; background: #ffffff; box-shadow:0px 0px 12px -4px #9B9B9B; border-radius: .2rem;}
+.kh-seconditem{margin:.3rem .3rem .3rem; background: #ffffff; box-shadow:0px 0px 12px -4px #9B9B9B; border-radius: .2rem;}
 .kh-seconditem ul{font-size: .32rem;}
 .kh-seconditem ul li{ padding: 0 .4rem; height: 1rem; line-height: 1rem; border-bottom: solid #F4F4F4 .02rem;}
 .kh-seconditem ul li .lab{ color: #4A4A4A; }

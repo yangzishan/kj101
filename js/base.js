@@ -19,7 +19,7 @@ var saasUrl = 'http://saas-tt.jiankangzhan.com';  //saas*/
 
 //-----预生产 ysc-----
 
-var dataUrl = 'http://wx-ysc.jiankangzhan.com'; //数据接口
+/*var dataUrl = 'http://wx-ysc.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = 'http://kj101-ysc.jiankangzhan.com'; //大机器
 
@@ -31,14 +31,14 @@ var analysisreport = 'http://analysisreport-ysc.jiankangzhan.com';  //3.0新报�
 
 var channel = 'http://39.107.74.133:8081'; //支付通道
 
-var saasUrl = 'http://saas-ysc.jiankangzhan.com';  //saas 
+var saasUrl = 'http://saas-ysc.jiankangzhan.com';  //saas */
  
 
 
 
 //---生产-----
 
-/*var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
+var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
 
@@ -50,7 +50,7 @@ var analysisreport = 'http://report-v3.jiankangzhan.com';  //3.0新报告接口
 
 var channel = 'http://pay.jiankangzhan.com'; //支付通道
 
-var saasUrl = 'http://saas.jiankangzhan.com'; //saas */
+var saasUrl = 'http://saas.jiankangzhan.com'; //saas 
 
 
 var shareImgUrl = 'http://image.jiankangzhan.com'; //图片

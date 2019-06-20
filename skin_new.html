@@ -251,7 +251,7 @@
                     </div>
         </div>
         <!-- 天气 -->
-        <div class="weather">
+        <div class="weather" v-if="!clientType">
             <div class="head">
                 <h1>天气护肤</h1>
             </div>
@@ -308,6 +308,7 @@
     <script>
         $(function(){
             var timer = null
+            var clientType = getQueryString("clientType");
             var    reportCode =  getQueryString('reportId');
             var    openId = getQueryString('openId');
             var    writing =['清洁是皮肤护理的第一步，温和清洁，善待皮肤，保护肌肤屏障。','保湿是皮肤护理的第二步，合理保湿，皮肤柔软平滑，水润不紧绷。','多数皮肤问题都与日晒有关，防晒没有季节性，一定要尽早。','天气变差更要做好肌肤隔离，避免脏污进入皮肤。','保护肌肤屏障，远离敏感泛红。'];
@@ -318,6 +319,7 @@
             new Vue({
                 el: '#app',
                 data:{
+                	clientType:clientType,
                     skinColor:{
                         'toubai':'透白',
                         'baixi':'白皙',

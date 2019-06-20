@@ -10,6 +10,7 @@
 <link rel="shortcut icon" href="favicon.ico" />
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/kanghao130.css" />
 </head>
 <body>
 <DIV class="my_view" style="visibility: hidden;">
@@ -38,7 +39,11 @@
 	</div>
 	<p class="dtit">心脏功能</p>
 	<div class="dlit" v-if="ecg.paraResult"><i><img src="img/kh130/danger.png" class="img_b"></i>{{ecg.paraResult}}</div>
-	<div class="dtxt">{{ecg.paraCause}}</div>
+	<template v-if="ecg.paraCause && ecg.paraCause != '无'">
+		<p class="dfit"><span>常见原因</span></p>
+		<div class="dtxt">{{ecg.paraCause}}</div>
+	</template>
+		
 </div>
 
 <div class="kh-third-sta">
@@ -54,12 +59,22 @@
 			<p class="p2"><span>{{bloodOxygen.bloodStatus}}<span></p>
 		</div>
 	</div>
-	<p class="dfit"><span>可能出现的症状</span></p>
-	<div class="dtxt">{{bloodOxygen.bloodSymptoms}}</div>
-	<p class="dfit"><span>引起原因</span></p>
-	<div class="dtxt">{{bloodOxygen.bloodWhy}}</div>
-	<p class="dfit"><span>改善建议</span></p>
-	<div class="dtxt">{{bloodOxygen.bloodAdvice}}</div>
+	<template v-if="bloodOxygen.bloodSymptoms && bloodOxygen.bloodSymptoms != '无'">
+		<p class="dfit"><span>可能出现的症状</span></p>
+		<div class="dtxt">{{bloodOxygen.bloodSymptoms}}</div>
+	</template>
+	
+	<template v-if="bloodOxygen.bloodWhy && bloodOxygen.bloodWhy != '无'">
+		<p class="dfit"><span>引起原因</span></p>
+		<div class="dtxt">{{bloodOxygen.bloodWhy}}</div>
+	</template>
+		
+	
+	<template v-if="bloodOxygen.bloodAdvice && bloodOxygen.bloodAdvice != '无'">
+		<p class="dfit"><span>改善建议</span></p>
+		<div class="dtxt">{{bloodOxygen.bloodAdvice}}</div>
+	</template>
+		
 	
 	<p style="height: .3rem;"></p>
 	<p class="dtit">微循环</p>
@@ -70,12 +85,23 @@
 			<p class="p2"><span>{{bloodOxygen.heathIndex}}<span></p>
 		</div>
 	</div>
-	<p class="dfit"><span>可能出现的症状</span></p>
-	<div class="dtxt">{{bloodOxygen.heathSymptoms}}</div>
-	<p class="dfit"><span>引起原因</span></p>
-	<div class="dtxt">{{bloodOxygen.heathWhy}}</div>
-	<p class="dfit"><span>改善建议</span></p>
-	<div class="dtxt">{{bloodOxygen.heathExplain}}</div>
+	<template v-if="bloodOxygen.heathSymptoms && bloodOxygen.heathSymptoms != '无'">
+		<p class="dfit"><span>可能出现的症状</span></p>
+		<div class="dtxt">{{bloodOxygen.heathSymptoms}}</div>
+	</template>
+		
+	
+	<template v-if="bloodOxygen.heathWhy && bloodOxygen.heathWhy != '无'">
+		<p class="dfit"><span>引起原因</span></p>
+		<div class="dtxt">{{bloodOxygen.heathWhy}}</div>
+	</template>
+		
+	
+	<template v-if="bloodOxygen.heathExplain && bloodOxygen.heathExplain != '无'">
+		<p class="dfit"><span>改善建议</span></p>
+		<div class="dtxt">{{bloodOxygen.heathExplain}}</div>
+	</template>
+		
 </div>
 
 </DIV>
