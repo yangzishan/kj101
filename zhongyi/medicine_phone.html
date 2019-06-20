@@ -122,7 +122,6 @@
             doc.addEventListener('DOMContentLoaded', recalc, false);
         })(document, window);
     </script>
-
     <script>
         $(function(){
             //截取url
@@ -260,44 +259,40 @@
                     }
                 })
             }
-
-var myapp = new Vue({
-	el:'#app',
-	data: {
-		data:{}
-	},
-	methods: {
-		getdata: function(){
-			var vm = this;
-			$.ajax({
-                url:url,
-                type:'POST',
-                data:{
-                    reportId:reportId,
-                    customerId:customerId,
-                    saasId:saasId
+            var myapp = new Vue({
+                el:'#app',
+                data: {
+                    data:{}
                 },
-                dataType:"json",
-                success:function(res){
-                    if(res.code == 200){
-                        vm.data = res.data;
-                        setTimeout(function(){
-                        	go()
-                        },100)
-                        
+                methods: {
+                    getdata: function(){
+                        var vm = this;
+                        $.ajax({
+                            url:url,
+                            type:'POST',
+                            data:{
+                            reportId:reportId,
+                            customerId:customerId,
+                            saasId:saasId
+                        },
+                            dataType:"json",
+                            success:function(res){
+                                if(res.code == 200){
+                                    vm.data = res.data;
+                                    setTimeout(function(){
+                                        go()
+                                    },100)
+
+                                }
+                            },
+                            error:function(err){alert('error')}
+                        });
                     }
                 },
-                error:function(err){alert('error')}
-           });
-		}
-	},
-	mounted: function(){
-		this.getdata()
-	}
-	
-});
-
-
+                mounted: function(){
+                    this.getdata()
+                }  
+            });
         });
     </script>
 </body>
