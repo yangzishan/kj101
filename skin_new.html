@@ -53,7 +53,7 @@
             <div class="box" :style="sex.qianBg">
             	<i class="i"></i><span>肌肤问题</span>
             	<span class="weight"><em  v-for="item in diseaseResult">{{item}}</em></span>
-            	<i class="q show_question"></i>
+            	<i class="q show_question" :data-text="info.diseaseExplain"></i>
             </div>
         </div>  
         <div class="new_face">
@@ -766,8 +766,13 @@
                                         $('.popup').addClass('show');
                                         sTop = $(window).scrollTop();
                                         $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'}); 
-                                        $('.popup h1').html($(this).attr('data-h'))
-                                        var text = $(this).attr('data-text').replace('/n','<br>')
+                                        var text = ''
+                                        if($(this).attr('data-h') && $(this).attr('data-h') !=''){
+                                            $('.popup h1').html($(this).attr('data-h'))
+                                        }
+                                        if($(this).attr('data-text') && $(this).attr('data-text') != ''){
+                                            text = $(this).attr('data-text').replace('/n','<br>')
+                                        }
                                         $('.huadong').html(text)
                                     })
                                     $('.show_image').on('click',function(){
