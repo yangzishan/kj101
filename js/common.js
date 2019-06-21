@@ -63,11 +63,16 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 		//alert('dataUrl='+dataUrl);
 		//alert(reportId+'--'+sendCustomerId+'--customerId='+appCustomerId+'--'+clientType+'--'+reportType);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
-		if(appCustomerId) {
-			setTimeout(function(){
-				analysisReportFace(reportId,sendCustomerId,appCustomerId,'','',language)
-			},500)
-		}	
+		if(reportId == '000000'){
+			location.href = 'report000000.html'
+		}else{
+			if(appCustomerId) {
+				setTimeout(function(){
+					analysisReportFace(reportId,sendCustomerId,appCustomerId,'','',language)
+				},500)
+			}
+		}
+				
 	})
 })
 /*******************************交互逻辑end***************************/
