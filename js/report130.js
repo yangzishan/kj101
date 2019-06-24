@@ -7,7 +7,13 @@ var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
-
+setupWebViewJavascriptBridge(function(bridge) {
+	//为按钮注册方法
+	$(document).on("click","#goToShare",function(){
+		//alert('click share');
+		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
+	});
+})
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
