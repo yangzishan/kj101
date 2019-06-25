@@ -1,7 +1,6 @@
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
 var reportId = getQueryString('reportId');
-//var reportId = 'KJ501JS000001BC190610161335832';
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
@@ -10,7 +9,7 @@ var clientType = getQueryString("clientType");
 setupWebViewJavascriptBridge(function(bridge) {
 	//为按钮注册方法
 	$(document).on("click","#goToShare",function(){
-		//alert('click share');
+		//alert('click share'+reportId);
 		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
 	});
 })

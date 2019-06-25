@@ -251,7 +251,7 @@
                     </div>
         </div>
         <!-- 天气 -->
-        <div class="weather" v-if="!clientType">
+        <div class="weather" v-if="openId">
             <div class="head">
                 <h1>天气护肤</h1>
             </div>
@@ -319,6 +319,7 @@
             new Vue({
                 el: '#app',
                 data:{
+                	openId:openId,
                 	clientType:clientType,
                     skinColor:{
                         'toubai':'透白',
