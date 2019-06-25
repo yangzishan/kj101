@@ -110,7 +110,7 @@
                 <div class="body_b"  >
                     <div class="xin"   v-for="item in info.majorList" :data-target="item.targetName"> 
                         <div class="q_name" v-if="item.name && item.name != null">
-                            <em>{{item.name}}</em>
+                            <em v-if="item.name == '透白' || item.name == '白皙' || item.name == '自然' || item.name == '小麦' || item.name == '暗沉'  ||  item.name == '黝黑' ">肤色</em><em v-if="item.name != '透白' && item.name != '白皙' && item.name != '自然' && item.name != '小麦' && item.name != '暗沉'  &&  item.name != '黝黑' ">{{item.name}}</em>
                             <span :style="sex.color"  v-if="item.score && score != null"><i >{{item.score}}</i>分</span>
                             <b class="show_question"  :style="sex.CB" :data-text="item.paraCause" data-h="引起原因" v-if="item.paraCause!=null"  >引起原因</b>
                         </div>
