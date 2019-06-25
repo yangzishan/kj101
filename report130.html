@@ -150,46 +150,46 @@
 		<div class="zk_item" :class="item.targetId" v-for="item in conditions" :key="item.targetId">
 			<em class="ico"></em><span class="lab">{{item.targetName}}</span><i class="pop" @click="popExplain(item.targetName,item.explain)">?</i>
 			<p class="leve fr" v-if="item.targetId != 'C3230' && item.targetId != 'C3231'">
-				<template v-if="item.abLevel == 1">
+				<template v-if="item.abLevel == 0">
 					<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em>
 				</template>
-				<template v-if="item.abLevel == 2">
+				<template v-else-if="item.abLevel == 1">
 					<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em></em>
 				</template>
-				<template v-if="item.abLevel == 3">
+				<template v-else-if="item.abLevel == 2">
 					<em class="on"></em><em class="on"></em><em class="on"></em><em></em><em></em>
 				</template>
-				<template v-if="item.abLevel == 4">
+				<template v-else-if="item.abLevel == 3">
 					<em class="on"></em><em class="on"></em><em></em><em></em><em></em>
 				</template>
-				<template v-if="item.abLevel == 5">
+				<template v-else>
 					<em class="on"></em><em></em><em></em><em></em><em></em>
 				</template>
 			</p>
 			<p class="leve fr" v-if="item.targetId == 'C3230'">
-				<template v-if="item.abLevel == 1">
+				<template v-if="item.abLevel == 0">
 					<em></em><em></em><em></em><em></em><em class="active"></em>
 				</template>
-				<template v-if="item.abLevel == 2">
+				<template v-else-if="item.abLevel == 1">
 					<em></em><em></em><em></em><em class="active"></em><em></em>
 				</template>
-				<template v-if="item.abLevel == 3">
+				<template v-else-if="item.abLevel == 2">
 					<em></em><em></em><em class="active"></em><em></em><em></em>
 				</template>
-				<template v-if="item.abLevel == 4">
+				<template v-else-if="item.abLevel == 3">
 					<em></em><em class="active"></em><em></em><em></em><em></em>
 				</template>
-				<template v-if="item.abLevel == 5">
+				<template v-else>
 					<em class="active"></em><em></em><em></em><em></em><em></em>
 				</template>
 			</p>
 			<div class="leve fr" v-if="item.targetId == 'C3231'">
 				<p class="probj"></p>
-				<p class="progress" style="width: 100%;" v-if="item.abLevel == 1"></p>
-				<p class="progress" style="width: 80%;" v-if="item.abLevel == 2"></p>
-				<p class="progress" style="width: 60%;" v-if="item.abLevel == 3"></p>
-				<p class="progress" style="width: 40%;" v-if="item.abLevel == 4"></p>
-				<p class="progress" style="width: 20%;" v-if="item.abLevel == 5"></p>
+				<p class="progress" style="width: 100%;" v-if="item.abLevel == 0"></p>
+				<p class="progress" style="width: 80%;" v-else-if="item.abLevel == 1"></p>
+				<p class="progress" style="width: 60%;" v-else-if="item.abLevel == 2"></p>
+				<p class="progress" style="width: 40%;" v-else-if="item.abLevel == 3"></p>
+				<p class="progress" style="width: 20%;" v-else></p>
 			</div>
 		</div>
 	</div>

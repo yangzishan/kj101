@@ -265,9 +265,9 @@
 			<template v-for="item in data" v-if="item.targetId >= 1005 && item.targetId <= 1009">
 			<li class="condition" @click="goAdvise(item.targetId,item.score,item.childTarget)">
 				<!-- 指数大于80的时候显示蓝色 -->
-				<div v-show="item.score > 80" class="img"><img src="./images/icon1005.png" /></div>
+				<div v-show="item.score > 80" class="img"><img :src="'./images/icon'+item.targetId+'.png'" /></div>
 				<!-- 指数小于等于80的时候显示黄色 -->
-				<div v-show="80 >= item.score" class="img"><img src="./images/icon1005-1.png" /></div>
+				<div v-show="80 >= item.score" class="img"><img :src="'./images/icon'+item.targetId+'-1.png'" /></div>
 				<div class="txt">
 					<p class="title">
 						<!-- 指数大于80的时候显示蓝色 -->
