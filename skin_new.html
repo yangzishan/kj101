@@ -159,7 +159,7 @@
                     <div class="body_b"  >
                         <div class="xin"   v-for="item in info.awaitList" :data-target="item.targetName"> 
                             <div class="q_name" v-if="item.name && item.name != null">
-                                <em>{{item.name}}</em>
+                                <em v-if="item.name == '透白' || item.name == '白皙' || item.name == '自然' || item.name == '小麦' || item.name == '暗沉'  ||  item.name == '黝黑' ">肤色</em><em v-if="item.name != '透白' && item.name != '白皙' && item.name != '自然' && item.name != '小麦' && item.name != '暗沉'  &&  item.name != '黝黑' ">{{item.name}}</em>
                                 <span :style="sex.occolor"  v-if="item.score && score != null"><i >{{item.score}}</i>分</span>
                                 <b   :style="sex.oCB" :data-text="item.paraCause" data-h="引起原因" v-if="item.paraCause!=null"  class="show_question">引起原因</b>
                             </div>
@@ -207,7 +207,7 @@
                         <div class="body_b"  >
                             <div class="xin"   v-for="item in info.continueList" :data-target="item.targetName"> 
                                 <div class="q_name" v-if="item.name && item.name != null">
-                                    <em>{{item.name}}</em>
+                                    <em v-if="item.name == '透白' || item.name == '白皙' || item.name == '自然' || item.name == '小麦' || item.name == '暗沉'  ||  item.name == '黝黑' ">肤色</em><em v-if="item.name != '透白' && item.name != '白皙' && item.name != '自然' && item.name != '小麦' && item.name != '暗沉'  &&  item.name != '黝黑' ">{{item.name}}</em>                                   
                                     <span :style="sex.jccolor" v-if="item.score && score != null"><i >{{item.score}}</i>分</span>
                                     <b   :style="sex.jCB" :data-text="item.paraCause" data-h="引起原因" v-if="item.paraCause!=null" class="show_question" >引起原因</b>
                                 </div>
