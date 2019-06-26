@@ -1,0 +1,109 @@
+
+html{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;font-size:100px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;margin:0;padding:0}
+body{background-color:#fff;color:#333333;font:0.12rem/0.24rem "Microsoft YaHei";max-width:600px;margin:0 auto}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}
+ol,ul,li{list-style:none}
+img{max-width:100%;height:auto;width:auto\9;border:none}
+em,i,b{font-weight:normal;font-style:normal}
+a{text-decoration:none;color:#333333}
+li{list-style:none}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+.clearfix{zoom:1}
+.clearfix:after{content:"";display:block;visibility:hidden;height:0;clear:both}
+input,textarea{background:none;outline:none;font-family:"微软雅黑"}
+input[type="submit"],input[type="reset"],input[type="button"],input{-webkit-appearance:none;resize:none}
+body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
+body #app{font-size:12px}
+body #app h1{font-size:38px;color:#2CBCB4;font-weight:bold;text-align:center;line-height:55px}
+body #app > .h2{font-weight:bold;line-height:55px}
+body #app > .h2 span{display:inline-block;width:24%;text-align:center}
+body #app > .h2 span:nth-child(1){text-align:left}
+body #app > .h2 em{font-weight:bold}
+body #app > .wel_title{color:#52595F;margin-bottom:15px}
+body #app > .wel_title > p:nth-child(2){text-indent:2em}
+body #app > .h2 > em{color:red}
+body #app > .box{width:100%;position:relative;margin-bottom:50px}
+body #app > .box > .lf{width:180px;display:inline-block;position:relative;left:-10px}
+body #app > .box > .lf > img{width:180px}
+body #app > .box > .lf > .dian_box{width:200px;height:445px;position:absolute;top:0}
+body #app > .box > .lf > .dian_box > span{position:absolute;padding:6px;border-radius:50%;background:#5CA3FE}
+body #app > .box > .lf > .dian_box > span > i{display:block;width:7px;height:7px;border-radius:50%;background:red}
+body #app > .box > .lf > .dian_box > .A3510{top:0;left:79px}
+body #app > .box > .lf > .dian_box > .A3520{top:14px;left:88px}
+body #app > .box > .lf > .dian_box > .A3115{top:38px;left:77px}
+body #app > .box > .lf > .dian_box > .A3135{top:65px;left:65px}
+body #app > .box > .lf > .dian_box > .A3540{top:94px;left:65px}
+body #app > .box > .lf > .dian_box > .A3530{top:100px;left:88px}
+body #app > .box > .lf > .dian_box > .A3585{top:134px;left:62px}
+body #app > .box > .lf > .dian_box > .A3570{top:128px;left:90px}
+body #app > .box > .lf > .dian_box > .A3550{top:152px;left:96px}
+body #app > .box > .lf > .dian_box > .A3560{top:166px;left:78px}
+body #app > .box > .lf > .dian_box > .A3580{top:182px;left:53px}
+body #app > .box > .lf > .dian_box > .A3590{top:197px;left:77px}
+body #app > .box > .lf > .dian_box > .B3144{top:187px;left:103px}
+body #app > .box > .lf > .dian_box > .B3152{top:187px;left:103px}
+body #app > .box > .lf > .dian_box > .A3163{top:280px;left:62px}
+body #app > .box > .lf > .dian_box > .A3598{top:280px;left:95px}
+body #app > .box > .lf > .dian_box > .A3594{top:380px;left:60px}
+body #app > .box > .lf > .dian_box > .A3087{top:383px;left:96px}
+body #app > .box > .lf > .dian_box > .A3195{top:129px;left:128px}
+body #app > .box > .rt{float:right;display:inline-block;width:416px}
+body #app > .box > .rt > .list{display:inline-block;width:205px;line-height:50px}
+body #app > .box > .rt > .list > span:nth-child(1){display:inline-block;/*width:36%*/}
+body #app > .box > .rt > .list > span:nth-child(2){display:inline-block;/*width:60%;*/text-align:center;float: right; margin-right: 30px;}
+body #app > .box > .rt > .list > span:nth-child(2) > em{width:80px;display:inline-block;background:#2CBCB4;color:#fff;line-height:26px}
+body #app > .box > .rt > .list > span:nth-child(2) > em.lit{background:#F2B850;}
+body #app > .box > .rt > .list > span:nth-child(2) > em.mid{background:#F2843A;}
+body #app > .box > .rt > .list img{width:18px;vertical-align:-5px;margin-right:12px}
+body #app h3{text-align:center;background:#348798;font-size:18px;color:#fff;font-weight:bold;line-height:40px;margin-bottom:20px}
+body #app > .danger{margin-bottom:100px}
+body #app > .danger .title > div{display:inline-block;width:50%;border-right:1px solid #348798}
+body #app > .danger .title > div > p{width:100%;background:#FF8C3E;text-align:center;font-weight:bold;color:#fff;border-bottom:1px solid #348798}
+body #app > .danger .title > div span{display:inline-block;width:50%;border-bottom:1px solid #D9D9D9;border-right:1px solid #D9D9D9;padding-left:10px}
+body #app > .danger .title > div span:nth-child(even){border-right:none}
+body #app > .danger .title > div:nth-child(2){border:none;float:right}
+body #app > .danger .title > div:nth-child(2) > p{background:#FFC255}
+body #app h4{text-align:center;background:#348798;font-size:18px;color:#fff;font-weight:bold;line-height:40px}
+body #app .dan{text-align:center;background:#FF8C3E;font-size:14px;color:#fff;line-height:30px}
+body #app .gai{border-top:1px solid #348798;text-align:center;font-size:14px;color:#fff;line-height:30px;background:#FFC255}
+body #app .chi{border-top:1px solid #348798;text-align:center;font-size:14px;color:#fff;line-height:30px;background:#2CBCB4}
+body #app > .skin{width:100%;border:1px solid #348798;margin-bottom:20px}
+body #app > .skin > .zongjie{width:100%;font-size: 0;}
+body #app > .skin > .zongjie > div{text-align:center}
+body #app > .skin > .zongjie > .l{border-bottom:1px solid #348798;border-right:1px solid #348798;display:inline-block;width:25%;font-size:24px;color:#348798;height:48px;line-height:40px;position:relative;top:-11px}
+body #app > .skin > .zongjie > .r{border-bottom:1px solid #348798;position:relative;left:-1px;display:inline-block;width:75%; font-size: 0;}
+body #app > .skin > .zongjie > .r > span{display:inline-block;width:33.3%;border-right:1px solid #348798;font-size: 12px;}
+body #app > .skin > .zongjie > .r > span:last-child{border-right:none}
+body #app > .skin > .zongjie > .r > span > em{display:block;width:100%;border-bottom:1px solid #348798;font-weight:bold}
+body #app > .skin > .xiangqing{position:relative;top:-11px}
+body #app > .skin > .xiangqing > .tou{width:100%;border-bottom:1px solid #348798;border-top:1px solid #348798}
+body #app > .skin > .xiangqing > .tou > span{display:inline-block;width:24.5%;text-align:center;font-weight:bold}
+body #app > .skin > .xiangqing > .bd{padding-left:10px}
+body #app > .skin > .xiangqing > .bd > .tit{font-weight:bold}
+body #app > .jianyi{margin-bottom:40px}
+.shanshi,.yingyang,.yundong{ font-size: 0;}
+body #app > .jianyi > div{border:1px solid #348798;width:100%;height:100%;position:relative}
+body #app > .jianyi > div > .left{display:inline-block;width:25%;text-align:center; font-size: 12px;}
+body #app > .jianyi > div > .left > em{font-weight:bold;position:absolute;top:50%;left:8%;transform:translateY(-50%)}
+body #app > .jianyi > div > .right{display:inline-block;width:75%;border-left:1px solid #348798; font-size: 12px;}
+body #app > .jianyi > div > .right > p i{display:inline-block;width:8px;height:8px;background:#348798;border-radius:50%;margin:0 15px 0 7px}
+body #app > .jianyi .yingyang,body #app > .jianyi .yundong{border-top:none}
+body #app .fr{padding:147px 55px 0 55px;margin-bottom:200px}
+body #app .fr > .h{padding-top:25px;padding-bottom:10px;border-top:3px solid #058B68;border-bottom:3px solid #058B68;margin-bottom:35px}
+body #app .fr > .h > .h6{font-size:42px;text-align:center;color:#5A5A5A;margin-bottom:25px}
+body #app .fr > .h > .h7{font-size:20px;text-align:center;letter-spacing:3px;color:#5A5A5A}
+body #app .fr > .f_user{text-align:center;color:#5A5A5A;margin-bottom:67px}
+body #app .fr > .f_user > .f_l{display:inline-block;width:36%}
+body #app .fr > .f_user > .f_l > span{display:block;text-align:left}
+body #app .fr > .f_user > .f_r{display:inline-block;width:36%}
+body #app .fr > .f_user > .f_r > span{display:block;text-align:left}
+body #app .fr > .f_img{position:relative;width:100%;height:316px;margin-bottom:50px}
+body #app .fr > .f_img > img{width:256px;height:316px;position:absolute;left:50%;transform:translateX(-50%)}
+body #app .fr > .f_img > em{position:absolute;width:41px;height:41px;border:1px solid #058b68;border-radius:50%;line-height:41px;text-align:center}
+body #app .fr > .f_img em:nth-child(1){top:69px;left:100px}
+body #app .fr > .f_img em:nth-child(2){top:194px;left:80px}
+body #app .fr > .f_img em:nth-child(3){top:55px;left:320px}
+body #app .fr > .f_img em:nth-child(4){top:194px;left:350px}
+body #app .fr > .f_p{text-align:center;font-size:21px}
