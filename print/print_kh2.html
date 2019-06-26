@@ -16,15 +16,15 @@
         <h6 class="h6">全身健康检测报告</h6>
         <h6 class="h7">CENERAL HEALTH REPORT</h6>
       </div>
-      <div class="f_user">
+      <div class="f_user" v-if="info.insureSalesman && info.insureSalesman.customerName">
         <div class="f_l">
-            <span>姓 名：<em class="emname">123123123123123123123</em></span>
-            <span>联系方式：<em>13111111111</em></span>
-            <span>检测时间：<em>2019-01-08</em></span>
+            <span>姓 名：<em class="emname" v-if="info.insureSalesman ">{{info.insureSalesman.customerName}}</em></span>
+            <span>联系方式：<em v-if="info.insureSalesman ">{{info.insureSalesman.userTel}}</em></span>
+            <span>检测时间：<em v-if="info.insureSalesman ">{{info.insureView.inspectDateStr}}</em></span>
         </div><div class="f_r">
-            <span>姓 别：<em>123</em></span>
-            <span>检测码：<em>13111111111</em></span>
-            <span>保险经纪人编号：<em class="emname">123123123123123123123</em></span>
+            <span>姓 别：<em v-if="info.insureSalesman ">{{info.insureView.sex}}</em></span>
+            <span>检测码：<em v-if="info.insureSalesman ">{{info.insureView.detectionCode}}</em></span>
+            <span>保险经纪人编号：<em class="emname" v-if="info.insureSalesman ">{{info.insureSalesman.salesmanCode}}</em></span>
         </div>
       </div>
       <div class="f_img">
@@ -43,14 +43,15 @@
             <img class="bpan" src="./img/kh/bpan.png" alt="">
             <img class="bzhen" src="./img/kh/bzhen.png" alt="">
             <div class="text_box">
-              <span class="spana_active" data-target="best">最佳状态</span>
-              <span data-target="better">良好状态</span>
-              <span data-target="no1">一级风险</span>
-              <span data-target="no2">二级风险</span>
-              <span data-target="no3">三级风险</span>
+              <span class="spana_active" data-target="best" data-index="1">最佳状态</span>
+              <span data-target="better" data-index="2">良好状态</span>
+              <span data-target="no1" data-index="3">一级风险</span>
+              <span data-target="no2" data-index="4">二级风险</span>
+              <span data-target="no3" data-index="5">三级风险</span>
             </div>
           </div>
-          <div class="srt"><div class="list">
+          <!-- <div class="srt">
+            <div class="list">
                 <span><img src="./img/kh/qg-A3510.png" alt="">脑部</span>
                 <span><em>正常</em></span>
               </div><div class="list">
@@ -105,79 +106,112 @@
                 <span><img src="./img/kh/qg-A3510.png" alt="">脑部</span>
                 <span><em>正常</em></span>
               </div>
-            </div>
-            
+            </div> -->
+            <div class="box">
+                <div class="lf">
+                  <div class="body">
+                    <img src="./img/kh/s_man.png" alt="">
+                  </div>
+                  <div class="dian_box">
+                    <span class="dian1"><i></i></span>
+                    <span class="dian2"><i></i></span>
+                    <span class="dian3"><i></i></span>
+                    <span class="dian4"><i></i></span>
+                    <span class="dian5"><i></i></span>
+                    <span class="dian6"><i></i></span>
+                    <span class="dian7"><i></i></span>
+                    <span class="dian8"><i></i></span>
+                    <span class="dian9"><i></i></span>
+                    <span class="dian10"><i></i></span>
+                    <span class="dian11"><i></i></span>
+                    <span class="dian12"><i></i></span>
+                    <span class="dian13"><i></i></span>
+                    <span class="dian14"><i></i></span>
+                    <span class="dian15"><i></i></span>
+                    <span class="dian16"><i></i></span>
+                    <span class="dian17"><i></i></span>
+                    <span class="dian18"><i></i></span>
+                  </div>
+                </div>
+                <div class="rt" v-if="info.insureView && info.insureView.firsts">
+                  <div class="list" v-for="(item,index) in info.insureView.firsts">
+                    <span><img :src="'./img/kh/qg-'+ item.targetId +'.png'" alt="">{{item.targetName}}</span>
+                    <span><em style="background:#2CBCB4;" v-if="item.score >= 90 ">正常</em><em style="background:#F2B84F;" v-if="item.score <  90  && item.score >= 80">轻度风险</em><em v-if="item.score < 80" style="background:#F2843A;">中度风险</em></span>
+                  </div>
+                </div>
+              </div>
 
           </div>
       </div>
-      <div class="danger">
+      <div class="danger clearfix" v-if="info.insureView &&  info.insureView.abnormalTarget ">
         <h3>异常指标情况</h3>
         <div class="title">
-          <div class="z">
-            <p>中度风险（<em>10</em> 项）</p>
-            <div><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span><span class="li">四肢循环受限性</span>
-            </div>
-          </div><div class="q">
-            <p>轻度风险（<em>9</em> 项）</p>
-            <div><span>血管阻力</span><span>血管阻力</span><span>血管阻力</span><span>血管阻力 </span><span>血管阻力</span><span>血管阻力</span><span>血管阻力 </span><span>血管阻力 </span><span>血管阻力 </span>
+          <div class="z" v-if="info.insureView.abnormalTarget.moderate  && info.insureView.abnormalTarget.moderate.length > 0">
+            <p>中度风险（<em>{{info.insureView.abnormalTarget.moderate.length}}</em> 项）</p>
+            <div><span class="li" v-for="(item,index) in info.insureView.abnormalTarget.moderate">{{item.targetName}}</span></div>
+          </div><div class="q" v-if="info.insureView.abnormalTarget.mild  && info.insureView.abnormalTarget.mild.length > 0">
+            <p>轻度风险（<em>{{info.insureView.abnormalTarget.mild.length}}</em> 项）</p>
+            <div><span v-for="(item,index) in info.insureView.abnormalTarget.mild">{{item.targetName}}</span>
             </div>
           </div>
         </div>
       </div>
       <b></b>
-      <!-- 年龄 -->
-      <div class="age">
-        <div class="age_tit">以下是您的评估结果：</div>
-        <div class="true_age">
-          <div class="age1">
-            <div>实际年龄<span>28</span>岁</div>
-            <div>生理年龄<span>28</span>岁</div>
-          </div><div class="age2">
-            <div>年龄差<span>-4</span></div>
+      <!-- 皮肤 -->
+      <div class="sr_skin" v-if="info.insureView && info.insureView.inspectSkinView">
+          <h4>皮肤报告</h4>
+          <div class='zongjie'><div class="l">{{info.insureView.inspectSkinView.totalScore}} 分</div><div class="r"><span><em>肤质</em><i>{{info.insureView.inspectSkinView.skinTypeResult}}</i></span><span><em>肤龄</em><i>{{info.insureView.inspectSkinView.age}}</i></span><span><em>肤色</em><i>{{info.insureView.inspectSkinView.color}}</i></span></div>
+          </div>
+          <div class="xiangqing">
+            <h5 class="dan">重点关注</h5>
+            <div class="tou"><span>毛孔</span><span>49 分</span><span>1328 个</span><span>好于 59%的人</span></div>
+            <div class="bd">
+              <p class="tit">护肤建议：</p>
+              <p>清淡饮食，拒绝熬夜，保持良好心态；尽量仰卧睡觉，避免挤压皮肤；</p>
+            </div>
+          </div>
+          <div class="xiangqing">
+            <h5 class="gai">重点关注</h5>
+            <div class="tou"><span>毛孔</span><span>49 分</span><span>1328 个</span><span>好于 59%的人</span></div>
+            <div class="bd">
+              <p class="tit">护肤建议：</p>
+              <p>清淡饮食，拒绝熬夜，保持良好心态；尽量仰卧睡觉，避免挤压皮肤；</p>
+            </div>
+          </div>
+          <div class="xiangqing">
+            <h5 class="chi">重点关注</h5>
+            <div class="tou"><span>毛孔</span><span>49 分</span><span>1328 个</span><span>好于 59%的人</span></div>
+            <div class="bd">
+              <p class="tit">护肤建议：</p>
+              <p>清淡饮食，拒绝熬夜，保持良好心态；尽量仰卧睡觉，避免挤压皮肤；</p>
+            </div>
           </div>
         </div>
-        <p>您的生理年龄比实际年龄更年轻，继续保持哦～</p>
+        <b></b>
+      <!-- 年龄 -->
+      <div class="age">
+        <h3>生理年龄</h3>
+        <div class="true_age">
+          <div class="age1">
+            <div>实际年龄<span>{{info.insureView.physicalAge}}</span>岁</div>
+            <div>生理年龄<span>{{info.insureView.age}}</span>岁</div>
+          </div><div class="age2">
+            <div>年龄差<span v-html="info.insureView.age - info.insureView.physicalAge"></span></div>
+          </div>
+        </div>
+        <p v-if="(info.insureView.age - info.insureView.physicalAge) < 0 ">您的生理年龄比实际年龄更年轻，继续保持哦～</p>
+        <p v-if="(info.insureView.age - info.insureView.physicalAge) > 0 ">您的生理年龄高于实际年龄，请注意管理健康哦！</p>
       </div>
       <!-- 状态 -->
-      <div class="state">
-        <div class="state_tit">以下是您的评估结果：</div>
+      <div class="state" v-if="info.insureView && info.insureView.conditions ">
+        <h3>身体实时状况</h3>
         <div class="state_box">
-          <div class="state_l"><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>轻度风险</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div><div class="state_list"><span><img src="./img/kh/energy.png" alt="">健康活力值</span><span>89</span></div>
+          <div class="state_l"><div class="state_list" v-for="(item,index) in info.insureView.conditions"><span><img src="'./img/kh/'+ item.targetId+'.png'" alt="">{{item.targetName}}</span><span>89</span></div>
           </div>
         </div>        
       </div>
       <b></b>
-      <!-- 皮肤 -->
-      <div class="sr_skin">
-        <h4>皮肤报告</h4>
-        <div class='zongjie'><div class="l">70 分</div><div class="r"><span><em>肤质</em><i>混合性</i></span><span><em>肤龄</em><i>混合性</i></span><span><em>肤色</em><i>混合性</i></span></div>
-        </div>
-        <div class="xiangqing">
-          <h5 class="dan">重点关注</h5>
-          <div class="tou"><span>毛孔</span><span>49 分</span><span>1328 个</span><span>好于 59%的人</span></div>
-          <div class="bd">
-            <p class="tit">护肤建议：</p>
-            <p>清淡饮食，拒绝熬夜，保持良好心态；尽量仰卧睡觉，避免挤压皮肤；</p>
-          </div>
-        </div>
-        <div class="xiangqing">
-          <h5 class="gai">重点关注</h5>
-          <div class="tou"><span>毛孔</span><span>49 分</span><span>1328 个</span><span>好于 59%的人</span></div>
-          <div class="bd">
-            <p class="tit">护肤建议：</p>
-            <p>清淡饮食，拒绝熬夜，保持良好心态；尽量仰卧睡觉，避免挤压皮肤；</p>
-          </div>
-        </div>
-        <div class="xiangqing">
-          <h5 class="chi">重点关注</h5>
-          <div class="tou"><span>毛孔</span><span>49 分</span><span>1328 个</span><span>好于 59%的人</span></div>
-          <div class="bd">
-            <p class="tit">护肤建议：</p>
-            <p>清淡饮食，拒绝熬夜，保持良好心态；尽量仰卧睡觉，避免挤压皮肤；</p>
-          </div>
-        </div>
-      </div>
-      <b></b>
+      
       <!-- 食谱 -->
       <div class="sr_cook">
         <h3>一周专属健康食谱</h3>
@@ -336,5 +370,70 @@
         </div>
       </div>
   </div>
+  <script src="./js/jquery.js"></script>
+  <script src="./js/vue.min.js"></script>
+  <script>
+    $(function(){
+      var Purl = 'http://analysisreport-ysc.jiankangzhan.com/print/report/insure/queryInsurePrint'
+      var reportId = 'KJ501KT00000156190619000226482'
+      var sign = 'kj147258'
+      var vm = new Vue({
+        el:'#app',
+        data:function(){
+          return {
+            info:{},
+            skinColor:{
+              'toubai':'透白',
+              'baixi':'白皙',
+              'ziran':'自然',
+              'xiaomai':'小麦',
+              'anchen':'暗沉',
+              'youhei':'黝黑',
+            }
+          }
+        },
+        methods:{
+          getData : function(){
+            var that = this
+            $.ajax({
+              type:'POST',
+              url:Purl,
+              data:{
+                reportId : reportId,
+                sign : sign
+              },
+              success:function(res){
+                if(res.code == 200){
+                  that.info = res.data 
+                  that.info.insureView.inspectDateStr = res.data.insureView.inspectDateStr.split(' ')[0]
+                  that.info.insureView.sex = res.data.insureView.sex == '0' ? '女' : '男'
+                  that.info.insureView.totalScore = res.data.insureView.totalScore >= 95 ? '1' : res.data.insureView.totalScore >= 90 ? '2' : res.data.insureView.totalScore >= 85 ? '3' :  res.data.insureView.totalScore >= 80 ? '4' : '5'
+                  that.info.insureView.inspectSkinView.color = that.skinColor[res.data.insureView.inspectSkinView.color ]
+                  setTimeout(function(){
+                    if(that.info.insureView.abnormalTarget.mild.length > that.info.insureView.abnormalTarget.moderate.length){
+                      console.log($('.z'))
+                      $('.z').addClass('nol')
+                    }else{
+                      $('.q').addClass('nor')
+                    }
+                  })
+
+                  $('.spana_active').removeClass('spana_active')
+                  $('[data-index='+that.info.insureView.totalScore+']').addClass('spana_active')
+                  $('.bzhen').addClass('bzhen_'+that.info.insureView.totalScore)
+
+                  console.log(that.info)
+
+                }
+              }
+            })
+          }
+        },
+        mounted : function(){
+          this.getData()
+        }
+      })
+    })
+  </script>
 </body>
 </html>
