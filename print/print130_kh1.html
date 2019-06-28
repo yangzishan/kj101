@@ -34,7 +34,8 @@
     <div class="box">
       <div class="lf">
         <div class="body">
-          <img src="./img/kh/s_man.png" alt="">
+          <img src="./img/kh/s_man.png" v-if="sex == 1">
+          <img src="./img/kh/s_woman.png" v-if="sex != 1">
         </div>
         <div class="dian_box">
           <span :class="item.targetId" v-for="item in firsts" v-if="item.score<90"><i></i></span>
@@ -55,7 +56,7 @@
     </div>
     <div class="danger">
       <h3>异常指标情况</h3>
-      <div class="title" style="border: 1px solid #348798;">
+      <div class="title" style="border: 1px solid #348798; display: flex;">
         <div class="z">
           <p>中度风险（<em>{{abnormalTarget.mild.length}}</em> 项）</p>
           <div>
@@ -154,17 +155,30 @@
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script src="js/vue.min.js"></script>
 <script>
-//var reportId = getQueryString("reportId");
-//var sign = getQueryString("sign");
-var reportId = 'KJ501KT00000156190619000226482';
-var sign = 'kj147258';
+var go = -1;
+function goPrint(n){
+	if(n == 2){
+		setTimeout(function(){
+			window.print();
+		},300)
+	}
+};
+var reportId = getQueryString("reportId");
+var reportId = 'KJ501JS000009BC190617180905250';
+var viewType = getQueryString("viewType");  //1 打印  2预览
+if(viewType == 1){go = 0};
 var myapp = new Vue({
 	el:'#app',
 	data:function(){
 		return{
-			reportId:reportId,sign:sign,
+			reportId:reportId,
 			totalScore:'',
-			insureSalesman:{},
+			insureSalesman:{
+				customerName:'',
+				salesmanCode:'',
+				userTel:''
+			},
+			detectionCode:'',
 			sex:'',
 			age:'',
 			physicalAge:'',
@@ -210,11 +224,12 @@ var myapp = new Vue({
 				async:true,
 				dataType:'Json',
 				data:{
-					reportId:reportId,
-					sign:sign
+					reportId:reportId
 				},
 				success:function(res){
-					vm.insureSalesman = res.data.insureSalesman
+					if(res.data.insureSalesman){
+						vm.insureSalesman = res.data.insureSalesman
+					}
 					vm.sex = res.data.insureView.sex
 					vm.inspectDateStr = res.data.insureView.inspectDateStr
 					vm.firsts = res.data.insureView.firsts
@@ -224,6 +239,10 @@ var myapp = new Vue({
 					vm.ranking = res.data.insureView.ranking
 					vm.totalScore = res.data.insureView.totalScore
 					vm.inspectSkinView = res.data.insureView.inspectSkinView
+					vm.detectionCode = res.data.insureView.detectionCode
+					document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+					go++
+					goPrint(go)
 				},
 				error:function(){alert('queryInsurePrint error')}
 			});
@@ -241,6 +260,8 @@ var myapp = new Vue({
 					vm.dietList = res.data.dietList
 					vm.nutritionList = res.data.nutritionList
 					vm.motionList = res.data.motionList
+					go++
+					goPrint(go)
 				},
 				error: function(){alert('queryInsureSuggest error')}
 			});
