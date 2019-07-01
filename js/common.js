@@ -95,7 +95,14 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType;
 				var visible = res.data.visible;
 				if(visible == 0){
-					alert('你无法查看该份报告')
+					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+					$('.daifu_d').css("display","block");	
+					$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请您联系你的业务员');
+					$('.daifu_d .tip').remove();
+					$('#iknow').click(function(){
+						//WeixinJSBridge.call('closeWindow');
+						location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas;
+					});
 				}else{
 					if(reportType == 121 || reportType == 122){
 					location.href = 'report120.html'+reportUrl
@@ -107,9 +114,7 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 						location.href = 'report'+res.data.reportType+'.html'+reportUrl
 					}
 				}
-				
 
-				
 			}else if(res.code == 402){
 				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType
 				location.href='register.html'+ reportUrl

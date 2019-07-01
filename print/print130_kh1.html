@@ -7,7 +7,7 @@
   <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
   <meta content="telephone=no" name="format-detection" />
   <script>document.write('<link rel="stylesheet" type="text/css" href="css/kh.css?t=' + new Date().getTime() + '" \/>')</script>
-  <title>document</title>
+  <title>打印报告</title>
 </head>
 <body>
   <div id="app">
@@ -19,7 +19,7 @@
       <span style="width: 34%;">检测日期：<em>{{inspectDateStr}}</em></span>
     </div>
     <div class="wel_title">
-      <p>尊敬的<em>亲爱的{{insureSalesman.customerName}}{{sex==1?'先生':'女士'}}</em>： 您好！</p>
+      <p>尊敬的<em>{{insureSalesman.customerName}}{{sex==1?'先生':'女士'}}</em>： 您好！</p>
       <p>感谢您使用健康检测仪进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。如需帮助请拨打我们的健康热线 400-6666-736，将有我们专业的健康咨询师为您答疑解惑。祝您健康！</p>
     </div>
     <div class="h2">
@@ -58,15 +58,15 @@
       <h3>异常指标情况</h3>
       <div class="title" style="border: 1px solid #348798; display: flex;">
         <div class="z">
-          <p>中度风险（<em>{{abnormalTarget.mild.length}}</em> 项）</p>
+          <p>中度风险（<em>{{abnormalTarget.moderate.length}}</em> 项）</p>
           <div>
-          	<span class="li" v-for="item in abnormalTarget.mild">{{item.targetName}}</span>
+          	<span class="li" v-for="item in abnormalTarget.moderate">{{item.targetName}}</span>
 
           </div>
         </div><div class="q">
-          <p>轻度风险（<em>{{abnormalTarget.moderate.length}}</em> 项）</p>
+          <p>轻度风险（<em>{{abnormalTarget.mild.length}}</em> 项）</p>
           <div>
-          	<span class="li" v-for="item in abnormalTarget.moderate">{{item.targetName}}</span>
+          	<span class="li" v-for="item in abnormalTarget.mild">{{item.targetName}}</span>
           </div>
         </div>
       </div>
@@ -121,7 +121,7 @@
 	        </div>
 	        <div class="bd">
 	          <p class="tit">护肤建议：</p>
-	          <p>{{item.paraSkincareSuggestion}}</p>
+	          <p>{{item.paraSuggestion}}</p>
 	        </div>
         </template>
       </div>
@@ -133,7 +133,7 @@
 	        </div>
 	        <div class="bd">
 	          <p class="tit">护肤建议：</p>
-	          <p>{{item.paraSkincareSuggestion}}</p>
+	          <p>{{item.paraSuggestion}}</p>
 	        </div>
         </template>
       </div>
@@ -144,7 +144,8 @@
 	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
 	        </div>
 	        <div class="bd">
-	          <p>{{item.paraSkincareSuggestion}}</p>
+	        	<p class="tit">护肤建议：</p>
+	          <p>{{item.paraSuggestion}}</p>
 	        </div>
         </template>
       </div>
@@ -152,7 +153,7 @@
     
   </div>
 <script src="js/jquery.js"></script>
-<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script src="js/vue.min.js"></script>
 <script>
 var go = -1;
@@ -164,7 +165,7 @@ function goPrint(n){
 	}
 };
 var reportId = getQueryString("reportId");
-var reportId = 'KJ501JS000009BC190617180905250';
+//var reportId = 'KJ501JS000009BC190617180905250';
 var viewType = getQueryString("viewType");  //1 打印  2预览
 if(viewType == 1){go = 0};
 var myapp = new Vue({
@@ -240,7 +241,9 @@ var myapp = new Vue({
 					vm.totalScore = res.data.insureView.totalScore
 					vm.inspectSkinView = res.data.insureView.inspectSkinView
 					vm.detectionCode = res.data.insureView.detectionCode
-					document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+					if(vm.insureSalesman.customerName && vm.insureSalesman.userTel){
+						document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+					}
 					go++
 					goPrint(go)
 				},

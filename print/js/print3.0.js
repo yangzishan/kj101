@@ -72,7 +72,7 @@ new Vue({
 				 	_this.totalScore = data.data.reportBaseThreeData.totalScore,
 				 	_this.ranking = data.data.reportBaseThreeData.ranking,
 				 	_this.titleSex = data.data.reportBaseThreeData.titleSex,
-				 	_this.age = data.data.reportBaseThreeData.age,
+				 	_this.age = data.data.infoView.age,
 				 	_this.height = data.data.reportBaseThreeData.height,
 				 	_this.weight = data.data.reportBaseThreeData.weight,
 				 	_this.payNum = data.data.payNum,

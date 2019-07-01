@@ -36,19 +36,19 @@ body #app  .box > .lf > .dian_box > .A3115{top:38px;left:77px}
 body #app  .box > .lf > .dian_box > .A3135{top:65px;left:65px}
 body #app  .box > .lf > .dian_box > .A3540{top:94px;left:65px}
 body #app  .box > .lf > .dian_box > .A3530{top:100px;left:88px}
-body #app  .box > .lf > .dian_box > .A3585{top:134px;left:62px}
+body #app  .box > .lf > .dian_box > .A3550{top:134px;left:62px}
 body #app  .box > .lf > .dian_box > .A3570{top:128px;left:90px}
-body #app  .box > .lf > .dian_box > .A3550{top:152px;left:96px}
-body #app  .box > .lf > .dian_box > .A3560{top:166px;left:78px}
-body #app  .box > .lf > .dian_box > .A3580{top:182px;left:53px}
-body #app  .box > .lf > .dian_box > .A3590{top:197px;left:77px}
-body #app  .box > .lf > .dian_box > .B3144{top:187px;left:103px}
-body #app  .box > .lf > .dian_box > .B3152{top:187px;left:103px}
-body #app  .box > .lf > .dian_box > .A3163{top:280px;left:62px}
-body #app  .box > .lf > .dian_box > .A3598{top:280px;left:95px}
-body #app  .box > .lf > .dian_box > .A3594{top:380px;left:60px}
-body #app  .box > .lf > .dian_box > .A3087{top:383px;left:96px}
-body #app  .box > .lf > .dian_box > .A3195{top:129px;left:128px}
+body #app  .box > .lf > .dian_box > .A3560{top:152px;left:96px}
+body #app  .box > .lf > .dian_box > .A3580{top:166px;left:78px}
+body #app  .box > .lf > .dian_box > .A3590{top:182px;left:53px}
+body #app  .box > .lf > .dian_box > .A3163{top:187px;left:103px}
+body #app  .box > .lf > .dian_box > .B3144{top:197px;left:77px}
+body #app  .box > .lf > .dian_box > .B3152{top:197px;left:77px}
+body #app  .box > .lf > .dian_box > .A3598{top:280px;left:62px}
+body #app  .box > .lf > .dian_box > .A3594{top:280px;left:95px}
+body #app  .box > .lf > .dian_box > .A3087{top:380px;left:60px}
+body #app  .box > .lf > .dian_box > .A3195{top:383px;left:96px}
+body #app  .box > .lf > .dian_box > .A3585{top:129px;left:128px}
 body #app  .box > .rt{float:right;display:inline-block;width:416px}
 body #app  .box > .rt > .list{display:inline-block;width:205px;line-height:50px}
 body #app  .box > .rt > .list > span:nth-child(1){display:inline-block;/*width:36%*/}
@@ -206,10 +206,10 @@ body #app > .weixunhaun > .sr_hbox > .hr_list > span:nth-child(1){text-align:lef
 .sp-dcn .cnt{ line-height: .26rem; overflow: hidden;}
 .sp-dcn .cnt span{font-size: .15rem; font-weight: bold; background: #348798; color: #ffffff;}
 .sp-dcn .cnc{ border: #000 solid 1px;}
-.sp-dcn .cnc .tt{line-height: .36rem; text-align: center; display: -webkit-box; border-bottom: #000 solid 1px; color: #348798;}
+.sp-dcn .cnc .tt{line-height: .36rem; text-align: center; display: -webkit-box; display: -ms-flexbox; border-bottom: #000 solid 1px; color: #348798;}
 .sp-dcn .cnc .tt span{ display: block; width: .8rem; height: .36rem; font-size: .16rem;}
 .sp-dcn .cnc .tt em{ display: block; -webkit-box-flex: 1; height: .36rem; font-size: .16rem;width: 26%; border-left: #000 solid 1px;}
-.sp-dcn .cnc dl.tli{ display: -webkit-box; border-bottom: #000 solid 1px;}
+.sp-dcn .cnc dl.tli{ display: -webkit-box; display: -ms-flexbox; border-bottom: #000 solid 1px;}
 .sp-dcn .cnc .tli dt{ display: block; width: .8rem; position: relative; min-height: .44rem; text-align: center;}
 .sp-dcn .cnc .tli dt .ce{ width: 100%; position: absolute; top: 50%; margin-top: -.11rem;}
 .sp-dcn .cnc .tli dt font{ font-size: .14rem; font-weight: bold; line-height: .22rem;}

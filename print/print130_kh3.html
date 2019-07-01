@@ -7,7 +7,7 @@
   <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
   <meta content="telephone=no" name="format-detection" />
   <script>document.write('<link rel="stylesheet" type="text/css" href="css/kh.css?t=' + new Date().getTime() + '" \/>')</script>
-  <title>document3</title>
+  <title>打印报告</title>
 </head>
 <body>
   <div id="app">
@@ -74,14 +74,14 @@
       <h3>异常指标情况</h3>
       <div class="title" style="border: 1px solid #348798;display: flex;">
         <div class="z">
-          <p>中度风险（<em>{{abnormalTarget.mild.length}}</em> 项）</p>
-          <div>
-          	<span class="li" v-for="item in abnormalTarget.mild">{{item.targetName}}</span>
-          </div>
-        </div><div class="q">
-          <p>轻度风险（<em>{{abnormalTarget.moderate.length}}</em> 项）</p>
+          <p>中度风险（<em>{{abnormalTarget.moderate.length}}</em> 项）</p>
           <div>
           	<span class="li" v-for="item in abnormalTarget.moderate">{{item.targetName}}</span>
+          </div>
+        </div><div class="q">
+          <p>轻度风险（<em>{{abnormalTarget.mild.length}}</em> 项）</p>
+          <div>
+          	<span class="li" v-for="item in abnormalTarget.mild">{{item.targetName}}</span>
           </div>
         </div>
       </div>
@@ -105,7 +105,7 @@
 	        </div>
 	        <div class="bd">
 	          <p class="tit">护肤建议：</p>
-	          <p>{{item.paraSkincareSuggestion}}</p>
+	          <p>{{item.paraSuggestion}}</p>
 	        </div>
         </template>
       </div>
@@ -117,7 +117,7 @@
 	        </div>
 	        <div class="bd">
 	          <p class="tit">护肤建议：</p>
-	          <p>{{item.paraSkincareSuggestion}}</p>
+	          <p>{{item.paraSuggestion}}</p>
 	        </div>
         </template>
       </div>
@@ -128,7 +128,8 @@
 	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
 	        </div>
 	        <div class="bd">
-	          <p>{{item.paraSkincareSuggestion}}</p>
+	        	<p class="tit">护肤建议：</p>
+	          <p>{{item.paraSuggestion}}</p>
 	        </div>
         </template>
       </div>
@@ -157,7 +158,7 @@
         <div class="state_box">
           <div class="state_l">
           	<div class="state_list">
-          		<span><img src="./img/kh/vitality.png">健康活力值</span><span>89</span>
+          		<span><img src="./img/kh/vitality.png">健康活力值</span><span>{{totalScore}}</span>
           	</div>
           	<div class="state_list">
           		<span><img src="./img/kh/shape.png">体型</span>
@@ -332,7 +333,7 @@
       </div>
   </div>
 <script src="js/jquery.js"></script>
-<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script src="js/vue.min.js"></script>
 <script>
 var go = -1;
@@ -429,7 +430,9 @@ var myapp = new Vue({
 					vm.conditions = res.data.insureView.conditions
 					vm.bmi = res.data.insureView.bmi
 					vm.detectionCode = res.data.insureView.detectionCode
-					document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+					if(vm.insureSalesman.customerName && vm.insureSalesman.userTel){
+						document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+					}
 					go++
 					goPrint(go)
 				},

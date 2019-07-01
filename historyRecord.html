@@ -22,6 +22,7 @@
 			<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
 				<span class="dat">{{item.inspectDateStr}}</span>
 				<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
+				<span class="fr num" style="margin-right: .4rem;">{{item.mobile}}</span>
 			</a>
 		</div>
 	</section>
