@@ -56,7 +56,6 @@ body #app > .center .ech_box .question_box span i {
   background-size: .22rem;
   position: relative;
   top: .02rem;
-  margin-left:3px;
 }
 body #app > .center .ech_box .question_box .q_1 {
   display: block;
@@ -173,11 +172,11 @@ body #app > .center .huakuai .f_box_hua .head span {
 }
 body #app > .center .huakuai .f_box_hua .head .biaoti {
   color: #333;
-  width: 1.9rem;
+  width: 1.85rem;
   background: url(../img/psy/biaoti.png) no-repeat center;
   background-size: 1.85rem;
-  height: .88rem;
-  line-height: .88rem;
+  height: .73rem;
+  line-height: .73rem;
   text-align: center;
   font-size: .37rem;
   font-weight: bold;
