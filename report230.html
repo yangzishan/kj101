@@ -197,9 +197,10 @@
       
       };
       var option1 = {
-        tooltip : {
-            trigger: 'item',
-        },
+        // 提示框
+        // tooltip : {
+        //     trigger: 'item',
+        // },
         color: ['#8491FF','#F47572','#EBAA6D'],
         legend: {
           orient : 'horizontal',
@@ -231,7 +232,7 @@
         },
         series : [
           {
-            name:'访问来源',
+            name:'',
             type:'pie',
             radius: ['75%', '40%'],
             itemStyle : {
@@ -259,9 +260,6 @@
         ]
       };
       var option2 = {
-        tooltip : {
-            trigger: 'item',
-        },
         color: ['#8491FF','#F47572','#EBAA6D'],
         legend: {
           orient : 'horizontal',
@@ -437,7 +435,7 @@
                   item.leidaT = b.metricExplain
                   
                   setTimeout(function(){
-                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .07 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
+                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .05 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
                     item.width = 'width:' + width + 'rem;'
                     var left = (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
                     item.left = 'left:'+ left  + '%;'
