@@ -53,4 +53,3 @@ var channel = 'http://pay.jiankangzhan.com'; //支付通道
 var saasUrl = 'http://saas.jiankangzhan.com'; //saas */
 
 
-var shareImgUrl = 'http://image.jiankangzhan.com'; //图片

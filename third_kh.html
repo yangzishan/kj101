@@ -15,7 +15,7 @@
 <body>
 <DIV class="my_view" style="visibility: hidden;">
 <header class="kh-second-head">
-	<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>
+	<!--<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>-->
 	<p class="tit">{{targetName}}</p>
 </header>
 <div class="kh-third-sta" style="margin: -1.7rem .3rem .2rem; min-height: 1.8rem;">
@@ -252,6 +252,10 @@ function intchart(el,tit,arryDate,arryVal){
 	        data: arryDate
 	    },
 	    yAxis: {
+	    	axisLabel:{
+	    		//show:false
+	    		color:'#ffffff'
+	    	},
 	        type: 'value',
 	        scale:true,
 		    boundaryGap:['10%','0%'],

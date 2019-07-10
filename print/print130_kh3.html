@@ -10,28 +10,30 @@
   <title>打印报告</title>
 </head>
 <body>
+	
   <div id="app">
+  	<div class="banben">价值版</div>
     <div class="fr">
       <div class="h">
-        <h6 class="h6">全身健康检测报告</h6>
+        <h6 class="h6">全身健康评估报告</h6>
         <h6 class="h7">CENERAL HEALTH REPORT</h6>
       </div>
       <div class="f_user">
         <div class="f_l">
             <span>姓 名：<em class="emname">{{insureSalesman.customerName}}</em></span>
             <span>联系方式：<em>{{insureSalesman.userTel}}</em></span>
-            <span>检测时间：<em>{{inspectDateStr}}</em></span>
+            <span>评估时间：<em>{{inspectDateStr}}</em></span>
         </div>
         <div class="f_r">
             <span>姓 别：<em>{{sex==1?'男':'女'}}</em></span>
-            <span>检测码：<em>{{detectionCode}}</em></span>
+            <span>评估码：<em>{{detectionCode}}</em></span>
             <span>保险经纪人编号：<em class="emname">{{insureSalesman.salesmanCode}}</em></span>
         </div>
       </div>
       <div class="f_img">
         <img src="./img/kh/jiqi.png" alt="">
       </div>
-      <p class="f_p">健 康 检 测 仪</p>
+      <!--<p class="f_p">健 康 检 测 仪</p>-->
     </div>
     <div class="sr">
         <div class="sr_box">
@@ -352,6 +354,7 @@ var myapp = new Vue({
 	el:'#app',
 	data:function(){
 		return{
+			viewType:viewType,
 			reportId:reportId,
 			totalScore:'',
 			insureSalesman:{
@@ -431,7 +434,7 @@ var myapp = new Vue({
 					vm.bmi = res.data.insureView.bmi
 					vm.detectionCode = res.data.insureView.detectionCode
 					if(vm.insureSalesman.customerName && vm.insureSalesman.userTel){
-						document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+						document.title = '价值版-'+vm.insureSalesman.customerName+vm.insureSalesman.userTel
 					}
 					go++
 					goPrint(go)

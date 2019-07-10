@@ -338,7 +338,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				window.location.href=dataUrl+"/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ vm.reportId
+				window.location.href=dataUrl+"/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ vm.reportId+'&saasId='+saasId
 			});	
 		},
 		// 导航

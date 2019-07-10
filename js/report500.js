@@ -118,7 +118,7 @@ new Vue({
             location.href = gohistoryUrl
         },
         goSetUp: function(e){ //个人中心
-            window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId +  '&edition=' + edition ;
+            window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId + '&edition=' + edition+'&saasId='+saasId;
         },
     },
     mounted:function(){

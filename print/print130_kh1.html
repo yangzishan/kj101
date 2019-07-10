@@ -11,6 +11,7 @@
 </head>
 <body>
   <div id="app">
+  	<div class="banben" style="top: 8px;">结果版</div>
     <h1>健康评估报告</h1>
     <div class="user_name h2">
       <span style="width: 24%;">手机号：<em>{{insureSalesman.userTel}}</em></span>
@@ -20,7 +21,7 @@
     </div>
     <div class="wel_title">
       <p>尊敬的<em>{{insureSalesman.customerName}}{{sex==1?'先生':'女士'}}</em>： 您好！</p>
-      <p>感谢您使用健康检测仪进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。如需帮助请拨打我们的健康热线 400-6666-736，将有我们专业的健康咨询师为您答疑解惑。祝您健康！</p>
+      <p>感谢您进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。如需帮助请拨打我们的健康热线 400-6666-736，将有我们专业的健康咨询师为您答疑解惑。祝您健康！</p>
     </div>
     <div class="h2">
 	            您的身体状况处于
@@ -29,7 +30,7 @@
 	    <em v-else-if="totalScore>=85 && totalScore<90">一级风险</em>
 	    <em v-else-if="totalScore>=80 && totalScore<85">二级风险</em>
 	    <em v-else="totalScore<80">三级风险</em>
-	            ，生理年龄评估为 <em>{{physicalAge}}</em> 岁，整体状况好于 <em>{{ranking}}%</em> 的同龄人。
+	            ，生理年龄评估为 <em>{{physicalAge}}</em> 岁<template v-if="ranking">，整体状况好于 <em>{{ranking}}%</em> 的同龄人</template>。
     </div>
     <div class="box">
       <div class="lf">
@@ -172,6 +173,7 @@ var myapp = new Vue({
 	el:'#app',
 	data:function(){
 		return{
+			viewType:viewType,
 			reportId:reportId,
 			totalScore:'',
 			insureSalesman:{
@@ -242,7 +244,7 @@ var myapp = new Vue({
 					vm.inspectSkinView = res.data.insureView.inspectSkinView
 					vm.detectionCode = res.data.insureView.detectionCode
 					if(vm.insureSalesman.customerName && vm.insureSalesman.userTel){
-						document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+						document.title = '结果版-'+vm.insureSalesman.customerName+vm.insureSalesman.userTel
 					}
 					go++
 					goPrint(go)
