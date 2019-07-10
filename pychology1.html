@@ -97,7 +97,11 @@
     $(function(){
       var url = analysisreport + '/psyc/report/queryPsycIndex'
       var reportId = getQueryString('reportId') //'KJ20190705144905021'
-      var customerId = getQueryString('customerId') //1662
+      var customerId = getQueryString('userId') //1662
+			var openId = getQueryString('openId');
+			var reportType = getQueryString('reportType');
+			var saasId = getQueryString('saasId');
+			var clientType = getQueryString("clientType"); 
       
       // 雷达图
       function go(){
@@ -386,12 +390,18 @@
               type : 'POST',
               data : {
                 reportId : reportId,
-                customerId : customerId
+                customerId : customerId,
+                saasId: saasId
               },
               success : function(res){
                 if(res.code == 200){
                   that.info = res.result
                     that.filterData()
+                }else if(res.code == 201){
+                	console.log('支付');
+                	//location.href = ''
+                }else{
+                	alert('queryPsycIndex code= '+res.code)
                 }
               },
               error : function(err){
