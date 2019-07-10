@@ -93,15 +93,28 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 			if(res.code == 200){
 				var reportType = res.data.reportType;
 				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType;
-				if(reportType == 121 || reportType == 122){
-					location.href = 'report120.html'+reportUrl
-				}else if(reportType == 501 || reportType == 502 ){
-					location.href = 'report500.html'+reportUrl
-				}else if(reportType < 5){
-					location.href = 'report5.html'+reportUrl
+				var visible = res.data.visible;
+				if(visible == 0){
+					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+					$('.daifu_d').css("display","block");	
+					$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请您联系你的业务员');
+					$('.daifu_d .tip').remove();
+					$('#iknow').click(function(){
+						//WeixinJSBridge.call('closeWindow');
+						location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas;
+					});
 				}else{
-					location.href = 'report'+res.data.reportType+'.html'+reportUrl
+					if(reportType == 121 || reportType == 122){
+					location.href = 'report120.html'+reportUrl
+					}else if(reportType == 501 || reportType == 502 ){
+						location.href = 'report500.html'+reportUrl
+					}else if(reportType < 5){
+						location.href = 'report5.html'+reportUrl
+					}else{
+						location.href = 'report'+res.data.reportType+'.html'+reportUrl
+					}
 				}
+
 			}else if(res.code == 402){
 				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType
 				location.href='register.html'+ reportUrl

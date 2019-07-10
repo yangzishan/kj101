@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+  <meta content="telephone=no" name="format-detection" />
+  <script>document.write('<link rel="stylesheet" type="text/css" href="css/kh.css?t=' + new Date().getTime() + '" \/>')</script>
+  <title>打印报告</title>
+</head>
+<body>
+  <div id="app">
+    <div class="fr">
+      <div class="h">
+        <h6 class="h6">全身健康检测报告</h6>
+        <h6 class="h7">CENERAL HEALTH REPORT</h6>
+      </div>
+      <div class="f_user">
+        <div class="f_l">
+            <span>姓 名：<em class="emname">{{insureSalesman.customerName}}</em></span>
+            <span>联系方式：<em>{{insureSalesman.userTel}}</em></span>
+            <span>检测时间：<em>{{inspectDateStr}}</em></span>
+        </div>
+        <div class="f_r">
+            <span>姓 别：<em>{{sex==1?'男':'女'}}</em></span>
+            <span>检测码：<em>{{detectionCode}}</em></span>
+            <span>保险经纪人编号：<em class="emname">{{insureSalesman.salesmanCode}}</em></span>
+        </div>
+      </div>
+      <div class="f_img">
+        <img src="./img/kh/jiqi.png" alt="">
+      </div>
+      <p class="f_p">健 康 检 测 仪</p>
+    </div>
+    <div class="sr">
+        <div class="sr_box">
+          <div class="sr_tit">以下是您的评估结果：</div>
+          <div class="bp">
+            <img class="bpan" src="./img/kh/bpan.png" alt="">
+            <img class="bzhen" :class="{zj:totalScore>=95,lh:totalScore<95 && totalScore>=90,yj:totalScore<90 && totalScore>=85,ej:totalScore<85 && totalScore>=80,sj:totalScore<80}" src="./img/kh/bzhen.png" alt="">
+            <div class="text_box">
+              <span :class="{spana_active:totalScore>=95}" data-target="best">最佳状态</span>
+              <span :class="{spana_active:totalScore<95 && totalScore>=90}" data-target="better">良好状态</span>
+              <span :class="{spana_active:totalScore<90 && totalScore>=85}" data-target="no1">一级风险</span>
+              <span :class="{spana_active:totalScore<85 && totalScore>=80}" data-target="no2">二级风险</span>
+              <span :class="{spana_active:totalScore<80}" data-target="no3">三级风险</span>
+            </div>
+          </div>
+	      	<div class="box">
+				      <div class="lf">
+				        <div class="body">
+				          <img src="./img/kh/s_man.png" v-if="sex == 1">
+				          <img src="./img/kh/s_woman.png" v-if="sex != 1">
+				        </div>
+				        <div class="dian_box">
+				          <span :class="item.targetId" v-for="item in firsts" v-if="item.score<90"><i></i></span>
+				        </div>
+				      </div>
+				      <div class="rt">
+				        <div class="list" v-for="item in firsts">
+				          <span><img :src="'./img/kh/qg-'+item.targetId+'.png'" alt="">{{item.targetName}}</span>
+				          <span>
+				          	<em :class="{ lit:item.score<90 && item.score>=80,mid:item.score<80 }">
+				          		{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}
+				          	</em>
+				          </span>
+				        </div>
+				      </div>
+				    </div>
+          </div>
+      </div>
+      <div class="danger">
+      <h3>异常指标情况</h3>
+      <div class="title" style="border: 1px solid #348798;display: flex;">
+        <div class="z">
+          <p>中度风险（<em>{{abnormalTarget.moderate.length}}</em> 项）</p>
+          <div>
+          	<span class="li" v-for="item in abnormalTarget.moderate">{{item.targetName}}</span>
+          </div>
+        </div><div class="q">
+          <p>轻度风险（<em>{{abnormalTarget.mild.length}}</em> 项）</p>
+          <div>
+          	<span class="li" v-for="item in abnormalTarget.mild">{{item.targetName}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="skin">
+      <h4>皮肤报告</h4>
+      <div class='zongjie'>
+      	<div class="l">{{inspectSkinView.totalScore}} 分</div>
+      	<div class="r">
+      		<span><em>肤质</em><i>{{inspectSkinView.skinTypeResult}}</i></span>
+      		<span><em>肤龄</em><i>{{inspectSkinView.age}}</i></span>
+      		<span><em>肤色</em><i>{{skinColor[inspectSkinView.color]}}</i></span>
+      	</div>
+      </div>
+      <div class="xiangqing" v-if="inspectSkinView.majorList.length != 0">
+        <h5 class="dan">重点关注</h5>
+        <template v-for="item in inspectSkinView.majorList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+        	<div class="tou">
+	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+	        </div>
+	        <div class="bd">
+	          <p class="tit">护肤建议：</p>
+	          <p>{{item.paraSuggestion}}</p>
+	        </div>
+        </template>
+      </div>
+      <div class="xiangqing" v-if="inspectSkinView.awaitList.length != 0">
+        <h5 class="gai">有待改善</h5>
+        <template v-for="item in inspectSkinView.awaitList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+        	<div class="tou">
+	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+	        </div>
+	        <div class="bd">
+	          <p class="tit">护肤建议：</p>
+	          <p>{{item.paraSuggestion}}</p>
+	        </div>
+        </template>
+      </div>
+      <div class="xiangqing" v-if="inspectSkinView.continueList.length != 0">
+        <h5 class="chi">继续保持</h5>
+        <template v-for="item in inspectSkinView.continueList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+        	<div class="tou">
+	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+	        </div>
+	        <div class="bd">
+	        	<p class="tit">护肤建议：</p>
+	          <p>{{item.paraSuggestion}}</p>
+	        </div>
+        </template>
+      </div>
+    </div>
+      <b></b>
+      
+      <!-- 年龄 -->
+      <div class="age">
+      	<h4>生理年龄</h4>
+        <div class="true_age">
+          <div class="age1">
+            <div>实际年龄<span>{{age}}</span>岁</div>
+            <div>生理年龄<span>{{physicalAge}}</span>岁</div>
+          </div><div class="age2">
+            <div>年龄差<span>{{physicalAge-age}}</span></div>
+          </div>
+        </div>
+				<p v-if="physicalAge-age < 0">您的生理年龄低于实际年龄，身体年轻态，请继续保持哦！</p>
+				<p v-if="physicalAge-age > 0">您的生理年龄高于实际年龄，请注意管理健康哦！</p>
+				<p v-if="physicalAge-age == 0">您的生理年龄与实际年龄相当，请继续努力，力争变的更年轻哦！</p>
+      </div>
+      <!-- 状态 -->
+      <div class="state">
+      	<h4>身体实时状况</h4>
+        <div class="state_tit">以下是您的评估结果：</div>
+        <div class="state_box">
+          <div class="state_l">
+          	<div class="state_list">
+          		<span><img src="./img/kh/vitality.png">健康活力值</span><span>{{totalScore}}</span>
+          	</div>
+          	<div class="state_list">
+          		<span><img src="./img/kh/shape.png">体型</span>
+          		<span v-if="bmi<18.5">偏轻</span>
+							<span v-if="bmi<24 && bmi>=18.5">健康</span>
+							<span v-if="bmi<28 && bmi>=24">超重</span>
+							<span v-if="bmi>=28">肥胖</span>
+          	</div>
+          	<div class="state_list" v-for="item in conditions">
+          		<span><img :src="'./img/kh/'+item.targetId+'.png'" alt="">{{item.targetName}}</span>
+          		<template v-if="item.targetId=='C3228'">
+          			<span>{{item.abLevel==0?'正常':'缺水'}}</span>
+          		</template>
+          		<template v-else-if="item.targetId=='C3229'">
+          			<span>{{item.abLevel==0?'正常':'缺氧'}}</span>
+          		</template>
+          		<template v-else-if="item.targetId=='C3226'">
+          			<span>{{item.abLevel==0?'优秀':(item.abLevel==1?'良好':'一般')}}</span>
+          		</template>
+          		<template v-else-if="item.targetId=='C3230'">
+          			<span>{{item.abLevel==0?'快乐':(item.abLevel==1?'愉悦':(item.abLevel==2?'平和':(item.abLevel==3?'压抑':'郁闷')))}}</span>
+          		</template>
+          		<template v-else>
+          			<span>{{item.abLevel==0?'正常':'一般'}}</span>
+          		</template>
+          	</div>
+          </div>
+        </div>        
+      </div>
+      <b></b>
+      <!-- 食谱 -->
+			<div class="sp-dcn" v-for="(day,index) in daylist">
+				<p class="cnt"><span>day{{index+1}}</span></em></p>
+				<div class="cnc">
+					<div class="tt"><span>名称</span><em>荤菜</em><em>素菜</em><em>主食</em></div>
+					<dl class="tli">
+						<dt><p class="ce"><font>早餐</font></p></dt>
+						<dd>
+							<template v-for="bre in day.breakfast.meat">
+								<span>{{bre.foodName}}</span>
+							</template>	
+						</dd>
+						<dd>
+							<template v-for="bre in day.breakfast.vegetable">
+								<span>{{bre.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="bre in day.breakfast.main">
+								<span>{{bre.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>早加餐</font></p></dt>
+						<dd>
+							<template v-for="ba in day.breakfastAdd.BA">
+								<span>{{ba.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>午餐</font></p></dt>
+						<dd>
+							<template v-for="lun in day.lunch.meat">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.lunch.vegetable">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.lunch.main">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>午加餐</font></p></dt>
+						<dd>
+							<template v-for="la in day.lunchAdd.LA">
+								<span>{{la.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>晚餐</font></p></dt>
+						<dd>
+							<template v-for="lun in day.dinner.meat">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.dinner.vegetable">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.dinner.main">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			
+      <!--详细指标建议-->
+      <h4>异常指标详细建议</h4>
+      <template v-for="item in firsts">
+      <div class="sr_head">
+        <div class="sr_hr"><img :src="'./img/kh/qg-'+item.targetId+'.png'" alt="">{{item.targetName}}
+        	<span :class="{lit:item.score<90}">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>
+        </div>
+        <div class="sr_hbox">
+        	<div class="hr_list" v-for="site in item.seconds"><span>{{site.targetName}}</span>
+        		<span :class="{yc:site.offset==2 || site.offset==3}">{{site.offset==2?'偏高':(site.offset==3?'偏低':'正常')}}</span>
+        	</div>
+        </div>
+      </div>
+      <!-- 血管 -->
+      <div class="sr_head_b" v-for="site in item.seconds" v-if="site.offset == 2 || site.offset == 3">
+        <div class="sr_head_b_tit">{{site.targetName}}：</div>
+        <div class="sr_head_bzi"><span>正常</span><span>轻度风险</span><span>中度风险</span>
+        	<img src="./img/kh/fubiao.png" alt="" class="fubiao" :class="{lit:site.score<90 && site.score >=80,mid:site.score<80}">
+        </div>
+        <div class="sr_title">
+          <p class="h8">指标解读</p>
+          <div class="sr-text"> {{site.explain}} </div> 
+        </div>
+        <div class="sr_zhengwen">
+          <p class="h8">改善建议</p>
+          
+          <div class="sr_jybox" v-if="site.healthAdviceVo.dietList.length">
+          	<p class="h9">膳食建议</p>
+          	<template v-for="(jinayi,index) in site.healthAdviceVo.dietList">
+          		<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
+	            <!--<p class="h11">根据您的检测结果，每日建议摄入热量低于 1400 千卡</p>-->
+	            <div class="sr_jytext"> {{jinayi.simpleDescription}}</div>
+          	</template>
+            
+          </div>
+          <div class="sr_yyjy" v-if="site.healthAdviceVo.nutritionList.length">
+            <p class="h9">营养建议</p>
+            <template v-for="(jinayi,index) in site.healthAdviceVo.nutritionList">
+	            <p>{{index+1}}、{{jinayi.personality}}</p> 
+	            <p>{{jinayi.simpleDescription}}</p> 
+            </template>
+          </div>
+          <div class="sr_yyjy" v-if="site.healthAdviceVo.motionList.length">
+            <p class="h9">运动和生活方式建议</p>
+            <template v-for="(jinayi,index) in site.healthAdviceVo.motionList">
+	            <p>{{index+1}}、{{jinayi.personality}}</p> 
+            </template>
+          </div>
+        </div>
+      </div>
+      </template>
+
+      <!-- 微循环 -->
+      <div class="weixunhaun">
+        <div class="sr_hr"><img src="./img/kh/qg-A3585.png">微循环
+        	<!--<span>轻度风险</span>-->
+        </div>
+        <div class="sr_hbox">
+        	<div class="hr_list"><span>心率</span><span>{{ecg.heartRate}}</span></div>
+        	<div class="hr_list"><span>血氧饱和度</span><span>{{bloodOxygen.bloodScore}}%</span></div>
+        	<div class="hr_list"><span>心脏功能</span><span>{{ecg.paraResult}}</span></div>
+        	<div class="hr_list"><span>微循环</span><span>{{bloodOxygen.heathScore}}%</span></div>
+        </div>
+      </div>
+  </div>
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script>
+var go = -1;
+function goPrint(n){
+	if(n == 4){
+		setTimeout(function(){
+			window.print();
+		},300)
+	}
+};
+var reportId = getQueryString("reportId");
+var viewType = getQueryString("viewType");  //1 打印  2预览
+if(viewType == 1){go = 0};
+//var reportId = 'KJ501KT00000156190619000226482';
+var myapp = new Vue({
+	el:'#app',
+	data:function(){
+		return{
+			reportId:reportId,
+			totalScore:'',
+			insureSalesman:{
+				customerName:'',
+				salesmanCode:'',
+				userTel:''
+			},
+			detectionCode:'',
+			sex:'',
+			age:'',
+			physicalAge:'',
+			bmi:'',
+			ranking:'',
+			inspectDateStr:'',
+			firsts:[],
+			conditions:[],
+			abnormalTarget:{
+				mild:[],
+				moderate:[]
+			},
+			inspectSkinView:{
+				totalScore:'',
+				majorList:[],
+				awaitList:[],
+				continueList:[],
+				color:'',
+				age:'',
+				skinTypeResult:''
+			},
+			skinColor:{
+        'toubai':'透白',
+        'baixi':'白皙',
+        'ziran':'自然',
+        'xiaomai':'小麦',
+        'anchen':'暗沉',
+        'youhei':'黝黑',
+	    },
+			dietList:[],
+			nutritionList:[],
+			motionList:[],
+			daylist:[],
+			bloodOxygen:{},
+			ecg:{}
+		}
+	},
+	mounted:function(){
+		this.queryInsurePrint()
+		this.queryInsureSuggest()
+		this.queryInsureRecipes()
+		this.queryInsureCircle()
+	},
+	methods:{
+		queryInsurePrint:function(){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url: analysisreport + "/print/report/insure/queryInsurePrint",
+				async:true,
+				dataType:'Json',
+				data:{
+					reportId:reportId
+				},
+				success:function(res){
+					if(res.data.insureSalesman){
+						vm.insureSalesman = res.data.insureSalesman
+					}
+					vm.sex = res.data.insureView.sex
+					vm.inspectDateStr = res.data.insureView.inspectDateStr
+					vm.firsts = res.data.insureView.firsts
+					vm.abnormalTarget = res.data.insureView.abnormalTarget
+					vm.age = res.data.insureView.age
+					vm.physicalAge = res.data.insureView.physicalAge
+					vm.ranking = res.data.insureView.ranking
+					vm.totalScore = res.data.insureView.totalScore
+					vm.inspectSkinView = res.data.insureView.inspectSkinView
+					vm.conditions = res.data.insureView.conditions
+					vm.bmi = res.data.insureView.bmi
+					vm.detectionCode = res.data.insureView.detectionCode
+					if(vm.insureSalesman.customerName && vm.insureSalesman.userTel){
+						document.title = vm.insureSalesman.customerName+vm.insureSalesman.userTel
+					}
+					go++
+					goPrint(go)
+				},
+				error:function(){alert('queryInsurePrint error')}
+			});
+		},
+		queryInsureSuggest: function(){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:analysisreport + "/insure/report/queryInsureSuggest",
+				data:{
+					reportId: reportId
+				},
+				dataType:"Json",
+				success:function(res){
+					vm.dietList = res.data.dietList
+					vm.nutritionList = res.data.nutritionList
+					vm.motionList = res.data.motionList
+					go++
+					goPrint(go)
+				},
+				error: function(){alert('queryInsureSuggest error')}
+			});
+		},
+		queryInsureRecipes: function(){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:analysisreport+"/insure/report/queryInsureRecipes",
+				data:{
+					reportId:reportId
+				},
+				dataType:'Json',
+				success: function(res){
+					vm.daylist = res.data.daylist
+					go++
+					goPrint(go)
+				},
+				error: function(){alert('queryInsureRecipes error')}
+			});
+		},
+		queryInsureCircle: function(){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:analysisreport+"/insure/report/queryInsureCircle",
+				data:{
+					reportId:reportId
+				},
+				dataType:'Json',
+				success: function(res){
+					vm.ecg = res.data.ecg
+					vm.bloodOxygen = res.data.bloodOxygen
+					go++
+					goPrint(go)
+				},
+				error: function(){alert('queryInsureRecipes error')}
+			});
+		}
+	}
+});
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>
