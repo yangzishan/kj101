@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>心理报告</title>
+  <link rel="stylesheet" href="css/basic.css">
+  <script>
+      document.write('<link rel="stylesheet" href="css/pychology1.css?t='+new Date().getTime()+'">')
+  </script>
+</head>
+<body>
+  <div class="loadmore loading"></div>
+  <div id="app">
+    <div class="mask"  @click="Touchmove"></div>
+    <div class="popup">
+      <i class="close"  @click="Touchmove"></i>
+      <h1>展示区</h1>
+      <div class="huadong">
+      </div>
+    </div>
+    <h1>心理报告</h1>
+    <div class="user_name"><span class="name" v-if="info && info.nickName">{{info.nickName}}女士</span><span class="time" v-if="info && info.inspectDate">时间：{{info.inspectDate}}</span></div>
+    <div class="center">
+      <div class="ech_box">
+        <div class="eahar" id="main" style="width:6.98rem;height:5.6rem;" ></div>
+        <div class="question_box"  >
+          <span v-for="(item,index) in leidaObj1" :class="'q_' + ( index + 1 )" @click="stopTouchmove(event)" :data-h="item.leidaH" :data-t="item.leidaT">{{item.leidaName}}<i></i></span>
+        </div>
+        <div class="zhinan" @click="stopTouchmove(event)" data-h="指南" :data-t="zhinan" ><i></i><i>指南</i></div>
+        <div class="biaoshi"><em><i></i>同龄人平均值</em><em><i></i>您的测量值</em></div>
+      </div>
+      <!-- 区分刻度条进度条 -->
+      <div class="huakuai" v-if="press && press.length > 0">
+        <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+        <div class="f_box_hua" v-for="(item,index) in press">
+          <div class="head"><span class="biaoti"><em>{{item.leidaName}}</em></span><span class="lost1" v-if="item.biaoqian == '适中'">适中</span><span class="lost2" v-if="item.biaoqian == '偏低'">偏低</span><span class="lost2" v-if="item.biaoqian == '偏高'">偏高</span><span class="lost3" v-if="item.biaoqian == '过低'">过低</span><span class="lost3" v-if="item.biaoqian == '过高'">过高</span><span class="tieshi" @click="stopTouchmove(event)" v-if="item.title && item.title != null" data-h="小贴士" :data-t="item.title">小贴士</span></div>
+          <div class="body1" v-if=" item.jdNo <= 4">
+            <div class="sen_box"><div class="box"><span class="red" :style=" item.left" ><em class="zhezhao" :style="item.width"></em><i class="r_img"><img src="./img/psy/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" :style=" item.leftP"><i class="y_img"><img src="./img/psy/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+            <p><em>低</em><em>高</em></p>
+          </div>
+          <div class="body2" v-if="item.jdNo > 4">
+            <div class="sen_box"><div class="box"><span class="n" :style=" item.left" ><i class="n_head"><img src="./img/psy/n_head.png" alt=""></i></span><span class="o"  :style=" item.leftP"><i class="o_head"><img src="./img/psy/o_head.png" alt=""></i></span></div></div>
+            <p><em>低</em><em>高</em></p>
+          </div>
+          <div class="body3">
+            <div v-for="(a,b) in item.textD"  v-if=" a.length > 0 && a != '' "><i><img src="./img/psy/list.png" alt=""></i><em>{{a}}</em></div>
+          </div>
+        </div>
+      </div>
+      <div class="shanxingtu">
+        <h2>情感状态分布图</h2>
+        <div class="pie">
+          <div class="left_pie">
+            <h4>实时结果分析</h4>
+            <div class="echa1" id="echa1" style="width:3.45rem;height:3rem;" ></div>
+            <div class="sekuai"><span class="zi"><i></i>正性</span><span class="hong"><i></i>负性</span><span class="huang"><i></i>中性</span>
+            </div>
+          </div><div class="right_pie">
+            <h4>发展趋势</h4>
+            <div class="echa2" id="echa2" style="width:3.45rem;height:3rem;" ></div>
+            <div class="sekuai"><span class="zi"><i></i>正性</span><span class="hong"><i></i>负性</span><span class="huang"><i></i>中性</span>
+          </div>
+          
+        </div>
+        <div class="zong" v-if="info && info.totalExplain">
+            <h3>总体解读</h3>
+            <p v-for=" a in info.totalExplain" >{{a}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./js/base.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="./js/vue.min.js"></script> 
+  <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script> 
+  <script type="text/javascript">
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var    clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if(clientWidth>=750){
+              docEl.style.fontSize = '100px';
+          }else{
+              docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+          }
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+  </script>
+  <script>
+    $(function(){
+      var url = analysisreport + '/psyc/report/queryPsycIndex'
+      var reportId = getQueryString('reportId') //'KJ20190705144905021'
+      var customerId = getQueryString('customerId') //1662
+      
+      // 雷达图
+      function go(){
+      var myChart = echarts.init(document.getElementById('main'))
+      var myChart1 = echarts.init(document.getElementById('echa1'))
+      var myChart2 = echarts.init(document.getElementById('echa2'))
+      var option = {
+        title : {
+            text: '',
+            subtext: ''
+        },
+        tooltip : {
+            trigger: 'axis'
+        },
+        legend: {
+            x : 'center',
+            data:['']
+        },
+        toolbox: {
+            show : true
+        },
+        calculable : true,
+        polar : [
+          {
+            indicator : [
+              { text : '', max  : 150 },
+              { text : '', max  : 150 },
+              { text : '', max  : 150 },
+              { text : '', max  : 120 },
+              { text : '', max  : 108 },
+              { text : '', max  : 108 },
+              { text : '', max  : 108 },
+              { text : '', max  : 108 },
+              { text : '', max  : 72 }
+            ],
+            center : ['50%', '50%'],
+            radius : 100
+          }
+        ],
+        series : [
+          {
+            type: 'radar',
+            lineStyle: {
+              color:'black'
+            },
+            itemStyle: {
+              normal: {
+                color : "#88D4EA", // 图表中各个图区域的边框线拐点颜色
+                  areaStyle: {
+                    type: 'macarons',
+                    color: [
+                      'rgba(106,202,229,0.6)'
+                    ]
+                }
+              }
+            },
+            data : [
+              {
+                value : v.leidaArr1 ,
+                name : '',
+                itemStyle: {
+                  normal: {
+                    color : "#6ACAE5", // 图表中各个图区域的边框线拐点颜色
+                      lineStyle:{
+                        color: [
+                          'green'
+                        ]
+                      },
+                      areaStyle: {
+                        type: 'macarons',
+                        color: [
+                          'rgba(106,202,229,0.6)'
+                        ]
+                    }
+                  }
+                },
+              },
+              {
+                value : v.leidaArr2 ,
+                name : '',
+                itemStyle: {
+                  normal: {
+                    color:'#DC7DEF',
+                    lineStyle: {
+                      type: 'dashed'
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      
+      };
+      var option1 = {
+        tooltip : {
+            trigger: 'item',
+        },
+        color: ['#8491FF','#F47572','#EBAA6D'],
+        legend: {
+          orient : 'horizontal',
+          x : 'center',
+          y : 'bottom',
+          // data:['正性','负性','中性']
+          data:[]
+        },
+        toolbox: {
+          show : false,
+          feature : {
+            mark : {show: false},
+            dataView : {show: false, readOnly: true},
+            magicType : {
+              show: false, 
+              type: ['pie', 'funnel'],
+              option: {
+                funnel: {
+                  x: '25%',
+                  width: '50%',
+                  funnelAlign: 'center',
+                  max: 100
+                }
+              }
+            },
+            restore : {show: true},
+            saveAsImage : {show: true}
+          }
+        },
+        series : [
+          {
+            name:'访问来源',
+            type:'pie',
+            radius: ['75%', '40%'],
+            itemStyle : {
+              normal : {
+                label : {
+                  show : true,
+                  position : 'inner',
+                  formatter : function(a){
+                    var text = Math.round(a.percent) + '%'
+                    return text;
+                  },
+                  textStyle : {
+                      color:'#333',
+                      fontSize : '12',
+                      fontWeight : 'bold'
+                  }
+                },
+                labelLine : {
+                  show : false
+                }
+              }
+            },
+            data: v.pieArr1
+          }
+        ]
+      };
+      var option2 = {
+        tooltip : {
+            trigger: 'item',
+        },
+        color: ['#8491FF','#F47572','#EBAA6D'],
+        legend: {
+          orient : 'horizontal',
+          x : 'center',
+          y : 'bottom',
+          data:[]
+        },
+        toolbox: {
+          show : false,
+          feature : {
+            mark : {show: false},
+            dataView : {show: false, readOnly: true},
+            magicType : {
+              show: false, 
+              type: ['pie', 'funnel'],
+              option: {
+                funnel: {
+                  x: '25%',
+                  width: '50%',
+                  funnelAlign: 'center',
+                  max: 100
+                }
+              }
+            },
+            restore : {show: true},
+            saveAsImage : {show: true}
+          }
+        },
+        series : [
+          {
+            name:'访问来源',
+            type:'pie',
+            radius: ['75%', '40%'],
+            itemStyle : {
+              normal : {
+                label : {
+                  show : true,
+                  position : 'inner',
+                  formatter : function(a){
+                    var text = Math.round(a.percent) + '%'
+                    return text;
+                  },
+                  textStyle : {
+                      color:'#333',
+                      fontSize : '12',
+                      fontWeight : 'bold'
+                  }
+                },
+                labelLine : {
+                  show : false
+                }
+              }
+            },
+            data: v.pieArr2
+          }
+        ]
+      };
+        myChart.setOption(option); 
+        myChart1.setOption(option1); 
+        myChart2.setOption(option2); 
+      
+      }
+      // 获取url参数方法
+      function getQueryString(name) {
+          var    result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+          if (result == null || result.length < 1) {
+              return "";
+          }
+          return result[1];
+      };
+      // 
+      var v = new Vue({
+        el:'#app',
+        data:function(){
+          return{
+            info : {},
+            leidaArr1 : [], // 测量值
+            leidaArr2 : [], // 平均值
+            leidaObj1 : [
+              {leidaNo : 0 , jdNo : 4 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '攻击性' ,   leidaT : '123' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '攻击性'},
+              {leidaNo : 1 , jdNo : 3 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '神经质' ,   leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '神经质'},
+              {leidaNo : 2 , jdNo : 2 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '抑郁' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '抑郁'},
+              {leidaNo : 3 , jdNo : 7 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '自我调节' , leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '自我调节'},
+              {leidaNo : 4 , jdNo : 6 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '活力' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '活力'},
+              {leidaNo : 5 , jdNo : 5 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '自信' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '自信'},
+              {leidaNo : 6 , jdNo : 8 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '平衡' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '平衡'},
+              {leidaNo : 7 , jdNo : 1 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '焦虑' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '焦虑'},
+              {leidaNo : 8 , jdNo : 0 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '压力' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '压力'}
+            ],
+            //leidaNo : 雷达图顺序 jdNo： 进度条顺序 celiangNum ： 测量值 pingjunNum ： 平均值 leidaH： 提示 leidaT 提示内容 title 小贴士 biaoqian 进度条 偏高 textD 总结 left ： 测量值滑块 leftP ： 平均值滑块 
+            pieArr1 : [
+                {value:20, name:'正性'},
+                {value:10, name:'负性'},
+                {value:10, name:'中性'}
+              ],
+            pieArr2 : [
+              {value:310, name:'正性'},
+              {value:234, name:'负性'},
+              {value:135, name:'中性'}
+            ],  // 环形图
+            press : [], // 进度条顺序
+            zhinan : '1、本潜在情绪测试报告可协助您了解自身的各类情绪状态，建议您认真阅读。如果在阅读的过程中有不明白的地方或疑问，可向专业人士咨询。<br>2、本测试报告可作为您评估自身情绪状态的一个参考，而不是诊断。如果需要，强烈建议您向专业人士作进一步的检查和咨询。<br>3、本测试报告正文内容分为两大部分。第一部分为各情绪维度的解读，您可了解到自身9类情绪的水平、所在同年龄段人群位置及其详细建议；第二部分为整体情绪状态解读，您可了解到自身正、负性等情绪状态分布及其建议。' //指南
+          }
+        }
+        ,
+        methods:{
+          Touchmove:function(){
+            $('.mask').removeClass('show');
+            $('.popup').removeClass('show');
+            $('body').css({'position':'static'}); 
+            $(window).scrollTop(sTop);
+          },
+          stopTouchmove:function(event){
+            $('.mask').addClass('show');
+            $('.popup').addClass('show');
+            sTop = $(window).scrollTop();
+            $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});      
+            var curr = $(event.currentTarget) 
+            $('.popup h1').text(curr.attr('data-h'))
+            $('.popup .huadong').html(curr.attr('data-t'))
+          },
+          getData : function(){
+            var that = this
+            $.ajax({
+              url : url,
+              type : 'POST',
+              data : {
+                reportId : reportId,
+                customerId : customerId
+              },
+              success : function(res){
+                if(res.code == 200){
+                  that.info = res.result
+                    that.filterData()
+                }
+              },
+              error : function(err){
+                
+              }
+            })
+          },
+          filterData : function(){
+            var that = this 
+            that.info.inspectDate = that.info && that.info.inspectDate && that.info.inspectDate.split(' ')[0]
+            that.info.totalExplain = that.info && that.info.totalExplain != null ? that.info.totalExplain.split('\n') :that.info.totalExplain
+            //处理数据
+            $.each(that.leidaObj1,function(index,item){
+              $.each(that.info.metricViews,function(a,b){
+                if(b.metricName == item.leidaName){
+                  item.celiangNum = b.targetScore > b.valueMax ? b.valueMax :  b.targetScore < b.valueMin ? b.valueMin : b.targetScore
+                  item.pingjunNum = b.avgScore
+                  item.biaoqian = b.threshholdType 
+                  var text1 = []
+                  var text = '';
+                  (function(){
+                    if(b.explainTip && b.explainTip!= null ){
+                      text = b.explainTip.split('\n').join('<br>')
+                    }
+                    if(b.threshholdExplain && b.threshholdExplain!= null ){
+                      text1 = b.threshholdExplain.split('\n') 
+                    }
+                  })();
+                  item.title = text;
+                  item.textD = text1;
+                  item.Max = b.valueMax
+                  item.Min = b.valueMin
+                  item.leidaT = b.metricExplain
+                  
+                  setTimeout(function(){
+                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .07 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
+                    item.width = 'width:' + width + 'rem;'
+                    var left = (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
+                    item.left = 'left:'+ left  + '%;'
+                  },100)
+                  var leftP = (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
+                  item.leftP = 'left:'+ leftP  + '%;'
+                  return true;
+                }
+              })
+            })
+            // 测量值
+            $.each(that.leidaObj1,function(index,item){
+              that.leidaArr1[item.leidaNo] = item.celiangNum
+            })
+            // 平均值
+            $.each(that.leidaObj1,function(index,item){
+              that.leidaArr2[item.leidaNo] = item.pingjunNum
+            })
+            // 进度条
+            that.press = that.leidaObj1.concat()
+            that.press = that.press.sort(function(a,b){
+              return a.jdNo - b.jdNo
+            })
+            // 情感分布图
+            // 实时
+            $.each(that.info.stateMap.realTimeEmotion,function(index,item){
+              $.each(that.pieArr1,function(a,b){
+                if(item.metricName == '实时正面' && b['name'] == '正性' ){
+                  b.value = item.score
+                }
+                if(item.metricName == '实时负面' && b['name'] == '负性' ){
+                  b.value = item.score
+                }
+                if(item.metricName == '实时中性' && b['name'] == '中性' ){
+                  b.value = item.score
+                }
+              })
+            })
+            // 发展
+            $.each(that.info.stateMap.developEmotion,function(index,item){
+              $.each(that.pieArr2,function(a,b){
+                if(item.metricName == '发展正面' && b['name'] == '正性' ){
+                  b.value = item.score
+                }
+                if(item.metricName == '发展负面' && b['name'] == '负性' ){
+                  b.value = item.score
+                }
+                if(item.metricName == '发展中性' && b['name'] == '中性' ){
+                  b.value = item.score
+                }
+              })
+            })
+            $('.loadmore').css({
+              'display':'none'
+            })
+            $('#app').css({
+              'display':'block'
+            })
+            setTimeout(function(){
+              go()
+            },500)
+
+            // console.log(that.info)
+          }
+          
+        },
+        mounted: function(){
+          this.getData()
+        }
+      })
+    }) 
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
