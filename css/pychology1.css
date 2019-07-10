@@ -192,7 +192,10 @@ body #app > .center .huakuai .f_box_hua .head .lost1 {
   height: .45rem;
   border-radius: .29rem;
   background: linear-gradient(180deg, #8cbffb 0%, #3675fd 100%);
-  line-height:.45rem;
+  /* line-height:.45rem; */
+  padding-top:.02rem;
+  /* vertical-align:middle */
+
 }
 body #app > .center .huakuai .f_box_hua .head .lost2 {
   color: #fff;
@@ -203,7 +206,9 @@ body #app > .center .huakuai .f_box_hua .head .lost2 {
   height: .45rem;
   border-radius: .29rem;
   background: linear-gradient(180deg, #f0bb76 0%, #f7923e 100%);
-  line-height:.45rem;
+  /* vertical-align:middle */
+  padding-top:.02rem;
+  /* line-height:.45rem; */
 }
 body #app > .center .huakuai .f_box_hua .head .lost3 {
   color: #fff;
@@ -214,7 +219,10 @@ body #app > .center .huakuai .f_box_hua .head .lost3 {
   height: .45rem;
   border-radius: .29rem;
   background: linear-gradient(180deg, #fa8b8c 0%, #fd484b 100%);
-  line-height:.45rem;
+  /* line-height:.45rem; */
+  /* vertical-align:middle */
+  padding-top:.02rem;
+
 }
 body #app > .center .huakuai .f_box_hua .head .tieshi {
   position: absolute;
@@ -283,7 +291,7 @@ body #app > .center .huakuai .f_box_hua .body1 .sen_box .box .red .r_k {
 body #app > .center .huakuai .f_box_hua .body1 .sen_box .box .red .zhezhao {
   position: absolute;
   width: 5.23rem;
-  height: .21rem;
+  height: .22rem;
   background: #E4E4E4;
   top: 0;
   left: 0;
@@ -321,7 +329,7 @@ body #app > .center .huakuai .f_box_hua .body1 p {
   width: 100%;
   padding-left: .88rem;
   position: absolute;
-  top: .62rem;
+  top: .72rem;
   z-index: 8;
 }
 body #app > .center .huakuai .f_box_hua .body1 p em:nth-child(2) {
@@ -391,7 +399,7 @@ body #app > .center .huakuai .f_box_hua .body2 p {
   width: 100%;
   padding-left: .88rem;
   position: absolute;
-  top: .62rem;
+  top: .72rem;
   z-index: 8;
 }
 body #app > .center .huakuai .f_box_hua .body2 p em:nth-child(2) {
@@ -402,10 +410,10 @@ body #app > .center .huakuai .f_box_hua .body3 {
   width: 100%;
   padding: .28rem .2rem .28rem 0;
   background: #F6F7F9;
-  border-radius: 15px;
+  border-radius: 8px;
   color: #333;
   line-height: .32rem;
-  font-size: .22rem;
+  font-size: .26rem;
   margin-bottom: .45rem;
 }
 body #app > .center .huakuai .f_box_hua .body3 i {
@@ -422,6 +430,7 @@ body #app > .center .huakuai .f_box_hua .body3 i img {
 body #app > .center .huakuai .f_box_hua .body3 em {
   display: inline-block;
   width: 92%;
+  line-height: .35rem;
 }
 body #app > .center .shanxingtu {
   margin-bottom: .58rem;
@@ -523,7 +532,7 @@ body #app > .center .shanxingtu .pie .right_pie .sekuai .huang i {
 }
 body #app > .center .shanxingtu .zong {
   width: 100%;
-  border-radius: 15px;
+  border-radius: 8px;
   background: #F6F7F9;
   padding: .19rem .28rem;
 }

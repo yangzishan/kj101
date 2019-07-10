@@ -435,7 +435,7 @@
                   item.leidaT = b.metricExplain
                   
                   setTimeout(function(){
-                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .05 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
+                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .04 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
                     item.width = 'width:' + width + 'rem;'
                     var left = (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
                     item.left = 'left:'+ left  + '%;'
