@@ -6,18 +6,14 @@ var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
-setupWebViewJavascriptBridge(function(bridge) {
-	//为按钮注册方法
-	$(document).on("click","#goToShare",function(){
-		//alert('click share'+reportId);
-		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
-	});
-})
+var localUrl = location.href;
+var reportPrintUrl = 'http://kj101.jiankangzhan.com/print/print130_kh2.html?viewType=2&reportId=';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
 };
+
 var myApp = new Vue({
 	el: '.my_view',
 	data: function(){
@@ -27,6 +23,7 @@ var myApp = new Vue({
 			totalScore:'',
 			healthExplain:'',
 			sex:'',
+			ranking:'',
 			userId: '',
 			inspectDateStr:'',
 			customerAge:'',
@@ -88,8 +85,10 @@ var myApp = new Vue({
 						$('.load-overlay').css("display","none");
 						vm.result = res.data 
 						vm.totalScore = res.data.totalScore
+						vm.inspectDateStr = res.data.inspectDateStr
 						vm.healthExplain = res.data.healthExplain
 						vm.sex = res.data.sex
+						vm.ranking = res.data.ranking
 						//vm.customerAge = res.data.customerAge
 						vm.customerAge = res.data.age
 						vm.physicalAge = res.data.physicalAge
@@ -114,7 +113,11 @@ var myApp = new Vue({
 						}else{
 							var du = 106
 						}
-						setTimeout(function(){$('#pointer').css("transform","rotate("+du+"deg)")},100)
+						setTimeout(function(){
+							$('#pointer').css("transform","rotate("+du+"deg)");
+							vm.zhuan(vm.totalScore);
+						},100)
+						vm.goToShare('goToPrint')
 					}else if(res.code == 201){
 						vm.goPay(res.paymentType,res.sameUser)
 					}else{
@@ -123,6 +126,25 @@ var myApp = new Vue({
 				},
 				error: function(){console.log('queryInsureIndex error')}
 			});
+		},
+		zhuan:function(score){
+			var vm = this
+			//var  w = document.documentElement.clientWidth;
+			var  w = $('.toscore').width();
+            //if(w>750){w = 750}
+			$('.toscore').circleProgress({
+			    value: score/100,
+			    size: w,
+			    startAngle: Math.PI*1.5,
+        	    emptyFill: '#edf6fb',
+        	    thickness: w/28,
+        	    fill:{
+        	    	color: '#428FE8',
+        	    }
+			}).on('circle-animation-progress', function(event, progress) {
+			    $(this).find('span').html(parseInt(score * progress));
+			});
+			$('.dian').css("transform","rotate("+ score/100*360 +"deg)"); 
 		},
 		goPay: function(paymentType,sameUser){
 			var vm = this
@@ -161,13 +183,27 @@ var myApp = new Vue({
 				location.href = gohistoryUrl
 			});
 		},
+		goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':reportPrintUrl+reportId,
+					'reportScore': vm.totalScore,
+					'reportTime': vm.inspectDateStr,
+					'reportName': vm.ranking
+				}, function responseCallback(responseData) {});
+			})
+		},
 		goSetUp: function(){ //个人中心
 			var vm = this;
 			zhuge.track('点击个人中心', { //埋点 t
 				'用户id': vm.customerId,
 				'渠道' : '微信'
 			},function(){
-				location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.customerId + '&reportId='+ reportId
+				location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId="+vm.customerId+'&reportId='+reportId+'&saasId='+saasId
 			});	
 		},
 		getSuggest: function(e){ //健康建议
@@ -241,7 +277,6 @@ var myApp = new Vue({
 				)
 			}	
 		},
-		
 	},
 	mounted: function(){
 		this.queryInsureIndex()

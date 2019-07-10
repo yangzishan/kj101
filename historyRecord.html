@@ -95,6 +95,10 @@ var myApp = new Vue({
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.dataList = res.data
+						for(var i=0;res.data.length>i;i++){
+							res.data[i].mobile = geTel(res.data[i].mobile)
+						}
+						vm.dataList = res.data
 					}else{alert('findHistoryReport code='+ res.code)}
 				},
 				error : function(obj,msg){alert('findHistoryReport error')}
@@ -125,6 +129,11 @@ function getQueryString(name){
      var r = window.location.search.substr(1).match(reg);
      if(r!=null)return  unescape(r[2]); return null;
 };
+//隐藏手机号
+function geTel(tel){
+    var reg = /^(\d{3})\d{4}(\d{4})$/;  
+    return tel.replace(reg, "$1****$2");
+}
 </script> 
 </body>
 </html>

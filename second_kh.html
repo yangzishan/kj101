@@ -15,11 +15,12 @@
 <body>
 <DIV class="my_view" style="visibility: hidden;">
 <header class="kh-second-head">
-	<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>
+	<!--<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>-->
 	<p class="tit">{{targetName}}</p>
 </header>
 <section style="margin-top: -1.8rem;">
 <div class="kh-seconditem" v-if="targetId != 'A3163'">
+	<div class="ctt"><i></i><span>您的指标状况</span></div>
 	<ul>
 		<template v-for="item in seconds" v-if="item.thirds.length == 0">
 			<li :class="{lit:item.score<90 && item.score>=80,mid:item.score<80}" @click="goThird(item)">
@@ -29,18 +30,11 @@
 				</span>
 			</li>
 		</template>
-		<!--<template v-for="item in seconds" v-if="item.thirds.length != 0">
-			<li :class="{mid:site.score<90 && site.score>=80,lit:site.score<80}" v-for="site in item.thirds"  @click="goThird(site)">
-				<span class="lab">{{site.targetName}}</span><em class="arr fr"></em>
-				<span class="lev fr">
-					{{site.score>=90?'正常':(site.score<90 && site.score>=80?'轻度风险':'中度风险')}}
-				</span>
-			</li>
-		</template>-->
 	</ul>
 </div>
 
 <div class="kh-seconditem" v-if="targetId == 'A3163'" v-for="item in seconds">
+	<div class="ctt"><i></i><span>您的指标状况</span></div>
 	<p style="line-height: 1rem; font-size: .36rem; font-weight: 600; padding: 0 .4rem;">{{item.targetName}}</p>
 	<ul>
 		<li :class="{lit:site.score<90 && site.score>=80,mid:site.score<80}" v-for="site in item.thirds"  @click="goThird(site)">
@@ -50,6 +44,14 @@
 			</span>
 		</li>
 	</ul>
+</div>
+
+<div class="kh-seconditem" v-if="symptom">
+	<div class="ctt"><i class="ckt"></i><span>您有可能有以下症状</span></div>
+	<div class="symptom">
+		<span v-for="item in symptom">{{item}}</span>
+	</div>
+	<div>{{symptomMsg}}</div>
 </div>
 </section>
 
@@ -95,7 +97,9 @@ var myApp = new Vue({
 			score:'',
 			targetName:'',
 			seconds:[],
-			customerId:''
+			customerId:'',
+			symptom:[],
+			symptomMsg:''
 		}
 	},
 	mounted: function(){
@@ -120,6 +124,7 @@ var myApp = new Vue({
 				   		vm.targetName = res.data.targetName //系统名称
 				    	vm.seconds = res.data.seconds //二级指标
 				    	vm.customerId = res.data.customerId
+				    	vm.queryMetricSymptom(targetId,vm.score)
 					}
 				},
 				error : function(obj,msg){alert("queryInsureSecondaryTarget error")}
@@ -136,6 +141,27 @@ var myApp = new Vue({
 				location.href = 'third_kh.html?reportId='+reportId+'&targetId='+ item.targetId
 			});
 		},
+		queryMetricSymptom: function(metricId,score){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:analysisreport+"/insure/report/queryMetricSymptom",
+				dataType:'Json',
+				data:{
+					metricId: metricId,
+					score :score
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.symptom = res.data
+						if(res.data == ''){vm.symptomMsg = res.msg}
+					}else{
+						console.log('queryMetricSymptom code = '+res.code)
+					}
+				},
+				error: function(){console.log('queryMetricSymptom error')}
+			});
+		}
 	}
 });
 

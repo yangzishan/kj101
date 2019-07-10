@@ -17,16 +17,35 @@
 <section class="bodySta">
 	<div class="toper">
 		<div class="gao">
-			<div class="fl per" id="goToShare"><img src="img/kh130/i-per.png" ><p>报告分享</p></div>
-			<div class="fr per"  @click="checkHistory()"><img src="img/kh130/i-his.png" ><p>历史报告</p></div>
+			<div class="fl per"  @click="checkHistory()"><img src="img/kh130/i-his.png" ><span>历史</span></div>
+			<button class="fr per" id="goToShare" @click="goToShare('goToShare')" style="background: none;"><span>分享</span><img src="img/kh130/i-share.png" ></button>
 		</div>
-		<div class="staer">
+		<!--<div class="staer">
 			<p style="position: absolute; left: 12%; top: 71%;">最佳状态</p>
 			<p style="position: absolute; left: 11%; top: 17%;">良好状态</p>
 			<p style="position: absolute; left: 44%; top: -17%;">一级风险</p>
 			<p style="position: absolute; left: 76%; top: 17%;">二级风险</p>
 			<p style="position: absolute; left: 75%; top: 71%;">三级风险</p>
 			<div class="stabg"><i id="pointer" class="pointer"></i></div>
+		</div>-->
+		<div class="kh-inf">
+			<div class="huolizhi fl">
+				<div class="d-chart">
+					<div class="toscore">
+						<span>80</span>
+						<p class="dian"><i></i></p>
+					</div>
+					<p style="line-height: .46rem;">健康活力值</p>
+				</div>
+				
+			</div>
+			<div class="fengxian fr">
+				<p :class="{active:totalScore>=95}"><i style="background: #2FC7BE;"></i><span>最佳状态</span></p>
+				<p :class="{active:totalScore>=90 && totalScore<95}"><i style="background: #53CFE0;"></i><span>良好状态</span></p>
+				<p :class="{active:totalScore>=85 && totalScore<90}"><i style="background: #ACE260;"></i><span>一级风险</span></p>
+				<p :class="{active:totalScore>=80 && totalScore<85}"><i style="background: #FFC255;"></i><span>二级风险</span></p>
+				<p :class="{active:totalScore<80}"><i style="background: #FF8C3E;"></i><span>三级风险</span></p>
+			</div>
 		</div>
 	</div>
 	<div class="bodyqg">
@@ -65,6 +84,17 @@
 			</li>
 		</ul>
 	</div>
+	<p class="btit"><i></i><span>生理年龄</span><i></i></p>
+	<div class="phyage">
+		<div class="agecn">
+			<span><b>{{customerAge}}</b>岁</span> <span><b>{{physicalAge}}</b>岁</span> <span>{{physicalAge-customerAge}}</span>
+		</div>
+		<p class="titname"><span>实际年龄</span><span>生理年龄</span><span>年龄差</span></p>
+		<p class="tip" v-if="physicalAge-customerAge < 0">您的生理年龄低于实际年龄，身体年轻态，请继续保持哦！</p>
+		<p class="tip" v-if="physicalAge-customerAge > 0">您的生理年龄高于实际年龄，请注意管理健康哦！</p>
+		<p class="tip" v-if="physicalAge-customerAge == 0">您的生理年龄与实际年龄相当，请继续努力，力争变的更年轻哦！</p>
+	</div>
+	
 	<p class="btit"><i></i><span>皮肤状态</span><i></i></p>
 	<div style="padding: .2rem 0 .3rem;">
 		<div class="pf-main">
@@ -103,21 +133,11 @@
         	</div>
         </div>
         <p class="gotoskin"><button @click="gotoSkin()">查看更多</button></p>
-		
 	</div>
 	
-	<p class="btit"><i></i><span>生理年龄</span><i></i></p>
-	<div class="phyage">
-		<div class="agecn">
-			<span><b>{{customerAge}}</b>岁</span> <span><b>{{physicalAge}}</b>岁</span> <span>{{physicalAge-customerAge}}</span>
-		</div>
-		<p class="titname"><span>实际年龄</span><span>生理年龄</span><span>年龄差</span></p>
-		<p class="tip" v-if="physicalAge-customerAge < 0">您的生理年龄低于实际年龄，身体年轻态，请继续保持哦！</p>
-		<p class="tip" v-if="physicalAge-customerAge > 0">您的生理年龄高于实际年龄，请注意管理健康哦！</p>
-		<p class="tip" v-if="physicalAge-customerAge == 0">您的生理年龄与实际年龄相当，请继续努力，力争变的更年轻哦！</p>
-	</div>
+	
 	<p class="btit"><i></i><span>身体状况</span><i></i></p>
-	<div class="stjk">
+	<!--<div class="stjk">
 		<div class="huoli s_li">
 			<p class="tt"><span>健康活力值</span><i @click="popExplain('健康活力值',healthExplain)">?</i></p>
 			<p class="bo"><em></em><span class="fr">{{totalScore}}</span></p>
@@ -128,7 +148,7 @@
 				<span class="fr" v-if="bmi<18.5">偏轻</span>
 				<span class="fr" v-if="bmi<24 && bmi>=18.5">健康</span>
 				<span class="fr" v-if="bmi<28 && bmi>=24">超重</span>
-				<span class="fr"v-if="bmi>=28">肥胖</span>
+				<span class="fr" v-if="bmi>=28">肥胖</span>
 			</p>
 			<div class="alter-box" v-show="showUpdateBmi" @click.stop="">
 				<div class="write">
@@ -143,10 +163,32 @@
 				</div>
 				<div class="confirm" @click.stop="updateBmi()">确定</div>
 			</div>
-			
 		</div>
-	</div>
+	</div>-->
 	<div class="zk_list">
+		<div class="zk_item tixing" style="overflow: initial;">
+			<em class="ico"></em><span class="lab">体型</span><i class="pop" @click="popExplain('体型',bmiexplain)">?</i>
+			<div class="leve fr" style="position: relative;">
+				<template v-if="bmi<18.5"><em class="on">偏轻</em><em>健康</em><em>超重</em><em>肥胖</em></template>
+				<template v-if="bmi<24 && bmi>=18.5"><em>偏轻</em><em class="on">健康</em><em>超重</em><em>肥胖</em></template>
+				<template v-if="bmi<28 && bmi>=24"><em>偏轻</em><em>健康</em><em class="on">超重</em><em>肥胖</em></template>
+				<template v-if="bmi>=28"><em>偏轻</em><em>健康</em><em>超重</em><em class="on">肥胖</em></template>
+				<button class="fr" @click.stop="goUpdate()">更新</button>
+				<div class="alter-box" v-show="showUpdateBmi" @click.stop="">
+					<div class="write">
+						<span>身高：</span>
+						<div><input type="number" id="_height" max="250" min="50" v-model="height" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+						<span>cm</span>
+					</div>
+					<div class="write">
+						<span>体重：</span>
+						<div><input type="number" id="_weight" max="200" min="20" v-model="weight" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)" /></div>
+						<span>kg</span>
+					</div>
+					<div class="confirm" @click.stop="updateBmi()">确定</div>
+				</div>
+			</div>
+		</div>
 		<div class="zk_item" :class="item.targetId" v-for="item in conditions" :key="item.targetId">
 			<em class="ico"></em><span class="lab">{{item.targetName}}</span><i class="pop" @click="popExplain(item.targetName,item.explain)">?</i>
 			<p class="leve fr" v-if="item.targetId != 'C3230' && item.targetId != 'C3231'">
@@ -196,9 +238,11 @@
 </section>
 <div class="orginImg"><img class="img_b" :src="inspectSkinView.fileName"></div>
 <div class="jysp">
-	<p class="" @click="getSuggest()"><i></i><span>专属建议</span></p>
-	<p class="" @click="getRecipesData()"><i></i><span>健康食谱</span></p>
+	<p class="" @click="getSuggest()"><i></i><span>专属<br>建议</span></p>
+	<p class="" @click="getRecipesData()"><i></i><span>健康<br>食谱</span></p>
 </div>
+<a class="kefu" href="https://www.sobot.com/chat/pc/index.html?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8&titleFlag=2&customTitle=智能健康助手"><i></i><span>智能健康助手</span></a>
+<p style="height: .3rem;"></p>
 </DIV>
 <div class="v_overlay"></div>
 <div class="v_overlert">
@@ -214,8 +258,8 @@
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
-<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
-<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script src="js/circle-progress.js"></script>
+<!--<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>-->
 <script>document.write('<script src="js/report130.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">

@@ -245,7 +245,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId
+				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId+'&saasId='+saasId
 			});	
 		},
 		showTip: function(){
