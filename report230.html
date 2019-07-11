@@ -461,7 +461,19 @@
             })
             // 情感分布图
             // 实时
+            // 实时情绪数组求和，不满足100 中性补满100
+            var realTimeEmotion = 0,
+                developEmotion = 0;
             $.each(that.info.stateMap.realTimeEmotion,function(index,item){
+              realTimeEmotion = realTimeEmotion + item.score 
+            })
+            $.each(that.info.stateMap.developEmotion,function(index,item){
+              developEmotion = developEmotion + item.score 
+            })
+            $.each(that.info.stateMap.realTimeEmotion,function(index,item){
+              if(item.metricName == '实时中性'){
+                realTimeEmotion = 100 - realTimeEmotion + (function(item){var t = item['score'];return t})(item)
+              } 
               $.each(that.pieArr1,function(a,b){
                 if(item.metricName == '实时正面' && b['name'] == '正性' ){
                   b.value = item.score
@@ -470,12 +482,15 @@
                   b.value = item.score
                 }
                 if(item.metricName == '实时中性' && b['name'] == '中性' ){
-                  b.value = item.score
+                  b.value = realTimeEmotion
                 }
               })
             })
             // 发展
             $.each(that.info.stateMap.developEmotion,function(index,item){
+              if(item.metricName == '发展中性'){
+                developEmotion = 100 - developEmotion + (function(item){var t = item['score'];return t})(item)
+              }
               $.each(that.pieArr2,function(a,b){
                 if(item.metricName == '发展正面' && b['name'] == '正性' ){
                   b.value = item.score
@@ -484,7 +499,7 @@
                   b.value = item.score
                 }
                 if(item.metricName == '发展中性' && b['name'] == '中性' ){
-                  b.value = item.score
+                  b.value =  developEmotion
                 }
               })
             })
@@ -497,10 +512,7 @@
             setTimeout(function(){
               go()
             },500)
-
-            // console.log(that.info)
           }
-          
         },
         mounted: function(){
           this.getData()

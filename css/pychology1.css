@@ -128,7 +128,7 @@ body #app > .center .ech_box .biaoshi em {
 body #app > .center .ech_box .biaoshi em:nth-child(1) i {
   display: inline-block;
   width: .71rem;
-  border-top: 1px dashed #BD10E0;
+  border-top: 2px dashed #BD10E0;
   position: relative;
   top: -0.05rem;
   margin-right: .09rem;
@@ -136,7 +136,7 @@ body #app > .center .ech_box .biaoshi em:nth-child(1) i {
 body #app > .center .ech_box .biaoshi em:nth-child(2) i {
   display: inline-block;
   width: .71rem;
-  border-top: 1px solid #6ACAE5;
+  border-top: 2px solid #6ACAE5;
   position: relative;
   top: -0.04rem;
   margin-right: .09rem;
