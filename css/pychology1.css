@@ -193,7 +193,8 @@ body #app > .center .huakuai .f_box_hua .head .lost1 {
   border-radius: .29rem;
   background: linear-gradient(180deg, #8cbffb 0%, #3675fd 100%);
   /* line-height:.45rem; */
-  padding-top:.02rem;
+  padding:.04rem 0;
+  /* padding-top:.03rem; */
   /* vertical-align:middle */
 
 }
@@ -207,8 +208,10 @@ body #app > .center .huakuai .f_box_hua .head .lost2 {
   border-radius: .29rem;
   background: linear-gradient(180deg, #f0bb76 0%, #f7923e 100%);
   /* vertical-align:middle */
-  padding-top:.02rem;
+  /* padding-top:.03rem; */
   /* line-height:.45rem; */
+  padding:.04rem 0;
+
 }
 body #app > .center .huakuai .f_box_hua .head .lost3 {
   color: #fff;
@@ -221,7 +224,9 @@ body #app > .center .huakuai .f_box_hua .head .lost3 {
   background: linear-gradient(180deg, #fa8b8c 0%, #fd484b 100%);
   /* line-height:.45rem; */
   /* vertical-align:middle */
-  padding-top:.02rem;
+  /* padding-top:.03rem; */
+  padding:.04rem 0;
+
 
 }
 body #app > .center .huakuai .f_box_hua .head .tieshi {
@@ -291,7 +296,7 @@ body #app > .center .huakuai .f_box_hua .body1 .sen_box .box .red .r_k {
 body #app > .center .huakuai .f_box_hua .body1 .sen_box .box .red .zhezhao {
   position: absolute;
   width: 5.23rem;
-  height: .22rem;
+  height: .215rem;
   background: #E4E4E4;
   top: 0;
   left: 0;

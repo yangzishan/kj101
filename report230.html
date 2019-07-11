@@ -20,7 +20,7 @@
       <div class="huadong">
       </div>
     </div>
-    <h1>心理报告</h1>
+    <!-- <h1>心理报告</h1> -->
     <div class="user_name"><span class="name" v-if="info && info.nickName">{{info.nickName}}<em v-if="info.sex == 2">女士</em><em v-if="info.sex != 2">先生</em></span><span class="time" v-if="info && info.inspectDate">时间：{{info.inspectDate}}</span></div>
     <div class="center">
       <div class="ech_box">
@@ -241,7 +241,7 @@
                   show : true,
                   position : 'inner',
                   formatter : function(a){
-                    var text = Math.round(a.percent) + '%'
+                    var text = Math.floor(a.percent) + '%'
                     return text;
                   },
                   textStyle : {
@@ -299,7 +299,7 @@
                   show : true,
                   position : 'inner',
                   formatter : function(a){
-                    var text = Math.round(a.percent) + '%'
+                    var text = Math.floor(a.percent) + '%'
                     return text;
                   },
                   textStyle : {
@@ -416,7 +416,7 @@
               $.each(that.info.metricViews,function(a,b){
                 if(b.metricName == item.leidaName){
                   item.celiangNum = b.targetScore > b.valueMax ? b.valueMax :  b.targetScore < b.valueMin ? b.valueMin : b.targetScore
-                  item.pingjunNum = b.avgScore
+                  item.pingjunNum = b.avgScore > b.valueMax ? b.valueMax :  b.avgScore < b.valueMin ? b.valueMin : b.avgScore
                   item.biaoqian = b.threshholdType 
                   var text1 = []
                   var text = '';
@@ -433,9 +433,9 @@
                   item.Max = b.valueMax
                   item.Min = b.valueMin
                   item.leidaT = b.metricExplain
-                  
+                  // 进度条动画效果
                   setTimeout(function(){
-                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .04 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
+                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
                     item.width = 'width:' + width + 'rem;'
                     var left = (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
                     item.left = 'left:'+ left  + '%;'
