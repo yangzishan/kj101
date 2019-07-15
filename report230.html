@@ -35,7 +35,17 @@
       <div class="huakuai" v-if="press && press.length > 0">
         <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
         <div class="f_box_hua" v-for="(item,index) in press">
-          <div class="head"><span class="biaoti"><em>{{item.leidaName}}</em></span><span class="lost1" v-if="item.biaoqian == '适中'">适中</span><span class="lost2" v-if="item.biaoqian == '偏低'">偏低</span><span class="lost2" v-if="item.biaoqian == '偏高'">偏高</span><span class="lost3" v-if="item.biaoqian == '过低'">过低</span><span class="lost3" v-if="item.biaoqian == '过高'">过高</span><span class="tieshi" @click="stopTouchmove(event)" v-if="item.title && item.title != null" data-h="小贴士" :data-t="item.title">小贴士</span></div>
+          <div class="head"><span class="biaoti"><em>{{item.leidaName}}</em></span>
+            <span class="lost1" v-if="item.biaoqian == '适中'">适中</span>
+            <span class="lost2" v-if="item.biaoqian == '较低'">较低</span>
+            <span class="lost2" v-if="item.biaoqian == '较弱'">较弱</span>
+            <span class="lost2" v-if="item.biaoqian == '较高'">较高</span>
+            <span class="lost2" v-if="item.biaoqian == '较强'">较强</span>
+            <span class="lost3" v-if="item.biaoqian == '过低'">过低</span>
+            <span class="lost3" v-if="item.biaoqian == '过弱'">过弱</span>
+            <span class="lost3" v-if="item.biaoqian == '过高'">过高</span>
+            <span class="lost3" v-if="item.biaoqian == '过强'">过强</span>
+            <span class="tieshi" @click="stopTouchmove(event)" v-if="item.title && item.title != null" data-h="小贴士" :data-t="item.title">小贴士</span></div>
           <div class="body1" v-if=" item.jdNo <= 4">
             <div class="sen_box"><div class="box"><span class="red" :style=" item.left" ><em class="zhezhao" :style="item.width"></em><i class="r_img"><img src="./img/psy/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" :style=" item.leftP"><i class="y_img"><img src="./img/psy/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
             <p><em>低</em><em>高</em></p>
@@ -361,6 +371,8 @@
               {value:135, name:'中性'}
             ],  // 环形图
             press : [], // 进度条顺序
+            valueMax : 100,
+            valueMin : 0,
             zhinan : '1、本潜在情绪测试报告可协助您了解自身的各类情绪状态，建议您认真阅读。如果在阅读的过程中有不明白的地方或疑问，可向专业人士咨询。<br>2、本测试报告可作为您评估自身情绪状态的一个参考，而不是诊断。如果需要，强烈建议您向专业人士作进一步的检查和咨询。<br>3、本测试报告正文内容分为两大部分。第一部分为各情绪维度的解读，您可了解到自身9类情绪的水平、所在同年龄段人群位置及其详细建议；第二部分为整体情绪状态解读，您可了解到自身正、负性等情绪状态分布及其建议。' //指南
           }
         }
@@ -415,8 +427,8 @@
             $.each(that.leidaObj1,function(index,item){
               $.each(that.info.metricViews,function(a,b){
                 if(b.metricName == item.leidaName){
-                  item.celiangNum = b.targetScore > b.valueMax ? b.valueMax :  b.targetScore < b.valueMin ? b.valueMin : b.targetScore
-                  item.pingjunNum = b.avgScore > b.valueMax ? b.valueMax :  b.avgScore < b.valueMin ? b.valueMin : b.avgScore
+                  item.celiangNum = b.targetScore > that.valueMax ? that.valueMax :  b.targetScore < that.valueMin ? that.valueMin : b.targetScore
+                  item.pingjunNum = b.avgScore > that.valueMax ? that.valueMax :  b.avgScore < that.valueMin ? that.valueMin : b.avgScore
                   item.biaoqian = b.threshholdType 
                   var text1 = []
                   var text = '';
@@ -430,17 +442,17 @@
                   })();
                   item.title = text;
                   item.textD = text1;
-                  item.Max = b.valueMax
-                  item.Min = b.valueMin
+                  item.Max = that.valueMax
+                  item.Min = that.valueMin
                   item.leidaT = b.metricExplain
                   // 进度条动画效果
                   setTimeout(function(){
-                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
+                    var width =  (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
                     item.width = 'width:' + width + 'rem;'
-                    var left = (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
+                    var left = (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
                     item.left = 'left:'+ left  + '%;'
                   },100)
-                  var leftP = (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
+                  var leftP = (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
                   item.leftP = 'left:'+ leftP  + '%;'
                   return true;
                 }
