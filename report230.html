@@ -38,8 +38,10 @@
           <div class="head"><span class="biaoti"><em>{{item.leidaName}}</em></span>
             <span class="lost1" v-if="item.biaoqian == '适中'">适中</span>
             <span class="lost2" v-if="item.biaoqian == '较低'">较低</span>
+            <span class="lost2" v-if="item.biaoqian == '偏低'">偏低</span>
             <span class="lost2" v-if="item.biaoqian == '较弱'">较弱</span>
             <span class="lost2" v-if="item.biaoqian == '较高'">较高</span>
+            <span class="lost2" v-if="item.biaoqian == '偏高'">偏高</span>
             <span class="lost2" v-if="item.biaoqian == '较强'">较强</span>
             <span class="lost3" v-if="item.biaoqian == '过低'">过低</span>
             <span class="lost3" v-if="item.biaoqian == '过弱'">过弱</span>
@@ -427,8 +429,8 @@
             $.each(that.leidaObj1,function(index,item){
               $.each(that.info.metricViews,function(a,b){
                 if(b.metricName == item.leidaName){
-                  item.celiangNum = b.targetScore > that.valueMax ? that.valueMax :  b.targetScore < that.valueMin ? that.valueMin : b.targetScore
-                  item.pingjunNum = b.avgScore > that.valueMax ? that.valueMax :  b.avgScore < that.valueMin ? that.valueMin : b.avgScore
+                  item.celiangNum = b.targetScore > b.valueMax ? b.valueMax :  b.targetScore < b.valueMin ? b.valueMin : b.targetScore
+                  item.pingjunNum = b.avgScore > b.valueMax ? b.valueMax :  b.avgScore < b.valueMin ? b.valueMin : b.avgScore
                   item.biaoqian = b.threshholdType 
                   var text1 = []
                   var text = '';
@@ -442,17 +444,17 @@
                   })();
                   item.title = text;
                   item.textD = text1;
-                  item.Max = that.valueMax
-                  item.Min = that.valueMin
+                  item.Max = b.valueMax
+                  item.Min = b.valueMin
                   item.leidaT = b.metricExplain
                   // 进度条动画效果
                   setTimeout(function(){
-                    var width =  (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
+                    var width =  (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) >  0 ? ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin))  * 5.23 )
                     item.width = 'width:' + width + 'rem;'
-                    var left = (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+                    var left = (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.celiangNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
                     item.left = 'left:'+ left  + '%;'
                   },100)
-                  var leftP = (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+                  var leftP = (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100 >=  100 ? (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1 : (item.pingjunNum - b.valueMin ) / (b.valueMax - b.valueMin) * 100  - 1
                   item.leftP = 'left:'+ leftP  + '%;'
                   return true;
                 }
