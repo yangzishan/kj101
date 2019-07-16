@@ -9,6 +9,7 @@ var source = getQueryString('source'); //来源  例：天津农商行:tjnsh
 var kjInviteType = getQueryString("kjInviteType"); //康加邀约类型   暂时不用了
 var sendCustomerId = ''
 var clientType = '';
+var resource = ''; //康浩 khyapp  康加 kjyapp  //康加健康：kjjkapp
 
 console.log(reportId);
 console.log(openId);
@@ -57,8 +58,9 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 		reportId = obj.reportId;
 		sendCustomerId = obj.sendCustomerId;
 		var appCustomerId = obj.customerId;
-		clientType = obj.clientType;
+		clientType = obj.clientType;  //app
 		var reportType = obj.reportType;
+		resource = obj.resource;   
 		
 		//alert('dataUrl='+dataUrl);
 		//alert(reportId+'--'+sendCustomerId+'--customerId='+appCustomerId+'--'+clientType+'--'+reportType);
@@ -92,7 +94,7 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 		success:function(res){
 			if(res.code == 200){
 				var reportType = res.data.reportType;
-				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType;
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource;
 				var visible = res.data.visible;
 				if(visible == 0){
 					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
@@ -111,17 +113,17 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 					}else if(reportType < 5){
 						location.href = 'report5.html'+reportUrl
 					}else{
-						location.href = 'report'+res.data.reportType+'.html'+reportUrl
+						location.href = 'report'+reportType+'.html'+reportUrl
 					}
 				}
 
 			}else if(res.code == 402){
-				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource
 				location.href='register.html'+ reportUrl
 			}else if(res.code == 405){
-				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType
+				location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource
 			}else if(res.code == 403){
-				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&clientType='+clientType
+				location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&clientType='+clientType+'&resource='+resource
 			}else if(res.code == 302){
 				location.href="equipmentUnable.html"
 			}else if(res.code == 2002){

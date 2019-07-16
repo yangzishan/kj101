@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="css/LCalendar.css">
 </head>
 <body>
-<section class="my_view" id="appVUE">
+<section class="my_view" id="appVUE" style="visibility: hidden;">
 <!--<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">个人资料</span></div>-->
 <div class="pson_t">
 	<p class="btit">{{language.la_wanshan}}</p>
@@ -56,7 +56,7 @@
 
 <div class="kjcopy_d" v-if="reportType != 130">
 	<p class="p1"><span id="notice">{{language.la_titUp}}</span></p>
-	<p class="p2">{{language.la_k_company}}</p>
+	<p class="p2">{{language.la_k_company}} 电话：400-6666-787</p>
 	<!--<p class="p3">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</p>-->
 </div>
 <div class="kjcopy_d" v-if="reportType == 130">
@@ -66,7 +66,6 @@
 </div>
 
 <input type="hidden" id="userId" value="" />
-<div class="load-overlay" style="display: none;"><img class="loadimg" src="img/loading.gif"></div>
 
 <div class="v_overlay"></div>
 <div class="v_overlert" id="showNotice">
@@ -114,6 +113,7 @@
 </div>
 
 </section>
+<div class="load-overlay" style="display: none;"><img class="loadimg" src="img/loading.gif"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
@@ -141,6 +141,8 @@
 })(document, window);
 </script>
 <script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
 var userId = getQueryString("userId");
 var reportType = getQueryString("reportType");
 var saasId = getQueryString("saasId");
@@ -229,6 +231,8 @@ function getUserInfor(userId,type){
 				    	userId: userId
 				    },
 					success : function(userData) {
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
 						console.log(userData)
 						vm.headimgurl = userData.data.headimgurl
 					    vm.nickName = userData.data.nickName
