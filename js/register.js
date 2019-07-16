@@ -2,6 +2,8 @@ var reportId = getQueryString("reportId");
 var openId = getQueryString('openId');
 var userId = getQueryString("userId"); 
 var faceUserId = getQueryString("faceUserId");
+var resource = getQueryString("resource");   //暂时不用，用户注册在app里已经完成
+var clientType = getQueryString("clientType"); //暂时不用，用户注册在app里已经完成
 var userOropen = userId;
 if(userId == null || userId == ''){
 	userOropen = openId;

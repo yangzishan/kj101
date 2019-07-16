@@ -186,7 +186,7 @@ var myApp = new Vue({
 			var arryDate = [],arryVal = [];
 			for(var i=0;i<vm.targetList.length;i++){
 				arryDate.push(vm.targetList[i].inspectDate);
-				arryVal.push(reviseScore(vm.targetList[i].score));
+				arryVal.push(reviseScore(vm.targetList[i].targetResult));
 			};
 			console.log(arryDate);
 			console.log(arryVal);
@@ -231,7 +231,11 @@ function intchart(el,tit,arryDate,arryVal){
 	        text: tit
 	    },
 	    tooltip: {
-	        trigger: 'axis'
+	    	show: false,
+	        trigger: 'axis',
+	        axisPointer:{
+	        	type:'line'
+	        }
 	    },
 	    legend: {
 	    	show:false
@@ -254,12 +258,13 @@ function intchart(el,tit,arryDate,arryVal){
 	    yAxis: {
 	    	axisLabel:{
 	    		//show:false
-	    		color:'#ffffff'
+	    		//color:'#ffffff'
 	    	},
-	        type: 'value',
-	        scale:true,
+	        type: 'category',
+	        //scale:true,
 		    boundaryGap:['10%','0%'],
-		    max:100
+		    //max:100
+		    data:['中度风险','轻度风险','正常']
 	    },
 	    series: [
 	        {
