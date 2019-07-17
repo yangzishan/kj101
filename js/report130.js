@@ -10,7 +10,7 @@ var resource = getQueryString("resource");
 var localUrl = location.href;
 var reportPrintUrl = 'http://kj101.jiankangzhan.com/print/print130_kh2.html?viewType=2&reportId=';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source=kh';
-if(!openId){
+if(clientType == 'app'){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=khyapp'+'&resource='+resource+'&clientType='+clientType
 };
