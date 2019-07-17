@@ -12,7 +12,7 @@ var reportPrintUrl = 'http://kj101.jiankangzhan.com/print/print130_kh2.html?view
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source=kh';
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=kh'+'&resource='+resource
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=khyapp'+'&resource='+resource+'&clientType='+clientType
 };
 
 var myApp = new Vue({
@@ -100,9 +100,11 @@ var myApp = new Vue({
 						vm.bmi = res.data.bmi
 						vm.bmiexplain = res.data.bmiexplain
 						vm.inspectSkinView = res.data.inspectSkinView
-						$.each(vm.inspectSkinView.diseaseResult.split(','),function(index,item){
-                            vm.diseaseResult.push(vm.diseaseResultArr[vm.inspectSkinView.diseaseResult.split(',')[index]]);
-                        })
+						if(vm.inspectSkinView){
+							$.each(vm.inspectSkinView.diseaseResult.split(','),function(index,item){
+	                            vm.diseaseResult.push(vm.diseaseResultArr[vm.inspectSkinView.diseaseResult.split(',')[index]]);
+	                        })
+						}	
 						if(vm.totalScore >=95){
 							var du = -105
 						}else if(vm.totalScore>=90 && vm.totalScore<95){
@@ -122,7 +124,8 @@ var myApp = new Vue({
 					}else if(res.code == 201){
 						vm.goPay(res.paymentType,res.sameUser)
 					}else{
-						console.log('queryInsureIndex code='+res.code)
+						console.log('queryInsureIndex code='+res.code);
+						alert('queryInsureIndex,code='+res.code+',msg='+res.msg)
 					}
 				},
 				error: function(){console.log('queryInsureIndex error')}

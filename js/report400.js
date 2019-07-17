@@ -14,12 +14,13 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
+var resource = getQueryString("resource");
 var edition = 400;
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId;
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType;
 }
 var myApp = new Vue({
 	el:'#report4',

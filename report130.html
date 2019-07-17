@@ -94,7 +94,7 @@
 		<p class="tip" v-if="physicalAge-customerAge > 0">您的生理年龄高于实际年龄，请注意管理健康哦！</p>
 		<p class="tip" v-if="physicalAge-customerAge == 0">您的生理年龄与实际年龄相当，请继续努力，力争变的更年轻哦！</p>
 	</div>
-	
+	<template v-if="inspectSkinView">
 	<p class="btit"><i></i><span>皮肤状态</span><i></i></p>
 	<div style="padding: .2rem 0 .3rem;">
 		<div class="pf-main">
@@ -134,6 +134,7 @@
         </div>
         <p class="gotoskin"><button @click="gotoSkin()">查看更多</button></p>
 	</div>
+	</template>
 	
 	
 	<p class="btit"><i></i><span>身体状况</span><i></i></p>
@@ -236,7 +237,7 @@
 		</div>
 	</div>
 </section>
-<div class="orginImg"><img class="img_b" :src="inspectSkinView.fileName"></div>
+<template v-if="inspectSkinView"><div class="orginImg"><img class="img_b" :src="inspectSkinView.fileName"></div></template>
 <div class="jysp">
 	<p class="" @click="getSuggest()"><i></i><span>专属<br>建议</span></p>
 	<p class="" @click="getRecipesData()"><i></i><span>健康<br>食谱</span></p>

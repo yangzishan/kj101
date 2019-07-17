@@ -4,6 +4,7 @@ var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
+var resource = getQueryString("resource");
 var edition = 202;
 
 var indexAll_data = '/api/v1/reportIndex/indexAll2'
@@ -14,7 +15,7 @@ var payStr = '';
 gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType
 }
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {

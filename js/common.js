@@ -103,7 +103,7 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 					$('.daifu_d .tip').remove();
 					$('#iknow').click(function(){
 						//WeixinJSBridge.call('closeWindow');
-						location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas;
+						location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas+'&clientType='+clientType+'&resource='+resource;
 					});
 				}else{
 					if(reportType == 121 || reportType == 122){
