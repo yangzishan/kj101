@@ -271,7 +271,7 @@
 			
       <!--详细指标建议-->
       <h4>异常指标详细建议</h4>
-      <template v-for="item in firsts">
+      <template v-for="item in firsts" v-if="item.targetId != 'A3585'">
       <div class="sr_head">
         <div class="sr_hr"><img :src="'./img/kh/qg-'+item.targetId+'.png'" alt="">{{item.targetName}}
         	<span :class="{lit:item.score<90}">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>
@@ -282,7 +282,7 @@
         	</div>
         </div>
       </div>
-      <!-- 血管 -->
+      <!-- 指标 -->
       <div class="sr_head_b" v-for="site in item.seconds" v-if="site.offset == 2 || site.offset == 3">
         <div class="sr_head_b_tit">{{site.targetName}}：</div>
         <div class="sr_head_bzi"><span>正常</span><span>轻度风险</span><span>中度风险</span>

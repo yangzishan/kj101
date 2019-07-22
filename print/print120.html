@@ -103,7 +103,7 @@
 								<span v-show="80 > item.score" class="state active">中度异常</span>
 							</div>
 							<div class="right" v-if="list.targetName != '氨基酸'">
-								<div class="item" v-for="tList in list.thirds">
+								<div class="item" v-for="tList in list.thirds" v-if="tList.targetId != 3089 && tList.targetId != 3207 && tList.targetId != 3097 && tList.targetId != 3110 && tList.targetId != 3211 && tList.targetId != 3219 && tList.targetId != 3139">
 									<div class="name">{{tList.targetName}}<span class="score">{{tList.score}}</span></div>
 									<span v-if="tList.inspectStandard == 1" class="state">正常</span>
 									<span v-else-if="tList.inspectStandard == 2" class="state active">偏高</span>
@@ -122,6 +122,7 @@
 					</div>
 					<div v-for="list in item.seconds">
 						<div class="detail" v-for="tList in list.thirds" v-show="tList.inspectStandard != 1 && tList.healthAdviceVo != null && (tList.targetId < 3176 || tList.targetId > 3185)">
+							<template v-if="tList.targetId != 3089 && tList.targetId != 3207 && tList.targetId != 3097 && tList.targetId != 3110 && tList.targetId != 3211 && tList.targetId != 3219 && tList.targetId != 3139">
 							<div class="title" style="height: 40px; border:#000 solid 1px">
 								<!--<img src="img/item.png">-->
 								<div class="nav" style="color: #000;">{{tList.targetName}}</div>
@@ -169,6 +170,7 @@
 									</li>
 								</ul>
 							</div>
+							</template>
 						</div>
 				</div>
 				</li>

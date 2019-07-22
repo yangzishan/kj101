@@ -91,7 +91,7 @@ input{-webkit-appearance:none; resize: none;}
 .xxzb_c .co{ color: #ed2222;}
 .xxzb_c .c_tit{ line-height: 30px; border-bottom: #333 solid 1px; padding:0 20px;}
 .xxzb_c .c_tit span{display: inline-block; width: 100px; font-size: 15px;}
-.xxzb_c .c_con{ display: -webkit-box; border-bottom: #333 solid 1px;}
+.xxzb_c .c_con{ display: -webkit-box; border-bottom: #333 solid 1px; min-height: 29px;}
 .xxzb_c .c_con:last-of-type{ border-bottom: none;}
 .xxzb_c .c_con .second{ display:block; width: 24%; border-right: #333 solid 1px; position: relative;}
 .xxzb_c .c_con .second span{ position: absolute; top: 50%; transform: translateY(-50%);}
@@ -181,10 +181,14 @@ input{-webkit-appearance:none; resize: none;}
 			<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></span>
 		</div>
 		<p class="third">
-			<span class="ite" v-for="third in second.thirds">
+
+			<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
+			<template>
 				<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
 				<em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>
+			</template>
 			</span>
+			
 			
 		</p>
 	</div>
