@@ -66,6 +66,7 @@ $(window).load(function(){
 	var start =useurl.indexOf('nickName=');
 	//var stop =useurl.indexOf('&',start);
 	var myname = useurl.substring(start+9);
+	var reportType=getQueryString("reportType");
 	
 	var myApp = new Vue({
 		el: '.my_view',
@@ -110,7 +111,7 @@ $(window).load(function(){
 			success : function(userData) {
 				//debugger;
 				if(userData.code == 200){
-					window.location.href="personalData.html?userId="+userId
+					window.location.href="personalData.html?userId="+userId+'&reportType='+reportType
 				}
 			},
 			error : function(){

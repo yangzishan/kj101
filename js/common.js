@@ -56,14 +56,20 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 		}
 
 		reportId = obj.reportId;
-		sendCustomerId = obj.sendCustomerId;
-		var appCustomerId = obj.customerId;
+		var versionCode = obj.reportId;
+		if(versionCode){
+			sendCustomerId = obj.sendCustomerId;  
+			var appCustomerId = obj.customerId;
+		}else{
+			sendCustomerId = obj.customerId;  
+			var appCustomerId = obj.sendCustomerId;	
+		};
 		clientType = obj.clientType;  //app
 		var reportType = obj.reportType;
 		resource = obj.resource;   
 		
 		//alert('dataUrl='+dataUrl);
-		//alert(reportId+'--'+sendCustomerId+'--customerId='+appCustomerId+'--'+clientType+'--'+reportType);
+		//alert('reportId='+reportId+'--sendCustomerId='+sendCustomerId+'--customerId='+appCustomerId+'--clientType='+clientType+'--reportType='+reportType+'--resource='+resource);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
 		if(reportId == '000000'){
 			location.href = 'report000000.html'

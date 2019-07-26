@@ -61,6 +61,7 @@ $(window).load(function(){
 	}
 	var userId=getQueryString("userId");	
 	var sex=getQueryString("sex");
+	var reportType=getQueryString("reportType");
 	
 	var myApp = new Vue({
 		el: '.my_view',
@@ -99,7 +100,7 @@ $(window).load(function(){
 			success : function(userData) {
 				//debugger;
 				if(userData.code==200){
-					window.location.href="personalData.html?userId="+userId
+					location.href="personalData.html?userId="+userId+'&reportType='+reportType
 				}
 				
 			},

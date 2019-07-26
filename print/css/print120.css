@@ -256,17 +256,18 @@
     width: 300px;
 }
 .print-advise .detail .title .nav{
-    position: absolute;
-    width: 100%;
+    /*position: absolute;
+    width: 100%;*/
     height: 100%;
-    display: flex;
+    /*display: flex;*/
     color: #fff;
+    line-height: 40px;
     text-align: center;
     font-size: 16px;
-    left: 0;
+    /*left: 0;
     top: 0;
     justify-content:center;
-    align-items:center;
+    align-items:center;*/
 }
 .print-advise .detail .img-box{
     margin-top:30px;

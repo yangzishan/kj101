@@ -33,7 +33,7 @@
 	</a>
 	<p class="p_row">
 		<label class="lab">{{language.la_birthday}}</label>
-		<input class="intxt" id="demo1" readonly="true" type="text" placeholder="请输入您的生日" unselectable="on" data-lcalendar="1920-01-1,2005-12-31" :value="birthdayStr" />
+		<input class="intxt" id="demo1" readonly="true" type="text" placeholder="请输入您的生日" unselectable="on" data-lcalendar="1920-01-1,2001-7-22" :value="birthdayStr" />
 	</p>
 	<a class="p_row" id="setHeight">
 		<label class="lab">{{language.la_height}}</label>
@@ -160,19 +160,15 @@ if(JsSrc.indexOf('zh')>=0){
     document.title = 'Personal Center'
 }
 if(userId){
-	getUserInfor(userId,reportType)
-}
-$('#userId').val(userId);  //修改生日用
-
-zhuge.track('进入个人中心页', { //埋点t
-	'用户id' : userId,
-	'渠道' : '微信'
-});
+	setTimeout(function(){
+		getUserInfor(userId,reportType)
+	},500)
+	$('#userId').val(userId);  //修改生日用
+}else{
 /*******************************交互逻辑*****************************/
 setupWebViewJavascriptBridge(function(bridge) {
 	// 注册JS方法供OC调用
 	bridge.registerHandler('getUserId', function(data, responseCallback) {
-		//alert('哈哈哈哈')
 		//判断iOS和Android
 		var u = navigator.userAgent;
 		if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
@@ -182,13 +178,17 @@ setupWebViewJavascriptBridge(function(bridge) {
 		} else if (u.indexOf('Windows Phone') > -1) {//winphone手机
 			alert("不支持该手机设备");
 		}
-		userId = obj.userId;
+		var appUserId = obj.userId;
 		reportType = obj.reportType;
 		//alert('userId='+userId+'& reportType='+reportType);
-		$('#userId').val(userId);  //修改生日用
+		$('#userId').val(appUserId);  //修改生日用
 		//var responseData = { 'code':'200' };responseCallback(responseData);
-		if (userId) {
-			getUserInfor(userId,reportType);
+		if (appUserId) {
+			//alert('app '+appUserId)
+			setTimeout(function(){
+				getUserInfor(appUserId,reportType);
+			},1000)
+			
 		};
 	})
 	// 为按钮注册方法
@@ -197,7 +197,15 @@ setupWebViewJavascriptBridge(function(bridge) {
 		bridge.callHandler('upLoadIco', {'price':'100'}, function responseCallback(responseData) {});
 	});
 })
-/*******************************交互逻辑*****************************/
+/*******************************交互逻辑*****************************/	
+}
+
+
+zhuge.track('进入个人中心页', { //埋点t
+	'用户id' : userId,
+	'渠道' : '微信'
+});
+
 function getUserInfor(userId,type){
 	var myapp = new Vue({
 		el: '#appVUE',
@@ -244,10 +252,10 @@ function getUserInfor(userId,type){
 					    vm.weight = userData.data.weight;
 		
 						//修改昵称和性别身高体重跳转
-						$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+vm.nickName);
-						$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+vm.sex);
-						$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+vm.height);
-						$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+vm.weight);
+						$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+vm.nickName+'&reportType='+reportType);
+						$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+vm.sex+'&reportType='+reportType);
+						$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+vm.height+'&reportType='+reportType);
+						$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+vm.weight+'&reportType='+reportType);
 						//体验卡跳转、优惠券跳转
 						$('#setCard').attr("href",testHealthUrl+"/tjCard.html?userId="+userId);
 						$('#setCoupon').attr("href",testHealthUrl+"/couponList.html?userId="+userId);
