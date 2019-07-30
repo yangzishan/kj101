@@ -12,7 +12,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body class="bck-col-f4">
-<DIV class="my_view" style="display: none;">
+<DIV class="my_view" style="visibility: hidden;">
 <section id="appVUE">
 	<header class="header">
 		<p class="t-cen txt1"><span>{{targetFirstName}}</span></p>
@@ -39,10 +39,10 @@
 		</dl>
 	</div>
 </section>
+<div id="btn" class="zhichi zhiCustomBtn"></div>
 </DIV>
 <div class="v_overlay"></div>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
-<div id="btn" class="zhichi"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
@@ -90,7 +90,7 @@
 })();	
 </script>
 <script>
-$('.my_view').css("display","none");
+$('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
 var reportId = getQueryString('reportId');
 var targetFirstId=getQueryString("targetFirstId");
@@ -137,7 +137,7 @@ var myApp = new Vue({
 				},
 				success : function(res) {
 					if(res.code == 200){
-						$('.my_view').css("display","block");
+						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.score = res.data.score //系统得分
 				   		vm.targetFirstName = res.data.targetFirstName //系统名称
@@ -161,7 +161,6 @@ var myApp = new Vue({
 	}
 });
 
-			
 //查用户信息对接智齿客服
 $.ajax({
 	url : dataUrl + "/api/v1/reportUser/findUserById",
@@ -195,7 +194,7 @@ $.ajax({
 		//////
 		}
 	},
-	error : function(obj,msg){console.log(obj+msg + "findUserById error")}
+	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
 });
 //截取URL 获取
 function getQueryString(name){
