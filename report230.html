@@ -21,7 +21,9 @@
       </div>
     </div>
     <!-- <h1>心理报告</h1> -->
-    <div class="user_name"><span class="name" v-if="info && info.nickName">{{info.nickName}}<em v-if="info.sex == 2">女士</em><em v-if="info.sex != 2">先生</em></span><span class="time" v-if="info && info.inspectDate">时间：{{info.inspectDate}}</span></div>
+    <div class="user_name"><span class="name" v-if="info && info.nickName">{{info.nickName}}<em v-if="info.sex == 2">女士</em><em v-if="info.sex != 2">先生</em></span><span class="time" v-if="info && info.inspectDate">时间：{{info.inspectDate}}</span>
+      <!-- <span style="float:right;" @click="gohistory()"><img src="./img/psy/history.png" style="width:.38rem;height:.38rem;float:left;margin-right:.1rem;">历史报告</span> -->
+    </div>
     <div class="center">
       <div class="ech_box">
         <div class="eahar" id="main" style="width:6.98rem;height:5.6rem;" ></div>
@@ -72,7 +74,6 @@
             <div class="echa2" id="echa2" style="width:3.45rem;height:3rem;" ></div>
             <div class="sekuai"><span class="zi"><i></i>正性</span><span class="hong"><i></i>负性</span><span class="huang"><i></i>中性</span>
           </div>
-          
         </div>
         <div class="zong" v-if="info && info.totalExplain">
             <h3>总体解读</h3>
@@ -112,7 +113,14 @@
 			var reportType = getQueryString('reportType');
 			var saasId = getQueryString('saasId');
 			var clientType = getQueryString("clientType"); 
-      
+      var resource = getQueryString("resource");
+
+      var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
+        if(!openId){
+          //alert('now in app');
+          gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType
+        }
+
       // 雷达图
       function go(){
       var myChart = echarts.init(document.getElementById('main'))
@@ -419,6 +427,11 @@
               }
             })
           },
+          // history
+          gohistory : function(){
+            window.location = gohistoryUrl;
+          }
+          , 
           filterData : function(){
             var that = this 
             that.info.inspectDate = that.info && that.info.inspectDate && that.info.inspectDate.split(' ')[0]
