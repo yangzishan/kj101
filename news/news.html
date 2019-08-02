@@ -14,6 +14,7 @@
 <body>
   <div class="loadmore loading"></div>
   <div id="app" data-name="details">
+    <!-- 固定定位 -->
     <div class="h_box">
       <div class="fixedbox">
         <div class="header">
@@ -28,22 +29,27 @@
         </div>
       </div>
     </div>
+    <!-- 轮播 -->
     <div class="lunbo" v-if="banner && banner.length > 0">
         <figure id="full_feature" class="swipslider">
           <ul class="sw-slides">
             <li class="sw-slide" v-for="(item,index) in banner" :data-index="index" style="position: relative;" :data-url="item.artlurl">
-              <img src="img/lang_yie_ar_kung_fu.jpg" alt="Summer beach concept">
+              <div data-img="visibility"><img src="./img/loading.gif" style="width:.5rem;"></div>
+              <img :src="item.img_path" alt="Summer beach concept" style="width:100%;display: none;" data-img="show">
               <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{item.title}}</span>
             </li>
           </ul>
         </figure>
     </div>
+    <!-- 文章列表 -->
     <div class="content" v-if="info.length > 0">
       <div class="list" v-for="(item,index) in info" :data-url="item.jump_url" :data-index="index">
         <div class="list_box" v-if="item.images && item.images.length > 1">
             <h3>{{item.title}}</h3>
             <div class="img_list"><img :src="a.url" alt="" v-for="a in item.images"></div>
             <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
+              <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
+              
               <!-- <span class="pinglun">评论 <em>55</em></span> -->
             </p>
         </div>
@@ -53,6 +59,7 @@
             <h3>{{item.title}}</h3>
           </div>
           <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
+            <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
             <!-- <span class="pinglun">评论 <em>55</em></span> -->
           </p>
         </div>
@@ -60,17 +67,6 @@
           <img :src="item.images[0].url" alt="" v-if="item.images && item.images[0] && item.images[0].url">
         </div>
       </div>
-      <!-- <div class="list">
-        <div class="lef">
-          <div class="title">
-            <h3>清华老师的粉笔板书太养眼了！简直舍不得擦清华老师的粉笔板书太养眼了！简直舍不得擦</h3>
-          </div>
-            <p class="small"><span class='zhiding'>置顶</span><span class="laiyuan">中国经济网</span><span class="pinglun">评论 <em>55</em></span></p>
-        </div>
-        <div class="rig">
-          <img src="./img/ba146ebc33e04bb8a810c7b60d0c5b19.jpg" alt="">
-        </div>
-      </div> -->
     </div>
     <div class="bottom">
       <p>到底了</p>
@@ -79,6 +75,8 @@
   <script src="js/jquery.js"></script>
   <script src="./js/vue.min.js"></script> 
   <script type="text/javascript" src="./js/swipeslider.js"></script>
+  <script src="js/wxShare.js"></script>
+  <script src="./js/ajaxUrl.js"></script>
   <script type="text/javascript">
     (function (doc, win) {
       var docEl = doc.documentElement,
@@ -119,15 +117,16 @@
           }
           return result[1];
       };
-      
-
-      var url = 'http://news-tt.jiankangzhan.com/api/mobile/artlist'
-      var ddes = 'file:///E:/kjwork/kj-html/news/newsdetails.html'
+     
+      // 跳转页面
+      var ddes = 'newsdetails.html'
+      // 请求接口参数
       var page = 1
       var pid = 0
       var zid = 0
       var cid = 0
       var title = ''
+      // 懒加载截留
       var ajaxFlag = true
       var num = 0
       var v = new Vue({
@@ -141,10 +140,11 @@
         },
         methods : {
           // ajax请求
+          // 获取导航列表
           getList : function(){
             var that = this;
             $.ajax({
-              url : 'http://news-tt.jiankangzhan.com/api/mobile/colum',
+              url : getListUrl,
               type : 'POST',
               data : {
               },
@@ -154,10 +154,14 @@
                   that.list = res.data
                   if(res.data.length > 0 ){
                     setTimeout(function(){
-                      cid= pid = res.data[0]['id']
+                      cid = pid = res.data[0]['id']
+                      // 绑定触摸滑动导航栏
                       that.Touch()
+                      that.btnClick()
+                      // 触发首次内容加载
                       $('.nav li:first').trigger('click')
-                    },10)
+
+                    })
                   }
                 }
               },
@@ -165,10 +169,11 @@
               }
             })
           },
+          // ajax轮播
           getLunbo : function(){
             var that = this
             $.ajax({
-              url : 'http://news-tt.jiankangzhan.com/api/mobile/bannerlist',
+              url : getBannerUrl,
               type : 'POST',
               data : {
               },
@@ -176,8 +181,20 @@
               success : function(res){
                 if(res.code == 200){
                   that.banner = res.data
+                  var len = res.data.length
                   setTimeout(function(){
+                    // 初始化轮播插件
                     that.lunbo()
+                    $('li.sw-slide > img').load(function(){
+                      if( ($('li.sw-slide > img').length - 2) >= len ){
+                        $('[data-img=visibility]').css({
+                          'display':'none'
+                        })
+                        $('[data-img=show]').css({
+                          'display':'block'
+                        })
+                      }
+                    })
                   })
                 }
               },
@@ -186,15 +203,16 @@
             })
           }
           ,
-          // 第一次 获取数据 滚动加载  点击加载（跳转页面做）
+          // 第一次获取数据 、滚动加载 、 点击加载
           getData : function(elid){
             var that = this;
+            // 判断是不是传入了 cid  传入就让page 是第一页
             if(elid != undefined){
               cid = elid
               page = 1
             }
             $.ajax({
-              url : url,
+              url : getDataUrl,
               type : 'POST',
               data : {
                 cid : cid,
@@ -203,53 +221,67 @@
               },
               dataType:'JSON',
               success : function(res){
-                if(res.data.data.length <= 0){
-                  $('.bottom').css({
-                    'display':'block'
-                  })
-                }
                 if(res.code == 200){
+                 
+
+                  // 懒加载 或 titlle 搜索
                   if(elid == undefined){
                     $.each(res.data.data,function(index,item){
                     that.info.push(item)  
                     })
                     page = parseInt(res.data.page ) + 1
-                  }else if(elid != undefined){
+                  }else if(elid != undefined){ //点击导航
                     that.info = res.data.data
                     page = parseInt(res.data.page ) + 1
                   }
                   setTimeout(function(){
+                    
+                    // 最后文章底边框
                     $('.content .list:last').css({
                       'border-bottom' : 'none'
                     })
+                    // 一次请求完成
                     ajaxFlag = true
+                    // 首次加载页面绑定懒加载
                     if(num < 1){
                       num += 1
                       that.lazyGo()
                     }
+                    //点击调转详情
                     that.destail()
                   },20)
+                  setTimeout(function(){
+                    // loading
+                    var winH = $(window).height();
+                    $('#app').css({
+                      'visibility':'visible'
+                    })
+                    $('.loadmore').css({
+                      'display':'none'
+                    })
+                     // 是否到底
+                    if(res.data.data.length <= 0){
+                      $('.bottom').css({
+                        'display':'block'
+                      })
+                    }
+                    if($('#app').height() <= winH){
+                      $('.bottom').css({
+                        'display':'none'
+                      })
+                    }
+                  },100)
                 }
               },
               error : function(err){
               }
             })
           },
-          // 搜索跳转
+          // 点击搜索跳转
           btnClick : function(){
             var that = this
             $('[data-target=btn]').on('click',function(){
               window.location = ddes
-              // var val = $('#search').val()
-              // val = val.trim()
-              // console.log(val)
-              // var name = $('#app').attr('data-name')
-              // if(val != ' ' &&  name == 'details'){
-              //   window.location = 'file:///E:/kjwork/kj-html/news/newsdetails.html'+'?search=' + val
-              // }else if(val != ' '){
-              //   title = val
-              //   that.getData()
-              // }
             })
             $('#search').focus(function(){
               window.location = ddes
@@ -262,6 +294,7 @@
               var innerH = $(document).height();
               var winH = $(window).height();
               var scroH = $(window).scrollTop();
+              // 判断滚动到底 开始加载 设置 ajaxFlag false 
               if((innerH - winH - scroH) < 1 ){
                 if(ajaxFlag){
                   ajaxFlag = false
@@ -270,6 +303,7 @@
               }
             })
           },
+          // 触摸滚动事件
           Touch : function(){
             var that = this
             // touch  click 
@@ -283,8 +317,6 @@
             left = left ? left : 0;         // 初始时 ul 距离左边 0px
             // 获取所有 li 所占用的宽度
             for (var i = 0; i < navs.length; i++){
-              // var index = (function(e){return e;})(i)
-              // totalWidth += $(navs[index]).width();
               totalWidth += navs[i].offsetWidth;
             }
             // 固定 ul 的宽度
@@ -321,11 +353,13 @@
                 flag = true;
               }
             }
+            // ul内容小于屏幕宽度 不绑定滚动事件
             if(totalWidth > chuangkoukuan) {
               nav.addEventListener('touchstart',touchtab,false);
               nav.addEventListener('touchmove',touchtab,false);
               nav.addEventListener('touchend',touchtab,false);
             }
+            // 导航点击 
             $(nav).on('click','li',function(){
               $('.liactive').removeClass('liactive')
               $(this).addClass('liactive')
@@ -343,7 +377,7 @@
               window.location = $(this).attr('data-url')
             })
           } ,
-          // lunbo
+          // 轮播启动
           lunbo :  function(){
             $('#full_feature').swipeslider();
             setTimeout(function(){
@@ -357,12 +391,25 @@
                 'display' : 'none'
               })
             })
+          },
+          // 微信分享
+          wxFenxiang : function(){
+            var that = this
+            setTimeout(function(){
+              var url = window.location.href 
+              var tit = that.info[2]['title']
+              var desc = that.info[2]['descr']
+              var img = that.info[2]['images'][0]['url']
+              
+              wxShare(url,tit,img,desc,dataUrl)
+            },500)
           }
         },
         mounted : function(){
-          this.btnClick()
           this.getList()
           this.getLunbo()
+          // 启动微信分享
+          this.wxFenxiang()
         }
       })
     })

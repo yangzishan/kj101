@@ -13,6 +13,7 @@
 <body>
   <div class="loadmore loading"></div>
   <div id="app" data-name="">
+    <!-- 固定定位 -->
     <div class="h_box" style="height:.88rem;">
       <div class="fixedbox">
         <div class="header">
@@ -27,25 +28,26 @@
         </div> -->
       </div>
     </div>
-    <div class="btn_box">
+    <!-- 推荐内容 -->
+    <div class="btn_box" v-if="hot && hot.length > 0">
       <!-- <h4>热门搜索</h4>
       <div class="his">
         <span>医生</span><span>医生</span><span>医生</span><span>医生</span><span>医生</span><span>医生</span>
       </div> -->
-      <!-- <h4>猜你想搜</h4>
-      <div class="guess">
-        <span>花</span><span>花</span><span>花</span><span>花</span><span>花</span><span>花</span>
-      </div> -->
+      <h4>热门文章</h4>
+      <div class="hot">
+        <span v-for="item in hot " @click="hotClick(event)">{{item.title}}</span>
+      </div>
     </div>
-    <!-- <div class="img_sousuo">
-      <img src="./img/sousuo.png" alt="">
-    </div> -->
+    <!-- 文章主体 -->
     <div class="content" v-if="info.length > 0">
       <div class="list" v-for="(item,index) in info" :data-url="item.jump_url" :data-index="index">
         <div class="list_box" v-if="item.images && item.images.length > 1">
             <h3>{{item.title}}</h3>
             <div class="img_list"><img :src="a.url" alt="" v-for="a in item.images"></div>
             <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
+            <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
+              
               <!-- <span class="pinglun">评论 <em>55</em></span> -->
             </p>
         </div>
@@ -55,6 +57,8 @@
             <h3>{{item.title}}</h3>
           </div>
           <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
+            <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
+            
             <!-- <span class="pinglun">评论 <em>55</em></span> -->
           </p>
         </div>
@@ -62,17 +66,6 @@
           <img :src="item.images[0].url" alt="" v-if="item.images && item.images[0] && item.images[0].url">
         </div>
       </div>
-      <!-- <div class="list">
-        <div class="lef">
-          <div class="title">
-            <h3>清华老师的粉笔板书太养眼了！简直舍不得擦清华老师的粉笔板书太养眼了！简直舍不得擦</h3>
-          </div>
-            <p class="small"><span class='zhiding'>置顶</span><span class="laiyuan">中国经济网</span><span class="pinglun">评论 <em>55</em></span></p>
-        </div>
-        <div class="rig">
-          <img src="./img/ba146ebc33e04bb8a810c7b60d0c5b19.jpg" alt="">
-        </div>
-      </div> -->
     </div>
     <div class="bottom">
       <p>到底了</p>
@@ -80,6 +73,8 @@
   </div>
   <script src="js/jquery.js"></script>
   <script src="./js/vue.min.js"></script> 
+  <script src="./js/ajaxUrl.js"></script>
+  <script src="js/wxShare.js"></script>
   <script type="text/javascript">
     (function (doc, win) {
       var docEl = doc.documentElement,
@@ -120,9 +115,6 @@
           }
           return result[1];
       };
-      var getSearch = decodeURIComponent(getQueryString('search'))
-
-      var url = 'http://news-tt.jiankangzhan.com/api/mobile/artlist'
       var page = 1
       var pid = 0
       var zid = 0
@@ -136,62 +128,52 @@
           return{
             list:[], //导航
             info : [],//内容
-            banner : [] // 轮播
+            banner : [], // 轮播
+            hot : [] // 热门文章
           }
         },
         methods : {
           // ajax请求
           // 启动搜索
           goSea : function(){
-            // if(getSearch && getSearch != ' '){
-            //   console.log(getSearch)
-            //   title = getSearch
-            //   this.getData()
-            // }
-            var that = this
-            $('.btn_box>div>span').on('click',function(){
-              $('.btn_box').css({
-                'display':'none'
-              })
-              title = $(this).text()
-              that.getData()
-            })
+            // input 获取焦点
             $('#search').focus()
           }
           ,
-          getList : function(){
-            var that = this;
-            $.ajax({
-              url : 'http://news-tt.jiankangzhan.com/api/mobile/colum',
-              type : 'POST',
-              data : {
-              },
-              dataType:'JSON',
-              success : function(res){
-                if(res.code == 200){
-                  that.list = res.data
-                  if(res.data.length > 0 ){
-                    setTimeout(function(){
-                      cid= pid = res.data[0]['id']
-                      that.Touch()
-                      $('.nav li:first').trigger('click')
-                    },10)
-                  }
-                }
-              },
-              error : function(err){
-              }
-            })
-          },
-          // 第一次 获取数据 滚动加载  点击加载（跳转页面做）
+          // getList : function(){
+          //   var that = this;
+          //   $.ajax({
+          //     url : getListUrl,
+          //     type : 'POST',
+          //     data : {
+          //     },
+          //     dataType:'JSON',
+          //     success : function(res){
+          //       if(res.code == 200){
+          //         that.list = res.data
+          //         if(res.data.length > 0 ){
+          //           setTimeout(function(){
+          //             cid= pid = res.data[0]['id']
+          //             that.Touch()
+          //             $('.nav li:first').trigger('click')
+          //           },10)
+          //         }
+          //       }
+          //     },
+          //     error : function(err){
+          //     }
+          //   })
+          // },
+          // 第一次 获取数据 滚动加载  点击加载
           getData : function(elid){
             var that = this;
+            // 有 cid 设置 page 为 1
             if(elid != undefined){
               cid = elid
               page = 1
             }
             $.ajax({
-              url : url,
+              url : getDataUrl,
               type : 'POST',
               data : {
                 cid : cid,
@@ -200,12 +182,20 @@
               },
               dataType:'JSON',
               success : function(res){
+                // 是否到底
+                var winH = $(window).height();
                 if(res.data.data.length <= 0){
                   $('.bottom').css({
                     'display':'block'
                   })
                 }
+                if($('#app').height() <= winH){
+                  $('.bottom').css({
+                    'display':'none'
+                  })
+                }
                 if(res.code == 200){
+                  // 是否有cid 没有按照title搜索 或者 懒加载 
                   if(elid == undefined){
                     $.each(res.data.data,function(index,item){
                       that.info.push(item)  
@@ -216,16 +206,20 @@
                     page = parseInt(res.data.page ) + 1
                   }
                   setTimeout(function(){
+                    
                     $('.content .list:last').css({
                       'border-bottom' : 'none'
                     })
+                    // 截留 执行一次懒加载绑定
                     ajaxFlag = true
                     if(num < 1){
                       num += 1
                       that.lazyGo()
                     }
+                    // 跳转详情
                     that.destail()
                   },20)
+                  
                 }
               },
               error : function(err){
@@ -233,21 +227,62 @@
               }
             })
           },
+          //获取热门文章
+          getHot : function(){
+            var that = this
+            $.ajax({
+              url : getHotUrl,
+              data : {},
+              type : 'POST',
+              dataType : 'JSON',
+              success : function(res){
+                if(res.code == 200){
+                  that.hot = res.data
+                  setTimeout(function(){
+                    // loading
+                    $('#app').css({
+                      'visibility':'visible'
+                    })
+                    $('.loadmore').css({
+                      'display':'none'
+                    })
+                    
+                  })
+                }
+              }
+            })
+          },
+          //热门点击搜索
+          hotClick : function(event){
+            var curr = $(event.currentTarget) 
+            title = $(curr).text()
+            $('.btn_box').css({
+              'display' : 'none'
+            })
+            cid = 0
+            page = 1
+            this.info = []
+            this.getData()
+          }
+          ,
           // 搜索跳转
           btnClick : function(){
             var that = this
             $('[data-target=btn]').on('click',function(){
-              cid = 0
-              page = 1
-              that.info = []
-              //滚动到顶部
-              $(window).scrollTop(0)
               var val = $('#search').val()
               val = val.trim()
               var name = $('#app').attr('data-name')
               if(val == ''){
                 $('#search').val('').focus()
-              }else if(val != ' '){
+              }else if(val != ''){
+                $('.btn_box').css({
+                  'display' : 'none'
+                })
+                cid = 0
+                page = 1
+                that.info = []
+                //滚动到顶部
+                $(window).scrollTop(0)
                 title = val
                 that.getData()
               }
@@ -261,79 +296,13 @@
               var winH = $(window).height();
               var scroH = $(window).scrollTop();
               if((innerH - winH - scroH) < 1 ){
+                // 懒加载截留
                 if(ajaxFlag){
                   ajaxFlag = false
                   that.getData()
                 }
               }
             })
-          },
-          Touch : function(){
-            var that = this
-            // touch  click 
-            var nav = document.getElementById("nav");
-            var navs = document.getElementsByTagName("li");
-            var left = nav.style.left;      // ul 距离左边的距离
-            var totalWidth = 0;             // 总宽度
-            var minusValue = 0;             // 设备宽度与总宽度的差值
-            var chuangkoukuan = window.screen.width
-            var flag = true;
-            left = left ? left : 0;         // 初始时 ul 距离左边 0px
-            // 获取所有 li 所占用的宽度
-            for (var i = 0; i < navs.length; i++){
-              // var index = (function(e){return e;})(i)
-              // totalWidth += $(navs[index]).width();
-              totalWidth += navs[i].offsetWidth;
-            }
-            // 固定 ul 的宽度
-            nav.style.width = totalWidth + 10 + 'px';
-            minusValue = window.screen.width - totalWidth;
-            var startx,starty,movex,movey,endx,endy,nx,ny,off_w;
-            function touchtab(event) {
-            	// event.preventDefault();'
-              flag = false;
-              if(event.type=="touchstart"){
-                var touch = event.touches[0];
-                startx = Math.floor(touch.pageX);
-                starty = Math.floor(touch.pageY);
-              }else if(event.type=="touchmove"){//触摸中的坐标获取
-                var touch = event.touches[0];
-                movex = Math.floor(touch.pageX);
-                movey = Math.floor(touch.pageY);
-                off_w = (movex-startx)
-                nav.style.left = (left+off_w) + 'px';
-              }else if(event.type == "touchend" || event.type == "touchcancel"){
-                    //获取最后的坐标位置
-                endx = Math.floor(event.changedTouches[0].pageX);
-                endy = Math.floor(event.changedTouches[0].pageY);
-                 //获取开始位置和离开位置的距离
-                nx = endx-startx;
-                ny = endy-starty;
-                left += nx
-                if(left>0){
-                  left = 0
-                }else if(left<window.screen.width-totalWidth){
-                  left = window.screen.width-totalWidth
-                }
-                nav.style.left = left  + 'px';
-                flag = true;
-              }
-            }
-            if(totalWidth > chuangkoukuan) {
-              nav.addEventListener('touchstart',touchtab,false);
-              nav.addEventListener('touchmove',touchtab,false);
-              nav.addEventListener('touchend',touchtab,false);
-            }
-            $(nav).on('click','li',function(){
-              $('.liactive').removeClass('liactive')
-              $(this).addClass('liactive')
-              // 导航条转
-              var elid = $(this).attr('data-id')
-              that.getData(elid)
-              //滚动到顶部
-              $(window).scrollTop(0)
-            })
-            // 
           },
           // 点击跳转详情
           destail : function(){
@@ -345,11 +314,26 @@
           // 返回
           goBack : function(){
             history.go(-1)
+          },
+           // 微信分享
+           wxFenxiang : function(){
+            var that = this
+            setTimeout(function(){
+              var url = window.location.href 
+              var tit = that.info[2]['title']
+              var desc = that.info[2]['descr']
+              var img = that.info[2]['images'][0]['url']
+              
+              wxShare(url,tit,img,desc,dataUrl)
+            },500)
           }
         },
         mounted : function(){
           this.btnClick()
           this.goSea()
+          this.getHot()
+          // 启动微信分享
+          this.wxFenxiang()
         }
       })
     })
