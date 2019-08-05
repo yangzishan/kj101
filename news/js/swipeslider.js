@@ -40,7 +40,7 @@
       * Overall height of the slider. Set it to percent to make it responsive.
       * Otherwise the slider will keep the height.
       */
-      sliderHeight: '60%'
+      sliderHeight: '0'
     };
 
     var settings = $.extend(defaultSettings, options);

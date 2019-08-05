@@ -12,7 +12,8 @@
         	url:dataUrl,
         	data:{
         		url:url
-        	},
+					},
+					dataType:'JSON',
         	success: function(res){
         		wx.config({
 		            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -25,7 +26,7 @@
 		
 		        });
 		        wx.error(function (res) {
-		            //alert(res.errMsg);  //打印错误消息。及把 debug:false,设置为debug:ture就可以直接在网页上看到弹出的错误提示
+		            alert(res.errMsg);  //打印错误消息。及把 debug:false,设置为debug:ture就可以直接在网页上看到弹出的错误提示
 		        });
 		        wx.ready(function () {
 		            // 在这里调用 API
