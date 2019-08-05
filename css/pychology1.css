@@ -23,8 +23,8 @@ body #app > .user_name span {
   display: inline-block;
 }
 body #app > .user_name .time {
-  /* margin-left:1.13rem; */
-  float: right;
+  margin-left:1.13rem;
+  /* float: right; */
 }
 body #app > .center .ech_box {
   width: 6.98rem;

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <title>新闻</title>
   <link rel="stylesheet" href="css/basics.css">
 	<link rel="stylesheet" type="text/css" href="./css/swipeslider.css">
@@ -20,17 +21,43 @@
         <div class="header">
           <span class="back"></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字"></div><span class="btn" data-target="btn">搜索</span>
         </div>
-        <div class="list">
-          <div class="warp" v-if = "list && list.length > 0">
-            <ul class="nav" id="nav">
-              <li v-for="item in list" :data-id="item.id" >{{item.name}}</li>
+
+        <!-- <div class="list">
+          <div class="wrapper">
+            <div class="warp" v-if = "list && list.length > 0">
+              <ul class="nav" id="nav">
+                <li v-for="item in list" :data-id="item.id" data-target="li">{{item.name}}</li>
+              </ul>
+            </div>
+          </div>	
+        </div> -->
+        <div class="wrapper list">
+          <div class="scroller warp">
+            <ul class="clearfix nav">
+              <li data-target="li"><a href="javascript:void(0)">全部科目</a></li >
+              <li data-target="li"><a href="javascript:void(0)">会计从业</a></li>
+              <li data-target="li"><a href="javascript:void(0)">会计职称</a></li>
+              <li data-target="li"><a href="javascript:void(0)">注会</a></li>
+              <li data-target="li"><a href="javascript:void(0)">税务师</a></li>
+              <li data-target="li"><a href="javascript:void(0)">国际证书</a></li>
+              <li data-target="li"><a href="javascript:void(0)">更多</a></li>
+              <li data-target="li"><a href="javascript:void(0)">更多注会</a></li>
+              <li data-target="li"><a href="javascript:void(0)">国际证书2</a></li>
+              <li data-target="li"><a href="javascript:void(0)">更多4</a></li>
+              <li data-target="li"><a href="javascript:void(0)">更多5</a></li>
             </ul>
-            </div>	
-        </div>
+          </div>
+          </div>
+
       </div>
     </div>
     <!-- 轮播 -->
-    <div class="lunbo" v-if="banner && banner.length > 0">
+    <div class="zhanweilunbo" v-if="banner && banner.length == 1" style="position: relative; " data-url="banner[0].artlurl" class="sw-slide">
+        <div data-img="visibility"><img src="./img/loading.gif" style="width:.5rem;"></div>
+        <img :src="banner[0].img_path" alt="Summer beach concept" style="width:100%;display: none;" data-img="show">
+        <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{banner[0].title}}</span>
+    </div>
+    <div class="lunbo" v-if="banner && banner.length > 1">
         <figure id="full_feature" class="swipslider">
           <ul class="sw-slides">
             <li class="sw-slide" v-for="(item,index) in banner" :data-index="index" style="position: relative;" :data-url="item.artlurl">
@@ -55,7 +82,7 @@
         </div>
         <!-- no2 -->
         <div class="lef" v-if="item.images && item.images.length == 1">
-          <div class="title">
+          <div class="title" style="width:90%;">
             <h3>{{item.title}}</h3>
           </div>
           <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
@@ -68,6 +95,9 @@
         </div>
       </div>
     </div>
+    <div class="lazy_load" >
+      <img src="./img/loading.gif" alt="" style="width:.5rem;">
+    </div>
     <div class="bottom">
       <p>到底了</p>
     </div>
@@ -77,6 +107,9 @@
   <script type="text/javascript" src="./js/swipeslider.js"></script>
   <script src="js/wxShare.js"></script>
   <script src="./js/ajaxUrl.js"></script>
+  <script type="text/javascript" src="js/flexible.js"></script>
+  <script type="text/javascript" src="js/iscroll.js"></script>
+  <script type="text/javascript" src="js/navbarscroll.js"></script>
   <script type="text/javascript">
     (function (doc, win) {
       var docEl = doc.documentElement,
@@ -108,6 +141,26 @@
     })
   </script>
   <script>
+    (function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})(); 
+  </script>
+  <script>
     $(function(){
       // 获取url参数方法
       function getQueryString(name) {
@@ -117,7 +170,6 @@
           }
           return result[1];
       };
-     
       // 跳转页面
       var ddes = 'newsdetails.html'
       // 请求接口参数
@@ -128,6 +180,18 @@
       var title = ''
       // 懒加载截留
       var ajaxFlag = true
+      // 判断页面是否都加在完成
+      var getListFlag = false
+      var getDataFlag = false
+      var getBannerFlag = false
+      var timer3 = null
+      // len 获取 轮播图片数组的长度
+      var len = 0
+      // 文章数组长度
+      var dataLen = 0
+      // getEnd 加载完成
+      var getEnd = true
+      // num 只执行一次 微信分享
       var num = 0
       var v = new Vue({
         el:'#app',
@@ -153,15 +217,35 @@
                 if(res.code == 200){
                   that.list = res.data
                   if(res.data.length > 0 ){
+                    getListFlag = true
+                    // that.qudong()
                     setTimeout(function(){
+                      $('[data-target=li]:first').addClass('liactive');
                       cid = pid = res.data[0]['id']
-                      // 绑定触摸滑动导航栏
-                      that.Touch()
-                      that.btnClick()
-                      // 触发首次内容加载
-                      $('.nav li:first').trigger('click')
-
-                    })
+                      that.getData()
+                  // 导航点击 
+                  var jieliu = true
+                  var timer1 = null
+                  $('.nav').on('click','li',function(){
+                    var cli = this
+                    if(jieliu){
+                      jieliu = false
+                      timer1 = setTimeout(function(){
+                        $('.liactive').removeClass('liactive')
+                        $(cli).addClass('liactive')
+                        // 导航条转
+                        var elid = $(cli).attr('data-id')
+                        that.getData(elid)
+                        //滚动到顶部
+                        $(window).scrollTop(0)
+                        jieliu = true
+                      },300)
+                    }else{
+                      clearTimeout(timer1)
+                      timer1 = null
+                    }
+                  })
+                    },100)
                   }
                 }
               },
@@ -181,20 +265,11 @@
               success : function(res){
                 if(res.code == 200){
                   that.banner = res.data
-                  var len = res.data.length
+                  getBannerFlag = true
+                  len = res.data.length
+                  // that.qudong()
                   setTimeout(function(){
-                    // 初始化轮播插件
                     that.lunbo()
-                    $('li.sw-slide > img').load(function(){
-                      if( ($('li.sw-slide > img').length - 2) >= len ){
-                        $('[data-img=visibility]').css({
-                          'display':'none'
-                        })
-                        $('[data-img=show]').css({
-                          'display':'block'
-                        })
-                      }
-                    })
                   })
                 }
               },
@@ -222,55 +297,23 @@
               dataType:'JSON',
               success : function(res){
                 if(res.code == 200){
-                 
-
+                  // 一次请求完成
+                  ajaxFlag = true
+                  getEnd = true
+                  
+                  getDataFlag = true
+                  that.qudong()
                   // 懒加载 或 titlle 搜索
                   if(elid == undefined){
                     $.each(res.data.data,function(index,item){
-                    that.info.push(item)  
+                      that.info.push(item)  
                     })
-                    page = parseInt(res.data.page ) + 1
                   }else if(elid != undefined){ //点击导航
                     that.info = res.data.data
-                    page = parseInt(res.data.page ) + 1
                   }
-                  setTimeout(function(){
-                    
-                    // 最后文章底边框
-                    $('.content .list:last').css({
-                      'border-bottom' : 'none'
-                    })
-                    // 一次请求完成
-                    ajaxFlag = true
-                    // 首次加载页面绑定懒加载
-                    if(num < 1){
-                      num += 1
-                      that.lazyGo()
-                    }
-                    //点击调转详情
-                    that.destail()
-                  },20)
-                  setTimeout(function(){
-                    // loading
-                    var winH = $(window).height();
-                    $('#app').css({
-                      'visibility':'visible'
-                    })
-                    $('.loadmore').css({
-                      'display':'none'
-                    })
-                     // 是否到底
-                    if(res.data.data.length <= 0){
-                      $('.bottom').css({
-                        'display':'block'
-                      })
-                    }
-                    if($('#app').height() <= winH){
-                      $('.bottom').css({
-                        'display':'none'
-                      })
-                    }
-                  },100)
+                  page = parseInt(res.data.page ) + 1
+                  dataLen = res.data.data.length
+                  getListFlag = true
                 }
               },
               error : function(err){
@@ -295,8 +338,9 @@
               var winH = $(window).height();
               var scroH = $(window).scrollTop();
               // 判断滚动到底 开始加载 设置 ajaxFlag false 
-              if((innerH - winH - scroH) < 1 ){
+              if((innerH - winH - scroH) < 3 ){
                 if(ajaxFlag){
+                  $('.lazy_load').css({'display':'block'})
                   ajaxFlag = false
                   that.getData()
                 }
@@ -308,7 +352,7 @@
             var that = this
             // touch  click 
             var nav = document.getElementById("nav");
-            var navs = document.getElementsByTagName("li");
+            var navs = $('[data-target=li]');
             var left = nav.style.left;      // ul 距离左边的距离
             var totalWidth = 0;             // 总宽度
             var minusValue = 0;             // 设备宽度与总宽度的差值
@@ -316,9 +360,9 @@
             var flag = true;
             left = left ? left : 0;         // 初始时 ul 距离左边 0px
             // 获取所有 li 所占用的宽度
-            for (var i = 0; i < navs.length; i++){
-              totalWidth += navs[i].offsetWidth;
-            }
+            $.each(navs,function(index,item){
+              totalWidth += $(this)[0].offsetWidth;
+            })
             // 固定 ul 的宽度
             nav.style.width = totalWidth + 10 + 'px';
             minusValue = window.screen.width - totalWidth;
@@ -359,31 +403,19 @@
               nav.addEventListener('touchmove',touchtab,false);
               nav.addEventListener('touchend',touchtab,false);
             }
-            // 导航点击 
-            $(nav).on('click','li',function(){
-              $('.liactive').removeClass('liactive')
-              $(this).addClass('liactive')
-              // 导航条转
-              var elid = $(this).attr('data-id')
-              that.getData(elid)
-              //滚动到顶部
-              $(window).scrollTop(0)
-            })
-            // 
           },
           // 点击跳转详情
           destail : function(){
             $('.content .list').on('click',function(){
               window.location = $(this).attr('data-url')
             })
+            
           } ,
           // 轮播启动
           lunbo :  function(){
             $('#full_feature').swipeslider();
             setTimeout(function(){
-              $('#full_feature').css({
-                'padding-top' : '40%'
-              })
+              
               $('#full_feature .sw-slides' ).on('click','li',function(){
                 window.location = $(this).attr('data-url')
               })
@@ -397,19 +429,115 @@
             var that = this
             setTimeout(function(){
               var url = window.location.href 
-              var tit = that.info[2]['title']
-              var desc = that.info[2]['descr']
-              var img = that.info[2]['images'][0]['url']
-              
+              var tit = that.info[0]['title']
+              var desc = that.info[0]['descr']
+              var img = that.info[0]['images'][0]['url']
+              // panduan
+              if(img.indexOf('http')){
+                img = window.location.hostname + img
+              }
               wxShare(url,tit,img,desc,dataUrl)
             },500)
+          },
+          // 启动judge
+          qudong : function(){
+              if( getEnd && getListFlag &&  getDataFlag && getBannerFlag  ){
+                getEnd = false
+                this.judge()
+              }
+          } 
+          ,
+          // 判断页面是否加载完成
+          judge : function(){
+            var that = this
+              if(getListFlag &&  getDataFlag && getBannerFlag){
+                
+                // 导航时间初始化
+                that.btnClick()
+                // that.Touch()
+                // $('.wrapper').navbarscroll();
+                console.log($('.wrapper'))
+                setTimeout(function(){
+                  $('#app').css({
+                  'visibility':'visible'
+                  })
+                  $('.loadmore').css({
+                    'display':'none'
+                  })
+                })
+
+                setTimeout(function(){
+                  // 初始化轮播插件
+                  if(len > 0 && $('[data-img=show]') ){
+                    if( ($('[data-img=show]').length - 2) >= len ){
+                      $('[data-img=visibility]').css({
+                        'display':'none'
+                      })
+                      $('[data-img=show]').css({
+                        'display':'block'
+                      })
+                      var hen = $($('[data-img=show]')[0]).height()
+                      $('.fixedbox').height()
+                      $('#full_feature').css({
+                        'padding-top' : hen
+                      })
+                      $('.sw-slides').height(hen)
+                    }
+                  }
+                  if($('[data-img=show]') ){
+                    $('[data-img=visibility]').css({
+                      'display':'none'
+                    })
+                    $('[data-img=show]').css({
+                      'display':'block'
+                    })
+                    var hen = $($('[data-img=show]')[0]).height()
+                    $('.zhanweilunbo').height(hen)
+                  }
+                })
+
+                // 
+                setTimeout(function(){
+                  $('.lazy_load').css({'display':'none'})
+                  // 最后文章底边框
+                  $('.content .list:last').css({
+                    'border-bottom' : 'none'
+                  })
+                  
+                  // 首次加载页面绑定懒加载
+                  if(num < 1){
+                    num += 1
+                    that.lazyGo()
+                    // 启动微信分享
+                    setTimeout(function(){
+                      that.wxFenxiang()
+                    },1000)
+                  }
+                  //点击调转详情
+                  that.destail()
+                },20)
+                setTimeout(function(){
+                  // loading
+                  var winH = $(window).height();
+                   // 是否到底
+                  if(dataLen <= 0){
+                    $('.bottom').css({
+                      'display':'block'
+                    })
+                  }
+                  if($('#app').height() <= winH){
+                    $('.bottom').css({
+                      'display':'none'
+                    })
+                  }
+                },100)
+              }
+            
           }
         },
         mounted : function(){
           this.getList()
           this.getLunbo()
-          // 启动微信分享
-          this.wxFenxiang()
         }
       })
     })

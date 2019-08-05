@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>新闻</title>
   <link rel="stylesheet" href="css/basics.css">
@@ -30,6 +31,7 @@
     </div>
     <!-- 推荐内容 -->
     <div class="btn_box" v-if="hot && hot.length > 0">
+      <h4 class="tishi" style="text-align: center;display:none;padding-left:0;">未搜索到相关内容</h4>
       <!-- <h4>热门搜索</h4>
       <div class="his">
         <span>医生</span><span>医生</span><span>医生</span><span>医生</span><span>医生</span><span>医生</span>
@@ -67,6 +69,9 @@
         </div>
       </div>
     </div>
+    <div class="lazy_load" >
+      <img src="./img/loading.gif" alt="" style="width:.5rem;">
+    </div>
     <div class="bottom">
       <p>到底了</p>
     </div>
@@ -92,6 +97,26 @@
       win.addEventListener(resizeEvt, recalc, false);
       doc.addEventListener('DOMContentLoaded', recalc, false);
     })(document, window);
+  </script>
+  <script>
+  (function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+  })(); 
   </script>
   <script>
     $(function() {
@@ -205,8 +230,16 @@
                     that.info = res.data.data
                     page = parseInt(res.data.page ) + 1
                   }
+                  if(title != '' && res.data.data.length <= 0){
+                    $('.btn_box').css({
+                      'display' : 'block'
+                    })
+                    $('.tishi').css({
+                      'display' : 'block'
+                    })
+                  }
                   setTimeout(function(){
-                    
+                    $('.lazy_load').css({'display':'none'})
                     $('.content .list:last').css({
                       'border-bottom' : 'none'
                     })
@@ -215,6 +248,9 @@
                     if(num < 1){
                       num += 1
                       that.lazyGo()
+                      setTimeout(function(){
+                        that.wxFenxiang()
+                      },1000)
                     }
                     // 跳转详情
                     that.destail()
@@ -246,7 +282,6 @@
                     $('.loadmore').css({
                       'display':'none'
                     })
-                    
                   })
                 }
               }
@@ -298,6 +333,7 @@
               if((innerH - winH - scroH) < 1 ){
                 // 懒加载截留
                 if(ajaxFlag){
+                  $('.lazy_load').css({'display':'block'})
                   ajaxFlag = false
                   that.getData()
                 }
@@ -320,10 +356,9 @@
             var that = this
             setTimeout(function(){
               var url = window.location.href 
-              var tit = that.info[2]['title']
-              var desc = that.info[2]['descr']
-              var img = that.info[2]['images'][0]['url']
-              
+              var tit = that.info[0]['title']
+              var desc = that.info[0]['descr']
+              var img = that.info[0]['images'][0]['url']
               wxShare(url,tit,img,desc,dataUrl)
             },500)
           }
@@ -333,7 +368,6 @@
           this.goSea()
           this.getHot()
           // 启动微信分享
-          this.wxFenxiang()
         }
       })
     })
