@@ -99,9 +99,10 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 		},
 		success:function(res){
 			if(res.code == 200){
-				var reportType = res.data.reportType;
-				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource;
 				var visible = res.data.visible;
+				var reportType = res.data.reportType;
+				var source = res.data.source;
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source;
 				if(visible == 0){
 					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 					$('.daifu_d').css("display","block");	
@@ -109,7 +110,7 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 					$('.daifu_d .tip').remove();
 					$('#iknow').click(function(){
 						//WeixinJSBridge.call('closeWindow');
-						location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas+'&clientType='+clientType+'&resource='+resource;
+						location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas+'&clientType='+clientType+'&resource='+resource+'&source='+source;
 					});
 				}else{
 					if(reportType == 121 || reportType == 122){
