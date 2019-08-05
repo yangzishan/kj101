@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>新闻</title>
+  <link rel="stylesheet" href="css/basics.css">
+	<link rel="stylesheet" type="text/css" href="./css/swipeslider.css">
+  <script>
+      document.write('<link rel="stylesheet" href="css/news.css?t='+new Date().getTime()+'">')
+  </script>
+</head>
+<body>
+  <div class="loadmore loading"></div>
+  <div id="app" data-name="details">
+    <!-- 固定定位 -->
+    <div class="h_box">
+      <div class="fixedbox">
+        <div class="header">
+          <span class="back"></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字"></div><span class="btn" data-target="btn">搜索</span>
+        </div>
+        <div class="list">
+          <div class="warp" v-if = "list && list.length > 0">
+            <ul class="nav" id="nav">
+              <li v-for="item in list" :data-id="item.id" >{{item.name}}</li>
+            </ul>
+            </div>	
+        </div>
+      </div>
+    </div>
+    <!-- 轮播 -->
+    <div class="lunbo" v-if="banner && banner.length > 0">
+        <figure id="full_feature" class="swipslider">
+          <ul class="sw-slides">
+            <li class="sw-slide" v-for="(item,index) in banner" :data-index="index" style="position: relative;" :data-url="item.artlurl">
+              <div data-img="visibility"><img src="./img/loading.gif" style="width:.5rem;"></div>
+              <img :src="item.img_path" alt="Summer beach concept" style="width:100%;display: none;" data-img="show">
+              <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{item.title}}</span>
+            </li>
+          </ul>
+        </figure>
+    </div>
+    <!-- 文章列表 -->
+    <div class="content" v-if="info.length > 0">
+      <div class="list" v-for="(item,index) in info" :data-url="item.jump_url" :data-index="index">
+        <div class="list_box" v-if="item.images && item.images.length > 1">
+            <h3>{{item.title}}</h3>
+            <div class="img_list"><img :src="a.url" alt="" v-for="a in item.images"></div>
+            <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
+              <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
+              
+              <!-- <span class="pinglun">评论 <em>55</em></span> -->
+            </p>
+        </div>
+        <!-- no2 -->
+        <div class="lef" v-if="item.images && item.images.length == 1">
+          <div class="title">
+            <h3>{{item.title}}</h3>
+          </div>
+          <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
+            <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
+            <!-- <span class="pinglun">评论 <em>55</em></span> -->
+          </p>
+        </div>
+        <div class="rig" v-if="item.images && item.images.length == 1">
+          <img :src="item.images[0].url" alt="" v-if="item.images && item.images[0] && item.images[0].url">
+        </div>
+      </div>
+    </div>
+    <div class="bottom">
+      <p>到底了</p>
+    </div>
+  </div>
+  <script src="js/jquery.js"></script>
+  <script src="./js/vue.min.js"></script> 
+  <script type="text/javascript" src="./js/swipeslider.js"></script>
+  <script src="js/wxShare.js"></script>
+  <script src="./js/ajaxUrl.js"></script>
+  <script type="text/javascript">
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var    clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if(clientWidth>=750){
+              docEl.style.fontSize = '100px';
+          }else{
+              docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+          }
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+  </script>
+  <script>
+    $(function() {
+    	//微信内置浏览器浏览H5页面弹出的键盘遮盖文本框的解决办法 
+    	window.addEventListener("resize", function() {
+    		if(document.activeElement.tagName == "INPUT" || document.activeElement.tagName == "TEXTAREA") {
+    			window.setTimeout(function() {
+    				document.activeElement.scrollIntoViewIfNeeded();
+    			}, 0);
+    		}
+    	})
+    })
+  </script>
+  <script>
+    $(function(){
+      // 获取url参数方法
+      function getQueryString(name) {
+          var    result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+          if (result == null || result.length < 1) {
+              return "";
+          }
+          return result[1];
+      };
+     
+      // 跳转页面
+      var ddes = 'newsdetails.html'
+      // 请求接口参数
+      var page = 1
+      var pid = 0
+      var zid = 0
+      var cid = 0
+      var title = ''
+      // 懒加载截留
+      var ajaxFlag = true
+      var num = 0
+      var v = new Vue({
+        el:'#app',
+        data : function(){
+          return{
+            list:[], //导航
+            info : [],//内容
+            banner : [] // 轮播
+          }
+        },
+        methods : {
+          // ajax请求
+          // 获取导航列表
+          getList : function(){
+            var that = this;
+            $.ajax({
+              url : getListUrl,
+              type : 'POST',
+              data : {
+              },
+              dataType:'JSON',
+              success : function(res){
+                if(res.code == 200){
+                  that.list = res.data
+                  if(res.data.length > 0 ){
+                    setTimeout(function(){
+                      cid = pid = res.data[0]['id']
+                      // 绑定触摸滑动导航栏
+                      that.Touch()
+                      that.btnClick()
+                      // 触发首次内容加载
+                      $('.nav li:first').trigger('click')
+
+                    })
+                  }
+                }
+              },
+              error : function(err){
+              }
+            })
+          },
+          // ajax轮播
+          getLunbo : function(){
+            var that = this
+            $.ajax({
+              url : getBannerUrl,
+              type : 'POST',
+              data : {
+              },
+              dataType:'JSON',
+              success : function(res){
+                if(res.code == 200){
+                  that.banner = res.data
+                  var len = res.data.length
+                  setTimeout(function(){
+                    // 初始化轮播插件
+                    that.lunbo()
+                    $('li.sw-slide > img').load(function(){
+                      if( ($('li.sw-slide > img').length - 2) >= len ){
+                        $('[data-img=visibility]').css({
+                          'display':'none'
+                        })
+                        $('[data-img=show]').css({
+                          'display':'block'
+                        })
+                      }
+                    })
+                  })
+                }
+              },
+              error : function(err){
+              }
+            })
+          }
+          ,
+          // 第一次获取数据 、滚动加载 、 点击加载
+          getData : function(elid){
+            var that = this;
+            // 判断是不是传入了 cid  传入就让page 是第一页
+            if(elid != undefined){
+              cid = elid
+              page = 1
+            }
+            $.ajax({
+              url : getDataUrl,
+              type : 'POST',
+              data : {
+                cid : cid,
+                page : page,
+                title : title
+              },
+              dataType:'JSON',
+              success : function(res){
+                if(res.code == 200){
+                 
+
+                  // 懒加载 或 titlle 搜索
+                  if(elid == undefined){
+                    $.each(res.data.data,function(index,item){
+                    that.info.push(item)  
+                    })
+                    page = parseInt(res.data.page ) + 1
+                  }else if(elid != undefined){ //点击导航
+                    that.info = res.data.data
+                    page = parseInt(res.data.page ) + 1
+                  }
+                  setTimeout(function(){
+                    
+                    // 最后文章底边框
+                    $('.content .list:last').css({
+                      'border-bottom' : 'none'
+                    })
+                    // 一次请求完成
+                    ajaxFlag = true
+                    // 首次加载页面绑定懒加载
+                    if(num < 1){
+                      num += 1
+                      that.lazyGo()
+                    }
+                    //点击调转详情
+                    that.destail()
+                  },20)
+                  setTimeout(function(){
+                    // loading
+                    var winH = $(window).height();
+                    $('#app').css({
+                      'visibility':'visible'
+                    })
+                    $('.loadmore').css({
+                      'display':'none'
+                    })
+                     // 是否到底
+                    if(res.data.data.length <= 0){
+                      $('.bottom').css({
+                        'display':'block'
+                      })
+                    }
+                    if($('#app').height() <= winH){
+                      $('.bottom').css({
+                        'display':'none'
+                      })
+                    }
+                  },100)
+                }
+              },
+              error : function(err){
+              }
+            })
+          },
+          // 点击搜索跳转
+          btnClick : function(){
+            var that = this
+            $('[data-target=btn]').on('click',function(){
+              window.location = ddes
+            })
+            $('#search').focus(function(){
+              window.location = ddes
+            })
+          },
+          // 绑定滚动事件
+          lazyGo : function (){
+            var that = this 
+            $(window).scroll(function(){
+              var innerH = $(document).height();
+              var winH = $(window).height();
+              var scroH = $(window).scrollTop();
+              // 判断滚动到底 开始加载 设置 ajaxFlag false 
+              if((innerH - winH - scroH) < 1 ){
+                if(ajaxFlag){
+                  ajaxFlag = false
+                  that.getData()
+                }
+              }
+            })
+          },
+          // 触摸滚动事件
+          Touch : function(){
+            var that = this
+            // touch  click 
+            var nav = document.getElementById("nav");
+            var navs = document.getElementsByTagName("li");
+            var left = nav.style.left;      // ul 距离左边的距离
+            var totalWidth = 0;             // 总宽度
+            var minusValue = 0;             // 设备宽度与总宽度的差值
+            var chuangkoukuan = window.screen.width
+            var flag = true;
+            left = left ? left : 0;         // 初始时 ul 距离左边 0px
+            // 获取所有 li 所占用的宽度
+            for (var i = 0; i < navs.length; i++){
+              totalWidth += navs[i].offsetWidth;
+            }
+            // 固定 ul 的宽度
+            nav.style.width = totalWidth + 10 + 'px';
+            minusValue = window.screen.width - totalWidth;
+            var startx,starty,movex,movey,endx,endy,nx,ny,off_w;
+            function touchtab(event) {
+            	// event.preventDefault();'
+              flag = false;
+              if(event.type=="touchstart"){
+                var touch = event.touches[0];
+                startx = Math.floor(touch.pageX);
+                starty = Math.floor(touch.pageY);
+              }else if(event.type=="touchmove"){//触摸中的坐标获取
+                var touch = event.touches[0];
+                movex = Math.floor(touch.pageX);
+                movey = Math.floor(touch.pageY);
+                off_w = (movex-startx)
+                nav.style.left = (left+off_w) + 'px';
+              }else if(event.type == "touchend" || event.type == "touchcancel"){
+                    //获取最后的坐标位置
+                endx = Math.floor(event.changedTouches[0].pageX);
+                endy = Math.floor(event.changedTouches[0].pageY);
+                 //获取开始位置和离开位置的距离
+                nx = endx-startx;
+                ny = endy-starty;
+                left += nx
+                if(left>0){
+                  left = 0
+                }else if(left<window.screen.width-totalWidth){
+                  left = window.screen.width-totalWidth
+                }
+                nav.style.left = left  + 'px';
+                flag = true;
+              }
+            }
+            // ul内容小于屏幕宽度 不绑定滚动事件
+            if(totalWidth > chuangkoukuan) {
+              nav.addEventListener('touchstart',touchtab,false);
+              nav.addEventListener('touchmove',touchtab,false);
+              nav.addEventListener('touchend',touchtab,false);
+            }
+            // 导航点击 
+            $(nav).on('click','li',function(){
+              $('.liactive').removeClass('liactive')
+              $(this).addClass('liactive')
+              // 导航条转
+              var elid = $(this).attr('data-id')
+              that.getData(elid)
+              //滚动到顶部
+              $(window).scrollTop(0)
+            })
+            // 
+          },
+          // 点击跳转详情
+          destail : function(){
+            $('.content .list').on('click',function(){
+              window.location = $(this).attr('data-url')
+            })
+          } ,
+          // 轮播启动
+          lunbo :  function(){
+            $('#full_feature').swipeslider();
+            setTimeout(function(){
+              $('#full_feature').css({
+                'padding-top' : '40%'
+              })
+              $('#full_feature .sw-slides' ).on('click','li',function(){
+                window.location = $(this).attr('data-url')
+              })
+              $('.sw-next-prev').css({
+                'display' : 'none'
+              })
+            })
+          },
+          // 微信分享
+          wxFenxiang : function(){
+            var that = this
+            setTimeout(function(){
+              var url = window.location.href 
+              var tit = that.info[2]['title']
+              var desc = that.info[2]['descr']
+              var img = that.info[2]['images'][0]['url']
+              
+              wxShare(url,tit,img,desc,dataUrl)
+            },500)
+          }
+        },
+        mounted : function(){
+          this.getList()
+          this.getLunbo()
+          // 启动微信分享
+          this.wxFenxiang()
+        }
+      })
+    })
+  </script>
+  
+</body>
+</html>
