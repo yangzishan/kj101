@@ -5,6 +5,7 @@ var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
 var edition = 3;
 if(reportType == 501){
 	$('.skin').remove();
@@ -12,7 +13,7 @@ if(reportType == 501){
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(!openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
 
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言

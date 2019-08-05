@@ -7,12 +7,13 @@ var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
 var localUrl = location.href;
 var reportPrintUrl = 'http://kj101.jiankangzhan.com/print/print130_kh2.html?viewType=2&reportId=';
-var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source=kh';
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 if(clientType == 'app'){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=khyapp'+'&resource='+resource+'&clientType='+clientType
+	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=khyapp'+'&resource='+resource+'&clientType='+clientType+'&source='+source
 };
 
 var myApp = new Vue({

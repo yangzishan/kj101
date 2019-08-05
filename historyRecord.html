@@ -19,13 +19,13 @@
 			<p class="t-cen txt1"><span>历史报告</span></p>
 		</header>
 		<div class="history_b" id="thelist">
-			<template v-if="!source">
+			<template v-if="source != 'khyapp'">
 				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
 					<span class="dat">{{item.inspectDateStr}}</span>
 					<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
 				</a>
 			</template>
-			<template v-if="source">
+			<template v-if="source == 'khyapp'">
 				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
 					<span class="dat">{{item.inspectDateStr}}</span>
 					<i class="arr fr"></i><span class="num fr">{{item.nickName.slice(0,3)}}</span>
@@ -164,7 +164,7 @@ var myApp = new Vue({
 					if(res.code == 200){
 						var visible = res.data.visible; //是否可查看 0不可查看
 						var reportType = res.data.reportType;
-						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource;
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source;
 						
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
