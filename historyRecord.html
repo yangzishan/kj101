@@ -74,8 +74,8 @@ var openId = getQueryString('openId');
 var isAgent = getQueryString('isAgent');
 var saasId = getQueryString('saasId');
 var clientType = (getQueryString("clientType") || '');
-var source = getQueryString('source');  //自己定义的参 值 khyapp
-var resource = getQueryString("resource"); //康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  //随后会用到
+var source = (getQueryString('source') || '');  //通过解析获得
+var resource = getQueryString("resource"); //康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  //app交互返回获得
 //if(resource == 'khyapp'){source = 'khyapp'} 看需求打开（如果是康浩app 不管从什么报告过来都只显示康浩历史）
 if(openId == null || openId == undefined){
 	openId = ''
@@ -91,6 +91,7 @@ var myApp = new Vue({
 	data: function(){
 		return{
 			source: source,
+			resource: resource,
 			userId: userId,
 			dataList: ''
 		}
@@ -110,7 +111,7 @@ var myApp = new Vue({
 				   	companyId: saasId,
 				    firstPage: '0',
 				    pageSize: 50,
-				    source: resource
+				    source: source
 				},
 				success : function(res) {
 					if(res.code == 200){
