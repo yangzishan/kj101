@@ -11,6 +11,13 @@
   <script>
       document.write('<link rel="stylesheet" href="css/news.css?t='+new Date().getTime()+'">')
   </script>
+  <style>
+  .wrapper01 {position:relative;height:.72rem;line-height:.72rem;width: 100%;overflow: hidden;margin:0 auto;border-bottom:1px solid #ccc}
+	.wrapper01 .scroller {position:absolute}
+	.wrapper01 .scroller li {color:#333;float: left;height:.72rem;line-height:.72rem;font-size: .34rem;text-align: center}
+	.wrapper01 .scroller li a{color:#333;display:block;margin:0 .3rem}
+	.wrapper01 .scroller li.cur a{color:#1cbb9b;}
+  </style>
 </head>
 <body>
   <div class="loadmore loading"></div>
@@ -21,7 +28,6 @@
         <div class="header">
           <span class="back"></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字"></div><span class="btn" data-target="btn">搜索</span>
         </div>
-
         <!-- <div class="list">
           <div class="wrapper">
             <div class="warp" v-if = "list && list.length > 0">
@@ -31,24 +37,13 @@
             </div>
           </div>	
         </div> -->
-        <div class="wrapper list">
-          <div class="scroller warp">
-            <ul class="clearfix nav">
-              <li data-target="li"><a href="javascript:void(0)">全部科目</a></li >
-              <li data-target="li"><a href="javascript:void(0)">会计从业</a></li>
-              <li data-target="li"><a href="javascript:void(0)">会计职称</a></li>
-              <li data-target="li"><a href="javascript:void(0)">注会</a></li>
-              <li data-target="li"><a href="javascript:void(0)">税务师</a></li>
-              <li data-target="li"><a href="javascript:void(0)">国际证书</a></li>
-              <li data-target="li"><a href="javascript:void(0)">更多</a></li>
-              <li data-target="li"><a href="javascript:void(0)">更多注会</a></li>
-              <li data-target="li"><a href="javascript:void(0)">国际证书2</a></li>
-              <li data-target="li"><a href="javascript:void(0)">更多4</a></li>
-              <li data-target="li"><a href="javascript:void(0)">更多5</a></li>
+        <div class="wrapper wrapper01 " id="retr"  style="background:#f4f5f6;">
+          <div class="scroller " v-if = "list && list.length > 0"  style="background:#f4f5f6;">
+            <ul class="clearfix" style="background:#f4f5f6;">
+              <li v-for="item in list" :data-id="item.id" data-target="li"><a href="javascript:void(0)">{{item.name}}</a></li>
             </ul>
           </div>
           </div>
-
       </div>
     </div>
     <!-- 轮播 -->
@@ -220,17 +215,13 @@
                     getListFlag = true
                     // that.qudong()
                     setTimeout(function(){
-                      $('[data-target=li]:first').addClass('liactive');
+                      $('.wrapper li:first').addClass('cur');
+                      $('.wrapper').navbarscroll();
                       cid = pid = res.data[0]['id']
                       that.getData()
-                  // 导航点击 
-                  var jieliu = true
-                  var timer1 = null
-                  $('.nav').on('click','li',function(){
-                    var cli = this
-                    if(jieliu){
-                      jieliu = false
-                      timer1 = setTimeout(function(){
+                      // 导航点击 
+                      $('.wrapper').on('click','li',function(){
+                        var cli = this   
                         $('.liactive').removeClass('liactive')
                         $(cli).addClass('liactive')
                         // 导航条转
@@ -238,13 +229,7 @@
                         that.getData(elid)
                         //滚动到顶部
                         $(window).scrollTop(0)
-                        jieliu = true
-                      },300)
-                    }else{
-                      clearTimeout(timer1)
-                      timer1 = null
-                    }
-                  })
+                      })
                     },100)
                   }
                 }
@@ -347,63 +332,63 @@
               }
             })
           },
-          // 触摸滚动事件
-          Touch : function(){
-            var that = this
-            // touch  click 
-            var nav = document.getElementById("nav");
-            var navs = $('[data-target=li]');
-            var left = nav.style.left;      // ul 距离左边的距离
-            var totalWidth = 0;             // 总宽度
-            var minusValue = 0;             // 设备宽度与总宽度的差值
-            var chuangkoukuan = window.screen.width
-            var flag = true;
-            left = left ? left : 0;         // 初始时 ul 距离左边 0px
-            // 获取所有 li 所占用的宽度
-            $.each(navs,function(index,item){
-              totalWidth += $(this)[0].offsetWidth;
-            })
-            // 固定 ul 的宽度
-            nav.style.width = totalWidth + 10 + 'px';
-            minusValue = window.screen.width - totalWidth;
-            var startx,starty,movex,movey,endx,endy,nx,ny,off_w;
-            function touchtab(event) {
-            	// event.preventDefault();'
-              flag = false;
-              if(event.type=="touchstart"){
-                var touch = event.touches[0];
-                startx = Math.floor(touch.pageX);
-                starty = Math.floor(touch.pageY);
-              }else if(event.type=="touchmove"){//触摸中的坐标获取
-                var touch = event.touches[0];
-                movex = Math.floor(touch.pageX);
-                movey = Math.floor(touch.pageY);
-                off_w = (movex-startx)
-                nav.style.left = (left+off_w) + 'px';
-              }else if(event.type == "touchend" || event.type == "touchcancel"){
-                    //获取最后的坐标位置
-                endx = Math.floor(event.changedTouches[0].pageX);
-                endy = Math.floor(event.changedTouches[0].pageY);
-                 //获取开始位置和离开位置的距离
-                nx = endx-startx;
-                ny = endy-starty;
-                left += nx
-                if(left>0){
-                  left = 0
-                }else if(left<window.screen.width-totalWidth){
-                  left = window.screen.width-totalWidth
-                }
-                nav.style.left = left  + 'px';
-                flag = true;
-              }
-            }
-            // ul内容小于屏幕宽度 不绑定滚动事件
-            if(totalWidth > chuangkoukuan) {
-              nav.addEventListener('touchstart',touchtab,false);
-              nav.addEventListener('touchmove',touchtab,false);
-              nav.addEventListener('touchend',touchtab,false);
-            }
-          },
+          // // 触摸滚动事件
+          // Touch : function(){
+          //   var that = this
+          //   // touch  click 
+          //   var nav = document.getElementById("nav");
+          //   var navs = $('[data-target=li]');
+          //   var left = nav.style.left;      // ul 距离左边的距离
+          //   var totalWidth = 0;             // 总宽度
+          //   var minusValue = 0;             // 设备宽度与总宽度的差值
+          //   var chuangkoukuan = window.screen.width
+          //   var flag = true;
+          //   left = left ? left : 0;         // 初始时 ul 距离左边 0px
+          //   // 获取所有 li 所占用的宽度
+          //   $.each(navs,function(index,item){
+          //     totalWidth += $(this)[0].offsetWidth;
+          //   })
+          //   // 固定 ul 的宽度
+          //   nav.style.width = totalWidth + 10 + 'px';
+          //   minusValue = window.screen.width - totalWidth;
+          //   var startx,starty,movex,movey,endx,endy,nx,ny,off_w;
+          //   function touchtab(event) {
+          //   	// event.preventDefault();'
+          //     flag = false;
+          //     if(event.type=="touchstart"){
+          //       var touch = event.touches[0];
+          //       startx = Math.floor(touch.pageX);
+          //       starty = Math.floor(touch.pageY);
+          //     }else if(event.type=="touchmove"){//触摸中的坐标获取
+          //       var touch = event.touches[0];
+          //       movex = Math.floor(touch.pageX);
+          //       movey = Math.floor(touch.pageY);
+          //       off_w = (movex-startx)
+          //       nav.style.left = (left+off_w) + 'px';
+          //     }else if(event.type == "touchend" || event.type == "touchcancel"){
+          //           //获取最后的坐标位置
+          //       endx = Math.floor(event.changedTouches[0].pageX);
+          //       endy = Math.floor(event.changedTouches[0].pageY);
+          //        //获取开始位置和离开位置的距离
+          //       nx = endx-startx;
+          //       ny = endy-starty;
+          //       left += nx
+          //       if(left>0){
+          //         left = 0
+          //       }else if(left<window.screen.width-totalWidth){
+          //         left = window.screen.width-totalWidth
+          //       }
+          //       nav.style.left = left  + 'px';
+          //       flag = true;
+          //     }
+          //   }
+          //   // ul内容小于屏幕宽度 不绑定滚动事件
+          //   if(totalWidth > chuangkoukuan) {
+          //     nav.addEventListener('touchstart',touchtab,false);
+          //     nav.addEventListener('touchmove',touchtab,false);
+          //     nav.addEventListener('touchend',touchtab,false);
+          //   }
+          // },
           // 点击跳转详情
           destail : function(){
             $('.content .list').on('click',function(){
@@ -455,8 +440,8 @@
                 // 导航时间初始化
                 that.btnClick()
                 // that.Touch()
-                // $('.wrapper').navbarscroll();
-                console.log($('.wrapper'))
+               
+                
                 setTimeout(function(){
                   $('#app').css({
                   'visibility':'visible'
