@@ -6,7 +6,7 @@
 	<meta content="yes" name="apple-mobile-web-app-capable" />
 	<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 	<meta content="telephone=no" name="format-detection" />
-  <title>新闻</title>
+  <title>资讯</title>
   <link rel="stylesheet" href="css/basics.css">
 	<link rel="stylesheet" type="text/css" href="./css/swipeslider.css">
   <script>
@@ -30,7 +30,7 @@
             <div class="header">
               <span class="back"></span><div class="sousuoinput"><i></i><span id="search" style="display: inline-block;color:#888;width:87%;">请输入需要查询的关键字</span></div><span class="btn" data-target="btn">搜索</span>
             </div>
-            <div class="wrapper wrapper01 " id="retr"  style="background:#f4f5f6;">
+            <div class="wrapper wrapper01 " id="retr"  style="background:#f4f5f6;" v-if = "list && list.length > 0" >
               <div class="scroller " v-if = "list && list.length > 0"  style="background:#f4f5f6;">
                 <ul class="clearfix" style="background:#f4f5f6;">
                   <li v-for="item in list" :data-id="item.id" data-target="li"><a href="javascript:void(0)">{{item.name}}</a></li>
@@ -52,7 +52,7 @@
             <li class="sw-slide" v-for="(item,index) in banner" :data-index="index" style="position: relative;" :data-url="item.artlurl">
               <div data-img="visibility"><img src="./img/loading.gif" style="width:.5rem;"></div>
               <img :src="item.img_path" alt="Summer beach concept" style="width:100%;display: none;" data-img="show">
-              <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{item.title}}</span>
+              <!-- <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{item.title}}</span> -->
             </li>
           </ul>
         </figure>
@@ -64,7 +64,7 @@
             <h3>{{item.title}}</h3>
             <div class="img_list"><img :src="a.url" alt="" v-for="a in item.images"></div>
             <p class="small"><span class='zhiding' v-if="item.is_top && item.is_top == 1">置顶</span><span class="laiyuan" v-if="item.source">{{item.source}}</span>
-              <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span>
+              <!-- <span class="zhiding" v-if="item.tag && item.tag[0] && item.tag.length > 0"  :style="' transform:scale(.75);display:inline-block;border:none;font-weight:400;color: ' + item.tag[0].label_color + ';' ">{{item.tag[0].label_name}}</span> -->
               
               <!-- <span class="pinglun">评论 <em>55</em></span> -->
             </p>
@@ -146,7 +146,7 @@
       var page = 1
       var pid = 0
       var zid = 0
-      var cid = 0
+      var cid = 1
       var title = ''
       // 懒加载截留
       var ajaxFlag = true
@@ -159,6 +159,7 @@
       var len = 0
       // 文章数组长度
       var dataLen = 0
+      var gg = true
       // getEnd 加载完成
       var getEnd = true
       // num 只执行一次 微信分享
@@ -181,6 +182,7 @@
               url : getListUrl,
               type : 'POST',
               data : {
+                zid : zid
               },
               dataType:'JSON',
               success : function(res){
@@ -204,6 +206,12 @@
                         that.getData(elid)
                         //滚动到顶部
                         $(window).scrollTop(0)
+                        if(res.data.data &&  res.data.data.length <= 0 ){
+                          console.log(res.data.data)
+                          $('.h_box').css({
+                            'height' : '.88rem'
+                          })
+                        }
                       })
                     },100)
                   }
@@ -220,6 +228,7 @@
               url : getBannerUrl,
               type : 'POST',
               data : {
+                zid : zid
               },
               dataType:'JSON',
               success : function(res){
@@ -256,6 +265,7 @@
               },
               dataType:'JSON',
               success : function(res){
+                
                 if(res.code == 200){
                   // 一次请求完成
                   ajaxFlag = true
@@ -302,9 +312,9 @@
               //   'top':scroH
               // })
               // 判断滚动到底 开始加载 设置 ajaxFlag false 
-              if((innerH - winH - scroH) < 3 ){
-                if(ajaxFlag){
-                  $('.lazy_load').css({'display':'block'})
+              if((innerH - winH - scroH) < 33 ){
+                if(ajaxFlag && gg){
+                  $('.lazy_load').css({'visibility':'visible'})
                   ajaxFlag = false
                   that.getData()
                 }
@@ -406,6 +416,9 @@
           // 启动judge
           qudong : function(){
               if( getEnd && getListFlag &&  getDataFlag && getBannerFlag  ){
+                  $('.lazy_load').css({
+                    'display':'block'
+                  })
                 getEnd = false
                 this.judge()
               }
@@ -414,7 +427,7 @@
           // 判断页面是否加载完成
           judge : function(){
             var that = this
-              if(getListFlag &&  getDataFlag && getBannerFlag){
+              if(getDataFlag &&  getDataFlag && getBannerFlag){
                 
                 // 导航时间初始化
                 that.btnClick()
@@ -462,7 +475,7 @@
 
                 // 
                 setTimeout(function(){
-                  $('.lazy_load').css({'display':'none'})
+                  $('.lazy_load').css({'visibility':'hidden'})
                   // 最后文章底边框
                   $('.content .list:last').css({
                     'border-bottom' : 'none'
@@ -485,11 +498,19 @@
                   var winH = $(window).height();
                    // 是否到底
                   if(dataLen <= 0){
+                    gg = false
                     $('.bottom').css({
                       'display':'block'
                     })
+                    $('.lazy_load').css({
+                      'display':'none'
+                    })
+                    $('.lazy_load').css({'visibility':'hidden'})
                   }
-                  if($('#app').height() <= winH){
+                  if(dataLen >= 10){
+                    gg = true
+                  }
+                  if($(document).height() <= winH){
                     $('.bottom').css({
                       'display':'none'
                     })

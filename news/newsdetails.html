@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>新闻</title>
+  <title>资讯 </title>
   <link rel="stylesheet" href="css/basics.css">
   <script>
       document.write('<link rel="stylesheet" href="css/news.css?t='+new Date().getTime()+'">')
@@ -13,12 +13,12 @@
 </head>
 <body>
   <div class="loadmore loading"></div>
-  <div id="app" data-name="">
+  <div id="app" data-name=""> 
     <!-- 固定定位 -->
     <div class="h_box" style="height:.88rem;">
       <div class="fixedbox">
         <div class="header">
-          <span class="back"><i @click="goBack()"></i></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字" autofocus="autofocus"></div><span class="btn" data-target="btn">搜索</span>
+          <span class="back"><i @click="goBack()"></i></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字" autofocus="autofocus"><b class="clear" @click="clearInput(event)"></b></div><span class="btn" data-target="btn">搜索</span>
         </div>
         <!-- <div class="list">
           <div class="warp" v-if = "list && list.length > 0">
@@ -147,6 +147,8 @@
       var title = ''
       var ajaxFlag = true
       var num = 0
+      var gg = true
+      var timerClear = null
       var v = new Vue({
         el:'#app',
         data : function(){
@@ -164,30 +166,6 @@
             
           }
           ,
-          // getList : function(){
-          //   var that = this;
-          //   $.ajax({
-          //     url : getListUrl,
-          //     type : 'POST',
-          //     data : {
-          //     },
-          //     dataType:'JSON',
-          //     success : function(res){
-          //       if(res.code == 200){
-          //         that.list = res.data
-          //         if(res.data.length > 0 ){
-          //           setTimeout(function(){
-          //             cid= pid = res.data[0]['id']
-          //             that.Touch()
-          //             $('.nav li:first').trigger('click')
-          //           },10)
-          //         }
-          //       }
-          //     },
-          //     error : function(err){
-          //     }
-          //   })
-          // },
           // 第一次 获取数据 滚动加载  点击加载
           getData : function(elid){
             var that = this;
@@ -206,14 +184,29 @@
               },
               dataType:'JSON',
               success : function(res){
+                if(title != '' && res.data.data.length <= 0 && page <= 1 ){
+                  $('.btn_box').css({
+                  'display' : 'block'
+                  })
+                  $('.tishi').css({
+                  'display' : 'block'
+                  })
+                }
                 // 是否到底
                 var winH = $(window).height();
-                if(res.data.data.length <= 0){
+                if( res.data.data.length <= 0){
+                  gg = false
                   $('.bottom').css({
                     'display':'block'
                   })
+                  $('.lazy_load').css({
+                    'display':'none'
+                  })
                 }
-                if($('#app').height() <= winH){
+                if(res.data.data.length >= 10){
+                    gg = true
+                  }
+                if($('.content').height() < winH){
                   $('.bottom').css({
                     'display':'none'
                   })
@@ -229,16 +222,9 @@
                     that.info = res.data.data
                     page = parseInt(res.data.page ) + 1
                   }
-                  if(title != '' && res.data.data.length <= 0){
-                    $('.btn_box').css({
-                      'display' : 'block'
-                    })
-                    $('.tishi').css({
-                      'display' : 'block'
-                    })
-                  }
+                  
                   setTimeout(function(){
-                    $('.lazy_load').css({'display':'none'})
+                    $('.lazy_load').css({'visibility':'hidden'})
                     $('.content .list:last').css({
                       'border-bottom' : 'none'
                     })
@@ -247,7 +233,6 @@
                     if(num < 1){
                       num += 1
                       that.lazyGo()
-                      
                     }
                     // 跳转详情
                     that.destail()
@@ -265,7 +250,7 @@
             var that = this
             $.ajax({
               url : getHotUrl,
-              data : {},
+              data : {zid : zid},
               type : 'POST',
               dataType : 'JSON',
               success : function(res){
@@ -282,7 +267,25 @@
                   })
                   // input 获取焦点
                   setTimeout(function(){
-                    $("#search").trigger("click").focus();
+                    // $("#search").trigger("click").focus();
+                    $("#search").focus(function(){
+                      // var val = $(this).val().trim()
+                      // if(val != ''){
+                      timerClear = setInterval(function(){
+                        var text = $('#search').val().trim() 
+                        if(text == ''){
+                          $('.clear').css({'display':'none'})
+                        }else{
+                          $('.clear').css({'display':'block'})
+                        }
+                      },100)
+                      // }
+                    })
+
+                    $("#search").blur(function(){
+                      clearInterval(timerClear)
+                      timerClear =null
+                    })
                   },500)
                 }
               }
@@ -304,7 +307,6 @@
           // 搜索跳转
           btnClick : function(){
             var that = this
-
             $('[data-target=btn]').on('click',function(){
               var val = $('#search').val()
               val = val.trim()
@@ -322,9 +324,21 @@
                 $(window).scrollTop(0)
                 title = val
                 that.getData()
+                gg = true
+                $('.lazy_load').css({
+                    'display':'block'
+                })
+                $('.bottom').css({
+                  'display':'none'
+                })
               }
             })
           },
+          clearInput : function(event){
+            $('#search').val('')
+            $('.clear').css({'display':'none'})
+          }
+          ,
           // 绑定滚动事件
           lazyGo : function (){
             var that = this 
@@ -332,13 +346,20 @@
               var innerH = $(document).height();
               var winH = $(window).height();
               var scroH = $(window).scrollTop();
-              if((innerH - winH - scroH) < 1 ){
+              // if(innerH < winH){
+              //     $('.bottom').css({
+              //       'display':'none'
+              //     })
+              //   }
+              if((innerH - winH - scroH) < 33 ){
+
                 // 懒加载截留
-                if(ajaxFlag){
-                  $('.lazy_load').css({'display':'block'})
+                if(ajaxFlag && gg){
+                  $('.lazy_load').css({'visibility':'visible'})
                   ajaxFlag = false
                   that.getData()
                 }
+
               }
             })
           },
@@ -356,7 +377,6 @@
         },
         mounted : function(){
           this.btnClick()
-          // this.goSea()
           this.getHot()
           // 启动微信分享
         }
