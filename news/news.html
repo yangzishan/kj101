@@ -315,10 +315,10 @@
               var innerH = $(document).height();
               var winH = $(window).height();
               var scroH = $(window).scrollTop();
-              var input = $('.fixedbox')
-              input.css({
-                'top':scroH
-              })
+              // var input = $('.fixedbox')
+              // input.css({
+              //   'top':scroH
+              // })
               // 判断滚动到底 开始加载 设置 ajaxFlag false 
               if((innerH - winH - scroH) < 3 ){
                 if(ajaxFlag){
