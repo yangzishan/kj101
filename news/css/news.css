@@ -1,5 +1,6 @@
 body #app {
   width: 100%;
+  height: 100%;
 }
 body #app .lunbo {
   margin-bottom: .1rem;
@@ -9,8 +10,11 @@ body #app .h_box {
   height: 1.6rem;
 }
 body #app .h_box .fixedbox {
-  position: fixed;
+  width: 100%;
+  display: block;
+  position: absolute;
   z-index: 10;
+  top: 0;
 }
 body #app .h_box .list .warp {
   width: 100%;
@@ -30,6 +34,10 @@ body #app .h_box .list .warp > .nav li {
   padding: 0 .2rem;
   display: inline-block;
   color: #505050;
+  font-size: .34rem;
+}
+body #app .h_box .list .warp > .nav li a {
+  font-size: .34rem;
 }
 body #app .h_box .list .warp > .nav .liactive {
   color: #f85959;
@@ -260,4 +268,9 @@ body .loadmore {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+body,
+html {
+  width: 100%;
+  height: 100%;
 }

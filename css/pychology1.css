@@ -18,6 +18,7 @@ body #app h1 {
 body #app > .user_name {
   font-size: .26rem;
   margin-bottom: .32rem;
+  padding-top:.1rem;
 }
 body #app > .user_name span {
   display: inline-block;

@@ -1,6 +1,9 @@
 body{
+
   #app{
     width:100%;
+    height: 100%;
+    
     .lunbo{
       margin-bottom:.1rem;
     }
@@ -8,10 +11,33 @@ body{
       width:100%;
       height:1.6rem;
       .fixedbox{
-        position:fixed;
+        width:100%;
+        display:block;
+        // position:fixed;
+        position: absolute;
         z-index: 10;
+        top: 0;
+        // left: 0;
+        // right: 0;
+        // -webkit-transform: translateZ(0);
+        // -moz-transform: translateZ(0);
+        // -ms-transform: translateZ(0);
+        // -o-transform: translateZ(0);
+        // transform: translateZ(0);
+        // overflow:hidden;
+        // >.tflex{
+        //   position: relative;
+        //   height:1.6rem;
+        //   >.header{
+        //     position:absolute;
+        //     top:0;
+        //   }
+        //   >#retr{
+        //     position: absolute;
+        //     top:.88rem;
+        //   }
+        // }
       }
-      
       .list{
         .warp{
           width:100%;
@@ -29,6 +55,10 @@ body{
               padding:0 .2rem;
               display:inline-block;
               color:#505050;
+              font-size:.34rem;
+              a{
+                font-size:.34rem;
+              }
             }
             .liactive{
               color:#f85959;
@@ -270,4 +300,8 @@ body .loadmore {
     left:50%;
     transform: translate(-50%,-50%);
   }
+}
+body,html{
+  width:100%;
+  height:100%;
 }

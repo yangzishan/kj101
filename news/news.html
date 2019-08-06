@@ -25,25 +25,18 @@
     <!-- 固定定位 -->
     <div class="h_box">
       <div class="fixedbox">
-        <div class="header">
-          <span class="back"></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字"></div><span class="btn" data-target="btn">搜索</span>
-        </div>
-        <!-- <div class="list">
-          <div class="wrapper">
-            <div class="warp" v-if = "list && list.length > 0">
-              <ul class="nav" id="nav">
-                <li v-for="item in list" :data-id="item.id" data-target="li">{{item.name}}</li>
-              </ul>
+        <div class="tflex">
+            <div class="header">
+              <span class="back"></span><div class="sousuoinput"><i></i><span id="search" style="display: inline-block;color:#888;width:87%;">请输入需要查询的关键字</span></div><span class="btn" data-target="btn">搜索</span>
             </div>
-          </div>	
-        </div> -->
-        <div class="wrapper wrapper01 " id="retr"  style="background:#f4f5f6;">
-          <div class="scroller " v-if = "list && list.length > 0"  style="background:#f4f5f6;">
-            <ul class="clearfix" style="background:#f4f5f6;">
-              <li v-for="item in list" :data-id="item.id" data-target="li"><a href="javascript:void(0)">{{item.name}}</a></li>
-            </ul>
-          </div>
-          </div>
+            <div class="wrapper wrapper01 " id="retr"  style="background:#f4f5f6;">
+              <div class="scroller " v-if = "list && list.length > 0"  style="background:#f4f5f6;">
+                <ul class="clearfix" style="background:#f4f5f6;">
+                  <li v-for="item in list" :data-id="item.id" data-target="li"><a href="javascript:void(0)">{{item.name}}</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
     <!-- 轮播 -->
@@ -311,7 +304,7 @@
             $('[data-target=btn]').on('click',function(){
               window.location = ddes
             })
-            $('#search').focus(function(){
+            $('#search').click(function(e){
               window.location = ddes
             })
           },
@@ -322,6 +315,10 @@
               var innerH = $(document).height();
               var winH = $(window).height();
               var scroH = $(window).scrollTop();
+              var input = $('.fixedbox')
+              input.css({
+                'top':scroH
+              })
               // 判断滚动到底 开始加载 设置 ajaxFlag false 
               if((innerH - winH - scroH) < 3 ){
                 if(ajaxFlag){
@@ -440,7 +437,6 @@
                 // 导航时间初始化
                 that.btnClick()
                 // that.Touch()
-               
                 
                 setTimeout(function(){
                   $('#app').css({
@@ -449,6 +445,7 @@
                   $('.loadmore').css({
                     'display':'none'
                   })
+                  
                 })
 
                 setTimeout(function(){

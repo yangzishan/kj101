@@ -18,7 +18,7 @@
     <div class="h_box" style="height:.88rem;">
       <div class="fixedbox">
         <div class="header">
-          <span class="back"><i @click="goBack()"></i></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字"></div><span class="btn" data-target="btn">搜索</span>
+          <span class="back"><i @click="goBack()"></i></span><div class="sousuoinput"><i></i><input id="search" type="text" placeholder="请输入需要查询的关键字" autofocus="autofocus"></div><span class="btn" data-target="btn">搜索</span>
         </div>
         <!-- <div class="list">
           <div class="warp" v-if = "list && list.length > 0">
@@ -162,7 +162,9 @@
           // 启动搜索
           goSea : function(){
             // input 获取焦点
-            $('#search').focus()
+            setTimeout(function(){
+              $("#search").trigger("click").focus();
+            },500)
           }
           ,
           // getList : function(){
@@ -248,9 +250,7 @@
                     if(num < 1){
                       num += 1
                       that.lazyGo()
-                      setTimeout(function(){
-                        that.wxFenxiang()
-                      },1000)
+                      
                     }
                     // 跳转详情
                     that.destail()
@@ -303,6 +303,7 @@
           // 搜索跳转
           btnClick : function(){
             var that = this
+
             $('[data-target=btn]').on('click',function(){
               var val = $('#search').val()
               val = val.trim()
@@ -350,17 +351,6 @@
           // 返回
           goBack : function(){
             history.go(-1)
-          },
-           // 微信分享
-           wxFenxiang : function(){
-            var that = this
-            setTimeout(function(){
-              var url = window.location.href 
-              var tit = that.info[0]['title']
-              var desc = that.info[0]['descr']
-              var img = that.info[0]['images'][0]['url']
-              wxShare(url,tit,img,desc,dataUrl)
-            },500)
           }
         },
         mounted : function(){
