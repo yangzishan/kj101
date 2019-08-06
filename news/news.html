@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+	<meta content="telephone=no" name="format-detection" />
   <title>新闻</title>
   <link rel="stylesheet" href="css/basics.css">
 	<link rel="stylesheet" type="text/css" href="./css/swipeslider.css">
@@ -128,26 +129,7 @@
     	})
     })
   </script>
-  <script>
-    (function () {
-    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
-        handleFontSize();
-    } else {
-        if (document.addEventListener) {
-            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
-        } else if (document.attachEvent) {
-            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
-            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
-        }
-    }
-    function handleFontSize() {
-        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
-        WeixinJSBridge.on('menu:setfont', function () {
-            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
-        });
-    }
-})(); 
-  </script>
+  
   <script>
     $(function(){
       // 获取url参数方法
