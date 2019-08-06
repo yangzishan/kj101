@@ -127,8 +127,10 @@ body #app .header > div > i {
 }
 body #app .header > div > input {
   vertical-align: top;
-  width: 4.9rem;
+  width: 87%;
+  font-size: .26rem;
   height: .56rem;
+  
 }
 body #app .header > .btn {
   display: inline-block;

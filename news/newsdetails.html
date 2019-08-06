@@ -161,10 +161,7 @@
           // ajax请求
           // 启动搜索
           goSea : function(){
-            // input 获取焦点
-            setTimeout(function(){
-              $("#search").trigger("click").focus();
-            },500)
+            
           }
           ,
           // getList : function(){
@@ -283,6 +280,10 @@
                       'display':'none'
                     })
                   })
+                  // input 获取焦点
+                  setTimeout(function(){
+                    $("#search").trigger("click").focus();
+                  },500)
                 }
               }
             })
@@ -355,7 +356,7 @@
         },
         mounted : function(){
           this.btnClick()
-          this.goSea()
+          // this.goSea()
           this.getHot()
           // 启动微信分享
         }
