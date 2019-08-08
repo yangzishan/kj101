@@ -3,13 +3,16 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
-var clientType = getQueryString("clientType");
+var clientType = (getQueryString("clientType") || '');
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || ''); //通过解析获得
 var edition = 120;
+var localUrl = location.href;
+var reportPrintUrl = 'http://kj101-ysc.jiankangzhan.com/print/print120.html?viewType=2&reportId=';
+
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(!openId){
+if(clientType){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
@@ -24,13 +27,7 @@ function setupWebViewJavascriptBridge(callback) {
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
-setupWebViewJavascriptBridge(function(bridge) {
-	//为按钮注册方法
-	$(document).on("click","#goToShare",function(){
-		//alert('click share');
-		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
-	});
-})
+
 /*******************************交互逻辑*****************************/
 zhuge.track('进入保险版报告首页', { //埋点t
 	'用户id' : customerId,
@@ -83,6 +80,20 @@ var myApp = new Vue({
 		//this.getSaasTenantByCompanyId();
 	},
 	methods: {
+		goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':reportPrintUrl+reportId,
+					'reportScore': vm.totalScore,
+					'reportTime': vm.inspectDate,
+					'reportName': vm.ranking
+				}, function responseCallback(responseData) {});
+			})
+		},
 		getSaasTenantByCompanyId: function(){//查询SaaS信息
 			var vm = this;
 			$.ajax({
@@ -152,6 +163,7 @@ var myApp = new Vue({
 								$('.guang').css("transform","rotate("+1.8*res.data.indexPage.totalScore+"deg)");
 							},100)
 							$('#score').animateNumber({ number: res.data.indexPage.totalScore },1100);
+							_this.goToShare('goToPrint');
 							$('.sy_tab span').on("click",function(){
 								$(this).addClass('on').siblings().removeClass('on');
 								$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");

@@ -3,12 +3,12 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
-var clientType = getQueryString("clientType");
+var clientType = (getQueryString("clientType") || '');
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var edition = 100;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(!openId){
+if(clientType){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }

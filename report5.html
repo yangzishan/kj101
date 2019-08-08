@@ -16,8 +16,8 @@
 <div id="appVUE">
 	<div class="report-box">{{language.la_toptip}}<a @click="seeMore()">{{language.la_learnMore}}</a></div>
 	<header class="header">
-		<a class="t-left fl goToPer" @click="goSetUp()" v-if="openId"><i class="i_c"><img src="img/i-per.png"></i>{{language.la_perCen}}</a>
-		<button class="t-left fl goToShare" id="goToShare" v-if="!openId">报告分享</button>
+		<a class="t-left fl goToPer" @click="goSetUp()" v-if="!clientType"><i class="i_c"><img src="img/i-per.png"></i>{{language.la_perCen}}</a>
+		<button class="t-left fl goToShare" id="goToShare" v-if="clientType">报告分享</button>
 		<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>{{language.la_hisRepo}}</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
