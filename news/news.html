@@ -51,11 +51,15 @@
           <ul class="sw-slides">
             <li class="sw-slide" v-for="(item,index) in banner" :data-index="index" style="position: relative;" :data-url="item.artlurl">
               <div data-img="visibility"><img src="./img/loading.gif" style="width:.5rem;"></div>
-              <img :src="item.img_path" alt="Summer beach concept" style="width:100%;display: none;" data-img="show">
-              <!-- <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{item.title}}</span> -->
+              <img :src="item.img_path" alt="Summer beach concept" style="width:100%;" data-img="show">
+              <span style='position:absolute;top:0;left:0;height:.45rem;line-height:.45rem;padding-left:.15rem;color:#fff;font-size:.24rem;background:rgba(0,0,0,.2);width:100%;'>{{item.title}}</span>
             </li>
           </ul>
         </figure>
+    </div>
+    <!-- 正在加载中 -->
+    <div class="jiazai" style="display:block;padding:.5rem 0;text-align: center;color:#999;">
+      <p><img src="./img/loading.gif" alt="" style="width:.3rem;margin-right:.2rem;vertical-align: text-bottom;">加载中...</p>
     </div>
     <!-- 文章列表 -->
     <div class="content" v-if="info.length > 0">
@@ -141,7 +145,6 @@
           return result[1];
       };
       // 跳转页面
-      var ddes = 'newsdetails.html'
       // 请求接口参数
       var page = 1
       var pid = 0
@@ -164,6 +167,9 @@
       var getEnd = true
       // num 只执行一次 微信分享
       var num = 0
+      var timer5 = null
+      var timer6 = null
+      var ddes = 'newsdetails.html?zid='+zid
       var v = new Vue({
         el:'#app',
         data : function(){
@@ -206,12 +212,14 @@
                         that.getData(elid)
                         //滚动到顶部
                         $(window).scrollTop(0)
-                        if(res.data.data &&  res.data.data.length <= 0 ){
-                          console.log(res.data.data)
-                          $('.h_box').css({
-                            'height' : '.88rem'
-                          })
-                        }
+                        that.info = []
+                        $('.jiazai').show()
+                        // if(res.data.data &&  res.data.data.length <= 0 ){
+                        //   console.log(res.data.data)
+                        //   $('.h_box').css({
+                        //     'height' : '.88rem'
+                        //   })
+                        // }
                       })
                     },100)
                   }
@@ -239,7 +247,53 @@
                   // that.qudong()
                   setTimeout(function(){
                     that.lunbo()
-                  })
+                    setTimeout(function(){
+                      // 初始化轮播插件
+                      if(len > 0 && $('[data-img=show]') ){
+                        if( ($('[data-img=show]').length - 2) >= len ){
+
+                          $('[data-img=visibility]').css({
+                            'display':'none'
+                          })
+                          $('[data-img=show]').css({
+                            'display':'block'
+                          })
+                          timer5 = setInterval(function(){
+                            var hen = $($('[data-img=show]')[0]).height()
+                            if(hen > 0){
+                                clearInterval(timer5)
+                                timer5 = null
+                              $('#full_feature').css({
+                                'padding-top' : hen
+                              })
+                              $('.sw-slides').height(hen)
+                              $('.zhanweilunbo').height(hen)
+                            }
+                          },200)
+                        }
+                      }
+                      if($('[data-img=show]') ){
+                        $('[data-img=visibility]').css({
+                          'display':'none'
+                        })
+                        $('[data-img=show]').css({
+                          'display':'block'
+                        })
+                        timer6 = setInterval(function(){
+                          var hen = $($('[data-img=show]')[0]).height()
+                          if(hen > 0){
+                            clearInterval(timer6)
+                            timer6 = null
+                            $('#full_feature').css({
+                              'padding-top' : hen
+                            })
+                            $('.sw-slides').height(hen)
+                            $('.zhanweilunbo').height(hen)
+                          }
+                        },200)
+                      }
+                    })
+                  },500)
                 }
               },
               error : function(err){
@@ -284,6 +338,7 @@
                   page = parseInt(res.data.page ) + 1
                   dataLen = res.data.data.length
                   getListFlag = true
+                  $('.jiazai').hide()
                 }
               },
               error : function(err){
@@ -410,7 +465,7 @@
               if(img.indexOf('http')){
                 img = window.location.hostname + img
               }
-              wxShare(url,tit,img,desc,dataUrl)
+              wxShare(url,tit,img,desc,dataUrl,zid)
             },500)
           },
           // 启动judge
@@ -421,7 +476,7 @@
                   })
                 getEnd = false
                 this.judge()
-              }
+              } 
           } 
           ,
           // 判断页面是否加载完成
@@ -440,38 +495,8 @@
                   $('.loadmore').css({
                     'display':'none'
                   })
-                  
                 })
-
-                setTimeout(function(){
-                  // 初始化轮播插件
-                  if(len > 0 && $('[data-img=show]') ){
-                    if( ($('[data-img=show]').length - 2) >= len ){
-                      $('[data-img=visibility]').css({
-                        'display':'none'
-                      })
-                      $('[data-img=show]').css({
-                        'display':'block'
-                      })
-                      var hen = $($('[data-img=show]')[0]).height()
-                      $('.fixedbox').height()
-                      $('#full_feature').css({
-                        'padding-top' : hen
-                      })
-                      $('.sw-slides').height(hen)
-                    }
-                  }
-                  if($('[data-img=show]') ){
-                    $('[data-img=visibility]').css({
-                      'display':'none'
-                    })
-                    $('[data-img=show]').css({
-                      'display':'block'
-                    })
-                    var hen = $($('[data-img=show]')[0]).height()
-                    $('.zhanweilunbo').height(hen)
-                  }
-                })
+                
 
                 // 
                 setTimeout(function(){
@@ -480,7 +505,6 @@
                   $('.content .list:last').css({
                     'border-bottom' : 'none'
                   })
-                  
                   // 首次加载页面绑定懒加载
                   if(num < 1){
                     num += 1

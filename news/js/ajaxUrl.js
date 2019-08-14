@@ -1,4 +1,4 @@
-var http = "http://news-tt.jiankangzhan.com"
+var http = "https://news-tt.kangjiamall.com"
 var getDataUrl = http + '/api/mobile/artlist'  // 加载文章列表接口
 var getListUrl = http + '/api/mobile/colum'    // 加载导航列表
 var getBannerUrl = http + '/api/mobile/bannerlist'    // 加载轮播

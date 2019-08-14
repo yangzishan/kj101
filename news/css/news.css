@@ -234,9 +234,6 @@ body #app .lazy_load {
 body #app .zhanweilunbo {
   height: 3rem;
 }
-[v-clock] {
-  display: ;
-}
 body .loadmore {
   color: #888;
   font-size: 30px;

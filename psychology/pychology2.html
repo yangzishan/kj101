@@ -1,0 +1,2393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>心理报告</title>
+  <link rel="stylesheet" href="css/basic.css">
+  <link rel="stylesheet" href="css/swiper.min.css">
+  <script>
+      document.write('<link rel="stylesheet" href="css/pychology2.css?t='+new Date().getTime()+'">')
+  </script>
+</head>
+<body>
+  <div class="loadmore loading"></div>
+  <div id="app">
+    <div class="mask"  @click="Touchmove"></div>
+    <div class="popup">
+      <i class="close"  @click="Touchmove"></i>
+      <h1>展示区</h1>
+      <div class="huadong">
+      </div>
+    </div>
+    <div class="user_name">
+      <span class="lishi" @click="gohistory()" style="text-align: center;"><img src="./img/psy2/history.png" ><em>历史</em></span>
+      <span class="time" >2019-06-17 20:34:56</span>
+      <span class="zhinan" @click="stopTouchmove(event)" data-h="指南" :data-t="zhinan" ><img src="./img/psy2/zhinan.png"><i>指南</i></span>
+    </div>
+    <div class="center1">
+      <div class="huaxiang">
+        <h4>情绪画像</h4>
+        <span class="sp1">胃口差</span>
+        <span class="sp2">胃口差</span>
+        <span class="sp3">胃口差</span>
+        <span class="sp4">胃口差</span>
+        <span class="sp5">胃口差</span>
+        <span class="sp6">胃口差</span>
+      </div>
+      <div class="zhishu1" data-target="tu">
+          <h4>情绪指数</h4>
+          <div class="ec">
+              <div class="eahar" id="echa3" style="width:9rem;height:4.8rem;position: absolute;top:.45rem;left:-.8rem;" ></div>
+              <div class="biaoji">
+                <span class="hong"><em></em>同龄人平均值</span>
+                <span class="lan"><em></em>您的测量值</span>
+              </div>
+              <span class="btn" data-go="zhishu2">雷达图</span>
+          </div>
+      </div>
+      <div class="zhishu2" data-target="tu">
+          <h4>情绪指数</h4>
+          <div class="ech_box">
+            <div class="eahar" id="main" style="width:6.98rem;height:5.6rem;" ></div>
+            <div class="question_box"  >
+              <span v-for="(item,index) in leidaObj1" :class="'q_' + ( index + 1 )" @click="stopTouchmove(event)" :data-h="item.leidaH" :data-t="item.leidaT">{{item.leidaName}}<i></i></span>
+            </div>
+            <div class="biaoshi"><em><i></i>同龄人平均值</em><em><i></i>您的测量值</em></div>
+          </div>
+          <span class="btn" data-go="zhishu1" >曲线图</span>
+      </div>
+    </div>
+    <div class="center2">
+      <div class="swiper-container" style="height:7.65rem;padding-top:1rem;">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide ssw">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <!-- 适中背景clas="ssw1"   过高过低字体改变颜色 class="ssbox1" -->
+            <div class="swiper-slide ssw ssw1 " >
+              <b><i></i></b>
+              <div class="ssbox ssbox1">
+                  <h5>压力</h5>
+                  <h6>过高</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw ssw1" >
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw ssw1">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw ssw1">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+            <div class="swiper-slide ssw">
+              <b><i></i></b>
+              <div class="ssbox">
+                  <h5>压力</h5>
+                  <h6>适中</h6>
+                  <div class="text">
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                    <span><em></em><i>您心绪平稳、不慌不忙，没有焦虑或失控的感觉，但有时会显得懈怠、不关心；</i> </span>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+    <div class="center3">
+
+        <div class="jiedu jie1">
+          <h4>情绪解读</h4>
+          <div class="jj">
+            <div class="body1" >
+              <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+              <p><em>低</em><em>高</em></p>
+            </div>
+            <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+          </div>
+          <div class="renzhi">
+            <h2>认识情绪</h2>
+            <div class="renbox">
+              <i class="shu"></i>
+              <i class="heng"></i>
+              <i class="im"></i>
+              <div class="si1 s1">
+                <h3><i></i>行为表现</h3>
+                <div>
+                  <span>做事不慌不忙</span><br>
+                  <span class="mar">拖拉</span>
+                  <span>不慌不忙</span>
+                  <span>做事不慌不忙</span>
+                </div>
+              </div><div class="si1 s2">
+                  <h3><i></i>认知表现</h3>
+                  <div>
+                    <span>做事不慌不忙</span><br>
+                    <span class="mar">拖拉</span>
+                    <span>不慌不忙</span>
+                    <span>做事不慌不忙</span>
+                  </div>
+                </div><div class="si1 s3">
+                    <h3><i></i>情绪表现</h3>
+                    <div>
+                      <span>做事不慌不忙</span><br>
+                      <span class="mar">拖拉</span>
+                      <span>不慌不忙</span>
+                      <span>做事不慌不忙</span>
+                    </div>
+                  </div><div class="si1 s4">
+                      <h3><i></i>身体表现</h3>
+                      <div>
+                        <span>做事不慌不忙</span><br>
+                        <span class="mar">拖拉</span>
+                        <span>不慌不忙</span>
+                        <span>做事不慌不忙</span>
+                      </div>
+                    </div>
+            </div> 
+          </div>
+          <div class="jianyi">
+              <h2>建议</h2>
+              <div class="renzhibox">
+                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+              </div>
+          </div>
+          <div class="shuji">
+              <h2>相关推荐</h2>
+              <div class="shubox">
+                <div class="div1">
+                  <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                </div>
+                <div class="div2">
+                  <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                </div>
+                <div class="div3">
+                  <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                </div>
+                <div class="div4">
+                  <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                </div>
+              </div>
+          </div>
+          <div class="qushi">
+              <h2>历史趋势</h2>
+              <div class="qubox">
+                  <div class="eahar" id="qu1" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+              </div>
+          </div>
+        </div>
+
+        <div class="jiedu jie2">
+            <h4>情绪解读</h4>
+            <div class="jj">
+              <div class="body1">
+               <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                <p><em>低</em><em>高</em></p>
+              </div>
+              <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+            </div>
+            <div class="renzhi">
+              <h2>认识情绪</h2>
+              <div class="renbox">
+                <i class="shu"></i>
+                <i class="heng"></i>
+                <i class="im"></i>
+                <div class="si1 s1">
+                  <h3><i></i>行为表现</h3>
+                  <div>
+                    <span>做事不慌不忙</span><br>
+                    <span class="mar">拖拉</span>
+                    <span>不慌不忙</span>
+                    <span>做事不慌不忙</span>
+                  </div>
+                </div><div class="si1 s2">
+                    <h3><i></i>认知表现</h3>
+                    <div>
+                      <span>做事不慌不忙</span><br>
+                      <span class="mar">拖拉</span>
+                      <span>不慌不忙</span>
+                      <span>做事不慌不忙</span>
+                    </div>
+                  </div><div class="si1 s3">
+                      <h3><i></i>情绪表现</h3>
+                      <div>
+                        <span>做事不慌不忙</span><br>
+                        <span class="mar">拖拉</span>
+                        <span>不慌不忙</span>
+                        <span>做事不慌不忙</span>
+                      </div>
+                    </div><div class="si1 s4">
+                        <h3><i></i>身体表现</h3>
+                        <div>
+                          <span>做事不慌不忙</span><br>
+                          <span class="mar">拖拉</span>
+                          <span>不慌不忙</span>
+                          <span>做事不慌不忙</span>
+                        </div>
+                      </div>
+              </div> 
+            </div>
+            <div class="jianyi">
+                <h2>建议</h2>
+                <div class="renzhibox">
+                  <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                  <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                </div>
+            </div>
+            <div class="shuji">
+                <h2>相关推荐</h2>
+                <div class="shubox">
+                  <div class="div1">
+                    <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                  </div>
+                  <div class="div2">
+                    <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                  </div>
+                  <div class="div3">
+                    <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                  </div>
+                  <div class="div4">
+                    <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                  </div>
+                </div>
+            </div>
+            <div class="qushi">
+                <h2>历史趋势</h2>
+                <div class="qubox">
+                    <div class="eahar" id="qu2" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                </div>
+            </div>
+          </div>
+
+          <div class="jiedu jie3">
+              <h4>情绪解读</h4>
+              <div class="jj">
+                <div class="body1">
+                 <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                  <p><em>低</em><em>高</em></p>
+                </div>
+                <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+              </div>
+              <div class="renzhi">
+                <h2>认识情绪</h2>
+                <div class="renbox">
+                  <i class="shu"></i>
+                  <i class="heng"></i>
+                  <i class="im"></i>
+                  <div class="si1 s1">
+                    <h3><i></i>行为表现</h3>
+                    <div>
+                      <span>做事不慌不忙</span><br>
+                      <span class="mar">拖拉</span>
+                      <span>不慌不忙</span>
+                      <span>做事不慌不忙</span>
+                    </div>
+                  </div><div class="si1 s2">
+                      <h3><i></i>认知表现</h3>
+                      <div>
+                        <span>做事不慌不忙</span><br>
+                        <span class="mar">拖拉</span>
+                        <span>不慌不忙</span>
+                        <span>做事不慌不忙</span>
+                      </div>
+                    </div><div class="si1 s3">
+                        <h3><i></i>情绪表现</h3>
+                        <div>
+                          <span>做事不慌不忙</span><br>
+                          <span class="mar">拖拉</span>
+                          <span>不慌不忙</span>
+                          <span>做事不慌不忙</span>
+                        </div>
+                      </div><div class="si1 s4">
+                          <h3><i></i>身体表现</h3>
+                          <div>
+                            <span>做事不慌不忙</span><br>
+                            <span class="mar">拖拉</span>
+                            <span>不慌不忙</span>
+                            <span>做事不慌不忙</span>
+                          </div>
+                        </div>
+                </div> 
+              </div>
+              <div class="jianyi">
+                  <h2>建议</h2>
+                  <div class="renzhibox">
+                    <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                    <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                  </div>
+              </div>
+              <div class="shuji">
+                  <h2>相关推荐</h2>
+                  <div class="shubox">
+
+                    <div class="div1">
+                      <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                    </div>
+                    <div class="div2">
+                      <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                    </div>
+                    <div class="div3">
+                      <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                    </div>
+                    <div class="div4">
+                      <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                    </div>
+                  </div>
+              </div>
+              <div class="qushi">
+                  <h2>历史趋势</h2>
+                  <div class="qubox">
+                      <div class="eahar" id="qu3" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                  </div>
+              </div>
+            </div>
+
+            <div class="jiedu jie4">
+                <h4>情绪解读</h4>
+                <div class="jj">
+                  <div class="body1">
+                  <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                    <p><em>低</em><em>高</em></p>
+                  </div>
+                  <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+                </div>
+                <div class="renzhi">
+                  <h2>认识情绪</h2>
+                  <div class="renbox">
+                    <i class="shu"></i>
+                    <i class="heng"></i>
+                    <i class="im"></i>
+                    <div class="si1 s1">
+                      <h3><i></i>行为表现</h3>
+                      <div>
+                        <span>做事不慌不忙</span><br>
+                        <span class="mar">拖拉</span>
+                        <span>不慌不忙</span>
+                        <span>做事不慌不忙</span>
+                      </div>
+                    </div><div class="si1 s2">
+                        <h3><i></i>认知表现</h3>
+                        <div>
+                          <span>做事不慌不忙</span><br>
+                          <span class="mar">拖拉</span>
+                          <span>不慌不忙</span>
+                          <span>做事不慌不忙</span>
+                        </div>
+                      </div><div class="si1 s3">
+                          <h3><i></i>情绪表现</h3>
+                          <div>
+                            <span>做事不慌不忙</span><br>
+                            <span class="mar">拖拉</span>
+                            <span>不慌不忙</span>
+                            <span>做事不慌不忙</span>
+                          </div>
+                        </div><div class="si1 s4">
+                            <h3><i></i>身体表现</h3>
+                            <div>
+                              <span>做事不慌不忙</span><br>
+                              <span class="mar">拖拉</span>
+                              <span>不慌不忙</span>
+                              <span>做事不慌不忙</span>
+                            </div>
+                          </div>
+                  </div> 
+                </div>
+                <div class="jianyi">
+                    <h2>建议</h2>
+                    <div class="renzhibox">
+                      <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                      <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                    </div>
+                </div>
+                <div class="shuji">
+                    <h2>相关推荐</h2>
+                    <div class="shubox">
+
+                      <div class="div1">
+                        <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                      </div>
+                      <div class="div2">
+                        <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                      </div>
+                      <div class="div3">
+                        <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                      </div>
+                      <div class="div4">
+                        <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                      </div>
+                    </div>
+                </div>
+                <div class="qushi">
+                    <h2>历史趋势</h2>
+                    <div class="qubox">
+                        <div class="eahar" id="qu4" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                    </div>
+                </div>
+              </div>
+
+
+              <div class="jiedu jie5">
+                  <h4>情绪解读</h4>
+                  <div class="jj">
+                    <div class="body1">
+                     <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                      <p><em>低</em><em>高</em></p>
+                    </div>
+                    <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+                  </div>
+                  <div class="renzhi">
+                    <h2>认识情绪</h2>
+                    <div class="renbox">
+                      <i class="shu"></i>
+                      <i class="heng"></i>
+                      <i class="im"></i>
+                      <div class="si1 s1">
+                        <h3><i></i>行为表现</h3>
+                        <div>
+                          <span>做事不慌不忙</span><br>
+                          <span class="mar">拖拉</span>
+                          <span>不慌不忙</span>
+                          <span>做事不慌不忙</span>
+                        </div>
+                      </div><div class="si1 s2">
+                          <h3><i></i>认知表现</h3>
+                          <div>
+                            <span>做事不慌不忙</span><br>
+                            <span class="mar">拖拉</span>
+                            <span>不慌不忙</span>
+                            <span>做事不慌不忙</span>
+                          </div>
+                        </div><div class="si1 s3">
+                            <h3><i></i>情绪表现</h3>
+                            <div>
+                              <span>做事不慌不忙</span><br>
+                              <span class="mar">拖拉</span>
+                              <span>不慌不忙</span>
+                              <span>做事不慌不忙</span>
+                            </div>
+                          </div><div class="si1 s4">
+                              <h3><i></i>身体表现</h3>
+                              <div>
+                                <span>做事不慌不忙</span><br>
+                                <span class="mar">拖拉</span>
+                                <span>不慌不忙</span>
+                                <span>做事不慌不忙</span>
+                              </div>
+                            </div>
+                    </div> 
+                  </div>
+                  <div class="jianyi">
+                      <h2>建议</h2>
+                      <div class="renzhibox">
+                        <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                        <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                      </div>
+                  </div>
+                  <div class="shuji">
+                      <h2>相关推荐</h2>
+                      <div class="shubox">
+
+                        <div class="div1">
+                          <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                        </div>
+                        <div class="div2">
+                          <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                        </div>
+                        <div class="div3">
+                          <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                        </div>
+                        <div class="div4">
+                          <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="qushi">
+                      <h2>历史趋势</h2>
+                      <div class="qubox">
+                          <div class="eahar" id="qu5" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                      </div>
+                  </div>
+                </div>
+
+                <div class="jiedu jie6">
+                    <h4>情绪解读</h4>
+                    <div class="jj">
+                      <div class="body1">
+                       <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                        <p><em>低</em><em>高</em></p>
+                      </div>
+                      <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+                    </div>
+                    <div class="renzhi">
+                      <h2>认识情绪</h2>
+                      <div class="renbox">
+                        <i class="shu"></i>
+                        <i class="heng"></i>
+                        <i class="im"></i>
+                        <div class="si1 s1">
+                          <h3><i></i>行为表现</h3>
+                          <div>
+                            <span>做事不慌不忙</span><br>
+                            <span class="mar">拖拉</span>
+                            <span>不慌不忙</span>
+                            <span>做事不慌不忙</span>
+                          </div>
+                        </div><div class="si1 s2">
+                            <h3><i></i>认知表现</h3>
+                            <div>
+                              <span>做事不慌不忙</span><br>
+                              <span class="mar">拖拉</span>
+                              <span>不慌不忙</span>
+                              <span>做事不慌不忙</span>
+                            </div>
+                          </div><div class="si1 s3">
+                              <h3><i></i>情绪表现</h3>
+                              <div>
+                                <span>做事不慌不忙</span><br>
+                                <span class="mar">拖拉</span>
+                                <span>不慌不忙</span>
+                                <span>做事不慌不忙</span>
+                              </div>
+                            </div><div class="si1 s4">
+                                <h3><i></i>身体表现</h3>
+                                <div>
+                                  <span>做事不慌不忙</span><br>
+                                  <span class="mar">拖拉</span>
+                                  <span>不慌不忙</span>
+                                  <span>做事不慌不忙</span>
+                                </div>
+                              </div>
+                      </div> 
+                    </div>
+                    <div class="jianyi">
+                        <h2>建议</h2>
+                        <div class="renzhibox">
+                          <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                          <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                        </div>
+                    </div>
+                    <div class="shuji">
+                        <h2>相关推荐</h2>
+                        <div class="shubox">
+
+                          <div class="div1">
+                            <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                          </div>
+                          <div class="div2">
+                            <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                          </div>
+                          <div class="div3">
+                            <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                          </div>
+                          <div class="div4">
+                            <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="qushi">
+                        <h2>历史趋势</h2>
+                        <div class="qubox">
+                            <div class="eahar" id="qu6" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="jiedu jie7">
+                      <h4>情绪解读</h4>
+                      <div class="jj">
+                        <div class="body1">
+                         <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                          <p><em>低</em><em>高</em></p>
+                        </div>
+                        <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+                      </div>
+                      <div class="renzhi">
+                        <h2>认识情绪</h2>
+                        <div class="renbox">
+                          <i class="shu"></i>
+                          <i class="heng"></i>
+                          <i class="im"></i>
+                          <div class="si1 s1">
+                            <h3><i></i>行为表现</h3>
+                            <div>
+                              <span>做事不慌不忙</span><br>
+                              <span class="mar">拖拉</span>
+                              <span>不慌不忙</span>
+                              <span>做事不慌不忙</span>
+                            </div>
+                          </div><div class="si1 s2">
+                              <h3><i></i>认知表现</h3>
+                              <div>
+                                <span>做事不慌不忙</span><br>
+                                <span class="mar">拖拉</span>
+                                <span>不慌不忙</span>
+                                <span>做事不慌不忙</span>
+                              </div>
+                            </div><div class="si1 s3">
+                                <h3><i></i>情绪表现</h3>
+                                <div>
+                                  <span>做事不慌不忙</span><br>
+                                  <span class="mar">拖拉</span>
+                                  <span>不慌不忙</span>
+                                  <span>做事不慌不忙</span>
+                                </div>
+                              </div><div class="si1 s4">
+                                  <h3><i></i>身体表现</h3>
+                                  <div>
+                                    <span>做事不慌不忙</span><br>
+                                    <span class="mar">拖拉</span>
+                                    <span>不慌不忙</span>
+                                    <span>做事不慌不忙</span>
+                                  </div>
+                                </div>
+                        </div> 
+                      </div>
+                      <div class="jianyi">
+                          <h2>建议</h2>
+                          <div class="renzhibox">
+                            <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                            <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                          </div>
+                      </div>
+                      <div class="shuji">
+                          <h2>相关推荐</h2>
+                          <div class="shubox">
+                            <div class="div1">
+                              <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                            </div>
+                            <div class="div2">
+                              <span><i></i>音乐推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                            </div>
+                            <div class="div3">
+                              <span><i></i>电影推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                            </div>
+                            <div class="div4">
+                              <span><i></i>食物推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                            </div>
+                          </div>
+                      </div>
+                      <div class="qushi">
+                          <h2>历史趋势</h2>
+                          <div class="qubox">
+                              <div class="eahar" id="qu7" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                          </div>
+                      </div>
+                    </div>
+                    
+                    <div class="jiedu jie8">
+                        <h4>情绪解读</h4>
+                        <div class="jj">
+                          <div class="body1">
+                           <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                            <p><em>低</em><em>高</em></p>
+                          </div>
+                          <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+                        </div>
+                        <div class="renzhi">
+                          <h2>认识情绪</h2>
+                          <div class="renbox">
+                            <i class="shu"></i>
+                            <i class="heng"></i>
+                            <i class="im"></i>
+                            <div class="si1 s1">
+                              <h3><i></i>行为表现</h3>
+                              <div>
+                                <span>做事不慌不忙</span><br>
+                                <span class="mar">拖拉</span>
+                                <span>不慌不忙</span>
+                                <span>做事不慌不忙</span>
+                              </div>
+                            </div><div class="si1 s2">
+                                <h3><i></i>认知表现</h3>
+                                <div>
+                                  <span>做事不慌不忙</span><br>
+                                  <span class="mar">拖拉</span>
+                                  <span>不慌不忙</span>
+                                  <span>做事不慌不忙</span>
+                                </div>
+                              </div><div class="si1 s3">
+                                  <h3><i></i>情绪表现</h3>
+                                  <div>
+                                    <span>做事不慌不忙</span><br>
+                                    <span class="mar">拖拉</span>
+                                    <span>不慌不忙</span>
+                                    <span>做事不慌不忙</span>
+                                  </div>
+                                </div><div class="si1 s4">
+                                    <h3><i></i>身体表现</h3>
+                                    <div>
+                                      <span>做事不慌不忙</span><br>
+                                      <span class="mar">拖拉</span>
+                                      <span>不慌不忙</span>
+                                      <span>做事不慌不忙</span>
+                                    </div>
+                                  </div>
+                          </div> 
+                        </div>
+                        <div class="jianyi">
+                            <h2>建议</h2>
+                            <div class="renzhibox">
+                              <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                              <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                            </div>
+                        </div>
+                        <div class="shuji">
+                            <h2>相关推荐</h2>
+                            <div class="shubox">
+                              <div class="div1">
+                                <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                              </div>
+                              <div class="div2">
+                                <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                              </div>
+                              <div class="div3">
+                                <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                              </div>
+                              <div class="div4">
+                                <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="qushi">
+                            <h2>历史趋势</h2>
+                            <div class="qubox">
+                                <div class="eahar" id="qu8" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="jiedu jie9">
+                          <h4>情绪解读</h4>
+                          <div class="jj">
+                            <div class="body1">
+                             <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+                              <p><em>低</em><em>高</em></p>
+                            </div>
+                            <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+                          </div>
+                          <div class="renzhi">
+                            <h2>认识情绪</h2>
+                            <div class="renbox">
+                              <i class="shu"></i>
+                              <i class="heng"></i>
+                              <i class="im"></i>
+                              <div class="si1 s1">
+                                <h3><i></i>行为表现</h3>
+                                <div>
+                                  <span>做事不慌不忙</span><br>
+                                  <span class="mar">拖拉</span>
+                                  <span>不慌不忙</span>
+                                  <span>做事不慌不忙</span>
+                                </div>
+                              </div><div class="si1 s2">
+                                  <h3><i></i>认知表现</h3>
+                                  <div>
+                                    <span>做事不慌不忙</span><br>
+                                    <span class="mar">拖拉</span>
+                                    <span>不慌不忙</span>
+                                    <span>做事不慌不忙</span>
+                                  </div>
+                                </div><div class="si1 s3">
+                                    <h3><i></i>情绪表现</h3>
+                                    <div>
+                                      <span>做事不慌不忙</span><br>
+                                      <span class="mar">拖拉</span>
+                                      <span>不慌不忙</span>
+                                      <span>做事不慌不忙</span>
+                                    </div>
+                                  </div><div class="si1 s4">
+                                      <h3><i></i>身体表现</h3>
+                                      <div>
+                                        <span>做事不慌不忙</span><br>
+                                        <span class="mar">拖拉</span>
+                                        <span>不慌不忙</span>
+                                        <span>做事不慌不忙</span>
+                                      </div>
+                                    </div>
+                            </div> 
+                          </div>
+                          <div class="jianyi">
+                              <h2>建议</h2>
+                              <div class="renzhibox">
+                                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                              </div>
+                          </div>
+                          <div class="shuji">
+                              <h2>相关推荐</h2>
+                              <div class="shubox">
+                                <div class="div1">
+                                  <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                                </div>
+                                <div class="div2">
+                                  <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                                </div>
+                                <div class="div3">
+                                  <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                                </div>
+                                <div class="div4">
+                                  <span><i></i>书籍推荐：</span><em><b>小王子</b><b>小王子</b><b>小王子</b><b>小王子</b></em>
+                                </div>
+                              </div>
+                          </div>
+                          <div class="qushi">
+                              <h2>历史趋势</h2>
+                              <div class="qubox">
+                                  <div class="eahar" id="qu9" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+                              </div>
+                          </div>
+                        </div>
+                      
+    </div>
+  </div>
+  <script src="./js/base.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script> 
+  <script src="./js/vue.min.js"></script> 
+  <script src="js/swiper.min.js"></script>
+  <script type="text/javascript">
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var    clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if(clientWidth>=750){
+              docEl.style.fontSize = '100px';
+          }else{
+              docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+          }
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+  </script>
+  <script>
+    $(function(){
+      var url = analysisreport + '/psyc/report/queryPsycIndex'
+      var reportId = getQueryString('reportId') //'KJ20190705144905021'
+      var customerId = getQueryString('userId') //1662
+			var openId = getQueryString('openId');
+			var reportType = getQueryString('reportType');
+			var saasId = getQueryString('saasId');
+			var clientType = getQueryString("clientType"); 
+      var resource = getQueryString("resource");
+      var source = (getQueryString('source') || '');  //通过解析获得
+
+      var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
+        if(!openId){
+          //alert('now in app');
+          gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&resource='+resource+'&source='+source
+        }
+
+      function go(){
+        var myChart = echarts.init(document.getElementById('main'))
+
+        var option = {
+          title : {
+              text: '',
+              subtext: ''
+          },
+          tooltip : {
+              trigger: 'axis',
+              show:false
+          },
+          legend: {
+              x : 'center',
+              data:[''],
+              selectedMode:false,
+          },
+          toolbox: {
+              show : true
+          },
+          calculable : true,
+          polar : [
+            {
+              indicator : [
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100}
+              ],
+              center : ['50%', '50%'],
+              radius : 100
+            }
+          ],
+          series : [
+            {
+              type: 'radar',
+              lineStyle: {
+                color:'black'
+              },
+              itemStyle: {
+                normal: {
+                  color : "#88D4EA", // 图表中各个图区域的边框线拐点颜色
+                    areaStyle: {
+                      type: 'macarons',
+                      color: [
+                        'rgba(106,202,229,0.6)'
+                      ]
+                  }
+                }
+              },
+              data : [
+                {
+                  value :[1,2,3,4,5,6,7,8,9], //v.leidaArr1 ,
+                  name : '',
+                  itemStyle: {
+                    normal: {
+                      color : "#6ACAE5", // 图表中各个图区域的边框线拐点颜色
+                        lineStyle:{
+                          color: [
+                            'green'
+                          ]
+                        },
+                        areaStyle: {
+                          type: 'macarons',
+                          color: [
+                            'rgba(106,202,229,0.6)'
+                          ]
+                      }
+                    }
+                  },
+                },
+                {
+                  value :[1,2,3,4,5,6,7,8,9],// v.leidaArr2 ,
+                  name : '',
+                  itemStyle: {
+                    normal: {
+                      color:'#DC7DEF',
+                      lineStyle: {
+                        type: 'dashed'
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+          
+        };
+        
+          myChart.setOption(option); 
+      }
+
+      function pys(){
+        var myChart3 = echarts.init(document.getElementById('echa3'));
+        var qu1 = echarts.init(document.getElementById('qu1'));
+        var qu2 = echarts.init(document.getElementById('qu2'));
+        var qu3 = echarts.init(document.getElementById('qu3'));
+        var qu4 = echarts.init(document.getElementById('qu4'));
+        var qu5 = echarts.init(document.getElementById('qu5'));
+        var qu6 = echarts.init(document.getElementById('qu6'));
+        var qu7 = echarts.init(document.getElementById('qu7'));
+        var qu8 = echarts.init(document.getElementById('qu8'));
+        var qu9 = echarts.init(document.getElementById('qu9'));
+        // 指定图表的配置项和数据
+        var option3 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : ['攻击性','压力','抑郁','焦虑','平衡','神经质','自我调节','活力','自控'],
+                    axisLine: {
+                      lineStyle: {
+                        type: 'solid',
+                        color: '#9B9B9B',//左边线的颜色
+                        width:'1'//坐标线的宽度
+                      }
+                    },
+                    axisLabel: {  
+                      interval:0,  
+                      formatter:function(value){
+                        return value.split("").join("\n");
+                      },
+                      textStyle:{
+                        color:'#4A4A4A'
+                      }
+                    },
+                    axisTick:{
+                        lineStyle:{color:'#9B9B9B'}    // x轴刻度的颜色
+                      },
+                    splitLine :{    //网格线
+                      lineStyle:{
+                        type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                      },
+                      show:false //隐藏或显示
+                    },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:5,
+                      axisLabel : {
+                          
+                          formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('低');
+                            }
+                            else if (value <=25) {
+                            texts.push(' ');
+                            }
+                            else if (value<= 50) {
+                            texts.push(' ');
+                            }
+                            else if(value<= 75){
+                            texts.push(' ');
+                            }
+                            else if(value == 100){
+                            texts.push('高');
+                            }
+                            return texts;
+                          },
+                          textStyle:{
+                            color:'#4A4A4A'
+                          }
+                    },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: true,  //true 为平滑曲线，false为直线
+                      symbol:'circle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#7489FA',  
+                          lineStyle:{  
+                              color:'#7489FA'  
+                          }  
+                        }  
+                      }, 
+                  },
+                  {
+                      name:'',
+                      type:'line',
+                      data:[1, 2, 2, 5, 3, 2, 0,10,11],
+                      smooth: true,  //true 为平滑曲线，false为直线
+                      itemStyle : {  
+                        normal : {  
+                          color:'#FA7979',  
+                          lineStyle:{  
+                              color:'#FA7979'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+
+        var ou1 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisTick:{
+                        lineStyle:{color:'#9B9B9B'}    // x轴刻度的颜色
+                      },
+
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                          formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,             
+                      symbol:'emptyCircle',//拐点样式
+                      symbolSize:[3,3],
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        // 使用刚指定的配置项和数据显示图表。
+        var ou2 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou3 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou4 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou5 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou6 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou7 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou8 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        var ou9 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                      type : 'category',
+                      boundaryGap : false,
+                      data : ['2/26','2/26','2/26','2/26','2/26','2/26','2/26'],
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      axisLabel: {  
+                        interval:0,  
+                        show: true,
+                        textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:false //隐藏或显示
+                      },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:4,
+                      // data : ['过高','偏高','适中','偏低','过低'],
+                      axisLabel : {
+                        // formatter : ['过高','偏高','适中','偏低','过低'],
+                        // textStyle : {
+                        //   // baseline:'middle'
+                        // }
+                        formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('过低');
+                            }
+                            else if (value <=25) {
+                            texts.push('偏低');
+                            }
+                            else if (value<= 50) {
+                            texts.push('适中');
+                            }
+                            else if(value<= 75){
+                            texts.push('过高');
+                            }
+                            else{
+                            texts.push('偏高');
+                            }
+                            return texts;
+                          },
+                          textStyle: {
+                            color: '#9B9B9B',
+                            fontSize:12
+                        }
+                      },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: false,                         symbol:'emptyCircle',//拐点样式
+                      data:[100, 11, 15, 13, 12, 13, 10,10,11],
+                      symbolSize:[3,3],
+                      itemStyle : {  
+                        normal : {  
+                          color:'#6A7AFB',  
+                          lineStyle:{  
+                              color:'#6A7AFB'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+
+        myChart3.setOption(option3);
+        qu1.setOption(ou1);
+        qu2.setOption(ou2);
+        qu3.setOption(ou3);
+        qu4.setOption(ou4);
+        qu5.setOption(ou5);
+        qu6.setOption(ou6);
+        qu7.setOption(ou7);
+        qu8.setOption(ou8);
+        qu9.setOption(ou9);
+
+      }
+      function swi(){
+        var swiper = new Swiper('.swiper-container', {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          centeredSlides: true,
+          loop: false,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },on: {
+            slideChangeTransitionEnd: function(){
+              console.log(this.activeIndex + 1);
+              $('.jiedu').hide()
+              $('.jie' + (this.activeIndex + 1) ).show()
+            },
+          },
+        });
+      }
+      function ban(){
+        $('.btn').on('click',function(){
+          var targ = $(this).attr('data-go')
+          $(this).parents('[data-target=tu]').hide()
+          $('.'+targ).show()
+        })
+      }
+      setTimeout(function(){
+        go()
+        pys()
+        swi()
+        ban()
+      })
+
+
+      // 获取url参数方法
+      function getQueryString(name) {
+        var    result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+        if (result == null || result.length < 1) {
+            return "";
+        }
+        return result[1];
+      };
+
+      var v = new Vue({
+        el : '#app',
+        data : function(){
+          return {
+            info : {},
+            leidaArr1 : [], // 测量值
+            leidaArr2 : [], // 平均值
+            leidaObj1 : [
+              {leidaNo : 0 , jdNo : 4 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '攻击性' ,   leidaT : '123' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '攻击性'},
+              {leidaNo : 1 , jdNo : 3 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '神经质' ,   leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '神经质'},
+              {leidaNo : 2 , jdNo : 2 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '抑郁' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '抑郁'},
+              {leidaNo : 3 , jdNo : 7 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '自我调节' , leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '自我调节'},
+              {leidaNo : 4 , jdNo : 6 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '活力' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '活力'},
+              {leidaNo : 5 , jdNo : 5 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '自信' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '自信'},
+              {leidaNo : 6 , jdNo : 8 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '平衡' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '平衡'},
+              {leidaNo : 7 , jdNo : 1 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '焦虑' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '焦虑'},
+              {leidaNo : 8 , jdNo : 0 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '压力' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '压力'}
+            ],
+            valueMax : 100,
+            valueMin : 0,
+            zhinan : '1、本潜在情绪测试报告可协助您了解自身的各类情绪状态，建议您认真阅读。如果在阅读的过程中有不明白的地方或疑问，可向专业人士咨询。<br>2、本测试报告可作为您评估自身情绪状态的一个参考，而不是诊断。如果需要，强烈建议您向专业人士作进一步的检查和咨询。<br>3、本测试报告正文内容分为两大部分。第一部分为各情绪维度的解读，您可了解到自身9类情绪的水平、所在同年龄段人群位置及其详细建议；第二部分为整体情绪状态解读，您可了解到自身正、负性等情绪状态分布及其建议。' //指南
+
+          }
+        },
+        methods: {
+          // history
+          gohistory : function(){
+            window.location = gohistoryUrl;
+          },
+          Touchmove:function(){
+            $('.mask').removeClass('show');
+            $('.popup').removeClass('show');
+            $('body').css({'position':'static'}); 
+            $(window).scrollTop(sTop);
+          },
+          stopTouchmove:function(event){
+            $('.mask').addClass('show');
+            $('.popup').addClass('show');
+            sTop = $(window).scrollTop();
+            $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});      
+            var curr = $(event.currentTarget) 
+            $('.popup h1').text(curr.attr('data-h'))
+            $('.popup .huadong').html(curr.attr('data-t'))
+          },
+        }
+      });
+
+    })
+  </script>
+</body>
+</html>
