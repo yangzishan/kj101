@@ -3,12 +3,14 @@ var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
-var clientType = getQueryString("clientType");
+var clientType = (getQueryString("clientType") || '');
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var localUrl = location.href;
 var edition = 100;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(!openId){
+if(clientType){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
@@ -22,14 +24,7 @@ function setupWebViewJavascriptBridge(callback) {
 	WVJBIframe.src = 'https://__bridge_loaded__';
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
-}
-setupWebViewJavascriptBridge(function(bridge) {
-	//为按钮注册方法
-	$(document).on("click","#goToShare",function(){
-		//alert('click share');
-		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
-	});
-})
+};
 /*******************************交互逻辑*****************************/
 $('.load-overlay').css("display","block");
 $('.my_view').css("visibility","hidden");
@@ -72,6 +67,20 @@ var myApp = new Vue({
 		this.getSuggest();
 	},
 	methods: {
+		goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':'',
+					'reportScore': vm.totalScore,
+					'reportTime': vm.inspectDate,
+					'reportName': vm.ranking
+				}, function responseCallback(responseData) {});
+			})
+		},
 		getSuggest: function(){
 			var vm = this;
 			$.ajax({
@@ -95,6 +104,7 @@ var myApp = new Vue({
 								$('.midfx').css("display","none");
 							}
 						};
+						vm.goToShare('goToPrint');
 					}else{
 						console.log('getSuggest code='+res.code);
 					}

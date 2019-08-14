@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>下载金管家查看报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+</head>
+<body>
+<div class="my_view">
+	<img src="img/jgj/gj1.jpg" class="img_b">
+	<img src="img/jgj/gj2.jpg" class="img_b">
+	<img src="img/jgj/gj3.jpg" class="img_b">
+	<img src="img/jgj/gj4.jpg" class="img_b">
+	<div style="position: relative;">
+		<img src="img/jgj/gj5.jpg" class="img_b">
+		<a href="https://elis-ecocdn.pingan.com.cn/lilith/static/downloads/index.html" style="display: block; width: 7.05rem; position:absolute;top: 9.49rem; left: 50%; transform: translateX(-50%);">
+			<img src="img/jgj/downbtn.png" class="img_b">
+		</a>
+	</div>
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

@@ -6,9 +6,12 @@ var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var localUrl = location.href;
 var edition = 500;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(!openId){
+if(clientType){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
@@ -23,13 +26,6 @@ function setupWebViewJavascriptBridge(callback) {
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
-setupWebViewJavascriptBridge(function(bridge) {
-	//为按钮注册方法
-	$(document).on("click","#goToShare",function(){
-		//alert('click share');
-		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
-	});
-})
 /*******************************交互逻辑*****************************/
 var urlSearch = '';
 new Vue({
@@ -44,6 +40,20 @@ new Vue({
        userId:''
     },
     methods:{
+    	goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':'',
+					'reportScore': vm.totalScore,
+					'reportTime': vm.inspectDate,
+					'reportName': ''
+				}, function responseCallback(responseData) {});
+			})
+		},
         zhuan:function(){
             var  that = this;
             var  w = $(window).width();
@@ -89,6 +99,7 @@ new Vue({
                 type:'POST',
                 success:function(res){
                    if(res.code == 200){
+                   	    that.getReportSource();
                         that.totalScore = res.data.totalScore;
                         that.ps = res.data.ps;
                         that.inspectDate = new Date(res.data.inspectDate).getFullYear() + '-' + that.buWei(parseInt(new Date(res.data.inspectDate).getMonth()+1)) + '-' + that.buWei(new Date(res.data.inspectDate).getDate()) + ' ' + that.buWei(new Date(res.data.inspectDate).getHours()) + ':' + that.buWei(new Date(res.data.inspectDate).getMinutes()) + ':' + that.buWei(new Date(res.data.inspectDate).getSeconds());
@@ -101,6 +112,7 @@ new Vue({
                             $('.loadmore.loading').css({'display':'none'});
                             that.zhuan();
                         },100)
+                        that.goToShare('goToPrint');
                         urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition+'&userId='+ customerId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId;
                    }else if(res.code == 201){
                         location.href = 'payfor501.html?reportId='+reportId+'&openId='+openId+'&userId='+customerId+'&reportType='+reportType+'&edition='+edition+'&sameUser='+res.data.sameUser+'&saasId='+saasId
@@ -122,6 +134,26 @@ new Vue({
         goSetUp: function(e){ //个人中心
             window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + this.userId + '&reportId='+ reportId + '&edition=' + edition+'&saasId='+saasId;
         },
+        //查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5 && cannsee == ''){ //金管家 5
+							location.href = "jinguanjia.html?reportType="+reportType
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
     },
     mounted:function(){
         this.inspectIndex();
@@ -144,8 +176,8 @@ $('.content').on('click','.list',function(){
         }else{
             window.location.href = 'skin.html' + urlSearch;
         }
-        }
-    })
+    }
+})
    // 获取url参数方法
    function getQueryString(name) {
         var   result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

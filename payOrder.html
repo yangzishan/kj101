@@ -133,6 +133,28 @@ var myApp = new Vue({
   		}
   	},
   	methods:{
+  		//查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5){ //金管家 5
+							location.href = "jinguanjia.html"
+						}else{
+							vm.goReport()
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
   		isUsableByCustomerIdAndNeId: function(){ //判断优惠卷是否可用,返回有效期最短的优惠券
   			var vm = this;
   			$.ajax({
@@ -174,7 +196,7 @@ var myApp = new Vue({
   					reportId: reportId
   				},
   				success: function(res){
-  					vm.goReport();
+  					vm.getReportSource();
   					console.log(res);
   				},
   				error: function(){
@@ -337,7 +359,6 @@ var myApp = new Vue({
   		this.findPackage();
   		this.getOpenIdByReportId();
   		this.isUsableByCustomerIdAndNeId();
-  		//this.updateCustomerSaas();
   	}
 });
 //截取URL 获取

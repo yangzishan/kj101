@@ -15,12 +15,12 @@
 <DIV class="all-view" style="padding-bottom: 1.5rem;">
 	<!--头部-->
 	<header class="header">
-		<div class="mine header-box goToPer" v-if="openId">
+		<div class="mine header-box goToPer" v-if="!clientType">
 			<div class="img-box"><img src="./images/tx-icon.png" /></div>
 			<span @click="goSetUp()">{{language.la_perCen}}</span>
 		</div>
-		<div class="mine header-box goToShare" v-if="!openId">
-			<button id="goToShare">分享报告</button>
+		<div class="mine header-box goToShare" v-if="clientType">
+			<button id="goToShare" @click="goToShare('goToShare')">分享报告</button>
 		</div>
 		<div class="title">{{inspectDate}}</div>
 		<div class="report header-box">

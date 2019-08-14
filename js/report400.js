@@ -8,6 +8,18 @@ function getQueryString(name) {
     }
     return result[1];
 };
+/*******************************交互逻辑*****************************/
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+};
+/*******************************交互逻辑*****************************/
 var reportId = getQueryString('reportId');
 var customerId = getQueryString('userId');
 var openId = getQueryString('openId');
@@ -16,10 +28,12 @@ var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var localUrl = location.href;
 var edition = 400;
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(!openId){
+if(clientType){
 	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
@@ -40,6 +54,20 @@ var myApp = new Vue({
 		}
 	},
 	methods: {
+		goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':'',
+					'reportScore': '',
+					'reportTime': '',
+					'reportName': ''
+				}, function responseCallback(responseData) {});
+			})
+		},
 		queryV4Report: function (){
 			var vm = this;
 			$.ajax({
@@ -60,6 +88,7 @@ var myApp = new Vue({
 						vm.parentList = res.result.parentList 
 						$('.load-overlay').css("display","none");
 						$('.my_view').css("visibility","visible");
+						vm.goToShare('goToPrint');
 					}else if(res.code == 201){
 						vm.participate(res.paymentType,res.sameUser)
 					}else{
