@@ -101,8 +101,9 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 			if(res.code == 200){
 				var visible = res.data.visible;
 				var reportType = res.data.reportType;
-				var source = res.data.source;
-				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source;
+				var source = res.data.source; // 来源
+				var reportSource = res.data.reportSource //来源 （判断金管家 5）
+				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&reportSource='+reportSource
 				if(visible == 0){
 					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 					$('.daifu_d').css("display","block");	
@@ -114,16 +115,15 @@ function analysisReportFace(report,sendCustom,user,open,saas,language){
 					});
 				}else{
 					if(reportType == 121 || reportType == 122){
-					location.href = 'report120.html'+reportUrl
+						location.href = 'report120.html'+reportUrl
 					}else if(reportType == 501 || reportType == 502 ){
 						location.href = 'report500.html'+reportUrl
 					}else if(reportType < 5){
 						location.href = 'report5.html'+reportUrl
 					}else{
 						location.href = 'report'+reportType+'.html'+reportUrl
-					}
+					}	
 				}
-
 			}else if(res.code == 402){
 				var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource
 				location.href='register.html'+ reportUrl

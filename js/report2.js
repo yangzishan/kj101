@@ -6,6 +6,10 @@ var saasId = getQueryString('saasId');
 var clientType = (getQueryString("clientType") || ''); 
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var localUrl = location.href;
+var reportPrintUrl = testHealthUrl+'/print/print2.0.html?viewType=2&reportId=';
 var edition = 2;
 if(reportType == 5 || reportType < 6){
 	var indexAll_data = '/api/v1/reportIndex/indexAll2'
@@ -16,9 +20,9 @@ if(reportType == 5 || reportType < 6){
 	$('header').css("display","none")
 };
 var payStr = '';
+alert('clientType='+clientType);
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType){
-	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 };
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
@@ -45,13 +49,6 @@ function setupWebViewJavascriptBridge(callback) {
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
-setupWebViewJavascriptBridge(function(bridge) {
-	//为按钮注册方法
-	$(document).on("click","#goToShare",function(){
-		//alert('click share');
-		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
-	});
-})
 /*******************************交互逻辑*****************************/
 zhuge.track('进入2.0报告首页', {//埋点t
 	'用户id' : customerId,
@@ -103,6 +100,40 @@ var myApp = new Vue({
 		this.getData();
 	},
 	methods: {
+		//查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5 && cannsee == ''){ //金管家 5
+							location.href = "jinguanjia.html?reportType="+reportType
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
+		goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':reportPrintUrl+reportId,
+					'reportScore': vm.totalScore,
+					'reportTime': vm.inspectDate,
+					'reportName': vm.ranking
+				}, function responseCallback(responseData) {});
+			})
+		},
 		getSaasTenantByCompanyId: function(){//查询SaaS信息
 			var vm = this;
 			$.ajax({
@@ -143,6 +174,7 @@ var myApp = new Vue({
 					if(res.code == 201){
 						vm.participate(res.data.paymentType,res.data.sameUser);  //执行判断优惠券
 					}else if(res.code == 200){
+						vm.getReportSource();
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.totalScore = res.data.indexPage.totalScore, //全部得分
@@ -167,6 +199,7 @@ var myApp = new Vue({
 							$('.guang').css("transform","rotate("+1.8*res.data.indexPage.totalScore+"deg)");
 						},100)
 						$('#score').animateNumber({ number: res.data.indexPage.totalScore },1100);
+						vm.goToShare('goToPrint');
 						$('.sy_tab span').on("click",function(){
 							$(this).addClass('on').siblings().removeClass('on');
 							$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");

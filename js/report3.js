@@ -6,13 +6,17 @@ var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var localUrl = location.href;
+var reportPrintUrl = testHealthUrl+'/print/print3.0.html?viewType=2&reportId=';
 var edition = 3;
 if(reportType == 501){
 	$('.skin').remove();
 }
+alert('clientType='+clientType);
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType){
-	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
 
@@ -41,13 +45,6 @@ function setupWebViewJavascriptBridge(callback) {
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
-setupWebViewJavascriptBridge(function(bridge) {
-	//为按钮注册方法
-	$(document).on("click","#goToShare",function(){
-		//alert('click share');
-		bridge.callHandler('goToShare', {'reportId':reportId}, function responseCallback(responseData) {});
-	});
-})
 /*******************************交互逻辑*****************************/
 zhuge.track('进入3.0报告首页', {//埋点t
 	'userId' : customerId,
@@ -96,6 +93,40 @@ var myApp = new Vue({
 		this.queryNewReportDataByReportId();
     },
 	methods: {
+		//查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5 && cannsee == ''){ //金管家 5
+							location.href = "jinguanjia.html?reportType="+reportType
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
+		goToShare: function(fangfa){  //goToShare\goToPrint
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				//alert('click share'+reportId);
+				bridge.callHandler(fangfa, {
+					'reportId':reportId,
+					'reportUrl':localUrl,
+					'reportPrintUrl':reportPrintUrl+reportId,
+					'reportScore': vm.totalScore,
+					'reportTime': vm.inspectDate,
+					'reportName': vm.ranking
+				}, function responseCallback(responseData) {});
+			})
+		},
 		// 获取首页数据
 		queryNewReportDataByReportId: function(){
 			var _this = this;
@@ -111,6 +142,7 @@ var myApp = new Vue({
 				},
 				success: function(data){
 					if(data.code == 200){
+						_this.getReportSource();
 						$('body').css("visibility","visible");
 						_this.data = data.result.reportNewThreeViems
 						_this.totalScore = data.result.totalScore
@@ -155,7 +187,7 @@ var myApp = new Vue({
 							$('.klzs_c .zs_p').css("transform","rotate(-"+_klzs+"deg)");
 							_this.wheelsort(_this.deviceSnNum,reportId);//轮播广告
 						},300);
-						
+						_this.goToShare('goToPrint');
 					}else if((data.code == 201)){
 						_this.sameUser = data.sameUser;
 						var payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+_this.sameUser+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType

@@ -18,7 +18,7 @@
 	<div class="intdiv"><input type="text" placeholder="请输入口令" id="wordNum" onkeyup="this.value=this.value.replace(/\s+/g,'')"></div>
 	<div class="btndiv"><button class="btn-go" id="subgo" @click="gouseBtn($event)">立即使用</button></div>
 	<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">扫口令码使用</button></div>
-	<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType">扫码使用口令</button></div>
+	<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType" @click="appscanQRCode()">扫码使用口令</button></div>
 	<div class="tipc2">请输入您获得的口令字符，立即使用，即可支付</div>
 </div>
 
@@ -54,37 +54,6 @@
 })(document, window);
 </script>
 <script>
-//弹窗 模拟alert
-function showMask(msg){ //showMask('msg');
-	$('.tc-qx').each(function(){
-		var w_height = $(window).height();
-		var this_height = $(this).height();
-		$(this).css("top",(w_height-this_height)/2.5);
-	});
-	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
-	$('#alert').css({"visibility":"visible","opacity":"1"});
-	$('#alert .pc1').empty().text(msg);
-	$('#alert .subBtn').click(function(){closeMask()});
-}
-function closeMask(){
-	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
-	$('#alert').css({"visibility":"hidden","opacity":"0"});
-}
-//截取URL 获取
-function getQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
-//截取str 获取参数
-function getParameter(str,name){
-    var result = str.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-    if (result == null || result.length < 1) {
-        return "";
-    }
-    return result[1];
-};
-
 var reportId=getQueryString("reportId");
 var reportType = getQueryString("reportType");
 var packageId=getQueryString("packageId");
@@ -92,10 +61,10 @@ var userId=getQueryString("userId");
 var openId=getQueryString("openId");
 var saasId=getQueryString("saasId");
 var clientType = getQueryString("clientType");
-
 var reqUrl = window.location.href;
+
 var myApp = new Vue({
-	el: '.keypay-c',
+	el: '.my_view',
 	data: function(){
 		return{
 			reportId: reportId,
@@ -107,22 +76,55 @@ var myApp = new Vue({
 		}
 	},
 	methods:{
+		//查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5){
+							location.href = "jinguanjia.html"
+						}else{
+							vm.goReport()
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
+		goReport:function(){
+			var vm = this;
+			if(reportType == 121 || reportType == 122){
+				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			}else if(reportType == 501 || reportType == 502){
+				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			}else{
+				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			}
+		},
 		gotoSaoMa: function(){
+			var vm = this;
 			wx.ready(function() {
 			   	wx.scanQRCode({
 		            needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-		            scanType : [ "qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+		            scanType : ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
 		            success : function(res) {
 		                var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
 		                //alert(resultcode);
-						var codeType = getParameter(resultcode,"type");
+						var codeType = (getParameter(resultcode,"type") || '');
 						//alert(codeType);
-						var passwd_val = getParameter(resultcode,"passwd_val");
+						var passwd_val = (getParameter(resultcode,"passwd_val") || '');
 						//alert(passwd_val);
 		                if(codeType == 2){
 		                	updateYearWordPay(passwd_val);
 		                }else{
-		                	goMethod(resultcode);
+		                	vm.goMethod(resultcode);
 		                }
 		            }
 		        })
@@ -133,7 +135,7 @@ var myApp = new Vue({
 			var vm = this;
 			$(e.target).attr("disabled",true);
 			var mywordNum=$.trim($('#wordNum').val());
-			goMethod(mywordNum);
+			vm.goMethod(mywordNum);
 		},
 		//微信jssdk扫码用
 		wxConfig: function(){
@@ -164,107 +166,153 @@ var myApp = new Vue({
 			wx.error(function(res) {
 			    alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
 			});
-			
 		},
+		//拿到参数执行方法 口令
+		goMethod: function(resultdata){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/v1/cardPay/updateWordPay",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,//变量reportId替换
+				    packageId : packageId,
+					userId : userId,
+					wordNum: resultdata,
+					batchType: 10,
+					saasId: saasId
+				},
+				success : function(data) {
+					if(data.code == 200){
+						if(data.data == "0" || data.data == "true"){
+							zhuge.track('支付成功',{
+								'方式': '口令支付'
+							},function(){
+								vm.getReportSource()
+							});
+						}else{
+							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+							zhuge.track('支付失败',{
+								'方式': '口令支付',
+								'原因': checkMsg(data.data)
+							});
+							showMask(checkMsg(data.data));
+						}
+					}else if(data.code == 300){
+						showMask('口令不正确');
+						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+					}else{
+						showMask('code=' + data.code);
+					}
+				},
+			    error : function(obj,msg){showMask("updateWordPay error")}
+			});
+		},
+		//卡号支付
+		updateYearWordPay: function(resultdata){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/cardPay/updateYearWordPay",
+				dataType : 'json',
+				data:{
+					reportId: reportId,
+					packageId: packageId,
+					userId: userId,
+					batchType: 20,
+					saasId: saasId,
+					wordNum: resultdata
+				},
+				success: function(data){
+					if(data.code == 200){
+						if(data.data == "0" || data.data == "true"){
+							zhuge.track('支付成功',{
+								'方式': '口令支付'
+							},function(){
+								vm.getReportSource()
+							});
+						}else{
+							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+							zhuge.track('支付失败',{
+								'方式': '口令支付',
+								'原因': checkMsg(data.data)
+							});
+							showMask(checkMsg(data.data));
+						}
+					}else if(data.code == 300){
+						showMask('口令不正确');
+						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+					}else{
+						showMask('code=' + data.code);
+					}
+				},
+				error: function(){showMask('updateYearWordPay error')}
+			});
+		},
+		//app扫码
+		appscanQRCode:function(){
+			var vm = this;
+			setupWebViewJavascriptBridge(function(bridge) {
+				bridge.callHandler('QRCode', { 'code':'200' }, function responseCallback(responseData) {});
+				// 注册JS方法供OC调用
+				bridge.registerHandler('QRCode', function(data, responseCallback) {
+					//alert('test_oc');
+					//判断iOS和Android
+					var u = navigator.userAgent;
+					if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
+						var obj = eval("("+data+")");			
+					} else if (u.indexOf('iPhone') > -1) {//苹果手机
+						var obj = eval(data);
+					} else if (u.indexOf('Windows Phone') > -1) {//winphone手机
+						alert("不支持该手机设备");
+					}
+					var occode = obj.QRUrl;
+					//var responseData = { 'code':'200' }; responseCallback(responseData);
+					if (occode != '') {
+						vm.goMethod(occode);
+					}	
+				})
+			});
+		}
 	},
 	mounted: function(){
 		this.wxConfig();
 	}
 });
 
-//拿到参数执行方法 口令
-function goMethod(resultdata){
-	$.ajax({
-		url : dataUrl + "/api/v1/cardPay/updateWordPay",
-		type : "POST",
-		dataType : 'json',
-		data : {
-		    reportId : reportId,//变量reportId替换
-		    packageId : packageId,
-			userId : userId,
-			wordNum: resultdata,
-			batchType: 10,
-			saasId: saasId
-		},
-		success : function(data) {
-			if(data.code == 200){
-				if(data.data == "0" || data.data == "true"){
-					zhuge.track('支付成功',{
-						'方式': '口令支付'
-					},function(){
-						if(reportType == 121 || reportType == 122){
-							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else if(reportType == 501 || reportType == 502){
-							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else{
-							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}
-					});
-				}else{
-					setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
-					zhuge.track('支付失败',{
-						'方式': '口令支付',
-						'原因': checkMsg(data.data)
-					});
-					showMask(checkMsg(data.data));
-				}
-			}else if(data.code == 300){
-				showMask('口令不正确');
-				setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
-			}else{
-				showMask('code=' + data.code);
-			}
-		},
-	    error : function(obj,msg){showMask("updateWordPay error")}
+
+
+//弹窗 模拟alert
+function showMask(msg){ //showMask('msg');
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2.5);
 	});
-};
-//卡号支付
-function updateYearWordPay(resultdata){
-	$.ajax({
-		type:"post",
-		url:dataUrl+"/api/v1/cardPay/updateYearWordPay",
-		dataType : 'json',
-		data:{
-			reportId: reportId,
-			packageId: packageId,
-			userId: userId,
-			batchType: 20,
-			saasId: saasId,
-			wordNum: resultdata
-		},
-		success: function(data){
-			if(data.code == 200){
-				if(data.data == "0" || data.data == "true"){
-					zhuge.track('支付成功',{
-						'方式': '口令支付'
-					},function(){
-						if(reportType == 121 || reportType == 122){
-							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else if(reportType == 501 || reportType == 502){
-							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else{
-							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}
-					});
-				}else{
-					setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
-					zhuge.track('支付失败',{
-						'方式': '口令支付',
-						'原因': checkMsg(data.data)
-					});
-					showMask(checkMsg(data.data));
-				}
-			}else if(data.code == 300){
-				showMask('口令不正确');
-				setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
-			}else{
-				showMask('code=' + data.code);
-			}
-		},
-		error: function(){showMask('updateYearWordPay error')}
-	});
-	
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#alert').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+	$('#alert .subBtn').click(function(){closeMask()});
 }
+function closeMask(){
+	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+	$('#alert').css({"visibility":"hidden","opacity":"0"});
+}
+
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+//截取str 获取参数
+function getParameter(str,name){
+    var result = str.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
 
 var occode = '';
 /*******************************交互逻辑*****************************/
@@ -278,31 +326,6 @@ function setupWebViewJavascriptBridge(callback) {
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
-setupWebViewJavascriptBridge(function(bridge) {
-	// 注册JS方法供OC调用
-	bridge.registerHandler('QRCode', function(data, responseCallback) {
-		//alert('test_oc');
-		//判断iOS和Android
-		var u = navigator.userAgent;
-		if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {//安卓手机
-			var obj = eval("("+data+")");			
-		} else if (u.indexOf('iPhone') > -1) {//苹果手机
-			var obj = eval(data);
-		} else if (u.indexOf('Windows Phone') > -1) {//winphone手机
-			alert("不支持该手机设备");
-		}
-		var occode = obj.QRUrl;
-		//var responseData = { 'code':'200' }; responseCallback(responseData);
-		if (occode != '') {
-			goMethod(occode);
-		}	
-	})
-	// 为按钮注册方法
-	$(document).on("click","#appscanQRCode",function(){
-		//alert('hahahha');
-		bridge.callHandler('QRCode', { 'code':'200' }, function responseCallback(responseData) {});
-	});
-});
 /*********************************************************************************/
 
 </script>

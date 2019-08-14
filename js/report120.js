@@ -6,14 +6,16 @@ var saasId = getQueryString('saasId');
 var clientType = (getQueryString("clientType") || '');
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || ''); //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var edition = 120;
 var localUrl = location.href;
-var reportPrintUrl = 'http://kj101-ysc.jiankangzhan.com/print/print120.html?viewType=2&reportId=';
+var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
 
 var payStr = '';
+alert('clientType='+clientType);
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType){
-	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
 /*******************************交互逻辑*****************************/
@@ -80,6 +82,26 @@ var myApp = new Vue({
 		//this.getSaasTenantByCompanyId();
 	},
 	methods: {
+		//查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5 && cannsee == ''){ //金管家 5
+							location.href = "jinguanjia.html?reportType="+reportType
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
 		goToShare: function(fangfa){  //goToShare\goToPrint
 			var vm = this;
 			setupWebViewJavascriptBridge(function(bridge) {
@@ -135,6 +157,7 @@ var myApp = new Vue({
 						if(res.data.map.deviceReport == 121){
 							_this.showTip(); //不让看报告
 						}else{
+							_this.getReportSource();
 							$('.my_view').css("visibility","visible");
 							$('.load-overlay').css("display","none");
 							_this.totalScore = res.data.indexPage.totalScore, //全部得分

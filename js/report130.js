@@ -8,8 +8,10 @@ var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var localUrl = location.href;
-var reportPrintUrl = 'http://kj101.jiankangzhan.com/print/print130_kh2.html?viewType=2&reportId=';
+var reportPrintUrl = testHealthUrl+'/print/print130_kh2.html?viewType=2&reportId=';
+alert('clientType='+clientType);
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType == 'app'){
 	//alert('now in app');

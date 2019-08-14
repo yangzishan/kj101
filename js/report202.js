@@ -6,6 +6,7 @@ var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var edition = 202;
 
 var indexAll_data = '/api/v1/reportIndex/indexAll2'

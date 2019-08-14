@@ -32,6 +32,12 @@
 					<span class="fr num" style="margin-right: .4rem;">{{item.mobile}}</span>
 				</a>
 			</template>
+			<template v-if="source == 'psyc'">
+				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+					<span class="dat">{{item.inspectDateStr}}</span>
+					<i class="arr fr"></i>
+				</a>
+			</template>
 				
 		</div>
 	</section>
@@ -129,24 +135,9 @@ var myApp = new Vue({
 		},
 		gotosee: function(e,item){
 			var vm = this;
-			/*var reportUrl = '?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId+'&reportType='+item.reportType+'&saasId='+saasId
-			if(item.reportType == 500 || item.reportType == 501 || item.reportType == 502){
-				location.href = 'report500.html'+reportUrl;
-			}else if(item.reportType == 120 || item.reportType == 121){
-				location.href = 'report120.html'+reportUrl;
-			}else if(item.reportType < 6){
-				if(isAgent == 'caj'){  //慈爱家
-					location.href = '215581/index.html?reportId=' + item.inspectId + '&userId=' + vm.userId+'&openId='+openId
-				}else{
-					location.href = 'report5.html'+reportUrl;
-				}
-			}else{
-				location.href = 'report'+item.reportType+'.html'+reportUrl;
-			}*/
-			//location.href = 'common.html?reportId='+item.inspectId+'&openId='+item.openId+'&customerId='+vm.userId+'&saasId='+saasId
-			vm.analysisReportFace(item.inspectId,'',vm.userId,item.openId,saasId,'')
+			vm.analysisReportFace(item.inspectId,'',vm.userId,item.openId,saasId,'',item.reportSource)
 		},
-		analysisReportFace: function(report,sendCustom,user,open,saas,language){
+		analysisReportFace: function(report,sendCustom,user,open,saas,language,reportSource){
 			var vm = this;
 			$.ajax({
 				type:"post",
@@ -164,8 +155,8 @@ var myApp = new Vue({
 					if(res.code == 200){
 						var visible = res.data.visible; //是否可查看 0不可查看
 						var reportType = res.data.reportType;
-						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source;
-						
+						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&cansee='+cansee;
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	
@@ -191,7 +182,6 @@ var myApp = new Vue({
 		
 					}else{
 						console.log('analysisReportFace code='+res.code+' msg='+res.msg)
-						//alert('analysisReportFace code='+res.code+' '+res.msg)
 					}
 				},
 				error: function(){alert('analysisReportFace error')}

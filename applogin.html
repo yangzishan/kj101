@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>登录查看报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<div class="my_view">
+	<div class="login">
+		<div class="lo-li">
+			<input class="intxt" type="number" id="mobile" placeholder="请填写检测时使用的手机号码" pattern="[0-9]*" @input="mobileIn()"  v-model="mobile">
+		</div>
+		
+		<div class="lo-li">
+			<input class="intxt" id="dxYzm" type="text" placeholder="请输入验证码" @input="dxYzmIn()" v-model="dxYzm">
+			<button class="sendbtn off" id="sendMsg" @click="clickSendMsg($event)">获取验证码</button>
+		</div>
+		
+		<div class="gobtn">
+			<button class="off" disabled="disabled" id="subAll" @click="subAll()">查看报告</button>
+		</div>
+		
+	</div>
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var wait=60;
+var myapp = new Vue({
+	el: '.my_view',
+	data: function(){
+		return{
+			mobile:'',
+			dxYzm:'',
+		}
+	},
+	mounted: function(){
+		
+	},
+	methods: {
+		getCode: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/getCode",
+				dataType : 'json',
+		        data : {
+		        	userId: vm.mobile
+		        },
+		        success: function(res){
+		        	if(res.code == 200){
+						vm.kjSendMsg(res.data);
+					}else{
+						alert('获取短信码失败 getCode code='+codeData.code);
+					}	
+		        }
+			});
+		},
+		kjSendMsg: function(code){ //发送短信
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/kjSendMsg",
+				dataType:'Json',
+				data:{
+					mobile : vm.mobile,
+					code : code,
+					userId : vm.mobile
+				},
+				success:function(res){console.log('发送短信')},
+				error:function(){console.log('kjSendMsg error')}
+
+			});
+		},
+		mobileIn: function(){
+			var vm = this;
+			if(vm.mobile.length>11){
+				vm.mobile=vm.mobile.slice(0,11)
+			}
+			if(vm.mobile != ''){
+				$('#sendMsg').removeClass('off').attr("disabled",false)
+			}else{
+				$('#sendMsg').addClass('off').attr("disabled",true)
+			}
+		},
+		clickSendMsg: function(e){
+			var vm = this;
+			if(!(/^1[3456789]\d{9}$/.test(vm.mobile))){ 
+				alert('请输入正确的手机号码');
+				return false;
+			}else{
+				time($(e.target))
+				vm.getCode()
+			}
+		},
+		dxYzmIn: function(){
+			var vm = this;
+			console.log(vm.dxYzm)
+			if(vm.dxYzm != ''){
+				$('#subAll').removeClass('off').attr("disabled",false)
+			}else{
+				$('#subAll').addClass('off').attr("disabled",true)
+			}
+		},
+		subAll: function(){
+			var vm = this;
+			vm.userLatestReport()
+		},
+		userLatestReport: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/userLatestReport",
+				async:true,
+				dataType:'Json',
+				data:{
+					mobile: vm.mobile,
+					code: vm.dxYzm,
+					resource: 'jgj'
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.goReport(res.data.reportId,res.data.reportType,res.data.customerId,res.data.openId,'')
+					}else{
+						alert(res.msg)
+						console.log(res.code)
+					}
+				},
+				error: function(){'userLatestReport error'}
+			});
+		},
+		goReport: function(reportId,reportType,userId,openId,saasId){
+			var vm = this;
+			var reportUrl = '.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&cannsee=jgj'//cansee 金管家app过去的
+			if(reportType == 121 || reportType == 122){
+				location.href='report120'+reportUrl
+			}else if(reportType == 501 || reportType == 502){
+				location.href='report500'+reportUrl
+			}else{
+				location.href='report'+reportType+reportUrl
+			}
+		}
+	}
+});
+	
+//倒计时读秒    默认wait=60;
+function time(tm){
+	if(wait==0){
+		tm.attr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.removeClass('off')
+	}else{
+		tm.addClass('off')
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+</script>
+</body>
+</html>
