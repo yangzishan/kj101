@@ -226,7 +226,7 @@ function subAll(mobile,age,dxYzm,checkCode){
 				}else if(spreadUserId){
 					SendCouponByFlushQR(mobile) //扫码得优惠券接口 一码多用
 				}else{
-					zhuge.identify(mobile, { //埋点 i  完善用户信息
+					zhuge.identify(mobile, { //埋点 i  实名用户信息
 						'用户id': userId,
 						'openId': openId
 					});

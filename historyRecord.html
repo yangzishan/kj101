@@ -156,7 +156,7 @@ var myApp = new Vue({
 						var visible = res.data.visible; //是否可查看 0不可查看
 						var reportType = res.data.reportType;
 						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 
-						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&cansee='+cansee;
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&cansee='+cansee;
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	
@@ -178,8 +178,7 @@ var myApp = new Vue({
 							}else{
 								location.href = 'report'+reportType+'.html'+reportUrl
 							}
-						}
-		
+						}		
 					}else{
 						console.log('analysisReportFace code='+res.code+' msg='+res.msg)
 					}

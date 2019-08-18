@@ -40,6 +40,13 @@
 </section>
 </div>
 
+<div class="daifu_d">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
 <!--一网通请求-->
 <form action="" method="post" id="ywt">
     <input id="ywtVal" type="hidden" name="jsonRequestData" value='' />
@@ -148,7 +155,7 @@ var myApp = new Vue({
 						if(res.data == 5){ //金管家 5
 							location.href = "jinguanjia.html"
 						}else{
-							vm.goReport()
+							vm.goReport(reportId,'',userId,openId,saasId,'')
 						}
 					}
 				},
@@ -201,7 +208,7 @@ var myApp = new Vue({
   				},
   				error: function(){
   					alert('updateCustomerSaas error');
-  					vm.goReport();
+  					vm.getReportSource();
   				}
   			});
   		},
@@ -340,19 +347,54 @@ var myApp = new Vue({
 			});
   		},
   		//跳转报告逻辑
-  		goReport: function(){
-  			if(tp == 201){
-        		window.location.href=bit_testHealthUrl + "/index.html?reportId="+reportId + '&openId=' + openId+'&saasId='+saasId;
-        	}else{
-        		if(reportType == 121 || reportType == 122){
-					location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-				}else if(reportType == 501 || reportType == 502){
-					location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-				}else{
-					location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-				}
-        	}
-  		},
+  		goReport: function(report,sendCustom,user,open,saas,language){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/reportIndex/analysisReportFace",
+				dataType:"json",
+				data:{
+					reportId: report,
+					sendCustomerId: sendCustom,
+					customerId: user,
+					openId: open,
+					saasId: saas,
+					language: language
+				},
+				success:function(res){
+					if(res.code == 200){
+						var visible = res.data.visible; //是否可查看 0不可查看
+						var reportType = res.data.reportType;
+						var source = res.data.source; //来源
+						var reportSource = res.data.reportSource //来源 （判断金管家 5）
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saas+'&source='+source+'&reportSource='+reportSource;
+						if(visible == 0){
+							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+							$('.daifu_d').css("display","block");	
+							$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请您联系你的业务员');
+							$('.daifu_d .tip').remove();
+							$('#iknow').click(function(){
+								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+								$('.daifu_d').css("display","none");
+							});
+						}else{
+							if(reportType == 121 || reportType == 122){
+							location.href = 'report120.html'+reportUrl
+							}else if(reportType == 501 || reportType == 502 ){
+								location.href = 'report500.html'+reportUrl
+							}else if(reportType < 5){
+								location.href = 'report5.html'+reportUrl
+							}else{
+								location.href = 'report'+reportType+'.html'+reportUrl
+							}
+						}
+					}else{
+						console.log('analysisReportFace code='+res.code+' msg='+res.msg)
+					}
+				},
+				error: function(){alert('analysisReportFace error')}
+			});
+		},
   		
   	},
   	mounted:function(){

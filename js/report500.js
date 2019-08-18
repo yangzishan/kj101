@@ -11,8 +11,7 @@ var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var localUrl = location.href;
 var edition = 500;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(clientType){
-	//alert('now in app');
+if(clientType || !openId){
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
 /*******************************交互逻辑*****************************/

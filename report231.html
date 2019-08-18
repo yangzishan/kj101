@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>心理报告</title>
+  <link rel="stylesheet" href="css/basic.css">
+  <link rel="stylesheet" href="css/swiper.min.css">
+  <script>
+      document.write('<link rel="stylesheet" href="css/pychology2.css?t='+new Date().getTime()+'">')
+  </script>
+</head>
+<body>
+  <div class="loadmore loading"></div>
+  <div id="app">
+    <div class="mask"  @click="Touchmove"></div>
+    <div class="popup">
+      <i class="close"  @click="Touchmove"></i>
+      <h1>展示区</h1>
+      <div class="huadong">
+      </div>
+    </div>
+    <div class="user_name">
+      <span class="lishi" @click="gohistory()" style="text-align: center;"><img src="./img/psy2/history.png" ><em>历史</em></span>
+      <span class="time" >2019-06-17 20:34:56</span>
+      <span class="zhinan" @click="stopTouchmove(event)" data-h="指南" :data-t="zhinan" ><img src="./img/psy2/zhinan.png"><i>指南</i></span>
+    </div>
+    <div class="center1">
+      <div class="huaxiang">
+        <h4>情绪画像</h4>
+        <span :class="'sp'+(index+1)" v-for="(item,index) in moodViewsList">{{item}}</span>
+      </div>
+      <div class="zhishu1" data-target="tu">
+          <h4>情绪指数</h4>
+          <div class="ec">
+              <div class="eahar" id="echa3" style="width:9rem;height:4.8rem;position: absolute;top:.45rem;left:-.8rem;" ></div>
+              <div class="biaoji">
+                <span class="hong"><em></em>同龄人平均值</span>
+                <span class="lan"><em></em>您的测量值</span>
+              </div>
+              <span class="btn" data-go="zhishu2">雷达图</span>
+          </div>
+      </div>
+      <div class="zhishu2" data-target="tu">
+          <h4>情绪指数</h4>
+          <div class="ech_box">
+            <div class="eahar" id="main" style="width:6.98rem;height:5.6rem;" ></div>
+            <div class="question_box"  >
+              <span v-for="(item,index) in leidaObj1" :class="'q_' + ( index + 1 )" @click="stopTouchmove(event)" :data-h="item.leidaH" :data-t="item.leidaT">{{item.leidaName}}<i></i></span>
+            </div>
+            <div class="biaoshi"><em><i></i>同龄人平均值</em><em><i></i>您的测量值</em></div>
+          </div>
+          <span class="btn" data-go="zhishu1" >曲线图</span>
+      </div>
+    </div>
+    <div class="center2">
+      <div class="swiper-container" style="height:7.65rem;padding-top:1rem;">
+        <div class="swiper-wrapper">
+            <!-- 适中背景clas="ssw1"   过高过低字体改变颜色 class="ssbox1" -->
+            <template v-for="(item,index) in metricViews">
+              <div class="swiper-slide ssw" :class="{ssw1:item.threshholdType == '适中',ssw:item.threshholdType != '适中'}">
+                <b><i></i></b>
+                <div class="ssbox" :class="{ssbox1:item.threshholdType != '适中'}">
+                    <h5>{{item.metricName}}</h5>
+                    <h6>{{item.threshholdType}}</h6>
+                    <div class="text">
+                      <span><em></em><i>{{item.threshholdExplain.split('\n')[0]}}</i> </span>
+                      <span><em></em><i>{{item.threshholdExplain.split('\n')[1]}}</i> </span>
+                    </div>
+                </div>
+              </div>
+            </template>
+        </div>
+        <!-- 如果需要分页器 -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+    <div class="center3">
+        <div class="jiedu" v-for="(item,index) in metricViews" :class="'jie'+(index+1)">
+          <h4>情绪解读</h4>
+          <div class="jj">
+            <div class="body1" >
+              <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+              <p><em>低</em><em>高</em></p>
+            </div>
+            <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
+          </div>
+          <div class="renzhi">
+            <h2>认识情绪</h2>
+            <div class="renbox">
+              <i class="shu"></i>
+              <i class="heng"></i>
+              <i class="im"></i>
+              <div class="si1 s1">
+                <h3><i></i>行为表现</h3>
+                <div>
+                  <span v-for="site in item.cognitiveEmotions.actionExpression">{{site}}</span>
+                </div>
+              </div><div class="si1 s2">
+                <h3><i></i>认知表现</h3>
+                <div>
+                    <span v-for="site in item.cognitiveEmotions.cognitionExpression">{{site}}</span>
+                </div>
+                </div><div class="si1 s3">
+                    <h3><i></i>情绪表现</h3>
+                    <div>
+                      <span v-for="site in item.cognitiveEmotions.moodExpression">{{site}}</span>
+                    </div>
+                  </div><div class="si1 s4">
+                      <h3><i></i>身体表现</h3>
+                      <div>
+                        <span v-for="site in item.cognitiveEmotions.bodyExpression">{{site}}</span>
+                      </div>
+                    </div>
+            </div> 
+          </div>
+          <div class="jianyi">
+              <h2>建议</h2>
+              <div class="renzhibox">
+                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+              </div>
+          </div>
+          <div class="shuji">
+              <h2>相关推荐</h2>
+              <div class="shubox">
+                <div class="div1">
+                  <span><i></i>书籍推荐：</span><em><b v-for="site in item.bookRecommends">{{site}}</b></em>
+                </div>
+                <div class="div2">
+                  <span><i></i>音乐推荐：</span><em><b v-for="site in item.musicRecommends">{{site}}</b></em>
+                </div>
+                <div class="div3">
+                  <span><i></i>电影推荐：</span><em><b v-for="site in item.movieRecommends">{{site}}</b></em>
+                </div>
+                <div class="div4">
+                  <span><i></i>食物推荐：</span><em><b v-for="site in item.foodRecommends">{{site}}</b></em>
+                </div>
+              </div>
+          </div>
+          <div class="qushi">
+              <h2>历史趋势</h2>
+              <div class="qubox">
+                  <div class="eahar" :id="'qu'+(index+1)" style="width:8.5rem;height:4.8rem;position: absolute;top:-.8rem;left:-.89rem;" ></div>
+              </div>
+          </div>
+        </div>                 
+    </div>
+  </div>
+  <script src="./js/base.js"></script>
+  <script src="js/jquery.js"></script>
+  <script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script> 
+  <script src="./js/vue.min.js"></script> 
+  <script src="js/swiper.min.js"></script>
+  <script type="text/javascript">
+    (function (doc, win) {
+      var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+          var    clientWidth = docEl.clientWidth;
+          if (!clientWidth) return;
+          if(clientWidth>=750){
+              docEl.style.fontSize = '100px';
+          }else{
+              docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+          }
+        };
+      if (!doc.addEventListener) return;
+      win.addEventListener(resizeEvt, recalc, false);
+      doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+  </script>
+  <script>
+    $(function(){
+      var url = analysisreport + '/psyc/report2/queryPsyc231Index'
+      var reportId = (getQueryString('reportId') || 'KJ20190710152833739');
+      var customerId = (getQueryString('userId') || '163'); 
+			var openId = getQueryString('openId');
+			var reportType = getQueryString('reportType');
+			var saasId = getQueryString('saasId');
+			var clientType = getQueryString("clientType"); 
+      var resource = getQueryString("resource");
+      var source = (getQueryString('source') || '');  //通过解析获得
+      var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
+        if(!openId){
+          //alert('now in app');
+          gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&resource='+resource+'&source='+source
+        }
+
+      function go(){
+        var myChart = echarts.init(document.getElementById('main'))
+        var option = {
+          title : {
+              text: '',
+              subtext: ''
+          },
+          tooltip : {
+              trigger: 'axis',
+              show:false
+          },
+          legend: {
+              x : 'center',
+              data:[''],
+              selectedMode:false,
+          },
+          toolbox: {
+              show : true
+          },
+          calculable : true,
+          polar : [
+            {
+              indicator : [
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100 },
+                { text : '', max  : 100}
+              ],
+              center : ['50%', '50%'],
+              radius : 100
+            }
+          ],
+          series : [
+            {
+              type: 'radar',
+              lineStyle: {
+                color:'black'
+              },
+              itemStyle: {
+                normal: {
+                  color : "#88D4EA", // 图表中各个图区域的边框线拐点颜色
+                    areaStyle: {
+                      type: 'macarons',
+                      color: [
+                        'rgba(106,202,229,0.6)'
+                      ]
+                  }
+                }
+              },
+              data : [
+                {
+                  value : v.leidaArr1 ,
+                  name : '',
+                  itemStyle: {
+                    normal: {
+                      color : "#6ACAE5", // 图表中各个图区域的边框线拐点颜色
+                        lineStyle:{
+                          color: [
+                            'green'
+                          ]
+                        },
+                        areaStyle: {
+                          type: 'macarons',
+                          color: [
+                            'rgba(106,202,229,0.6)'
+                          ]
+                      }
+                    }
+                  },
+                },
+                {
+                  value : v.leidaArr2 ,
+                  name : '',
+                  itemStyle: {
+                    normal: {
+                      color:'#DC7DEF',
+                      lineStyle: {
+                        type: 'dashed'
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+          
+        };
+          myChart.setOption(option); 
+      }
+
+      function pys(){
+        var myChart3 = echarts.init(document.getElementById('echa3'));
+        // 指定图表的配置项和数据
+        var option3 = {
+              title : {
+                  text: '',
+                  subtext: ''
+              },
+              tooltip : {
+                  trigger: 'axis',
+                  show:false
+              },
+              legend: {
+                  data:['',''],
+                  selectedMode:false,
+              },
+              toolbox: {
+                  show : false,
+                  feature : {
+                      mark : {show: true},
+                      dataView : {show: true, readOnly: false},
+                      magicType : {show: true, type: ['line', 'bar']},
+                      restore : {show: true},
+                      saveAsImage : {show: true}
+                  }
+              },
+              calculable : true,
+              xAxis : [
+                  {
+                    type : 'category',
+                    boundaryGap : false,
+                    data : v.leidaTitle,
+                    axisLine: {
+                      lineStyle: {
+                        type: 'solid',
+                        color: '#9B9B9B',//左边线的颜色
+                        width:'1'//坐标线的宽度
+                      }
+                    },
+                    axisLabel: {  
+                      interval:0,  
+                      formatter:function(value){
+                        return value.split("").join("\n");
+                      },
+                      textStyle:{
+                        color:'#4A4A4A'
+                      }
+                    },
+                    axisTick:{
+                        lineStyle:{color:'#9B9B9B'}    // x轴刻度的颜色
+                      },
+                    splitLine :{    //网格线
+                      lineStyle:{
+                        type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                      },
+                      show:false //隐藏或显示
+                    },
+                  }
+              ],
+              yAxis : [
+                  {
+                      type : 'value',
+                      splitNumber:5,
+                      axisLabel : {
+                          
+                          formatter: function (value) {
+                            var texts = [];
+                            if(value==0){
+                            texts.push('低');
+                            }
+                            else if (value <=25) {
+                            texts.push(' ');
+                            }
+                            else if (value<= 50) {
+                            texts.push(' ');
+                            }
+                            else if(value<= 75){
+                            texts.push(' ');
+                            }
+                            else if(value == 100){
+                            texts.push('高');
+                            }
+                            return texts;
+                          },
+                          textStyle:{
+                            color:'#4A4A4A'
+                          }
+                    },
+                      axisLine: {
+                          lineStyle: {
+                              type: 'solid',
+                              color: '#9B9B9B',//左边线的颜色
+                              width:'1'//坐标线的宽度
+                          }
+                      },
+                      splitLine :{    //网格线
+                          lineStyle:{
+                              type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                          },
+                          show:true //隐藏或显示
+                      }
+                    
+                  }
+              ],
+              series : [
+                  {
+                      name:'',
+                      type:'line',
+                      smooth: true,  //true 为平滑曲线，false为直线
+                      symbol:'circle',//拐点样式
+                      data:v.leidaArr1,
+                      itemStyle : {  
+                        normal : {  
+                          color:'#7489FA',  
+                          lineStyle:{  
+                              color:'#7489FA'  
+                          }  
+                        }  
+                      }, 
+                  },
+                  {
+                      name:'',
+                      type:'line',
+                      data:v.leidaArr2,
+                      smooth: true,  //true 为平滑曲线，false为直线
+                      itemStyle : {  
+                        normal : {  
+                          color:'#FA7979',  
+                          lineStyle:{  
+                              color:'#FA7979'  
+                          }  
+                        }  
+                      }, 
+                  }
+              ]
+          };
+        myChart3.setOption(option3);
+      };
+
+      function trendChart(el,val,date,time){
+        setTimeout(function(){
+          var qushi = echarts.init(document.getElementById(el));
+          var ou = {
+                title : {
+                    text: '',
+                    subtext: ''
+                },
+                tooltip : {
+                    trigger: 'axis',
+                    show:false
+                },
+                legend: {
+                    data:['',''],
+                    selectedMode:false,
+                },
+                toolbox: {
+                    show : false,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {show: true, type: ['line', 'bar']},
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : date,
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color: '#9B9B9B',//左边线的颜色
+                                width:'1'//坐标线的宽度
+                            }
+                        },
+                        axisLabel: {  
+                          interval:0,  
+                          show: true,
+                          textStyle: {
+                              color: '#9B9B9B',
+                              fontSize:12
+                          }
+                        },
+                        axisTick:{
+                          lineStyle:{color:'#9B9B9B'}    // x轴刻度的颜色
+                        },
+
+                        splitLine :{    //网格线
+                            lineStyle:{
+                                type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                            },
+                            show:false //隐藏或显示
+                        },
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value',
+                        splitNumber:4,
+                        // data : ['过高','偏高','适中','偏低','过低'],
+                        axisLabel : {
+                          // formatter : ['过高','偏高','适中','偏低','过低'],
+                          // textStyle : {
+                          //   // baseline:'middle'
+                          // }
+                            formatter: function (value) {
+                              var texts = [];
+                              if(value==0){
+                              texts.push('过低');
+                              }
+                              else if (value <=25) {
+                              texts.push('偏低');
+                              }
+                              else if (value<= 50) {
+                              texts.push('适中');
+                              }
+                              else if(value<= 75){
+                              texts.push('过高');
+                              }
+                              else{
+                              texts.push('偏高');
+                              }
+                              return texts;
+                            },
+                            textStyle: {
+                              color: '#9B9B9B',
+                              fontSize:12
+                          }
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'solid',
+                                color: '#9B9B9B',//左边线的颜色
+                                width:'1'//坐标线的宽度
+                            }
+                        },
+                        splitLine :{    //网格线
+                            lineStyle:{
+                                type:'dashed'    //设置网格线类型 dotted：虚线   solid:实线
+                            },
+                            show:true //隐藏或显示
+                        }
+                    }
+                ],
+                series : [
+                    {
+                        name:'',
+                        type:'line',
+                        smooth: false,             
+                        symbol:'emptyCircle',//拐点样式
+                        symbolSize:[3,3],
+                        data:val,
+                        itemStyle : {  
+                          normal : {  
+                            color:'#6A7AFB',  
+                            lineStyle:{  
+                                color:'#6A7AFB'  
+                            }  
+                          }  
+                        }, 
+                    }
+                ]
+            };
+            qushi.setOption(ou);
+        },time)   
+      };
+
+      function swi(){
+        var swiper = new Swiper('.swiper-container', {
+          slidesPerView: 3,
+          spaceBetween: 30,
+          centeredSlides: true,
+          loop: false,
+          pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+          },on: {
+            slideChangeTransitionEnd: function(){
+              console.log(this.activeIndex + 1);
+              $('.jiedu').hide()
+              $('.jie' + (this.activeIndex + 1) ).show()
+            },
+          },
+        });
+      }
+      function ban(){
+        $('.btn').on('click',function(){
+          var targ = $(this).attr('data-go')
+          $(this).parents('[data-target=tu]').hide()
+          $('.'+targ).show()
+        })
+      }
+      setTimeout(function(){
+        go()
+        pys()
+        swi()
+        ban()
+      },2000)
+
+
+      // 获取url参数方法
+      function getQueryString(name) {
+        var    result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+        if (result == null || result.length < 1) {
+            return "";
+        }
+        return result[1];
+      };
+
+      var v = new Vue({
+        el : '#app',
+        data : function(){
+          return {
+            nickName: '',
+            inspectDate:'',
+            inspectDateStr: '',
+            sex:'',
+            info : {},
+            leidaArr1 : [], // 测量值
+            leidaArr2 : [], // 平均值
+            leidaTitle: [], //名称
+            leidaObj1 : [
+              {leidaNo : 0 , jdNo : 4 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '攻击性' ,   leidaT : '123' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '攻击性'},
+              {leidaNo : 1 , jdNo : 3 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '神经质' ,   leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '神经质'},
+              {leidaNo : 2 , jdNo : 2 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '抑郁' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '抑郁'},
+              {leidaNo : 3 , jdNo : 7 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '自我调节' , leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '自我调节'},
+              {leidaNo : 4 , jdNo : 6 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '活力' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '活力'},
+              {leidaNo : 5 , jdNo : 5 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '自信' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '自信'},
+              {leidaNo : 6 , jdNo : 8 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '平衡' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '平衡'},
+              {leidaNo : 7 , jdNo : 1 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '焦虑' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '焦虑'},
+              {leidaNo : 8 , jdNo : 0 , celiangNum : -2 , pingjunNum : -1 , left: 0 , leftP : 0 , width : 0 , leidaH : '压力' ,     leidaT : '' , title : '' , Max: 0 , Min : 0 , biaoqian : '' , textD : '' , leidaName : '压力'}
+            ],
+            valueMax : 100,
+            valueMin : 0,
+            zhinan : '1、本潜在情绪测试报告可协助您了解自身的各类情绪状态，建议您认真阅读。如果在阅读的过程中有不明白的地方或疑问，可向专业人士咨询。<br>2、本测试报告可作为您评估自身情绪状态的一个参考，而不是诊断。如果需要，强烈建议您向专业人士作进一步的检查和咨询。<br>3、本测试报告正文内容分为两大部分。第一部分为各情绪维度的解读，您可了解到自身9类情绪的水平、所在同年龄段人群位置及其详细建议；第二部分为整体情绪状态解读，您可了解到自身正、负性等情绪状态分布及其建议。', //指南
+            moodViews:[],
+            moodViewsList:[],
+            metricViews:[],
+
+          }
+        },
+        methods: {
+          // history
+          gohistory : function(){
+            window.location = gohistoryUrl;
+          },
+          Touchmove:function(){
+            $('.mask').removeClass('show');
+            $('.popup').removeClass('show');
+            $('body').css({'position':'static'}); 
+            $(window).scrollTop(sTop);
+          },
+          stopTouchmove:function(event){
+            $('.mask').addClass('show');
+            $('.popup').addClass('show');
+            sTop = $(window).scrollTop();
+            $('body').css({'position':'fixed','top':-sTop,'width':'7.5rem'});      
+            var curr = $(event.currentTarget) 
+            $('.popup h1').text(curr.attr('data-h'))
+            $('.popup .huadong').html(curr.attr('data-t'))
+          },
+          //请求数据
+          queryPsyc231Index: function(){
+            var vm = this;
+            $.ajax({
+              type:'post',
+              url:url,
+              dataType:'Json',
+              data:{
+                reportId:reportId,
+                customerId:customerId,
+                saasId:saasId
+              },
+              success:function(res){
+                if(res.code == 200){
+                  vm.nickName = res.result.nickName
+                  vm.inspectDateStr = res.result.inspectDateStr
+                  vm.sex = res.result.sex
+                  vm.moodViews = res.result.moodViews
+                  setTimeout(function(){vm.filterData()},1000)
+                  for(var i = 0; i<vm.moodViews.length; i++){
+                    vm.moodViewsList = vm.moodViewsList.concat(vm.moodViews[i].split('、'));
+                    console.log(vm.moodViewsList);
+                  }
+                  vm.metricViews = res.result.metricViews
+                  for(var i=0; i< vm.metricViews.length;i++){
+                    var ele = 'qu'+(i+1);
+                    console.log(ele);
+                    var valArray = [],dateArray = [];
+                    for(var n=0;n<vm.metricViews[i].historyTrendViews.length;n++){
+                      valArray.push(vm.metricViews[i].historyTrendViews[n].score)
+                      dateArray.push(vm.metricViews[i].historyTrendViews[n].inspectDate.substring(0,10))
+                    };
+                    console.log(valArray,dateArray);
+                    trendChart(ele,valArray,dateArray,1000); 
+                  };
+                  
+
+                }
+              },
+              error:function(){console.log('queryPsyc231Index error')}
+            })
+          },
+          filterData: function(){
+            var that = this;
+            $.each(that.leidaObj1,function(index,item){
+              $.each(that.metricViews,function(a,b){
+                if(b.metricName == item.leidaName){
+                  item.celiangNum = b.targetScore
+                  item.pingjunNum = b.avgScore
+                  item.biaoqian = b.threshholdType 
+                  var text1 = []
+                  var text = '';
+                  (function(){
+                    if(b.metricExplain && b.metricExplain!= null ){
+                      text = b.metricExplain.split('\n').join('<br>')
+                    }
+                    if(b.threshholdExplain && b.threshholdExplain!= null ){
+                      text1 = b.threshholdExplain.split('\n') 
+                    }
+                  })();
+                  item.title = text;
+                  item.textD = text1;
+                  item.Max = that.valueMax
+                  item.Min = that.valueMin
+                  item.leidaT = b.metricExplain
+                  //console.log(item.leidaT)
+                  // 进度条动画效果
+                  return true;
+                }
+              })
+            })
+            // 测量值
+            $.each(that.leidaObj1,function(index,item){
+              that.leidaArr1[item.leidaNo] = item.celiangNum
+            })
+            console.log('测量值'+that.leidaArr1)
+            // 平均值
+            $.each(that.leidaObj1,function(index,item){
+              that.leidaArr2[item.leidaNo] = item.pingjunNum
+            })
+            console.log('平均值'+that.leidaArr2)
+            //
+            $.each(that.leidaObj1,function(index,item){
+              that.leidaTitle[item.leidaNo] = item.leidaName
+            })
+            console.log('名称'+that.leidaTitle)
+          },
+
+
+        },
+        mounted: function(){
+          this.queryPsyc231Index()
+        }
+      });
+
+    })
+  </script>
+</body>
+</html>

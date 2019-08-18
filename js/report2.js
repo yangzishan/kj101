@@ -20,9 +20,9 @@ if(reportType == 5 || reportType < 6){
 	$('header').css("display","none")
 };
 var payStr = '';
-alert('clientType='+clientType);
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(clientType){
+if(clientType || !openId){
+	alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 };
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言

@@ -11,10 +11,9 @@ var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print130_kh2.html?viewType=2&reportId=';
-alert('clientType='+clientType);
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
-if(clientType == 'app'){
-	//alert('now in app');
+if(clientType || !openId){
+	alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=khyapp'+'&resource='+resource+'&clientType='+clientType+'&source='+source
 };
 
@@ -163,7 +162,6 @@ var myApp = new Vue({
 			$('.v_overlert .tc_sy .bxt').text(txt)
 			showMask()
 			showAlert()
-			
 		},
 		goSecond: function(item){
 			var vm = this

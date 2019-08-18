@@ -145,7 +145,13 @@ var myapp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
-						vm.goReport(res.data.reportId,res.data.reportType,res.data.customerId,res.data.openId,'')
+						var reportId = res.data.reportId;
+						var reportType = res.data.reportType;
+						var customerId = res.data.customerId;
+						var openId = res.data.openId
+						var source = res.data.source
+						var reportSource = res.data.reportSource
+						vm.goReport(reportId,reportType,customerId,openId,source,reportSource)
 					}else{
 						alert(res.msg)
 						console.log(res.code)
@@ -154,9 +160,9 @@ var myapp = new Vue({
 				error: function(){'userLatestReport error'}
 			});
 		},
-		goReport: function(reportId,reportType,userId,openId,saasId){
+		goReport: function(reportId,reportType,userId,openId,source,reportSource){
 			var vm = this;
-			var reportUrl = '.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&cannsee=jgj'//cansee 金管家app过去的
+			var reportUrl = '.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&source='+source+'&cannsee=jgj'//cansee 金管家app过去的
 			if(reportType == 121 || reportType == 122){
 				location.href='report120'+reportUrl
 			}else if(reportType == 501 || reportType == 502){

@@ -15,8 +15,7 @@ var targetImprove_data = '/api/v202/report/targetImprove'
 var payStr = '';
 //var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId;
 gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
-if(!openId){
-	//alert('now in app');
+if(clientType || !openId){
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 }
 /*******************************交互逻辑*****************************/
