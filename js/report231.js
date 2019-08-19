@@ -117,6 +117,9 @@ $(function(){
                   text: '',
                   subtext: ''
               },
+              grid:{
+                y2:80,
+              },
               tooltip : {
                   trigger: 'axis',
                   show:false
