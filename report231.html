@@ -116,10 +116,10 @@
                     </div>
             </div> 
           </div>
-          <div class="jianyi" v-if="metricViews && metricViews.threshholdSuggestion">
+          <div class="jianyi" v-if="item && item.threshholdSuggestion">
               <h2>建议</h2>
               <div class="renzhibox">
-                <span><i></i><em>{{vm.metricViews.threshholdSuggestion}}</em></span>
+                <span><i></i><em>{{item.threshholdSuggestion}}</em></span>
                 <!-- <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span> -->
               </div>
           </div>
@@ -566,7 +566,7 @@
             clickable: true,
           },on: {
             slideChangeTransitionEnd: function(){
-              // console.log(this.activeIndex + 1);
+              // console.log(this.activeIndex + 1); 
               $('.jiedu').hide()
               $('.jie' + (this.activeIndex + 1) ).show()
             },
