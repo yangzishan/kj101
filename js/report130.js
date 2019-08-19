@@ -13,7 +13,7 @@ var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print130_kh2.html?viewType=2&reportId=';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType || !openId){
-	alert('now in app');
+	//alert('now in app');
 	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&source=khyapp'+'&resource='+resource+'&clientType='+clientType+'&source='+source
 };
 
