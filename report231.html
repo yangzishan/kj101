@@ -82,7 +82,7 @@
           <h4>情绪解读</h4>
           <div class="jj">
             <div class="body1" >
-              <div class="sen_box"><div class="box"><span class="red" ><em class="zhezhao"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" style=" "><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
+              <div class="sen_box"><div class="box"><span class="red" :style="item.left"><em class="zhezhao" :style="item.width"></em><i class="r_img"><img src="./img/psy2/n_head.png" alt=""></i><i class="r_k"></i></span><span class="yellow" :style="item.leftP"><i class="y_img"><img src="./img/psy2/o_head.png" alt=""></i><i class="y_k"></i></span></div></div>
               <p><em>低</em><em>高</em></p>
             </div>
             <div class="h4_biaoshi"><em><i></i>您的测量值</em><em><i></i>同龄人群平均值</em></div>
@@ -116,11 +116,11 @@
                     </div>
             </div> 
           </div>
-          <div class="jianyi">
+          <div class="jianyi" v-if="metricViews && metricViews.threshholdSuggestion">
               <h2>建议</h2>
               <div class="renzhibox">
-                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
-                <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span>
+                <span><i></i><em>{{vm.metricViews.threshholdSuggestion}}</em></span>
+                <!-- <span><i></i><em>通过多运动、和亲朋好友联系、看喜剧电影、旅游等方式来维持自身平衡；适当增加自身的紧迫性和积极性；</em></span> -->
               </div>
           </div>
           <div class="shuji">
@@ -579,12 +579,7 @@
           $('.'+targ).show()
         })
       }
-      setTimeout(function(){
-        go()
-        pys()
-        swi()
-        ban()
-      },2000)
+      
 
 
       // 获取url参数方法
@@ -651,6 +646,7 @@
           //请求数据
           queryPsyc231Index: function(){
             var vm = this;
+            var that = this;
             $.ajax({
               type:'post',
               url:url,
@@ -661,6 +657,7 @@
                 saasId:saasId
               },
               success:function(res){
+                
                 if(res.code == 200){
                   vm.nickName = res.result.nickName
                   vm.inspectDateStr = res.result.inspectDateStr
@@ -678,13 +675,27 @@
                     var valArray = [],dateArray = [];
                     for(var n=0;n<vm.metricViews[i].historyTrendViews.length;n++){
                       valArray.push(vm.metricViews[i].historyTrendViews[n].score)
-                      dateArray.push(vm.metricViews[i].historyTrendViews[n].inspectDate.substring(0,10))
+                      dateArray.push(vm.metricViews[i].historyTrendViews[n].inspectDate.substring(5,10))
                     };
                     console.log(valArray,dateArray);
                     trendChart(ele,valArray,dateArray,1000); 
                   };
-                  
-
+                  $.each(vm.metricViews,function(index,item){
+                    console.log(item)
+                    // that.leidaObj1[index].left = item.celiangNum / 100
+                    setTimeout(function(){
+                      var width =  (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
+                      vm.metricViews[index]['width'] = 'width:' + width + 'rem;'
+                      var left = (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+                      vm.metricViews[index]['left'] = 'left:'+ left  + '%;'
+                      console.log(item.left)
+                    },100)
+                    var leftP = (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+                    vm.metricViews[index]['leftP'] = 'left:'+ leftP  + '%;'
+                    console.log(item.leftP)
+                  })
+            // 进度条动画效果
+                  console.log(vm.metricViews)
                 }
               },
               error:function(){console.log('queryPsyc231Index error')}
@@ -733,6 +744,30 @@
             $.each(that.leidaObj1,function(index,item){
               that.leidaTitle[item.leidaNo] = item.leidaName
             })
+            // $.each(that.leidaObj1,function(index,item){
+            //   console.log(item)
+            //   // that.leidaObj1[index].left = item.celiangNum / 100
+            //   setTimeout(function(){
+            //   var width =  (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
+            //   item.width = 'width:' + width + 'rem;'
+            //   var left = (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+            //   item.left = 'left:'+ left  + '%;'
+            //   console.log(item.left)
+
+            // },100)
+            // var leftP = (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+            // item.leftP = 'left:'+ leftP  + '%;'
+            // console.log(item.leftP)
+            // })
+            // 进度条动画效果
+            setTimeout(function(){
+                    $('#app').show()
+                    $('.loadmore').hide()
+                    go()
+                    pys()
+                    swi()
+                    ban()
+                  },1500)
             console.log('名称'+that.leidaTitle)
           },
 

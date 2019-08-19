@@ -356,6 +356,7 @@ body #app .center3 .jiedu .jj {
 }
 body #app .center3 .jiedu .renzhi {
   width: 100%;
+  margin-bottom:.2rem;
 }
 body #app .center3 .jiedu .renzhi h2 {
   font-size: .34rem;
@@ -379,7 +380,7 @@ body #app .center3 .jiedu .renzhi .renbox .heng {
   width: 6.4rem;
   height: .02rem;
   background: #1FA1FD;
-  top: 45%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -389,13 +390,15 @@ body #app .center3 .jiedu .renzhi .renbox .im {
   height: .82rem;
   background: url(../img/psy2/qiu.png) no-repeat center;
   background-size: .62rem;
-  top: 45%;
+  top: 42%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 body #app .center3 .jiedu .renzhi .renbox .si1 {
   width: 50%;
   display: inline-block;
+  height:3.2rem;
+  vertical-align: top;
 }
 body #app .center3 .jiedu .renzhi .renbox .si1 h3 {
   color: #F5A623;
@@ -533,7 +536,7 @@ body #app .center3 .jiedu .shuji .shubox div span i {
   height: .32rem;
   background: url(../img/psy2/shu.png) no-repeat center;
   background-size: .32rem;
-  vertical-align: .5rem;
+  vertical-align: top;
   margin-top: .01rem;
   margin-right: .1rem;
 }
@@ -556,7 +559,7 @@ body #app .center3 .jiedu .shuji .shubox .div2 i {
   height: .32rem;
   background: url(../img/psy2/yinyue.png) no-repeat center;
   background-size: .32rem;
-  vertical-align: .5rem;
+  vertical-align: top;
   margin-top: .01rem;
   margin-right: .1rem;
 }
@@ -566,7 +569,7 @@ body #app .center3 .jiedu .shuji .shubox .div3 i {
   height: .32rem;
   background: url(../img/psy2/dianying.png) no-repeat center;
   background-size: .32rem;
-  vvertical-align: .5rem;
+  vertical-align: top;
   margin-top: .01rem;
   margin-right: .1rem;
 }
@@ -576,7 +579,7 @@ body #app .center3 .jiedu .shuji .shubox .div4 i {
   height: .32rem;
   background: url(../img/psy2/shi.png) no-repeat center;
   background-size: .32rem;
-  vertical-align: .5rem;
+  vertical-align: top;
   margin-top: .01rem;
   margin-right: .1rem;
 }
@@ -621,7 +624,10 @@ body .loadmore {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: none;
+  display: block;
+}
+body #app {
+  display:none;
 }
 body .loadmore.loading::before {
   content: '';
