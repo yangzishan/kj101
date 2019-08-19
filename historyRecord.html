@@ -19,12 +19,7 @@
 			<p class="t-cen txt1"><span>历史报告</span></p>
 		</header>
 		<div class="history_b" id="thelist">
-			<template v-if="source != 'khyapp'">
-				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
-					<span class="dat">{{item.inspectDateStr}}</span>
-					<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
-				</a>
-			</template>
+			
 			<template v-if="source == 'khyapp'">
 				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
 					<span class="dat">{{item.inspectDateStr}}</span>
@@ -32,10 +27,16 @@
 					<span class="fr num" style="margin-right: .4rem;">{{item.mobile}}</span>
 				</a>
 			</template>
-			<template v-if="source == 'psyc'">
+			<template v-else-if="source == 'psyc'">
 				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
 					<span class="dat">{{item.inspectDateStr}}</span>
 					<i class="arr fr"></i>
+				</a>
+			</template>
+			<template v-else>
+				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+					<span class="dat">{{item.inspectDateStr}}</span>
+					<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
 				</a>
 			</template>
 				
@@ -80,17 +81,15 @@ var openId = getQueryString('openId');
 var isAgent = getQueryString('isAgent');
 var saasId = getQueryString('saasId');
 var clientType = (getQueryString("clientType") || '');
-var source = (getQueryString('source') || '');  //通过解析获得
-var resource = getQueryString("resource"); //康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  //app交互返回获得
-//if(resource == 'khyapp'){source = 'khyapp'} 看需求打开（如果是康浩app 不管从什么报告过来都只显示康浩历史）
-if(openId == null || openId == undefined){
-	openId = ''
-}
+var source = (getQueryString('source') || '');  //解析获得   康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  //app交互返回获得
+var resource = getQueryString("resource");  //无用暂留
+
+if(openId == null || openId == undefined){ openId = ''}
+
 zhuge.track('进入历史列表页', { //埋点t
 	'openId' : openId,  
 	'渠道' : '微信'
 });
-var aIndex = 0;//记录索引
 
 var myApp = new Vue({
 	el:'#appVUE',
@@ -156,7 +155,7 @@ var myApp = new Vue({
 						var visible = res.data.visible; //是否可查看 0不可查看
 						var reportType = res.data.reportType;
 						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 
-						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&cansee='+cansee;
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&source='+source+'&cansee='+cansee;
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	
