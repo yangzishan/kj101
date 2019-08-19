@@ -369,7 +369,8 @@ body #app .center3 .jiedu .renzhi .renbox {
 body #app .center3 .jiedu .renzhi .renbox .shu {
   position: absolute;
   height: 5.5rem;
-  width: .02rem;
+  /* width: .02rem; */
+  width: 2px;
   background: #1FA1FD;
   top: 0;
   left: 50%;
@@ -378,7 +379,9 @@ body #app .center3 .jiedu .renzhi .renbox .shu {
 body #app .center3 .jiedu .renzhi .renbox .heng {
   position: absolute;
   width: 6.4rem;
-  height: .02rem;
+  /* height: .02rem; */
+  height: 2px;
+
   background: #1FA1FD;
   top: 42%;
   left: 50%;
