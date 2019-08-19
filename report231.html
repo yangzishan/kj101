@@ -409,6 +409,7 @@
                       type:'line',
                       data:v.leidaArr2,
                       smooth: true,  //true 为平滑曲线，false为直线
+                      symbol:'circle',//拐点样式
                       itemStyle : {  
                         normal : {  
                           color:'#FA7979',  
@@ -565,7 +566,7 @@
             clickable: true,
           },on: {
             slideChangeTransitionEnd: function(){
-              console.log(this.activeIndex + 1);
+              // console.log(this.activeIndex + 1);
               $('.jiedu').hide()
               $('.jie' + (this.activeIndex + 1) ).show()
             },
