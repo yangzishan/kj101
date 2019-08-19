@@ -82,7 +82,7 @@ var isAgent = getQueryString('isAgent');
 var saasId = getQueryString('saasId');
 var clientType = (getQueryString("clientType") || '');
 var source = (getQueryString('source') || '');  //解析获得   康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  //app交互返回获得
-var resource = getQueryString("resource");  //无用暂留
+var resource = getQueryString("resource");  //无用暂留（app端自己写死的值）
 
 if(openId == null || openId == undefined){ openId = ''}
 
@@ -154,7 +154,7 @@ var myApp = new Vue({
 					if(res.code == 200){
 						var visible = res.data.visible; //是否可查看 0不可查看
 						var reportType = res.data.reportType;
-						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 
+						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 reportSource=5 
 						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&source='+source+'&cansee='+cansee;
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});

@@ -5,11 +5,11 @@ var customerId = getQueryString('customerId');
 var userId = getQueryString('customerId');
 var faceUserId = getQueryString('faceUserId');
 var saasId = getQueryString('saasId');
-var source = getQueryString('source'); //来源  例：天津农商行:tjnsh
+var source = getQueryString('source'); //来源  例：天津农商行:tjnsh 。解析接口增加字段
 var kjInviteType = getQueryString("kjInviteType"); //康加邀约类型   暂时不用了
 var sendCustomerId = ''
 var clientType = '';
-var resource = ''; //康浩 khyapp  康加 kjyapp  //康加健康：kjjkapp
+var resource = ''; //来接受app交互传递的数据（app自己写死的值）， 康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  ···
 
 console.log(reportId);
 console.log(openId);
@@ -66,10 +66,10 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 		};
 		clientType = obj.clientType;  //app
 		var reportType = obj.reportType;
-		resource = obj.resource;   
+		resource = obj.resource; //康浩 khyapp  康加 kjyapp  //康加健康：kjjkapp  （app自己写死的值）
 		
 		//alert('dataUrl='+dataUrl);
-		//alert('reportId='+reportId+'--sendCustomerId='+sendCustomerId+'--customerId='+appCustomerId+'--clientType='+clientType+'--reportType='+reportType+'--resource='+resource);
+		//alert('reportId='+reportId+'--sendCustomerId='+sendCustomerId+'--customerId='+appCustomerId+'--clientType='+clientType+'--reportType='+reportType+'--source='+source);
 		//var responseData = { 'code':'200' }; responseCallback(responseData);  //回调客户端
 		if(reportId == '000000'){
 			location.href = 'report000000.html'
@@ -79,8 +79,7 @@ setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 					analysisReportFace(reportId,sendCustomerId,appCustomerId,'','',language)
 				},500)
 			}
-		}
-				
+		}		
 	})
 })
 /*******************************交互逻辑end***************************/

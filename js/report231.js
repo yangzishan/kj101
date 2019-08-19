@@ -2,16 +2,17 @@ $(function(){
       var url = analysisreport + '/psyc/report2/queryPsyc231Index'
       var reportId = (getQueryString('reportId') || 'KJ20190710152833739');
       var customerId = (getQueryString('userId') || '163'); 
-			var openId = getQueryString('openId');
-			var reportType = getQueryString('reportType');
-			var saasId = getQueryString('saasId');
-			var clientType = getQueryString("clientType"); 
+	  var openId = getQueryString('openId');
+	  var reportType = getQueryString('reportType');
+	  var saasId = getQueryString('saasId');
+	  var clientType = getQueryString("clientType"); 
+      var reportSource = getQueryString("reportSource"); //通过解析获得
       var resource = getQueryString("resource");
-      var source = (getQueryString('source') || '');  //通过解析获得
-      var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source
-        if(!openId){
+      var source = (getQueryString('source') || '');  //通过解析获得 或 app传递
+      var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&openId='+openId+'&saasId='+saasId+'&clientType='+clientType+'&source='+source
+        if(!openId || clientType){
           //alert('now in app');
-          gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source
+          gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
         }
 
       function go(){
