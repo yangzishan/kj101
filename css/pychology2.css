@@ -263,7 +263,9 @@ body #app .center2 .ssw > b > i {
   transform: translate(-50%, -50%);
 }
 body #app .center2 .ssw .ssbox {
-  padding-top: .6rem;
+  position: relative;
+  top: 0.4rem;
+  height: 4.4rem;
 }
 body #app .center2 .ssw .ssbox h5 {
   font-size: .4rem;
@@ -415,7 +417,7 @@ body #app .center3 .jiedu .renzhi .renbox .si1 h3 i {
   width: .4rem;
   height: .4rem;
   background: url(../img/psy2/ren.png) no-repeat center;
-  background-size: .3rem;
+  background-size: .28rem;
   vertical-align: top;
   margin-right: .5rem;
   margin-left: .14rem;
@@ -447,7 +449,7 @@ body #app .center3 .jiedu .renzhi .renbox .s2 h3 i {
   width: .4rem;
   height: .4rem;
   background: url(../img/psy2/shou.png) no-repeat center;
-  background-size: .33rem;
+  background-size: .3rem;
   vertical-align: top;
   margin-right: .64rem;
 }
@@ -463,7 +465,7 @@ body #app .center3 .jiedu .renzhi .renbox .s3 h3 i {
   width: .4rem;
   height: .4rem;
   background: url(../img/psy2/lian.png) no-repeat center;
-  background-size: .4rem;
+  background-size: .37rem;
   vertical-align: top;
   margin-right: .64rem;
 }
@@ -479,7 +481,7 @@ body #app .center3 .jiedu .renzhi .renbox .s4 h3 i {
   width: .4rem;
   height: .4rem;
   background: url(../img/psy2/bing.png) no-repeat center;
-  background-size: .4rem;
+  background-size: .37rem;
   vertical-align: top;
   margin-right: .64rem;
 }
@@ -954,14 +956,14 @@ body #app .body1 .sen_box .box .yellow .y_k {
 }
 body #app .body1 p {
   width: 100%;
-  padding-left: .88rem;
+  padding-left: .55rem;
   position: absolute;
   top: .72rem;
   z-index: 8;
 }
 body #app .body1 p em:nth-child(2) {
   position: absolute;
-  right: .86rem;
+  right: .55rem;
 }
 body .h4_biaoshi {
   color: #9B9B9B;
@@ -984,8 +986,9 @@ body .h4_biaoshi em i {
   height: .3rem;
   background: url(../img/psy2/nib.png) no-repeat center;
   background-size: .37rem;
-  vertical-align: text-top;
   margin-right: .09rem;
+  position: relative;
+  top:.06rem;
 }
 body .h4_biaoshi em:nth-child(2) i {
   background: url(../img/psy2/pb.png) no-repeat center;

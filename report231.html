@@ -24,7 +24,7 @@
     </div>
     <div class="user_name">
       <span class="lishi" @click="gohistory()" style="text-align: center;"><img src="./img/psy2/history.png" ><em>历史</em></span>
-      <span class="time" >2019-06-17 20:34:56</span>
+      <span class="time" >{{inspectDateStr}}</span>
       <span class="zhinan" @click="stopTouchmove(event)" data-h="指南" :data-t="zhinan" ><img src="./img/psy2/zhinan.png"><i>指南</i></span>
     </div>
     <div class="center1">
@@ -61,7 +61,7 @@
             <!-- 适中背景clas="ssw1"   过高过低字体改变颜色 class="ssbox1" -->
             <template v-for="(item,index) in metricViews">
               <div class="swiper-slide ssw" :class="{ssw1:item.threshholdType == '适中',ssw:item.threshholdType != '适中'}">
-                <b><i></i></b>
+                <b><i :style="'background: url(./img/psy2/bgtt'+ item.metricId +'.png) no-repeat center;background-size: .72rem;'"></i></b>
                 <div class="ssbox" :class="{ssbox1:item.threshholdType != '适中'}">
                     <h5>{{item.metricName}}</h5>
                     <h6>{{item.threshholdType}}</h6>
@@ -109,7 +109,7 @@
                       <span v-for="site in item.cognitiveEmotions.moodExpression">{{site}}</span>
                     </div>
                   </div><div class="si1 s4">
-                      <h3><i></i>身体表现</h3>
+                      <h3><i></i>生理表现</h3>
                       <div>
                         <span v-for="site in item.cognitiveEmotions.bodyExpression">{{site}}</span>
                       </div>

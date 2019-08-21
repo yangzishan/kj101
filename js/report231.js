@@ -326,17 +326,17 @@ $(function(){
                               if(value==0){
                               texts.push('过低');
                               }
-                              else if (value <=25) {
+                              else if (value <=25 && value > 0) {
                               texts.push('偏低');
                               }
-                              else if (value<= 50) {
+                              else if (value<= 50 && value > 25) {
                               texts.push('适中');
                               }
-                              else if(value<= 75){
-                              texts.push('过高');
+                              else if(value<= 75 && value > 50){
+                              texts.push('偏高');
                               }
                               else{
-                              texts.push('偏高');
+                              texts.push('过高');
                               }
                               return texts;
                             },
@@ -427,6 +427,7 @@ $(function(){
             nickName: '',
             inspectDate:'',
             inspectDateStr: '',
+            metricId:'',
             sex:'',
             info : {},
             leidaArr1 : [], // 测量值
@@ -492,6 +493,7 @@ $(function(){
                   vm.inspectDateStr = res.result.inspectDateStr
                   vm.sex = res.result.sex
                   vm.moodViews = res.result.moodViews
+                  vm.metricId = res.result.metricId
                   setTimeout(function(){vm.filterData()},1000)
                   for(var i = 0; i<vm.moodViews.length; i++){
                     vm.moodViewsList = vm.moodViewsList.concat(vm.moodViews[i].split('、'));
@@ -502,10 +504,12 @@ $(function(){
                     var ele = 'qu'+(i+1);
                     console.log(ele);
                     var valArray = [],dateArray = [];
-                    for(var n=0;n<vm.metricViews[i].historyTrendViews.length;n++){
-                      valArray.push(vm.metricViews[i].historyTrendViews[n].score)
-                      dateArray.push(vm.metricViews[i].historyTrendViews[n].inspectDate.substring(5,10))
-                    };
+                    if(vm.metricViews[i].historyTrendViews){
+                      for(var n=vm.metricViews[i].historyTrendViews.length-1;n>=0;n--){
+                        valArray.push(vm.metricViews[i].historyTrendViews[n].score)
+                        dateArray.push(vm.metricViews[i].historyTrendViews[n].inspectDate.substring(5,10))
+                      };
+                    }
                     console.log(valArray,dateArray);
                     trendChart(ele,valArray,dateArray,1000); 
                   };
