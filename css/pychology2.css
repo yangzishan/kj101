@@ -110,8 +110,8 @@ body #app .center1 .huaxiang .sp3 {
   height: .84rem;
   line-height: .84rem;
   border-radius: 50%;
-  left: 1.02rem;
-  top: 1.9rem;
+  left: .87rem;
+  top: 2rem;
   background: linear-gradient(180deg, #f8dbb6 0%, #edb57f 100%);
 }
 body #app .center1 .huaxiang .sp4 {
@@ -293,6 +293,7 @@ body #app .center2 .ssw .ssbox .text {
 }
 body #app .center2 .ssw .ssbox .text > span {
   display: block;
+  margin-bottom:.02rem;
 }
 body #app .center2 .ssw .ssbox .text > span > em {
   display: inline-block;
@@ -306,8 +307,8 @@ body #app .center2 .ssw .ssbox .text > span > em {
 body #app .center2 .ssw .ssbox .text > span > i {
   display: inline-block;
   width: 88%;
-  font-size: .3rem;
-  line-height: .36rem;
+  font-size: .26rem;
+  line-height: .4rem;
   text-align: left;
 }
 body #app .center2 .ssw .ssbox1 h6 {
@@ -501,20 +502,24 @@ body #app .center3 .jiedu .jianyi .renzhibox span {
   color: #4A4A4A;
   font-size: .3rem;
   line-height: .48rem;
+  position: relative;
 }
 body #app .center3 .jiedu .jianyi .renzhibox span i {
   display: inline-block;
   width: .24rem;
   height: .24rem;
   margin-right: .12rem;
-  vertical-align: top;
+  /* vertical-align: top; */
   background: url(../img/psy2/listdian.png) no-repeat center;
   background-size: .24rem;
   margin-top: .07rem;
+  position: absolute;
+  top:0.05rem;
 }
 body #app .center3 .jiedu .jianyi .renzhibox span em {
   display: inline-block;
   width: 93%;
+  margin-left:.4rem;
 }
 body #app .center3 .jiedu .shuji {
   width: 100%;
@@ -858,11 +863,17 @@ body #app .ech_box .biaoshi em:nth-child(2) i {
   -webkit-align-items: center;
   align-items: center;
   transition: 300ms;
-  transform: scale(0.8);
+  -webkit-transition: 300ms;
+  -ms-transition: 300ms;
+  transform: scale(0.8,0.8);
+  -webkit-transform: scale(0.8,0.8);
+  -ms-transform: scale(0.8,0.8);
 }
 .swiper-slide-active,
 .swiper-slide-duplicate-active {
-  transform: scale(1);
+  transform: scale(1,1);
+  -webkit-transform: scale(1,1);
+  -ms-transform: scale(1,1);
 }
 body #app .body1 {
   position: relative;
