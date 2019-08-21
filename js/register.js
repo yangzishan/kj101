@@ -230,6 +230,7 @@ function subAll(mobile,age,dxYzm,checkCode){
 						'用户id': userId,
 						'openId': openId
 					});
+					zhuge.setWxProperties('wxd989a0c91b372901',openId);
 					zhuge.track('注册成功', { //埋点 t   完善用户信息注册成功 然后跳转
 						'方式': '完善用户信息',
 						'用户id': userId,
@@ -295,6 +296,7 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					'用户id': userData.customerId, //要拿返回的数据才对
 					'openId': openId
 				});
+				zhuge.setWxProperties('wxd989a0c91b372901',openId);
 				zhuge.track('注册成功', { //埋点 t   创建用户 注册成功 然后跳转
 					'方式':'创建用户',
 					'用户id': userData.customerId, //要拿返回的数据才对

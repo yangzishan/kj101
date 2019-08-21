@@ -151,7 +151,11 @@ var myapp = new Vue({
 						var openId = res.data.openId
 						var source = res.data.source
 						var reportSource = res.data.reportSource
-						vm.goReport(reportId,reportType,customerId,openId,source,reportSource)
+						if(reportId == '000000'){
+							alert('您当前暂无报告');
+						}else{
+							vm.goReport(reportId,reportType,customerId,openId,source,reportSource)
+						}
 					}else{
 						alert(res.msg)
 						console.log(res.code)

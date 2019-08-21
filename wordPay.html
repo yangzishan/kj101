@@ -167,7 +167,7 @@ var myApp = new Vue({
 						var passwd_val = (getParameter(resultcode,"passwd_val") || '');
 						//alert(passwd_val);
 		                if(codeType == 2){
-		                	updateYearWordPay(passwd_val);
+		                	vm.updateYearWordPay(passwd_val);
 		                }else{
 		                	vm.goMethod(resultcode);
 		                }

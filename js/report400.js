@@ -28,6 +28,7 @@ var saasId = getQueryString('saasId');
 var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var localUrl = location.href;
 var edition = 400;
@@ -53,6 +54,26 @@ var myApp = new Vue({
 		}
 	},
 	methods: {
+		//查看报告来源
+		getReportSource: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/report/getReportSource",
+				dataType:'Json',
+				data:{
+					reportCode: reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						if(res.data == 5 && cannsee == ''){ //金管家 5
+							location.href = "jinguanjia.html?reportType="+reportType
+						}
+					}
+				},
+				error: function(){console.log('getReportSource error')}
+			});
+		},
 		goToShare: function(fangfa){  //goToShare\goToPrint
 			var vm = this;
 			setupWebViewJavascriptBridge(function(bridge) {
@@ -81,6 +102,7 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
+						vm.getReportSource();
 						vm.sex = res.result.sex
 						vm.age = res.result.age
 						vm.inspectDateStr = res.result.inspectDateStr

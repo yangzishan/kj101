@@ -10,11 +10,10 @@ $(function(){
       var resource = getQueryString("resource");
       var source = (getQueryString('source') || '');  //通过解析获得 或 app传递
       var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&openId='+openId+'&saasId='+saasId+'&clientType='+clientType+'&source='+source
-        if(!openId || clientType){
-          //alert('now in app');
-          gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
-        }
-
+      if(!openId || clientType){
+        //alert('now in app');
+        gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
+      }
       function go(){
         var myChart = echarts.init(document.getElementById('main'))
         var option = {
@@ -526,6 +525,8 @@ $(function(){
                   })
             // 进度条动画效果
                   console.log(vm.metricViews)
+                }else if(res.code == 201){
+                  alert('需要支付')
                 }
               },
               error:function(){console.log('queryPsyc231Index error')}
