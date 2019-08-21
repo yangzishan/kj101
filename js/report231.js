@@ -386,7 +386,7 @@ $(function(){
       function swi(){
         var swiper = new Swiper('.swiper-container', {
           slidesPerView: 3,
-          spaceBetween: 0,
+          spaceBetween: 10,
           centeredSlides: true,
           loop: false,
           pagination: {

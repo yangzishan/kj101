@@ -318,7 +318,7 @@ body #app .center2 .ssw1 {
   width: 5rem;
   height: 6rem;
   background: url(../img/psy2/bg2.png) no-repeat center;
-  background-size: 4.8rem;
+  background-size: 4.9rem;
   position: relative;
 }
 body #app .center2 .ssw1 > b {
@@ -865,15 +865,18 @@ body #app .ech_box .biaoshi em:nth-child(2) i {
   transition: 300ms;
   -webkit-transition: 300ms;
   -ms-transition: 300ms;
-  transform: scale(0.8,0.8);
+  /* transform: scale(0.8,0.8);
   -webkit-transform: scale(0.8,0.8);
-  -ms-transform: scale(0.8,0.8);
-}
-.swiper-slide-active,
-.swiper-slide-duplicate-active {
+  -ms-transform: scale(0.8,0.8); */
   transform: scale(1,1);
   -webkit-transform: scale(1,1);
   -ms-transform: scale(1,1);
+}
+.swiper-slide-active,
+.swiper-slide-duplicate-active {
+  transform: scale(1.08,1.08);
+  -webkit-transform: scale(1.08,1.08);
+  -ms-transform: scale(1.08,1.08);
 }
 body #app .body1 {
   position: relative;
