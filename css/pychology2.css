@@ -417,7 +417,7 @@ body #app .center3 .jiedu .renzhi .renbox .si1 h3 i {
   width: .4rem;
   height: .4rem;
   background: url(../img/psy2/ren.png) no-repeat center;
-  background-size: .28rem;
+  background-size: .27rem .4rem;
   vertical-align: top;
   margin-right: .5rem;
   margin-left: .14rem;
