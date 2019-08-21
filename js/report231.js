@@ -386,7 +386,7 @@ $(function(){
       function swi(){
         var swiper = new Swiper('.swiper-container', {
           slidesPerView: 3,
-          spaceBetween: 30,
+          spaceBetween: 0,
           centeredSlides: true,
           loop: false,
           pagination: {
@@ -606,6 +606,9 @@ $(function(){
                     pys()
                     swi()
                     ban()
+                    // $('.ssw').css({
+                    //   'margin-right':'0'
+                    // })
                   },1500)
             console.log('名称'+that.leidaTitle)
           },
