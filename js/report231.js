@@ -2,10 +2,10 @@ $(function(){
       var url = analysisreport + '/psyc/report2/queryPsyc231Index'
       var reportId = (getQueryString('reportId') || 'KJ20190710152833739');
       var customerId = (getQueryString('userId') || '163'); 
-	  var openId = getQueryString('openId');
-	  var reportType = getQueryString('reportType');
-	  var saasId = getQueryString('saasId');
-	  var clientType = getQueryString("clientType"); 
+      var openId = getQueryString('openId');
+      var reportType = getQueryString('reportType');
+      var saasId = getQueryString('saasId');
+      var clientType = getQueryString("clientType"); 
       var reportSource = getQueryString("reportSource"); //通过解析获得
       var resource = getQueryString("resource");
       var source = (getQueryString('source') || '');  //通过解析获得 或 app传递
@@ -386,7 +386,7 @@ $(function(){
       function swi(){
         var swiper = new Swiper('.swiper-container', {
           slidesPerView: 3,
-          spaceBetween: 30,
+          spaceBetween: 0,
           centeredSlides: true,
           loop: false,
           pagination: {
@@ -500,6 +500,7 @@ $(function(){
                     console.log(vm.moodViewsList);
                   }
                   vm.metricViews = res.result.metricViews
+                  
                   for(var i=0; i< vm.metricViews.length;i++){
                     var ele = 'qu'+(i+1);
                     console.log(ele);
@@ -525,7 +526,10 @@ $(function(){
                     },100)
                     var leftP = (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
                     vm.metricViews[index]['leftP'] = 'left:'+ leftP  + '%;'
-                    console.log(item.leftP)
+                    if(item.threshholdSuggestion && item.threshholdSuggestion!= null ){
+                      vm.metricViews[index]['jianyi']  = item.threshholdSuggestion.split('\n') 
+                    }
+                    console.log(item)
                   })
             // 进度条动画效果
                   console.log(vm.metricViews)
@@ -602,6 +606,9 @@ $(function(){
                     pys()
                     swi()
                     ban()
+                    // $('.ssw').css({
+                    //   'margin-right':'0'
+                    // })
                   },1500)
             console.log('名称'+that.leidaTitle)
           },
