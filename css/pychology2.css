@@ -888,27 +888,29 @@ body #app .ech_box .biaoshi em:nth-child(2) i {
 }
 .swiper-slide-active,
 .swiper-slide-duplicate-active {
-  
-  animation: bb .8s ;
+  animation: bb 0.8s ;
   animation-fill-mode:forwards
 
 }
 @-webkit-keyframes bb {
-
+  0% {
+    transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+  }
   100% {
-    transition: 300ms;
-    -webkit-transition: 300ms;
-    -ms-transition: 300ms;
     transform: scale(1);
     -ms-transform: scale(1);
     -webkit-transform: scale(1);
   }
 }
 @keyframes bb {
+  0% {
+    transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+  }
   100% {
-    transition: 300ms;
-    -webkit-transition: 300ms;
-    -ms-transition: 300ms;
     transform: scale(1);
     -ms-transform: scale(1);
     -webkit-transform: scale(1);
