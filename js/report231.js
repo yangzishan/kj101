@@ -397,6 +397,18 @@ $(function(){
               // console.log(this.activeIndex + 1); 
               $('.jiedu').hide()
               $('.jie' + (this.activeIndex + 1) ).show()
+              var wd =  $('.swiper-slide-active').width()
+              console.log(wd*1.08)
+              // $('.swiper-slide').css({
+              //   'width': wd,
+              //   // 'left': -wd*.08/2
+              // })
+              // $('.swiper-slide-active').css({
+              //   'width': wd*1.08,
+              //   // 'left': -wd*.08/2
+              // })
+              
+
             },
           },
         });

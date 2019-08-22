@@ -865,19 +865,54 @@ body #app .ech_box .biaoshi em:nth-child(2) i {
   transition: 300ms;
   -webkit-transition: 300ms;
   -ms-transition: 300ms;
-  transform: scale(0.8,0.8);
-  -webkit-transform: scale(0.8,0.8);
-  -ms-transform: scale(0.8,0.8);
-  
+  /*transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  -webkit-transform: scale(0.8); */
+  animation: cc .8s ;
+  animation-fill-mode:forwards
+}
+@-webkit-keyframes cc {
+
+  100% {
+    transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+  }
+}
+@keyframes cc {
+  100% {
+    transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+  }
 }
 .swiper-slide-active,
 .swiper-slide-duplicate-active {
-  /* transform: scale(1.08,1.08);
-  -webkit-transform: scale(1.08,1.08);
-  -ms-transform: scale(1.08,1.08); */
-  transform: scale(1,1);
-  -webkit-transform: scale(1,1);
-  -ms-transform: scale(1,1);
+  
+  animation: bb .8s ;
+  animation-fill-mode:forwards
+
+}
+@-webkit-keyframes bb {
+
+  100% {
+    transition: 300ms;
+    -webkit-transition: 300ms;
+    -ms-transition: 300ms;
+    transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+  }
+}
+@keyframes bb {
+  100% {
+    transition: 300ms;
+    -webkit-transition: 300ms;
+    -ms-transition: 300ms;
+    transform: scale(1);
+    -ms-transform: scale(1);
+    -webkit-transform: scale(1);
+  }
 }
 body #app .body1 {
   position: relative;
