@@ -508,8 +508,10 @@ $(function(){
                   vm.metricId = res.result.metricId
                   setTimeout(function(){vm.filterData()},1000)
                   for(var i = 0; i<vm.moodViews.length; i++){
-                    vm.moodViewsList = vm.moodViewsList.concat(vm.moodViews[i].split('、'));
-                    console.log(vm.moodViewsList);
+                    if(vm.moodViews[i]){
+                      vm.moodViewsList = vm.moodViewsList.concat(vm.moodViews[i].split('、'));
+                      console.log(vm.moodViewsList);
+                    } 
                   }
                   vm.metricViews = res.result.metricViews
                   
@@ -595,21 +597,6 @@ $(function(){
             $.each(that.leidaObj1,function(index,item){
               that.leidaTitle[item.leidaNo] = item.leidaName
             })
-            // $.each(that.leidaObj1,function(index,item){
-            //   console.log(item)
-            //   // that.leidaObj1[index].left = item.celiangNum / 100
-            //   setTimeout(function(){
-            //   var width =  (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
-            //   item.width = 'width:' + width + 'rem;'
-            //   var left = (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.celiangNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
-            //   item.left = 'left:'+ left  + '%;'
-            //   console.log(item.left)
-
-            // },100)
-            // var leftP = (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.pingjunNum - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
-            // item.leftP = 'left:'+ leftP  + '%;'
-            // console.log(item.leftP)
-            // })
             // 进度条动画效果
             setTimeout(function(){
                     $('#app').show()
