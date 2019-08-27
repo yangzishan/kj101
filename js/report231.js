@@ -520,7 +520,7 @@ $(function(){
                     console.log(ele);
                     var valArray = [],dateArray = [];
                     if(vm.metricViews[i].historyTrendViews){
-                      for(var n=vm.metricViews[i].historyTrendViews.length-1;n>=0;n--){
+                      for(var n=0;n<vm.metricViews[i].historyTrendViews.length;n++){
                         valArray.push(vm.metricViews[i].historyTrendViews[n].score)
                         dateArray.push(vm.metricViews[i].historyTrendViews[n].inspectDate.substring(5,10))
                       };
