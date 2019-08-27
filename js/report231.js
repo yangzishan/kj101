@@ -138,7 +138,7 @@ $(function(){
                       saveAsImage : {show: true}
                   }
               },
-              calculable : true,
+             // calculable : true,
               xAxis : [
                   {
                     type : 'category',
@@ -278,7 +278,7 @@ $(function(){
                         saveAsImage : {show: true}
                     }
                 },
-                calculable : true,
+                //calculable : true,
                 xAxis : [
                     {
                         type : 'category',
