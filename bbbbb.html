@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>iframeB</title>
+<style type="text/css">
+*{ margin: 0; padding: 0;}
+</style>
+</head>
+<body>
+<div id="vm">
+	<p>b.html子级</p>
+	<p id="son"></p>
+	<button id="sonBtn">历史方获取数据</button>
+	<button id="diao">fuc</button>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$(function(){
+	var res = {   //历史方
+		type:'202',
+		data:{
+			page:1,
+			listCount:10,
+			search_drug:'搜索字段'
+		}
+	}
+	var s = JSON.stringify(res);
+	$('#sonBtn').click(function(){
+		console.log(33)
+		window.parent.postMessage(s, '*');
+	});
+	
+	
+	window.self.addEventListener('message',messageHandler,false);
+	function messageHandler(e){
+		console.log('子页面监听');
+		
+		var response = JSON.parse(e.data);
+        var code = response.code;
+        var resultData = response.rp_content;
+		console.log(code);
+		console.log(resultData);
+	}
+	
+	
+})
+
+	
+
+
+</script>
+</body>
+</html>
