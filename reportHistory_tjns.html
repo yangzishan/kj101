@@ -14,7 +14,7 @@
 <div class="my_view">
 	<section id="appVUE">
 		<header class="header">
-			<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+			<!--<a class="b-arr fl" href="javascript:history.go(-1);"></a>-->
 			<a class="t-right fr" href="#"></a>
 			<p class="t-cen txt1"><span>历史报告</span></p>
 		</header>
@@ -24,6 +24,7 @@
 				<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
 			</a>
 		</div>
+		<p style="line-height: 1rem; text-align: center;" v-if="dataList.length == 0 || dataList == null">暂无报告</p>
 	</section>
 </div>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
@@ -52,7 +53,6 @@
 $('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
 var customerId = getQueryString("customerId");
-var aIndex = 0;//记录索引
 
 var myApp = new Vue({
 	el:'#appVUE',
@@ -83,7 +83,11 @@ var myApp = new Vue({
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
 						vm.dataList = res.data
-					}else{alert('historyTjBankByUserId msg='+ res.msg)}
+					}else{
+						alert(res.msg);
+						//$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+					}
 				},
 				error : function(obj,msg){alert('historyTjBankByUserId error');}
 			});
@@ -115,14 +119,15 @@ var myApp = new Vue({
 		//去查看报告
 		gotosee: function(item){
 			var vm = this;
+			var reportUrl = '?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType+'&bank=tjnsh'
 			if(item.reportType < 5){
-				window.location.href = 'report5.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType
+				window.location.href = 'report5.html'+reportUrl
 			}else if(item.reportType == 121){
-				window.location.href = 'report120.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType				
+				window.location.href = 'report120.html'+reportUrl	
 			}else if(item.reportType == 501){
-				window.location.href = 'report500.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType		
+				window.location.href = 'report500.html'+reportUrl
 			}else{
-				window.location.href = 'report'+ item.reportType +'.html?reportId=' + item.reportCode + '&userId=' + vm.customerId+'&reportType='+item.reportType		
+				window.location.href = 'report'+ item.reportType +'.html'+reportUrl
 			}
 		}
 	}

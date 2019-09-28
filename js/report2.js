@@ -4,10 +4,12 @@ var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
 var saasId = getQueryString('saasId');
 var clientType = (getQueryString("clientType") || ''); 
+var bank = (getQueryString('bank') || '');
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print2.0.html?viewType=2&reportId=';
 var edition = 2;
@@ -23,7 +25,11 @@ var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType || !openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
+	if(bank == 'tjnsh'){
+		gohistoryUrl = 'reportHistory_tjns.html?customerId='+customerId
+	}else{
+		gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
+	}
 };
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
@@ -114,6 +120,8 @@ var myApp = new Vue({
 					if(res.code == "200"){
 						if(res.data == 5 && cannsee == ''){ //金管家 5
 							location.href = "jinguanjia.html?reportType="+reportType
+						}else if(res.data == 6 && cannsee == ''){
+							location.href = "haochezhu.html?reportType="+reportType
 						}
 					}
 				},

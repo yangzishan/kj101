@@ -274,7 +274,7 @@
 						<span v-show="item.score > 80">{{item.targetName}}</span>
 						<!-- 指数小于等于80的时候显示黄色 -->
 						<span v-show="80 >= item.score" class="yello">{{item.targetName}}</span>
-						<span class="explain" @click.stop="listG()"><img src="./images/explain.png"><span>
+						<span class="explain" @click.stop="listG(item.explain)"><img src="./images/explain.png"><span>
 					</p>
 					<p class="declare">{{item.hintName}}</p>
 				</div>
@@ -284,9 +284,9 @@
 					</div>
 				</div>
 				<div v-show="70 >= item.score" class="amount-yello"></div>
-				<div class="shade" v-show="popupG" @click.stop="shade"><div class="popup">{{item.explain}}</div></div>
 			</li>
 			</template>
+			<div class="shade" v-show="popupG" @click.stop="shade"><div class="popup" id="popupG"> </div></div>
 			
 			<!-- 男性功能 -->
 			<template v-for="item in data" v-if="item.targetId == 1010">

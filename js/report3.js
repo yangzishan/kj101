@@ -8,6 +8,8 @@ var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
+var bank = (getQueryString('bank') || '');
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print3.0.html?viewType=2&reportId=';
 var edition = 3;
@@ -17,7 +19,12 @@ if(reportType == 501){
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType || !openId){
 	//alert('now in app');
-	gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
+	if(bank == 'tjnsh'){
+		gohistoryUrl = 'reportHistory_tjns.html?customerId='+customerId
+	}else{
+		gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
+	}
+	
 }
 
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
@@ -107,6 +114,8 @@ var myApp = new Vue({
 					if(res.code == "200"){
 						if(res.data == 5 && cannsee == ''){ //金管家 5
 							location.href = "jinguanjia.html?reportType="+reportType
+						}else if(res.data == 6 && cannsee == ''){
+							location.href = "haochezhu.html?reportType="+reportType
 						}
 					}
 				},
@@ -282,12 +291,13 @@ var myApp = new Vue({
 			});
 		},
 		// 营养状态
-		listG: function(){
+		listG: function(str){
+			$('#popupG').text(str)
 			this.popupG = true
 			this.noscorll();
 			$('body').css("overflow","hidden");
 			zhuge.track('3.0报告问号点击',{
-				'问号名称':'营养状态'
+				'问号名称':str
 			});
 		},
 		// 免疫能力

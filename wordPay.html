@@ -136,7 +136,7 @@ var myApp = new Vue({
 								$('.daifu_d').css("display","none");
 							});
 						}else{
-							if(reportType == 121 || reportType == 122){
+							if(reportType == 121 || reportType == 122 || reportType == 12001){
 							location.href = 'report120.html'+reportUrl
 							}else if(reportType == 501 || reportType == 502 ){
 								location.href = 'report500.html'+reportUrl
@@ -314,7 +314,22 @@ var myApp = new Vue({
 					var occode = obj.QRUrl;
 					//var responseData = { 'code':'200' }; responseCallback(responseData);
 					if (occode != '') {
-						vm.goMethod(occode);
+						//vm.goMethod(occode);
+						
+						var resultcode = occode; // 
+		                //alert(resultcode);
+						var codeType = (getParameter(resultcode,"type") || '');
+						//alert(codeType);
+						var passwd_val = (getParameter(resultcode,"passwd_val") || '');
+						//alert(passwd_val);
+		                if(codeType == 2){
+		                	vm.updateYearWordPay(passwd_val);
+		                }else{
+		                	vm.goMethod(resultcode);
+		                }
+						
+						
+						
 					}	
 				})
 			});

@@ -72,7 +72,12 @@ var myApp = new Vue({
 				data : JSON.stringify(info),
 				success: function(res){
 					console.log('success')
-					WeixinJSBridge.call('closeWindow');
+					if(res == 40010){
+						alert('该链接已失效，请扫码重试！')
+					}else{
+						WeixinJSBridge.call('closeWindow');
+					}
+					
 				},
 				error: function(){alert('unlock error')}
 				

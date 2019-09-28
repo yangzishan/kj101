@@ -16,6 +16,7 @@
 .tongyifo span.on{ background: #1ebeb1; color: #fff;}
 .tc_sy .bxt2{ font-size: .26rem;}
 .login_cn .cpxt .lab{ min-width: 1.3rem;}
+.lab font{ font-size: .28rem; color: #FF0000;}
 </style>
 </head>
 <body class="bck-col-fff">
@@ -24,7 +25,7 @@
 <div class="d_login">
 	<div class="login_cn">
 		<p class="ctit">{{language.la_welcome}}</p>
-		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 123">
+		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 123) || reportType == 12001">
 			<span class="lab">{{language.la_name}}</span><!--昵称-->
 			<span class="fle"><input type="text" id="nickName" :placeholder="language.la_namePlace" ></span>
 		</p>
@@ -32,12 +33,12 @@
 			<span class="lab">{{language.la_age}}</span>
 			<span class="fle"><input type="number" id="age" :placeholder="language.la_agePlace" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
 		</p>
-		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 122">
+		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 122) || reportType == 12001">
 			<span class="lab">身份证号</span>
 			<span class="fle"><input type="text" id="identity" placeholder="请输入您的身份证号" oninput="if(value.length>18)value=value.slice(0,18)"></span>
 		</p>
 		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 123">
-			<span class="lab">业务员号</span>
+			<span class="lab">业务员号<font>{{optionInt}}</font></span>
 			<span class="fle"><input type="number" id="relatedNo" placeholder="请输入您的保险业务员号" pattern="[0-9]*"></span>
 		</p>
 		<p class="cpxt reportType6 reportType400" v-if="reportType == 6 || reportType == 400">

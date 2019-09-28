@@ -50,6 +50,7 @@
 })(document, window);
 </script>
 <script>
+var resource = (getQueryString('resource') || 'jgj')
 var wait=60;
 var myapp = new Vue({
 	el: '.my_view',
@@ -141,7 +142,7 @@ var myapp = new Vue({
 				data:{
 					mobile: vm.mobile,
 					code: vm.dxYzm,
-					resource: 'jgj'
+					resource: resource
 				},
 				success: function(res){
 					if(res.code == 200){
@@ -154,6 +155,7 @@ var myapp = new Vue({
 						if(reportId == '000000'){
 							alert('您当前暂无报告');
 						}else{
+							//console.log(resource)
 							vm.goReport(reportId,reportType,customerId,openId,source,reportSource)
 						}
 					}else{
@@ -177,6 +179,15 @@ var myapp = new Vue({
 		}
 	}
 });
+
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
 	
 //倒计时读秒    默认wait=60;
 function time(tm){

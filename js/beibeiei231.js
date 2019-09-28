@@ -449,7 +449,7 @@ $(function(){
             moodViews:[],
             moodViewsList:[],
             metricViews:[],
-						removeIndex:[]   //需要删除的数组的索引集合
+
           }
         },
         methods: {
@@ -480,10 +480,8 @@ $(function(){
                     } 
                   }
                   vm.metricViews = res.result.metricViews
+                  setTimeout(function(){vm.filterData()},1000)
                   for(var i=0; i< vm.metricViews.length;i++){
-                  	if(!vm.metricViews[i].cognitiveEmotions){
-                    	vm.removeIndex.push(i)
-                    }
                     var ele = 'qu'+(i+1);
                     console.log(ele);
                     var valArray = [],dateArray = [];
@@ -496,27 +494,26 @@ $(function(){
 	                    }
                     	console.log(valArray,dateArray);
                     	trendChart(ele,valArray,dateArray,1000);
-                    } 
+                    }  
                   };
-                  for(var j=0;j<vm.removeIndex.length;j++){
-                  	vm.metricViews.splice(vm.removeIndex[j],1)
-             				console.log(vm.metricViews)
-                  }
-                  setTimeout(function(){vm.filterData()},1000)
                   $.each(vm.metricViews,function(index,item){
-                    var width =  (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
-	                  vm.metricViews[index]['width'] = 'width:' + width + 'rem;'
-	                  var left = (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
-	                  vm.metricViews[index]['left'] = 'left:'+ left  + '%;'
-	               
+                    setTimeout(function(){
+                      var width =  (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) >  0 ? ((1 - (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 ) + .045 : ((1 - (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin))  * 5.23 )
+                      vm.metricViews[index]['width'] = 'width:' + width + 'rem;'
+                      var left = (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.targetScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
+                      vm.metricViews[index]['left'] = 'left:'+ left  + '%;'
+                      console.log(item.width,item.left)
+                    },100)
                     var leftP = (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 <= 0 ? 0 : (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100 >=  100 ? (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1 : (item.avgScore - that.valueMin ) / (that.valueMax - that.valueMin) * 100  - 1
                     vm.metricViews[index]['leftP'] = 'left:'+ leftP  + '%;'
 
                     if(item.threshholdSuggestion && item.threshholdSuggestion!= null ){
                       vm.metricViews[index]['jianyi']  = item.threshholdSuggestion.split('\n') 
                     }
-                    console.log(item.width,item.left,item.leftP,item.jianyi)
+                    console.log(item.leftP,item.jianyi)
                   })
+            // 进度条动画效果
+                  console.log(vm.metricViews)
                 }else if(res.code == 201){
                   alert('需要支付')
                 }
@@ -540,7 +537,6 @@ $(function(){
                     }
                     if(b.threshholdExplain && b.threshholdExplain!= null ){
                       text1 = b.threshholdExplain.split('\n') 
-                      console.log(a,text1)
                     }
                   })();
                   item.title = text;
@@ -548,6 +544,8 @@ $(function(){
                   item.Max = that.valueMax
                   item.Min = that.valueMin
                   item.leidaT = b.metricExplain
+                  //console.log(item.leidaT)
+                  // 进度条动画效果
                   return true;
                 }
               })
@@ -566,8 +564,6 @@ $(function(){
             $.each(that.leidaObj1,function(index,item){
               that.leidaTitle[item.leidaNo] = item.leidaName
             })
-            console.log('名称:'+that.leidaTitle)
-            
             // 进度条动画效果
             setTimeout(function(){
 	            $('#app').show()
@@ -576,9 +572,11 @@ $(function(){
 	            pys()
 	            swi()
 	            ban()
-	            
+	            // $('.ssw').css({
+	            //   'margin-right':'0'
+	            // })
 	          },1500)
-            
+            console.log('名称:'+that.leidaTitle)
           },
           // history
           gohistory : function(){

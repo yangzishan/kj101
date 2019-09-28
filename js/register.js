@@ -41,11 +41,17 @@ zhuge.track('进入注册页面', {
 
 var myapp = new Vue({
 	el: '.my_view',
-	data: {
-		reportType: reportType,
-		language: language
+	data: function(){
+		return{
+			reportType: reportType,
+			language: language,
+			optionInt:'' //业务员选填
+		}
 	}
 });
+if(reportType == 122){
+	myapp.optionInt = "（选填）"
+}
 
 $('#age').blur(function(){
 	setTimeout(function() {	
@@ -71,6 +77,9 @@ $('#_weight').blur(function(){
 		return;
 	}
 });
+$('#identity').blur(function(){
+	
+});
 
 //点击获取短信验证码
 $('#sendMsg').on("click",function(){
@@ -80,7 +89,8 @@ $('#sendMsg').on("click",function(){
 		showMask('请输入正确的手机号码');
 		return false;
 	}else{
-		$(this).attr("disabled",true);
+		//$(this).attr("disabled",true);
+		time($("#sendMsg"));
 		$.ajax({
 			url : dataUrl + "/api/v1/messageCode/getCode",
 			type : "post",
@@ -120,7 +130,7 @@ function getYzm(){
 		success : function(userData){
 			if(userData.code == 200){
 				console.log('发送短信成功');
-				time($("#sendMsg"));
+				//time($("#sendMsg"));
 			}else if(userData.code == 300){
 				showMask('发送短信验证码失败');
 				$("#sendMsg").attr("disabled",false);
@@ -165,6 +175,20 @@ $('#nextAll').on("click",function(){
 		if($('#_weight').val() == ''){
 			showMask('请输入您的体重');	
 			return ;
+		}
+	};
+	if($('#identity').length > 0 && reportType == 12001){
+		if($('#identity').val().length == 15 || $('#identity').val().length == 18){
+			if($('#identity').val().length == 15 && !(/^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$/.test($('#identity').val()))){
+				alert("您输入的身份证号码不是有效格式 ");
+				return;
+			}else if($('#identity').val().length == 18 && !(/^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/.test($('#identity').val()))){
+				alert("您输入的身份证号码不是有效格式");
+				return;
+			}
+		}else{
+			alert("您输入的身份证号码不是有效格式");
+			return;
 		}
 	};
 	var age = parseInt($('#age').val());

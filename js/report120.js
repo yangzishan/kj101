@@ -8,6 +8,7 @@ var resource = getQueryString("resource");
 var source = (getQueryString('source') || ''); //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
 var edition = 120;
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
@@ -96,6 +97,8 @@ var myApp = new Vue({
 					if(res.code == "200"){
 						if(res.data == 5 && cannsee == ''){ //金管家 5
 							location.href = "jinguanjia.html?reportType="+reportType
+						}else if(res.data == 6 && cannsee == ''){
+							location.href = "haochezhu.html?reportType="+reportType
 						}
 					}
 				},
@@ -149,12 +152,13 @@ var myApp = new Vue({
 					customerId : customerId
 				},
 				success: function(res){
-					if(res.code == 201){
+					if(res.code == 201 ){
 						_this.sameUser = res.data.sameUser;
 						_this.paymentType = res.data.paymentType;
 						_this.participate(_this.paymentType,_this.sameUser);  //执行判断优惠券
 					}else if(res.code == 200){
-						if(res.data.map.deviceReport == 121){
+						if(visible == 0 || reportType == 121){
+							//alert(visible)
 							_this.showTip(); //不让看报告
 						}else{
 							_this.getReportSource();

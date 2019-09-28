@@ -30,6 +30,7 @@ var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var visible = (getQueryString('visible') || 1);
 var localUrl = location.href;
 var edition = 400;
 var payStr = '';
@@ -68,6 +69,8 @@ var myApp = new Vue({
 					if(res.code == "200"){
 						if(res.data == 5 && cannsee == ''){ //金管家 5
 							location.href = "jinguanjia.html?reportType="+reportType
+						}else if(res.data == 6 && cannsee == ''){
+							location.href = "haochezhu.html?reportType="+reportType
 						}
 					}
 				},
