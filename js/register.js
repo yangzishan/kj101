@@ -9,7 +9,7 @@ if(userId == null || userId == ''){
 	userOropen = openId;
 };
 var edition=getQueryString("edition");  //暂时没用了
-var saasId = getQueryString('saasId');
+var saasId = (getQueryString('saasId') || '');
 var reportType = getQueryString("reportType");
 
 /*扫码转增优惠券用  带userId*/
@@ -43,10 +43,39 @@ var myapp = new Vue({
 	el: '.my_view',
 	data: function(){
 		return{
+			saasId:saasId,
 			reportType: reportType,
 			language: language,
-			optionInt:'' //业务员选填
+			saasName: '',
+			saasLogo:'',
+			optionInt:''//业务员选填
 		}
+	},
+	methods:{
+		getSaasTenantByCompanyId: function(){//查询SaaS信息
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:saasUrl+ "/api/v1/initTenant/getSaasTenantByCompanyId",
+				async:true,
+				dataType: 'json',
+				data: {
+					saasId:saasId
+				},
+				success: function(res){
+					if(res.code == 200){
+						//vm.saasTel = res.data.saasTel
+						vm.language.la_thanksForUse = res.data.saasTel
+						vm.saasName = res.data.saasName
+						vm.saasLogo = res.data.saasLogo
+					}
+				},
+				error: function(){}
+			});
+		},
+	},
+	mounted : function(){
+		this.getSaasTenantByCompanyId();
 	}
 });
 if(reportType == 122){

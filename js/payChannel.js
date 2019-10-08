@@ -371,7 +371,7 @@ var myApp = new Vue({
 		},
 		goReportIndex: function(reportId,userId,reportType){ //跳转查看报告
 			var vm = this;
-			if(reportType == 121 || reportType == 121){
+			if(reportType == 121 || reportType == 122 || reportType == 12001){
 				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else if(reportType == 501 || reportType == 502){
 				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -449,7 +449,7 @@ function setupWebViewJavascriptBridge(callback) {
 setupWebViewJavascriptBridge(function(bridge) {
 	//注册JS方法供OC调用
 	bridge.registerHandler('reloadReport', function(data, responseCallback) {
-		if(reportType == 121){
+		if(reportType == 121 || reportType == 122 || reportType == 12001){
 			location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 		}else if(reportType == 501 || reportType == 502){
 			location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType

@@ -39,7 +39,7 @@
 		</dl>
 	</div>
 </section>
-<div id="btn" class="zhichi zhiCustomBtn"></div>
+<!--<div id="btn" class="zhichi zhiCustomBtn"></div>-->
 </DIV>
 <div class="v_overlay"></div>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
@@ -162,7 +162,7 @@ var myApp = new Vue({
 });
 
 //查用户信息对接智齿客服
-$.ajax({
+/*$.ajax({
 	url : dataUrl + "/api/v1/reportUser/findUserById",
 	type : "POST",
 	dataType : 'json',
@@ -195,7 +195,7 @@ $.ajax({
 		}
 	},
 	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
-});
+});*/
 //截取URL 获取
 function getQueryString(name){
      var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");

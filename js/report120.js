@@ -47,6 +47,7 @@ var myApp = new Vue({
 			reportType:reportType,
 			openId: openId,
 			edition: edition,
+			saasId: saasId,
 			sameUser:'',
 			paymentType:'',
 			totalScore:'',
@@ -80,7 +81,7 @@ var myApp = new Vue({
 	},
 	mounted: function(){
 		this.getData();
-		//this.getSaasTenantByCompanyId();
+		this.getSaasTenantByCompanyId();
 	},
 	methods: {
 		//查看报告来源
