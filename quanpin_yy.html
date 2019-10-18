@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>调理信息</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=201807002" />
+<style type="text/css">
+.quanpin{ font-size: .28rem; color: #555555; background: #edecec;}
+.qp-tit{height: .82rem; background: #1eceb7; color: #ffffff; text-align: center; font-size: .36rem;}
+.qp-tit .ct{ display: inline-block; vertical-align: top; height: .82rem; line-height: .82rem;}
+.qp-tit .ci{height: .32rem; width: .32rem; line-height: .32rem; display: inline-block; vertical-align: top; margin: .25rem 0 0 .12rem; border: #ffffff solid .02rem; border-radius: 50%;}
+.qp-info{ background: #ffffff; border-bottom:#edecec solid .01rem;font-size: 0;}
+.qp-info span{ display: inline-block; width: 49.9%; line-height: .78rem; padding: 0 0 0 .3rem; font-size: .28rem;}
+.qp_img{ background: #edecec; padding: .14rem .28rem;}
+.qp_img img{ display: block; margin: 0 auto; width: 3.24rem;}
+.qp-tags{ background: #edecec; padding: .14rem .2rem .01rem;}
+.qp-tags span{ display: inline-block; background: #ffffff; padding: 0 .5rem; margin: 0 .14rem .14rem 0; border-radius: .08rem; height: .62rem; line-height: .62rem; text-align: center;}
+.qp-subjectList{ background: #edecec;}
+.qp-subjectList li{ margin-bottom: .06rem; background: #ffffff;}
+.qp-subjectList li .tit{ padding-left:.8rem; height: .62rem; line-height: .62rem; border-bottom: #edecec solid .01rem;}
+.qp-subjectList li .cp{ color: #1eceb7;}
+.qp-subjectList li .tcn{ color: #999999; line-height: .42rem; padding: .1rem .4rem; .2rem .8rem}
+.qp-subjectList li .tcn p{}
+.qp-remark{ background: #ffffff; font-size: .24rem; line-height: .45rem; padding: .1rem .4rem .4rem;}
+.fanhui a{ height: .88rem; width: .87rem; line-height: .88rem; text-align: center; border: #b9b9b9 solid .01rem; border-radius: .07rem; background: none; float: right; margin: .4rem .28rem 0 0; color: #555555;}
+</style>
+</head>
+<body>
+<div class="my_view quanpin">
+	<div class="qp-tit"><span class="ct">症状说明</span></div>
+	<p style="height: .06rem; background: #edecec;"></p>
+	<ul class="qp-subjectList">
+		<li class="c_li" v-for="item in dataInfo.diseaseList">
+			<p class="tit cp">{{item.diseaseName}}</p>
+			<div class="tcn">
+				{{item.diseaseExplain}}
+			</div>
+		</li>
+	</ul>
+	<div class="fanhui">
+		<a href="javascript:history.go(-1);">返回</a>
+	</div>
+	
+	
+</div>
+
+
+
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var reportCode = (getQueryString("reportCode") || "KJ103IS00000111181019033679083");
+var ajaxUrl = 'http://39.107.74.133:9180/kj-kjcd/measured/queryByReportCode';
+var myApp = new Vue({
+	el:'.my_view',
+	data: function(){
+		return{
+			dataInfo:{}
+
+		}
+	},
+	mounted: function(){
+		this.queryByReportCode()
+	},
+	methods:{
+		queryByReportCode: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:ajaxUrl,
+				async:true,
+				dataType:'Json',
+				data:{
+					reportCode:reportCode
+				},
+				success: function(res){
+					if(res.success)
+					vm.dataInfo = res.result
+					console.log(vm.dataInfo)
+				},
+				error: function(){alert('queryByReportCode error')}
+			});
+		}
+	}
+});
+
+
+
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+</script>
+</body>
+</html>

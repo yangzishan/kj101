@@ -158,7 +158,7 @@
 .bx_exp .col{ color: #1EBEB1;}
 .bx_exp .link{ text-decoration: underline;}
 .bx_exp .sstit{ line-height: .5rem;}
-.bx_exp .sstxt{ line-height: .5rem;}
+.bx_exp .sstxt{ line-height: .5rem; text-indent: .6rem;}
 .golook{ padding: .3rem 0 .1rem; display: -webkit-box;}
 .golook li{display: block; -webkit-box-flex: 1;}
 .golook li{padding: 0 .4rem; text-align: center; color: #ffffff;}
