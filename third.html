@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css?v=201807002" />
 </head>
-<body>
+<body style="background: #F2F2F2;">
 <div class="my_view" style="visibility: hidden;">
 <section id="appVUE">
 	<header class="header">
@@ -39,7 +39,7 @@
 	
 	<div class="thr_tit thr_jy"><i></i><span>{{language.la_jkAdvice}}</span></div>
 	<!--健康建议内容-->
-	<div class="">
+	<div class="" style="background: #ffffff;">
 		<div class="jkjy_wrap" v-if="dietList">
 			<p class="btite"><span class="lab">{{language.la_sug_diet}}</span><i class="ico" @click="ssjyTab()"></i></p>
 			<div class="box-c" v-for="(site,index) in dietList">
@@ -75,9 +75,25 @@
 		</div>	
 	</div>	
 	<!--健康建议内容 end-->
+	<!--<div class="gg" v-for="gg in banData">
+		<a :href="gg.bannerUrl"><img :src="gg.bannerImg" class="img_b"></a>
+	</div>-->
+	
+	<section class="gg" v-if="score<90" style="background: #ffffff;">
+		<div class="v_content" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+	    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
+	    		<li v-for="item in banData" style="float: left;">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 7.5rem; height: 1.5rem;"></a>
+	    		</li>
+	    	</ul>
+	    </div>
+	</section>
+	
 	<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
-	<div class="thr_tit"><i></i><span>{{language.la_histTre}}</span></div>
-	<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
+	<div class="thr_tit" v-if="!(reportType == 151)"><i></i><span>{{language.la_histTre}}</span></div>
+	<div style="background: #ffffff;" v-if="!(reportType == 151)">
+		<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
+	</div>
 </section>
 
 <!--<div id="btn" class="zhichi zhiCustomBtn"></div>-->
@@ -88,27 +104,27 @@
 <div class="v_overlert" id="ssjyTab">
 	<div class="tc_sy">
 		<p class="bit2">
-			<span class="labt">康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。</span>
+			<span class="labt">膳食、营养专家团队为您提供。</span>
 		</p>
 		<div class="bxt">
-			肖 荣   <br/>
-			博士/教授，博士生导师<br/>
-			中国营养学会常务理事 <br/>
-			中国优生科学协会常务理事<br/>
-			中国营养学会学术交流工作委员会委员<br/>
-			北京营养师协会副理事长<br/>
-			首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+			崔义祥<br/>     
+			北京市健康教育所原所长，北京市疾控中心主任医师<br/><br/>
+			
+			潘晓明<br/>     
+			中医博士<br/>
+			北京大学医学部研究中心学术部副主任<br/>
+			深圳市中医药健康服务协会副会长；<br/>
 		</div>
 	</div>
 </div>
 <div class="v_overlert" id="yysTab">
 	<div class="tc_sy">
 		<p class="bit2">
-			<span class="labt">康加运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。</span>
+			<span class="labt">生活方式专家 潘晓明博士领衔的专家团队为您提供。</span>
 		</p>
 		<div class="bxt">
-			高岭娣<br/>     
-			首都医科大学卫生与教育管理学院体育学系主任/副教授<br/><br/>
+			崔义祥<br/>     
+			北京市健康教育所原所长，北京市疾控中心主任医师<br/><br/>
 			
 			潘晓明<br/>     
 			中医博士<br/>
@@ -148,8 +164,10 @@
 $('.my_view').css("visibility","hidden");
 $('.load-overlay').css("display","block");
 var reportId = getQueryString('reportId');
+var reportType = getQueryString('reportType');
 var targetId = getQueryString("targetId");
 var userId = getQueryString('userId');
+var deviceSn = getQueryString('deviceSn');
 var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 console.log(JsSrc);
 if(JsSrc.indexOf('zh')>=0){
@@ -169,6 +187,7 @@ var myApp = new Vue({
 	data: function(){
 		return{
 			reportId: reportId,
+			reportType:reportType,
 			targetId: targetId,
 			userId: userId,
 			targetThirdName:'',
@@ -181,7 +200,8 @@ var myApp = new Vue({
 			nutritionList:'',// 营养
 			motionList:'', //运动
 			options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
-			language: language
+			language: language,
+			banData:{} //广告
 		}
 	},
 	mounted: function(){
@@ -221,6 +241,10 @@ var myApp = new Vue({
 						if(!vm.dietList && !vm.nutritionList && !vm.motionList){
 							$('.thr_jy').css("display","none");
 						}
+						if(vm.score < 90){
+							vm.wheelsort(deviceSn,reportId,vm.score,targetId)
+						}
+						
 					}
 				},
 				error : function(obj,msg){alert('targetProposal error')}
@@ -272,10 +296,64 @@ var myApp = new Vue({
 				},
 				error : function(obj,msg){alert(obj  + msg);}
 			});
-		}
+		},
+		wheelsort: function(deviceSn,reportId,metricScore,metricId){ //广告接口
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl + "/api/banner/wheelAds",
+				async: true,
+				dataType: 'json',
+				data:{
+					deviceSn: deviceSn,
+					reportId: reportId,
+					metricScore: metricScore,
+					metricId:metricId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.banData = res.data;
+						banSlide(res.data.length)
+						if(res.data.length == 0){
+							$('.gg').remove()
+						}
+					}
+				},
+				error: function(){console.log('wheelsort error')}
+			});
+		},
 	}
 });
-
+//广告轮播
+function banSlide(page_count){ 
+	var page_now=1;
+	var page_num=1; //一页显示几个
+	var v_width = $('.v_content').width();
+	console.log(page_count)
+	function next(){	
+		if(!$('.v_list').is(':animated')){
+			if(page_now == page_count){
+				$('.v_list').animate({left:'0px'},'slow');
+				page_now=1;
+			}else{
+				$('.v_list').animate({left:'-='+v_width},'slow');
+				page_now++;
+			}
+		}
+	};
+	function prev(){
+		if(!$('.v_list').is(':animated')){
+			if(page_now == 1){
+				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				page_now=page_count;
+			}else{
+				$('.v_list').animate({left:'+='+v_width},'slow');
+				page_now--;
+			}
+		}
+	};
+	var toNext=setInterval(next,3000);
+};
 //矫正趋势得分
 function reviseScore(score) {
 	if (score != null) {

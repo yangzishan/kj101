@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+  <meta content="telephone=no" name="format-detection" />
+  <script>document.write('<link rel="stylesheet" type="text/css" href="css/kh.css?t=' + new Date().getTime() + '" \/>')</script>
+  <title>打印报告</title>
+  <style type="text/css">
+  	.d-table{border: #2CBCB4 solid 1px; min-height: 150px; margin: 30px 0;}
+  	.d-table .p-tit{ font-size: 14px; height: 36px; line-height: 36px; padding: 0 10px; border-bottom:  #2CBCB4 solid 1px;}
+  	.d-table .p-tit .lab{ font-weight: bold;}
+  	.huaxiang{ position: relative; height: 230px;;}
+  	.huaxiang span{font-size: 16px; font-weight: bold; text-align: center; position:absolute; border-radius: 50%; line-height: 80px; padding: 0 30px;}
+  	.huaxiang span:nth-of-type(1){background: linear-gradient(180deg, #e88ed8 0%, #f5dbf0 100%); left: 40px; top: 70px;}
+  	.huaxiang span:nth-of-type(2){background: linear-gradient(180deg, #ff829e 0%, #ffd5dd 100%); left: 145px; top: 12px;}
+  	.huaxiang span:nth-of-type(3){background: linear-gradient(180deg, #fff5d6 0%, #ffe784 100%); left: 166px; top: 120px;}
+  	.huaxiang span:nth-of-type(4){background: linear-gradient(317deg, #a4bbfe 0%, #e0e7fe 100%); left: 299px; top: 12px;}
+  	.huaxiang span:nth-of-type(5){background: linear-gradient(180deg, #dafdeb 0%, #8ffdca 100%);left: 299px; top: 120px;}
+  	.huaxiang span:nth-of-type(6){background: linear-gradient(180deg, #ffe782 0%, #fff5d6 100%); left: 414px; top: 54px;}
+  	.chartbox{ min-height: 230px; width: 100%;overflow: hidden;}
+  	.chartbox .char-l{ width: 50%; float: left; overflow: hidden; min-height: 260px; position: relative;}
+  	.chartbox .char-l .eahar{}
+  	.chartbox .char-l .biaoji{width: 100%; position: absolute; left: 0; color: #9B9B9B; font-size: 10px; text-align: center; top: 5px;}
+  	.chartbox .char-l .biaoji .hong{margin-right: 35px;}
+  	.chartbox .char-l .biaoji .hong em{display: inline-block; width: 12px; height: 10px; background: #fa7979; margin-right: 6px;}
+  	.chartbox .char-l .biaoji .lan em{display: inline-block; width: 12px; height: 10px; background: #7489fa; margin-right: 6px;}
+  	.chartbox .char-r{ width: 50%; float: left; overflow: hidden; min-height: 260px; border-left:#2CBCB4 solid 1px; position: relative;}
+  	.chartbox .char-r .eahar{}
+  	.chartbox .char-r .biaoshi{color: #9B9B9B; position: absolute; top: 5px; width: 100%;}
+  	.chartbox .char-r .biaoshi em{display: inline-block; width: 50%; text-align: center;}
+    .chartbox .char-r .biaoshi em:nth-child(1) i{display: inline-block; width: 35px; border-top: 1px dashed #BD10E0; position: relative; top:-1px; margin-right: 5px;}
+    .chartbox .char-r .biaoshi em:nth-child(2) i{display: inline-block; width: 35px; border-top: 1px solid #6ACAE5; position: relative; top:-1px; margin-right: 5px;}
+  	.qxitem{ border-top: #2CBCB4 solid 1px;}
+  	.qxitem .picname{ padding: 5px; /*border-bottom: #2CBCB4 solid 1px;*/}
+  	.qxitem .picname i{ display: inline-block; vertical-align: top; width: 50px; height: 50px; background: #5fd9b9; padding: 2px;}
+  	.qxitem .picname span{display: inline-block; vertical-align: top; line-height: 50px; font-size: 16px; margin-left: 20px;}
+  	.qxitem .prc{padding: 2px 5px 20px; font-size: 0; position: relative;border-bottom: #2CBCB4 solid 1px;}
+  	.qxitem .prc span{ display: inline-block; width: 20%; height: 22px; line-height: 22px; text-align: center; color: #ffffff; font-size: 13px;}
+  	.qxitem .prc span:nth-of-type(1){background: #f85e08;}
+  	.qxitem .prc span:nth-of-type(2){background: #ffc000;}
+  	.qxitem .prc span:nth-of-type(3){background: #00cc99;}
+  	.qxitem .prc span:nth-of-type(4){background: #ffc000;}
+  	.qxitem .prc span:nth-of-type(5){background: #f85e08;}
+  	.qxitem .prc em{position: absolute; top: 22px; width: 16px; height: 16px;}
+  	.cols{border-bottom: #2CBCB4 solid 1px; display: flex; display: -webkit-flex;}
+  	.cols .c-l{ width: 70px; border-right: #2CBCB4 solid 1px; position: relative; min-height: 50px;}
+  	.cols .c-l .lab{ line-height: 20px; position: absolute; width: 100%; top: 50%; transform: translateY(-50%); font-weight: bold; text-align: center;}
+  	.cols .c-r{ flex: 1;-webkit-flex: 1;}
+  	.cols .c-r .cnn{ display: flex; display: -webkit-flex; line-height: 20px;padding: 0 12px;}
+  	.cols .c-r .cnn em{margin-top: 4px; display: block; width: 10px; height: 10px; border-radius: 50%; background: #348697;}
+  	.cols .c-r .cnn span{ display: block; padding: 0 12px; font-size: 12px; flex: 1;}
+  	.cols .c-r .cli{ min-height: 32px; line-height: 30px; display: flex; border-bottom: #2CBCB4 solid 1px;}
+  	.cols .c-r .cli .nam{ display:block; width: 80px; text-align: center; border-right: #2CBCB4 solid 1px; font-weight: bold;}
+  	.cols .c-r .cli .list{display: block; flex: 1;}
+  	.cols .c-r .cli .list em{ display: inline-block; margin: 0 5px; }
+  	.trend{}
+  	
+  	
+  	
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>健康评估报告</h1>
+    <div class="user_name h2">
+      <span style="width: 24%;">手机号：<em>{{res.mobile.slice(0,11)}}</em></span>
+      <span style="width: 15%;">性别：<em>{{res.sex==1?'男':'女'}}</em></span>
+      <span style="width: 15%;">年龄：<em>{{res.age}}</em></span>
+      <span style="width: 34%;">检测日期：<em>{{res.inspectDateStr}}</em></span>
+    </div>
+    <div class="wel_title">
+      <p>尊敬的<em>{{res.nickName}}{{res.sex==1?'先生':'女士'}}</em>： 您好！</p>
+      <p>感谢您使用潜在心理情绪检测仪。现将您的评估结果汇总分析如下，请您认真阅读。祝您健康！</p>
+    </div>
+	
+	<div class="d-table">
+		<p class="p-tit">
+			<span class="lab">情绪画像:</span>
+			<span>您情绪的关键特征</span>
+		</p>
+		<div class="huaxiang">
+			<!--<span>鲁莽</span><span>激动</span><span>脾气大</span><span>鲁莽</span><span>激动</span><span>脾气大</span>-->
+			<span v-for="(item,index) in moodViewsList">{{item}}</span>
+		</div>
+	</div>
+	
+	<div class="d-table">
+		<p class="p-tit">
+			<span class="lab">情绪指数:</span>
+			<span>通过雷达图和曲线图，您可直观了解自己的情绪状态，以及和同龄人情况对比</span>
+		</p>
+		<div class="chartbox">
+			<div class="char-l">
+				<div class="eahar" id="echa3" style="width:400px;height:230px;position: absolute;top:23px;left:-50px;" ></div>
+	      <div class="biaoji">
+	        <span class="hong"><em></em>同龄人平均值</span>
+	        <span class="lan"><em></em>您的测量值</span>
+	      </div>
+				
+			</div>
+			<div class="char-r">
+				<div class="eahar" id="main" style="width:296px;height:240px; position: absolute; top: 30px; left: 0;"></div>
+				<div class="biaoshi"><em><i></i>同龄人平均值</em><em><i></i>您的测量值</em></div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="d-table">
+		<p class="p-tit">
+			<span class="lab">指标解读：</span>
+			<span>九大情绪指标的详细解读、建议、分析、历史测试变化趋势等信息</span>
+		</p>
+		<div class="qxitem" v-for="(item,index) in metricViews">
+			<p class="picname"><i><img :src="'img/psy/bgtt'+item.metricId+'.png'"></i><span>{{item.metricName}}</span></p>
+			<p class="prc">
+				<span>过低</span><span>较低</span><span>适中</span><span>较高</span><span>过高</span>
+				<em v-if="item.threshholdType =='过低'" style="left: 10%;"><img src="img/psy/fubiao.png"></em>
+				<em v-if="item.threshholdType =='较低'" style="left: 30%;"><img src="img/psy/fubiao.png"></em>
+				<em v-if="item.threshholdType =='适中'" style="left: 48%;"><img src="img/psy/fubiao.png"></em>
+				<em v-if="item.threshholdType =='较高' || item.threshholdType =='较强'" style="left: 68%;"><img src="img/psy/fubiao.png"></em>
+				<em v-if="item.threshholdType =='过高'" style="left: 88%;"><img src="img/psy/fubiao.png"></em>
+			</p>
+			<div class="cols">
+				<div class="c-l">
+					<p class="lab">情绪<br/>解读</p>
+				</div>
+				<div class="c-r">
+					<p class="cnn"><em></em><span>{{item.threshholdExplain.split('\n')[0]}}</span></p>
+					<p class="cnn"><em></em><span>{{item.threshholdExplain.split('\n')[1]}}</span></p>
+				</div>
+			</div>
+			
+			<div class="cols">
+				<div class="c-l">
+					<p class="lab">认知<br/>情绪</p>
+				</div>
+				<div class="c-r">
+					<p class="cli">
+						<span class="nam">行为表现：</span>
+						<span class="list"><em v-for="site in item.cognitiveEmotions.actionExpression">{{site}}</em></span>
+					</p>
+					<p class="cli">
+						<span class="nam">认知表现：</span>
+						<span class="list"><em v-for="site in item.cognitiveEmotions.cognitionExpression">{{site}}</em></span>
+					</p>
+					<p class="cli">
+						<span class="nam">情绪表现：</span>
+						<span class="list"><em v-for="site in item.cognitiveEmotions.moodExpression">{{site}}</em></span>
+					</p>
+					<p class="cli">
+						<span class="nam">生理表现：</span>
+						<span class="list"><em v-for="site in item.cognitiveEmotions.bodyExpression">{{site}}</em></span>
+					</p>
+				</div>
+			</div>
+			
+			<div class="cols">
+				<div class="c-l">
+					<p class="lab">建议</p>
+				</div>
+				<div class="c-r">
+					<p v-for="site in item.jianyi" class="cnn"><em></em><span>{{site}}</span></p>
+					<!--<p class="cnn"><em></em><span>您感到放松、心态平和、情绪平静，对生活和工作有控制感和方向感；</span></p>-->
+				</div>
+			</div>
+			
+			<div class="cols">
+				<div class="c-l">
+					<p class="lab">相关<br/>推荐</p>
+				</div>
+				<div class="c-r">
+					<p class="cli">
+						<span class="nam">书籍推荐：</span>
+						<span class="list"><em v-for="site in item.bookRecommends">{{site}}</em></span>
+					</p>
+					<p class="cli">
+						<span class="nam">音乐推荐：</span>
+						<span class="list"><em v-for="site in item.musicRecommends">{{site}}</em></span>
+					</p>
+					<p class="cli">
+						<span class="nam">电影推荐：</span>
+						<span class="list"><em v-for="site in item.movieRecommends">{{site}}</em></span>
+					</p>
+					<p class="cli">
+						<span class="nam">食物推荐：</span>
+						<span class="list"><em v-for="site in item.foodRecommends">{{site}}</em></span>
+					</p>
+				</div>
+			</div>
+			
+			<div class="trend">
+				<p style="font-weight: bold; padding: 0 10px; line-height: 30px;">历史趋势：</p>
+				<div :id="'qu'+index" style="550px; height: 260px;"></div>
+			</div>
+			
+		</div>
+		
+	</div>
+    
+
+  </div>
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="http://echarts.baidu.com/build/dist/echarts-all.js"></script> 
+<script src="js/vue.min.js"></script>
+<script>document.write('<script src="js/print231.js?t=' + new Date().getTime() + '"><\/script>')</script>
+</body>
+</html>

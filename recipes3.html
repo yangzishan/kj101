@@ -46,7 +46,17 @@
 	</div>
 	<div class="sp-zj"><em class="fr ssjy"></em></div>
 	<div class="sp-dcn" v-for="(day,index) in recipes">
-		<p class="cnt"><span class="fl">day{{index+1}}</span></em></p>
+		<div class="cnt"><span class="fl">day{{index+1}}</span></em>
+			<em style="display: inline-block; margin: .2rem 0 0 .2rem; height: .48rem; border-radius:.1rem; text-align: center; line-height: .48rem; background: #eeeeee; padding: 0 .16rem;">食材列表</em>
+			<div class="v_overlert">
+				<div class="tc-spcd">
+					<p class="tit">所需食材列表</p>
+					<div style="font-size: 0; max-height: 5.8rem; overflow: auto; margin: .2rem;">
+						<span v-for="tag in day.recipeDetail" style="display: inline-block;margin: 0; width: 49.9%;text-align: left; background: none; line-height: .4rem; color:#333333; font-size: .26rem;">{{tag.key}} {{tag.value}}g</span>
+					</div>
+				</div>	
+			</div>
+		</div>
 		<div class="cnc">
 			<div class="tt"><span>名称</span><em>荤菜</em><em>素菜</em><em>主食</em></div>
 			<dl class="tli">
@@ -115,7 +125,7 @@
 			<dl class="tli">
 				<dt><p class="ce"><img src="img/sp-i-binggan.png"><font>早加餐</font></p></dt>
 				<dd>
-					<template v-for="ba in day.breakfastAdd.BA">
+					<template v-for="ba in day.breakfastAdd.ba">
 						<span>{{ba.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
@@ -201,7 +211,7 @@
 			<dl class="tli">
 				<dt><p class="ce"><img src="img/sp-i-mangguo.png"><font>午加餐</font></p></dt>
 				<dd>
-					<template v-for="la in day.lunchAdd.LA">
+					<template v-for="la in day.lunchAdd.la">
 						<span>{{la.foodName}}</span>
 						<div class="v_overlert">
 							<div class="tc-spcd">
@@ -293,16 +303,16 @@
 <div class="v_overlert" id="ssjyTab">
 	<div class="tc_sy">
 		<p class="bit2">
-			<span class="labt">康加首席营养师顾晓玲领衔的团队为您提供。</span>
+			<span class="labt"><!--康加首席营养师顾晓玲领衔的团队为您提供。--></span>
 		</p>
 		<div class="bxt">
-			顾晓玲<br/>
-			中国首批注册营养师 <br/>
-			山东中医药大学营养学学士<br/>
-			兰州大学营养学硕士 <br/>
-			临床营养师<br/>
-			公共营养师<br/>
-			中国营养学会会员<br/>
+			崔义祥<br/>     
+			北京市健康教育所原所长，北京市疾控中心主任医师<br/><br/>
+			
+			潘晓明<br/>     
+			中医博士<br/>
+			北京大学医学部研究中心学术部副主任<br/>
+			深圳市中医药健康服务协会副会长；<br/>
 		</div>
 	</div>
 </div>
@@ -352,7 +362,8 @@ zhuge.track('进入健康食谱页面', { //埋点t
 });
 $.ajax({
 	type: "post",
-	url: analysisreport + "/v3/reportContent/getReportRecipesData",
+	//url: analysisreport + "/v3/reportContent/getReportRecipesData",
+	url: dataUrl + "/api/v1/reportIndex/getRecipesData",
 	dataType: 'json',
 	data:{
 		reportId: reportId,
@@ -364,10 +375,16 @@ $.ajax({
 			var myApp = new Vue({
 				el: '#myvue',
 				data: {
-					recipes: data.data.daylist
+					recipes: data.data.dayList
 				}
 			});
-			
+			//显示食材列表
+			$('.sp-dcn .cnt em').on("click",function(){
+				event.stopPropagation();
+				showMask();
+				$(this).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
+				return false;
+			});
 			//点菜名弹出窗
 			$('.sp-dcn .cnc .tli dd span').on("click",function(){
 				event.stopPropagation();

@@ -108,6 +108,9 @@
     <script>
         $(function(){
             var  inspectCode =getQueryString('reportId');
+            var  reportType =getQueryString('reportType');
+            var  dataSource = '/api/v5/index/bloodOxygenValue'
+            if(reportType == 151){dataSource = '/api/azy/reportData/bloodOxygenValue'}
             new Vue({
                 el:'#app_501',
                 data:{
@@ -134,7 +137,7 @@
                     var  that = this;
                     $.ajax({
                         type:'POST',
-                        url:dataUrl +  '/api/v5/index/bloodOxygenValue',
+                        url:dataUrl +  dataSource,
                         data:{
                             inspectCode:inspectCode
                         },

@@ -81,6 +81,10 @@ body .loadmore {
 <div class="d_login">
 	<div class="login_cn">
 		<p class="ctit">{{language.la_welcome}}</p>
+		<p class="cpxt reportType120" >
+        <span class="lab">姓名</span><!--电话-->
+        <span class="fle"><input type="text" id="userName" placeholder="请输入姓名" ></span>
+      </p>
     <p class="cpxt reportType120" >
         <span class="lab">{{language.la_cell}}</span><!--电话-->
         <span class="fle"><input type="number" id="mobile" :placeholder="language.la_cellPlace" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)"></span>
@@ -286,6 +290,7 @@ $(function(){
           flag = true
         }
       })
+      userData.userName = $('#userName').val();
       userData.age = $('#age').val();
       userData.userTel = $('#mobile').val();
       userData.gender = $('[name=sex]:checked').val();

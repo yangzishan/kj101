@@ -20,6 +20,7 @@ var sameUser = getQueryString("sameUser");
 var edition = getQueryString("edition");
 var saasId = getQueryString("saasId");
 var clientType = getQueryString("clientType"); 
+var source = getQueryString('source');
 var terminalType = 1; //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 var findPackage = "/api/v1/reportWxPay/findPackage2"
 var dataInfor = {
@@ -66,6 +67,8 @@ var myApp = new Vue({
 			packageId:'',
 			price:'', 
 			oprice:'', //原价
+			subprice:'', //优惠券后价
+			discount:'',//优惠券金额
 			description:'', //描述
 			isFree: '',
 			abnormalNo:'', //全部异常项总数
@@ -87,7 +90,8 @@ var myApp = new Vue({
 			doctor:'',
 			clientType:'',
 			cardPrice:'', cardUseCount:'', //购买年卡用
-			language: language
+			language: language,
+			saasPayUrl:'', //判断SaaS支付
 		}
 	},
 	methods: {
@@ -121,6 +125,7 @@ var myApp = new Vue({
 					  		_this.oprice = _this.price+20; //数据没有原价的情况
 					  	}
 					  	_this.description = packageData.data.infoView.description //描述
+					  	
 					  	if(packageData.data.mentPage.abnormal != null && packageData.data.mentPage.abnormal!=''){
 					  		_this.abnormalNo = packageData.data.mentPage.abnormal.list3.length+packageData.data.mentPage.abnormal.list2.length, //全部异常项目数
 					  		_this.litAbnormal = packageData.data.mentPage.abnormal.list2.length,
@@ -225,10 +230,10 @@ var myApp = new Vue({
 							}else{
 								_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡
 							};*/
-							
+							_this.getSaasTenantByCompanyId();
 							_this.findUserCards(reportId,_this.userId) //判断用户有没有可用卡
 							_this.getPayChannel(_this.snNum) //查询支付通道  公众号用
-
+							
 							//关闭 选择方式
 							$('.close').click(function(){
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.sl-pay').css({"transform":"translateY(110%)"});
@@ -253,16 +258,104 @@ var myApp = new Vue({
 				}
 			).error(function(){alert('findPackage error')})
 		},
+		isUsableByCustomerIdAndNeId: function(){ //判断优惠卷是否可用,返回有效期最短的优惠券
+  			var vm = this;
+  			$.ajax({
+				url : couponData + "/v1/use/coupon/isUsableByCustomerIdAndNeId",
+			    type : "POST",
+				dataType : 'json',
+				data : {
+				    inspectCode : reportId, //报告IDl
+				    customerId : userId
+				},
+				success: function(data){
+					if(data.data == null || data.data == ''){
+						console.log('优惠券信息为空')
+					}else{
+						if(data.data.discountType == 1){
+							vm.discount = data.data.discountNum;
+						}else if(data.data.discountType == 2){
+							vm.discount = vm.price-(vm.price*data.data.discountNum)
+						};
+						//vm.voucherId = data.data.voucherId;
+						vm.subprice = (vm.price-vm.discount).toFixed(2);
+					};
+				},
+				error: function(){console.log('isUsableByCustomerIdAndNeId error')}
+			});
+  		},
+		getSaasTenantByCompanyId: function(){//查询SaaS信息
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:saasUrl+ "/api/v1/initTenant/getSaasTenantByCompanyId",
+				async:true,
+				dataType: 'json',
+				data: {
+					saasId:saasId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.ifPayType = res.data.ifPayType
+						if(res.data.ifPayType == 2){
+							vm.getSaasPay()
+						}else{
+							vm.isUsableByCustomerIdAndNeId()
+						}
+					}
+				},
+				error: function(){
+					vm.isUsableByCustomerIdAndNeId()
+					console.log('getSaasTenantByCompanyId error')
+				}
+			});
+		},
+		getSaasPay: function(){ //SaaS第三方支付
+			var vm = this;
+			if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
+				var paymentSuccJumpUrl = testHealthUrl+'/report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&source='+source
+			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+				var paymentSuccJumpUrl=testHealthUrl+'/report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&source='+source
+			}else{
+				var paymentSuccJumpUrl=testHealthUrl+'/report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&source='+source
+			}
+			$.ajax({
+				type:"post",
+				url:dataUrl+ "/api/saas/order/getSaasPay",
+				async:true,
+				dataType: 'json',
+				data: {
+					customerId:userId,
+					reportId:reportId,
+					saasId:saasId,
+					paymentSuccJumpUrl:paymentSuccJumpUrl
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.price = res.data.payMoney/100
+						console.log(vm.price)
+						vm.saasPayUrl = res.msg+'?reportPayId='+res.data.reportPayId
+					}
+				},
+				error: function(){console.log('getSaasPay error')}
+			});
+			
+		},
 		goPay: function(e){//点击支付按钮弹出支付方式
 			var vm = this;
-			if(vm.isFree == 1){
-				vm.goReportIndex(reportId,userId,reportType);
-			}else if(vm.price == 0){
-				vm.updateFreeOrder(reportId,vm.packageId,vm.userId)
+			if(vm.ifPayType == 2){
+				console.log(vm.saasPayUrl)
+				location.href = vm.saasPayUrl
 			}else{
-				$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-				$('.sl-pay').css({"transform":"translateY(0%)"});
-			};
+				if(vm.isFree == 1){
+					vm.goReportIndex(reportId,userId,reportType);
+				}else if(vm.price == 0){
+					vm.updateFreeOrder(reportId,vm.packageId,vm.userId)
+				}else{
+					$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+					$('.sl-pay').css({"transform":"translateY(0%)"});
+				};
+			}
 		},
 		hrefRouter: function(pay){ //跳转order
 			var vm = this;
@@ -292,7 +385,7 @@ var myApp = new Vue({
 			zhuge.track('选择支付方式点击',{
 				'支付方式': '卡支付'
 			},function(){
-				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition
+				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition+'&saasId='+saasId
 			});
 		},
 		getPayChannel: function(snNum){ //支付通道
@@ -340,7 +433,8 @@ var myApp = new Vue({
 				dataType : 'json',
 				data : {
 					reportId : reportId,
-				   	userId : userId
+				   	userId : userId,
+				   	openId: openId
 				},
 				success : function(data) {
 					//alert('查找用户可用卡');
@@ -371,13 +465,18 @@ var myApp = new Vue({
 		},
 		goReportIndex: function(reportId,userId,reportType){ //跳转查看报告
 			var vm = this;
-			if(reportType == 121 || reportType == 122 || reportType == 12001){
-				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-			}else if(reportType == 501 || reportType == 502){
-				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			if(openId){
+				location.href='common.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 			}else{
-				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
+					location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+					location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}else{
+					location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}
 			}
+				
 		},
 		//配置购买年卡活动 判断是否配置
 		findYearCardInfo: function(sn){
@@ -388,7 +487,8 @@ var myApp = new Vue({
 				dataType: 'json',
 				data: {
 					inspectCode: reportId,
-					neSn: sn
+					neSn: sn,
+					openId:openId
 				},
 				success: function(res){
 					if(res.code == 200){
@@ -449,9 +549,9 @@ function setupWebViewJavascriptBridge(callback) {
 setupWebViewJavascriptBridge(function(bridge) {
 	//注册JS方法供OC调用
 	bridge.registerHandler('reloadReport', function(data, responseCallback) {
-		if(reportType == 121 || reportType == 122 || reportType == 12001){
+		if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 			location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
-		}else if(reportType == 501 || reportType == 502){
+		}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
 			location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 		}else{
 			location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType

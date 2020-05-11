@@ -111,7 +111,7 @@ new Vue({
                             $('#app_501').css({'display':'block'});
                             $('.loadmore.loading').css({'display':'none'});
                             that.zhuan();
-                        },100)
+                        },600)
                         that.goToShare('goToPrint');
                         urlSearch = '?' + 'reportId=' + reportId+ '&edition=' + edition+'&userId='+ customerId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId;
                    }else if(res.code == 201){
@@ -163,8 +163,10 @@ $('.content').on('click','.list',function(){
     if($(this).hasClass('jkbaogao')){
     	if(reportType == 500){
     		window.location.href = 'report5.html' + urlSearch;
-    	}else if(reportType == 501 || reportType == 502){
+    	}else if(reportType == 501 || reportType == 502 || reportType == 5021){
     		window.location.href = 'report6.html' + urlSearch+'&terminal=app';
+    	}else if(reportType == 505){
+    		window.location.href = 'report124.html' + urlSearch;
     	}
     }else if($(this).hasClass('heart')){
         window.location.href = 'heart.html' + urlSearch;
@@ -174,7 +176,8 @@ $('.content').on('click','.list',function(){
         if(reportType == 502 || reportType == 500){
             window.location.href = 'skin_new.html' + urlSearch;
         }else{
-            window.location.href = 'skin.html' + urlSearch;
+            //window.location.href = 'skin.html' + urlSearch;
+            window.location.href = 'skin_new.html' + urlSearch;
         }
     }
 })

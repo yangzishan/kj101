@@ -113,21 +113,21 @@ input{-webkit-appearance:none; resize: none;}
 <section id="appVue">
 	
 
-<div style="padding:.2rem 0 0; position: relative;">
+<!--<div style="padding:.2rem 0 0; position: relative;">
 	<img class="img_b" src="img/top.jpg"/>
 	<p style="position: absolute; right: .1rem; top: .3rem; font-size: .14rem;">为您的健康加分</p>
-</div>
+</div>-->
 <div class="top_cn">
-	<p class="btt">康加亚健康评估报告<span class="bm">编码：</span></p>
-	<div class="info">手机号：{{mobile}} 　　　　　性别：{{sex==1?'男':'女'}} 　　　　　<span class="realAge">年龄：<em id="ageNo"></em></span>　　　　　检测日期：{{inspectDateStr}} </div>
+	<p class="btt">亚健康评估报告<span class="bm">编码：</span></p>
+	<div class="info">手机号：{{mobile.slice(0,11)}} 　　　　　性别：{{sex==1?'男':'女'}} 　　　　　<span class="realAge">年龄：<em id="ageNo"></em></span>　　　　　检测日期：{{inspectDateStr}} </div>
 </div>
 <div class="">
 	尊敬的{{nickName}}{{sex == 0?'女士':'先生'}} 您好！<br/>
-	感谢您使用健康筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。如需帮助请拨打我们的健康热线400-6666-787，将有我们专业的健康咨询师为您答疑解惑。祝您健康！
+	感谢您使用健康筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。祝您健康！
 </div>
 <div class="tit-b">整体健康评估</div>
 <div class="state-c">
-	<span>总分:</span><font>{{totalScore}}</font><em class="srhRank">您的综合得分好于<i>{{ranking}}%</i> 的人(康加系统近 60 天排名)</em>
+	<span>总分:</span><font>{{totalScore}}</font><em class="srhRank">您的综合得分好于<i>{{ranking}}%</i> 的人(系统近 60 天排名)</em>
 </div>
 <div class="tit-b">评估报告</div>
 
@@ -230,10 +230,10 @@ input{-webkit-appearance:none; resize: none;}
 
 <div class="jk_sug">
 	<p class="btit">膳食建议</p>
-	<p class="ztit">
-		康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
+	<!--<p class="ztit">
+		膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
 		肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
-	</p>
+	</p>-->
 	<div class="box_c" v-for="(site,index) in sites">
 		<span class="lab">{{options[index]}}、{{site.indexName}}</span>
 		<div class="con">
@@ -244,10 +244,10 @@ input{-webkit-appearance:none; resize: none;}
 </div>
 <div class="jk_sug">
 	<p class="btit">营养建议</p>
-	<p class="ztit">
-		康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
+	<!--<p class="ztit">
+		膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
 		肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
-	</p>
+	</p>-->
 	<div class="box_c" v-for="(oli,index) in oul">
 		<span class="lab">{{options[index]}}、{{oli.indexName}}</span>
 		<div class="con">
@@ -258,11 +258,11 @@ input{-webkit-appearance:none; resize: none;}
 </div>
 <div class="jk_sug">
 	<p class="btit">运动建议</p>
-	<p class="ztit">
-		康加运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。<br>
+	<!--<p class="ztit">
+		运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。<br>
 		高岭娣　首都医科大学卫生与教育管理学院体育学系主任/副教授<br/>
 		潘晓明　中医博士、北京大学医学部研究中心学术部副主任、深圳市中医药健康服务协会副会长；<br/>
-	</p>
+	</p>-->
 	<div class="box_c" v-for="(sport,index) in sports">
 		<!--<span class="lab"> </span>-->
 		<div class="con">
@@ -277,7 +277,7 @@ input{-webkit-appearance:none; resize: none;}
 
 <p style="height: 1rem;"></p>
 <div class="wxtip">
-	温馨提示：1、康加亚健康智能评估仪是为亚健康人群设计，相关指标依据三大人体数据采集系统（中医数字化技术、脉搏波检测技术、生物电阻抗检测技术）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。2、是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。3、推送的内容，数据指标、运动调理、健康食谱、健康设备、调养方法等均作为个人健康管理所需的参考，不作为处方。
+	温馨提示：1、亚健康智能评估仪是为亚健康人群设计，相关指标依据三大人体数据采集系统（中医数字化技术、脉搏波检测技术、生物电阻抗检测技术）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。2、是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。3、推送的内容，数据指标、运动调理、健康食谱、健康设备、调养方法等均作为个人健康管理所需的参考，不作为处方。
 </div>
 <p class="k1"></p>
 

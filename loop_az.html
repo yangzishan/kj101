@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>微循环</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/kanghao130.css" />
+</head>
+<body>
+<DIV class="my_view" style="visibility: hidden;">
+<header class="kh-second-head">
+	<p class="bac"><a class="b-arr fl" href="javascript:history.go(-1);"></a></p>
+	<p class="tit">微循环</p>
+</header>
+<div class="kh-third-sta" style="margin: -1rem .3rem .2rem;" v-if="ecg">
+	<div class="">
+		<p style="font-size: .32rem; font-weight: 600;">心率</p>
+		<div style="color: #E63A4F; text-align: center; font-size: .32rem;"><i style="font-size: .72rem; font-weight: 600;">{{ecg.heartRate}}</i>bmp</div>
+	</div>
+	<div class="tcc">
+		<div class="cc_t">
+			<i class="star"></i>
+			<p class="prc slow"><span><em>过缓</em></span><i class="fr"></i></p>
+			<p class="prc normal"><span><em>正常</em></span><i class="fr"></i></p>
+			<p class="prc fast"><span><em>过速</em></span><i class="fr"></i></p>
+		</div>
+		<div class="cc_p">
+			<span>0</span><span>60</span><span>100</span><span>200</span>
+			<p class="pro" style="width: 20%;" v-if="ecg.heartRate<60"><i class="fr"></i></p>
+			<p class="pro" style="width: 50%;" v-if="ecg.heartRate>=60 && ecg.heartRate<100"><i class="fr"></i></p>
+			<p class="pro" style="width: 80%;" v-if="ecg.heartRate>=100"><i class="fr"></i></p>
+		</div>
+	</div>
+	<p class="dtit">心脏功能</p>
+	<div class="dlit" v-if="ecg.paraResult"><i><img src="img/kh130/danger.png" class="img_b"></i>{{ecg.paraResult}}</div>
+	<template v-if="ecg.paraCause && ecg.paraCause != '无'">
+		<p class="dfit"><span>常见原因</span></p>
+		<div class="dtxt">{{ecg.paraCause}}</div>
+	</template>
+		
+</div>
+
+<div class="kh-third-sta">
+	<p class="dtit">血氧饱和度</p>
+	<div class="wxh-g">
+		<div class="d-left fl"><img src="img/kh130/yangqi.png" class="img_b"></div>
+		<div class="d-right fl">
+			<p class="p1"><span>{{bloodOxygen.bloodScore}}%</span>
+				<i v-if="bloodOxygen.bloodScore<94"> &lt;</i>
+				<i v-if="bloodOxygen.bloodScore>=94 && bloodOxygen.bloodScore<=99"> = </i>
+				<i v-if="bloodOxygen.bloodScore>99"> &gt;</i>
+				正常范围（94%-99%）</p>
+			<p class="p2"><span>{{bloodOxygen.bloodStatus}}<span></p>
+		</div>
+	</div>
+	<template v-if="bloodOxygen.bloodSymptoms && bloodOxygen.bloodSymptoms != '无'">
+		<p class="dfit"><span>可能出现的症状</span></p>
+		<div class="dtxt">{{bloodOxygen.bloodSymptoms}}</div>
+	</template>
+	
+	<template v-if="bloodOxygen.bloodWhy && bloodOxygen.bloodWhy != '无'">
+		<p class="dfit"><span>引起原因</span></p>
+		<div class="dtxt">{{bloodOxygen.bloodWhy}}</div>
+	</template>
+		
+	
+	<template v-if="bloodOxygen.bloodAdvice && bloodOxygen.bloodAdvice != '无'">
+		<p class="dfit"><span>改善建议</span></p>
+		<div class="dtxt">{{bloodOxygen.bloodAdvice}}</div>
+	</template>
+		
+	
+	<p style="height: .3rem;"></p>
+	<p class="dtit">微循环</p>
+	<div class="wxh-g">
+		<div class="d-left fl"><img src="img/kh130/xueguan.png" class="img_b"></div>
+		<div class="d-right fl">
+			<p class="p1"><span>{{bloodOxygen.heathScore}}%</span></p>
+			<p class="p2"><span>{{bloodOxygen.heathIndex}}<span></p>
+		</div>
+	</div>
+	<template v-if="bloodOxygen.heathSymptoms && bloodOxygen.heathSymptoms != '无'">
+		<p class="dfit"><span>可能出现的症状</span></p>
+		<div class="dtxt">{{bloodOxygen.heathSymptoms}}</div>
+	</template>
+		
+	
+	<template v-if="bloodOxygen.heathWhy && bloodOxygen.heathWhy != '无'">
+		<p class="dfit"><span>引起原因</span></p>
+		<div class="dtxt">{{bloodOxygen.heathWhy}}</div>
+	</template>
+		
+	
+	<template v-if="bloodOxygen.heathExplain && bloodOxygen.heathExplain != '无'">
+		<p class="dfit"><span>改善建议</span></p>
+		<div class="dtxt">{{bloodOxygen.heathExplain}}</div>
+	</template>
+		
+</div>
+
+</DIV>
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId = getQueryString('reportId');
+var targetId = getQueryString("targetId");
+var reportType = getQueryString('reportType');
+var myApp = new Vue({
+	el: '.my_view',
+	data: function(){
+		return{
+			reportId: reportId,
+			targetId: targetId,
+			ecg:{},
+			bloodOxygen:{}
+		}
+	},
+	mounted: function(){
+		this.queryInsureCircle()
+	},
+	methods:{
+		queryInsureCircle: function(){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + '/api/azy/reportData/bloodOxygenValue',
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    inspectCode : reportId
+				},
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.ecg = res.data.ecg 
+				   		vm.bloodOxygen = res.data.bloodOxygenValue 
+					}
+				},
+				error : function(obj,msg){alert("queryInsureCircle error")}
+			});
+		}
+	}
+});
+
+//截取url
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

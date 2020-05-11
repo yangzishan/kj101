@@ -21,15 +21,17 @@
 </head>
 <body class="bck-col-fff">
 <section class="my_view">
-<div v-if="saasId != '219278'"><img src="img/login_t.jpg" class="img_b"></div>
+<!--<div v-if="!saasLogo"><img src="img/login_t.jpg" class="img_b"></div>-->
+<div style="padding: .4rem 2rem;"><img :src="saasLogo" class="img_b"></div>
 <!--<div v-if="saasId == '219278'"><img :src="saasLogo" class="img_b"></div>-->
-<div v-if="saasId == '219278'" :style="{background:'url('+saasLogo+') no-repeat center', height:'3rem'}"></div>
+<!--<div v-if="saasId == '219278'" :style="{background:'url('+saasLogo+') no-repeat center', height:'3rem'}"></div>-->
 <div class="d_login">
 	<div class="login_cn">
-		<p v-if="saasId != '219278'" class="ctit">{{language.la_welcome}}</p>
-		<p v-if="saasId == '219278'" class="ctit">欢迎来到{{saasName}}</p>
-		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 123) || reportType == 12001">
-			<span class="lab">{{language.la_name}}</span><!--昵称-->
+		<p class="ctit">欢迎来到{{saasName}}</p>
+		<!--<p v-if="saasId != '219278'" class="ctit">{{language.la_welcome}}</p>
+		<p v-if="saasId == '219278'" class="ctit">欢迎来到{{saasName}}</p>-->
+		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 123) || reportType == 12001 || reportType == 5021 || reportType == 505">
+			<span class="lab">{{language.la_name}}</span><!--姓名-->
 			<span class="fle"><input type="text" id="nickName" :placeholder="language.la_namePlace" ></span>
 		</p>
 		<p class="cpxt">
@@ -40,7 +42,7 @@
 			<span class="lab">身份证号</span>
 			<span class="fle"><input type="text" id="identity" placeholder="请输入您的身份证号" oninput="if(value.length>18)value=value.slice(0,18)"></span>
 		</p>
-		<p class="cpxt reportType120" v-if="reportType >= 120 && reportType < 123">
+		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 123) || reportType ==125">
 			<span class="lab">业务员号<font>{{optionInt}}</font></span>
 			<span class="fle"><input type="number" id="relatedNo" placeholder="请输入您的保险业务员号" pattern="[0-9]*"></span>
 		</p>
@@ -70,7 +72,7 @@
 
 <div class="v_overlay"></div>
 <div class="v_overlert" id="showNotice">
-	<div class="tc_sy" v-if="saasId != '219278'">
+	<div class="tc_sy" v-if="saasId != '219278' && userNotice == null">
 		<p class="bit" style="text-align: center;">
 			<span class="labt">{{language.la_noteTit}}</span>
 		</p>
@@ -89,6 +91,14 @@
 			<p>{{language.la_note11}}</p>
 			<p>{{language.la_note12}}</p>
 			<p style="text-align: center; padding: .2rem 0; color: #666;">{{language.la_k_company}}<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+	</div>
+	<div class="tc_sy" v-if="saasId != '219278' && userNotice != null">
+		<p class="bit" style="text-align: center;">
+			<span class="labt">{{language.la_noteTit}}</span>
+		</p>
+		<div class="bxt2">
+			{{userNotice}}
 		</div>
 	</div>
 	
@@ -111,7 +121,6 @@
 			<p>11.	就与本协议相关的事项，双方应遵守所有适用的地方性、全国性和国际性的法律、法规和行业规范，如有法律法规修订或政策调整等原因或不可抗力事由导致的合同履行不能，京东有权随时终止本协议，且无需承担任何责任。</p>
 			<p>12.	特别声明：京东仅为本服务的设备提供方就系统报告输出不向用户收取任何费用。如任何第三方向您收取使用费用，注意索要发票。</p>
 			<p>13.	您已知悉《【待补充本协议名称】用户服务协议》所有内容（特别是加粗字体内容）的意义以及由此产生的法律效力。本《【京智康智能设备】用户服务协议》是您真实的意思表示。</p>
-			
 		</div>
 	</div>
 	

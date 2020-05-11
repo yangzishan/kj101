@@ -48,6 +48,7 @@ var myapp = new Vue({
 			language: language,
 			saasName: '',
 			saasLogo:'',
+			userNotice:'',
 			optionInt:''//业务员选填
 		}
 	},
@@ -68,6 +69,7 @@ var myapp = new Vue({
 						vm.language.la_thanksForUse = res.data.saasTel
 						vm.saasName = res.data.saasName
 						vm.saasLogo = res.data.saasLogo
+						vm.userNotice = res.data.userNotice
 					}
 				},
 				error: function(){}

@@ -45,10 +45,9 @@ var deviceSn = getQueryString('deviceSn');
 var jumpUrl = getQueryString('jumpUrl');
 
 // 判断
-if(saasId == 218051){
-	window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl
-	
-}
+//if(saasId == 218051 || saasId == 216549){
+//	window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl
+//}
 
 var info = {
 	openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl	
@@ -62,6 +61,26 @@ var myApp = new Vue({
 		}
 	},
 	methods: {
+		getSaasTenantByCompanyId: function(){//查询SaaS信息
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:saasUrl+ "/api/v1/initTenant/getSaasTenantByCompanyId",
+				async:true,
+				dataType: 'json',
+				data: {
+					saasId:saasId
+				},
+				success: function(res){
+					if(res.code == 200){
+						if(res.data.isSupportInvite == 1){
+							window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl
+						}
+					}
+				},
+				error: function(){console.log('getSaasTenantByCompanyId error')}
+			});
+		},
 		unlock: function(){
 			var vm = this;
 			$.ajax({
@@ -85,7 +104,7 @@ var myApp = new Vue({
 		}
 	},
 	mounted: function(){
-		
+		this.getSaasTenantByCompanyId()
 	}
 });
 

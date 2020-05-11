@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" type="text/css" href="css/baobiao.css" />
+<title>数据表</title>
+</head>
+<body>
+<section id="app">
+	<header>
+		<div class="top">健康大脑企业版</div>
+		<div class="top_b"></div>
+	</header>
+	<div class="main">
+		<div class="box-a">
+			<div class="cont_l fl">
+				<p class="tit">{{one_list.tableName}}</p>
+				<!--<p class="pit">有82%的人处于亚健康状态</p>-->
+				<div class="biao-a">
+					<p class="ptt">
+						<span>检测数</span><span>人数</span><span>占比</span><span>环比</span><span>男性</span><span>女性</span>
+					</p>
+					<p class="pcc" v-for="item in one_list.data">
+						<span>{{item.inspectCntName}}</span><span>{{item.totalCnt}}</span><span>{{item.linkRatio}}</span><span>{{item.chainRatio}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span>
+					</p>
+				</div>
+			</div>
+			<div class="cont_r fr">
+				<div id="main" style="width: 100%; height: 250px;"></div>
+			</div>
+		</div>
+		<div class="box-b">
+			<section style="overflow: hidden;">
+				<div class="cont_l fl">
+					<p class="tit2">{{two_list.tableName}}</p>
+					<!--<p class="pit2">有82%的人处于亚健康状态</p>-->
+					<!--<p class="pit3">测试总人数100人,男士 60人,女士40人</p>-->
+					<div class="biao-b">
+						<p class="ptt">
+							<span>检测数</span><span>人数</span><span>占比</span><span>环比</span><span>健康状态</span>
+						</p>
+						<p class="pcc" v-for="item in two_list.data">
+							<span>{{item.scoreName}}</span><span>{{item.totalCnt}}</span><span>{{item.linkRatio}}</span><span>{{item.chainRatio}}</span><span>{{item.healthStatus}}</span>
+						</p>
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main1" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>	
+			<section style="background: #ffffff; overflow: hidden;">
+				<div class="cont_l fl">
+					<p class="tit2">{{three_list.tableName}}</p>
+					<!--<p class="pit4">有82%的人处于亚健康状态</p>-->
+					<div class="biao-c">
+						<p class="ptt">
+							<span>检测数</span><span>人数</span><span>占比</span><span>环比</span><span>健康状态</span>
+						</p>
+						<p class="pcc" v-for="item in three_list.data">
+							<span>{{item.scoreName}}</span><span>{{item.totalCnt}}</span><span>{{item.linkRatio}}</span><span>{{item.chainRatio}}</span><span>{{item.healthStatus}}</span>
+						</p>
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main2" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+			<section style="background: #fceeed; overflow: hidden; margin-top: 20px;">
+				<div class="cont_l fl">
+					<p class="tit2">{{four_list.tableName}}</p>
+					<!--<p class="pit4">有82%的人处于亚健康状态</p>-->
+					<div class="biao-c">
+						<p class="ptt">
+							<span>检测数</span><span>人数</span><span>占比</span><span>环比</span><span>健康状态</span>
+						</p>
+						<p class="pcc" v-for="item in four_list.data">
+							<span>{{item.scoreName}}</span><span>{{item.totalCnt}}</span><span>{{item.linkRatio}}</span><span>{{item.chainRatio}}</span><span>{{item.healthStatus}}</span>
+						</p>
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main3" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+		</div>
+		<div class="box-a">
+			<section>
+				<div class="cont_l fl">
+					<p class="tit">{{five_list.tableName}}</p>
+					<div class="biao-d">
+						<p class="ptt">
+							<span>年龄段</span><span>90分以上</span><span>85到89分</span><span>85分以下</span><span>总计</span>
+						</p>
+						<p class="pcc" v-for="item in five_list.data">
+							<span>{{item.age_name}}</span><span>{{item.goodCnt}}</span><span>{{item.mildCnt}}</span><span>{{item.moderateCnt}}</span><span>{{item.totalCnt}}</span>
+						</p>
+						
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main5" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+			<section>
+				<div class="cont_l fl">
+					<p class="tit">{{six2_list.tableName}}</p>
+					<div class="biao-d">
+						<p class="ptt">
+							<span>年龄段</span><span>90分以上</span><span>85到89分</span><span>85分以下</span><span>总计</span>
+						</p>
+						<p class="pcc" v-for="item in six_list.data">
+							<span>{{item.age_name}}</span><span>{{item.goodCnt}}</span><span>{{item.mildCnt}}</span><span>{{item.moderateCnt}}</span><span>{{item.totalCnt}}</span>
+						</p>
+						
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main6_2" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+			<section>
+				<div class="cont_l fl">
+					<p class="tit">{{six_list.tableName}}</p>
+					<div class="biao-d">
+						<p class="ptt">
+							<span>年龄段</span><span>90分以上</span><span>85到89分</span><span>85分以下</span><span>总计</span>
+						</p>
+						<p class="pcc" v-for="item in six_list.data">
+							<span>{{item.age_name}}</span><span>{{item.goodCnt}}</span><span>{{item.mildCnt}}</span><span>{{item.moderateCnt}}</span><span>{{item.totalCnt}}</span>
+						</p>
+						
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main6" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+		</div>
+		<div class="box-a">
+			<section>
+				<div class="b-tit">{{eight_list.tableName}}</div>
+				<ul class="tenxt">
+					<li v-for="(item,index) in eight_list.data">
+						<div :id="'xt'+index" style="width: 100%; height: 250px;"></div>
+					</li>
+				</ul>
+			</section>
+		</div>
+		<div class="box-a" style="padding:10px 50px;">
+			<div class="b-tit" style="margin:10px 0;">{{nine2_list.tableName}}</div>
+			<div class="fivebid"><img src="img/fivebid.png">
+				<span v-for="item in nine2_list.data">{{item.metric_name}}</span>
+			</div>
+			<section style="background: #f0f0f0; border-radius: 3px; padding: 0 10px 20px;">
+				<div v-for="(item,index) in nine2_list.data" style="overflow: hidden;">
+					<div class="cont_r fl">
+						<div :id="'man_yc'+index" style="width: 100%; height: 180px;"></div>
+					</div>
+					<div class="cont_l fr" style="text-align: left;">
+						<div class="bidname"><i></i>{{item.metric_name}}</div>
+						<div class="bidcause">
+							<div class="lab">常见原因：</div>
+							<div class="txt">{{item.content}}</div>
+						</div>
+						<div class="bidimp">
+							<div class="lab">营养保健：</div>
+							<div class="txt">{{item.improvement}}</div>
+						</div>
+					</div>
+				</div>	
+			</section>
+			<div class="b-tit" style="margin:10px 0;">{{nine_list.tableName}}</div>
+			<div class="fivebid"><img src="img/fivebid.png">
+				<span v-for="item in nine_list.data">{{item.metric_name}}</span>
+			</div>
+			<section style="background: #f0f0f0; border-radius: 3px;">
+				<div v-for="(item,index) in nine_list.data" style="overflow: hidden;">
+					<div class="cont_r fl">
+						<div :id="'nv_yc'+index" style="width: 100%; height: 180px;"></div>
+					</div>
+					<div class="cont_l fr" style="text-align: left;">
+						<div class="bidname"><i></i>{{item.metric_name}}</div>
+						<div class="bidcause">
+							<div class="lab">常见原因：</div>
+							<div class="txt">{{item.content}}</div>
+						</div>
+						<div class="bidimp">
+							<div class="lab">营养保健：</div>
+							<div class="txt">{{item.improvement}}</div>
+						</div>
+					</div>
+				</div>	
+			</section>
+		</div>
+		<div class="box-a">
+			<section>
+				<div class="cont_l fl">
+					<p class="tit">{{ten_list.tableName}}</p>
+					<div class="biao-d">
+						<p class="ptt">
+							<span>年龄段</span><span>男性</span><span>女性</span><span>总数</span><span>男性占比</span><span>女性占比</span>
+						</p>
+						<p class="pcc" v-for="item in ten_list.data">
+							<span>{{item.age_name}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span><span>{{item.totalCnt}}</span><span>{{item.manLinkRatio}}</span><span>{{item.womanLinkRatio}}</span>
+						</p>
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main7" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+		</div>
+	</div><!--/main-->
+</section>
+
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>document.write('<script src="js/danao.js?t=' + new Date().getTime() + '"><\/script>')</script>
+</body>
+</html>

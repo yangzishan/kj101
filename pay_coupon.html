@@ -42,15 +42,16 @@
 				<dd><img src="img/ten/i-new-pifu.png"><font>皮肤系统</font></dd>
 			</dl>
 			<div class="pay_go" id="pay" @click="goPay($event)">
-				<p class="yj">原价:{{oprice}}</p>
-				<p class="p1">优惠价:</p><p class="p2">￥{{price}}</p>
+				<p>原价:{{oprice}}</p>
+				<p>现价:{{price}}</p>
+				<p v-if="discount">优惠价:{{subprice}}</p>
 				<button class="sub">点击支付<i></i></button>
 			</div>
 		</div>
 	</div>
 	
 	<div style="padding: 0 .15rem 1.35rem;">
-		<a class="gocheckmx" href="indicators.html">点击查看指标明细<i></i></a>
+		<a class="gocheckmx" href="indicators.html" style="    display: block;text-align: right;color: #1aa78e;padding: 0 .3rem;">点击查看指标明细<i></i></a>
 		<p class="pay_tj_yc">
 			本次检测您有<span v-if="midAbnormal"><em>{{midAbnormal}}</em>项为中度风险<br/></span><span v-if="litAbnormal"><em>{{litAbnormal}}</em>项为轻度风险</span>
 		</p>
@@ -66,7 +67,8 @@
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
 		<div class="cnn">
 			<p class="p1">支付金额</p>
-			<p class="p2">￥{{price}}</p>
+			<p class="p2" v-if="!discount">￥{{price}}</p>
+			<p class="p2" v-if="discount">￥{{subprice}}</p>
 		</div>
 		<button class="pay-li" id="kaPay" @click="gopayBycard($event)"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></button>
 		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
@@ -93,6 +95,7 @@
 <script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/echarts.common.min.js"></script>
 <script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript">
 (function (doc, win) {

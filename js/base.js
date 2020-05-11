@@ -19,19 +19,21 @@ var saasUrl = 'http://saas-tt.jiankangzhan.com';  //saas*/
 
 //-----预生产 ysc-----
 
-/*var dataUrl = 'http://wx-ysc.jiankangzhan.com'; //数据接口
-
-var testHealthUrl = 'http://kj101-ysc.jiankangzhan.com'; //大机器
-
-var bit_testHealthUrl = 'http://kj201-ysc.jiankangzhan.com'; //小机器
-
-var couponData = 'http://coupon-ysc.jiankangzhan.com'; //优惠券
-
-var analysisreport = 'http://analysisreport-ysc.jiankangzhan.com';  //3.0新报告接口
-
-var channel = 'http://39.107.74.133:8081'; //支付通道
-
-var saasUrl = 'http://saas-ysc.jiankangzhan.com';  //saas */
+//var dataUrl = 'http://wx-ysc.jiankangzhan.com'; //数据接口
+//
+//var testHealthUrl = 'http://kj101-ysc.jiankangzhan.com'; //大机器
+//
+//var bit_testHealthUrl = 'http://kj201-ysc.jiankangzhan.com'; //小机器
+//
+//var couponData = 'http://coupon-ysc.jiankangzhan.com'; //优惠券
+//
+//var analysisreport = 'http://analysisreport-ysc.jiankangzhan.com';  //3.0新报告接口
+//
+//var channel = 'http://39.107.74.133:8081'; //支付通道
+//
+//var saasUrl = 'http://saas-ysc.jiankangzhan.com';  //saas 
+//
+//var quanpinUrl = 'http://qpkjservice-ysc.jiankangzhan.com' 
  
 
 
@@ -52,4 +54,5 @@ var channel = 'http://pay.jiankangzhan.com'; //支付通道
 
 var saasUrl = 'http://saas.jiankangzhan.com'; //saas 
 
+var quanpinUrl = 'http://kjcdservice.jiankangzhan.com'
 

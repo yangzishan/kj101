@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html style="height: auto;width: 100%; overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body style="height: auto; width: 100%;">
+<DIV class="my_view report901" style="visibility: hidden;">
+	<div class="head">
+		<div class="c-c"><span>湿气报告</span></div>
+		<div class="c-l fl" @click="checkHistory"><i><img class="img_b" src="img/910/lishi.png"></i><font>历史报告</font></div>
+		<!--<div class="c-l fr" @click="goshare"><i><img class="img_b" src="img/910/share.png"></i><font>分享报告</font></div>-->
+	</div>
+	<div class="userinf">
+		<div class="name"><span><em class="lab">姓名：</em>{{dataInfo.customerName}}</span></div>
+		<div class="name">
+			<span><em class="lab">性别：</em>{{dataInfo.sex == 1?'男':'女'}}</span>
+			<span><em class="lab">年龄：</em>{{dataInfo.age}}</span>
+		</div>
+		<p class="jiance">检测时间：{{dataInfo.createTime}}</p>
+	</div>
+	<div class="jgtit"><span>湿气检测报告</span></div>
+	<div class="jieguo">
+		<div class="cnn">
+			<p class="txt">湿气结果<br><font>{{dataInfo.diseaseName}}</font></p>
+		</div>
+	</div>
+	<section class="status">
+		<p class="tb-t"></p>
+		<div class="tb-c">
+			<div class="c-item" v-if="dataInfo.diseaseExplain">
+				<p class="tit">状态说明</p>
+				<div class="txt">{{dataInfo.diseaseExplain}}</div>
+			</div>
+			<div class="c-item" v-if="dataInfo.diseaseCause">
+				<p class="tit">常见原因</p>
+				<div class="txt">{{dataInfo.diseaseCause}}</div>
+			</div>
+			<div class="c-item" v-if="dataInfo.principle">
+				<p class="tit">养生原则</p>
+				<div class="txt">{{dataInfo.principle}}</div>
+			</div>
+		</div>
+		<p class="tb-b"></p>
+	</section>
+	<div class="tit2"><span>调养建议</span></div>
+	<section class="status">
+		<p class="tb2-t"></p>
+		<div class="tb2-c">
+			<div class="s-item">
+				<div class="item-l">
+					<div class="icot"><img src="img/910/i-anmo.png">推拿按摩</div>
+				</div>
+				<div class="item-r">{{dataInfo.massage}}</div>
+			</div>
+			<div class="s-item">
+				<div class="item-l">
+					<div class="icot"><img src="img/910/i-yundong.png">运动保健</div>
+				</div>
+				<div class="item-r">{{dataInfo.sport}}</div>
+			</div>
+			<div class="s-item">
+				<div class="item-l">
+					<div class="icot"><img src="img/910/i-qingzhi.png">情志调适</div>
+				</div>
+				<div class="item-r">{{dataInfo.emotion}}</div>
+			</div>
+			<div class="s-item">
+				<div class="item-l">
+					<div class="icot"><img src="img/910/i-qizhu.png">起居调理</div>
+				</div>
+				<div class="item-r">{{dataInfo.living}}</div>
+			</div>
+			<div class="s-item" v-if="dataInfo.dietList && dataInfo.dietList.length != 0">
+				<div class="item-l">
+					<div class="icot"><img src="img/910/i-yaoshan.png">药膳建议</div>
+				</div>
+				<div class="item-r">
+					<template v-for="(item,index) in dataInfo.dietList">
+						<p style="font-weight: bold;">{{item.dietName}}</p>
+						<p>{{item.dietComponent}}</p>
+						<p>步骤：<br>{{item.dietCook}}</p>
+					</template>
+					
+				</div>
+			</div>
+			<div class="s-item" v-if="dataInfo.foodList && dataInfo.foodList.length != 0">
+				<div class="item-l">
+					<div class="icot"><img src="img/910/i-yinshi.png">饮食建议</div>
+				</div>
+				<div class="item-r">
+					<template v-for="(item,index) in dataInfo.foodList">
+						<p>{{item.foodName}}</p>
+						<p>{{item.foodDetail}}</p>
+					</template>
+				</div>
+			</div>
+		</div>
+		<p class="tb2-b"></p>
+	</section>
+	<div class="tit2"><span>历史结果</span></div> 
+	<section class="status">
+		<p class="tb3-t"></p>
+		<div class="tb3-c">
+			<div class="ls-item" v-for="item in dataInfo.historyResult">
+				<span>{{item.createTime}}</span><span>{{item.diseaseName}}</span>
+			</div>
+		</div>
+		<p class="tb3-b"></p>
+		<p style="height: .3rem;"></p>
+	</section>
+	
+</DIV><!--/my_view-->
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<!--<script>document.write('<script src="js/report910.js?t=' + new Date().getTime() + '"><\/script>')</script>-->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script type="text/javascript">
+var reportId = (getQueryString('reportId') || '123');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+var customerId = (getQueryString('userId') || 0);
+var saasId = getQueryString('saasId');
+var clientType = (getQueryString("clientType") || ''); 
+var bank = (getQueryString('bank') || '');
+var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
+var localUrl = window.location.href;
+
+var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
+if(clientType || !openId){
+	//alert('now in app');
+	if(bank == 'tjnsh'){
+		gohistoryUrl = 'reportHistory_tjns.html?customerId='+customerId
+	}else{
+		gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
+	}
+};
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+var ajaxurl = analysisreport+'/kj910/reportData/createReportData'
+var myApp = new Vue({
+	el: ".my_view",
+	data: function(){
+		return {
+			reportId: reportId,
+			reportType:reportType,
+			openId: openId,
+			customerId:customerId,
+			userId: customerId,
+			sameUser:'',paymentType:'',
+			customerName:'',mobile:'',sys:'',age:'',sex:'',ranking:'',height:'',weight:'',
+			dataInfo:{}
+		}
+	},
+	mounted: function(){
+		this.getData();
+		this.wxConfig();
+	},
+	methods: {
+		getData: function(){ 
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:ajaxurl,
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+					customerId : customerId,
+				},
+				success: function(res){
+					if(res.code == 201){
+						alert('需要支付的版本')
+					}else if(res.code == 200){
+						$('.load-overlay').css("display","none");
+						$('.my_view').css("visibility","visible");
+						vm.dataInfo = res.data
+						
+					}else{
+						alert('createReportData code='+res.code+res.msg)
+					}
+				},
+				error: function(){alert('createReportData error')}
+			});
+		},
+		checkHistory: function(){ //历史报告
+			var vm = this;
+			zhuge.track('点击历史报告', { //埋点 t
+				'用户id': vm.userId,
+				'渠道' : '微信'
+			},function(){
+				location.href = gohistoryUrl
+			});
+		},
+		goSetUp: function(){ //个人中心
+			var vm = this;
+			zhuge.track('点击个人中心', { //埋点 t
+				'用户id': vm.userId,
+				'渠道' : '微信'
+			},function(){
+				location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId+'&saasId='+saasId
+			});	
+		},
+		//微信jssdk
+		wxConfig: function(){
+			var vm = this;
+			$.ajax({
+			    type:"post",
+			    url: dataUrl+ "/weiXin/wxConfig",
+			    data:{
+			    	reqUrl: localUrl
+			    },
+			    success:function(result){
+			        wx.config({
+				        // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				        debug: false,
+				        // 必填，公众号的唯一标识
+				        appId: result.wxParameter.appId,
+				        // 必填，生成签名的时间戳
+				        timestamp:""+result.wxParameter.timestamp,
+				        // 必填，生成签名的随机串
+				        nonceStr:result.wxParameter.nonceStr,
+				         // 必填，签名，见附录1
+				         signature:result.wxParameter.signature,
+				         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				         jsApiList : [ 'checkJsApi', 'scanQRCode' ]
+			         });
+			      }
+			});
+			wx.error(function(res) {
+			    alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+			});
+		},
+		//点击分享按钮
+		goshare: function(){
+			var vm = this;
+			//////
+		}
+	}
+});
+
+//弹窗
+var _bodyoffset = '';
+function showMask(){
+	_bodyoffset = $(window).scrollTop();
+	$("body").css({"position":"fixed","top":-_bodyoffset+"px"});
+	$("body").css("overflow","hidden");
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	$('.v_overlert').css({"visibility":"visible","opacity":"1"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$("body").css("overflow","auto");
+		$("body").css("position","static");
+		$(window).scrollTop(_bodyoffset);
+	});
+};	
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+/*******************************交互逻辑*****************************/
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+/*******************************交互逻辑*****************************/
+</script>
+</body>
+</html>

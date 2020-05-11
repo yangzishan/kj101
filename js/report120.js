@@ -12,7 +12,8 @@ var visible = (getQueryString('visible') || 1);
 var edition = 120;
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
-
+var indexDataUrl = '/api/v1/reportIndex/indexAll2';
+if(reportType == '505'){indexDataUrl = '/api/v5/reportData/indexAll2';}
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType || !openId){
@@ -74,9 +75,13 @@ var myApp = new Vue({
 			deviceReport:'',
 			banData:'', //轮播广告
 			deviceSnNum:'',
-			banData:'',
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
+			mianyiScore:'',
+			mianyiList:[], //免疫系统的相关指标
+			thirdPages:[], //与免疫指标有关
+			someTit:'', //弹框用
+			someTxt:'', //弹框用
 		}
 	},
 	mounted: function(){
@@ -106,6 +111,26 @@ var myApp = new Vue({
 				error: function(){console.log('getReportSource error')}
 			});
 		},
+		getTargetByFirst: function(){ //查询免疫力
+			var vm = this
+			$.ajax({
+				url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetFirstId : 3135
+				},
+				success : function(res) {
+					if(res.code == 200){
+						vm.mianyiScore = res.data.score
+						vm.mianyiList = res.data.secondPages[0].thirdPages
+					}
+				},
+				error : function(obj,msg){alert("getTargetByFirst error")}
+			});
+			
+		},
 		goToShare: function(fangfa){  //goToShare\goToPrint
 			var vm = this;
 			setupWebViewJavascriptBridge(function(bridge) {
@@ -134,12 +159,13 @@ var myApp = new Vue({
 					if(res.code == 200){
 						if(res.data.saasTel){
 							vm.saasTel = res.data.saasTel
+							console.log(vm.saasTel)
 						}
 						vm.saasName = res.data.saasName
 						vm.saasLogo = res.data.saasLogo
 					}
 				},
-				error: function(){alert('getSaasTenantByCompanyId error')}
+				error: function(){console.log('getSaasTenantByCompanyId error')}
 			});
 		},
 		// 获取首页数据
@@ -147,7 +173,7 @@ var myApp = new Vue({
 			var _this = this;
 			$.ajax({
 				type:"post",
-				url:dataUrl + "/api/v1/reportIndex/indexAll2",
+				url:dataUrl + indexDataUrl,
 				async:true,
 				dataType : 'json',
 				data : {
@@ -167,6 +193,8 @@ var myApp = new Vue({
 							_this.getReportSource();
 							$('.my_view').css("visibility","visible");
 							$('.load-overlay').css("display","none");
+							_this.getTargetByFirst();
+							_this.thirdPages = res.data.thirdPages,
 							_this.totalScore = res.data.indexPage.totalScore, //全部得分
 					   		_this.inspectDate = res.data.indexPage.inspectDate, // 检测日期
 					    	_this.ranking = res.data.indexPage.ranking, //排名
@@ -241,7 +269,7 @@ var myApp = new Vue({
 						};
 					}else{alert('indexAll code='+res.code+res.msg)}
 				},
-				error: function(){alert('indexAll error')}
+				error: function(){console.log('indexAll error')}
 			});
 		},
 		//判断 /支付
@@ -274,6 +302,12 @@ var myApp = new Vue({
 			showMask();
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
+		showSome: function(tit,txt){
+			this.someTit = tit
+			this.someTxt = txt
+			showMask();
+			$('#showSome').css({"visibility":"visible","opacity":"1"});
+		},
 		checkHistory: function(){ //历史报告
 			var vm = this;
 			zhuge.track('点击历史报告', { //埋点 t
@@ -291,6 +325,10 @@ var myApp = new Vue({
 			},function(){
 				window.location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId+'&saasId='+saasId
 			});	
+		},
+		godayin: function(){
+			var vm = this
+			location.href = 'print/print125.html?reportId='+reportId+'&viewType=2'+'&reportType='+reportType+'&printReportType=2'
 		},
 		showTip: function(){
 			showMask();
@@ -333,7 +371,7 @@ var myApp = new Vue({
 				'系统分数':item.score,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
+				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum
 			});
 		},
 		goThird: function(e,item){
@@ -344,10 +382,25 @@ var myApp = new Vue({
 				'指标得分':item.score,
 				'方式' : '通过保险版本首页'
 			},function(){
-				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId+'&deviceSn='+vm.deviceSnNum
 			});
 		},
-		wheelsort: function(deviceSn,reportId){ //广告接口
+		goThird2: function(e,item){
+			var vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.targetThirdName,
+				'指标得分':item.score,
+				'方式' : '通过保险版本首页'
+			},function(){
+				if(item.targetThirdId == '3230'){
+					console.log('不跳')
+				}else{
+					location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+vm.userId+'&deviceSn='+vm.deviceSnNum
+				}
+			});
+		},
+		wheelsort: function(deviceSn,reportId){ //广告接口  banner_page 1:首页轮播，101膳食 102营养  103运动
 			var vm = this;
 			$.ajax({
 				type: "post",
@@ -361,10 +414,14 @@ var myApp = new Vue({
 				success: function(res){
 					if(res.code == 200){
 						vm.banData = res.data;
-						banSlide(res.data.length);
-						if(res.data.length == 0){
-							$('.ban_gg').remove()
-						}
+						//banSlide(res.data.length);
+						setTimeout(function(){
+							var slide_count = $('.ban_gg .v_list li').length
+							banSlide(slide_count)
+							if(slide_count == 0){
+								$('.ban_gg').remove()
+							}
+						},200)	
 					}
 				},
 				error: function(){console.log('wheelsort error')}

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html style="height: auto;width: 100%; overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body style="height: auto; width: 100%;">
+<DIV class="my_view report702" style="visibility: hidden;">
+	<section style="padding: 0 0 .1rem; background: #f0f0f0;">
+		<div class="btit"><span>个人信息</span></div>
+		<div class="d-info">
+			<span class="lab">姓名：{{customerName}}</span><span class="lab">性别：{{sex==1?'男':'女'}}</span><span class="lab">年龄：{{age}}</span>
+		</div>
+		<p class="d-info2">
+			<span class="lab">身高：{{height}} cm</span><span class="lab">体重：{{weight}} kg</span>
+		</p>
+		<p class="d-info2">
+			<span class="lab">收缩压：{{sys}}</span><span class="lab">舒张压：{{dia}}</span>
+		</p>
+	</section>
+	<section style="padding: 0 0 .1rem; background: #f0f0f0;" v-for="item in metricList">
+		<div class="btit"><span>{{item.metricName}}</span></div>
+		<div class="col">
+			<span>指标</span><span>测量值</span><span>范围值</span>
+		</div>
+		<div class="c-li" v-for="site in item.metricList">
+			<span>{{site.name}}<i class="pop" @click="pop(site)">?</i></span>
+			<span v-if="site.num == 2" style="color: #ed2222;">{{site.rangeVal}} <i style="font-weight: bold;">↑</i></span>
+			<span v-else-if="site.num == 3" style="color: #ffcb00;">{{site.rangeVal}} <i style="font-weight: bold;">↓</i></span>
+			<span v-else>{{site.rangeVal}}</span>
+			<span>{{site.rangeMin}}-{{site.rangeMax}}</span>
+		</div>
+	</section>	
+	<div class="v_overlay"></div>
+	<div class="v_overlert">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit">
+				<span class="labt"></span>
+			</p>
+			<div class="bxt2">...</div>
+		</div>
+	</div>
+	
+</DIV><!--/my_view-->
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>document.write('<script src="js/report702.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script src="js/wxShare.js"></script>
+</body>
+</html>

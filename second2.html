@@ -28,14 +28,27 @@
 					<div class="fen fr"><font>{{ostate.score}}</font>{{language.la_fen}}</div>
 				</div>	
 			</dt>
-			<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3097 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
-				<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
-					<span class="lab">{{item.targetThirdName}}</span>
-					<span class="sta">{{item.score>=90?language.la_normal:(item.score<90 && item.score>=80?language.la_MildSisk:language.la_ModerateSisk)}}</span>
-					<span class="num">{{item.score}}{{language.la_fen}}</span>
-					<em class="fr"></em>
-				</a>
-			</dd>	
+			<template v-if="reportType == 123">
+				<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
+					<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
+						<span class="lab">{{item.targetThirdName}}</span>
+						<span class="sta">{{item.score>=90?language.la_normal:(item.score<90 && item.score>=80?language.la_MildSisk:language.la_ModerateSisk)}}</span>
+						<span class="num">{{item.score}}{{language.la_fen}}</span>
+						<em class="fr"></em>
+					</a>
+				</dd>
+			</template>
+			<template v-else>
+				<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3097 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
+					<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
+						<span class="lab">{{item.targetThirdName}}</span>
+						<span class="sta">{{item.score>=90?language.la_normal:(item.score<90 && item.score>=80?language.la_MildSisk:language.la_ModerateSisk)}}</span>
+						<span class="num">{{item.score}}{{language.la_fen}}</span>
+						<em class="fr"></em>
+					</a>
+				</dd>
+			</template>
+					
 		</dl>
 	</div>
 </section>
@@ -95,6 +108,8 @@ $('.load-overlay').css("display","block");
 var reportId = getQueryString('reportId');
 var targetFirstId=getQueryString("targetFirstId");
 var userId = getQueryString('userId');
+var reportType = getQueryString('reportType');
+var deviceSn = getQueryString('deviceSn');
 
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
@@ -119,6 +134,7 @@ var myApp = new Vue({
 			targetFirstName:'',
 			secondPages:'',
 			language: language,
+			reportType: reportType
 		}
 	},
 	mounted: function(){
@@ -155,7 +171,7 @@ var myApp = new Vue({
 				'指标得分':item.score,
 				'方式' : '通过二级页面点击'
 			},function(){
-				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+userId
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+userId+'&deviceSn='+deviceSn
 			});
 		},
 	}

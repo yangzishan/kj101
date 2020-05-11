@@ -421,7 +421,7 @@ var myApp = new Vue({
 				'指标得分':item.score,
 				'方式' : '通过2.0版本首页'
 			},function(){
-				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId+'&deviceSn='+vm.deviceSnNum
 			});
 		},
 		goSecond: function(e,item){ //埋点  十大系统点击
@@ -432,7 +432,7 @@ var myApp = new Vue({
 				'系统分数':item.score,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
+				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum
 			});
 		},
 		wheelsort: function(deviceSn,reportId){ //广告接口
@@ -449,10 +449,14 @@ var myApp = new Vue({
 				success: function(res){
 					if(res.code == 200){
 						vm.banData = res.data;
-						banSlide(res.data.length);
-						if(res.data.length == 0){
-							$('.ban_gg').remove()
-						}
+						//banSlide(res.data.length);
+						setTimeout(function(){
+							var slide_count = $('.ban_gg .v_list li').length
+							banSlide(slide_count)
+							if(slide_count == 0){
+								$('.ban_gg').remove()
+							}
+						},200)	
 					}
 				},
 				error: function(){console.log('wheelsort error')}

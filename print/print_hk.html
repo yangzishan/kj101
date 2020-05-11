@@ -124,10 +124,10 @@
     <div class="tit-b">健康建议</div>
         <div class="jk_sug">
             <p class="btit">膳食建议</p>
-            <p class="ztit">
+            <!--<p class="ztit">
                 航康膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
                 肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
-            </p>
+            </p>-->
             <div class="box_c" v-for="(item,index) in proposal.healthAdviceVo.dietList">
                 <span class="lab" v-cloak>{{proNum[index] +item.indexName}}</span>
                 <div class="con">
@@ -138,10 +138,10 @@
         </div>
         <div class="jk_sug">
             <p class="btit">营养建议</p>
-            <p class="ztit">
+            <!--<p class="ztit">
                 航康膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
                 肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
-            </p>
+            </p>-->
             <div class="box_c" v-for="(item,index) in proposal.healthAdviceVo.nutritionList">
                 <span class="lab" v-cloak>{{proNum[index] +item.indexName}}</span>
                 <div class="con">
@@ -152,11 +152,11 @@
         </div>
         <div class="jk_sug">
             <p class="btit">运动建议</p>
-            <p class="ztit">
+            <!--<p class="ztit">
                 航康运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。<br>
                 高岭娣　首都医科大学卫生与教育管理学院体育学系主任/副教授<br/>
                 潘晓明　中医博士、北京大学医学部研究中心学术部副主任、深圳市中医药健康服务协会副会长；<br/>
-            </p>
+            </p>-->
             <div class="box_c" v-for="(item,index) in proposal.healthAdviceVo.motionList">
                 <div class="con">
                     <p class="txt1" v-html="index+1+'.' + repp(item.personality)"></p>

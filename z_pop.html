@@ -15,13 +15,12 @@
 </style>
 </head>
 <body>
-<div class="my_view" id="appX" style="">
+<div class="my_view" id="appX" style=" display: none;">
 	<header class="header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 10000;">
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
 		<a class="t-right fr" href="#"></a>
 		<p class="t-cen txt1"><span>{{language.la_jkAdvice}}</span></p>
 	</header>
-	
 	<!-- 导航 -->
 	<div class="kj-nav-box" v-if="reportType == 6">
 		<ul>
@@ -47,27 +46,66 @@
 	<p class="vtip">{{language.la_checkTit}}</p>
 	<div class="conView">
 		<p style="height: 1.55rem;"></p>
+		<p class="btit"><i class=""></i><span class="">{{language.la_sug_diet}}</span><em class="fr ssjyTab"></em></p>
 		
-		<p class="btit"><i class=""></i><span class="">{{language.la_sug_diet}}</span><!--<em class="fr ssjyTab"></em>--></p>
+		<section class="gg" style="background: #ffffff;">
+			<div class="v_content gg101" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+		    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
+		    		<li v-for="gg in banData" v-if="gg.bannerPage == 101" style="float: left;">
+		    			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" style="width: 5rem; height: 1.3rem;"></a>
+		    		</li>
+		    	</ul>
+		    </div>
+		</section>
+		
+		<!--<div class="gg" v-for="gg in banData" v-if="gg.bannerPage == 101">
+			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" class="img_b"></a>
+		</div>-->
 		<div class="bcon">
 		<template v-for="(site,index) in sites">
-			<p class="item-tit" id="" otop="">{{options[index]}}.{{site.indexName}}</p>
+			<p class="item-tit" :id="'item'+index" otop="">{{options[index]}}.{{site.indexName}}</p>
 			<p>{{site.personality}}</p>
 			<div class="item-txt" v-html="site.proposal"></div>
 		</template>
 		</div>
 		
+		<p class="btit"><i class=""></i><span class="">{{language.la_sug_nut}}</span><em class="fr ssjyTab"></em></p>
 		
-		<p class="btit"><i class=""></i><span class="">{{language.la_sug_nut}}</span><!--<em class="fr ssjyTab"></em>--></p>
+		<section class="gg" style="background: #ffffff;">
+			<div class="v_content gg101" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+		    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
+		    		<li v-for="gg in banData" v-if="gg.bannerPage == 102" style="float: left;">
+		    			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" style="width: 5rem; height: 1.3rem;"></a>
+		    		</li>
+		    	</ul>
+		    </div>
+		</section>
+		
+		<!--<div class="gg" v-for="gg in banData" v-if="gg.bannerPage == 102">
+			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" class="img_b"></a>
+		</div>-->
 		<div class="bcon">
 		<template v-for="(oli,index) in oul">
-			<p class="item-tit" id="" otop="">{{options[index]}}.{{oli.indexName}}</p>
+			<p class="item-tit" :id="'item'+(sites.length+index)" otop="">{{options[index]}}.{{oli.indexName}}</p>
 			<div class="item-txt">{{oli.personality}}</div>
 		</template>	
 		</div>
 		
+		<p class="btit"><i class=""></i><span class="">{{language.la_sug_sport}}</span><em class="fr yysTab"></em></p>
 		
-		<p class="btit"><i class=""></i><span class="">{{language.la_sug_sport}}</span><!--<em class="fr yysTab"></em>--></p>
+		<section class="gg" style="background: #ffffff;">
+			<div class="v_content gg101" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+		    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
+		    		<li v-for="gg in banData" v-if="gg.bannerPage == 103" style="float: left;">
+		    			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" style="width: 5rem; height: 1.3rem;"></a>
+		    		</li>
+		    	</ul>
+		    </div>
+		</section>
+		
+		<!--<div class="gg" v-for="gg in banData" v-if="gg.bannerPage == 103">
+			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" class="img_b"></a>
+		</div>-->
 		<div class="bcon" id="ydjj">
 		<template v-for="(sport,index) in sports">
 			<!--<p class="item-tit" id="item6">一、低热量</p>-->
@@ -83,14 +121,14 @@
 		<p class="p-item"><i><img src="img/x_i_sh.png"></i><em>{{language.la_sug_diet}}</em></p>
 		<div class="ncon">
 		<template v-for="(site,index) in sites">
-			<a class="a-li"><i class=""></i><font>{{site.indexName}}</font></a>
+			<a class="a-li" :href="'#item'+index" :index="index"><i class=""></i><font>{{site.indexName}}</font></a>
 		</template>
 		</div>
 		
 		<p class="p-item"><i><img src="img/x_i_yy.png"></i><em>{{language.la_sug_nut}}</em></p>
 		<div class="ncon">
 		<template v-for="(oli,index) in oul">
-			<a class="a-li"><i></i><font>{{oli.indexName}}</font></a>
+			<a class="a-li" :href="'#item'+(index+sites.length)" :index="index+sites.length"><i></i><font>{{oli.indexName}}</font></a>
 		</template>
 		</div>
 		<p class="p-item" id="ydjj_i"><i><img src="img/x_i_yd.png"></i><em>{{language.la_sug_sport}}</em></p>
@@ -101,27 +139,28 @@
 <div class="v_overlert" id="ssjyTab">
 	<div class="tc_sy">
 		<p class="bit2">
-			<span class="labt">康加膳食、营养专家 肖荣教授领衔的专家团队为您提供。</span>
+			<span class="labt">膳食、营养专家团队为您提供。</span>
 		</p>
 		<div class="bxt">
-			肖 荣   <br/>
-			博士/教授，博士生导师<br/>
-			中国营养学会常务理事 <br/>
-			中国优生科学协会常务理事<br/>
-			中国营养学会学术交流工作委员会委员<br/>
-			北京营养师协会副理事长<br/>
-			首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
+			崔义祥<br/>     
+			北京市健康教育所原所长，北京市疾控中心主任医师<br/><br/>
+			
+			潘晓明<br/>     
+			中医博士<br/>
+			北京大学医学部研究中心学术部副主任<br/>
+			深圳市中医药健康服务协会副会长；<br/>
 		</div>
 	</div>
 </div>
 <div class="v_overlert" id="yysTab">
 	<div class="tc_sy">
 		<p class="bit2">
-			<span class="labt">康加运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。</span>
+			<span class="labt">生活方式专家 潘晓明博士领衔的专家团队为您提供。</span>
 		</p>
 		<div class="bxt">
-			高岭娣<br/>     
-			首都医科大学卫生与教育管理学院体育学系主任/副教授<br/><br/>
+			崔义祥<br/>     
+			北京市健康教育所原所长，北京市疾控中心主任医师<br/><br/>
+			
 			潘晓明<br/>     
 			中医博士<br/>
 			北京大学医学部研究中心学术部副主任<br/>
@@ -156,11 +195,13 @@
 <script>
 $('.my_view').css("display","none");
 $('.load-overlay').css("display","block");
-//截取URL 获取
-function getQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
 };
 var reportId=getQueryString("reportId");
 var reportType=getQueryString("reportType");
@@ -195,433 +236,504 @@ if(reportType == 6 || reportType == 501){
 if(edition == 500){ //适配501报告
 	post_url = dataUrl+'/api/v5/reportData/getSuggest'
 }
-
-
-$.ajax({
-url : post_url,
-type : "POST",
-dataType : 'json',
-data : {
-    reportId : reportId
-},
-success : function(proposalData) {
-	//alert('get it');
-	if(proposalData.code == 200){
-		$('.my_view').css("display","block");
-		$('.load-overlay').css("display","none");
-		
-		if(proposalData.data==null){
-			$('.box-c').css("display","none");
-			$('.zanshi').css("display","block");
-		}else{
-			if(proposalData.data.healthAdviceVo.dietList!=null){
-				for(var i=0;i<proposalData.data.healthAdviceVo.dietList.length;i++){
-				var newprop = proposalData.data.healthAdviceVo.dietList[i].proposal.replace(/\n/g, "<br/>");
-				proposalData.data.healthAdviceVo.dietList[i].proposal = newprop;
-				}
-			}
+var app = new Vue({
+	el:'#appX',
+	data:function(){
+		return{
+			reportType:reportType,
+			sites:[],
+			oul:[],
+			sports:[],
+			options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
+			language: language,
+			deviceSn:'',
+			banData:[],
+			gg101:[],
+			gg102:[],
+			gg103:[],
 			
-			var myApp01 = new Vue({
-			  	el: '#appX',
-			  	data: {
-			  		reportType: reportType,
-			    	sites: proposalData.data.healthAdviceVo.dietList, //膳食建议
-			    	oul: proposalData.data.healthAdviceVo.nutritionList, // 营养建议
-			    	sports: proposalData.data.healthAdviceVo.motionList, //运动建议
-			    	options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
-			    	language: language
-			  	}
-			});
-			
-			//字段缩减
-			$('nav a font').each(function(index){
-				if($(this).text() == '避免刺激性食物'){
-					$(this).text('刺激性');$(this).prev('i').addClass('bi');
-				}else if($(this).text() == '避免海鲜发物'){
-					$(this).text('海鲜发物');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == '避免容易富集农药的食物'){
-					$(this).text('集农药');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == '避免容易富集重金属的食物'){
-					$(this).text('集重金属');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == '避免辛辣刺激食物'){
-					$(this).text('辛辣刺激');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == '避免烟酒'){
-					$(this).text('烟酒');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == '不宜食用动物内脏'){
-					$(this).text('食用动物内脏');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == '充足的优质蛋白'){
-					$(this).text('优质蛋白');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '低胆固醇'){
-					$(this).text('胆固醇');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == '低热量'){
-					$(this).text('低热量');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == '低糖'){
-					$(this).text('低糖');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == '低盐'){
-					$(this).text('低盐');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == '低脂肪'){
-					$(this).text('低脂肪');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == '多吃刺激胶原蛋白合成的食物'){
-					$(this).text('胶原蛋白');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃粗杂粮'){
-					$(this).text('粗杂粮');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃促进胃肠蠕动的食物'){
-					$(this).text('促进胃肠蠕动');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃对男性健康有益的食物'){
-					$(this).text('对男性有益');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含碘的食物'){
-					$(this).text('含碘食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含多不饱和脂肪酸的食物'){
-					$(this).text('多不饱和脂肪酸');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含番茄红素的食物'){
-					$(this).text('含番茄红素');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含辅酶Q10的食物'){
-					$(this).text('含辅酶Q10');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含钙的食物'){
-					$(this).text('含钙食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含钾的食物'){
-					$(this).text('含钾食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含精氨酸的食物'){
-					$(this).text('含精氨酸');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含镁的食物'){
-					$(this).text('含镁食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含膳食纤维的食物'){
-					$(this).text('膳食纤维');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含铁的食物'){
-					$(this).text('含铁食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素A的食物'){
-					$(this).text('含维A');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素B12的食物'){
-					$(this).text('含维B12');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素B1的食物'){
-					$(this).text('含维B1');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素B2的食物'){
-					$(this).text('含维B2');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素B3的食物'){
-					$(this).text('含维B3');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素B6的食物'){
-					$(this).text('含维B6');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素B族的食物'){
-					$(this).text('含维B族');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素C的食物'){
-					$(this).text('含维C');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素E的食物'){
-					$(this).text('含维E');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含维生素K1的食物'){
-					$(this).text('含维K1');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含硒的食物'){
-					$(this).text('含硒食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含锌的食物'){
-					$(this).text('含锌食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含叶酸的食物'){
-					$(this).text('叶酸食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含益生菌的食物'){
-					$(this).text('益生菌');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含益生元的食物'){
-					$(this).text('含益生元');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃富含植物雌激素的食物'){
-					$(this).text('植物雌激素');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃护肝的食物'){
-					$(this).text('护肝食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃鸡蛋'){
-					$(this).text('鸡蛋');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃抗氧化的食物'){
-					$(this).text('抗氧化');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃深海鱼类'){
-					$(this).text('深海鱼');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃疏通软化血管的食物'){
-					$(this).text('疏通软化血管');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃有助于重金属排出的食物'){
-					$(this).text('重金属排出');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多吃助眠食物'){
-					$(this).text('助眠食物');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '多饮水'){
-					$(this).text('多饮水');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == '平衡膳食'){
-					$(this).text('平衡膳食');$(this).prev('i').addClass('ping');	
-				}else if($(this).text() == '少吃富含草酸的食物'){
-					$(this).text('含草酸');$(this).prev('i').addClass('shao');	
-				}else if($(this).text() == '少吃富含碘的食物'){
-					$(this).text('含碘食物');$(this).prev('i').addClass('shao');	
-				}else if($(this).text() == '适量补充葡萄糖'){
-					$(this).text('葡萄糖');$(this).prev('i').addClass('ping');	
-				}else if($(this).text() == '规律饮食'){
-					$(this).text('规律饮食');$(this).prev('i').addClass('ping');	
-				}else if($(this).text() == '氨糖软骨素'){
-					$(this).text('氨糖软骨素');$(this).prev('i').addClass('');	
-				}else if($(this).text() == '钙维生素D补充剂'){
-					$(this).text('钙维生素D');$(this).prev('i').addClass('');	
-				}else if($(this).text() == '天然β-胡萝卜素'){
-					$(this).text('胡萝卜素');$(this).prev('i').addClass('');	
-				}else if($(this).text() == '多吃富含维生素D3的食物'){
-					$(this).text('维生素D3');$(this).prev('i').addClass('');	
-				}else if($(this).text() == 'Avoid stimulating foods'){
-					$(this).text('Irritant');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Avoid seafood and stimulating foods'){
-					$(this).text('SF');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Avoid foods that are easy to enrich pesticides'){
-					$(this).text('Enrch pesti');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Avoid foods that are easy to enrich heavy metals'){
-					$(this).text('Enrch HM');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Avoid spicy and stimulating foods'){
-					$(this).text('Spicy&irri');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Avoid tobacco and wine'){
-					$(this).text('Tbc&wine');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Do not eat animal viscera'){
-					$(this).text('Animal vis');$(this).prev('i').addClass('bi');	
-				}else if($(this).text() == 'Adequate high-quality protein'){
-					$(this).text('Quality pro');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Low cholesterol'){
-					$(this).text('Cholesterol');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == 'Low cal'){
-					$(this).text('Low cal');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == 'Low sugar'){
-					$(this).text('Low sugar');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == 'Low salt'){
-					$(this).text('Low salt');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == 'Low fat'){
-					$(this).text('Low fat');$(this).prev('i').addClass('di');	
-				}else if($(this).text() == 'Collagen'){
-					$(this).text('Collagen');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more coarse grains'){
-					$(this).text('Crs grains');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food which promotes gastrointestinal peristalsis'){
-					$(this).text('GI peristal');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == "Eat more food that is good for men's health"){
-					$(this).text('GFM');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in iodine'){
-					$(this).text('I food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat food rich in polyunsaturated fatty acids'){
-					$(this).text('UFA');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Coenzyme Q10'){
-					$(this).text('CoQ10');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more calcium-rich food'){
-					$(this).text('Ca food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat foods rich in potassium'){
-					$(this).text('Ka food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more arginine-rich food'){
-					$(this).text('Arg food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more magnesium in food'){
-					$(this).text('Mg food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more dietary fiber in food'){
-					$(this).text('DF food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more Fe in food'){
-					$(this).text('Fe food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin A'){
-					$(this).text('VA food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B'){
-					$(this).text('Contain VB');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B1'){
-					$(this).text('VB1 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B1'){
-					$(this).text('VB1 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B2'){
-					$(this).text('VB2 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B3'){
-					$(this).text('VB3 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B6'){
-					$(this).text('VB6 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin B'){
-					$(this).text('VB food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin C'){
-					$(this).text('VC food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin D3'){
-					$(this).text('VD3 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin E'){
-					$(this).text('VE food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in Vitamin K1'){
-					$(this).text('VK1 food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in selenium'){
-					$(this).text('Se food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in zinc'){
-					$(this).text('Zn food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in folic acid'){
-					$(this).text('FC food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food containig probiotic'){
-					$(this).text('Probio food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in prebiotics'){
-					$(this).text('Prebiotics');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in phytoestrogen'){
-					$(this).text('Phytoestro');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food protecting liver'){
-					$(this).text('LP food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more eggs'){
-					$(this).text('Eggs');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more antioxidant food'){
-					$(this).text('Antiox food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more deep-sea fish'){
-					$(this).text('DSF');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food that dredges and softens blood vessels'){
-					$(this).text('Dred&Sof BV');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food that helps to remove heavy metals'){
-					$(this).text('HM disch');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food that aids sleep'){
-					$(this).text('FAS');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'drink more water'){
-					$(this).text('Drink water');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat less food rich in oxalic acid'){
-					$(this).text('OA food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Eat more food rich in iodine'){
-					$(this).text('Iodine food');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Adequate supplementation of glucose'){
-					$(this).text('Glucose');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Have a regular diet'){
-					$(this).text('Reg diet');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Soy isoflavone'){
-					$(this).text('SI');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Protein powder'){
-					$(this).text('Pr powder');$(this).prev('i').addClass('duo');	
-				}else if($(this).text() == 'Coenzyme Q10'){
-					$(this).text('CoQ10');$(this).prev('i').addClass('');	
-				}else if($(this).text() == 'Calcium Vitamin D supplement'){
-					$(this).text('Ca VD');$(this).prev('i').addClass('');	
-				}else if($(this).text() == 'Spirulina platensis'){
-					$(this).text('SP');$(this).prev('i').addClass('');	
-				}else if($(this).text() == 'Natural β-carotene'){
-					$(this).text('Carotene');$(this).prev('i').addClass('');	
-				}else if($(this).text() == 'Immunoglobulins'){
-					$(this).text('IG');$(this).prev('i').addClass('');	
-				}
-			});
-						
-			$('.conView .item-tit').each(function(index){
-				$(this).attr("id","item"+index);
-			});
-			$('nav a').each(function(index){
-				$(this).attr("href","#item" + index);
-				$(this).attr("index",index);
-			});
-			
-			//判断如果没有数据的时候（数据数组为null时）
-			$('.bcon').each(function(){
-				if($(this).html() == ''){
-					$(this).prev('p').css("display","none");
-				}
-			});
-			$('.ncon').each(function(){
-				if($(this).html() == ''){
-					$(this).prev('p').css("display","none");
-				}
-			});
-			
-			if($('#ydjj').html()==''){
-				$('#ydjj_i').css("display","none");
-			}
-			
-			$('.conView').css("min-height",$(window).height());
-			
-			//导航
-			$('#index').click(function(){
-				window.location='report6.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
-			});
-			/*$('#advise').click(function(){
-				window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
-			});*/
-			$('#recipe').click(function(){
-				window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
-			});
-			$('#graph').click(function(){
-				window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
-			});
-		}	
-	}else{
-		alert('code='+proposalData.code);
-	};
-	
-	//先算每个元素的position.top记录下来 赋值。绑定死
-	$('.conView .item-tit').each(function(index){
-		//$(this).attr("otop",$(this).position().top);
-		$(this).attr("otop",$(this).offset().top);
-	});
-	$('.conView .btit').each(function(index){
-		//$(this).attr("otop",$(this).position().top);
-		$(this).attr("otop",$(this).offset().top);
-		
-	});
-	
-	
-	var $navs = $('nav a'),       // 导航
-		$sections = $('.item-tit'),   // 模块
-		//$window = $(window),
-		$window = $('.conView'),
-		navLength = $navs.length - 1;
-		  	
-		$window.on('scroll', function() {
-			var hcha = $('header').height() + $('.vtip').height();
-		  	var scrollTop = $window.scrollTop();
-		   	for (var len = navLength; len > -1; len--) {
-			    var that = $sections.eq(len);
-			    if (scrollTop+hcha >= that.attr("otop")) {
-			       $navs.removeClass('on').eq(len).addClass('on');
-			       var topOn = $navs.eq(len).position().top;
-			       //console.log(topOn);
-			       if(topOn < 0){
-			       		console.log('scrolltop=' + $('.navL').scrollTop());
-			       		//$('.navL').scrollTop($('.navL').scrollTop()-100)
-			       		$('.navL').scrollTop(0);
-			       }else if(topOn > $('.navL').height()){
-			       		$('.navL').scrollTop($('.navL').scrollTop()+200)
-			       };
-			       break;
-			    }
-		  	};  	
-		});
-		$navs.on('click', function(e){
-			var m = $(this).attr("index");
-		  	e.preventDefault();
-		  	var hcha = $('header').height() + $('.vtip').height()-2;
-		  	$('.conView').animate({
-		    	'scrollTop': $($(this).attr('href')).attr("otop") - hcha
-		  	}, 300);
-		  	
-		  	setTimeout(function(){
-		  		$navs.removeClass('on');
-		  		$navs.eq(m).addClass('on');
-		  	},400)
-		  	
-		  	
-		});
-		
-		//点图标
-		$('nav .p-item').each(function(index){
-			var hcha = $('header').height() + $('.vtip').height() - $('.conView .btit').height()-3;
-			$(this).click(function(){
-				$('.conView').animate({
-			    	'scrollTop': $('.conView .btit').eq(index).attr("otop") - hcha
-			  	}, 300);
-			});
-		});
-			
-		//专家弹
-		function showMask(){
-			$('.v_overlay').css({"visibility":"visible","opacity":"1"});
-			$(document).on('touchmove',function(e){
-				e.preventDefault();//阻止滚动
-			})
 		}
-		$('.ssjyTab').on("click",function(){
-			event.stopPropagation();
-			showMask();
-			$('#ssjyTab').css({"visibility":"visible","opacity":"1"});
-			return false;
-		});
-		$('.yysTab').on("click",function(){
-			event.stopPropagation();
-			showMask();
-			$('#yysTab').css({"visibility":"visible","opacity":"1"});
-			return false;
-		});
-		$('.v_overlay').click(function(){
-			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-			$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-			//$('.v_overlert2').css({"visibility":"hidden","opacity":"0"});
-			$(document).off("touchmove");
-		});
+	},
+	methods:{
+		getSuggest:function(){
+			var vm = this
+			$.ajax({
+			url : post_url,
+			type : "POST",
+			dataType : 'json',
+			data : {
+			    reportId : reportId
+			},
+			success : function(proposalData) {
+				//alert('get it');
+				if(proposalData.code == 200){
+					$('.my_view').css("display","block");
+					$('.load-overlay').css("display","none");
+					if(proposalData.data==null){
+						$('.box-c').css("display","none");
+						$('.zanshi').css("display","block");
+					}else{
+						if(proposalData.data.healthAdviceVo.dietList!=null){
+							for(var i=0;i<proposalData.data.healthAdviceVo.dietList.length;i++){
+								var newprop = proposalData.data.healthAdviceVo.dietList[i].proposal.replace(/\n/g, "<br/>");
+								proposalData.data.healthAdviceVo.dietList[i].proposal = newprop;
+							}
+						}
+				    	vm.sites = proposalData.data.healthAdviceVo.dietList, //膳食建议
+				    	vm.oul = proposalData.data.healthAdviceVo.nutritionList, // 营养建议
+				    	vm.sports = proposalData.data.healthAdviceVo.motionList, //运动建议
+						vm.deviceSn = proposalData.msg
+						vm.wheelsort(vm.deviceSn,reportId)
+						setTimeout(function(){
+							//字段缩减
+							$('nav a font').each(function(index){
+								if($(this).text() == '避免刺激性食物'){
+									$(this).text('刺激性');$(this).prev('i').addClass('bi');
+								}else if($(this).text() == '避免海鲜发物'){
+									$(this).text('海鲜发物');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == '避免容易富集农药的食物'){
+									$(this).text('集农药');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == '避免容易富集重金属的食物'){
+									$(this).text('集重金属');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == '避免辛辣刺激食物'){
+									$(this).text('辛辣刺激');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == '避免烟酒'){
+									$(this).text('烟酒');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == '不宜食用动物内脏'){
+									$(this).text('食用动物内脏');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == '充足的优质蛋白'){
+									$(this).text('优质蛋白');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '低胆固醇'){
+									$(this).text('胆固醇');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == '低热量'){
+									$(this).text('低热量');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == '低糖'){
+									$(this).text('低糖');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == '低盐'){
+									$(this).text('低盐');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == '低脂肪'){
+									$(this).text('低脂肪');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == '多吃刺激胶原蛋白合成的食物'){
+									$(this).text('胶原蛋白');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃粗杂粮'){
+									$(this).text('粗杂粮');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃促进胃肠蠕动的食物'){
+									$(this).text('促进胃肠蠕动');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃对男性健康有益的食物'){
+									$(this).text('对男性有益');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含碘的食物'){
+									$(this).text('含碘食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含多不饱和脂肪酸的食物'){
+									$(this).text('多不饱和脂肪酸');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含番茄红素的食物'){
+									$(this).text('含番茄红素');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含辅酶Q10的食物'){
+									$(this).text('含辅酶Q10');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含钙的食物'){
+									$(this).text('含钙食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含钾的食物'){
+									$(this).text('含钾食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含精氨酸的食物'){
+									$(this).text('含精氨酸');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含镁的食物'){
+									$(this).text('含镁食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含膳食纤维的食物'){
+									$(this).text('膳食纤维');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含铁的食物'){
+									$(this).text('含铁食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素A的食物'){
+									$(this).text('含维A');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素B12的食物'){
+									$(this).text('含维B12');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素B1的食物'){
+									$(this).text('含维B1');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素B2的食物'){
+									$(this).text('含维B2');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素B3的食物'){
+									$(this).text('含维B3');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素B6的食物'){
+									$(this).text('含维B6');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素B族的食物'){
+									$(this).text('含维B族');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素C的食物'){
+									$(this).text('含维C');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素E的食物'){
+									$(this).text('含维E');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含维生素K1的食物'){
+									$(this).text('含维K1');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含硒的食物'){
+									$(this).text('含硒食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含锌的食物'){
+									$(this).text('含锌食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含叶酸的食物'){
+									$(this).text('叶酸食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含益生菌的食物'){
+									$(this).text('益生菌');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含益生元的食物'){
+									$(this).text('含益生元');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃富含植物雌激素的食物'){
+									$(this).text('植物雌激素');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃护肝的食物'){
+									$(this).text('护肝食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃鸡蛋'){
+									$(this).text('鸡蛋');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃抗氧化的食物'){
+									$(this).text('抗氧化');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃深海鱼类'){
+									$(this).text('深海鱼');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃疏通软化血管的食物'){
+									$(this).text('疏通软化血管');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃有助于重金属排出的食物'){
+									$(this).text('重金属排出');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多吃助眠食物'){
+									$(this).text('助眠食物');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '多饮水'){
+									$(this).text('多饮水');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == '平衡膳食'){
+									$(this).text('平衡膳食');$(this).prev('i').addClass('ping');	
+								}else if($(this).text() == '少吃富含草酸的食物'){
+									$(this).text('含草酸');$(this).prev('i').addClass('shao');	
+								}else if($(this).text() == '少吃富含碘的食物'){
+									$(this).text('含碘食物');$(this).prev('i').addClass('shao');	
+								}else if($(this).text() == '适量补充葡萄糖'){
+									$(this).text('葡萄糖');$(this).prev('i').addClass('ping');	
+								}else if($(this).text() == '规律饮食'){
+									$(this).text('规律饮食');$(this).prev('i').addClass('ping');	
+								}else if($(this).text() == '氨糖软骨素'){
+									$(this).text('氨糖软骨素');$(this).prev('i').addClass('');	
+								}else if($(this).text() == '钙维生素D补充剂'){
+									$(this).text('钙维生素D');$(this).prev('i').addClass('');	
+								}else if($(this).text() == '天然β-胡萝卜素'){
+									$(this).text('胡萝卜素');$(this).prev('i').addClass('');	
+								}else if($(this).text() == '多吃富含维生素D3的食物'){
+									$(this).text('维生素D3');$(this).prev('i').addClass('');	
+								}else if($(this).text() == 'Avoid stimulating foods'){
+									$(this).text('Irritant');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Avoid seafood and stimulating foods'){
+									$(this).text('SF');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Avoid foods that are easy to enrich pesticides'){
+									$(this).text('Enrch pesti');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Avoid foods that are easy to enrich heavy metals'){
+									$(this).text('Enrch HM');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Avoid spicy and stimulating foods'){
+									$(this).text('Spicy&irri');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Avoid tobacco and wine'){
+									$(this).text('Tbc&wine');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Do not eat animal viscera'){
+									$(this).text('Animal vis');$(this).prev('i').addClass('bi');	
+								}else if($(this).text() == 'Adequate high-quality protein'){
+									$(this).text('Quality pro');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Low cholesterol'){
+									$(this).text('Cholesterol');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == 'Low cal'){
+									$(this).text('Low cal');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == 'Low sugar'){
+									$(this).text('Low sugar');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == 'Low salt'){
+									$(this).text('Low salt');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == 'Low fat'){
+									$(this).text('Low fat');$(this).prev('i').addClass('di');	
+								}else if($(this).text() == 'Collagen'){
+									$(this).text('Collagen');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more coarse grains'){
+									$(this).text('Crs grains');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food which promotes gastrointestinal peristalsis'){
+									$(this).text('GI peristal');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == "Eat more food that is good for men's health"){
+									$(this).text('GFM');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in iodine'){
+									$(this).text('I food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat food rich in polyunsaturated fatty acids'){
+									$(this).text('UFA');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Coenzyme Q10'){
+									$(this).text('CoQ10');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more calcium-rich food'){
+									$(this).text('Ca food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat foods rich in potassium'){
+									$(this).text('Ka food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more arginine-rich food'){
+									$(this).text('Arg food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more magnesium in food'){
+									$(this).text('Mg food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more dietary fiber in food'){
+									$(this).text('DF food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more Fe in food'){
+									$(this).text('Fe food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin A'){
+									$(this).text('VA food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B'){
+									$(this).text('Contain VB');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B1'){
+									$(this).text('VB1 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B1'){
+									$(this).text('VB1 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B2'){
+									$(this).text('VB2 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B3'){
+									$(this).text('VB3 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B6'){
+									$(this).text('VB6 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin B'){
+									$(this).text('VB food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin C'){
+									$(this).text('VC food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin D3'){
+									$(this).text('VD3 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin E'){
+									$(this).text('VE food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in Vitamin K1'){
+									$(this).text('VK1 food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in selenium'){
+									$(this).text('Se food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in zinc'){
+									$(this).text('Zn food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in folic acid'){
+									$(this).text('FC food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food containig probiotic'){
+									$(this).text('Probio food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in prebiotics'){
+									$(this).text('Prebiotics');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in phytoestrogen'){
+									$(this).text('Phytoestro');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food protecting liver'){
+									$(this).text('LP food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more eggs'){
+									$(this).text('Eggs');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more antioxidant food'){
+									$(this).text('Antiox food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more deep-sea fish'){
+									$(this).text('DSF');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food that dredges and softens blood vessels'){
+									$(this).text('Dred&Sof BV');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food that helps to remove heavy metals'){
+									$(this).text('HM disch');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food that aids sleep'){
+									$(this).text('FAS');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'drink more water'){
+									$(this).text('Drink water');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat less food rich in oxalic acid'){
+									$(this).text('OA food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Eat more food rich in iodine'){
+									$(this).text('Iodine food');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Adequate supplementation of glucose'){
+									$(this).text('Glucose');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Have a regular diet'){
+									$(this).text('Reg diet');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Soy isoflavone'){
+									$(this).text('SI');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Protein powder'){
+									$(this).text('Pr powder');$(this).prev('i').addClass('duo');	
+								}else if($(this).text() == 'Coenzyme Q10'){
+									$(this).text('CoQ10');$(this).prev('i').addClass('');	
+								}else if($(this).text() == 'Calcium Vitamin D supplement'){
+									$(this).text('Ca VD');$(this).prev('i').addClass('');	
+								}else if($(this).text() == 'Spirulina platensis'){
+									$(this).text('SP');$(this).prev('i').addClass('');	
+								}else if($(this).text() == 'Natural β-carotene'){
+									$(this).text('Carotene');$(this).prev('i').addClass('');	
+								}else if($(this).text() == 'Immunoglobulins'){
+									$(this).text('IG');$(this).prev('i').addClass('');	
+								}
+							});
+										
+							
+							//判断如果没有数据的时候（数据数组为null时）
+							$('.bcon').each(function(){
+								if($(this).html() == ''){
+									$(this).prev('p').css("display","none");
+								}
+							});
+							$('.ncon').each(function(){
+								if($(this).html() == ''){
+									$(this).prev('p').css("display","none");
+								}
+							});
+							if($('#ydjj').html()==''){
+								$('#ydjj_i').css("display","none");
+							}
 			
-},
+							$('.conView').css("min-height",$(window).height());
+							
+							//导航
+							$('#index').click(function(){
+								window.location='report6.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
+							});
+							/*$('#advise').click(function(){
+								window.location='z_pop3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId
+							});*/
+							$('#recipe').click(function(){
+								window.location='recipes3.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
+							});
+							$('#graph').click(function(){
+								window.location='graph.html?reportId='+reportId+'&openId='+openId+'&sex='+sex+'&userId='+userId+'&reportType='+reportType
+							});
+							
+							//先算每个元素的position.top记录下来 赋值。绑定死
+							$('.conView .item-tit').each(function(index){
+								//$(this).attr("otop",$(this).position().top);
+								$(this).attr("otop",$(this).offset().top);
+							});
+							$('.conView .btit').each(function(index){
+								$(this).attr("otop",$(this).offset().top);
+							});
+							
+							var $navs = $('nav a'),       // 导航
+								$sections = $('.item-tit'),   // 模块
+								$window = $('.conView'),
+								navLength = $navs.length - 1;
+								  	
+							$window.on('scroll', function() {
+								var hcha = $('header').height() + $('.vtip').height();
+							  	var scrollTop = $window.scrollTop();
+							   	for (var len = navLength; len > -1; len--) {
+								    var that = $sections.eq(len);
+								    if (scrollTop+hcha >= that.attr("otop")) {
+								       $navs.removeClass('on').eq(len).addClass('on');
+								       var topOn = $navs.eq(len).position().top;
+								       //console.log(topOn);
+								       if(topOn < 0){
+								       		console.log('scrolltop=' + $('.navL').scrollTop());
+								       		//$('.navL').scrollTop($('.navL').scrollTop()-100)
+								       		$('.navL').scrollTop(0);
+								       }else if(topOn > $('.navL').height()){
+								       		$('.navL').scrollTop($('.navL').scrollTop()+200)
+								       };
+								       break;
+								    }
+							  	};  	
+							});
+							$navs.on('click', function(e){
+								var m = $(this).attr("index");
+							  	e.preventDefault();
+							  	var hcha = $('header').height() + $('.vtip').height()-2;
+							  	$('.conView').animate({
+							    	'scrollTop': $($(this).attr('href')).attr("otop") - hcha
+							  	}, 300);
+							  	
+							  	setTimeout(function(){
+							  		$navs.removeClass('on');
+							  		$navs.eq(m).addClass('on');
+							  	},400)
+							});
+							//点图标
+							$('nav .p-item').each(function(index){
+								var hcha = $('header').height() + $('.vtip').height() - $('.conView .btit').height()-3;
+								$(this).click(function(){
+									$('.conView').animate({
+								    	'scrollTop': $('.conView .btit').eq(index).attr("otop") - hcha
+								  	}, 300);
+								});
+							});
+								
+							//专家弹
+							function showMask(){
+								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+								$(document).on('touchmove',function(e){
+									e.preventDefault();//阻止滚动
+								})
+							}
+							$('.ssjyTab').on("click",function(){
+								event.stopPropagation();
+								showMask();
+								$('#ssjyTab').css({"visibility":"visible","opacity":"1"});
+								return false;
+							});
+							$('.yysTab').on("click",function(){
+								event.stopPropagation();
+								showMask();
+								$('#yysTab').css({"visibility":"visible","opacity":"1"});
+								return false;
+							});
+							$('.v_overlay').click(function(){
+								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+								$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+								//$('.v_overlert2').css({"visibility":"hidden","opacity":"0"});
+								$(document).off("touchmove");
+							});
+							
+						},300)
+						
+					}	
+				}else{
+					alert('code='+proposalData.code);
+				};		
+			},
+			    error : function(obj,msg){console.log('getSuggest error')}
+			});
 
-    error : function(obj,msg){console.log('getSuggest error')}
-});
+			/////////////////////
+		},
+		wheelsort: function(deviceSn,reportId){ //广告接口
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl + "/api/banner/wheelsort",
+				async: true,
+				dataType: 'json',
+				data:{
+					deviceSn: deviceSn,
+					reportId: reportId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.banData = res.data;
+						res.data.forEach(function(item){
+							if(item.bannerPage == 101){
+								vm.gg101.push(item)
+							}else if(item.bannerPage == 102){
+								vm.gg102.push(item)
+							}else if(item.bannerPage == 103){
+								vm.gg103.push(item)
+							}
+						})
+						banSlide(vm.gg101.length,'.gg101')
+						banSlide(vm.gg102.length,'.gg102')
+						banSlide(vm.gg103.length,'.gg103')
+//						if(res.data.length == 0){
+//							$('.gg').remove()
+//						}
+					}
+				},
+				error: function(){console.log('wheelsort error')}
+			});
+		},
+	},
+	mounted:function(){
+		this.getSuggest()
+	}
+})
+
+//广告轮播
+function banSlide(page_count,el){ 
+	var page_now=1;
+	var page_num=1; //一页显示几个
+	var v_width = $(el).width();
+	console.log(page_count)
+	function next(){	
+		if(!$(el+' .v_list').is(':animated')){
+			if(page_now == page_count){
+				$(el +' .v_list').animate({left:'0px'},'slow');
+				page_now=1;
+			}else{
+				$(el+' .v_list').animate({left:'-='+v_width},'slow');
+				page_now++;
+			}
+		}
+	};
+	function prev(){
+		if(!$(el +' .v_list').is(':animated')){
+			if(page_now == 1){
+				$(el+' .v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				page_now=page_count;
+			}else{
+				$(el+' .v_list').animate({left:'+='+v_width},'slow');
+				page_now--;
+			}
+		}
+	};
+	var toNext=setInterval(next,3000);
+};
+			
 
 </script>
 

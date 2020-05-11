@@ -33,17 +33,26 @@
 	    </ul>
     </div>
 	
-	<div class="pay-x-fix" id="pay_fix">
-		<button class="pay" id="pay" @click="goPay($event)">支付</button>
-		<span class="price">优惠价:<font>￥{{price}}</font></span>
-		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
+	<div class="fix-bottom" id="pay_fix">
+		<div class="wap_price">
+			<span>原价:<font>￥{{oprice}}</font></span>
+			<span>现价:<font>￥{{price}}</font></span>
+			<span v-if="discount">优惠价:<font>￥{{subprice}}</font></span>
+		</div>
+		<div class="wap_pay" id="pay" @click="goPay($event)">支 付</div>
 	</div>
+	<!--<div class="pay-x-fix" id="pay_fix">
+		<button class="pay" id="pay" @click="goPay($event)">支付看报告</button>
+		<span class="price">现价:<font>￥{{price}}</font></span>
+		<span class="oprice">原价:<font>￥{{oprice}}</font></span>
+	</div>-->
 	
 	<div class="sl-pay">
 		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
 		<div class="cnn">
 			<p class="p1">支付金额</p>
-			<p class="p2">￥{{price}}</p>
+			<p class="p2" v-if="!discount">￥{{price}}</p>
+			<p class="p2" v-if="discount">￥{{subprice}}</p>
 		</div>
 		<button class="pay-li" id="kaPay" @click="gopayBycard($event)"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></button>
 		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">

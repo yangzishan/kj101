@@ -14,7 +14,7 @@ var zh = {
 	la_ok: '确定',
 	la_wanshan: '完善资料',
 	la_rushi: '请如实填写，将根据您的信息提供合适您的健康建议',
-	la_titUp: '《康加用户协议》',
+	la_titUp: '《用户协议》',
 	la_welcome: '欢迎来到康加',
 	la_name: '姓　名',
 	la_namePlace: '请填写姓名',

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>配置菜单</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<style type="text/css">
+.menu{padding: 30px; font-size: 14px; color: #333333; background: #f2f2f2;}
+.menu .father{ height: 50px; line-height: 50px; font-size: 15px;}
+.menu .father .ico{ display: inline-block; border-radius:50%; margin: 0 6px 0 0; font-weight: bold; font-size: 30px; color: #6E3D1F;}
+.menu .son-list{ padding:0 0 20px 30px; font-size: 14px;}
+.menu .son-list .li{line-height: 26px;}
+.menu button{color: #007AFF; padding: 0 6px;}
+.menu input{ background: #ffffff; border-radius:5px; height: 24px; line-height: 24px; padding: 0 12px; font-size: 14px;}
+</style>
+</head>
+<body>
+<div id="app">
+	<div class="">
+		<section class="menu">
+			<div class="father"><i class="ico">+</i>
+				<span class="lab">一级菜单</span>：<span>http://www.baidu.com/hahhdaskj?fsdfkljsdk</span>
+				<!--<input class="intx" type="text" value="一级菜单" />
+				<input value="http://www.baidu.com/hahhdaskj?fsdfkljsdk" />-->
+				<button>编辑</button><button>删除</button>
+			</div>
+			<div class="son-list">
+				<p class="li">
+					<span class="lab">一级菜单</span>：<span>http://www.baidu.com/hahhdaskj?fsdfkljsdk</span>
+					<button>编辑</button><button>删除</button>
+				</p>
+				<p class="li">
+					<span class="lab">二级菜单</span><input class="intx" type="text" value="二级菜单">
+					<button>编辑</button><button>删除</button>
+				</p>
+				<p class="li">
+					<span class="lab">二级菜单</span><input class="intx" type="text" value="二级菜单">
+					<button>编辑</button><button>删除</button>
+				</p>
+			</div>
+		</section>
+	</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+var app = new Vue({
+	el:'#app',
+	data:function(){
+		return {
+			list:[]
+		}
+	},
+	methods:{},
+	mounted:function(){
+		
+	}
+})
+</script>
+</body>
+</html>

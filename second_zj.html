@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/kanghao130.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body class="bck-col-f4">
+<DIV class="my_view" style="visibility: visible;">
+<div id="appVUE">
+	<div class="zj_top" style="height: 3.27rem;">
+		<div class="t-bar">
+			<a class="back fl" href="javascript:history.go(-1);"></a>
+			<span class="cent">健康报告</span>
+		</div>
+		<div class="tab-tit">
+			<span class="on" @click="tabShow($event,1)">疾病介绍</span><span @click="tabShow($event,2)">疾病预防</span>
+			<em class="bot" :style="'left:'+ sty_left+'%;'"></em>
+		</div>
+	</div>
+	<section class="zjbox" v-show="showTxt == 1">
+		<p class="tit"><i></i><span>定义</span></p>
+		<div class="txt" v-html="diseaseDetails"></div>
+		<p class="tit"><i></i><span>病因</span></p>
+		<div class="txt" v-html="diseaseCause"></div>
+	</section>
+	
+	<section class="zjbox" v-show="showTxt == 2">
+		<!--<p class="tit2"><span>1. 饮食均衡</span></p>
+		<div class="txt2">
+			冠心病的发作与饮食有着密切的联系，饮食上应注意避免肥厚油腻食物的摄入，多吃蔬菜、水果，此外应注意戒烟限酒，摒弃不良的饮食习惯，这样可以防止体内脂质沉积，进而影响到血液的顺畅运行。
+		</div>-->
+		<div class="txt2" v-html="diseaseGuard"></div>
+		
+	</section>
+	
+</div>
+</DIV>
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<!--<script>document.write('<script src="js/report151.js?t=' + new Date().getTime() + '"><\/script>')</script>-->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId = getQueryString('reportId');
+var diseaseId=getQueryString("diseaseId");
+var userId = getQueryString('userId');
+var reportType = getQueryString('reportType');
+var deviceSn = getQueryString('deviceSn');
+
+var myApp = new Vue({
+	el: '#appVUE',
+	data: function(){
+		return{
+			reportId: reportId,
+			diseaseId: diseaseId,
+			userId: userId,
+			deviceSn:deviceSn,
+			diseaseName:'',
+			diseaseDetails:'',
+			diseaseCause: '',
+			diseaseGuard: '',
+			showTxt:1,
+			sty_left:30
+		}
+	},
+	mounted: function(){
+		this.azyDiseaseDetail()
+	},
+	methods:{
+		azyDiseaseDetail: function(){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/azy/reportData/azyDiseaseDetail",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    inspectCode : reportId,
+				    diseaseId : diseaseId
+				},
+				success : function(res) {
+					if(res.code == "SUCCESS"){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.diseaseName = res.data.diseaseName 
+				   		vm.diseaseDetails = res.data.diseaseDetails.replace(/\n/g,'<br>') 
+				    	vm.diseaseCause = res.data.diseaseCause.replace(/\n/g,'<br>') 
+				    	vm.diseaseGuard = res.data.diseaseGuard.replace(/\n/g,'<br>') 
+					}
+				},
+				error : function(obj,msg){alert("azyDiseaseDetail error")}
+			});
+		},
+		tabShow: function(e,num){
+			this.showTxt = num
+			this.sty_left = 30*num
+			$(e.target).addClass('on').siblings().removeClass('on')
+		}
+	}
+});
+
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+</script>
+</body>
+</html>

@@ -10,9 +10,9 @@
 	<div class="print" id="print" style="visibility:hidden;">
 		<!-- 首页 -->
 		<div class="print-index">
-			<div class="logo"><img src="img/logo.png"></div>
+			<!--<div class="logo"><img src="img/logo.png"></div>-->
 			<div class="title">
-				<p>全身健康监测报告</p>
+				<p>全身健康检测报告</p>
 				<p class="english">CENERAL HEALTH REPORT</p>
 			</div>
 			<ul>
@@ -28,10 +28,10 @@
 				</li>
 				<li>
 					<div class="left">
-						<div class="key">监测时间</div>
+						<div class="key">检测时间</div>
 						<div class="value">：{{inspectDateStr.slice(0,10)}}</div>
 					</div>
-					<div class="right">
+					<div class="right" v-if="relatedNo">
 							<div class="key">经理人</div>
 							<div class="value">：{{relatedNo}}</div>
 					</div>
@@ -39,9 +39,9 @@
 				<li>
 					<div class="left">
 						<div class="key">联系方式</div>
-						<div class="value">：{{mobile}}</div>
+						<div class="value">：{{mobile.slice(0,11)}}</div>
 					</div>
-					<div class="right">
+					<div class="right" v-if="payNum">
 							<div class="key">支付码</div>
 							<div class="value">：{{payNum}}</div>
 					</div>

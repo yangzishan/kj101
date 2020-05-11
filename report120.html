@@ -73,7 +73,7 @@
 		<div class="fx-mid">
 			<div class="pic fl"><img src="img/120/dag_mid.png"><p>中度风险</p></div>
 			<div class="list fr">
-				<a class="bid" v-for="bid in midbid" @click="goThird($event,bid)">
+				<a class="bid" v-for="bid in midbid" @click="goThird($event,bid)" v-if="bid.targetId != 3089 && bid.targetId != 3207 && bid.targetId != 3097 && bid.targetId != 3110 && bid.targetId != 3211 && bid.targetId != 3219 && bid.targetId != 3139">
 					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
 				</a>
 			</div>
@@ -81,7 +81,7 @@
 		<div class="fx-mid lit">
 			<div class="pic fl"><img src="img/120/dag_lit.png"><p>轻度风险</p></div>
 			<div class="list fr">
-				<a class="bid" v-for="bid in litbid" @click="goThird($event,bid)">
+				<a class="bid" v-for="bid in litbid" @click="goThird($event,bid)" v-if="bid.targetId != 3089 && bid.targetId != 3207 && bid.targetId != 3097 && bid.targetId != 3110 && bid.targetId != 3211 && bid.targetId != 3219 && bid.targetId != 3139">
 					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
 				</a>
 			</div>
@@ -133,12 +133,13 @@
     		<i class="pop fr" @click="popSta($event)"></i>
     	</div>
     </div>
-    
+    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <!---广告--->
-    <section class="ban_gg" style="width: 100%;">
+    <section class="ban_gg" style="width: 100%; background: #ffffff;">
+    	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
     	<div class="v_content" style="width: 6.9rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
 	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
-	    		<li v-for="item in banData" style="float: left;">
+	    		<li v-for="item in banData" style="float: left;" v-if="item.bannerPage == 1">
 	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 6.9rem; height: 1.4rem;"></a>
 	    		</li>
 	    	</ul>

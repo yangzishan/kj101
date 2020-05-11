@@ -84,9 +84,9 @@ body #app > .skin > .xiangqing > .bd > .tit{font-weight:bold}
 body #app > .jianyi{margin-bottom:40px}
 .shanshi,.yingyang,.yundong{ font-size: 0;}
 body #app > .jianyi > div{border:1px solid #348798;width:100%;height:100%;position:relative}
-body #app > .jianyi > div > .left{display:inline-block;width:25%;text-align:center; font-size: 12px;}
-body #app > .jianyi > div > .left > em{font-weight:bold;position:absolute;top:50%;left:8%;transform:translateY(-50%)}
-body #app > .jianyi > div > .right{display:inline-block;width:75%;border-left:1px solid #348798; font-size: 12px;}
+body #app > .jianyi > div > .left{display:inline-block;width:5%;text-align:center; font-size: 12px;}
+body #app > .jianyi > div > .left > em{font-weight:bold;position:absolute;top:50%;left:1%;transform:translateY(-50%);width: .2rem;}
+body #app > .jianyi > div > .right{display:inline-block;width:95%;border-left:1px solid #348798; font-size: 12px;}
 body #app > .jianyi > div > .right > p i{display:inline-block;width:8px;height:8px;background:#348798;border-radius:50%;margin:0 15px 0 7px}
 body #app > .jianyi .yingyang,body #app > .jianyi .yundong{border-top:none}
 body #app .fr{padding:147px 55px 0 55px;margin-bottom:200px}

@@ -258,9 +258,9 @@ var myApp = new Vue({
 				},
 				success: function(data){
 					if(data.code == 200){
-						if(reportType == 121 || reportType == 122 || reportType == 12001){
+						if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else if(reportType == 501 || reportType == 502){
+						}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
 							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}else{
 							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -301,9 +301,9 @@ var myApp = new Vue({
 								$('.daifu_d').css("display","none");
 							});
 						}else{
-							if(reportType == 121 || reportType == 122 || reportType == 12001){
+							if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 							location.href = 'report120.html'+reportUrl
-							}else if(reportType == 501 || reportType == 502 ){
+							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
 								location.href = 'report500.html'+reportUrl
 							}else if(reportType < 5){
 								location.href = 'report5.html'+reportUrl

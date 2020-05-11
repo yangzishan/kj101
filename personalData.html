@@ -19,7 +19,7 @@
 	<div class="nikimg">
 		<p><img :src="headimgurl" id="userImg"></p>
 	</div>
-	<p class="nikname"><a id="setNickName">{{nickName}}</a></p>
+	<p class="nikname"><a id="setNickName">{{nickName?nickName:'请输入名字'}}</a></p>
 </div>
 
 <div class="psonInforSet">
@@ -56,7 +56,7 @@
 
 <div class="kjcopy_d" v-if="reportType != 130">
 	<p class="p1"><span id="notice">{{language.la_titUp}}</span></p>
-	<p class="p2">{{language.la_k_company}} 电话：400-6666-787</p>
+	<!--<p class="p2">{{language.la_k_company}} 电话：400-6666-787</p>-->
 	<!--<p class="p3">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</p>-->
 </div>
 <div class="kjcopy_d" v-if="reportType == 130">
@@ -118,7 +118,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
-<script type="text/javascript" src="js/language.js"></script>
+<script>document.write('<script src="js/language.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/LCalendar.js"></script>
 <!--<script type="text/javascript" src="js/LCalendar_reg.js"></script>-->
@@ -252,7 +252,7 @@ function getUserInfor(userId,type){
 					    vm.weight = userData.data.weight;
 		
 						//修改昵称和性别身高体重跳转
-						$('#setNickName').attr("href","personal_nickname.html?userId="+userId+"&nickName="+vm.nickName+'&reportType='+reportType);
+						$('#setNickName').attr("href","personal_nickname.html?userId="+userId+'&reportType='+reportType+"&nickName="+vm.nickName);
 						$('#setSex').attr("href","personal_sex.html?userId="+userId+"&sex="+vm.sex+'&reportType='+reportType);
 						$('#setHeight').attr("href","personal_height.html?userId="+userId+"&height="+vm.height+'&reportType='+reportType);
 						$('#setWeight').attr("href","personal_weight.html?userId="+userId+"&weight="+vm.weight+'&reportType='+reportType);

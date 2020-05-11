@@ -27,29 +27,32 @@
 .qp-subjectList li .tcn{ color: #999999; line-height: .42rem; padding: .1rem .4rem; .2rem .8rem}
 .qp-subjectList li .tcn p{}
 .qp-remark{ background: #ffffff; font-size: .24rem; line-height: .45rem; padding: .1rem .4rem .4rem;}
+.tcn .lab{ font-weight: bold;}
+.daifu_d{display: inherit;}
 </style>
 </head>
 <body>
-<div class="my_view quanpin">
-	<div class="qp-tit"><span class="ct">调理信息</span></div>
+<DIV class="my_view">
+<section class="quanpin" style="visibility: hidden;">
+	<div class="qp-tit"><span class="ct">基本信息</span></div>
 	<div class="qp-info">
 		<span>姓名：{{dataInfo.customerName?dataInfo.customerName:'无'}}</span><span>性别：{{dataInfo.sex==1?'男':(dataInfo.sex==2?'女':'无')}}</span>
 	</div>
 	<div class="qp-info">
-		<span>联系方式：1326929520</span><span>处理门店：{{dataInfo.departName?dataInfo.departName:'无'}}</span>
+		<span>联系方式：{{dataInfo.userTel?dataInfo.userTel:'无'}}</span><span>门店：{{dataInfo.departName?dataInfo.departName:'无'}}</span>
 	</div>
 	<div class="qp-info">
-		<span>调理医师：{{dataInfo.doctorName?dataInfo.doctorName:'无'}}</span><span>医师电话：{{dataInfo.doctorTel?dataInfo.doctorTel:'无'}}</span>
+		<span>健康顾问：{{dataInfo.doctorName?dataInfo.doctorName:'无'}}</span><span>顾问电话：{{dataInfo.doctorTel?dataInfo.doctorTel:'无'}}</span>
 	</div>
-	<div class="qp_img" v-if="dataInfo.goodImgUrl">
-		<a :href="dataInfo.goodUrl"><img :src="dataInfo.goodImgUrl"></a>
+	<div class="qp-info">
+		<span>手牌：{{dataInfo.handNo?dataInfo.handNo:'无'}}</span>
 	</div>
-	<div class="qp-tit">
+	<!--<div class="qp-tit">
 		<span class="ct" style="padding-left: .6rem;">主要症状</span> <span class="ci"><em @click="checkDisease">?</em></span>
 	</div>
 	<div class="qp-tags">
 		<span v-for="tag in dataInfo.diseaseList" @click="checkDisease">{{tag.diseaseName}}</span>
-	</div>
+	</div>-->
 	<div class="qp-tit">
 		<span class="ct">调理方案</span></span>
 	</div>
@@ -58,8 +61,13 @@
 			<p class="tit" v-if="item.type !=2">{{item.name}}</p>
 			<p class="tit cp" v-if="item.type ==2" @click="goproduct(item.bannerUrl)">{{item.name}}</p>
 			<div class="tcn">
-				<p>频次：{{item.frequency?item.frequency:'无'}}</p>
-				<p>{{item.detail}}</p>
+				<p><span class="lab">频次：</span>{{item.frequency?item.frequency:'无'}}</p>
+				<p><span class="lab">调理次数：</span>{{item.nurseCount?item.nurseCount:'无'}}</p>
+				<p><span class="lab">功效：</span>{{item.detail}}</p>
+				<p><span class="lab">疗程：</span>{{item.treatCount}}</p>
+			</div>
+			<div class="qp_img" v-if="item.imgUrl">
+				<a :href="item.bannerUrl"><img :src="item.imgUrl"></a>
 			</div>
 		</li>
 	</ul>
@@ -69,9 +77,15 @@
 	<div class="qp-remark">
 		{{dataInfo.remark?dataInfo.remark:'无'}}
 	</div>	
-</div>
-
+</section>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+<div class="daifu_d" style="height: 5rem;" v-show="noReport">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，您还没有调理信息。</p>
+</div>
+</DIV>
+
+
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
@@ -97,14 +111,27 @@
 })(document, window);
 </script>
 <script>
-var reportCode = (getQueryString("reportCode") || "KJ103IS00000111181019033679083");
-var ajaxUrl = 'http://39.107.74.133:9180/kj-kjcd/measured/queryByReportCode';
+$('.quanpin').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+//var reportCode = (getQueryString("reportCode") || "KJ103IS00000111181019033679083");
+var reportCode = (getQueryString("reportCode") || "");
+var ajaxUrl = quanpinUrl+'/measured/queryByReportCode';
 var myApp = new Vue({
 	el:'.my_view',
 	data: function(){
 		return{
-			dataInfo:{}
-
+			dataInfo:{
+				customerName:'',
+				sex:'',
+				userTel:'',
+				departName:'',
+				doctorName:'',
+				doctorTel:'',
+				diagnosisResultLis:[]
+				
+			},
+			showReport:false,
+			noReport:false
 		}
 	},
 	mounted: function(){
@@ -113,21 +140,32 @@ var myApp = new Vue({
 	methods:{
 		queryByReportCode: function(){
 			var vm = this;
-			$.ajax({
-				type:"post",
-				url:ajaxUrl,
-				async:true,
-				dataType:'Json',
-				data:{
-					reportCode:reportCode
-				},
-				success: function(res){
-					if(res.success)
-					vm.dataInfo = res.result
-					console.log(vm.dataInfo)
-				},
-				error: function(){alert('queryByReportCode error')}
-			});
+			if(!reportCode || reportCode == 0){
+				//alert('你还没有报告')
+				vm.noReport = true
+			}else{
+				$.ajax({
+					type:"post",
+					url:ajaxUrl,
+					async:true,
+					dataType:'Json',
+					data:{
+						reportCode:reportCode
+					},
+					success: function(res){
+						if(res.success){
+							$('.quanpin').css("visibility","visible");
+							$('.load-overlay').css("display","none");
+							vm.showReport = true
+							vm.dataInfo = res.result
+							console.log(vm.dataInfo)
+						}
+							
+					},
+					error: function(){alert('queryByReportCode error')}
+				});
+			}
+				
 		},
 		checkDisease:function(){
 			location.href = 'quanpin_yy.html?reportCode='+reportCode
@@ -136,7 +174,7 @@ var myApp = new Vue({
 			if(url){
 				location.href = url
 			}else{
-				alert('没有链接')
+				console.log('没有链接')
 			}
 			
 		}

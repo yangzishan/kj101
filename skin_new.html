@@ -251,7 +251,7 @@
                     </div>
         </div>
         <!-- 天气 -->
-        <div class="weather" v-if="openId">
+        <div class="weather" v-if="openId && reportType != 151">
             <div class="head">
                 <h1>天气护肤</h1>
             </div>
@@ -310,6 +310,7 @@
             var timer = null
             var clientType = getQueryString("clientType");
             var    reportCode =  getQueryString('reportId');
+            var reportType = getQueryString('reportType');
             var    openId = getQueryString('openId');
             var    writing =['清洁是皮肤护理的第一步，温和清洁，善待皮肤，保护肌肤屏障。','保湿是皮肤护理的第二步，合理保湿，皮肤柔软平滑，水润不紧绷。','多数皮肤问题都与日晒有关，防晒没有季节性，一定要尽早。','天气变差更要做好肌肤隔离，避免脏污进入皮肤。','保护肌肤屏障，远离敏感泛红。'];
             var    wriname = ['清洁','保湿','防晒','隔离','防敏感'];
@@ -320,6 +321,7 @@
                 el: '#app',
                 data:{
                 	openId:openId,
+                	reportType:reportType,
                 	clientType:clientType,
                     skinColor:{
                         'toubai':'透白',
@@ -512,7 +514,9 @@
                                     
                                     $('#score').animateNumber({ number: that.score },1100);
                                     that.panduan();
-                                    that.getWx();
+                                    if(reportType != 151){
+                                    	that.getWx();
+                                    }
                                     that.godo();
                                     that.inIt();
                                     setTimeout(function(){
@@ -772,7 +776,7 @@
                                             $('.popup h1').html($(this).attr('data-h'))
                                         }
                                         if($(this).attr('data-text') && $(this).attr('data-text') != ''){
-                                            text = $(this).attr('data-text').replace('/n','<br>')
+                                            text = $(this).attr('data-text').replace(/\/n/g,'<br>')
                                         }
                                         $('.huadong').html(text)
                                     })

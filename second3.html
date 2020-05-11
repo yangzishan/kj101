@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>报告详情</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/kanghao130.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body class="bck-col-f4">
+<DIV class="my_view" style="visibility: hidden;">
+<div id="appVUE">
+	<div class="zj_top2">
+		<div class="t-bar">
+			<a class="back fl" href="javascript:history.go(-1);"></a>
+			<span class="cent">健康报告</span>
+		</div>
+	</div>
+	<section class="strbox">
+		<div class="fl fen">
+			<span>{{score}}</span><font>分</font>
+		</div>
+		<div class="fl xtn">
+			<p class="p1">{{targetFirstName}}总评</p>
+			<p class="p2">您的评估结果：
+				<em v-if="score >= 90">正常</em>
+				<em v-if="score >= 80 && score <90" style="color: #FF8800;">轻度风险</em>
+				<em v-if="score < 80" style="color: #E96B6B;">中度风险</em>
+			</p>
+		</div>
+		<span class="pop" @click="showSome(targetFirstName,inspectExplain)">?</span>
+	</section>
+	
+	<div class="secondBox" v-for="item in secondPages">
+		<p class="ttp" @click="showSome(item.targetSecondName,item.inspectExplain)"><span>医学定义</span><i></i></p>
+		<div class="btt">
+			<span>{{item.targetSecondName}}</span>　<font>{{item.score}}分</font>
+		</div>
+		<div class="defen">
+			<!--<em v-if="item.score<50" class="arr" style="left: 20%;"></em>
+			<em v-if="item.score>=50 && item.score <80" class="arr" style="left: 50%;"></em>
+			<em v-if="item.score >=80" class="arr" style="left: 81%;"></em>-->
+			<em class="arr" :style="'left:'+ (item.score-60)*2.5 +'%;'"></em>
+		</div>
+		<div class="pic"><img :src="item.iconUrl" class="img_b"></div>
+		<!--<div class="pic"><img src="img/151/test.png" class="img_b"></div>-->
+		<ul class="thrlist">
+			<li class="th-li" v-for="site in item.thirdPages" @click="goThird($event,site)">
+				<!--<div class="fl ico"><img :src="site.iconUrl" class="img_b"></div>-->
+				<!--<div class="fl ico"><img src="img/151/nv.png" class="img_b"></div>-->
+				<div class="fl nam" style="padding: 0 .2rem;">
+					<p class="p1" style="font-weight: bold;">{{site.targetThirdName}}</p>
+					<p class="p2" v-if="site.score >= 90">正常</p>
+					<p class="p2 lit" v-if="site.score < 90 && site.score >= 80">轻度风险</p>
+					<p class="p2 mid" v-if="site.score < 80">中度风险</p>
+				</div>
+				<div class="fr sta1" v-if="site.score >= 90">{{site.score}}</div>
+				<div class="fr sta2" v-if="site.score < 90 && site.score >= 80">{{site.score}}</div>
+				<div class="fr sta3" v-if="site.score < 80">{{site.score}}</div>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="kh-seconditem" v-if="symptom">
+		<div class="ctt"><i class="ckt"></i><span>您有可能有以下症状</span></div>
+		<div class="symptom">
+			<span v-for="item in symptom" style="border: #18C5AC solid .01rem; color: #18C5AC;">{{item}}</span>
+		</div>
+		<div>{{symptomMsg}}</div>
+	</div>
+	
+	<div class="v_overlert" id="showSome">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+		<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+	</div>
+</div>
+</div>
+
+<!--<div id="btn" class="zhichi zhiCustomBtn"></div>-->
+</DIV>
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId = getQueryString('reportId');
+var targetFirstId=getQueryString("targetFirstId");
+var userId = getQueryString('userId');
+var reportType = getQueryString('reportType');
+var deviceSn = getQueryString('deviceSn');
+
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+}else{
+	var language = en;
+    var languageStr = 'en';
+}
+
+var myApp = new Vue({
+	el: '#appVUE',
+	data: function(){
+		return{
+			reportId: reportId,
+			targetFirstId: targetFirstId,
+			userId: userId,
+			score:'',
+			targetFirstName:'',
+			secondPages:'',
+			language: language,
+			reportType: reportType,
+			someTit:'', //弹框用
+			someTxt:'', //弹框用
+			inspectExplain:'',
+			symptom:[],
+			symptomMsg:'',
+		}
+	},
+	mounted: function(){
+		this.getTargetByFirst()
+	},
+	methods:{
+		getTargetByFirst: function(){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetFirstId : targetFirstId
+				},
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.score = res.data.score //系统得分
+				   		vm.targetFirstName = res.data.targetFirstName //系统名称
+				    	vm.secondPages = res.data.secondPages //二级指标
+				    	vm.inspectExplain = res.data.inspectExplain
+				    	if(targetFirstId == 3143){
+				    		vm.queryMetricSymptom(vm.secondPages[0].targetSecondId,vm.score)
+				    	}else{
+				    		vm.queryMetricSymptom(targetFirstId,vm.score)	
+				    	}
+				    	
+					}
+				},
+				error : function(obj,msg){alert("getTargetByFirst error")}
+			});
+		},
+		queryMetricSymptom: function(metricId,score){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:analysisreport+"/azy/report/queryMetricSymptom",
+				dataType:'Json',
+				data:{
+					metricId: metricId,
+					score :score
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.symptom = res.data
+						if(res.data == ''){vm.symptomMsg = res.msg}
+					}else{
+						console.log('queryMetricSymptom code = '+res.code)
+					}
+				},
+				error: function(){console.log('queryMetricSymptom error')}
+			});
+		},
+		goThird: function(e,item){
+			var vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.targetThirdName,
+				'指标得分':item.score,
+				'方式' : '通过二级页面点击'
+			},function(){
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+userId+'&reportType='+reportType+'&deviceSn='+deviceSn
+			});
+		},
+		showSome: function(tit,txt){
+			txt = txt.replace('/n','<br>')
+			this.someTit = tit
+			this.someTxt = txt
+			showMask();
+			$('#showSome').css({"visibility":"visible","opacity":"1"});
+		},
+	}
+});
+
+//查用户信息对接智齿客服
+/*$.ajax({
+	url : dataUrl + "/api/v1/reportUser/findUserById",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	    userId : userId
+	},
+	success : function(userData) {
+		if(userData.code == 200){
+			//初始化智齿咨询组件实例
+			var zhiManager = (getzhiSDKInstance());
+			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+			zhiManager.set('location',1); //位置
+			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+			zhiManager.set('lan', 'zh'); //支持语言
+			zhiManager.set('moduleType',3); //机器人客服优先模式
+			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+			zhiManager.set('customMargin', 200);
+			//设置用户信息
+			zhiManager.set('uname',userData.data.userName);
+			zhiManager.set('realname',userData.data.userName);
+			zhiManager.set('tel',userData.data.mobile);
+			zhiManager.set('remark','报告ID： '+reportId);
+			zhiManager.on("load", function() {
+			    zhiManager.initBtnDOM();
+			});
+		//////
+		}
+	},
+	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
+});*/
+//弹窗
+function showMask(){
+	$("body").css("overflow","hidden");
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$('.orginImg').css({"visibility":"hidden","opacity":"0"});
+		$("body").css("overflow","auto");
+	});
+};
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+</script>
+</body>
+</html>

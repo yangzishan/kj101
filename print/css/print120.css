@@ -1,347 +1,107 @@
-.print{
-    width: 640px;
-    margin: 0 auto;
-}
-/* 首页 */
-.print-index{
-    color: #676767;
-    padding: 35px;
-}
-.print-index .logo{
-    width: 105px;
-}
-.print-index .title{
-    font-size: 55px;
-    text-align: center;
-    font-weight: bold;
-    padding-top: 30px; 
-    letter-spacing:8px;
-}
-.print-index .title p{
-    line-height: 50px;
-}
-.print-index .title .english{
-    font-size: 32px;
-    letter-spacing:1.5px;
-}
-.print-index ul{
-    padding-top: 30px;
-}
-.print-index ul li{
-    overflow: hidden;
-    line-height: 60px;
-/*    font-size: 20px;
-    display: flex;*/
-    padding:0 0 0 55px;
-}
-.print-index ul li .left{
-   /* flex: 1;*/ float: left; width: 50%; font-size: 20px;
-    overflow: hidden;
-}
-.print-index ul li .left .key{
-    float: left;
-    width: 80px;
-    text-align-last: justify;
-}
-.print-index ul li .left .value{
-    float: left;
-}
-.print-index ul li .right{
-/*    padding-left: 40px; 
-    flex: 1;*/ float: left; font-size: 20px;
-    overflow: hidden;
-}
-.print-index ul li .right .key{
-    float: left;
-    width: 80px;
-    text-align-last: justify;
-}
-.print-index ul li .right .value{
-    float: left;
-}
-.print-index .banner{
-    width: 201px;
-    margin: 0 auto;
-}
-.print-index .slogan{
-    padding:30px 50px; 
-    display: flex;
-}
-.print-index .slogan div{
-    flex: 1;
-    text-align: center;
-    color: #8abc29;
-    font-size: 22px;
-    letter-spacing:5px;
-}
-.print-index .bottom{
-    font-size: 30px;
-    color: #259a91;
-    text-align: center;
-    line-height: 50px;
-    letter-spacing:12px;
-    font-weight: bold;
-}
-/* 十大评估系统 */
-.print-assess{
-    padding: 30px 50px;
-}
-.print-assess .title{
-    color: #23a197;
-    text-align: center;
-    font-size: 25px;
-    font-weight: bold;
-    padding-bottom: 50px;
-}
-.print-assess ul{
-    overflow: hidden;
-    width: 402px;
-    margin: 0 auto;
-}
-.print-assess ul li{
-    width: 126px;
-    height: 90px;
-    float: left;
-    overflow: hidden;
-    padding-bottom: 30px; 
-}
-.print-assess li:nth-child(2n) {
-    margin-left: 150px;
-}
-.print-assess ul li .img{
-    float: left;
-    width: 60px;
-    margin-right: 10px; 
-}
-.print-assess ul li .txt{
-    float: left;
-}
-.print-assess ul li .txt p{
-    line-height: 20px;
-}
-.print-assess ul li .name{
-    color: #000;
-}
-.print-assess ul li .grade{
-    font-size: 20px;
-}
-.print-assess ul li .name{
-    font-size: 14px
-}
-.print-assess ul li .state{
-    font-size: 14px
-}
-/* 正常颜色 */
-.print-assess ul .normal{
-    color: #1ebeb1;
-}
-/* 轻度异常颜色 */
-.print-assess ul .mild{
-    color: #ff9e05;
-}
-/* 严重异常颜色 */
-.print-assess ul .severity{
-    color: #ff4c05;
-}
-/* 评估建议 */
-.print-advise{
-    padding: 30px 20px;
-}
-.print-advise .advise-list{
-    padding-bottom: 20px; 
-}
-.print-advise .title{
-    overflow: hidden;
-    margin-bottom: 30px; 
-}
-.print-advise .title .img{
-    width: 60px;
-    float: left;
-}
-.print-advise .title span{
-    color: #56918d;
-    font-size: 24px;
-    line-height: 60px;
-    font-weight: bold;
-}
-.print-advise .grid{
-    font-size: 14px;
-    border:1px solid #686868;
-}
-.print-advise .grid .grid-name{
-    overflow: hidden;
-    height: 35px;
-    line-height: 35px;
-}
-.print-advise .grid .grid-name .grid-left{
-    float: left;
-    width: 180px;
-    display: flex;
-}
-.print-advise .grid .grid-name .grid-left span{
-    padding-left:20px;
-    flex: 1;
-    text-align: center;
-}
-.print-advise .grid .grid-name .state{
-    float: left;
-    text-align: center;
-    width: 200px;
-    color: #e73622;
-}
-.print-advise .grid .list{
-    display: flex;
-    justify-content:center;
-    align-items:center;
-    border-top: 1px solid #686868;  
-}
-.print-advise .grid .left{
-    height: 35px;
-    line-height: 35px;
-    width: 180px;
-    padding: 0 10px;
-    display: flex;  
-}
-.print-advise .grid .left .score{
-    width: 20px;
-}
-.print-advise .grid .right .score{
-    width: 20px;
-    padding-left:10px; 
-}
-.print-advise .grid .left .name,
-.print-advise .grid .right .name{
-    flex: 1;
-}
-.print-advise .grid .left .state{
-    width: 60px;
-    text-align: right
-}
-.print-advise .grid .right .state{
-    width: 30px;
-    text-align: right
-}
-.print-advise .grid .right{
-    flex: 1;
-    overflow: hidden;
-    border-left: 1px solid #686868;
-}
-.print-advise .grid .right .item{
-    float: left;
-    width: 50%;
-    line-height: 35px;
-    padding: 0 10px;
-    display: flex;
-    border-top:1px solid #686868; 
-}
-.print-advise .grid .right .item:nth-child(1)
- {
-    border-top:0;
-}
-.print-advise .grid .right .item:nth-child(2)
- {
-    border-top:0;
-}
-.print-advise .grid .right .item:nth-child(n) {
-    border-right: 1px solid #686868;
-}
-.print-advise .grid .right .item:nth-child(2n) {
-    border-right: 0;
-}
-.print-advise .detail{
-    padding-top: 50px; 
-}
-.print-advise .detail .title{
-    position: relative;
-    width: 300px;
-}
-.print-advise .detail .title .nav{
-    /*position: absolute;
-    width: 100%;*/
-    height: 100%;
-    /*display: flex;*/
-    color: #fff;
-    line-height: 40px;
-    text-align: center;
-    font-size: 16px;
-    /*left: 0;
-    top: 0;
-    justify-content:center;
-    align-items:center;*/
-}
-.print-advise .detail .img-box{
-    margin-top:30px;
-    overflow: hidden;
-    color: #49948f;
-}
-.print-advise .detail .img-box .img{
-    width: 150px;
-    position: relative;
-    float: left;
-}
-.print-advise .detail .img-box .img span{
-    position: absolute;
-    left: 60px;
-    top: 72px;
-    width: 30px;
-    height: 30px;
-    font-size: 30px;
-}
-.print-advise .detail .img-box .state{
-    float: left;
-    font-size: 18px;
-    padding-top:75px;
-    padding-left: 20px; 
-}
-.print-advise .detail .img-box .state .result{
-    padding-left:10px; 
-    color: #636363;
-}
-.print-advise .detail .explain{
-    margin-top:30px; 
-}
-.print-advise .detail .explain p{
-    color: #e73622;
-    font-size: 16px;
-    line-height: 35px;
-    font-weight: bold;
-}
-.print-advise .detail .explain div{
-    font-size: 14px;
-    line-height: 25px;
-}
-.print-advise .detail .suggest{
-    padding-top:10px; 
-}
-.print-advise .detail .suggest .suggest-title{
-    color: #e73622;
-    font-size: 16px;
-    line-height: 30px;
-    font-weight: bold;
-}
-.print-advise .detail .suggest ul li{
-    font-size: 14px;
-}
-.print-advise .detail .suggest ul li .sList{
-    font-weight: bold;
-}
-.print-advise .detail .suggest ul li p{
-    color: #549694;
-    font-weight: bold;
-    line-height: 30px;
-}
-.print-advise .detail .suggest ul li div{
-    line-height: 21px;
-}
-.print-advise .detail .suggest ol{
-    padding-left:32px; 
-}
-.print-advise .detail .suggest .food ol li{
-    list-style: trad-chinese-informal;
-}
-.print-advise .detail .suggest .exercise ol li{
-    list-style: decimal;
-}
-.active{
-    color:#e73622;
-}
+.print{width:640px;margin:0 auto}
+.print-index{color:#676767;padding:35px}
+.print-index .logo{width:105px}
+.print-index .title{font-size:55px;text-align:center;font-weight:bold;padding-top:30px;letter-spacing:8px}
+.print-index .title p{line-height:50px}
+.print-index .title .english{font-size:32px;letter-spacing:1.5px}
+.print-index ul{padding-top:30px}
+.print-index ul li{overflow:hidden;line-height:60px;padding:0 0 0 55px}
+.print-index ul li .left{float:left;width:50%;font-size:20px;overflow:hidden}
+.print-index ul li .left .key{float:left;width:80px;text-align-last:justify}
+.print-index ul li .left .value{float:left}
+.print-index ul li .right{float:left;font-size:20px;overflow:hidden}
+.print-index ul li .right .key{float:left;width:80px;text-align-last:justify}
+.print-index ul li .right .value{float:left}
+.print-index .banner{width:260px;margin:0 auto}
+.print-index .slogan{padding:30px 50px;display:flex}
+.print-index .slogan div{flex:1;text-align:center;color:#8abc29;font-size:22px;letter-spacing:5px}
+.print-index .bottom{font-size:30px;color:#259a91;text-align:center;line-height:50px;letter-spacing:12px;font-weight:bold}
+.print-assess{padding:30px 50px}
+.print-assess .title{color:#23a197;text-align:center;font-size:25px;font-weight:bold;padding-bottom:50px}
+.print-assess ul{overflow:hidden;width:402px;margin:0 auto}
+.print-assess ul li{width:126px;height:90px;float:left;overflow:hidden;padding-bottom:30px}
+.print-assess li:nth-child(2n){margin-left:150px}
+.print-assess ul li .img{float:left;width:60px;margin-right:10px}
+.print-assess ul li .txt{float:left}
+.print-assess ul li .txt p{line-height:20px}
+.print-assess ul li .name{color:#000}
+.print-assess ul li .grade{font-size:20px}
+.print-assess ul li .name{font-size:14px}
+.print-assess ul li .state{font-size:14px}
+.print-assess ul .normal{color:#1ebeb1}
+.print-assess ul .mild{color:#ff9e05}
+.print-assess ul .severity{color:#ff4c05}
+.print-advise{padding:30px 20px}
+.print-advise .advise-list{padding-bottom:20px}
+.print-advise .title{overflow:hidden;margin-bottom:30px}
+.print-advise .title .img{width:60px;float:left}
+.print-advise .title span{color:#56918d;font-size:24px;line-height:60px;font-weight:bold}
+.print-advise .grid{font-size:14px;border:1px solid #686868}
+.print-advise .grid .grid-name{overflow:hidden;height:35px;line-height:35px}
+.print-advise .grid .grid-name .grid-left{float:left;width:180px;display:flex}
+.print-advise .grid .grid-name .grid-left span{padding-left:20px;flex:1;text-align:center}
+.print-advise .grid .grid-name .state{float:left;text-align:center;width:200px;color:#e73622}
+.print-advise .grid .list{display:flex;justify-content:center;align-items:center;border-top:1px solid #686868}
+.print-advise .grid .left{height:35px;line-height:35px;width:180px;padding:0 10px;display:flex}
+.print-advise .grid .left .score{width:20px}
+.print-advise .grid .right .score{width:20px;padding-left:10px}
+.print-advise .grid .left .name,.print-advise .grid .right .name{flex:1}
+.print-advise .grid .left .state{width:60px;text-align:right}
+.print-advise .grid .right .state{width:30px;text-align:right}
+.print-advise .grid .right{flex:1;overflow:hidden;border-left:1px solid #686868}
+.print-advise .grid .right .item{float:left;width:50%;line-height:35px;padding:0 10px;display:flex;border-top:1px solid #686868}
+.print-advise .grid .right .item:nth-child(1){border-top:0}
+.print-advise .grid .right .item:nth-child(2){border-top:0}
+.print-advise .grid .right .item:nth-child(n){border-right:1px solid #686868}
+.print-advise .grid .right .item:nth-child(2n){border-right:0}
+.print-advise .detail{padding-top:50px}
+.print-advise .detail .title{position:relative;width:300px}
+.print-advise .detail .title .nav{height:100%;color:#fff;line-height:40px;text-align:center;font-size:16px}
+.print-advise .detail .img-box{margin-top:30px;overflow:hidden;color:#49948f}
+.print-advise .detail .img-box .img{width:150px;position:relative;float:left}
+.print-advise .detail .img-box .img span{position:absolute;left:60px;top:72px;width:30px;height:30px;font-size:30px}
+.print-advise .detail .img-box .state{float:left;font-size:18px;padding-top:75px;padding-left:20px}
+.print-advise .detail .img-box .state .result{padding-left:10px;color:#636363}
+.print-advise .detail .explain{margin-top:30px}
+.print-advise .detail .explain p{color:#e73622;font-size:16px;line-height:35px;font-weight:bold}
+.print-advise .detail .explain div{font-size:14px;line-height:25px}
+.print-advise .detail .suggest{padding-top:10px}
+.print-advise .detail .suggest .suggest-title{color:#e73622;font-size:16px;line-height:30px;font-weight:bold}
+.print-advise .detail .suggest ul li{font-size:14px}
+.print-advise .detail .suggest ul li .sList{font-weight:bold}
+.print-advise .detail .suggest ul li p{color:#549694;font-weight:bold;line-height:30px}
+.print-advise .detail .suggest ul li div{line-height:21px}
+.print-advise .detail .suggest ol{padding-left:32px}
+.print-advise .detail .suggest .food ol li{list-style:trad-chinese-informal}
+.print-advise .detail .suggest .exercise ol li{list-style:decimal}
+.active{color:#e73622}
+.zhongji{border:#23a197 solid 1px;padding:30px 20px;margin:0 0 30px}
+.zhongji .biaoti{color:#23a197;text-align:center;font-size:25px;font-weight:bold;line-height:30px;margin:0 0 020px}
+.zj_list{}
+.zj_list li{margin-bottom:40px}
+.zj_list li .bit{line-height:24px;height:24px;padding:0 10px}
+.zj_list li .bit i{display:inline-block;width:6px;height:12px;border-radius:3px;margin:6px 6px 0 0;background:#23a197;vertical-align:top}
+.zj_list li .bit .lab{color:#23a197;font-weight:bold;font-size:15px}
+.zj_list li .bit .pro{width:360px;height:20px;line-height:20px;margin:2px;border:#666 solid 1px;text-align:center;position:relative;background:#ECF7ED}
+.zj_list li .bit .pro .ppc{background:#72B269;display:block;height:20px}
+.zj_list li .bit .pro .tcc{position:absolute;width:100%;left:0;top:0}
+.zj_list li .bit em{color:#23a197}
+.zj_list li .tit{color:#e73622;font-size:16px;line-height:35px;font-weight:bold}
+.zj_list li .txt{line-height:21px}
+h4{text-align:center;background:#348798;font-size:18px;color:#fff;font-weight:bold;line-height:40px}
+.skin .dan{text-align:center;background:#FF8C3E;font-size:14px;color:#fff;line-height:30px}
+.skin .gai{border-top:1px solid #348798;text-align:center;font-size:14px;color:#fff;line-height:30px;background:#FFC255}
+.skin .chi{border-top:1px solid #348798;text-align:center;font-size:14px;color:#fff;line-height:30px;background:#2CBCB4}
+.skin{width:100%;border:1px solid #348798;margin-bottom:20px}
+.skin > .zongjie{width:100%;font-size:0}
+.skin > .zongjie > div{text-align:center}
+.skin > .zongjie > .l{border-bottom:1px solid #348798;border-right:1px solid #348798;display:inline-block;width:25%;font-size:24px;color:#348798;height:48px;line-height:40px;position:relative;top:-11px}
+.skin > .zongjie > .r{border-bottom:1px solid #348798;position:relative;left:-1px;display:inline-block;width:75%;font-size:0}
+.skin > .zongjie > .r > span{display:inline-block;width:33.3%;border-right:1px solid #348798;font-size:12px}
+.skin > .zongjie > .r > span:last-child{border-right:none}
+.skin > .zongjie > .r > span > em{display:block;width:100%;border-bottom:1px solid #348798;font-weight:bold}
+.skin > .xiangqing{position:relative;top:-11px}
+.skin > .xiangqing > .tou{width:100%;border-bottom:1px solid #348798;border-top:1px solid #348798}
+.skin > .xiangqing > .tou > span{display:inline-block;width:24.5%;text-align:center;font-weight:bold}
+.skin > .xiangqing > .bd{padding-left:10px}
+.skin > .xiangqing > .bd > .tit{font-weight:bold}
