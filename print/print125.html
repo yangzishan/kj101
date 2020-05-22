@@ -12,6 +12,10 @@
 </head>
 <body>
 <div id="app" class="print">
+	<div class="banben" v-if="printReportType == 1">结果版</div>
+	<div class="banben" v-if="printReportType == 2">标准版</div>
+	<div class="banben" v-if="printReportType == 3">价值版</div>
+	
 	<div class="print-index a4">
 		<div class="title">
 			<p>全身健康评估报告</p><p class="english">CENERAL HEALTH REPORT</p>

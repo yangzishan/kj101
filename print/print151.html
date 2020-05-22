@@ -11,8 +11,11 @@
   <title>打印报告</title>
 </head>
 <body>
-<div id="app" class="print">
-	<div style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;"><img src="img/ddd.png" @click="godownloadPdf()"></div>
+<div id="app" class="print" style="position: relative;">
+	<!--<div style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;"><img src="img/ddd.png" @click="godownloadPdf()"></div>-->
+	<div class="banben" v-if="printReportType == 1">结果版</div>
+	<div class="banben" v-if="printReportType == 2">标准版</div>
+	<div class="banben" v-if="printReportType == 3">价值版</div>
 	<div class="print-index a4">
 		<div class="title">
 			<p>全身健康评估报告</p><p class="english">CENERAL HEALTH REPORT</p>
@@ -24,13 +27,13 @@
 			<li class="pli">
 				<span class="key">性别</span><span class="value">：{{sex==1?'男':'女'}}</span>
 			</li>
-			<li class="pli">
+			<li class="pli" v-if="inspectDateStr">
 				<span class="key">检测时间</span><span class="value">：{{inspectDateStr.slice(0,10)}}</span>
 			</li>
 			<li class="pli" v-if="relatedNo">
 				<span class="key">经理人</span><span class="value">：{{relatedNo}}</span>
 			</li>
-			<li class="pli">
+			<li class="pli" v-if="mobile">
 				<span class="key">联系方式</span><span class="value">：{{mobile.slice(0,11)}}</span>
 			</li>
 			<!--<li class="pli" v-if="payNum">
@@ -165,10 +168,10 @@
 	   </div>
 	</section>
 
-	<section class="sr_box a4" v-if="printReportType == 2 || printReportType == 3">
+	<section class="sr_box a4">
       	<h3>个性化健康建议</h3>
       	<div class="jianyi">
-	      <div class="shanshi a4">
+	      <div class="shanshi a4" v-if="dietList">
 	        <div class="left"><em>膳食建议</em></div>
 	        <div class="right">
 	        	<template v-for="item in dietList">
@@ -178,7 +181,7 @@
 	        	</template>
 	        </div>
 	      </div>
-	      <div class="yingyang">
+	      <div class="yingyang" v-if="nutritionList">
 	        <div class="left"><em>营养素建议</em></div>
 	        <div class="right">
 	          <template v-for="item in nutritionList">
@@ -188,7 +191,7 @@
 	        	</template>
 	        </div>
 	      </div>
-	      <div class="yundong">
+	      <div class="yundong" v-if="motionList">
 	        <div class="left"><em>运动建议</em></div>
 	        <div class="right">
 	          <template v-for="item in motionList">

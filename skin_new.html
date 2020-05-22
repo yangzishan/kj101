@@ -15,7 +15,11 @@
 <body class="skin my_view">
     <div class="loadmore loading"></div>
     <div id="app">
-<div class="pf-top" :style="sex.yibiaopanColor">
+<div class="pf-top" :style="sex.yibiaopanColor" style="position: relative;">
+	<div style="position: absolute; line-height: .88rem; left: .2rem; top: 0;" v-if="reportType == 151">
+		<a class="b-arr fl" href="javascript:history.go(-1);" style="width: .24rem; height: .88rem; background: url(./img/arr-b.png) no-repeat center; background-size: .18rem .34rem;"></a>
+		<a class="fl" href="javascript:history.go(-1);" style="line-height: .88rem; padding-left: .1rem; color: #ffffff;">返回</a>
+	</div>
 	<p style="height: .44rem;"></p>
 	<div class="charbj">
 		<div class="biao" :style="sex.yibiaopanImgBiao"></div>
@@ -46,7 +50,7 @@
                 <div class="huadong" v-cloak >
                 </div>
         </div>
-        <div class="photo">
+        <div class="photo" @click="hidePhoto()">
             <img src="img/new_skin/head.jpg" alt="">
         </div>
         <div class="questionZS">

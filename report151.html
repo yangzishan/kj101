@@ -171,9 +171,9 @@
 	</div>
 	
 	<p style="height: .2rem; background: #f4f4f4;"></p>
-	<div class="bx_tit"><i></i><span class="lab" style="color: #333333;">皮肤状态</span><i></i></div>
+	<div class="bx_tit" v-if="inspectSkinView"><i></i><span class="lab" style="color: #333333;">皮肤状态</span><i></i></div>
 	
-	<div style="padding: .2rem 0 .3rem; background: #ffffff;">
+	<div style="padding: .2rem 0 .3rem; background: #ffffff;" v-if="inspectSkinView">
 		<div class="pf-main">
 			<div class="pifu_zls">
 				<p class="tit" ><span>肤质</span><span>肤龄</span><span style="border: none;">肤色</span></p>
@@ -336,7 +336,7 @@
 <input type="hidden" id="age"/>
 <input type="hidden" id="share" value="101"/>
 
-<template v-if="inspectSkinView"><div class="orginImg"><img class="img_b" :src="inspectSkinView.fileName"></div></template>
+<template v-if="inspectSkinView"><div class="orginImg" @click="closeImg()"><img class="img_b" :src="inspectSkinView.fileName"></div></template>
 <div class="v_overlay"></div>
 <div class="v_overlert" id="showExplain">
 	<div class="tc_sy">

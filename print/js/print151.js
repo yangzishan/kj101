@@ -71,12 +71,12 @@ var myapp = new Vue({
 				},
 				success:function(res){
 					if(res.data.infoView != null){
-						vm.nickName = res.data.infoView.nickName	
-					 	vm.mobile = res.data.infoView.mobile
+						vm.nickName = (res.data.infoView.nickName?res.data.infoView.nickName:'')	
+					 	vm.mobile = (res.data.infoView.mobile?res.data.infoView.mobile:'')
 					 	vm.sex = res.data.infoView.sex
 					 	vm.relatedNo = res.data.infoView.relatedNo
 						document.title = vm.nickName + vm.mobile;
-						if(vm.nickName == null){document.title = vm.mobile}
+						//if(vm.nickName == null){document.title = vm.mobile}
 						if(vm.nickName == null && vm.mobile == null){document.title = '打印报告'}
 					}
 					vm.payNum = res.data.payNum,

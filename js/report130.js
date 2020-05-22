@@ -9,6 +9,7 @@ var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var invite = getQueryString("invite");  //邀约历史查看
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print130_kh2.html?viewType=2&reportId=';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
@@ -21,6 +22,7 @@ var myApp = new Vue({
 	el: '.my_view',
 	data: function(){
 		return{
+			invite:invite,
 			reportId:reportId,openId:openId,reportType:reportType,customerId:customerId,saasId:saasId,clientType:clientType,
 			result:{},
 			totalScore:'',

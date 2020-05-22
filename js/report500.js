@@ -9,6 +9,8 @@ var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
+
 var localUrl = location.href;
 var edition = 500;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
@@ -31,6 +33,7 @@ var urlSearch = '';
 new Vue({
     el:'#app_501',
     data:{
+    	invite:invite,
     	openId:openId,
        "totalScore": '',
        "skinTotalScore": '',

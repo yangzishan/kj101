@@ -18,7 +18,7 @@
             <h2>健康管理</h2>
             <div class="user_history">
                 <img class="yonghu" src="./img/skin/user_501.png" @click="goSetUp();" v-if="!clientType">
-                <img class="lishi" src="./img/skin/history_501.png" @click="checkHistory();">
+                <img class="lishi" src="./img/skin/history_501.png" @click="checkHistory();" v-if="!(invite == 'invite')">
             </div>
         </div>
     </div>

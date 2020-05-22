@@ -17,7 +17,7 @@
 	<header class="header">
 		<a class="t-left fl goToPer" @click="goSetUp()" v-if="!clientType"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
 		<button class="t-left fl goToShare" id="goToShare" v-if="clientType" @click="goToShare('goToShare')">报告分享</button>
-		<a class="t-right fr" @click="checkHistory()"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+		<a class="t-right fr" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
 	<div class="all_score">

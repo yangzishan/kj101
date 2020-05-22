@@ -9,6 +9,7 @@ var source = (getQueryString('source') || ''); //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
 var edition = 120;
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
@@ -82,11 +83,12 @@ var myApp = new Vue({
 			thirdPages:[], //与免疫指标有关
 			someTit:'', //弹框用
 			someTxt:'', //弹框用
+			invite:invite
 		}
 	},
 	mounted: function(){
 		this.getData();
-		this.getSaasTenantByCompanyId();
+		if(saasId){this.getSaasTenantByCompanyId();}	
 	},
 	methods: {
 		//查看报告来源

@@ -13,6 +13,12 @@
 </head>
 <body style="background: #f2f2f2;">
 <div class="my_view" id="myvue" style="display: none;">
+	<header class="header" v-if="reportType == 151">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="fl" href="javascript:history.go(-1);" style="line-height: .88rem; padding-left: .1rem; color: #ffffff;">返回</a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span></span></p>
+	</header>
 	<div class="sp-tit">根据您的健康状况，我们为您推荐一周的食谱，点击食谱中菜名即可查看餐品标准配比及营养成分。
 		<br><img src="img/pay_fail.png" style="height: .28rem; margin-right:.1rem; position: relative; top: .05rem;">如果您存在基础病，请以遵医嘱为先。
 	</div>
@@ -349,6 +355,7 @@ var myApp = new Vue({
 		return{
 			reportId: reportId,
 			edition: edition,
+			reportType:reportType,
 			recipes: '',
 		}
 	},

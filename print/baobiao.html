@@ -7,7 +7,7 @@
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
 <link rel="stylesheet" type="text/css" href="css/baobiao.css" />
-<title>数据表</title>
+<title>健康人群分析报告</title>
 </head>
 <body>
 <section id="app">
@@ -33,7 +33,7 @@
 				<div id="main" style="width: 100%; height: 250px;"></div>
 			</div>
 		</div>
-		<div class="box-b">
+		<div class="box-b a4">
 			<section style="overflow: hidden;">
 				<div class="cont_l fl">
 					<p class="tit2">{{two_list.tableName}}</p>
@@ -112,7 +112,7 @@
 						<p class="ptt">
 							<span>年龄段</span><span>90分以上</span><span>85到89分</span><span>85分以下</span><span>总计</span>
 						</p>
-						<p class="pcc" v-for="item in six_list.data">
+						<p class="pcc" v-for="item in six2_list.data">
 							<span>{{item.age_name}}</span><span>{{item.goodCnt}}</span><span>{{item.mildCnt}}</span><span>{{item.moderateCnt}}</span><span>{{item.totalCnt}}</span>
 						</p>
 						
@@ -140,7 +140,7 @@
 				</div>
 			</section>
 		</div>
-		<div class="box-a">
+		<div class="box-a a4">
 			<section>
 				<div class="b-tit">{{eight_list.tableName}}</div>
 				<ul class="tenxt">
@@ -151,50 +151,56 @@
 			</section>
 		</div>
 		<div class="box-a" style="padding:10px 50px;">
-			<div class="b-tit" style="margin:10px 0;">{{nine2_list.tableName}}</div>
-			<div class="fivebid"><img src="img/fivebid.png">
-				<span v-for="item in nine2_list.data">{{item.metric_name}}</span>
+			
+			<div class="a4">
+				<div class="b-tit" style="margin:10px 0;">{{nine2_list.tableName}}</div>
+				<div class="fivebid"><img src="img/fivebid.png">
+					<span v-for="item in nine2_list.data">{{item.metric_name}}</span>
+				</div>
+				<section style="background: #f0f0f0; border-radius: 3px; padding: 0 10px 20px;">
+					<div v-for="(item,index) in nine2_list.data" style="overflow: hidden;">
+						<div class="cont_r fl">
+							<div :id="'man_yc'+index" style="width: 100%; height: 180px;"></div>
+						</div>
+						<div class="cont_l fr" style="text-align: left;">
+							<div class="bidname"><i></i>{{item.metric_name}}</div>
+							<div class="bidcause">
+								<div class="lab">常见原因：</div>
+								<div class="txt">{{item.content}}</div>
+							</div>
+							<div class="bidimp">
+								<div class="lab">营养保健：</div>
+								<div class="txt">{{item.improvement}}</div>
+							</div>
+						</div>
+					</div>	
+				</section>
 			</div>
-			<section style="background: #f0f0f0; border-radius: 3px; padding: 0 10px 20px;">
-				<div v-for="(item,index) in nine2_list.data" style="overflow: hidden;">
-					<div class="cont_r fl">
-						<div :id="'man_yc'+index" style="width: 100%; height: 180px;"></div>
-					</div>
-					<div class="cont_l fr" style="text-align: left;">
-						<div class="bidname"><i></i>{{item.metric_name}}</div>
-						<div class="bidcause">
-							<div class="lab">常见原因：</div>
-							<div class="txt">{{item.content}}</div>
+			<div class="a4">
+				<div class="b-tit" style="margin:10px 0;">{{nine_list.tableName}}</div>
+				<div class="fivebid"><img src="img/fivebid.png">
+					<span v-for="item in nine_list.data">{{item.metric_name}}</span>
+				</div>
+				<section style="background: #f0f0f0; border-radius: 3px;">
+					<div v-for="(item,index) in nine_list.data" style="overflow: hidden;">
+						<div class="cont_r fl">
+							<div :id="'nv_yc'+index" style="width: 100%; height: 180px;"></div>
 						</div>
-						<div class="bidimp">
-							<div class="lab">营养保健：</div>
-							<div class="txt">{{item.improvement}}</div>
+						<div class="cont_l fr" style="text-align: left;">
+							<div class="bidname"><i></i>{{item.metric_name}}</div>
+							<div class="bidcause">
+								<div class="lab">常见原因：</div>
+								<div class="txt">{{item.content}}</div>
+							</div>
+							<div class="bidimp">
+								<div class="lab">营养保健：</div>
+								<div class="txt">{{item.improvement}}</div>
+							</div>
 						</div>
-					</div>
-				</div>	
-			</section>
-			<div class="b-tit" style="margin:10px 0;">{{nine_list.tableName}}</div>
-			<div class="fivebid"><img src="img/fivebid.png">
-				<span v-for="item in nine_list.data">{{item.metric_name}}</span>
-			</div>
-			<section style="background: #f0f0f0; border-radius: 3px;">
-				<div v-for="(item,index) in nine_list.data" style="overflow: hidden;">
-					<div class="cont_r fl">
-						<div :id="'nv_yc'+index" style="width: 100%; height: 180px;"></div>
-					</div>
-					<div class="cont_l fr" style="text-align: left;">
-						<div class="bidname"><i></i>{{item.metric_name}}</div>
-						<div class="bidcause">
-							<div class="lab">常见原因：</div>
-							<div class="txt">{{item.content}}</div>
-						</div>
-						<div class="bidimp">
-							<div class="lab">营养保健：</div>
-							<div class="txt">{{item.improvement}}</div>
-						</div>
-					</div>
-				</div>	
-			</section>
+					</div>	
+				</section>
+			</div>	
+			
 		</div>
 		<div class="box-a">
 			<section>
@@ -205,7 +211,7 @@
 							<span>年龄段</span><span>男性</span><span>女性</span><span>总数</span><span>男性占比</span><span>女性占比</span>
 						</p>
 						<p class="pcc" v-for="item in ten_list.data">
-							<span>{{item.age_name}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span><span>{{item.totalCnt}}</span><span>{{item.manLinkRatio}}</span><span>{{item.womanLinkRatio}}</span>
+							<span>{{item.age_name}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span><span>{{item.totalCnt}}</span><span>{{item.manLinkRatio}}%</span><span>{{item.womanLinkRatio}}%</span>
 						</p>
 					</div>
 				</div>

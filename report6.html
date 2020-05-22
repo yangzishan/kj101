@@ -23,7 +23,7 @@
 			<button id="goToShare" @click="goToShare('goToShare')">分享报告</button>
 		</div>
 		<div class="title">{{inspectDate}}</div>
-		<div class="report header-box">
+		<div class="report header-box" v-if="!(invite == 'invite')">
 			<span @click="checkHistory()">{{language.la_hisRepo}}</span>
 			<div class="img-box"><img src="./images/ls-icon.png" /></div>
 		</div>

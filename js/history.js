@@ -3,11 +3,12 @@ $('.load-overlay').css("display","block");
 var userId = getQueryString("userId");
 var openId = getQueryString('openId');
 var isAgent = getQueryString('isAgent');
-var saasId = getQueryString('saasId');
+var saasId = (getQueryString('saasId') || '');
 var reportType = (getQueryString('reportType')=='910'?'910':'');
 var clientType = (getQueryString("clientType") || '');
 var source = (getQueryString('source') || '');  //解析获得   康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  //app交互返回获得
 var resource = getQueryString("resource");  //无用暂留（app端自己写死的值）
+var invite = getQueryString("invite");  //邀约历史查看
 
 if(openId == null || openId == undefined){ openId = ''}
 
@@ -15,6 +16,26 @@ zhuge.track('进入历史列表页', { //埋点t
 	'openId' : openId,  
 	'渠道' : '微信'
 });
+//默认查报告历史
+var ajaxUrl = '/api/v1/ne/findHistoryReport';
+var paramet = {
+	customerId : userId,
+   	companyId: saasId,
+   	reportType: reportType,
+    firstPage: '0',
+    pageSize: 50,
+    source: source
+}
+if(invite == 'invite'){
+	ajaxUrl = '/api/v1/ne/invitationHistory';
+	paramet = {
+		openId : openId,
+	   	companyId: saasId,
+	    firstPage: '0',
+	    pageSize: 50,
+	}	
+};
+
 
 var myApp = new Vue({
 	el:'#appVUE',
@@ -23,7 +44,8 @@ var myApp = new Vue({
 			source: source,
 			resource: resource,
 			userId: userId,
-			dataList: ''
+			dataList: '',
+			invite: invite
 		}
 	},
 	mounted:function(){
@@ -33,17 +55,10 @@ var myApp = new Vue({
 		historyByUserId: function(){
 			var vm = this;
 			$.ajax({
-				url : dataUrl + "/api/v1/ne/findHistoryReport",
+				url : dataUrl + ajaxUrl,
 				type : "POST",
 				dataType : 'json',
-				data : {
-				   	customerId : userId,
-				   	companyId: saasId,
-				   	reportType: reportType,
-				    firstPage: '0',
-				    pageSize: 50,
-				    source: source
-				},
+				data : paramet,
 				success : function(res) {
 					if(res.code == 200){
 						$('.my_view').css("visibility","visible");
@@ -88,7 +103,7 @@ var myApp = new Vue({
 						var visible = res.data.visible; //是否可查看 0不可查看
 						var reportType = res.data.reportType;
 						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 reportSource=5 
-						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&source='+source+'&cannsee='+cansee;
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&source='+source+'&cannsee='+cansee+'&invite='+invite;
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	

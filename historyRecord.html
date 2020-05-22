@@ -16,7 +16,8 @@
 		<header class="header">
 			<!--<a class="b-arr fl" href="javascript:history.go(-1);"></a>-->
 			<a class="t-right fr" href="#"></a>
-			<p class="t-cen txt1"><span>历史报告</span></p>
+			<p class="t-cen txt1" v-if="invite == 'invite'"><span>邀约历史</span></p>
+			<p class="t-cen txt1" v-else><span>历史报告</span></p>
 		</header>
 		<div class="history_b" id="thelist">
 			

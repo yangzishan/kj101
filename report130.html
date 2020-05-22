@@ -17,7 +17,7 @@
 <section class="bodySta">
 	<div class="toper">
 		<div class="gao">
-			<div class="fl per"  @click="checkHistory()"><img src="img/kh130/i-his.png" ><span>历史</span></div>
+			<div class="fl per"  @click="checkHistory()" v-if="!(invite == 'invite')"><img src="img/kh130/i-his.png" ><span>历史</span></div>
 			<button class="fr per" id="goToShare" @click="goToShare('goToShare')" style="background: none;"><span>分享</span><img src="img/kh130/i-share.png" ></button>
 		</div>
 		<!--<div class="staer">

@@ -10,6 +10,7 @@ var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print2.0.html?viewType=2&reportId=';
 var edition = 2;
@@ -66,6 +67,7 @@ var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
+			invite:invite,
 			reportId: reportId,
 			reportType:reportType,
 			openId: openId,

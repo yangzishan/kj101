@@ -8,6 +8,7 @@ var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var invite = getQueryString("invite");  //邀约历史查看
 var visible = (getQueryString('visible') || 1);
 var bank = (getQueryString('bank') || '');
 var localUrl = location.href;
@@ -63,6 +64,7 @@ var myApp = new Vue({
 	 el: '.all-view',
     data:function() {
 		return {
+			invite:invite,
 			openId:openId,
 			userId: customerId,
 			showSex:false, //过滤两性功能模块

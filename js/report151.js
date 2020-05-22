@@ -9,6 +9,7 @@ var source = (getQueryString('source') || ''); //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
 var edition = 120;
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
@@ -43,6 +44,7 @@ var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
+			invite:invite,
 			reportId: reportId,
 			customerId: customerId,
 			reportType:reportType,
@@ -114,7 +116,7 @@ var myApp = new Vue({
 	},
 	mounted: function(){
 		this.getData();
-		this.getSaasTenantByCompanyId();
+		if(saasId){this.getSaasTenantByCompanyId();}
 	},
 	methods: {
 		//查看报告来源
@@ -365,6 +367,10 @@ var myApp = new Vue({
 			showMask()
 			$('.orginImg').css({"visibility":"visible","opacity":"1"})
 		},
+		closeImg: function(){
+			tocloseall()
+			$('.orginImg').css({"visibility":"hidden","opacity":"0"})
+		},
 		checkHistory: function(){ //历史报告
 			var vm = this;
 			zhuge.track('点击历史报告', { //埋点 t
@@ -413,7 +419,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'recipes.html?reportId='+reportId
+				location.href = 'recipes.html?reportId='+reportId+'&reportType='+reportType
 			})
 		},
 		goSecond: function(e,item){ //埋点  十大系统点击
@@ -536,12 +542,15 @@ function showMask(){
 };
 function closeMask(){
 	$('.v_overlay,.v_overlert .close').click(function(){
-		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-		$('.orginImg').css({"visibility":"hidden","opacity":"0"});
-		$("body").css("overflow","auto");
+		tocloseall()
 	});
 };
+function tocloseall(){
+	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+	$('.orginImg').css({"visibility":"hidden","opacity":"0"});
+	$("body").css("overflow","auto");
+}
 //截取URL
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

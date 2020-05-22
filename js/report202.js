@@ -7,6 +7,7 @@ var clientType = getQueryString("clientType");
 var resource = getQueryString("resource");
 var source = (getQueryString('source') || '');  //通过解析获得
 var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var invite = getQueryString("invite");  //邀约历史查看
 var edition = 202;
 
 var indexAll_data = '/api/v1/reportIndex/indexAll2'
@@ -47,6 +48,7 @@ var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
+			invite:invite,
 			reportId: reportId,
 			reportType:reportType,
 			openId: openId,

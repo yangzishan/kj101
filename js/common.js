@@ -38,7 +38,12 @@ var app = new Vue({
 			console.log('todo')
 			var vm = this
 			if(openId){
-				vm.analysisReportFace(reportId,'',faceUserId,openId,saasId,language);
+				if(kjInviteType == 'wxyy'){
+					vm.analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);
+				}else{
+					vm.analysisReportFace(reportId,'',faceUserId,openId,saasId,language);
+				}
+				
 			}else{
 				if(source == 'tjnsh'){
 					vm.analysisReportFace(reportId,'',customerId,'',saasId,language);
@@ -195,6 +200,9 @@ var app = new Vue({
 		goReportPage: function(reportType){
 			var vm = this
 			console.log('gobaogao')
+			if(kjInviteType == 'wxyy'){
+				vm.reportUrl = vm.reportUrl+'&invite='+'invite'
+			}
 			if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 				location.href = 'report120.html'+vm.reportUrl
 			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 ){
