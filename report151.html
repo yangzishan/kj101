@@ -142,9 +142,7 @@
 						
 				</div>
 			</div>
-		</div>
-		
-		
+		</div>	
 	</div>
 	
 	
@@ -160,13 +158,21 @@
 			</div>
 		</div>
 		<dl class="sys_c fr">
-			<dd class="c_li" v-for="ten in firstPages" v-if="ten.targetFirstId != 1001" :class="[
-				{'lit':ten.score < 90 && ten.score >= 80},{'mid':ten.score < 80}]">
-			<a style="display: block" @click="goSecond($event,ten)">
-				<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
-				<em>{{ten.score >= 90?'正常':(ten.score < 90 && ten.score >= 80?'轻度风险':'中度风险')}}</em>
-			</a>
-			</dd>
+			<template v-for="ten in firstPages">
+				<dd class="c_li" v-if="ten.targetFirstId != 1001" :class="[
+					{'lit':ten.score < 90 && ten.score >= 80},{'mid':ten.score < 80}]">
+					<a style="display: block" @click="goSecond($event,ten)">
+						<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
+						<em>{{ten.score >= 90?'正常':(ten.score < 90 && ten.score >= 80?'轻度风险':'中度风险')}}</em>
+					</a>
+				</dd>
+				<!-- <dd class="c_li" v-if="ten.targetFirstId == 9001">
+					<a style="display: block" @click="goSecond($event,ten)">
+						<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
+						<em>进入查看</em>
+					</a>
+				</dd> -->
+			</template>	
 		</dl>
 	</div>
 	

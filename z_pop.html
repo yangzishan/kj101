@@ -48,10 +48,10 @@
 		<p style="height: 1.55rem;"></p>
 		<p class="btit"><i class=""></i><span class="">{{language.la_sug_diet}}</span><em class="fr ssjyTab"></em></p>
 		
-		<section class="gg" style="background: #ffffff;">
+		<section class="gg" style="background: #ffffff;" v-if="gg101.length != 0">
 			<div class="v_content gg101" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
 		    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
-		    		<li v-for="gg in banData" v-if="gg.bannerPage == 101" style="float: left;">
+		    		<li v-for="gg in gg101" style="float: left;">
 		    			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" style="width: 5rem; height: 1.3rem;"></a>
 		    		</li>
 		    	</ul>
@@ -71,10 +71,10 @@
 		
 		<p class="btit"><i class=""></i><span class="">{{language.la_sug_nut}}</span><em class="fr ssjyTab"></em></p>
 		
-		<section class="gg" style="background: #ffffff;">
-			<div class="v_content gg101" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+		<section class="gg" style="background: #ffffff;" v-if="gg102.length != 0">
+			<div class="v_content gg102" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
 		    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
-		    		<li v-for="gg in banData" v-if="gg.bannerPage == 102" style="float: left;">
+		    		<li v-for="gg in gg102" style="float: left;">
 		    			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" style="width: 5rem; height: 1.3rem;"></a>
 		    		</li>
 		    	</ul>
@@ -93,10 +93,10 @@
 		
 		<p class="btit"><i class=""></i><span class="">{{language.la_sug_sport}}</span><em class="fr yysTab"></em></p>
 		
-		<section class="gg" style="background: #ffffff;">
-			<div class="v_content gg101" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+		<section class="gg" style="background: #ffffff;" v-if="gg103.length != 0">
+			<div class="v_content gg103" style="width: 100%; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
 		    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
-		    		<li v-for="gg in banData" v-if="gg.bannerPage == 103" style="float: left;">
+		    		<li v-for="gg in gg103" style="float: left;">
 		    			<a :href="gg.bannerUrl"><img :src="gg.bannerImg" style="width: 5rem; height: 1.3rem;"></a>
 		    		</li>
 		    	</ul>
@@ -689,9 +689,6 @@ var app = new Vue({
 						banSlide(vm.gg101.length,'.gg101')
 						banSlide(vm.gg102.length,'.gg102')
 						banSlide(vm.gg103.length,'.gg103')
-//						if(res.data.length == 0){
-//							$('.gg').remove()
-//						}
 					}
 				},
 				error: function(){console.log('wheelsort error')}
