@@ -5,6 +5,9 @@ var myapp = new Vue({
 	el:'#app',
 	data:function(){
 		return {
+			companyName:'',
+			startTime:'',
+			endTime:'',
 			allData:[],
 			one_list:{}, oneChart:[],
 			two_list:{}, twoChart:[],
@@ -38,7 +41,10 @@ var myapp = new Vue({
 				},
 				success : function(res) {
 					if(res.code == 200){
-						vm.allData = res.data;
+						vm.companyName = res.data.companyName
+ 						vm.startTime = res.data.startTime
+						vm.endTime = res.data.endTime
+						vm.allData = res.data.list;
 						vm.splitData();
 						if(viewType == 1){
 							goPrint(1)
@@ -329,9 +335,9 @@ function creatZhuChart(el,titname,arr){
 		    // Declare several bar series, each will be mapped
 		    // to a column of dataset.source by default.
 		    series: [
-		        {type: 'bar'},
-		        {type: 'bar'},
-		        {type: 'bar'}
+		        {type: 'bar', barWidth:10},
+		        {type: 'bar', barWidth:10},
+		        {type: 'bar', barWidth:10}
 		    ]
 		};
 		myChart.setOption(optionzhu);	
@@ -375,13 +381,15 @@ function creatSexchart(el,titname,arrlab,arr1,arr2){
 		            name: '男性',
 		            type: 'line',
 		            stack: '总量',
-		            data: arr1
+					data: arr1,
+					smooth: true
 		        },
 		        {
 		            name: '女性',
 		            type: 'line',
 		            stack: '总量',
-		            data: arr2
+					data: arr2,
+					smooth:true
 		        },
 		    ]
 		};

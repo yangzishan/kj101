@@ -18,6 +18,8 @@ if(JsSrc.indexOf('zh')>=0){
    var language = 'zh';
 }else if(JsSrc.indexOf('en')>=0){
     var language = 'en';
+}else{
+	var language = 'en';
 }
 console.log(language);
 
@@ -39,11 +41,14 @@ var app = new Vue({
 			var vm = this
 			if(openId){
 				if(kjInviteType == 'wxyy'){
-					vm.analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);
+					if(faceUserId){
+						vm.analysisReportFace(reportId,customerId,faceUserId,'',saasId,language);
+					}else{
+						vm.analysisReportFace(reportId,customerId,customerId,'',saasId,language);
+					}	
 				}else{
 					vm.analysisReportFace(reportId,'',faceUserId,openId,saasId,language);
-				}
-				
+				}	
 			}else{
 				if(source == 'tjnsh'){
 					vm.analysisReportFace(reportId,'',customerId,'',saasId,language);

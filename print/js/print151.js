@@ -16,6 +16,7 @@ var myapp = new Vue({
 	el:'#app',
 	data:function(){
 		return{
+			showAll:false,
 			nickName:'',
 		 	sex:'',
 		 	mobile:'',
@@ -70,6 +71,7 @@ var myapp = new Vue({
 					reportId:reportId
 				},
 				success:function(res){
+					vm.showAll = true
 					if(res.data.infoView != null){
 						vm.nickName = (res.data.infoView.nickName?res.data.infoView.nickName:'')	
 					 	vm.mobile = (res.data.infoView.mobile?res.data.infoView.mobile:'')
@@ -87,8 +89,9 @@ var myapp = new Vue({
 				 		if(item.targetId == 3135){
 				 			vm.mianyiScore = vm.mianyiList = item.seconds[0].score
 				 			vm.mianyiList = item.seconds[0].thirds
-				 		}
-				 	})
+						 };
+					 })
+					vm.filterData()
 				 	vm.inspectSkinView = res.data.reportAZYView.inspectSkinView
 				 	vm.bloodOxygen = res.data.reportAZYView.bloodOxygenValue
 				 	vm.ecg = res.data.reportAZYView.ecg
@@ -97,6 +100,29 @@ var myapp = new Vue({
 				},
 				error:function(){alert('queryInsurePrint error')}
 			});
+		},
+		filterData: function(){
+			var vm = this
+			vm.firsts.forEach(function(item){
+				if(item.seconds){
+					item.seconds.forEach(function(n){
+						if(n.thirds){
+							n.thirds.forEach(function(j){
+								if(j.healthAdviceVo.dietList){
+									var cashList = []
+									j.healthAdviceVo.dietList.forEach(function(k){
+										if(k.personality){
+											cashList.push(k)
+										}
+									})
+									j.healthAdviceVo.dietList = cashList
+									console.log(cashList)
+								}
+							})
+						}
+					})
+				}
+			})
 		},
 		queryInsureSuggest: function(){
 			var vm = this

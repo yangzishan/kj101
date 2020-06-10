@@ -982,7 +982,6 @@
 .fix-dh .daohang{ width: 100%; height: 1.08rem; background: #ffffff; display: flex; display: -webkit-flex;}
 .fix-dh .daohang .dh-li{ flex: 1; -webkit-flex: 1; padding: .18rem 0 0; text-align: center; color: #999999;}
 .fix-dh .daohang .dh-li.active{ color: #02b0f0;}
-.fix-dh .daohang .dh-li .pic{}
 .fix-dh .daohang .dh-li .pic img{height: .43rem;}
 .fix-dh .daohang .dh-li .txt{line-height: .2rem; font-size: .2rem;}
 
@@ -990,14 +989,12 @@
 .login{ padding: 2.9rem .6rem 0; font-size: .3rem; color: #333333;}
 .login .lo-li{ display: flex; display: -webkit-flex; border-bottom: #dfdfdf solid .02rem; height: 1.08rem;}
 .login .lo-li .intxt{ flex: 1; display: block; width: 100%; line-height: 1.08rem; font-size: .3rem;}
-.login .lo-li .sendbtn{ display: block; width: 2.16rem; height: .78rem; line-height: .78rem; color: #ffffff; background: #ff7d03; border-radius: .39rem; text-align: center; margin-top: .15rem; box-shadow: 0 .03rem .1rem #d2d2d2; outline: none;}
-.login .lo-li .sendbtn.off{background: -webkit-linear-gradient(left, #e0e0e0 , #d1d1d1);}
-.login .gobtn{ padding: .7rem 0 0;}
-.login .gobtn button{display: block; width: 100%; height: .9rem; line-height: .9rem; text-align: center; color: #ffffff; border-radius: .45rem; box-shadow: 0 .03rem .1rem #d2d2d2;  font-size: .3rem; outline: none; background: #ff7d03;}
-.login .gobtn button.off{background: -webkit-linear-gradient(left, #e0e0e0 , #d1d1d1);}
+.login .lo-li .sendbtn{ display: block; width: 2.16rem; height: .78rem; line-height: .78rem; color: #61a3e3; background:none; border-radius: .39rem; text-align: center; margin-top: .15rem; outline: none;}
+.login .gobtn{ padding: 1.54rem 1.58rem 0;}
+.login .gobtn button{display: block; width: 100%; height: .88rem; line-height: .88rem; text-align: center; color: #ffffff; border-radius: .44rem; font-weight:bold; font-size: .3rem; outline: none; background: #61a3e3;}
+.login .gobtn button.off{background: -webkit-linear-gradient(left, #f2f3f8 , #f2f3f8); color: #909399;}
 
 /*report702*/
-.report702{}
 .report702 .btit{height: .82rem; line-height: .82rem; background: #1eceb7; color: #ffffff; text-align: center; font-size: .32rem;}
 .report702 .d-info{height: .78rem; padding: 0 .26rem; border-bottom: #edecec solid .01rem; font-size: 0; background: #ffffff;}
 .report702 .d-info .lab{display: inline-block; width: 33.3%; line-height: .78rem; font-size: .28rem;}

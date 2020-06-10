@@ -11,8 +11,8 @@
   <title>打印报告</title>
 </head>
 <body>
-<div id="app" class="print" style="position: relative;">
-	<!--<div style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;"><img src="img/ddd.png" @click="godownloadPdf()"></div>-->
+<div id="app" class="print" style="position: relative;" v-show="showAll">
+	<div v-if="printReportType == 2" style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;"><img src="img/ddd.png" @click="godownloadPdf()"></div>
 	<div class="banben" v-if="printReportType == 1">结果版</div>
 	<div class="banben" v-if="printReportType == 2">标准版</div>
 	<div class="banben" v-if="printReportType == 3">价值版</div>
@@ -317,7 +317,13 @@
 			            <div class="sr_jybox" v-if="site.healthAdviceVo.dietList && site.healthAdviceVo.dietList.length !=0">
 			          		<p class="h9">膳食建议</p>
 				          	<template v-for="(jinayi,index) in site.healthAdviceVo.dietList">
-				          		<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
+								  <template v-if="jinayi.personality">
+									<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
+								  </template>
+								  <template v-else>
+									<p class="h10">{{index+1}}、{{jinayi.proposal}}</p>
+								  </template>
+				          		
 					            <!--<p class="h11">根据您的检测结果，每日建议摄入热量低于 1400 千卡</p>-->
 					            <div class="sr_jytext"> {{jinayi.simpleDescription}}</div>
 				          	</template>
@@ -359,8 +365,8 @@
 <script src="js/jquery.js"></script>
 <script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script src="js/vue.min.js"></script>
-<script src="https://cdn.bootcss.com/html2canvas/0.5.0-beta4/html2canvas.js"></script>
-<script src="https://cdn.bootcss.com/jspdf/1.3.4/jspdf.debug.js"></script>
+<script src="js/html2canvas.js"></script>
+<script src="js/jspdf.debug.js"></script>
 <script>document.write('<script src="js/print151.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
 function toprintpdf() {

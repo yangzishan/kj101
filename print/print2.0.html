@@ -35,17 +35,15 @@ input[type="button"],
 input{-webkit-appearance:none; resize: none;}
 /* 初始化结束 */
 .k1{ height: .14rem;}
-.top_cn{}
 .top_cn .btt{ line-height: .55rem; text-align: center; color: #21a197; font-size: .24rem; font-family:'宋体'; font-weight: bold; position: relative;}
 .top_cn .btt .bm{ position: absolute; left: 4.5rem; top:.05rem; font-size: .13rem; color: #333333;}
 .top_cn .info{ line-height: .55rem; font-weight: bold; color: #000;}
-.tit-b{width: 1.2rem; margin: .12rem 0; height: .26rem; line-height: .26rem; font-weight: bold;}
+.tit-b{ margin: .12rem 0; height: .26rem; line-height: .26rem; font-weight: bold;}
 .state-c{ height: .8rem;}
 .state-c span{ width: .7rem; display: inline-block; vertical-align: top; line-height: .8rem; color: #02cab4;}
 .state-c font{ width:.65rem; display: inline-block; vertical-align: top; line-height: .8rem; color: #02cab4; font-size: .38rem;}
 .state-c em{display: inline-block; vertical-align: top; line-height: .8rem;}
 .state-c em i{ color: #ed2222;}
-.txt-c{}
 .tet-c{margin: .05rem 0; height: .14rem; line-height: .13rem; color: #ed2222;}
 .tet-c i{ width: .06rem; height: .13rem; display: inline-block; background: #02cab4;}
 .tet-c span{ display: inline-block; vertical-align: top; margin: 0 .4rem 0 .1rem; line-height: .13rem; }
@@ -75,7 +73,6 @@ input{-webkit-appearance:none; resize: none;}
 .sta_2 .co{ color: #ed2222;}
 .wxtip{ border: #333 solid 1px; padding: .1rem;}
 .bgtip{ padding: 0 .12rem; font-size: .13rem; line-height: .32rem;}
-
 .jk_sug{ border: #333 solid 1px; margin-bottom: 25px;}
 .jk_sug .btit{ padding: 0 0 0 20px; border-bottom: #333 solid 1px; line-height: 30px; font-size: 15px;}
 .jk_sug .ztit{ padding: 0 10px 0 20px; border-bottom: #333 solid 1px; line-height: 26px;}
@@ -83,9 +80,6 @@ input{-webkit-appearance:none; resize: none;}
 .jk_sug .box_c:last-of-type{ border-bottom: none;}
 .jk_sug .box_c .lab{ display: block; padding: 10px; width:120px; line-height: 26px; border-right: #333 solid 1px;}
 .jk_sug .box_c .con{-webkit-box-flex: 1; padding: 10px;}
-.jk_sug .box_c .txt1{}
-.jk_sug .box_c .txt2{}
-
 .xxzb_c{ margin-bottom: 25px; border: #333 solid 1px;}
 .xxzb_c .cy{color: #ffcb00;}
 .xxzb_c .co{ color: #ed2222;}
@@ -94,10 +88,10 @@ input{-webkit-appearance:none; resize: none;}
 .xxzb_c .c_con{ display: -webkit-box; border-bottom: #333 solid 1px; min-height: 29px;}
 .xxzb_c .c_con:last-of-type{ border-bottom: none;}
 .xxzb_c .c_con .second{ display:block; width: 24%; border-right: #333 solid 1px; position: relative;}
-.xxzb_c .c_con .second span{ position: absolute; top: 50%; transform: translateY(-50%);}
+.xxzb_c .c_con .second span{ position: absolute; top: 50%; transform: translateY(-50%); line-height: 20px;}
 .xxzb_c .c_con .second em{ display:inline-block; padding: 0 5px; text-align: center; font-weight: bold;}
 .xxzb_c .c_con .third{ -webkit-box-flex: 1; font-size: 0;}
-.xxzb_c .c_con .third span.ite{ display: inline-block; width: 49.9%;}
+.xxzb_c .c_con .third span.ite{ display: inline-block; width: 49.9%; line-height: 32px;}
 .xxzb_c .c_con .third span:nth-child(odd){ border-right: #333 solid 1px;}
 .xxzb_c .c_con .third span:nth-last-of-type(2) em{ border-bottom: none;}
 .xxzb_c .c_con .third span:last-of-type em{ border-bottom: none;}
@@ -105,137 +99,104 @@ input{-webkit-appearance:none; resize: none;}
 .xxzb_c .c_con .third span em:first-of-type{ width: 50%; padding-left: 10px;}
 .xxzb_c .c_con .third span em:nth-of-type(2){ width: 25%;}
 .xxzb_c .c_con .third span em:nth-of-type(3){ width: 25%; text-align: center;}
-
-.list3 i,.list4 i,#list2_No{color: #ed2222;}
+.sstxt i{color: #ed2222;}
 </style>
 </head>
 <body>
-<section id="appVue">
-	
-
+<div id="app">
 <!--<div style="padding:.2rem 0 0; position: relative;">
 	<img class="img_b" src="img/top.jpg"/>
 	<p style="position: absolute; right: .1rem; top: .3rem; font-size: .14rem;">为您的健康加分</p>
 </div>-->
 <div class="top_cn">
-	<p class="btt">亚健康评估报告<span class="bm">编码：</span></p>
-	<div class="info">手机号：{{mobile.slice(0,11)}} 　　　　　性别：{{sex==1?'男':'女'}} 　　　　　<span class="realAge">年龄：<em id="ageNo"></em></span>　　　　　检测日期：{{inspectDateStr}} </div>
+	<p class="btt">{{language.la_reportTit}}<span class="bm">{{language.la_num}}：</span></p>
+	<div class="info">{{language.la_cell}}：{{mobile.slice(0,11)}} 　　　　{{language.la_sex}}：{{sex==1?language.la_male:'女'}} 　　　　<span v-if="realAge" class="realAge">{{language.la_age}}：<em>{{realAge}}</em></span>　　　　　{{language.la_testday}}：{{inspectDateStr}} </div>
 </div>
 <div class="">
-	尊敬的{{nickName}}{{sex == 0?'女士':'先生'}} 您好！<br/>
-	感谢您使用健康筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。祝您健康！
+	{{language.la_dear}}{{userName }} {{language.la_hello}}！<br/>
+	{{language.la_thanksForUse}}
 </div>
-<div class="tit-b">整体健康评估</div>
+<div class="tit-b">{{language.la_ztit}}</div>
 <div class="state-c">
-	<span>总分:</span><font>{{totalScore}}</font><em class="srhRank">您的综合得分好于<i>{{ranking}}%</i> 的人(系统近 60 天排名)</em>
+	<span>{{language.la_zongfen}}:</span><font>{{totalScore}}</font><em v-if="ranking">{{language.la_hzContent_3}}<i>{{ranking}}%</i> {{language.la_hzContent_4}}</em>
 </div>
-<div class="tit-b">评估报告</div>
-
+<div class="tit-b">{{language.la_pinggu}}</div>
 
 <div class="txt-c">
 	<div class="sstxt">
-		1、本次评估结果您的身体状况<em class="sta" id="bodySta"></em>
-		<span class="srhAge">，您的生理年龄评估为<em class="sta">{{age}}</em>岁</span>
-		<span class="srhRank">，整体状况较同年龄段好于<em class="sta">{{ranking}}%</em>的人</span>；
-		<p class="noSeg" id="segTwo">
-			2、本次检测您在<span id="list4" class="list4"></span><span class="list4">为重度异常，</span><span id="list3" class="list3"></span><span class="list3">为中度异常，</span><span class="list2">还有<font id="list2_No"></font>项为轻度异常。</span>
-			希望能够引起您的关注；
+		1、{{language.la_benci}}
+		<em class="sta" v-if="language == zh">{{ps}}.</em>
+		<em class="sta" v-else>{{ps_en}}.</em>
+		<span v-if="age">{{language.la_hzContent_1}}<em class="sta">{{age}}</em>{{language.la_hzContent_2}}</span>
+		<span v-if="ranking">{{language.la_hzContent_3}}<em class="sta">{{ranking}}</em>{{language.la_hzContent_4}}</span>；
+		<p>
+			2、{{language.la_huizong1}}
+			<span v-if="list4.length"><template v-for="bid in list4"><i> {{bid}}</i></template>{{language.la_huizong2}}</span>
+			<span v-if="list3.length"><template v-for="bid in list3"><i> {{bid}}</i></template>{{language.la_huizong3}}</span>
+			<span v-if="litmsklength">{{language.la_huizong4}}<font>{{litmsklength}}</font>{{language.la_huizong5}}</span>
+			{{language.la_huizong6}}
 		</p>
-		<p class="noSeg">
-			3、<span id="tipmsg">根据您本次检测结果，给您的专属健康建议重点解决</span><span id="listAb"></span><span class="buchong">指标的问题，</span>
-		</p>
+		<p v-if="abnormalName">3、{{language.la_huizong7}}
+			<template v-for="(bid,index) in abnormalName">
+				<i v-if="index == (abnormalName.lenght-1)">{{bid}}</i>
+				<i v-else>{{bid}}、</i>
+			</template>
+		{{language.la_huizong8}}</p>
+		<p v-else>3、{{language.la_huizong9}}</p>
 		
 	</div>
 </div>
 
-
-<!--<template v-for="site in improves">
-	<div class="tet-c">
-		<i class="ic"></i>
-		<span>{{site.targetName}}</span>
-		<span>{{site.inspectStandard==1?'正常':(site.inspectStandard==2?'偏高':'偏低')}}</span>	
-		<span>
-			{{site.abnormalLevel==1?'正常':(
-				site.abnormalLevel==2?'轻度异常':(
-					site.abnormalLevel==3?'中度异常':'重度异常'
-				)
-			)}}
-		</span>
-	</div>
-	<div class="tet-t">健康分析：</div>
-	<div class="txt-c">
-		{{site.guideContent}}
-	</div>
-	<div class="tet-t">健康建议：</div>
-	<div class="txt-c">
-		{{site.suggestContent}}
-	</div>
-</template>-->
-
-<div class="tit-b">详细指标评估结果</div>
-
+<div class="tit-b">{{language.la_detail}}</div>
 <div class="xxzb_c" v-for="state in firsts" v-if="state.targetId != 1001">
-	<p class="c_tit"><span>{{state.targetName}}</span><span class="iscore">{{state.score}}</span><span>正常</span></p>
+	<p class="c_tit"><span>{{state.targetName}}</span><span class="iscore">{{state.score}}</span>
+		<span v-if="state.score >= 90">{{language.la_normal}}</span>
+		<span class="cy" v-if="state.score >= 80 && state.score < 90">{{language.la_MildSisk}}</span>
+		<span class="co" v-if="state.score < 80">{{language.la_ModerateSisk}}</span>
+	</p>
 	<div class="c_con" v-for="second in state.seconds">
 		<div class="second">
-			<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></span>
+			<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em>
+				<em v-if="state.score >= 90">{{language.la_normal}}</em>
+				<em class="cy" v-if="state.score >= 80 && state.score < 90">{{language.la_MildSisk}}</em>
+				<em class="co" v-if="state.score < 80">{{language.la_ModerateSisk}}</em>
+			</span>
 		</div>
 		<p class="third">
-
 			<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
 			<template>
 				<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
-				<em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>
+				<em v-if="third.inspectStandard==1">{{language.la_normal}}</em>
+				<em v-else-if="third.inspectStandard==2" class="co">{{language.la_piangao}}</em>
+				<em v-else class="co">{{language.la_piandi}}</em>
 			</template>
 			</span>
-			
-			
 		</p>
 	</div>
 </div>
 
-
-
-<!--<template v-for="state in firsts">
-	<div class="sta_2">
-		<p class="btt"><span>{{state.targetName}}</span><span class="iscore">{{state.score}}</span><span>正常</span></p>
-		<div class="xtt">
-			<div v-for="second in state.seconds">
-				<p class="tte"><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></p>
-				<span v-for="third in second.thirds">
-					<em>{{third.targetName}}</em><em>{{third.score}}</em><em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>	
-				</span>
-			</div>
-		</div>
-	</div>
-	<p class="k1"></p>
-</template>-->
-
-<div class="tit-b">实时状态评估</div>
+<div class="tit-b">{{language.la_zhuangtai}}</div>
 <div class="sta_1">
 	<p class="plin" v-for=" state in conditions" v-if="state.targetId != 3232">
 		<label>{{state.targetName}}</label>
-		<span class="sst"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"><img src="img/star.png"></span>
+		<span class="sst">
+			<img v-for="index of (5-state.abnormalLevel)" src="img/star.png" class="show">
+			<!-- <img src="img/star.png"> -->
+		</span>
 		<i>{{6-state.abnormalLevel}}</i>
 		<span class="sst2">{{state.analysisResults}}</span>
 	</p>
 </div>
-
-</section>
-
-
-<section id="appVue2">
 	
-<div class="tit-b">健康建议</div>
-
+<div class="tit-b">{{language.la_jkAdvice}}</div>
 <div class="jk_sug">
-	<p class="btit">膳食建议</p>
+	<p class="btit">{{language.la_sug_diet}}</p>
 	<!--<p class="ztit">
 		膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
 		肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
 	</p>-->
 	<div class="box_c" v-for="(site,index) in sites">
-		<span class="lab">{{options[index]}}、{{site.indexName}}</span>
+		<span class="lab">{{index+1}}、{{site.indexName}}</span>
 		<div class="con">
 			<p class="txt1">{{site.personality}}</p>
 			<p class="txt2" v-html="site.proposal"></p>
@@ -243,13 +204,13 @@ input{-webkit-appearance:none; resize: none;}
 	</div>
 </div>
 <div class="jk_sug">
-	<p class="btit">营养建议</p>
+	<p class="btit">{{language.la_sug_nut}}</p>
 	<!--<p class="ztit">
 		膳食、营养专家 肖荣教授领衔的专家团队为您提供。<br>
 		肖 荣　博士/教授，博士生导师、中国营养学会常务理事 、中国优生科学协会常务理事、中国营养学会学术交流工作委员会委员、北京营养师协会副理事长、首都医科大学公共卫生学院营养与食品卫生学系主任<br/>
 	</p>-->
 	<div class="box_c" v-for="(oli,index) in oul">
-		<span class="lab">{{options[index]}}、{{oli.indexName}}</span>
+		<span class="lab">{{index+1}}、{{oli.indexName}}</span>
 		<div class="con">
 			<p class="txt1">{{oli.personality}}</p>
 			<p class="txt2" v-html="oli.proposal"></p>
@@ -257,36 +218,180 @@ input{-webkit-appearance:none; resize: none;}
 	</div>
 </div>
 <div class="jk_sug">
-	<p class="btit">运动建议</p>
+	<p class="btit">{{language.la_sug_sport}}</p>
 	<!--<p class="ztit">
 		运动学专家 高岭娣教授、生活方式专家 潘晓明博士领衔的专家团队为您提供。<br>
 		高岭娣　首都医科大学卫生与教育管理学院体育学系主任/副教授<br/>
 		潘晓明　中医博士、北京大学医学部研究中心学术部副主任、深圳市中医药健康服务协会副会长；<br/>
 	</p>-->
 	<div class="box_c" v-for="(sport,index) in sports">
-		<!--<span class="lab"> </span>-->
 		<div class="con">
 			<p class="txt1">{{index+1}}.{{sport.personality}}</p>
 		</div>
 	</div>
 </div>
 
-<p class="bgtip">基于本次对您的健康评估建议您于<span id="sugDay"></span>天后再次进行检测，以便能够连续跟踪您的健康情况。</p>
-
-</section>
+<p class="bgtip">{{language.la_again_befor}}<span>{{inspectDay}}</span>{{language.la_again_after}}</p>
 
 <p style="height: 1rem;"></p>
 <div class="wxtip">
-	温馨提示：1、亚健康智能评估仪是为亚健康人群设计，相关指标依据三大人体数据采集系统（中医数字化技术、脉搏波检测技术、生物电阻抗检测技术）而成，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。2、是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。3、推送的内容，数据指标、运动调理、健康食谱、健康设备、调养方法等均作为个人健康管理所需的参考，不作为处方。
+	{{language.la_tips}}
 </div>
 <p class="k1"></p>
-
-
-
+</div>
 <script src="js/jquery.js"></script>
 <script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/language.js"></script>
 <script src="js/vue.min.js"></script>
 <script>
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}
+console.log(languageStr)
+var reportId = getQueryString('reportId');
+var viewType = getQueryString("viewType");
+var go = 0;
+if(viewType == 2){
+	go = 10 //随便给个数 不让调用打印
+}
+var myapp = new Vue({
+	el:'#app',
+	data: function () {
+		return {
+			userName:'', //用户名
+			sexStr:'', //性别称呼
+			ps :'', // 状态
+			inspectDay:'', // 提醒天数
+			totalScore:'',
+			age:'',
+			realAge:'',
+			inspectDateStr:'',
+			ranking:'',
+			improves: '',  //旧版
+			firsts: '',  //各个系统指标
+			conditions: '',  //各个状态
+			sex: '',
+			titleSex:'',
+			nickName: '',
+			mobile: '',	
+			sites: [], //膳食建议
+			oul: [], // 营养建议
+			sports: [], //运动建议
+			options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
+			litmsklength:0,
+			list2:[], //轻度
+			list3:[],  //中度
+			list4:[],  //重度
+			abnormalName:[],
+			language:language,
+			ps_en:''
+		}
+	},
+	methods: {
+		getReportPrint: function(){
+			var vm = this
+			$.ajax({
+				url : dataUrl+"/api/v1/printReport/getReportPrint",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					reportId: reportId
+				},
+				success : function(allData) {
+					if(allData.code == 200){
+						vm.totalScore = allData.data.reportView.totalScore
+						vm.ps_en = vm.fenshu(vm.totalScore);
+						vm.age = allData.data.reportView.age
+						vm.realAge = allData.data.infoView.age
+						vm.inspectDateStr = allData.data.reportView.inspectDateStr.substring(0,10)
+						vm.ranking = allData.data.reportView.ranking
+						vm.improves = allData.data.reportView.improves  //旧版
+						vm.firsts = allData.data.reportView.firsts  //各个系统指标
+						vm.conditions = allData.data.reportView.conditions  //各个状态
+						vm.sex = allData.data.reportView.sex
+						vm.titleSex = allData.data.reportView.titleSex
+						vm.nickName = allData.data.infoView.nickName
+						vm.mobile = allData.data.infoView.mobile
+						if(allData.data.infoView != null){
+							var nickName = allData.data.infoView.nickName ,mobile = allData.data.infoView.mobile;
+							document.title = nickName + mobile;
+							if(nickName == null){document.title = mobile}
+							if(nickName == null && mobile == null){document.title = '打印报告'}
+						}
+						go++;
+						goPrint(go);
+					}
+				},
+				error : function(obj,msg){alert(obj  + msg);}
+			});
+		},
+		getSuggest: function(){
+			var vm = this
+			$.ajax({
+				url : dataUrl+"/api/v1/reportIndex/getSuggest",
+				type : "POST",
+				dataType : 'json',
+				data : {
+					reportId: reportId
+				},
+				success : function(improvesData) {
+					if(improvesData.code == 200){
+						vm.userName = improvesData.data.userName; //用户名
+						vm.sexStr = improvesData.data.sexStr; //性别称呼
+						vm.ps = improvesData.data.ps; // 状态
+						vm.inspectDay = improvesData.data.inspectDay; // 提醒天数
+						vm.litmsklength = improvesData.data.abnormal.list2.length
+						if(improvesData.data){
+							vm.list2 = improvesData.data.abnormal.list2
+							vm.list3 = improvesData.data.abnormal.list3
+							vm.list4 = improvesData.data.abnormal.list4
+							vm.abnormalName = improvesData.data.abnormalName
+						}
+						if(improvesData.data.healthAdviceVo.dietList!=null){
+							for(var i=0;i<improvesData.data.healthAdviceVo.dietList.length;i++){
+							var newprop = improvesData.data.healthAdviceVo.dietList[i].proposal.replace(/\n/g, "<br/>");
+							improvesData.data.healthAdviceVo.dietList[i].proposal = newprop;
+							}
+						};
+						vm.sites = improvesData.data.healthAdviceVo.dietList, //膳食建议
+						vm.oul = improvesData.data.healthAdviceVo.nutritionList, // 营养建议
+						vm.sports = improvesData.data.healthAdviceVo.motionList, //运动建议
+						go++;
+						goPrint(go);
+					}
+				
+				},
+				error : function(obj,msg){alert(obj  + msg);}
+			});
+		},
+		fenshu: function(totalScore){
+			if (totalScore >= 95) {
+				return "Very good";
+			} else if (totalScore >= 90 && totalScore <= 94) {
+				return "Good";
+			} else if (totalScore >= 85 && totalScore <= 89) {
+				return "Mild sub-health";
+			} else if (totalScore < 85) {
+				return "Obvious sub-health";
+			}
+		}
+	},
+	mounted: function (){
+		this.getReportPrint()
+		this.getSuggest()
+	}
+})
+
 // 获取url参数方法
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
@@ -294,248 +399,15 @@ function getQueryString(name) {
         return "";
     }
     return result[1];
-}	
-var reportId = getQueryString('reportId');
-var viewType = getQueryString("viewType");
-var go = 0;
-	function goPrint(n){
-		if(n == 2){
+};
+function goPrint(n){
+	if(n == 2){
+		setTimeout(function(){
 			window.print();
-		}
-	};
-    if(viewType == 2){
-    	go = 10 //随便给个数 不让调用打印
-    }
-
-$.ajax({
-	url : dataUrl+"/api/v1/printReport/getReportPrint",
-	type : "POST",
-	dataType : 'json',
-	data : {
-	    //reportId : 'KJ104IS0011584C180927155332856',
-		//reportId : 'KJ104IS0013934C181128101333833',
-		reportId: reportId
-			
-	},
-	success : function(allData) {
-		console.log('post接通');
+		},800)
 		
-		if(allData.code == 200){
-			//allData.data.reportView.firsts.shift(); //去除一级项里身体状况
-			var myApp = new Vue({
-				el: '#appVue',
-				data:{
-					totalScore: allData.data.reportView.totalScore,
-					age: allData.data.reportView.age,
-					inspectDateStr: allData.data.reportView.inspectDateStr.substring(0,10),
-					ranking: allData.data.reportView.ranking,
-					headIndex: allData.data.reportView.headIndex, //旧版
-					improves: allData.data.reportView.improves,  //旧版
-					firsts: allData.data.reportView.firsts,  //各个系统指标
-					conditions: allData.data.reportView.conditions,  //各个状态
-					sex: allData.data.reportView.sex,
-					titleSex:allData.data.reportView.titleSex,
-					nickName: allData.data.infoView.nickName,
-					mobile: allData.data.infoView.mobile,	
-				}
-			});
-
-			if(allData.data.infoView != null){
-				var nickName = allData.data.infoView.nickName ,mobile = allData.data.infoView.mobile;
-				document.title = nickName + mobile;
-				if(nickName == null){document.title = mobile}
-				if(nickName == null && mobile == null){document.title = '打印报告'}
-			}
-			//判断生理年龄和排名没有的情况
-			  if(allData.data.reportView.ranking == 0 || allData.data.reportView.ranking == null || allData.data.reportView.ranking == ''){
-			  	$('.srhRank').empty();
-			  };
-			  if(allData.data.reportView.age == '' || allData.data.reportView.age == 0 || allData.data.reportView.age == null){
-			  	$('.srhAge').empty();
-			  }
-			
-			
-			
-			//判断几颗星
-			$('.sta_1 .plin').each(function(index){
-				var n = parseInt($(this).find('i').text());
-				$(this).find('span').find('img:lt('+ n +')').addClass('show');
-				if($(this).find('label').text() == '酸碱度'){
-					$(this).css({"width":"100%","border-right":"none"});
-					$(this).find('label').css("width","11.8%");
-					$(this).find('.sst').css("display","none");
-					$(this).find('.sst2').css("display","inline-block");
-				}
-			});
-			//根据分数 判断异常
-			$('.sta_2 .btt .iscore,.xxzb_c .c_tit .iscore').each(function(index){
-				if(parseInt($(this).text()) < 90 && parseInt($(this).text()) >= 80){
-					$(this).next('span').text('轻度异常');
-					$(this).next('span').addClass('cy')
-				}else if(parseInt($(this).text()) < 80 && parseInt($(this).text()) >= 70){
-					$(this).next('span').text('中度异常');
-					$(this).next('span').addClass('cy')
-				}else if(parseInt($(this).text()) <70){
-					$(this).next('span').text('重度异常');
-					$(this).next('span').addClass('co')
-				}
-			});
-			$('.sta_2 .xtt p.tte').each(function(index){
-				if($(this).find('.iscore').text() == 0){
-					$(this).remove();
-				}
-			});
-			$('.sta_2 .xtt p.tte .iscore,.xxzb_c .c_con .second .iscore').each(function(index){
-				if(parseInt($(this).text()) < 90 && parseInt($(this).text()) >= 80){
-					$(this).next('em').text('轻度异常');
-					$(this).next('em').addClass('cy')
-				}else if(parseInt($(this).text()) < 80 && parseInt($(this).text()) >= 70){
-					$(this).next('em').text('中度异常');
-					$(this).next('em').addClass('cy')
-				}else if(parseInt($(this).text()) <70){
-					$(this).next('em').text('重度异常');
-					$(this).next('em').addClass('co')
-				}
-			});
-			
-			$('.xxzb_c .c_con').each(function(index){
-				if($(this).find('.second').find('.iscore').text() == 0){
-					$(this).remove();
-				}
-			});
-			
-			$('.xxzb_c span em,.sta_2 span em').each(function(){
-				if($(this).text() == '偏高' || $(this).text() == '偏低'){
-					$(this).addClass('co');
-				}
-			});
-			
-			
-			//生日年龄
-			var strBirthday = allData.data.infoView.birthdayStr;
-			if(strBirthday == 0 || strBirthday == '' || strBirthday == null){
-				$('.realAge').empty();
-			}else{
-				var strBirthdayArr=strBirthday.split("-");  
-	    		var birthYear = strBirthdayArr[0];  
-	    		//var birthMonth = strBirthdayArr[1];  
-	    		//var birthDay = strBirthdayArr[2]; 
-	    		var nowDate = new Date();  
-	    		var nowYear = nowDate.getFullYear();  
-	    		var ageNo = nowYear-birthYear;
-	    		$('#ageNo').text(ageNo);
-			}
-				
-			go++;
-			goPrint(go);
-		}
-
-	},
-    error : function(obj,msg){
-    	debugger
-    	alert(obj  + msg);
-    }
-});
-
-$.ajax({
-	url : dataUrl+"/api/v1/reportIndex/getSuggest",
-	type : "POST",
-	dataType : 'json',
-	data : {
-	    //reportId : 'KJ104IS0011584C180927155332856'
-	    reportId: reportId
-	},
-	success : function(improvesData) {
-		console.log('post通了');
-		if(improvesData.code == 200){
-			
-			var userName = improvesData.data.userName; //用户名
-			var sexStr = improvesData.data.sexStr; //性别称呼
-			var ps = improvesData.data.ps; // 状态
-			var inspectDay = improvesData.data.inspectDay; // 提醒天数
-			$('#sugDay').text(inspectDay);
-			$('#bodySta').text(ps);
-			$('#dearName').html(userName+sexStr);
-			
-			$('#list2_No').text(improvesData.data.abnormal.list2.length);
-			
-			if(improvesData.data == null || improvesData.data.abnormal == ''){
-				$('.noSeg').empty()
-			}else{
-				//重度异常
-				if(improvesData.data.abnormal.list4.length == 0 || improvesData.data.abnormal.list4 == null){
-					$('.list4').css("display","none");
-				}else{
-					for(var i=0;i<improvesData.data.abnormal.list4.length;i++){
-						var oli = document.createElement('i');
-						oli.innerHTML = improvesData.data.abnormal.list4[i] + '、';
-						if(i == improvesData.data.abnormal.list4.length-1){
-							oli.innerHTML = improvesData.data.abnormal.list4[i];
-						};
-						$('#list4').append(oli);
-					};
-				};
-				//中度异常	
-				if(improvesData.data.abnormal.list3.length == 0 || improvesData.data.abnormal.list3 == null){
-					$('.list3').css("display","none");
-				}else{
-					for(var i=0;i<improvesData.data.abnormal.list3.length;i++){
-						var oli = document.createElement('i');
-						oli.innerHTML = improvesData.data.abnormal.list3[i] + '、';
-						if(i == improvesData.data.abnormal.list3.length-1){
-							oli.innerHTML = improvesData.data.abnormal.list3[i];
-						};
-						$('#list3').append(oli);
-					};
-				};
-				//重度中度都没有的情况
-				if(improvesData.data.abnormal.list3.length == 0 && improvesData.data.abnormal.list4.length == 0){
-					$('#segTwo').html('2、本次检测您有'+improvesData.data.abnormal.list2.length+'项为轻度异常。希望能够引起您的关注；')
-				};
-					
-				if(improvesData.data.abnormalName.length == 0 || improvesData.data.abnormalName == null){
-					$('#tipmsg').html('根据您本次检测结果，给您提供的专属健康建议与改善方案，');
-					$('.buchong').css("display","none");
-				}else{
-					for(var i=0;i<improvesData.data.abnormalName.length;i++){
-						var oli = document.createElement('i');
-						oli.innerHTML = improvesData.data.abnormalName[i] + '、';
-						if(i == improvesData.data.abnormalName.length-1){
-							oli.innerHTML = improvesData.data.abnormalName[i];
-						};
-						$('#listAb').append(oli);
-					};
-				};
-
-			};
-			
-			if(improvesData.data.healthAdviceVo.dietList!=null){
-				for(var i=0;i<improvesData.data.healthAdviceVo.dietList.length;i++){
-				var newprop = improvesData.data.healthAdviceVo.dietList[i].proposal.replace(/\n/g, "<br/>");
-				improvesData.data.healthAdviceVo.dietList[i].proposal = newprop;
-				}
-			};
-			
-			var myApp02 = new Vue({
-			  el: '#appVue2',
-			  data: {
-			    sites: improvesData.data.healthAdviceVo.dietList, //膳食建议
-			    oul: improvesData.data.healthAdviceVo.nutritionList, // 营养建议
-			    sports: improvesData.data.healthAdviceVo.motionList, //运动建议
-			    options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六']
-			  }
-			});
-			go++;
-			goPrint(go);
-		
-		}
-	
-	},
-    error : function(obj,msg){
-    	debugger
-    	alert(obj  + msg);
-    }
-});
+	}
+};	
 </script>
 </body>
 </html>
