@@ -380,14 +380,18 @@ function creatSexchart(el,titname,arrlab,arr1,arr2){
 		        {
 		            name: '男性',
 		            type: 'line',
-		            stack: '总量',
 					data: arr1,
 					smooth: true
 		        },
 		        {
 		            name: '女性',
 		            type: 'line',
-		            stack: '总量',
+					// label: {
+					// 	normal: {
+					// 		show: true,
+					// 		position: 'top'
+					// 	}
+					// },
 					data: arr2,
 					smooth:true
 		        },
