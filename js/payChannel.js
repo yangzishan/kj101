@@ -348,7 +348,8 @@ var myApp = new Vue({
 				location.href = vm.saasPayUrl
 			}else{
 				if(vm.isFree == 1){
-					vm.goReportIndex(reportId,userId,reportType);
+					vm.updateCustomerSaas()
+					//vm.goReportIndex(reportId,userId,reportType);
 				}else if(vm.price == 0){
 					vm.updateFreeOrder(reportId,vm.packageId,vm.userId)
 				}else{
@@ -419,7 +420,8 @@ var myApp = new Vue({
 				},
 				success : function(data) {
 					if(data.code==200){
-						vm.goReportIndex(reportId,userId,reportType);
+						vm.updateCustomerSaas()
+						//vm.goReportIndex(reportId,userId,reportType);
 					}else{
 						alert('支付失败updateFreeOrder code='+data.code);
 					}
@@ -507,7 +509,29 @@ var myApp = new Vue({
 		goBuyCard: function(){
 			var vm = this;
 			location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&packageId='+vm.packageId+'&saasId='+saasId
-		}
+		},
+		//更新SaaS用户最近一份报告ID
+  		updateCustomerSaas: function(){
+  			var vm = this;
+  			$.ajax({
+  				type:"post",
+  				url: dataUrl+"/api/v1/ne/updateCustomerSaas",
+  				dataType : 'json',
+  				data:{
+  					saasId: saasId,
+  					openId: openId,
+  					reportId: reportId
+  				},
+  				success: function(res){
+  					vm.goReportIndex(reportId,userId,reportType);
+  					console.log(res);
+  				},
+  				error: function(){
+  					alert('updateCustomerSaas error');
+  					vm.goReportIndex(reportId,userId,reportType);
+  				}
+  			});
+  		},
 	},
 	mounted: function() {
 		this.findPackage();

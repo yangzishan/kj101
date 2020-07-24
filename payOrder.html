@@ -27,13 +27,26 @@
 		<p class="xiaoji"><span><em id="xgj">{{language.la_total}}</em>：￥</span><font>{{price}}</font></p>
 	</div>
 	
-	<div class="d-wxpay" id="usecoupon" style="display: none;">
-		<p class="coutit">使用优惠券</p>
-		<div class="wxpay">
-			<p class="coupon on"><i class="check"></i><span>使用优惠券</span><em id="discount" class="fr">-￥{{discount}}</em></p>
+	<template v-if="language == en">
+		<div class="d-wxpay" id="usecoupon" style="display: none;">
+			<p class="coutit">Clip coupons</p>
+			<div class="wxpay">
+				<p class="coupon on"><i class="check"></i><span>Clip coupons</span><em id="discount" class="fr">-￥{{discount}}</em></p>
+			</div>
+			<p class="xiaoji" style="line-height: 1rem;"><span>total：￥</span><font id="subprice">{{subprice}}</font></p>
 		</div>
-		<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font id="subprice">{{subprice}}</font></p>
-	</div>
+	</template>
+	<template v-else>
+		<div class="d-wxpay" id="usecoupon" style="display: none;">
+			<p class="coutit">使用优惠券</p>
+			<div class="wxpay">
+				<p class="coupon on"><i class="check"></i><span>使用优惠券</span><em id="discount" class="fr">-￥{{discount}}</em></p>
+			</div>
+			<p class="xiaoji" style="line-height: 1rem;"><span>共计：￥</span><font id="subprice">{{subprice}}</font></p>
+		</div>
+	</template>
+
+		
 	<p style="padding: 0 .3rem; font-size: .24rem;">{{language.la_note48hour}}</p>
 	
 	<div class="subpay"><button class="btn_pay" id="goWxPay" @click="gotoPay($event)">{{language.la_pay}}</button></div>

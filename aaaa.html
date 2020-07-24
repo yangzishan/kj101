@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>我的健康</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<style type="text/css">
+.headtop{ height: 3.93rem; padding: .2rem 0; text-align: center; background: url(imgabc/bg.png) no-repeat center; background-size:100% 3.93rem;}
+.headtop .tit{ color: #ffffff; font-weight: bold; font-size: .34rem;}
+.headtop .ac{ width: .72rem; height: .72rem; border-radius: 50%; overflow: hidden; margin: 0 auto; margin-top: .2rem;}
+.headtop .ac img{ display: block; width: 100%;}
+.main{ margin: -1rem .26rem 0}
+.m-box{padding:0 .1rem .3rem; margin-bottom: .3rem; border-radius: .16rem; background: #ffffff;}
+.m-box .tt{ height: .8rem; line-height: .8rem; font-size: .32rem;}
+.m-box .tt img{ display: inline-block; vertical-align: top; margin: .19rem .2rem 0 0; width: .42rem; height: .42rem;}
+.m-box .tt span{}
+.m-box .cc{ font-size: 0;}
+.m-box .cc .l-box{display: inline-block; width: 3.18rem; margin: 0 .08rem .2rem; border-radius: .16rem; background: #ffffff; box-shadow: 0 0 0.2rem 0.06rem #cccccc; padding:.1rem .2rem;}
+.m-box .cc .l-box .up{ overflow: hidden;}
+.m-box .cc .l-box .up .lab{ float: left; width: 1rem; height: 1.2rem; padding: .2rem 0; text-align: center;}
+.m-box .cc .l-box .up .lab img{width: .8rem; height: .8rem;}
+.m-box .cc .l-box .up .inf{ float: left; height: 1.2rem; font-size: .22rem; line-height: .4rem;}
+.m-box .cc .l-box .up .inf .resl{ font-size: .2rem; color: #a1a1a1;}
+.m-box .cc .l-box .down{ color: #a1a1a1; font-size: .2rem; text-align: center;}
+	
+</style>
+</head>
+<body style="background: #edf0f5;">
+<div class="v_view">
+	<div class="headtop">
+		<div class="tit">个人健康报告</div>
+		<div class="ac"><img src="img/ac.jpg"></div>
+	</div>
+	
+	<section class="main">
+		<div class="m-box">
+			<div class="tt"><img src="imgabc/t1.png"><span>基础指标</span></div>
+			<div class="cc">
+				<div class="l-box">
+					<div class="up">
+						<div class="lab"><img src="imgabc/a3.png"></div>
+						<div class="inf">
+							<p class="name">系统名称</p>
+							<p class="score">89分</p>
+							<p class="resl">轻度风险</p>
+						</div>
+					</div>
+					<div class="down">检测时间：2020-05-10 12:12:20</div>
+				</div>
+				<div class="l-box">
+					<div class="up">
+						<div class="lab"><img src="imgabc/a3.png"></div>
+						<div class="inf">
+							<p class="name">系统名称</p>
+							<p class="score">89分</p>
+							<p class="resl">轻度风险</p>
+						</div>
+					</div>
+					<div class="down">检测时间：2020-05-10 12:12:20</div>
+				</div>
+				<div class="l-box">
+					<div class="up">
+						<div class="lab"><img src="imgabc/a3.png"></div>
+						<div class="inf">
+							<p class="name">系统名称</p>
+							<p class="score">89分</p>
+							<p class="resl">轻度风险</p>
+						</div>
+					</div>
+					<div class="down">检测时间：2020-05-10 12:12:20</div>
+				</div>
+				<div class="l-box">
+					<div class="up">
+						<div class="lab"><img src="imgabc/a3.png"></div>
+						<div class="inf">
+							<p class="name">系统名称</p>
+							<p class="score">89分</p>
+							<p class="resl">轻度风险</p>
+						</div>
+					</div>
+					<div class="down">检测时间：2020-05-10 12:12:20</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+</div>	
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

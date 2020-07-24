@@ -50,6 +50,7 @@ var myapp = new Vue({
 		    diseases:[],
 		    bloodOxygen:{},
 			ecg:{},
+			localUrl:window.location.href
 
 
 		}	///return
@@ -87,7 +88,7 @@ var myapp = new Vue({
 				 	vm.diseases = res.data.reportAZYView.reportView.diseases.splice(0,6)
 				 	vm.firsts.forEach(function(item){
 				 		if(item.targetId == 3135){
-				 			vm.mianyiScore = vm.mianyiList = item.seconds[0].score
+				 			vm.mianyiScore = item.seconds[0].score
 				 			vm.mianyiList = item.seconds[0].thirds
 						 };
 					 })

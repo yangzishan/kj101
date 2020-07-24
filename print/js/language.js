@@ -209,6 +209,10 @@ var zh = {
 	la_instr5: '五、关于历史趋势？',
 	la_instr5_1: '持续监测可了解健康趋势变化。',
 
+	// la_shuru:'输入口令',
+	// la_lijishiyong:'立即使用',
+	// la_smsy:'扫口令码使用 ',
+
 	//打印2.0
 	la_reportTit: '亚健康评估报告',
 	la_num:'编码',
@@ -233,28 +237,6 @@ var zh = {
 };
 //英语
 var en = {
-	la_reportTit: 'Sub-health evaluation',
-	la_num:'coding',
-	la_testday:'Test date',
-	la_ztit:'Overall health assessment',
-	la_pinggu:'Evaluation Report',
-	la_detail:'Detailed index evaluation results',
-	la_zhuangtai:'Real-time status assessment',
-	la_again_befor:'Based on this assessment of your health, it is recommended that you conduct a test again after ',
-	la_again_after:' days so that you can continuously track your health。',
-	la_benci:'Results of this assessment your physical condition',
-	la_huizong1:'In this test, you are',
-	la_huizong2:'severe abnormality,',
-	la_huizong3:'It is moderate abnormal,',
-	la_huizong4:' and ',
-	la_huizong5:'mild abnormalities in this test.',
-	la_huizong6:'Hope to attract your attention;',
-	la_huizong7:'Based on the results of this examination, we suggest that you focus on solving the problems of',
-	la_huizong8:'and indicators.',
-	la_huizong9:'According to the results of this test, we provide you with exclusive health suggestions and improvement programs.',
-	la_tips: 'Tips: 1. The sub-health intelligent assessment instrument is designed for sub-healthy people. The relevant indicators are based on three major human data collection systems (Chinese medicine digital technology, pulse wave detection technology, and bioelectrical impedance detection technology), which are scientifically and practically calculated It is not specifically aimed at disabled people and sick patients. The use of such people may cause inaccurate measurement of individual indicators. 2. It is based on the assumption that the user collects data under normal circumstances, and the results of the collection are changing every moment, so it is recommended to choose a fixed time point for daily measurement. It is best to measure with an empty stomach and a calm mind. 3. The content to be pushed, data indicators, sports conditioning, healthy recipes, healthy equipment, nursing methods, etc. are all used as references for personal health management, not as prescriptions.',
-
-
 	la_perCen: 'Pers center',
 	la_hisRepo: 'Hist report',
 	la_fen: '',
@@ -465,5 +447,28 @@ var en = {
 	la_instr4_1: 'According to your health conditions, a professional dietitian will recommend a week’s recipes for you. Click the names of the dishes in the recipes to see the standard proportions and nutritional ingredients. If you have background diseases, please follow your doctor’s advice first.',
 	la_instr5: 'V. About the historical trends?',
 	la_instr5_1: 'You can know the changes in health trends through continuous monitoring.',
+
+	//2.0打印
+	la_reportTit: 'Sub-health evaluation',
+	la_num:'coding',
+	la_testday:'Test date',
+	la_ztit:'Overall health assessment',
+	la_pinggu:'Evaluation Report',
+	la_detail:'Detailed index evaluation results',
+	la_zhuangtai:'Real-time status assessment',
+	la_again_befor:'Based on this assessment of your health, it is recommended that you conduct a test again after ',
+	la_again_after:' days so that you can continuously track your health。',
+	la_benci:'Results of this assessment your physical condition',
+	la_huizong1:'In this test, you are',
+	la_huizong2:'severe abnormality,',
+	la_huizong3:'It is moderate abnormal,',
+	la_huizong4:' and ',
+	la_huizong5:'mild abnormalities in this test.',
+	la_huizong6:'Hope to attract your attention;',
+	la_huizong7:'Based on the results of this examination, we suggest that you focus on solving the problems of',
+	la_huizong8:'and indicators.',
+	la_huizong9:'According to the results of this test, we provide you with exclusive health suggestions and improvement programs.',
+	la_tips: 'Tips: 1. The sub-health intelligent assessment instrument is designed for sub-healthy people. The relevant indicators are based on three major human data collection systems (Chinese medicine digital technology, pulse wave detection technology, and bioelectrical impedance detection technology), which are scientifically and practically calculated It is not specifically aimed at disabled people and sick patients. The use of such people may cause inaccurate measurement of individual indicators. 2. It is based on the assumption that the user collects data under normal circumstances, and the results of the collection are changing every moment, so it is recommended to choose a fixed time point for daily measurement. It is best to measure with an empty stomach and a calm mind. 3. The content to be pushed, data indicators, sports conditioning, healthy recipes, healthy equipment, nursing methods, etc. are all used as references for personal health management, not as prescriptions.',
+
 };
 

@@ -12,7 +12,10 @@
 </head>
 <body>
 <div id="app" class="print" style="position: relative;" v-show="showAll">
-	<div v-if="printReportType == 2" style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;"><img src="img/ddd.png" @click="godownloadPdf()"></div>
+	<div v-if="printReportType == 2" style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;">
+		<button id="copyurl" style="position: absolute; left: 0; top: 12px; width: 120px;height: 40px; background: darkgray; border-radius: 2px;" :data-clipboard-text="localUrl">复制链接</button>
+		<img src="img/ddd.png" @click="godownloadPdf()">
+	</div>
 	<div class="banben" v-if="printReportType == 1">结果版</div>
 	<div class="banben" v-if="printReportType == 2">标准版</div>
 	<div class="banben" v-if="printReportType == 3">价值版</div>
@@ -365,10 +368,23 @@
 <script src="js/jquery.js"></script>
 <script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script src="js/vue.min.js"></script>
+<script src="js/clipboard.min.js"></script>
 <script src="js/html2canvas.js"></script>
 <script src="js/jspdf.debug.js"></script>
 <script>document.write('<script src="js/print151.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
+var clipboard = new ClipboardJS('#copyurl');　　//先实例化
+
+　　　　clipboard.on('success', function(e) {
+
+　　　　 　　alert('复制成功');　　//复制成功区间
+
+　　　　});
+
+　　　　clipboard.on('error', function(e) {
+
+　　　　});
+	
 function toprintpdf() {
   var target = document.getElementsByClassName("print")[0];
   target.style.background = "#FFFFFF";

@@ -13,8 +13,8 @@ var invite = getQueryString("invite");  //邀约历史查看
 var edition = 120;
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
-var indexDataUrl = '/api/v1/reportIndex/indexAll2';
-if(reportType == '505'){indexDataUrl = '/api/v5/reportData/indexAll2';}else if(reportType == '151'){indexDataUrl = '/api/azy/reportData/indexAll';}
+var indexDataUrl = '/api/azy/reportData/indexAll';
+//if(reportType == '505'){indexDataUrl = '/api/v5/reportData/indexAll2';}else if(reportType == '151' || reportType == '152'){indexDataUrl = '/api/azy/reportData/indexAll';}
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType || !openId){
@@ -83,6 +83,7 @@ var myApp = new Vue({
 			mianyiScore:'',
 			mianyiList:[], //免疫系统的相关指标
 			thirdPages:[], //与免疫指标有关
+			jiazhuangScore:'',
 			someTit:'', //弹框用
 			someTxt:'', //弹框用
 			inspectSkinView:{ //皮肤
@@ -111,7 +112,8 @@ var myApp = new Vue({
                 'NONE':'健康'
             },
             diseaseResult:[],
-            diseases:[], //重疾
+			diseases:[], //重疾
+			handleMode:'',  //=6加平安金管家文案
 		}
 	},
 	mounted: function(){
@@ -158,6 +160,25 @@ var myApp = new Vue({
 					}
 				},
 				error : function(obj,msg){alert("getTargetByFirst error")}
+			});
+			
+		},
+		targetProposal: function(){ //查询甲状腺
+			var vm = this
+			$.ajax({
+				url : dataUrl + "/api/v1/reportIndex/targetProposal",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetId : 3122
+				},
+				success : function(res) {
+					if(res.code == 200){
+						vm.jiazhuangScore = res.data.guideThirdVo.score
+					}
+				},
+				error : function(obj,msg){alert("targetProposal error")}
 			});
 			
 		},
@@ -225,6 +246,7 @@ var myApp = new Vue({
 							$('.my_view').css("visibility","visible");
 							$('.load-overlay').css("display","none");
 							_this.getTargetByFirst();
+							_this.targetProposal();
 							_this.thirdPages = res.data.thirdPages,
 							_this.totalScore = res.data.indexPage.totalScore, //全部得分
 					   		_this.inspectDate = res.data.indexPage.inspectDate, // 检测日期
@@ -242,7 +264,8 @@ var myApp = new Vue({
 					  		_this.customerAge = res.data.map.age,
 					  		_this.ps = res.data.map.ps;
 					  		_this.litNum = res.data.map.list2.length;
-					  		_this.midNum = res.data.map.list3.length;
+							_this.midNum = res.data.map.list3.length;
+							_this.handleMode = res.data.map.handleMode;
 					  		res.data.map.list2.forEach(function(bid){
 					  			if(bid.targetId != 3089 && bid.targetId != 3207 && bid.targetId != 3097 && bid.targetId != 3110 && bid.targetId != 3211 && bid.targetId != 3219 && bid.targetId != 3139){
 					  				_this.litbid.push(bid)

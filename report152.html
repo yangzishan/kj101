@@ -145,6 +145,69 @@
 		</div>	
 	</div>
 	
+	<div class="bx_tit"><i></i><span class="lab" style="color: #333333;">甲状腺功能</span><i></i></div>
+	<div class="mianyi">
+		<div class="fen_sta">
+			您的甲状腺功能
+			<em v-if="jiazhuangScore>=90">良好</em>
+			<em v-if="jiazhuangScore<90 && jiazhuangScore>=80" style="color: #F10000;">轻度风险</em>
+			<em v-if="jiazhuangScore<80" style="color: #F10000;">中度风险</em>
+			<span class="fr" v-if="jiazhuangScore>=90"><font>{{jiazhuangScore}}</font>分</span>
+			<span class="fr" v-if="jiazhuangScore>=80 && jiazhuangScore<90" style="color: #FF8800;"><font>{{jiazhuangScore}}</font>分</span>
+			<span class="fr" v-if="jiazhuangScore<80" style="color: #F10000;"><font>{{jiazhuangScore}}</font>分</span>
+		</div>
+		
+		<div class="liaojie" style="margin: 0 .4rem;">
+			<span class="lab" style="font-weight: bold;">了解甲状腺</span>
+			<p class="lcc">
+				<span>甲亢 　</span><i class="pop" @click="showSome('甲亢','甲状腺机能亢进，简称甲亢，是指甲状腺腺体本身产生甲状腺激素过多（或）血循环中甲状腺激素水平增高所致的常见内分泌病。')"></i>
+				<em>|</em>
+				<span>甲减 　</span><i class="pop" @click="showSome('甲减','甲状腺功能减退症简称甲减，是由于甲状腺激素的合成，分泌或生物效应不足而引起的一种综合征。')"></i>
+			</p>
+		</div>
+		<div class="biaoxian" style="border-top: none;">
+			<div class="fenmibx">
+				<p class="tt">分泌过高：<span>甲亢症状表现</span></p>
+				<ul>
+					<li><p class="p1"><img src="img/151/jz1.png"></p><p class="p2">心慌</p></li>
+					<li><p class="p1"><img src="img/151/jz2.png"></p><p class="p2">食欲亢进</p></li>
+					<li><p class="p1"><img src="img/151/jz3.png"></p><p class="p2">性情急躁</p></li>
+					<li><p class="p1"><img src="img/151/jz4.png"></p><p class="p2">消瘦</p></li>
+				</ul>
+				<p class="tt">分泌过低：<span>甲减症状表现</span></p>
+				<ul>
+					<li><p class="p1"><img src="img/151/jz5.png"></p><p class="p2">记忆下降</p></li>
+					<li><p class="p1"><img src="img/151/jz6.png"></p><p class="p2">精神萎靡</p></li>
+					<li><p class="p1"><img src="img/151/jz7.png"></p><p class="p2">体重增加</p></li>
+					<li><p class="p1"><img src="img/151/jz8.png"></p><p class="p2">怕冷</p></li>
+				</ul>
+			</div>
+			<p class="tit" style="height: .9rem; line-height: .9rem;">什么是甲状腺？　
+				<span style="display: inline-block; 
+					vertical-align: top; margin: .23rem; 
+					width:1.2rem; height:.45rem;line-height: .41rem; 
+					font-size:.26rem; text-align: center; 
+					border-radius:.05rem; border:.02rem solid rgba(160,146,235,1); 
+					color: #4E34D2; font-weight: 200;" @click="showSome('甲状腺','甲状腺是成年人最大的内分泌腺体，位于甲状软骨下紧贴在气管第三，四软骨环前面，由两侧叶和峡部组成，平均重量成大约20-25g，甲状腺的主要功能是合成甲状腺激素，调节机体代谢。')">查看解释</span>
+			</p>
+			<p class="tit">甲状腺分泌功能异常的人群易患这些疾病：</p>
+			<div class="j-list">
+				<p class="j-li"><i></i><span>甲状腺炎</span></p>
+				<p class="j-li"><i></i><span>甲状腺肿</span></p>
+				<p class="j-li"><i></i><span>甲状腺结节</span></p>
+				<p class="j-li"><i></i><span>甲状腺癌</span></p>
+				<p class="j-li"><i></i><span>甲状腺瘤</span></p>
+				<p class="j-li" style="width: 100%;"><i></i><span>甲状腺机能亢进（俗称甲亢）</span></p>
+				<p class="j-li" style="width: 100%;"><i></i><span>甲状腺功能减退（俗称甲减）</span></p>
+			</div>
+			<div style="margin-bottom: .2rem; background:rgba(241,251,249,1);border-radius:.2rem; padding: .2rem; font-size: .26rem; line-height: .37rem;">
+				饮食上低盐，低脂肪，多吃维生素B族，优质蛋白，富含铁、碘的食物，保持乐观的心态，充足的睡眠是保持甲状腺功能重要的因素。
+			</div>
+			
+			
+		</div>	
+	</div>
+
 	
 	<div class="bx_tit"><i></i><span class="lab" style="color: #333333;">十大系统状况</span><i></i></div>
 	<p class="bx_tip">以下是您身体十大系统的评估结果：</p>
@@ -322,7 +385,8 @@
 		<!--以上所示健康风险，可前往平安健康互联网合作体检中心进一步检测，以获得更全面的指标分析。-->
 		<img src="img/151/tip.png" class="img_b">
 	</a>
-	
+
+
     <p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <!--<div style="border-radius:.1rem; height: .68rem; line-height: .68rem; text-align: center; color: #ffffff; background: #72B269; margin: .1rem .3rem;" @click="godayin()">去打印</div>-->
     <p style="background:#f4f4f4; height:10px; margin:0;"></p>

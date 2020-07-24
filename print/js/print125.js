@@ -63,15 +63,39 @@ var myapp = new Vue({
 				 	vm.firsts = res.data.reportView.firsts
 				 	vm.firsts.forEach(function(item){
 				 		if(item.targetId == 3135){
-				 			vm.mianyiScore = vm.mianyiList = item.seconds[0].score
+				 			vm.mianyiScore = item.seconds[0].score
 				 			vm.mianyiList = item.seconds[0].thirds
 				 		}
-				 	})
+					 })
+					 vm.filterData()
 					go++
 					goPrint(go)
 				},
 				error:function(){alert('getReportPrint error')}
 			});
+		},
+		filterData: function(){
+			var vm = this
+			vm.firsts.forEach(function(item){
+				if(item.seconds){
+					item.seconds.forEach(function(n){
+						if(n.thirds){
+							n.thirds.forEach(function(j){
+								if(j.healthAdviceVo.dietList){
+									var cashList = []
+									j.healthAdviceVo.dietList.forEach(function(k){
+										if(k.personality){
+											cashList.push(k)
+										}
+									})
+									j.healthAdviceVo.dietList = cashList
+									console.log(cashList)
+								}
+							})
+						}
+					})
+				}
+			})
 		},
 		queryInsureSuggest: function(){
 			var vm = this

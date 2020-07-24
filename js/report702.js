@@ -59,7 +59,7 @@ var myApp = new Vue({
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
-					customerId : 0,
+					customerId : customerId,
 				},
 				success: function(res){
 					if(res.code == 201){

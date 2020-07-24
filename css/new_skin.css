@@ -1037,6 +1037,9 @@
 #app .tab .body .body_b .xin .show_ccd > .jd > .te > span:nth-child(2) {
   margin-right: .95rem;
 }
+#app .tab .body .body_b .xin .show_ccd > .jd > .te > span:nth-child(3) {
+  margin-right: .5rem;
+}
 #app .tab .body .body_b .xin .show_ccd > .jd > i {
   position: absolute;
   width: 3.8rem;

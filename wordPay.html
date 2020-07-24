@@ -14,12 +14,23 @@
 <section class="my_view">
 <div class="top-key"><a class="goback" href="javascript:history.go(-1);"><img src="img/o-arr-b.png"></a><span class="tit">口令支付</span></div>
 <div class="keypay-c">
-	<div class="tipc">输入口令</div>
-	<div class="intdiv"><input type="text" placeholder="请输入口令" id="wordNum" onkeyup="this.value=this.value.replace(/\s+/g,'')"></div>
-	<div class="btndiv"><button class="btn-go" id="subgo" @click="gouseBtn($event)">立即使用</button></div>
-	<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">扫口令码使用</button></div>
-	<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType" @click="appscanQRCode()">扫码使用口令</button></div>
-	<div class="tipc2">请输入您获得的口令字符，立即使用，即可支付</div>
+	<template v-if="language == 'en'">
+		<div class="tipc">Enter your password</div>
+		<div class="intdiv"><input type="text" placeholder="Enter your password" id="wordNum" onkeyup="this.value=this.value.replace(/\s+/g,'')"></div>
+		<div class="btndiv"><button class="btn-go" id="subgo" @click="gouseBtn($event)">Use it now</button></div>
+		<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">Code scanning</button></div>
+		<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType" @click="appscanQRCode()">Code scanning</button></div>
+		<div class="tipc2">Please enter the password character you get, use it immediately, and you can pay</div>
+	</template>
+	<template v-else>
+		<div class="tipc">输入口令</div>
+		<div class="intdiv"><input type="text" placeholder="请输入口令" id="wordNum" onkeyup="this.value=this.value.replace(/\s+/g,'')"></div>
+		<div class="btndiv"><button class="btn-go" id="subgo" @click="gouseBtn($event)">立即使用</button></div>
+		<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">扫口令码使用</button></div>
+		<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType" @click="appscanQRCode()">扫码使用口令</button></div>
+		<div class="tipc2">请输入您获得的口令字符，立即使用，即可支付</div>
+	</template>
+		
 </div>
 
 <div class="tc-qx" id="alert">
@@ -41,6 +52,7 @@
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/checkMsg.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
@@ -70,6 +82,20 @@ var saasId=getQueryString("saasId");
 var clientType = getQueryString("clientType");
 var reqUrl = window.location.href;
 
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}
+
 var myApp = new Vue({
 	el: '.my_view',
 	data: function(){
@@ -79,7 +105,8 @@ var myApp = new Vue({
 			packageId: packageId,
 			userId: userId,
 			openId: openId,
-			saasId: saasId
+			saasId: saasId,
+			language:languageStr
 		}
 	},
 	methods:{
@@ -329,9 +356,6 @@ var myApp = new Vue({
 		                }else{
 		                	vm.goMethod(resultcode);
 		                }
-						
-						
-						
 					}	
 				})
 			});
@@ -339,6 +363,9 @@ var myApp = new Vue({
 	},
 	mounted: function(){
 		this.wxConfig();
+		if(this.language == 'en' && document.title){
+			document.title = 'Password payment'
+		}
 	}
 });
 

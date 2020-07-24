@@ -42,21 +42,21 @@ var kj2000 = 'http://kj2000-ysc.jiankangzhan.com'
 
 //---生产-----
 
-// var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
+/* var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
 
-// var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
+var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
 
-// var bit_testHealthUrl = 'http://kj201.jiankangzhan.com'; //小机器
+var bit_testHealthUrl = 'http://kj201.jiankangzhan.com'; //小机器
 
-// var couponData = 'http://coupon.jiankangzhan.com'; //优惠券
+var couponData = 'http://coupon.jiankangzhan.com'; //优惠券
 
-// var analysisreport = 'http://report-v3.jiankangzhan.com';  //3.0新报告接口
+var analysisreport = 'http://report-v3.jiankangzhan.com';  //3.0新报告接口
 
-// var channel = 'http://pay.jiankangzhan.com'; //支付通道
+var channel = 'http://pay.jiankangzhan.com'; //支付通道
 
-// var saasUrl = 'http://saas.jiankangzhan.com'; //saas 
+var saasUrl = 'http://saas.jiankangzhan.com'; //saas 
 
-// var quanpinUrl = 'http://kjcdservice.jiankangzhan.com'
+var quanpinUrl = 'http://kjcdservice.jiankangzhan.com'
 
-// var kj2000 = 'http://dm.jiankangzhan.com' 
+var kj2000 = 'http://dm.jiankangzhan.com'  */
 

@@ -31,8 +31,8 @@
 	
 	<div class="thr_tit"><i></i><span>{{language.la_bid_int}}</span></div>
 	<div class="thr_cn">	
-		<div class="ctxt">
-			{{inspectExplain}}
+		<div class="ctxt" v-html="inspectExplain">
+			
 		</div>	
 	</div>
 	<p style=" height: .2rem; background: #F2F2F2;"></p>
@@ -234,7 +234,9 @@ var myApp = new Vue({
 				   		vm.inspectStandard = res.data.guideThirdVo.inspectStandard //偏高偏低
 				   		vm.abnormalLevel = res.data.guideThirdVo.abnormalLevel //异常成度
 				   		vm.abnormalLevelStr = languageStr+res.data.guideThirdVo.abnormalLevel //class+异常成度
-				   		vm.inspectExplain = res.data.guideThirdVo.inspectExplain //指标介绍
+						vm.inspectExplain = res.data.guideThirdVo.inspectExplain.replace(/\n/g, "<br/>") //指标介绍
+						
+						
 				   		vm.dietList = res.data.dietList //膳食
 					    vm.nutritionList = res.data.nutritionList //营养
 					    vm.motionList = res.data.motionList //运动
