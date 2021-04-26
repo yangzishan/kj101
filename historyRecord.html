@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
-<body>
+<body class="bck-col-f4">
 <div class="my_view">
 	<section id="appVUE">
 		<header class="header">
@@ -19,33 +19,66 @@
 			<p class="t-cen txt1" v-if="invite == 'invite'"><span>邀约历史</span></p>
 			<p class="t-cen txt1" v-else><span>历史报告</span></p>
 		</header>
-		<div class="history_b" id="thelist">
-			
-			<template v-if="source == 'khyapp'">
-				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
-					<span class="dat">{{item.inspectDateStr}}</span>
-					<i class="arr fr"></i><span class="num fr">{{item.nickName.slice(0,3)}}</span>
-					<span class="fr num" style="margin-right: .4rem;">{{item.mobile}}</span>
-				</a>
-			</template>
-			<template v-else-if="source == 'psyc'">
-				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
-					<span class="dat">{{item.inspectDateStr}}</span>
-					<i class="arr fr"></i>
-				</a>
-			</template>
-			<template v-else>
-				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
-					<span class="dat">{{item.inspectDateStr}}</span>
-					<template v-if="item.reportType == 910">
-						<i class="arr fr"></i><span class="num fr">{{item.diseaseName}}</span>
-					</template>
-					<template v-else>
-						<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
-					</template>
-				</a>
-			</template>
+		<div class="choseoHis hide">
+			<span class="close" @click="closeOption"></span>
+			<p class="sltt">选择时间</p>
+			<div class="sellx">
+				<span class="lp"><label :class="{on:sltime == 0}" @click="handleTime(0)">全部</label></span>
+				<span class="lp"><label :class="{on:sltime == 1}" @click="handleTime(1)">当天</label></span>
+				<span class="lp"><label :class="{on:sltime == 7}" @click="handleTime(7)">七天</label></span>
+				<span class="lp"><label :class="{on:sltime == 30}" @click="handleTime(30)">一个月</label></span>
+				<span class="lp"><label :class="{on:sltime == 90}" @click="handleTime(90)">三个月</label></span>
+				<span class="lp"><label :class="{on:sltime == 180}" @click="handleTime(180)">六个月</label></span>
 				
+				<p v-if="reportHistoryVo.startTime" style="font-size: .20rem;">{{reportHistoryVo.startTime.slice(0,10)}} 至 {{reportHistoryVo.endTime.slice(0,10)}}</p>
+			</div>
+			<p class="sltt">报告类型</p>
+			<div class="sellx">
+				<span class="lp"><label :class="{on:reportHistoryVo.deviceGroup == ''}" for="lx1">全部</label><input type="radio" id="lx1" value="" v-model="reportHistoryVo.deviceGroup"></span>
+				<span class="lp"><label :class="{on:reportHistoryVo.deviceGroup == '0'}" for="lx2">亚健康</label><input type="radio" id="lx2" value="0" v-model="reportHistoryVo.deviceGroup"></span>
+				<span class="lp"><label :class="{on:reportHistoryVo.deviceGroup == '1'}" for="lx3">心功仪</label><input type="radio" id="lx3" value="1" v-model="reportHistoryVo.deviceGroup"></span>
+				<span class="lp"><label :class="{on:reportHistoryVo.deviceGroup == '2'}" for="lx4">心理健康</label><input type="radio" id="lx4" value="2" v-model="reportHistoryVo.deviceGroup"></span>	
+				<!--<p style="font-size: .3rem;">选中值 {{reportHistoryVo.deviceGroup}}</p>-->
+			</div>
+			<p class="sltt">排序</p>
+			<div class="sellx">
+				<span class="lp"><label :class="{on:reportHistoryVo.sort == '2'}" for="px1">由近及远</label><input type="radio" id="px1" value="2" v-model="reportHistoryVo.sort"></span>
+				<span class="lp"><label :class="{on:reportHistoryVo.sort == '1'}" for="px2">由远及近</label><input type="radio" id="px2" value="1" v-model="reportHistoryVo.sort"></span>
+				<!--<p style="font-size: .3rem;">选中值 {{reportHistoryVo.sort}}</p>-->
+			</div>
+			<div class="btngrp">
+				<button @click="resetOption">重置</button>
+				<button @click="checkByoption">确定</button>
+			</div>
+		</div>
+		<div class="nh_seltab">
+			<p class="tab">
+				<span @click="handleTime('today')">当天</span>
+				<span @click="handleTime('week')">七天</span>
+				<span @click="handleTime('month')">一个月</span>
+				<span @click="handleOption" style="color: #2fbab0;">更多筛选</span>
+			</p>
+			<p class="tim">{{reportHistoryVo.startTime.slice(0,10)}}　至　{{reportHistoryVo.endTime.slice(0,10)}}</p>
+			
+			<p class="tip" v-if="reportHistoryVo.deviceGroup==''">当前报告类型为：全部</p>
+			<p class="tip" v-else-if="reportHistoryVo.deviceGroup=='1'">当前报告类型为：心功仪</p>
+			<p class="tip" v-else-if="reportHistoryVo.deviceGroup=='2'">当前报告类型为：心理报告</p>
+			<p class="tip" v-else>当前报告类型为：亚健康</p>
+		</div>
+		<div class="history_b" id="thelist">
+			<template>
+				<div class="nh_li" v-for="item in dataList" @click="gotosee($event,item)">
+					<p v-if="item.deviceGroup == 0" class="tt"><span style=" font-weight: bold;">亚健康报告 </span>　<span>{{item.totalScore}}分</span></p>
+					<p v-else-if="item.deviceGroup == 1" class="tt"><span style=" font-weight: bold;">心功仪报告 </span></p>
+					<p v-else-if="item.deviceGroup == 2" class="tt"><span style=" font-weight: bold;">心理报告 </span></p>
+					<p v-else><span style=" font-weight: bold;">亚健康报告 </span>　<span>{{item.totalScore}}分</span></p>
+					
+					<p class="cc">检测人：{{item.nickName}}</p>
+					<p class="ti">检查时间：{{item.inspectDateStr}}</p>
+					<em class="arr"></em>
+				</div>
+			</template>
+
 		</div>
 	</section>
 </div>
@@ -79,6 +112,6 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<script>document.write('<script src="js/history.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/historyNew.js?t=' + new Date().getTime() + '"><\/script>')</script>
 </body>
 </html>

@@ -171,7 +171,7 @@ var myapp = new Vue({
 			var reportUrl = '.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&source='+source+'&cannsee=jgj'//cansee 金管家app过去的
 			if(reportType == 121 || reportType == 122){
 				location.href='report120'+reportUrl
-			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 				location.href='report500'+reportUrl
 			}else{
 				location.href='report'+reportType+reportUrl

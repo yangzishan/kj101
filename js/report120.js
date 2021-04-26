@@ -283,6 +283,8 @@ var myApp = new Vue({
 				location.href="pay_type4.html"+payStr
 			}else if(paymentType == 2){
 				location.href="pay_coupon.html"+payStr
+			}else if(paymentType == 5){
+				location.href="pay980.html"+payStr
 			}else{
 				location.href="payfor.html"+payStr
 			}				
@@ -424,6 +426,8 @@ var myApp = new Vue({
 								$('.ban_gg').remove()
 							}
 						},200)	
+					}else{
+						$('.ban_gg').remove()
 					}
 				},
 				error: function(){console.log('wheelsort error')}

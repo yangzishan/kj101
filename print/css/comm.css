@@ -1,33 +1,26 @@
-body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
+body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0; font-family: "MicrosoftJhengHei";}
 .print{width:640px;margin:0 auto; position: relative;}
 .print-index{color:#676767;padding:35px}
 .print-index .logo{width:105px}
-.print-index .title{font-size:55px;text-align:center;font-weight:bold;padding-top:30px;letter-spacing:8px}
+.print-index .title{font-size:55px;text-align:center;font-weight:bold;padding-top:30px;/*letter-spacing:8px*/}
 .print-index .title p{line-height:50px}
-.print-index .title .english{font-size:32px;letter-spacing:1.5px}
+.print-index .title .english{font-size:32px;}
 .print-index ul{padding:30px 20px; overflow: hidden;}
 .print-index ul .pli{float:left;width:50%;font-size:16px;overflow:hidden; line-height: 50px;}
 .print-index ul .pli .key{float:left;/*width:74px;text-align-last:justify*/}
 .print-index ul .pli .value{float:left}
 .print-index .banner{width:260px;margin:0 auto}
-.print-index .slogan{padding:30px 50px;display:flex}
-.print-index .slogan div{flex:1;text-align:center;color:#8abc29;font-size:22px;letter-spacing:5px}
+.print-index .slogan{padding:0; height: 66px; line-height: 66px;}
+.print-index .slogan div{display: inline-block; vertical-align: top; width: 49.5%; text-align:center;color:#8abc29;font-size:22px;}
 .print-index .bottom{font-size:28px;color:#259a91;text-align:center;line-height:50px;/*letter-spacing:12px;*/font-weight:bold}
-
 .print .sr_box{border:1px solid #348798;}
-
 .print h3{text-align:center;background:#348798;font-size:18px;color:#fff;font-weight:bold;line-height:40px;/*margin-bottom:20px*/}
-
 .print  .box{width:100%;position:relative; padding:40px 0; overflow: hidden;}
 .print  .box > .lf{width:180px;display:inline-block;position:relative;left:0}
 .print  .box > .lf > img{width:180px}
-
-
 .print  .box > .rt{display:inline-block;width:416px; float: right;}
-
 .print  .box .rt ul{overflow:hidden;width:402px;margin:0 auto}
 .print  .box .rt ul li{width:50%;height:90px;float:left;overflow:hidden;padding-bottom:30px}
-
 .print  .box .rt ul li .img{float:left;width:60px;margin-right:10px}
 .print  .box .rt ul li .txt{float:left}
 .print  .box .rt ul li .txt p{line-height:20px}
@@ -38,7 +31,6 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
 .print  .box .rt ul .normal{color:#1ebeb1}
 .print  .box .rt ul .mild{color:#ff9e05}
 .print  .box .rt ul .severity{color:#ff4c05}
-
 .mianyi{}
 .mianyi .fen_sta{height: 60px; line-height: 60px; font-size:16px; padding: 0 20px; overflow: hidden; font-weight: bold; border-bottom: #cccccc solid 1px;}
 .mianyi .fen_sta em{ color: #1ECEB7; font-weight: bold;}
@@ -63,10 +55,10 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
 .print .skin > .zongjie > .r > span:last-child{border-right:none}
 .print .skin > .zongjie > .r > span > em{display:block;width:100%;border-bottom:1px solid #348798;font-weight:bold}
 .print .skin > .xiangqing{position:relative;top:-11px}
-.print .skin > .xiangqing > .tou{width:100%;border-bottom:1px solid #348798;border-top:1px solid #348798}
+.print .skin > .xiangqing > .tou{width:100%;border-bottom:1px solid #348798;border-top:1px solid #348798;}
 .print .skin > .xiangqing > .tou > span{display:inline-block;width:24.5%;text-align:center;font-weight:bold}
-.print .skin > .xiangqing > .bd{padding-left:10px}
-.print .skin > .xiangqing > .bd > .tit{font-weight:bold}
+.print .skin > .xiangqing > .bd{padding:5px 10px}
+.print .skin > .xiangqing > .bd > .tit{/*font-weight:bold*/}
 .print .skin .dan{text-align:center;background:#FF8C3E;font-size:14px;color:#fff;line-height:30px}
 .print .skin .gai{border-top:1px solid #348798;text-align:center;font-size:14px;color:#fff;line-height:30px;background:#FFC255}
 .print .skin .chi{border-top:1px solid #348798;text-align:center;font-size:14px;color:#fff;line-height:30px;background:#2CBCB4}
@@ -91,7 +83,7 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
 .shanshi,.yingyang,.yundong{ font-size: 0; line-height: 24px;}
 .print .jianyi > div{border-bottom:1px solid #348798;width:100%;height:100%;position:relative}
 .print .jianyi > div > .left{display:inline-block;width:5%;text-align:center; font-size: 12px;}
-.print .jianyi > div > .left > em{font-weight:bold;position:absolute;top:50%;left:1%;transform:translateY(-50%);width: .2rem;}
+.print .jianyi > div > .left > em{font-weight:bold;position:absolute;top:50%;left:1%;/*transform:translateY(-50%);*/width: .2rem; margin-top: -60px;}
 .print .jianyi > div > .right{display:inline-block;width:95%;border-left:1px solid #348798; font-size: 12px; padding: 10px 5px;}
 .print .jianyi > div > .right > p i{display:inline-block;width:8px;height:8px;background:#348798;border-radius:50%;margin:0 15px 0 7px}
 
@@ -100,9 +92,9 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
 .sp-dcn .cnt{ line-height: 26px; overflow: hidden;}
 .sp-dcn .cnt span{font-size: 15px; font-weight: bold; background: #348798; color: #ffffff;}
 .sp-dcn .cnc{ border: #000 solid 1px;}
-.sp-dcn .cnc .tt{line-height: 36px; text-align: center; display: -webkit-box; display: -ms-flexbox; border-bottom: #000 solid 1px; color: #348798;}
-.sp-dcn .cnc .tt span{ display: block; width: 80px; height: 36px; font-size: 16px;}
-.sp-dcn .cnc .tt em{ display: block; -webkit-box-flex: 1; height: 36px; font-size: 16px;width: 26%; border-left: #000 solid 1px;}
+.sp-dcn .cnc .tt{line-height: 34px; text-align: center; display: -webkit-box; display: -ms-flexbox; border-bottom: #000 solid 1px; color: #348798;}
+.sp-dcn .cnc .tt span{ display: block; width: 80px; height: 34px; font-size: 16px;}
+.sp-dcn .cnc .tt em{ display: block; -webkit-box-flex: 1; height: 34px; font-size: 16px;width: 26%; border-left: #000 solid 1px;}
 .sp-dcn .cnc dl.tli{ display: -webkit-box; display: -ms-flexbox; border-bottom: #000 solid 1px;}
 .sp-dcn .cnc .tli dt{ display: block; width: 80px; position: relative; min-height: 44px; text-align: center;}
 .sp-dcn .cnc .tli dt .ce{ width: 100%; position: absolute; top: 50%; margin-top: -11px;}
@@ -156,7 +148,7 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
 
 /*微循环*/
 .print .weixunhaun{width:100%;border:1px solid #348798;margin-bottom:30px;}
-.print .weixunhaun > .sr_hr{line-height:45px;height:45px;font-weight:bold;padding-left:10px;border-bottom:1px solid #348798}
+.print .weixunhaun > .sr_hr{line-height:45px;height:45px;font-weight:bold;padding-left:10px;border-bottom:1px solid #348798; font-size: 13px;}
 .print .weixunhaun > .sr_hr img{width:21px;vertical-align:-4px;margin:0 20px 0 6px}
 .print .weixunhaun > .sr_hr > span{display:inline-block;width:91px;height:24px;line-height:24px;background:#FFC255;color:#fff;font-weight:400;margin-left:20px;text-align:center}
 .print .weixunhaun > .sr_hbox{width:100%; font-size:0 ;}
@@ -164,10 +156,10 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0}
 .print .weixunhaun > .sr_hbox > .hr_list:nth-child(even){border-right:none}
 .print .weixunhaun > .sr_hbox > .hr_list:nth-child(3){border-bottom:none}
 .print .weixunhaun > .sr_hbox > .hr_list:last-child{border-bottom:none}
-.print .weixunhaun > .sr_hbox > .hr_list span{display:inline-block;width:50%;text-align:right;padding-right:20px; font-size: 12px;}
-.print .weixunhaun > .sr_hbox > .hr_list > span:nth-child(1){text-align:left;width:50%}
+.print .weixunhaun > .sr_hbox > .hr_list span{display:inline-block;width:60%;text-align:right;padding-right:20px; font-size: 12px;}
+.print .weixunhaun > .sr_hbox > .hr_list > span:nth-child(1){text-align:left;width:40%}
 
-.banben{position: absolute; right: 0; top: 10px; width: 130px; background: #D30000;height: 46px; line-height: 46px; text-align: center; color: #ffffff; font-size: 20px; border-radius: 23px 0 0 23px; font-weight: bold; letter-spacing: 5px;}
+.banben{position: absolute; right: 0; top: 10px; width: 130px; background: #D30000;height: 46px; line-height: 46px; text-align: center; color: #ffffff; font-size: 20px; border-radius: 23px 0 0 23px; font-weight: bold; }
 .a4 {        
     page-break-before: auto;        
     page-break-after: always;

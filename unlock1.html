@@ -10,19 +10,27 @@
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <style>
-body .jiesuo{position:relative;top:1rem}
+.saastop{ height: 4.73rem; background: url(img/saast.png) no-repeat center; background-size:100% 4.73rem;}
+.saastop p.tit{ color: #ffffff; font-size: .38rem; text-align: center; line-height: .66rem;}
+h4.bt{color: #636b7f; font-size: .36rem; font-weight: bold; line-height: .6rem; margin: 0 .3rem;}
+body .jiesuo{display: block; width:100%; height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .35rem; text-align: center; line-height: .88rem;}
 body .new .form{width:100%;padding:5%;margin-bottom:.6rem;padding-bottom:.2rem}
 body .new .form > div{display:inline-block;width:45%;height:1.3rem;text-align:center;line-height:1.3rem;font-size:.48rem;border-radius:25px 7px}
 body .new .form > div:last-child{float:right}
 body .new .form .active{background:#00d6ca;color:#fff}
-body .new .box-form{padding-left:.7rem;padding-top:.3rem;display:none;border-radius:5px;padding-bottom:.3rem}
-body .new .box-form .list{margin-bottom:.5rem}
+body .new .box-form{padding-left:.7rem;display:none;border-radius:5px;padding-bottom:.3rem}
+body .new .box-form .list{margin-bottom:.3rem}
 body .new .box-form .list > .keky{width:1.5rem;display:inline-block}
 body .new .box-form .list:not(:nth-child(3)) > input{-webkit-appearance:input;height:.6rem;border-radius:3px;border:1px solid #000;text-align:right;padding-right:7px}
 body .new .box-form .list:nth-child(3) > input{-webkit-appearance:radio;vertical-align:-0.02rem;border:1px solid #000}
 body .new .box-form .list [for=sex1]{margin-right:.5rem}
 body .new .box-form .list #height,body .new .box-form .list #weight{margin-right:6px}
+body .new .box-form .list em{ color: #F10000;}
 body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
+.txlist{ margin: 0 .24rem; padding: .3rem .2rem; border-radius: .17rem; background: #ffffff;}
+.txlist li{ height: .72rem; line-height: .72rem;}
+.txlist li i{ display: inline-block; width: .1rem; height: .1rem; vertical-align: top; background: #02cbc0; border-radius: 50%; margin: .31rem .11rem 0 0;}
+.txlist li span{ font-size: .32rem; color: #747588;}
 </style>
 </head>
 <body>
@@ -73,32 +81,45 @@ body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
 		</div>
 	</template>
 	<template v-else>
-		<header class="header">
+		<header class="header saastop">
 			<a class="t-right fr" @click="gohistory()" style="display: none;"><i class="i_c"><img src="img/i-his.png"></i>邀约历史</a>
 		</header>
 		<div class="new">
 			<div class="form">
-				<div class="zjc active">个人检测</div>
-				<div class="yyyh">邀约用户</div>
+				<div class="zjc active">本人检测</div>
+				<div class="yyyh">他人检测</div>
 			</div>
+			<section class="ttpp">
+				<h4 class="bt">检测注意事项：</h4>
+				<ul class="txlist">
+					<li><i></i><span>保持放松愉悦的心情坐在检测区</span></li>
+					<li><i></i><span>双手触摸传感器，手掌干燥时用湿纸巾擦拭</span></li>
+					<li><i></i><span>保持面部在面部数据采集区请勿随意晃动</span></li>
+					<li><i></i><span>避免周围人群距离过近影响数据采集</span></li>
+				</ul>
+			</section>
+				
 			<div class="box-form">
 				<div class="list">
-					<label for="userName" class="keky">姓 名</label><input type="text" id="userName" name="userName"/>
+					<label for="userName" class="keky"><em>*</em> 姓 名</label><input type="text" id="userName" name="userName"/>
 				</div>
 				<div class="list">
-					<label for="age" class="keky">年 龄</label><input type="number" id="age" name="age" pattern="\d*"/>
+					<label for="age" class="keky"><em>*</em> 年 龄</label><input type="number" id="age" name="age" pattern="\d*"/>
 				</div>
 				<div class="list">
-					<span class="keky">性 别</span><input type="radio" id="sex1" name="sex"  value="1"><label for="sex1">男</label> <input type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label>
+					<span class="keky"><em>*</em> 性 别</span><input type="radio" id="sex1" name="sex"  value="1"><label for="sex1">男</label> <input type="radio" id="sex2" name="sex" value="2"><label for="sex2">女</label>
+				</div>
+				<div class="list" v-if="userRegisterVer == 2">
+					<label for="idcardNo" class="keky">身份证</label><input type="number" id="idcardNo" name="idcardNo" pattern="\d*"/>
 				</div>
 				<div class="list">
-					<label for="height" class="keky">身 高</label><input type="number" id="height" name="height" pattern="\d*"/>cm
+					<label for="height" class="keky"><em>*</em> 身 高</label><input type="number" id="height" name="height" pattern="\d*"/>cm
 				</div>
 				<div class="list">
-					<label for="weight" class="keky">体 重</label><input type="number" id="weight" name="weight" pattern="\d*"/>kg
+					<label for="weight" class="keky"><em>*</em> 体 重</label><input type="number" id="weight" name="weight" pattern="\d*"/>kg
 				</div>
 				<div class="list">
-					<label for="tel" class="keky">手机号</label><input type="tel" id="tel" name="tel" pattern="\d*"/>
+					<label for="tel" class="keky"><em>*</em> 手机号</label><input type="tel" id="tel" name="tel" pattern="\d*"/>
 				</div>
 				<div class="list tishi">
 					请填写必填内容
@@ -107,12 +128,10 @@ body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
 			<div style="color: #FF8866; font-size: .24rem; line-height: .32rem; margin-top: .2rem;">邀约检测频繁会遇到公众号消息限制，收不到报告消息，需要向公众号发送消息 或点击公众号菜单进行恢复。</div>
 				
 			</div>
-		</div>
+		</section>
 		
 		<div style="margin: 0 .3rem;">
-			<button @click="unlock()" 
-				class="jiesuo" 
-				style=" display: block; width:100%; height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .35rem; text-align: center; line-height: .88rem;">
+			<button @click="unlock()" class="jiesuo" >
 				解 锁
 			</button>
 		</div>
@@ -151,6 +170,7 @@ var openId = getQueryString('openId');
 var saasId = getQueryString('saasId');
 var deviceSn = getQueryString('deviceSn');
 var jumpUrl = getQueryString('jumpUrl');
+var userRegisterVer = getQueryString('userRegisterVer')
 
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
@@ -176,7 +196,8 @@ var myApp = new Vue({
 	data: function(){
 		return{
 			openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl,
-			language:languageStr
+			language:languageStr,
+			userRegisterVer: userRegisterVer
 		}
 	},
 	methods: {
@@ -203,7 +224,12 @@ var myApp = new Vue({
 					}
 				})
 				console.log(data)
-				if(flag){console.log(flag);$('.tishi').css('display','block');return;}
+				if(flag){
+					console.log(flag);
+					$('.tishi').css('display','block');
+					return;
+				}
+				data.idcardNo = $('#idcardNo').val();
 				$.ajax({
 					type:"post",
 					url: saasUrl+ "/api/v1/invite/invitePeopleDetection",
@@ -223,7 +249,6 @@ var myApp = new Vue({
 					error: function(err){alert('unlock error');
 						console.log(err)
 					}
-
 				});
 			}else{
 				$.ajax({
@@ -271,8 +296,10 @@ function getQueryString(name) {
 			if($(this).hasClass('yyyh')){
 				$('.box-form').show();
 				$('.t-right').show()
+				$('.ttpp').hide()
 			}else{
 				$('.box-form').hide();	$('.t-right').hide()	
+				$('.ttpp').show()
 			}
 		})
 	});

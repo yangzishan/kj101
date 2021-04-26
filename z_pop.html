@@ -43,7 +43,8 @@
 		</ul>
 	</div>
 	
-	<p class="vtip">{{language.la_checkTit}}</p>
+	<p class="vtip" v-if="resTemplateDescribe !='0' && resTemplateDescribe != '' && resTemplateDescribe != null">专属健康建议由{{resTemplateDescribe}}提供</p>
+	<p class="vtip" v-else>{{language.la_checkTit}}</p>
 	<div class="conView">
 		<p style="height: 1.55rem;"></p>
 		<p class="btit"><i class=""></i><span class="">{{language.la_sug_diet}}</span><em class="fr ssjyTab"></em></p>
@@ -210,19 +211,42 @@ var userId=getQueryString("userId");
 var sex=getQueryString("sex");
 var edition=getQueryString("edition");
 
-var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
-if(JsSrc.indexOf('zh')>=0){
-   var language = zh;
-   var languageStr = 'zh';
-}else if(JsSrc.indexOf('en')>=0){
-    var language = en;
-    var languageStr = 'en';
-    document.title = 'Suggestions on health'
+/*显示语言*/
+var languageStr = (getQueryString('languageStr') || '');
+var language = zh;
+if(languageStr == 'zh'){
+	language = zh;
+}else if(languageStr == 'en'){
+	language = en;
 }else{
-	var language = en;
-    var languageStr = 'en';
-    document.title = 'Suggestions on health'
+	var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+	if(JsSrc.indexOf('zh')>=0){
+		language = zh;
+		languageStr = 'zh';
+	}else if(JsSrc.indexOf('en')>=0){
+	    language = en;
+	    languageStr = 'en';
+	    document.title = 'Suggestions on health'
+	}else{
+		language = zh;
+	    languageStr = 'zh';
+	    //document.title = 'Suggestions on health'
+	    console.log(JsSrc)
+	}
 }
+//var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+//if(JsSrc.indexOf('zh')>=0){
+// var language = zh;
+// var languageStr = 'zh';
+//}else if(JsSrc.indexOf('en')>=0){
+//  var language = en;
+//  var languageStr = 'en';
+//  document.title = 'Suggestions on health'
+//}else{
+//	var language = en;
+//  var languageStr = 'en';
+//  document.title = 'Suggestions on health'
+//}
 zhuge.track('进入健康建议页面', { //埋点t
 	'渠道' : '微信'
 });
@@ -251,6 +275,7 @@ var app = new Vue({
 			gg101:[],
 			gg102:[],
 			gg103:[],
+			resTemplateDescribe:'',
 			
 		}
 	},
@@ -283,6 +308,9 @@ var app = new Vue({
 				    	vm.oul = proposalData.data.healthAdviceVo.nutritionList, // 营养建议
 				    	vm.sports = proposalData.data.healthAdviceVo.motionList, //运动建议
 						vm.deviceSn = proposalData.msg
+						if(proposalData.data.healthAdviceVo.resTemplateDescribe){
+							vm.resTemplateDescribe = proposalData.data.healthAdviceVo.resTemplateDescribe
+						}
 						vm.wheelsort(vm.deviceSn,reportId)
 						setTimeout(function(){
 							//字段缩减

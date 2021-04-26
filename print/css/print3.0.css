@@ -38,8 +38,8 @@ input{-webkit-appearance:none; resize: none;}
 
 .x_bg{ border: #000 solid 1px; border-bottom: none;}
 .x_bg .x-tit{ border-bottom: #000 solid 1px; line-height: .5rem; text-align: center; font-size: .16rem; font-weight: bold;}
-.x_bg .x-cn{ display: -webkit-box; border-bottom: #000 solid 1px;}
-.x_bg .x-cn .cn-l{ padding: .1rem 0; width: 1.5rem; text-align: center; border-right: #000 solid 1px;}
+.x_bg .x-cn{ display: -webkit-box; border-bottom: #000 solid 1px; page-break-inside: avoid !important;}
+.x_bg .x-cn .cn-l{ padding: .1rem 0; width: 1.5rem; text-align: center; border-right: #000 solid 1px; font-size: 16px;}
 .x_bg .x-cn .cn-l .pic img{ display: block; width: .45rem; height: .45rem; margin: 0  auto;}
 .x_bg .x-cn .cn-l .pic span{ display: block; line-height: .3rem; font-size: .16rem;}
 .x_bg .x-cn .cn-r{ -webkit-box-flex: 1; text-align: center; display: flex; justify-content: center; flex-direction: column;}

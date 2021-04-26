@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<DIV class="my_view" style="visibility: hidden;">
+<div id="appVUE">
+	<section class="ban_gg" style="width: 100%;">
+    	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
+    	<div class="v_content" style="width: 6.9rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
+	    		<li v-for="item in banData" style="float: left;" v-if="item.bannerPage == 1">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 6.9rem; height: 1.4rem;"></a>
+	    		</li>
+	    	</ul>
+	    </div>
+    </section>
+    <!---广告end--->
+	<div class="report-box">{{language.la_toptip}}<a @click="seeMore()">{{language.la_learnMore}}</a></div>
+	<header class="header">
+		<a class="t-left fl goToPer" @click="goSetUp()" v-if="!clientType"><i class="i_c"><img src="img/i-per.png"></i>{{language.la_perCen}}</a>
+		<button class="t-left fl goToShare" id="goToShare" v-if="clientType" @click="goToShare('goToShare')">报告分享</button>
+		<a class="t-right fr" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>{{language.la_hisRepo}}</a>
+		<p class="t-cen"><span>{{inspectDate}}</span></p>
+	</header>
+	<div class="all_score">
+		<div class="fan_box">
+			<div class="x_b">
+				<div class="b_kd">
+					<p class="pf" id="score">{{totalScore}}</p>
+					<p class="pz">{{language.la_zongfen}}</p>
+				</div>
+				<div class="guang_b"></div>
+				<div class="guang"></div>
+			</div>
+		</div>
+		<div class="score_inf"><p class="inf-rk">{{language.la_testAgain_before}}<em id="sugDay">{{inspectDay}}</em>{{language.la_testAgain_after}}</p></div>
+		<!--<div class="explain" @click="explain()"><i></i><p>说明</p></div>-->
+	</div>
+	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+	
+	<div class="sy_summary">
+		<p class="sstit">{{language.la_dear}}<span class="inpv">{{userName}}</span>{{language.la_hello}}</p>
+		<div class="sstxt">{{language.la_thanksForUse}}</div>
+		<p class="sstit2">-------{{language.la_hz_t}}-------</p>
+		<div class="sstxt">
+			{{language.la_hzContent_0}}<em class="sta">{{ps}}</em><span v-if="language == en"> in this evaluation.</span>
+			<span v-if="ranking!=0 && ranking!=null">{{language.la_hzContent_1}}<em class="sta">{{age}}</em>{{language.la_hzContent_2}}</span>
+			<span>{{language.la_hzContent_3}}<em class="sta">{{ranking}}</em>{{language.la_hzContent_4}}</span>
+			<!--<p class="noSeg" id="segTwo">
+				2、本次检测您有<span><font class="sta">{{midNum}}</font>项为中度风险，</span><span><font class="sta">{{litNum}}</font>项为轻度风险。</span>
+				根据检测结果，给您的专属健康建议重点解决<i v-for="bid in abnormalName"> {{bid}}</i>指标的问题。
+			</p>-->		
+		</div>
+		<div v-if="reportType==5 || reportType==124" style="font-size: .24rem; margin-top: .2rem;">{{language.la_mianze}}</div>
+		<a class="gojy" @click="getSuggest($event)"><i></i><span>{{language.la_seeAdv}}</span></a>
+		<a class="gosp" v-if="showRecipe > 0 && languageStr == 'zh'" @click="getRecipesData($event)"><i></i><span>{{language.la_seeRec}}</span></a>
+	</div>
+	
+	<p style="background: rgb(244, 244, 244); height: 10px; margin: 0px;"></p>
+	<div class="bx_tit"><i></i><span class="lab" style="color: #333333;">甲状腺功能</span><i></i></div>
+	<div class="mianyi">
+		<!--<div class="fen_sta">
+			您的甲状腺功能
+			<em v-if="jiazhuangScore>=90">良好</em>
+			<em v-if="jiazhuangScore<90 && jiazhuangScore>=80" style="color: #F10000;">轻度风险</em>
+			<em v-if="jiazhuangScore<80" style="color: #F10000;">中度风险</em>
+			<span class="fr" v-if="jiazhuangScore>=90"><font>{{jiazhuangScore}}</font>分</span>
+			<span class="fr" v-if="jiazhuangScore>=80 && jiazhuangScore<90" style="color: #FF8800;"><font>{{jiazhuangScore}}</font>分</span>
+			<span class="fr" v-if="jiazhuangScore<80" style="color: #F10000;"><font>{{jiazhuangScore}}</font>分</span>
+		</div>-->
+		
+		<div class="biaoxian">
+			<p class="tit">本次评估以下指标与您的甲状腺有关系：</p>
+			<div class="youguan">
+				<div class="g-li" @click="goThird2($event,jiazhuangxian)">
+					<span class="lab">{{jiazhuangxian.targetThirdName}}</span>
+					<span class="sta" v-if="jiazhuangxian.score >= 90">正常</span>	
+					<span class="sta lit" v-if="jiazhuangxian.score >= 80 && jiazhuangxian.score <90">轻度风险</span>
+					<span class="sta mid" v-if="jiazhuangxian.score < 80">中度风险</span>
+				</div>
+				<div class="g-li" v-for="item in thirdBids" @click="goThird2($event,item)"
+					v-if="item.targetThirdId == 3139 || item.targetThirdId == 3094 || item.targetThirdId == 3189 || item.targetThirdId == 3130 || item.targetThirdId == 3131 || item.targetThirdId == 3105 || item.targetThirdId == 3274 || item.targetThirdId == 3153 || item.targetThirdId == 3224"
+				>
+					<span class="lab" v-if="item.targetThirdId == '3125'">睡眠</span>
+					<span class="lab" v-else-if="item.targetThirdId == '3230'">心情</span>
+					<span class="lab" v-else>{{item.targetThirdName}}</span>
+					
+					<template  v-if="item.targetThirdId == '3125'">
+						<span class="sta" v-if="item.score >= 90">良好</span>	
+						<span class="sta mid" v-if="item.score < 90">有待改善</span>
+					</template>
+					<template  v-else-if="item.targetThirdId == '3230'">
+						<span class="sta" v-if="item.abnormalLevel == 0">快乐</span>	
+						<span class="sta" v-else-if="item.abnormalLevel == 1">愉悦</span>
+						<span class="sta" v-else-if="item.abnormalLevel == 2">平和</span>
+						<span class="sta lit" v-else-if="item.abnormalLevel == 3">压抑</span>
+						<span class="sta mid" v-else>郁闷</span>
+					</template>
+					<template v-else>
+						<span class="sta" v-if="item.score >= 90">正常</span>	
+						<span class="sta lit" v-if="item.score >= 80 && item.score <90">轻度风险</span>
+						<span class="sta mid" v-if="item.score < 80">中度风险</span>
+					</template>
+						
+				</div>
+			</div>
+		</div>
+		
+		
+		<div class="liaojie" style="margin: 0 .4rem;">
+			<span class="lab" style="font-weight: bold;">了解甲状腺</span>
+			<p class="lcc">
+				<span>甲亢 　</span><i class="pop" @click="showSome('甲亢','甲状腺机能亢进，简称甲亢，是指甲状腺腺体本身产生甲状腺激素过多（或）血循环中甲状腺激素水平增高所致的常见内分泌病。')"></i>
+				<em>|</em>
+				<span>甲减 　</span><i class="pop" @click="showSome('甲减','甲状腺功能减退症简称甲减，是由于甲状腺激素的合成，分泌或生物效应不足而引起的一种综合征。')"></i>
+			</p>
+		</div>
+		<div class="biaoxian" style="border-top: none;">
+			<div class="fenmibx">
+				<p class="tt">分泌过高：<span>甲亢症状表现</span></p>
+				<ul>
+					<li><p class="p1"><img src="img/151/jz1.png"></p><p class="p2">心慌</p></li>
+					<li><p class="p1"><img src="img/151/jz2.png"></p><p class="p2">食欲亢进</p></li>
+					<li><p class="p1"><img src="img/151/jz3.png"></p><p class="p2">性情急躁</p></li>
+					<li><p class="p1"><img src="img/151/jz4.png"></p><p class="p2">消瘦</p></li>
+				</ul>
+				<p class="tt">分泌过低：<span>甲减症状表现</span></p>
+				<ul>
+					<li><p class="p1"><img src="img/151/jz5.png"></p><p class="p2">记忆下降</p></li>
+					<li><p class="p1"><img src="img/151/jz6.png"></p><p class="p2">精神萎靡</p></li>
+					<li><p class="p1"><img src="img/151/jz7.png"></p><p class="p2">体重增加</p></li>
+					<li><p class="p1"><img src="img/151/jz8.png"></p><p class="p2">怕冷</p></li>
+				</ul>
+			</div>
+			<p class="tit" style="height: .9rem; line-height: .9rem;">什么是甲状腺？　
+				<span style="display: inline-block; 
+					vertical-align: top; margin: .23rem; 
+					width:1.2rem; height:.45rem;line-height: .41rem; 
+					font-size:.26rem; text-align: center; 
+					border-radius:.05rem; border:.02rem solid rgba(160,146,235,1); 
+					color: #4E34D2; font-weight: 200;" @click="showSome('甲状腺','甲状腺是成年人最大的内分泌腺体，位于甲状软骨下紧贴在气管第三，四软骨环前面，由两侧叶和峡部组成，平均重量成大约20-25g，甲状腺的主要功能是合成甲状腺激素，调节机体代谢。')">查看解释</span>
+			</p>
+			<p class="tit">甲状腺分泌功能异常的人群易患这些疾病：</p>
+			<div class="j-list">
+				<p class="j-li"><i></i><span>甲状腺炎</span></p>
+				<p class="j-li"><i></i><span>甲状腺肿</span></p>
+				<p class="j-li"><i></i><span>甲状腺结节</span></p>
+				<p class="j-li"><i></i><span>甲状腺癌</span></p>
+				<p class="j-li"><i></i><span>甲状腺瘤</span></p>
+				<p class="j-li" style="width: 100%;"><i></i><span>甲状腺机能亢进（俗称甲亢）</span></p>
+				<p class="j-li" style="width: 100%;"><i></i><span>甲状腺功能减退（俗称甲减）</span></p>
+			</div>
+			<div style="margin-bottom: .2rem; background:rgba(241,251,249,1);border-radius:.2rem; padding: .2rem; font-size: .26rem; line-height: .37rem;">
+				饮食上低盐，低脂肪，多吃维生素B族，优质蛋白，富含铁、碘的食物，保持乐观的心态，充足的睡眠是保持甲状腺功能重要的因素。
+			</div>
+		</div>
+		<div class="biaoxian">
+			<p class="tit">甲状腺疾病调理建议：</p>
+			<div class="" style="font-size: .27rem; line-height: .5rem; padding: .2rem;">
+				1．身体在短时间内突然变得很瘦。<br>
+				2．眼球突出，眼球突出十分的明显。<br>
+				3．在不运动或者保持情绪的稳定性的情况下，心跳速度加快，每分钟达到了120次以上，心跳加快的同时出现心慌的状况。<br>
+				4．甲状腺呈现出肿大，甚至伴随肿块的出现。<br>
+				5．无法控制情绪，情绪起伏非常大。<br>
+				6．并没有剧烈的运动的情况下，也会出现出汗多、莫名的燥热、随后大汗淋漓的情况。<br>
+			</div>
+			<p class="tit">甲状腺疾病生理特征：</p>
+			<div class="" style="font-size: .27rem; line-height: .5rem;padding: .2rem; text-indent: .52rem;">
+				甲状腺疾病与情志和生活习惯密切相关，因此自我调理很重要。
+情志调理：要多培养一些兴趣爱好，精神上有寄托，行动上有目标，家庭成员多关心、多鼓励、多包容，既有利于自身良好情绪的调节，又可以避免不良情志刺激与再度伤害。
+生活调理：要规律作息、避免熬夜；对于辛辣食物、浓茶、咖啡、可可、酒以及煎炸、烧烤等油腻性食物尽量避免，尤其对于甲亢突眼者，戒烟尤为重要。碘是甲状腺激素合成的原料，避免进食含碘过多食物(如裙带菜、海带、紫菜等)对于甲状腺疾病的调理是非常必要的，尤其是患有甲亢者。
+运动方式：要选择温和的一些项目，如散步、慢跑。运动量要个体化，以自己耐受力为标准
+			</div>
+		</div>
+	</div>
+
+	<div class="sumTit">{{language.la_system_tit_before}}<em id="sysNum">10</em>{{language.la_system_tit_after}}</div>
+	<div class="sy_tab clearfix">
+	  	<span class="on"><a><em>{{language.la_healthInd}}</em></a></span><span><a><em>{{language.la_physicalInd}}</em></a></span>
+    </div>
+    <div class="tenSys_c indexShow">
+    	<a v-for="item in firstPages" @click="goSecond($event,item)">
+    		<p class="tarid" style="display: none;">{{item.targetFirstId}}</p>
+    		<div class="s-chart  fl">
+    			<div class="c_circle"><i :class="'ico'+item.targetFirstId"></i><div class="zzb"></div></div>
+    			<p class="s-score" style="display: none;">{{item.score}}</p>
+    		</div>
+    		<div class="s-inf fl">
+    			<p class="lab"><span>{{item.targetFirstName}}</span><em class="pop" @click.prevent.stop="popTen($event)">?</em></p>
+    			<p class="tx">{{item.score}}{{language.la_fen}}</p>
+    		</div>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{item.targetFirstName}}</span><em></em></p>
+					<div class="bxt">{{item.inspectExplain}}</div>
+				</div>
+			</div>
+    	</a>	
+    </div>
+    <div class="zhuangk_c indexShow" style="display: none;">
+    	<div class="c_li" v-for="state in otherPages" v-if="state.targetThirdId != 3232">
+    		<em class="ico"></em>
+    		<span class="lab">{{state.targetThirdName}}</span>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{state.targetThirdName}}</span><em></em></p>
+					<div class="bxt">{{state.inspectExplain}}</div>
+				</div>
+			</div>
+    		<div class="lev">{{state.abnormalLevel}}</div>
+    		<span class="sta fr" v-if="state.abnormalLevel == 0 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 1 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 2 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 3 && !state.analysisResults"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 4 && !state.analysisResults"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 5 && !state.analysisResults"><i></i><i></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 0 && state.analysisResults" style="padding: 0;">
+    			<em style="font-size: .32rem; line-height: .8rem;">{{state.analysisResults}}</em>
+    		</span>
+    		<!--<span class="sta2 fr">{{state.analysisResults}}</span>-->
+    		<i class="pop fr" @click="popSta($event)"></i>
+    	</div>
+    </div>
+  	<section id="noAge">
+  	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <div class="sy_tit">
+    	<span class="">{{language.la_physiologicalAge}}</span><em class="pop" @click="phyage($event)">?</em>
+    	<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">{{language.la_physiologicalAge}}</span><em></em></p>
+				<div class="bxt" style="text-align: left;">{{language.la_phyAgedDescription}}</div>
+			</div>
+		</div>
+    </div>
+    <div class="slnl_tit">{{language.la_phyAgeStr_before}}<em>{{age}}</em>{{language.la_phyAgeStr_after}}</div>
+    <div id="sl_chart" style="width:100%; margin:0 auto; height: 300px; position: relative; top: -30px;"></div>	
+  	</section>
+	
+	<section v-if="reportType == 503">
+		<div class="sy_tit"><span class="">总分历史</span></div>
+		<div style="background: #ffffff;">
+			<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
+		</div>
+	</section>
+
+	<div id="v_change">
+	    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+	    <div class="sy_tit">
+	    	<span class="">{{language.la_bidImprovement}}</span><em class="pop" id="zbgs_tc">?</em>
+	    	<div class="v_overlert">
+				<div class="tc_sy">
+					<em class="close"></em>
+					<p class="bit"><span class="labt">{{language.la_bidImprovement}}</span><em></em></p>
+					<div class="bxt" style="text-align: left;">{{language.la_bidImprDescription}}</div>
+				</div>
+			</div>
+	    </div>
+	    <div class="change_tab">
+	    	<span class="on"><a><em>{{language.la_improved}}</em></a></span>
+	    	<span><a><em>{{language.la_unimproved}}</em></a></span>
+	    </div>
+	    <div class="change_sta">
+	    	<span class="s1 fl">{{language.la_indName}}</span>
+	    	<span class="s2 fr">{{language.la_currentSta}}<br><i>({{currentDateStr.slice(0,10)}})</i></span>
+	    	<span class="s2 fr">{{language.la_lastSta}}<br><i>({{lastDateStr.slice(0,10)}})</i></span>
+	    </div>
+	    <div class="changeShow">
+	    	<ul class="change_list">
+		    	<li v-for="item in okImproves" v-if="item.targetId != 3089 && item.targetId != 3207 && item.targetId != 3097 && item.targetId != 3110 && item.targetId != 3211 && item.targetId != 3219 && item.targetId != 3139">
+		    		<a @click="goThird($event,item)">
+		    		<span class="s1 fl">{{item.tagetName}}</span>
+		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
+		    			{{item.currentLevel==1?language.la_normal:(item.currentLevel==2?language.la_MildSisk:(item.currentLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
+		    			{{item.lastLevel==1?language.la_normal:(item.lastLevel==2?language.la_MildSisk:(item.lastLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
+		    		</span>
+		    		</a>
+		    	</li>
+		    </ul>
+		    <p class="noctip" v-if="okImproves.length == 0">{{language.la_noimproved}}</p>
+	    </div>
+		<div class="changeShow" style="display: none;">
+			<ul class="change_list">
+		    	<li v-for="item in noImproves" v-if="item.targetId != 3089 && item.targetId != 3207 && item.targetId != 3097 && item.targetId != 3110 && item.targetId != 3211 && item.targetId != 3219 && item.targetId != 3139">
+		    		<a @click="goThird($event,item)">
+		    		<span class="s1 fl">{{item.tagetName}}
+		    			<font v-if="item.newAdd == 1" style="display: inline-block; margin-left: .1rem;">新增</font>
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.currentLevel==1,bc2:item.currentLevel==2,bc3:(item.currentLevel==3 || item.currentLevel==4)}">
+		    			{{item.currentLevel==1?language.la_normal:(item.currentLevel==2?language.la_MildSisk:(item.currentLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
+		    		</span>
+		    		<span class="s2 fr" :class="{bc1:item.lastLevel==1,bc2:item.lastLevel==2,bc3:(item.lastLevel==3 || item.lastLevel==4)}">
+		    			{{item.lastLevel==1?language.la_normal:(item.lastLevel==2?language.la_MildSisk:(item.lastLevel==3?language.la_ModerateSisk:language.la_ModerateSisk))}}
+		    		</span>
+		    		</a>
+		    	</li>
+		    </ul>
+		    <p class="noctip" v-if="noImproves.length == 0">{{language.la_Noimprovement}}</p>
+		</div>        
+	</div>
+	<p style="background:#f4f4f4; height:10px; margin:0;"></p>
+	<!---广告--->
+    
+<div class="v_overlert" id="showSome">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+		<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+	</div>
+</div>
+
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showExplain">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit">
+			<span class="labt">{{language.la_instructionWel}}！</span>
+		</p>
+		<div class="bxt2">
+			{{language.la_instruction1}}<br/>
+			{{language.la_instruction1_1}}<br/>
+			{{language.la_instruction1_2}}<br/>
+			{{language.la_instruction1_3}}<br/>
+			{{language.la_instruction1_4}}<br/>
+			{{language.la_instruction2}}<br/>
+			{{language.la_instruction2_1}}<br/>
+			{{language.la_instruction3}}<br/>
+			{{language.la_instruction3_1}}<br/>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">{{language.la_k_company}}<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+	</div>
+</div>
+	
+</div>
+
+<input type="hidden" id="appId"/>
+<input type="hidden" id="nonceStr"/>
+<input type="hidden" id="signature"/>
+<input type="hidden" id="timestamp"/>
+<input type="hidden" id="age"/>
+<input type="hidden" id="share" value="101"/>
+</DIV>
+
+
+
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
+    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+</div>
+
+<div id="btn" class="zhichi zhiCustomBtn"></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/circle-progress.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="js/report2.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
+<script>
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script src="js/wxShare.js"></script>
+</body>
+</html>

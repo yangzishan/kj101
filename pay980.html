@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<style type="text/css">
+.mbox{padding: 10.75rem 0 0; height: 100%; background: url(img/pay980.png) no-repeat center top; background-size:100%;}
+.btn{width: 4.2rem; margin: 0 auto; height: .9rem; background: #de4a3c; border-radius: .45rem; line-height: .9rem; text-align: center; color: #ffffff; font-size: .32rem; font-weight: bold;}
+</style>
+<script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<section class="my_view">
+<div class="mbox">
+	<div class="btn" @click="gotoSaoMa()">扫码查看报告</div>
+</div>
+	
+</section>
+
+<!--<div class="daifu_d" style="display: none;">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>-->
+<div class="v_overlay"></div>
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay"></div>
+
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/checkMsg.js"></script>
+<script>document.write('<script src="js/koulingSm.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+</script>
+</body>
+</html>

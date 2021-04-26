@@ -22,7 +22,7 @@ var zh = {
 	la_male: '男',
 	la_female: '女',
 	la_age: '年　龄',
-	la_agePlace: '(18岁-80岁)请填写真实年龄',
+	la_agePlace: '请填写真实年龄',
 	la_yzm: '验证码',
 	la_yzmPlace: '短信验证码',
 	la_getyzm: '获取验证码',
@@ -208,6 +208,7 @@ var zh = {
 	la_instr4_1: '根据您的健康状况，由专业营养师为您推荐一周的食谱，点击食谱中菜名即可查看餐品标准配比及营养成分。 如果您存在基础病，请以遵医嘱为先。',
 	la_instr5: '五、关于历史趋势？',
 	la_instr5_1: '持续监测可了解健康趋势变化。',
+	la_mianze:'免责声明：亚健康不必过分担心，亚健康智能筛查只是一个静态的健康评估，评估结果仅供健康管理参考，疾病确诊需要到正规医院检查。'
 };
 //英语
 var en = {
@@ -421,5 +422,6 @@ var en = {
 	la_instr4_1: 'According to your health conditions, a professional dietitian will recommend a week’s recipes for you. Click the names of the dishes in the recipes to see the standard proportions and nutritional ingredients. If you have background diseases, please follow your doctor’s advice first.',
 	la_instr5: 'V. About the historical trends?',
 	la_instr5_1: 'You can know the changes in health trends through continuous monitoring.',
+	la_mianze:'Disclaimer: Subhealth does not have to worry too much. Smart sub-health screening is only a static health assessment. The evaluation results are for reference only for health management. The diagnosis of the disease needs to be checked in a regular hospital.'
 };
 

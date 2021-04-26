@@ -12,16 +12,17 @@ var clientType = '';
 var resource = ''; //来接受app交互传递的数据（app自己写死的值）， 康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  ···
 console.log(reportId);
 console.log(customerId);
-
+var userRegisterVer = (getQueryString('userRegisterVer') || '')
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
    var language = 'zh';
 }else if(JsSrc.indexOf('en')>=0){
     var language = 'en';
 }else{
-	var language = 'en';
+	var language = 'zh';
 }
 console.log(language);
+//alert(language)
 
 
 var app = new Vue({
@@ -33,6 +34,7 @@ var app = new Vue({
 			customerId:customerId,userId:userId,faceUserId:faceUserId,
 			reportUrl:'',
 			reportType:'',
+			source:'',
 		}
 	},
 	methods:{
@@ -124,18 +126,19 @@ var app = new Vue({
 							$('.daifu_d').css("display","block")
 							$('.load-overlay').css("display","none")
 						}else{
-							if(res.data.sendReportType == 1 && res.data.sendStatus != 1){
+							/*if(res.data.sendReportType == 1 && res.data.sendStatus != 1){
 								console.log('提示页')
 								$('.daifu_d').css("display","block")
 								$('.load-overlay').css("display","none")
 							}else{
 								vm.goReportPage(vm.reportType)
-							}
+							}*/
+							vm.goReportPage(vm.reportType)
+							
 						};
 					}else{
 						vm.goReportPage(vm.reportType)
 					}
-						
 				},
 				error: function(){alert('delayedSendData error')}
 			});
@@ -160,8 +163,9 @@ var app = new Vue({
 						var reportType = res.data.reportType;
 						vm.reportType = res.data.reportType;
 						var source = res.data.source; // 来源
+						vm.source = res.data.source; // 来源
 						var reportSource = res.data.reportSource //来源 （判断金管家 5）
-						vm.reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+openId+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&reportSource='+reportSource+'&visible='+visible
+						vm.reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+openId+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&reportSource='+reportSource+'&visible='+visible+'&date='+new Date().getTime()+'&language='+res.data.language
 						/*if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	
@@ -174,13 +178,15 @@ var app = new Vue({
 						}else{}*/
 						vm.delayedSendData()
 						
+					}else if(res.code == 201){
+						vm.goPayforPage(res.data.reportType,res.data.customerId, res.data.paymentType)
 					}else if(res.code == 402){
-						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource
+						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&userRegisterVer='+userRegisterVer
 						location.href='register.html'+ reportUrl
 					}else if(res.code == 405){
-						location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource
+						location.href="register.html?reportId="+reportId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&userRegisterVer='+userRegisterVer
 					}else if(res.code == 403){
-						location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&clientType='+clientType+'&resource='+resource
+						location.href="supAge.html?reportId="+reportId+"&userId="+res.data.customerId+"&openId="+open+"&reportType="+res.data.reportType+'&faceUserId='+faceUserId+'&clientType='+clientType+'&resource='+resource+'&userRegisterVer='+userRegisterVer
 					}else if(res.code == 302){
 						location.href="equipmentUnable.html"
 					}else if(res.code == 2002){
@@ -210,16 +216,45 @@ var app = new Vue({
 			}
 			if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 				location.href = 'report120.html'+vm.reportUrl
-			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 ){
+			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503 ){
 				location.href = 'report500.html'+vm.reportUrl
 			}else if(reportType < 5){
 				location.href = 'report5.html'+vm.reportUrl
+			}else if(reportType == 711){
+				location.href = 'report710.html'+vm.reportUrl
 			}else{
 				location.href = 'report'+reportType+'.html'+vm.reportUrl
 			}
-			
 		},
-		
+		goPayforPage: function(reportType,customerId,paymentType){
+			
+			var payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType;
+			if(reportType == 6){
+				if(language == 'en'){
+					location.href = 'pay_en.html'+payStr
+				}else{
+					location.href = 'payfor3.0.html'+payStr
+				}
+			}else if(reportType == 202){
+				location.href="payfor202.html"+payStr	
+			}else if(reportType == 130 || (reportType>=500 && reportType<510)){
+				location.href = 'payfor501.html'+payStr
+			}else if(reportType == 400){
+				location.href = 'payfor400.html'+payStr
+			}else{  // 5,120,151,124
+				if(paymentType == 3){
+					location.href="pay_byuser.html"+payStr
+				}else if(paymentType == 4){
+					location.href="pay_type4.html"+payStr
+				}else if(paymentType == 2){
+					location.href="pay_coupon.html"+payStr
+				}else if(paymentType == 5){
+					location.href="pay980.html"+payStr
+				}else{
+					location.href="payfor.html"+payStr
+				}
+			}
+		}
 		
 	},
 	mounted:function(){

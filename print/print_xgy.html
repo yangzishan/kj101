@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<!-- <link rel="stylesheet" type="text/css" href="css/basic.css" />-->
+<style type="text/css">
+/* 初始化开始*/
+html {-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%; font-size: 100px;}
+*{margin:0; padding:0;/* border:none;*/box-sizing:border-box;}
+html,body{height: 100%;margin:0;padding:0;}
+body{background-color:#fff;color:#333333;font:.12rem/.24rem "Microsoft YaHei"; max-width: 600px; margin: 0 auto;}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+margin:0;
+padding:0;
+}
+ol,ul,li{ list-style: none;}
+img {max-width: 100%;height: auto;width:auto\9; /* ie8 */border: none;}
+em,i,b{font-weight: normal;font-style: normal;}
+a{text-decoration:none; color: #333333;}
+li{list-style:none;}
+h1, h2, h3, h4, h5, h6{ font-size:100%;font-weight: normal;}
+.clearfix{zoom:1;}
+.fl{float:left;}
+.fr{float:right;}
+.clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
+.img_b{ display: block; width: 100%;}
+input,textarea{ background: none; outline: none; font-family: "微软雅黑";}
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input{-webkit-appearance:none; resize: none;}
+	
+body{background-color:#ffffff;color:#333333; width: 900px; max-width: 950px; margin: 0 auto;}
+.main{font-family: '宋体';}
+.main .head{ height: 80px; border-bottom: #000000 solid 2px; position: relative;}
+.main .head .btit{ text-align: center; font-size: 30px; line-height: 80px;}
+.main .head .time{ position: absolute; right: 10px; bottom: 0; line-height: 20px; font-size: 16px;}
+.main .baseInfo{ font-size: 0; padding: 8px 0;}
+.main .baseInfo .item{ display: inline-block; width: 25%; vertical-align: top;}
+.main .baseInfo .item p{ line-height: 24px; font-size: 16px;}
+.main .baseInfo .item p font{ color: blue;}
+.main .tit{ font-size: 20px; line-height: 30px; font-weight: bold;}
+.main .boxing{}
+.main .boxing .bo{ border: green solid 1px; border: #008000 solid 1px; padding: 0 0 24px; margin: 0 10px;}
+.main .bidDetail{}
+.main .bidDetail .detail{ overflow: hidden;}
+.main .bidDetail .detail .box{ float: left; width: 44%; margin-right: 50px;}
+.main .bidDetail .detail .box .tl{ font-weight: bold; font-family: 'SimHei'; }
+.main .bidDetail .detail .box .tl span{ display: inline-block; vertical-align: top; line-height: 28px; font-size: 16px; color: #000000;}
+.main .bidDetail .detail .box .tl span:nth-of-type(1){ width: 52%;}
+.main .bidDetail .detail .box .tl span:nth-of-type(2){ width: 24%;}
+.main .bidDetail .detail .box .tl span:nth-of-type(3){ width: 24%;}
+.main .bidDetail .detail .box .ti{ font-size: 16px; line-height: 30px; font-weight:600; font-family: 'SimHei';}
+.main .bidDetail .detail .box .tc{ font-size: 0;}
+.main .bidDetail .detail .box .tc span{ display: inline-block; vertical-align: top; line-height: 24px; font-size: 16px;}
+.main .bidDetail .detail .box .tc span:nth-of-type(1){width: 52%;}
+.main .bidDetail .detail .box .tc span:nth-of-type(2){ width: 24%;color: blue; }
+.main .bidDetail .detail .box .tc span:nth-of-type(2).red{color: #F10000;}
+.main .bidDetail .detail .box .tc span:nth-of-type(3){ width: 24%;}
+.main .result{}
+.main .result .con{ line-height: 26px; font-size: 16px;}
+.main .result .con em{ color: blue; }
+.ysqz{padding: 0 0 30px 680px; font-size: 15px; border-bottom: #333333 solid 1px;}
+</style>
+<title>心血管功能监测诊断报告单</title>
+</head>
+<body>
+<div id="app">
+	<div class="main">
+		<div class="head">
+			<p class="btit">心血管功能监测诊断报告单</p>
+			<p class="time">时间：{{inspectDateStr}}</p>
+		</div>
+		<p style="height: 1px; background: #008000; margin-top: 1px;"></p>
+		<div class="baseInfo">
+			<div class="item">
+				<p>姓名：<font>{{userInfoView.name}}</font></p>
+				<p>身高：<font>{{userInfoView.height}}cm</font></p>
+				<p>联系电话/地址：<font>{{userInfoView.mobile}}</font></p>
+			</div>
+			<div class="item">
+				<p>性别：<font>{{userInfoView.sex==1?'男':'女'}}</font></p>
+				<p>体重：<font>{{userInfoView.weight}}kg</p>
+				
+			</div>
+			<div class="item">
+				<p>年龄：<font>{{userInfoView.age}}</font></p>
+				<p>收缩压：<font>{{bpView.sP}}mmHg</font></p>
+				
+			</div>
+			<div class="item">
+				<p>证件号(编号)：</p>
+				<p>舒张压：<font>{{bpView.dP}}mmHg</font></p>
+			</div>
+		</div>
+		<div class="boxing">
+			<p class="tit">采样数据波形:</p>
+			<div class="bo">
+				<!--<img src="img/bo.png" class="img_b">-->
+				<div style="width: 100%; height: 200px;" id="chart"></div>
+			</div>
+		</div>
+		<div class="bidDetail">
+			<p class="tit">各项分析结果:</p>
+			<section class="detail">
+				<div class="box">
+					<p class="tl"><span>参数名称</span><span>实测值</span><span>标准值范围</span></p>
+					<p class="ti">一、心脏功能</p>
+					<p class="tc" v-for="item in hartViews">
+						<span>{{item.metricName}}</span><span :class="{red:item.prompt}">{{item.tv+item.prompt}}</span><span>{{item.sv}}</span>
+					</p>
+					<p class="ti">三、血液常态</p>
+					<p class="tc" v-for="item in bloodViews">
+						<span>{{item.metricName}}</span><span :class="{red:item.prompt}">{{item.tv+item.prompt}}</span><span>{{item.sv}}</span>
+					</p>
+				</div>
+				<div class="box">
+					<p class="tl"><span>参数名称</span><span>实测值</span><span>标准值范围</span></p>
+					<p class="ti">二、血管功能</p>
+					<p class="tc" v-for="item in vesselViews">
+						<span>{{item.metricName}}</span><span :class="{red:item.prompt}">{{item.tv+item.prompt}}</span><span>{{item.sv}}</span>
+					</p>
+					<p class="ti">四、微循环功能</p>
+					<p class="tc" v-for="item in mcrViews">
+						<span>{{item.metricName}}</span><span :class="{red:item.prompt}">{{item.tv+item.prompt}}</span><span>{{item.sv}}</span>
+					</p>
+				</div>
+			</section>
+		</div>
+		<div class="result">
+			<p class="tit">综合评估结果:</p>
+			<div class="con">
+				<p v-for="(item,index) in resultViewsCopy" v-if="(item.name != '肺 功 能' || item.metricType != 6) && item.metricType != 7">
+					<span>{{index+1}}. {{item.name}}：</span>
+					<em style="color: #F10000;" v-if="item.resultex">
+						<template v-for="site in item.data">{{site.resultName}} </template>
+					</em>
+					<em v-else>基本正常</em>
+				</p>
+				<!--<p><span>2.血管状况：</span><em>基本正常</em></p>
+				<p><span>3.血液状态：</span><em>基本正常</em></p>
+				<p><span>4.微循环功能：</span><em>基本正常</em></p>
+				<p><span>5.综合意见：</span><em>心血管功能基本正常</em></p>-->
+			</div>
+		</div>
+		<div class="ysqz">医师签章：</div>
+		<p style="text-align: center; #000000; font-size: 14px; line-height: 24px;">说明：此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响</p>
+	</div>
+</div>
+
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<script>document.write('<script src="js/xgy.js?t=' + new Date().getTime() + '"><\/script>')</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+/* 初始化开始*/
+html {-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;}
+*{margin:0; padding:0;/* border:none;*/box-sizing:border-box;}
+html,body{height: 100%;margin:0;padding:0;}
+body{background-color:#fff;color:#333333;font:24rem/48rem "Microsoft YaHei"; margin: 0 auto;-webkit-print-color-adjust:exact;}
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+margin:0;
+padding:0;
+}
+ol,ul,li{ list-style: none;}
+img {max-width: 100%;height: auto;width:auto\9; /* ie8 */border: none;}
+em,i,b{font-weight: normal;font-style: normal;}
+a{text-decoration:none; color: #333333;}
+li{list-style:none;}
+h1, h2, h3, h4, h5, h6{ font-size:100%;font-weight: normal;}
+.clearfix{zoom:1;}
+.fl{float:left;}
+.fr{float:right;}
+.clearfix:after{content:""; display:block; visibility:hidden; height:0; clear:both;}
+.img_b{ display: block; width: 100%;}
+input,textarea{ background: none; outline: none; font-family: "微软雅黑"; border: none;}
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input{-webkit-appearance:none; resize: none; border: none;}
+button{border: none;}
+/* 初始化结束 */
+.viewport{max-width: 1679px; height: 1080rem; margin: 0 auto; background: url(../img/bg.png) no-repeat center; background-size:100% 1080rem; overflow: hidden;}
+.head{ height: 130rem; padding: 0 295rem 0 74rem; position: relative;}
+.head .xtname{font-size: 40rem; font-weight: bold; line-height: 130rem; color: #ffffff;}
+.head .out{ position: absolute; right: 0; top: 0; color: #ffffff; font-size: 40rem; margin: 0 60rem; line-height: 130rem; cursor: pointer;}
+.head .btn-g{ display: inline-block; background: #e8f1fe; color: #2365b1; width: 200rem; height: 68rem; line-height: 68rem; font-size: 36rem; text-align: center; border-radius: 16rem; margin: 30rem; cursor: pointer;}
+.main{height: 100%;}
+.login{ width: 720rem; margin: 130rem auto; background: #ffffff; border-radius: 20rem; padding: 100rem;}
+.login .tt{ font-size: 55rem; line-height: 80rem; margin-bottom: 20rem;}
+.login .dli{ width: 100%; display: flex; display: -webkit-flex; font-size: 32rem; margin-bottom: 30rem;}
+.login .dli input{ width: 100%; height: 80rem; line-height: 80rem; padding: 0 20rem; font-size: 32rem;background: #f6f7f9;}
+.login .dli .int{ display: block; flex: 4; -webkit-flex: 4; }
+.login .dli .send{ margin-left: 15rem; display: block;flex: 3; -webkit-flex: 3;}
+.login .dli .send button{ height: 80rem; background: #78ace2; color: #ffffff; width: 100%; font-size: 32rem;}
+.login .dsub{}
+.login .dsub button{ width: 100%; height: 80rem; line-height: 80rem; font-size: 32rem; font-weight: bold; border-radius: 16rem; background: #69a2db; color: #ffffff;}
+.box{ width: 800rem; margin: 120rem auto; background: #ffffff; border-radius: 20rem; padding: 100rem 70rem;}
+.box .tt{font-size: 50rem; line-height: 80rem; margin-bottom: 20rem; color: #2365b1;}
+.box .cnlist{ font-size: 0;}
+.box .cnlist .lab{ display: inline-block; margin-bottom: 20rem; width: 320rem; font-size: 32rem; height: 50rem; line-height: 50rem;}
+.box .cnlist .lab font{ color: #9b9b9b; margin-right: 32rem;}
+.box .cnlist .lab span{}
+.lefter{width: 400rem; height: 900rem; color: #ffffff; background: #4887c9; overflow: auto;}
+.lefter ul{}
+.lefter ul li{ height: 100rem; line-height: 100rem; text-align: center; float: left; width: 400rem; font-size: 30rem;}
+.lefter ul li.on{ background: #ffffff; color: #4180c4;}
+.righter{ margin-left: 410rem; height: 400rem; padding: 50rem;}
+
+.perbox{width: 1340rem; margin:0 80rem; background: #ffffff; border-radius: 16rem; padding: 80rem;}
+.perbox .btn-grp{ text-align: center; padding: 10rem 0 50rem;}
+.perbox .btn-grp span{display: inline-block; margin: 0 25rem; width: 200rem; height: 68rem; line-height: 68rem; text-align: center; background: #dbe7f6; border-radius: 10rem; color: #2365b1;}
+.perbox .btn-grp span.on{background: #2365b1; color: #ffffff;}

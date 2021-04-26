@@ -164,7 +164,7 @@ new Vue({
 });
 $('.content').on('click','.list',function(){
     if($(this).hasClass('jkbaogao')){
-    	if(reportType == 500){
+    	if(reportType == 500 || reportType == 503){
     		window.location.href = 'report5.html' + urlSearch;
     	}else if(reportType == 501 || reportType == 502 || reportType == 5021){
     		window.location.href = 'report6.html' + urlSearch+'&terminal=app';

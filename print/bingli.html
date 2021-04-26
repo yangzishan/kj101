@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<link rel="stylesheet" type="text/css" href="../css/basic.css" />
+<style type="text/css">
+body{ background: #f8f8f8; color: #000000;}
+.viewport{ padding: 0 .4rem;}
+.btit{ text-indent: .3rem; height: .8rem; line-height: .8rem; font-size: .3rem; font-weight: bold; color: #999999;}
+.box{ background: #ffffff; box-shadow: 0 0 0.4rem 0.06rem #dddddd; padding: .2rem .24rem; border-radius: .02rem; margin:.02rem 0;}
+.box .tt{ font-size: .32rem; line-height:.6rem; margin-bottom: .1rem;}
+.box .tc{}
+.box .tc p{ line-height: .4rem; font-size: .26rem; color: #999999;}
+.box .tc p span{ color: #000000; font-weight: bold;}
+.box ul{}
+.box ul li{ position: relative; line-height: .4rem; padding-right: .3rem; margin: .2rem 0;}
+.box ul li p.name{ font-size: .26rem; font-weight: bold;}
+.box ul li p.cont{ font-size: .24rem; color: #999999;}
+.box ul b.num{ position: absolute; font-weight: bold; right: 0; top: 50%; transform: translateY(-50%);}
+.box .tip{ font-size: .23rem; margin: .3rem 0 0; line-height: .4rem; color: #999999;}
+.foot{ text-align: center; font-size: .24rem; margin: .3rem; padding: .2rem; background: #f8f8f8; border-radius: .2rem;}
+.hidden{display: none;}
+</style>
+<title>用药建议</title>
+</head>
+<body>
+<section id="app" style="visibility: hidden;">
+	<div class="viewport"  v-if="recordStatus == 40">
+		<p class="btit">用药建议</p>
+		<div class="box">
+			<p class="tt">{{dataInfo.hospitalName}}</p>
+			<div class="tc">
+				<p>用药人：<span>{{dataInfo.patientName}} {{dataInfo.sex == 1?'男':'女'}} {{dataInfo.age}}岁</span></p>
+				<p>中医判断：<span>{{dataInfo.cmdiagnoseIllness}} {{dataInfo.cmdiagnoseDisease}}</span></p>
+				<p>西医判断：<span>{{dataInfo.wmdiagnoseDetail}} {{dataInfo.wmdiagnose}}</span></p>
+			</div>
+			
+		</div>
+		<div class="box">
+			<p class="tt">药单</p>
+			<ul class="">
+				
+				<!--<li>
+					<p class="name">二氧虎胆 2.5% 100g</p>
+					<p class="cont">用法用量：口服，每天三次，每次两幅</p>
+					<b class="num">×4</b>
+				</li>-->
+				<li v-for="item in dataInfo.medicalData">
+					<p class="name">{{item.medicineName}}</p>
+					<p class="cont">规格：{{item.medicineComponent}}</p>
+					<p class="cont">用法：{{item.medicineUsage}}</p>
+					<!--<p class="cont">用量：口服，每天三次，每次两幅</p>-->
+					<!--<b class="num">×4</b>-->
+				</li>
+			</ul>
+		</div>
+		<div class="box">
+			<p class="tt">医嘱</p>
+			<ul class="">
+				<li>
+					<p class="cont">{{dataInfo.doctorSuggestion}}</p>
+				</li>
+			</ul>
+		</div>
+		<div class="box">
+			<div class="tc">
+				<p>医师：<span> {{dataInfo.doctorName}}</span></p>
+				<p>{{dataInfo.createDate}}</p>
+			</div>
+			<div class="tip">
+				由扁鹊云平台及医生为您提供的用药建议<br>
+				用药建议仅作参考，具体请遵医嘱使用
+				<br><br>
+				用药建议已经推送给{{dataInfo.departName}}<br>请联系{{dataInfo.departName}}取药
+			</div>
+		</div>
+		<p style="height: .3rem;"></p>
+		<!--<div class="foot">用药建议已经推送给{{dataInfo.departName}}<br>请联系{{dataInfo.departName}}取药</div>-->
+	</div>
+	<div v-else>
+		<p style="padding: 3rem 2rem 1rem;"><img src="../img/daifu.png" class="img_b"></p>
+		<p style="text-align: center; font-size: .3rem;">您的处方还未开出，请收藏此页面，稍后再查询。</p>
+	</div>
+</section>
+
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script src="js/echarts.min.js"></script>
+<!--<script>document.write('<script src="js/danao.js?t=' + new Date().getTime() + '"><\/script>')</script>-->
+<script>
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);	
+</script>
+<script>
+var recordId = (getQueryString('recordId') || 14);
+
+var myapp = new Vue({
+	el:'#app',
+	data:function(){
+		return {
+			recordStatus:'',
+			dataInfo:{}
+		}
+	},
+	methods:{
+		getData:function(){
+			var vm = this
+			$.ajax({
+				url : "http://39.107.74.133:9480/kh-cc/tcms/tcmsEMedicalRecord/queryRecordById",
+				type : "get",
+				dataType : 'json',
+				data : {
+				   recordId:recordId				   
+				},
+				success : function(res) {
+					if(res.code == 200 && res.success){
+						vm.dataInfo = res.result
+						vm.recordStatus = res.result.recordStatus
+						$('#app').css("visibility","visible")
+					}
+				},
+				error : function(obj,msg){
+					console.log('queryRecordById error')
+					console.log(obj,msg)
+				}
+			});
+		},
+		
+	},
+	mounted:function(){
+		this.getData()
+	}
+});
+
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

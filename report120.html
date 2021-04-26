@@ -14,6 +14,17 @@
 <body class="bck-col-f4">
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
+	<section class="ban_gg" style="width: 100%; background: #ffffff;">
+    	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
+    	<div class="v_content" style="width: 6.9rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
+	    		<li v-for="item in banData" style="float: left;" v-if="item.bannerPage == 1">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 6.9rem; height: 1.4rem;"></a>
+	    		</li>
+	    	</ul>
+	    </div>
+    </section>
+    <!---广告end--->
 	<header class="header">
 		<a class="t-left fl goToPer" @click="goSetUp()" v-if="!clientType"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
 		<button class="t-left fl goToShare" id="goToShare" v-if="clientType" @click="goToShare('goToShare')">报告分享</button>
@@ -135,17 +146,7 @@
     </div>
     <p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <!---广告--->
-    <section class="ban_gg" style="width: 100%; background: #ffffff;">
-    	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
-    	<div class="v_content" style="width: 6.9rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
-	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
-	    		<li v-for="item in banData" style="float: left;" v-if="item.bannerPage == 1">
-	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 6.9rem; height: 1.4rem;"></a>
-	    		</li>
-	    	</ul>
-	    </div>
-    </section>
-     <!---广告end--->
+    
     
 
 

@@ -21,6 +21,8 @@ var openId=getQueryString("openId");
 var orderNum=getQueryString("orderNum");
 var payChannelId=getQueryString("payChannelId");
 var payChannelType=getQueryString("payChannelType");  //1微信 7招行一网通
+var relationUrl=(getQueryString("relationUrl") || '');  //是否跳转关联
+
 if(payChannelType == 1){
 	var payTypeName = '微信支付'
 }else if(payChannelType == 7){
@@ -73,11 +75,17 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == "200"){
-						if(res.data == 5){ //金管家 5
-							location.href = "jinguanjia.html"
+						if(relationUrl){
+							location.href = "relationUrl.html?relationUrl="+relationUrl
 						}else{
-							vm.goReport(reportId,'',userId,openId,saasId,'')
+							if(res.data == 5){ //金管家 5
+								location.href = "jinguanjia.html"
+							}else{
+								vm.goReport(reportId,'',userId,openId,saasId,'')
+							}
 						}
+						
+							
 					}
 				},
 				error: function(){console.log('getReportSource error')}
@@ -260,7 +268,7 @@ var myApp = new Vue({
 					if(data.code == 200){
 						if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 							location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-						}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+						}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 							location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 						}else{
 							location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -303,7 +311,7 @@ var myApp = new Vue({
 						}else{
 							if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 							location.href = 'report120.html'+reportUrl
-							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 								location.href = 'report500.html'+reportUrl
 							}else if(reportType < 5){
 								location.href = 'report5.html'+reportUrl

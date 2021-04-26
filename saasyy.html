@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>解锁</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+body{background: #f2f2f2;}
+.saasy .saastop{ height: 4.05rem; background: url(img/saast.png) no-repeat center; background-size:100% 4.05rem;}
+.saasy .saastop p.tit{ color: #ffffff; font-size: .38rem; text-align: center; line-height: .66rem;}
+.saasy h4.bt{color: #636b7f; font-size: .36rem; font-weight: bold; line-height: .6rem; margin: .8rem .6rem .2rem;}
+.saasy .txlist{ margin: 0 .24rem; padding: .3rem .2rem; border-radius: .17rem; background: #ffffff;}
+.saasy .txlist li{ height: .72rem; line-height: .72rem;}
+.saasy .txlist li i{ display: inline-block; width: .1rem; height: .1rem; vertical-align: top; background: #02cbc0; border-radius: 50%; margin: .31rem .11rem 0 0;}
+.saasy .txlist li span{ font-size: .32rem; color: #747588;}
+.saasy .btngrp{margin: 2.3rem 0 0; text-align: center;}
+.saasy .btngrp span{ width: 3rem; height: .92rem; display: inline-block; margin: 0 .27rem; line-height: .92rem; background: #02cbc0; color: #ffffff; font-size: .32rem; text-align: center; border-radius: .17rem;}
+</style>
+</head>
+<body>
+<div id="app" class="saasy">
+	<header class="saastop">
+		<p class="tit">用户须知</p>
+	</header>
+	<h4 class="bt">当此检测注意事项：</h4>
+	<ul class="txlist">
+		<li><i></i><span>保持放松愉悦的心情坐在检测区</span></li>
+		<li><i></i><span>双手触摸传感器，手掌干燥时用湿纸巾擦拭</span></li>
+		<li><i></i><span>保持面部在面部数据采集区请勿随意晃动</span></li>
+		<li><i></i><span>避免周围人群距离过近影响数据采集</span></li>
+	</ul>
+	<div class="btngrp">
+		<span>他人使用</span>
+		<span>本人使用</span>
+	</div>
+</div>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>	
+</body>
+</html>

@@ -57,6 +57,7 @@ input{-webkit-appearance:none; resize: none;}
 .sta_1 .plin .sst img{ display: none; width: .15rem; height: .15rem; vertical-align: middle;}
 .sta_1 .plin .sst img.show{ display: inline-block;}
 .sta_1 .plin .ssy{ display: inline-block; vertical-align: top; width: 88%; padding-left: .1rem; font-size: .12rem;}
+.sta_1 .plin i{width: 0; height: 0;}
 .sta_2{ border: #333 solid 1px;}
 .sta_2 .btt{ line-height: .24rem; border-bottom: #333 solid 1px; font-size: .13rem;}
 .sta_2 .btt span{ display: inline-block; padding: 0 .2rem; margin-right: .1rem;}
@@ -183,7 +184,7 @@ input{-webkit-appearance:none; resize: none;}
 			<img v-for="index of (5-state.abnormalLevel)" src="img/star.png" class="show">
 			<!-- <img src="img/star.png"> -->
 		</span>
-		<i>{{6-state.abnormalLevel}}</i>
+		<!--<i>{{6-state.abnormalLevel}}</i>-->
 		<span class="sst2">{{state.analysisResults}}</span>
 	</p>
 </div>
@@ -244,20 +245,25 @@ input{-webkit-appearance:none; resize: none;}
 <script src="js/language.js"></script>
 <script src="js/vue.min.js"></script>
 <script>
-var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
-if(JsSrc.indexOf('zh')>=0){
-	var language = zh;
-	var languageStr = 'zh';
-}else if(JsSrc.indexOf('en')>=0){
-    var language = en;
-    var languageStr = 'en';
-    document.title = 'Health report'
+var language = getQueryString("language");
+//var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+//if(JsSrc.indexOf('zh')>=0){
+//	var language = zh;
+//	var languageStr = 'zh';
+//}else if(JsSrc.indexOf('en')>=0){
+//  var language = en;
+//  var languageStr = 'en';
+//  document.title = 'Health report'
+//}else{
+//	var language = zh;
+//	var languageStr = 'zh';
+//}
+//console.log(languageStr)
+if(language == 'zh'){
+	language = zh
 }else{
-	var language = en;
-    var languageStr = 'en';
-    document.title = 'Health report'
+	language = zh
 }
-console.log(languageStr)
 var reportId = getQueryString('reportId');
 var viewType = getQueryString("viewType");
 var go = 0;
@@ -389,6 +395,8 @@ var myapp = new Vue({
 	mounted: function (){
 		this.getReportPrint()
 		this.getSuggest()
+		window.status = 'ready';
+		console.log(window.status)
 	}
 })
 

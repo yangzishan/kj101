@@ -14,14 +14,14 @@
 .xxzb_c .co{ color: #ed2222;}
 .xxzb_c .c_tit{ line-height: 30px; border-bottom: #333 solid 1px; padding:0 20px;}
 .xxzb_c .c_tit span{display: inline-block; width: 100px; font-size: 15px;}
-.xxzb_c .c_con{ display: -webkit-flex; display: flex; border-bottom: #333 solid 1px; min-height: 29px;}
+.xxzb_c .c_con{ /*display: -webkit-flex; display: flex; */border-bottom: #333 solid 1px; min-height: 29px; overflow: hidden; position: relative;}
 .xxzb_c .c_con:last-of-type{ border-bottom: none;}
-.xxzb_c .c_con .second{ display:block; width: 24%; border-right: #333 solid 1px; position: relative;}
-.xxzb_c .c_con .second span{ position: absolute; top: 50%; transform: translateY(-50%);}
+.xxzb_c .c_con .second{ display:block; width: 24%; float: left; position: absolute; top: 50%; margin-top: -12px;}
+.xxzb_c .c_con .second span{ }
 .xxzb_c .c_con .second em{ display:inline-block; padding: 0 5px; text-align: center; font-weight: bold;}
-.xxzb_c .c_con .third{display: block; -webkit-box-flex: 1; flex: 1; font-size: 0;}
+.xxzb_c .c_con .third{display: block; /*-webkit-box-flex: 1; flex: 1;*/ font-size: 0; float: right; width: 76%;}
 .xxzb_c .c_con .third span.ite{ display: inline-block; width: 49.9%;}
-.xxzb_c .c_con .third span:nth-child(odd){ border-right: #333 solid 1px;}
+.xxzb_c .c_con .third span:nth-child(odd){ border-right: #333 solid 1px;border-left: #333 solid 1px;}
 .xxzb_c .c_con .third span:nth-last-of-type(2) em{ border-bottom: none;}
 .xxzb_c .c_con .third span:last-of-type em{ border-bottom: none;}
 .xxzb_c .c_con .third span em{ display: inline-block; font-size: .12rem; border-bottom: #333 solid 1px;}

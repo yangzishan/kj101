@@ -30,13 +30,13 @@
 		<p class="ctit">欢迎来到{{saasName}}</p>
 		<!--<p v-if="saasId != '219278'" class="ctit">{{language.la_welcome}}</p>
 		<p v-if="saasId == '219278'" class="ctit">欢迎来到{{saasName}}</p>-->
-		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 123) || reportType == 12001 || reportType == 5021 || reportType == 505">
+		<p class="cpxt reportType120" v-if="reportType == 5 || (reportType >= 120 && reportType <= 126) || reportType == 12001 || reportType == 5021 || reportType == 505 || reportType == 503 || reportType == 152">
 			<span class="lab">{{language.la_name}}</span><!--姓名-->
 			<span class="fle"><input type="text" id="nickName" :placeholder="language.la_namePlace" ></span>
 		</p>
 		<p class="cpxt">
 			<span class="lab">{{language.la_age}}</span>
-			<span class="fle"><input type="number" id="age" :placeholder="language.la_agePlace" pattern="[0-9]*" oninput="if(value.length>2)value=value.slice(0,2)"></span>
+			<span class="fle"><input type="number" id="age" :placeholder="language.la_agePlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
 		</p>
 		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 122) || reportType == 12001">
 			<span class="lab">身份证号</span>
@@ -46,11 +46,11 @@
 			<span class="lab">业务员号<font>{{optionInt}}</font></span>
 			<span class="fle"><input type="number" id="relatedNo" placeholder="请输入您的保险业务员号" pattern="[0-9]*"></span>
 		</p>
-		<p class="cpxt reportType6 reportType400" v-if="reportType == 6 || reportType == 400">
+		<p class="cpxt reportType6 reportType400" v-if="(reportType == 5 || reportType == 6 || reportType == 400 || reportType == 12001 || (reportType >= 120 && reportType <= 126) || reportType == 152) && userRegisterVer != 3">
 			<span class="lab">{{language.la_height}}</span>
 			<span class="fle"><input type="number" id="_height" :placeholder="language.la_heightPlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
 		</p>
-		<p class="cpxt reportType6 reportType400" v-if="reportType == 6 || reportType == 400">
+		<p class="cpxt reportType6 reportType400" v-if="(reportType == 5 || reportType == 6 || reportType == 400 || reportType == 12001 || (reportType >= 120 && reportType <= 126) || reportType == 152) && userRegisterVer != 3">
 			<span class="lab">{{language.la_weight}}</span>
 			<span class="fle"><input type="number" id="_weight" :placeholder="language.la_weightPlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
 		</p>
@@ -123,9 +123,6 @@
 			<p>13.	您已知悉《【待补充本协议名称】用户服务协议》所有内容（特别是加粗字体内容）的意义以及由此产生的法律效力。本《【京智康智能设备】用户服务协议》是您真实的意思表示。</p>
 		</div>
 	</div>
-	
-	
-	
 	
 
 	<div class="tongyifo">

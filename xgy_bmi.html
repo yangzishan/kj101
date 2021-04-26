@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style type="text/css">
+.topp{background: linear-gradient(134deg, #7FACEF 0%, #548FE8 100%); height:1.5rem; line-height: .88rem; width: 100%; position: relative; color: #ffffff;}
+.topp .bac{ display: inline-block; height: .88rem; padding: .22rem; width: .64rem; position: relative; z-index: 999;}
+.topp .lab{ position: absolute; left: 0; top: 0; width: 100%; line-height: .88rem; text-align: center; font-size: .32rem; font-weight: 600;}
+.bmi-box2{ text-align: center; padding:.4rem; background: #ffffff;}
+.bmi-box2 .pp1{background: #FFE5CC; width: 3.22rem; margin: 0 auto; height: .45rem; line-height: .45rem; border-radius: .23rem; color: #FF7D00; font-size: .26rem; font-weight: 500;}
+.bmi-box2 .pp2{ color: #999999; font-size: .22rem; line-height: .33rem; margin: .2rem 0 .4rem;}
+.bmi-box2 .txx{ background: #EAF3FF; border-radius: .3rem; padding: .25rem; font-size: .28rem; line-height: .4rem;}
+.bmi-his{ margin: .1rem 0 0; background: #ffffff; padding: .3rem 0;}
+.bmi-his .btt{ text-align: center; line-height: .6rem; color: #666666; font-weight: 600;}
+</style>
+</head>
+<body style="background: #F7FAFB;">
+<DIV class="my_view newxgy" style="visibility: visible;">
+	<div class="topp">
+		<a class="bac" href="javascript:history.go(-1);"><img src="img/arr-b.png" class="img_b"></a>
+		<span class="lab">BMI</span>
+	</div>
+	<div class="gy-jcxx" style="border-radius: .3rem .3rem 0 0; margin: -.62rem 0 0; position: relative; z-index: 999;">
+		<div class="shenti">
+			<template v-if="userInfoView.sex==1">
+				<img v-if="userInfoView.bmiValue<18.5" class="boy" src="img/xingongyi/man-1.png">
+				<img v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24" class="boy" src="img/xingongyi/man-2.png">
+				<img v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28" class="boy" src="img/xingongyi/man-3.png">
+				<img v-else-if="userInfoView.bmiValue>28" class="boy" src="img/xingongyi/man-4.png">
+			</template>
+			<template v-else>
+				<img v-if="userInfoView.bmiValue<18.5" class="boy" src="img/xingongyi/woman-1.png">
+				<img v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24" class="boy" src="img/xingongyi/woman-2.png">
+				<img v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28" class="boy" src="img/xingongyi/woman-3.png">
+				<img v-else-if="userInfoView.bmiValue>28" class="boy" src="img/xingongyi/woman-4.png">
+			</template>
+			<div class="height item"><p><i><img src="img/xingongyi/bo-height.png"></i><span>{{userInfoView.height}}cm</span></p></div>
+			<div class="bmi item"><p><i><img src="img/xingongyi/bo-bmi.png"></i><span>{{userInfoView.bmiValue}}</span></p></div>
+			<div class="weight item"><p><i><img src="img/xingongyi/bo-weight.png"></i><span>{{userInfoView.weight}}kg</span></p></div>
+			<img class="line1" src="img/xingongyi/blue-line1.png">
+			<img class="line2" src="img/xingongyi/blue-line2.png">
+			<img class="line3" src="img/xingongyi/blue-line3.png">
+			<img class="quan" src="img/xingongyi/quan.png">
+		</div>
+		
+	</div>
+	<section class="gy-bmi">
+		<div class="prc">
+			<em class="sta">15</em>
+			<div class="aa bar"></div>
+			<div class="bb bar"></div>
+			<div class="cc bar"></div>
+			<div class="dd bar"></div>
+			<em class="end">40</em>
+		</div>
+		<div class="ggrr">
+			<div class="int" style="left: .7rem;" v-if="userInfoView.bmiValue<18.5">
+				<p class="t1" style=" background: rgba(96, 195, 252, 0.2); color: #3CA9E9;">
+					<i><img src="img/xingongyi/bq-a.png"></i><font>{{userInfoView.bmiValue}}</font><span>过瘦</span>
+				</p>
+				<p class="t2"><img src="img/xingongyi/jt-a.png"></p>
+			</div>
+			<div class="int" style="left: 1.85rem;" v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24">
+				<p class="t1" style=" background: rgba(86, 224, 0, 0.2); color: #4AC300;">
+					<i><img src="img/xingongyi/bq-b.png"></i><font>{{userInfoView.bmiValue}}</font><span>标准</span>
+				</p>
+				<p class="t2"><img src="img/xingongyi/jt-b.png"></p>
+			</div>
+			<div class="int" style="left: 3.2rem;" v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28">
+				<p class="t1" style=" background: rgba(255, 125, 0, 0.2); color: #FF7D00;">
+					<i><img src="img/xingongyi/bq-c.png"></i><font>{{userInfoView.bmiValue}}</font><span>超重</span>
+				</p>
+				<p class="t2"><img src="img/xingongyi/jt-c.png"></p>
+			</div>
+			<div class="int" style="left: 4.6rem;" v-else-if="userInfoView.bmiValue>28">
+				<p class="t1" style=" background: rgba(255, 0, 0, 0.2); color: #FF0000;">
+					<i><img src="img/xingongyi/bq-d.png"></i><font>{{userInfoView.bmiValue}}</font><span>肥胖</span>
+				</p>
+				<p class="t2"><img src="img/xingongyi/jt-d.png"></p>
+			</div>	
+		</div>
+	</section>
+	<section class="bmi-box2">
+		<!--<p class="pp1">BMI≥28kg/m2为肥胖</p>-->
+		<p class="pp2">BMI=体重（kg）/身高（m2）</p>
+		<p class="txx" v-if="userInfoView.bmiValue<18.5">体重过低，易导致身体抵抗力下降，免疫力降低。</p>
+		<p class="txx" v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24">请继续保持。</p>
+		<p class="txx" v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28">超重是引起慢性病的重要危险因素，超重人群患高血压的危险是体重正常者的3~4倍，患糖尿病的危险是体重正常者的2~3倍。</p>
+		<p class="txx" v-else-if="userInfoView.bmiValue>28">肥胖是引起慢性病的重要危险因素，肥胖者中90%以上易患高血压或糖尿病，缺血性脑卒中发病的相对危险度为2.2。</p>
+	</section>
+	<section class="bmi-his">
+		<p class="btt">历史BMI数据</p>
+		<div id="main" style="width: 100%; height: 3rem;"></div>
+	</section>
+	
+</DIV>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script type="text/javascript" src="js/echarts/echarts.min.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var reportId = (getQueryString('reportId') || 'MK701IS000000031613891822337');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
+var clientType = (getQueryString("clientType") || ''); 
+var bank = (getQueryString('bank') || '');
+var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
+var localUrl = location.href;
+
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+var myApp = new Vue({
+	el: ".my_view",
+	data: function(){
+		return {
+			reportId: reportId,
+			reportType:reportType,
+			openId: openId,
+			userInfoView:{},
+			inspectDateStr:'',
+			hartViews:[],
+			vesselViews:[],
+			bloodViews:[],
+			mcrViews:[],
+			resultViews:[],
+			bpView:{},
+			xueyaresult:'',
+			someTit:'',
+			someTxt:'',
+			neReportver:{},
+			mobile:sessionStorage.getItem('mobile'),
+			xlist:[],
+			ylist:[]
+		}
+	},
+	mounted: function(){
+		this.getData();
+	},
+	methods: {
+		analysisMk701Report: function(){
+			var vm = this
+			$.ajax({
+				url : analysisreport + "/mk701/reportIndex/analysisMk701Report",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    targetName : 'BMI',
+				    mobile:vm.mobile
+				},
+				success : function(res) {
+					if(res.code == 200){
+						res.data.forEach(item => {
+							vm.xlist.push(item.createTimeStr)
+							vm.ylist.push(item.BMI)
+						})
+						console.log('x',vm.xlist)
+						console.log('y',vm.ylist)
+						
+					}else{
+						console.log('code = '+res.code)
+					}
+				},
+				error : function(obj,msg){alert("analysisMk701Report error")}
+			});
+		},
+		getData: function(){
+			var vm = this
+			$('.my_view').css("visibility","visible");
+			$('.load-overlay').css("display","none");
+			vm.userInfoView = JSON.parse(sessionStorage.getItem('userInfoView'));
+			vm.analysisMk701Report();
+			setTimeout(function(){
+				inchart(vm.xlist,vm.ylist)
+			},500)
+
+		},
+	}
+});
+function inchart(xlist,ylist){
+	var myChart = echarts.init(document.getElementById('main'));
+	option = {
+		grid:{
+			top:20,
+			bottom:20
+		},
+	    xAxis: {
+	        type: 'category',
+	        data: xlist
+	    },
+	    yAxis: {
+	        type: 'value',
+	        min:15,
+	        max:30
+	    },
+	    series: [{
+	        data: ylist,
+	        type: 'line',
+	        smooth: true,
+	        lineStyle:{
+	        	color:"#2BCCC0"
+	        },
+	        showSymbol:false
+	    }]
+	};
+	myChart.setOption(option);
+}
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

@@ -25,6 +25,12 @@
 		<p class="t404" id="megTxt">找不到此页面...</p>
 		<a id="goAddCard" href="" style="display: none; margin: 0 .3rem; background: #DEBB47; color: #fff; font-size: .3rem; border-radius: .1rem; line-height: .88rem; text-align: center;">去添加年卡</a>
 	</div>
+	<div id="showpic" style="display: none;">
+		<img src="img/page_01.jpg" class="img_b">
+		<img src="img/page_02.jpg" class="img_b">
+		<img src="img/page_03.jpg" class="img_b">
+		<img src="img/page_04.jpg" class="img_b">
+	</div>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
@@ -72,6 +78,9 @@ if(mycode == 401){
 	$('#megTxt').empty().html('<div style="text-align: left;">尊敬的用户您好：<br/>'+
        ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您还没有健康报告，请您到健康筛查机器人进行健康检测，检测后即可查看您的健康报告！<br/>'+
        ' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>');
+    $('header').hide()    
+    $('.myview').hide()   
+    $('#showpic').show()   
 	//$('#goAddCard').css("display","block");
 	//$('#goAddCard').attr("href",testHealthUrl+"/tjCard.html?userId="+myuserId);
 	zhuge.track('进入用户无报告页面', {//埋点t

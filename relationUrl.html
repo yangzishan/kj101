@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>扫码看报告</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+</head>
+<body>
+<DIV class="my_view" style="visibility: hidden;">
+<section id="appVue">
+
+	<div class="scewm">
+		
+		<p><span><button id="makeCode">长按识别二维码查看报告↓</button></span></p>
+	</div>
+	<div id="qrcode" class="cancode" style="margin-bottom: 100px; display: none;"></div>
+	
+	<div id="qrcode2" class="cancode" style="margin-bottom: 100px;"></div>
+	
+	
+	<p id="tip" style="text-align: center;">长按复制二维码</p>
+</section>
+</DIV>
+
+
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var relationUrl=getQueryString("relationUrl");
+$('.load-overlay').css("display","block");
+var myapp = new Vue({
+	el: '#appVue',
+	data: function(){
+		return {
+			startDate:'',
+			endDate:'',
+			discountType:'',
+			discountNum:'',
+			discountName:'',
+			
+		}
+	},
+	mounted:function(){
+		this.creatEwm()
+	},
+	methods:{
+		creatEwm: function(){
+			let vm = this;
+			
+		}
+	}
+});
+
+
+
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	//width : 100,
+	//height : 100
+});
+function makeCode (oText) {		
+	if (!oText) {
+		alert("Input a text");
+		return;
+	}
+	qrcode.makeCode(oText);
+	var myCanvas = document.getElementsByTagName('canvas')[0];
+    var img = convertCanvasToImage(myCanvas);
+    $("#qrcode2").append(img);
+}
+makeCode(relationUrl);
+setTimeout(function(){
+	$('.my_view').css("visibility","visible");
+	$('.load-overlay').css("display","none");
+},600)
+
+
+function convertCanvasToImage(canvas){
+	var image = new Image();
+	image.src = canvas.toDataURL("image/png");
+	return image;
+}
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+
+</script>
+</body>
+</html>

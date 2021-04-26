@@ -73,6 +73,8 @@ var v = new Vue({
 					vm.metricViews[index]['jianyi']  = item.threshholdSuggestion.split('\n') 
 				}
 			})
+			console.log('测量值',vm.leidaArr1)
+			console.log('平均值',vm.leidaArr2)
 			gochart();
 			gophy();
 		}

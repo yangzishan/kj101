@@ -117,8 +117,8 @@
 			<p class="picname"><i><img :src="'img/psy/bgtt'+item.metricId+'.png'"></i><span>{{item.metricName}}</span></p>
 			<p class="prc">
 				<span>过低</span><span>较低</span><span>适中</span><span>较高</span><span>过高</span>
-				<em v-if="item.threshholdType =='过低'" style="left: 10%;"><img src="img/psy/fubiao.png"></em>
-				<em v-if="item.threshholdType =='较低'" style="left: 30%;"><img src="img/psy/fubiao.png"></em>
+				<em v-if="item.threshholdType =='过低' || item.threshholdType =='过弱'" style="left: 10%;"><img src="img/psy/fubiao.png"></em>
+				<em v-if="item.threshholdType =='较低' || item.threshholdType =='较弱'" style="left: 30%;"><img src="img/psy/fubiao.png"></em>
 				<em v-if="item.threshholdType =='适中'" style="left: 48%;"><img src="img/psy/fubiao.png"></em>
 				<em v-if="item.threshholdType =='较高' || item.threshholdType =='较强'" style="left: 68%;"><img src="img/psy/fubiao.png"></em>
 				<em v-if="item.threshholdType =='过高'" style="left: 88%;"><img src="img/psy/fubiao.png"></em>

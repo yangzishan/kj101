@@ -86,6 +86,7 @@ var userId=getQueryString("userId");
 var openId=getQueryString("openId");
 var edition=getQueryString("edition"); //判断用哪一版页面显示首页
 var saasId=getQueryString("saasId");
+var relationUrl=(getQueryString("relationUrl") || '');
 if(edition==null){
 	edition = '';
 };
@@ -152,13 +153,18 @@ $.ajax({
 									zhuge.track('支付成功', { //埋点t
 										'方式': '卡支付'
 									},function(){
-										if(reportType == 121 || reportType == 122 || reportType == 123 || reportType == 12001){
-											location.href='report120.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
-										}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
-											location.href='report500.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+										if(relationUrl){
+											location.href = "relationUrl.html?relationUrl="+relationUrl
 										}else{
-											location.href='report'+reportType+'.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+											if(reportType == 121 || reportType == 122 || reportType == 123 || reportType == 12001){
+												location.href='report120.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+											}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
+												location.href='report500.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+											}else{
+												location.href='report'+reportType+'.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&reportType='+reportType+'&saasId='+saasId
+											}
 										}
+
 									});	
 								}else{
 									setTimeout(function(){$('#goPay').attr("disabled",false)},500);
@@ -202,12 +208,16 @@ $.ajax({ //判断是否已经支付，若支付就跳转报告
 	},
 	success: function(data){
 		if(data.code == 200){
-			if(reportType == 121 || reportType == 122 || reportType == 123 || reportType == 12001){
-				location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
-				location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+			if(relationUrl){
+				location.href = "relationUrl.html?relationUrl="+relationUrl
 			}else{
-				location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				if(reportType == 121 || reportType == 122 || reportType == 123 || reportType == 12001){
+					location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
+					location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}else{
+					location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
+				}
 			}
 		}
 	}

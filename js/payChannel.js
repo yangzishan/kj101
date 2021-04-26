@@ -92,8 +92,14 @@ var myApp = new Vue({
 			cardPrice:'', cardUseCount:'', //购买年卡用
 			language: language,
 			saasPayUrl:'', //判断SaaS支付
+			relationUrl:'' //判断是否跳转第三方关联
 		}
 	},
+	mounted: function() {
+		this.findPackage();
+		this.participate(reportId);
+		this.getRelationCompanyId();
+    },
 	methods: {
 		findPackage: function() {
 			var _this = this; 
@@ -156,13 +162,16 @@ var myApp = new Vue({
 					  		},
 					  	];
 					  	_this.findYearCardInfo(_this.snNum); //调用  查看配置购买年卡接口
-					  	if(!isEmptyObject(packageData.data.dataMap)){
+					  	if(!isEmptyObject(packageData.data.dataMap) && packageData.data.dataMap != null){
 					  		if(packageData.data.userState){
 								if(packageData.data.userState == 1){  //新用户
 									$('#olduser').remove();
-									_this.firstlist = packageData.data.dataMap.abnormalData.firstlist
-									_this.easysize = packageData.data.dataMap.abnormalData.easysize
-									_this.hardsize = packageData.data.dataMap.abnormalData.hardsize
+									if(packageData.data.dataMap.abnormalData){
+										_this.firstlist = packageData.data.dataMap.abnormalData.firstlist
+										_this.easysize = packageData.data.dataMap.abnormalData.easysize
+										_this.hardsize = packageData.data.dataMap.abnormalData.hardsize
+									}
+									
 									console.log('新用户')
 								}else if(packageData.data.userState == 2){ //老用户
 									$('#newuser').remove();
@@ -258,6 +267,45 @@ var myApp = new Vue({
 				}
 			).error(function(){alert('findPackage error')})
 		},
+		getRelationCompanyId: function(){ //获取关联租户id
+			var vm = this 
+			$.ajax({
+				url : dataUrl + "/api/v1/ne/getRelationCompanyId",
+			    type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId, //报告IDl
+				    companyId : saasId
+				},
+				success: function(res){
+					if(res.code == 200 && res.data.relationCompanyId){
+						vm.qrCodeCreateLastTicket(res.data.relationCompanyId)
+					}
+				},
+				error: function(){console.log('getRelationCompanyId error')}
+			});
+		},
+		qrCodeCreateLastTicket: function(relationCompanyId){ //生成关联用户二维码
+			var vm = this 
+			$.ajax({
+				url : saasUrl + "/api/v1/wxConfig/qrCodeCreateLastTicket",
+			    type : "POST",
+				dataType : 'json',
+				data : {
+				    qrScene : reportId, //报告IDl
+				    qrType : 2,
+				    saasId:relationCompanyId
+				},
+				success: function(res){
+					if(res.code == 200){
+						vm.relationUrl = res.qrcode.url
+						console.log(vm.relationUrl)
+					}
+				},
+				error: function(){console.log('qrCodeCreateLastTicket error')}
+			});
+		},
+		
 		isUsableByCustomerIdAndNeId: function(){ //判断优惠卷是否可用,返回有效期最短的优惠券
   			var vm = this;
   			$.ajax({
@@ -314,7 +362,7 @@ var myApp = new Vue({
 			var vm = this;
 			if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 				var paymentSuccJumpUrl = testHealthUrl+'/report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&source='+source
-			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 				var paymentSuccJumpUrl=testHealthUrl+'/report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&source='+source
 			}else{
 				var paymentSuccJumpUrl=testHealthUrl+'/report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId+'&source='+source
@@ -349,7 +397,6 @@ var myApp = new Vue({
 			}else{
 				if(vm.isFree == 1){
 					vm.updateCustomerSaas()
-					//vm.goReportIndex(reportId,userId,reportType);
 				}else if(vm.price == 0){
 					vm.updateFreeOrder(reportId,vm.packageId,vm.userId)
 				}else{
@@ -365,7 +412,7 @@ var myApp = new Vue({
 				'支付类型': pay.payChannelType
 			},function(){
 				if(pay.payChannelType == 3){ //口令支付
-					location.href='wordPay.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+'&packageId='+vm.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId+'&clientType='+clientType
+					location.href='wordPay.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+'&packageId='+vm.packageId+'&openId='+ openId+'&edition='+edition+'&saasId='+saasId+'&clientType='+clientType+'&relationUrl='+vm.relationUrl
 				}else if(pay.payChannelType == 5){ //支付宝app
 					setupWebViewJavascriptBridge(function(bridge) {
 						bridge.callHandler('aliPay', {'orderNum':vm.orderNum,'snNum':vm.snNum,'reportId':reportId,'price':vm.price}, function responseCallback(responseData) {})
@@ -377,7 +424,7 @@ var myApp = new Vue({
 				}else{
 					location.href='payOrder.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+
 					'&packageId='+vm.packageId+'&name='+vm.name+'&price='+vm.price+'&openId='+openId+
-					'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+vm.orderNum+'&payChannelType='+pay.payChannelType+'&saasId='+saasId
+					'&edition='+edition+'&payChannelId='+pay.payChannelId+'&orderNum='+vm.orderNum+'&payChannelType='+pay.payChannelType+'&saasId='+saasId+'&relationUrl='+vm.relationUrl
 				}
 			});	
 		},
@@ -386,7 +433,7 @@ var myApp = new Vue({
 			zhuge.track('选择支付方式点击',{
 				'支付方式': '卡支付'
 			},function(){
-				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition+'&saasId='+saasId
+				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition+'&saasId='+saasId+'&relationUrl='+vm.relationUrl
 			});
 		},
 		getPayChannel: function(snNum){ //支付通道
@@ -446,6 +493,7 @@ var myApp = new Vue({
 							$('#kaPay').css("display","none");
 						};
 					}else{
+						$('#kaPay').css("display","none");
 						console.log('查找用户可用支付卡 code= '+ data.code);
 					}
 				}
@@ -472,7 +520,7 @@ var myApp = new Vue({
 			}else{
 				if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 					location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
-				}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+				}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 					location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
 				}else{
 					location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+'&saasId='+saasId
@@ -523,7 +571,11 @@ var myApp = new Vue({
   					reportId: reportId
   				},
   				success: function(res){
-  					vm.goReportIndex(reportId,userId,reportType);
+  					if(vm.relationUrl){
+  						location.href = location.href = "relationUrl.html?relationUrl="+vm.relationUrl
+  					}else{
+  						vm.goReportIndex(reportId,userId,reportType);
+  					}
   					console.log(res);
   				},
   				error: function(){
@@ -533,10 +585,6 @@ var myApp = new Vue({
   			});
   		},
 	},
-	mounted: function() {
-		this.findPackage();
-		this.participate(reportId);
-    },
 });
 //获取url参数
 function getQueryString(name) {
@@ -575,7 +623,7 @@ setupWebViewJavascriptBridge(function(bridge) {
 	bridge.registerHandler('reloadReport', function(data, responseCallback) {
 		if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 			location.href='report120.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
-		}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+		}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 			location.href='report500.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType
 		}else{
 			location.href='report'+reportType+'.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType

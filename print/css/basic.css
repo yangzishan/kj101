@@ -7,7 +7,7 @@ div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,text
 margin:0;
 padding:0;
 border: 0;
-font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';
+/*font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';*/
 }
 ol,ul,li{ list-style: none;}
 img {max-width: 100%;height: auto;width:auto\9; /* ie8 */border: none;}

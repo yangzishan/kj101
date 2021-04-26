@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>电子病历报告</title>
+<link rel="stylesheet" type="text/css" href="../css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.history_b{ height: 100%; background: #fff;}
+.history_b .h_li{display: block; min-height: .88rem; padding: 0 .24rem; font-size: .28rem; border-bottom: #ddd solid .01rem;}
+.history_b .h_li .dat{ line-height: .88rem;}
+.history_b .h_li .arr{ width:.16rem; height: .88rem; background: url(../img/arr-r.png) no-repeat center; background-size: .12rem .24rem; margin-left: .3rem;}
+.history_b .h_li .num{ line-height: .88rem;}
+</style>
+</head>
+<body>
+<div class="my_view">
+	<section id="appVUE">
+		
+		<div class="history_b" id="thelist">
+			
+			<template v-if="source == 'khyapp'">
+				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+					<span class="dat">{{item.inspectDateStr}}</span>
+					<i class="arr fr"></i><span class="num fr">{{item.nickName.slice(0,3)}}</span>
+					<span class="fr num" style="margin-right: .4rem;">{{item.mobile}}</span>
+				</a>
+			</template>
+			<template v-else-if="source == 'psyc'">
+				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+					<span class="dat">{{item.inspectDateStr}}</span>
+					<i class="arr fr"></i>
+				</a>
+			</template>
+			<template v-else>
+				<a class="h_li" v-for="item in dataList" @click="gotosee($event,item)">
+					<span class="dat">{{item.inspectDateStr}}</span>
+					<template v-if="item.reportType == 910">
+						<i class="arr fr"></i><span class="num fr">{{item.diseaseName}}</span>
+					</template>
+					<template v-else>
+						<i class="arr fr"></i><span class="num fr">{{item.totalScore}}分</span>
+					</template>
+				</a>
+			</template>
+				
+		</div>
+	</section>
+</div>
+<div class="v_overlay"></div>
+<div class="daifu_d" style="display: none;">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>document.write('<script src="js/history.js?t=' + new Date().getTime() + '"><\/script>')</script>
+</body>
+</html>

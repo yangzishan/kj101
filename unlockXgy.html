@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>解锁</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style>
+.saastop{ height: 1.42rem; background-size:100% 1.42rem;}
+.saastop p.tit{ color: #ffffff; font-size: .38rem; text-align: center; line-height: .66rem;}
+h4.bt{color: #636b7f; font-size: .36rem; font-weight: bold; line-height: .6rem; margin: 0 .3rem;}
+body .jiesuo{display: block; width:100%; height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .35rem; text-align: center; line-height: .88rem;}
+body .new .form{width:100%;padding:5%;margin-bottom:.6rem;padding-bottom:.2rem; font-size: .32rem;}
+body .new .form > div{display:inline-block;width:45%;height:1.3rem;text-align:center;line-height:1.3rem;font-size:.48rem;border-radius:25px 7px}
+body .new .form > div:last-child{float:right}
+body .new .form .active{background:#00d6ca;color:#fff}
+body .new .box-form{padding:0 1.2rem;border-radius:5px;padding-bottom:.3rem}
+body .new .box-form .list{margin-bottom:.3rem; display: flex; display: -webkit-flex;}
+body .new .box-form .list > .keky{width:1.3rem;display:block; line-height: .6rem;  font-size: .32rem;}
+body .new .box-form .list > span.int{ flex: 1;-webkit-flex: 1; display:block}
+body .new .box-form .list > span.dw{width: .5rem; display:block; text-align: right;  font-size: .32rem;}
+body .new .box-form .list:not(:nth-child(3))  input{-webkit-appearance:input;height:.6rem;border-radius:3px;border:1px solid #000;text-align:right;padding-right:7px; width: 100%; font-size: .32rem;}
+body .new .box-form .list input.danx{-webkit-appearance:radio;vertical-align:-0.02rem;border:1px solid #000}
+body .new .box-form .list [for=sex1]{margin-right:.5rem}
+body .new .box-form .list #height,body .new .box-form .list #weight{margin-right:6px}
+body .new .box-form .list em{ color: #F10000;}
+body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
+.txlist{ margin: 0 .24rem; padding: .3rem .2rem; border-radius: .17rem; background: #ffffff;}
+.txlist li{ height: .72rem; line-height: .72rem;}
+.txlist li i{ display: inline-block; width: .1rem; height: .1rem; vertical-align: top; background: #02cbc0; border-radius: 50%; margin: .31rem .11rem 0 0;}
+.txlist li span{ font-size: .32rem; color: #747588;}
+.biaoti{ font-size: .5rem; margin-bottom: .5rem;}
+.tipp{ line-height: .4rem; font-size: .3rem;}
+</style>
+</head>
+<body>
+<section id="vm">
+	
+	<template>
+		<div style="padding: 1rem .3rem .3rem; text-align: center; color: #429895;">
+			<a class="t-right fr" @click="gohistory()" style="display: none;"><i class="i_c"><img src="img/i-his.png"></i>邀约历史</a>
+			<p class="biaoti">守护您的心血管健康</p>
+			<p class="tipp">为保证检测准确性，<br>请正确填写您的个人信息</p>
+		</div>
+		
+		<div class="new" style="padding: .2rem 0 0;">
+			<div class="box-form">
+				<div class="list">
+					<label for="userName" class="keky"><em>*</em> 姓　名</label>
+					<span class="int"><input type="text" id="userName" name="userName"/></span>
+				</div>
+				<div class="list">
+					<label for="age" class="keky"><em>*</em> 年　龄</label>
+					<span class="int"><input type="number" id="age" name="age" pattern="\d*"/></span>
+				</div>
+				<div class="list">
+					<font class="keky"><em>*</em> 性　别</font>
+					<span class="int" style="padding: 0 0 0 .5rem;">
+						<input class="danx" type="radio" id="sex1" name="sex"  value="1"> <label for="sex1" style="margin-right: 1rem;">男</label>
+						<input class="danx" type="radio" id="sex2" name="sex" value="2"> <label for="sex2">女</label>
+					</span>
+				</div>
+				<div class="list" v-if="userRegisterVer == 2">
+					<label for="idcardNo" class="keky">身份证</label>
+					<span class="int"><input type="number" id="idcardNo" name="idcardNo" pattern="\d*"/></span>
+				</div>
+				<div class="list">
+					<label for="height" class="keky"><em>*</em> 身　高</label>
+					<span class="int"><input type="number" id="height" name="height" pattern="\d*"/ onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></span><span class="dw">cm</span>
+				</div>
+				<div class="list">
+					<label for="weight" class="keky"><em>*</em> 体　重</label>
+					<span class="int"><input type="number" id="weight" name="weight" pattern="\d*"/ onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></span><span class="dw">kg</span>
+				</div>
+				<div class="list">
+					<label for="tel" class="keky"><em>*</em> 手机号</label>
+					<span class="int"><input type="tel" id="tel" name="tel" pattern="\d*"/></span>
+				</div>
+				<div class="list tishi">
+					请填写必填内容
+				</div>
+				
+			<!--<div style="color: #FF8866; font-size: .24rem; line-height: .32rem; margin-top: .2rem;">邀约检测频繁会遇到公众号消息限制，收不到报告消息，需要向公众号发送消息 或点击公众号菜单进行恢复。</div>-->
+				
+			</div>
+		</section>
+		
+		<div style="margin: 0 .75rem;">
+			<button @click="unlock()" class="jiesuo" >
+				解 锁
+			</button>
+		</div>
+	</template>
+		
+
+		
+</section>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var data = {};
+var openId = getQueryString('openId');
+var saasId = getQueryString('saasId');
+var deviceSn = getQueryString('deviceSn');
+var jumpUrl = getQueryString('jumpUrl');
+var userRegisterVer = getQueryString('userRegisterVer')
+
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'Health report'
+}
+
+var ipt = $('#number');
+    ipt.on('keyup',function(){
+        if(! /^\d+$/.test(this.value)){
+            this.value='';
+        }
+    })
+
+var customerInviteVo = {}
+var info = {
+	openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl,customerInviteVo:customerInviteVo
+}
+
+var myApp = new Vue({
+	el: '#vm',
+	data: function(){
+		return{
+			openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl,
+			language:languageStr,
+			userRegisterVer: userRegisterVer
+		}
+	},
+	methods: {
+		unlock: function(){
+			var vm = this;
+				var flag = false;
+				$('.tishi').css('display','none');
+				data.age = $('#age').val();
+				data.gender = $('[name=sex]:checked').val();
+				data.height = $('#height').val();
+				data.weight = $('#weight').val();
+				data.userTel = $('#tel').val();
+				data.nickName = $('#userName').val();
+				data.registerUser = 1;
+				data.saasId = saasId;
+				data.deviceSn = deviceSn;
+				data.inviterId = openId;
+				$.each(data,function(key,val){
+					console.log(key+" == "+val)
+					if(val == '' || val == undefined){
+						flag = true;
+					}
+				})
+				console.log(data)
+				if(flag){
+					console.log(flag);
+					$('.tishi').css('display','block');
+					return;
+				}
+				if(vm.userRegisterVer == 2){
+					data.idcardNo = $('#idcardNo').val();
+				}
+				info.customerInviteVo = data
+				$.ajax({
+					type:"post",
+					url: saasUrl+ "/api/v1/ne/neUnlock",
+					dataType: 'json',
+					contentType : 'application/json',
+					data : JSON.stringify(info),
+					success: function(res){
+						if(res == 200){
+							console.log('success')
+							WeixinJSBridge.call('closeWindow');
+						}else if(res.code == 40001){
+							alert(res.msg)
+						}else if(res.code == 300){
+							alert(res.msg)
+						}
+					},
+					error: function(err){alert('unlock error');
+						console.log(err)
+					}
+				});
+		},
+		gohistory:function(){
+			var vm = this
+			location.href = "historyRecord.html?openId="+openId+'&invite='+'invite'+'&saasId='+saasId
+		},
+	},
+	mounted: function(){
+		
+	}
+});
+
+	
+//获取url参数
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+}
+
+</script>
+</body>
+</html>

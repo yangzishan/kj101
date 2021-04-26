@@ -45,7 +45,8 @@ var myApp = new Vue({
 			resource: resource,
 			userId: userId,
 			dataList: '',
-			invite: invite
+			invite: invite,
+			reportUrl:''
 		}
 	},
 	mounted:function(){
@@ -104,10 +105,12 @@ var myApp = new Vue({
 						var reportType = res.data.reportType;
 						var cansee = (reportSource == 5?'jgj':'');  //判断金管家 reportSource=5 
 						var reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+open+"&reportType="+reportType+'&saasId='+saasId+'&clientType='+clientType+'&source='+source+'&cannsee='+cansee+'&invite='+invite;
+						
+						
 						if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	
-							$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请您联系你的业务员');
+							$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请联系机构管理员查阅健康报告。');
 							$('.daifu_d .tip').remove();
 							$('#iknow').click(function(){
 								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
@@ -116,15 +119,16 @@ var myApp = new Vue({
 								//location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas;
 							});
 						}else{
-							if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
-								location.href = 'report120.html'+reportUrl
-							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
-								location.href = 'report500.html'+reportUrl
-							}else if(reportType < 5){
-								location.href = 'report5.html'+reportUrl
-							}else{
-								location.href = 'report'+reportType+'.html'+reportUrl
-							}
+							vm.delayedSendData(report,reportType,reportUrl)
+//							if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
+//								location.href = 'report120.html'+reportUrl
+//							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
+//								location.href = 'report500.html'+reportUrl
+//							}else if(reportType < 5){
+//								location.href = 'report5.html'+reportUrl
+//							}else{
+//								location.href = 'report'+reportType+'.html'+reportUrl
+//							}
 						}		
 					}else{
 						console.log('analysisReportFace code='+res.code+' msg='+res.msg)
@@ -132,7 +136,65 @@ var myApp = new Vue({
 				},
 				error: function(){alert('analysisReportFace error')}
 			});
-		}
+		},
+		delayedSendData: function(reportId,reportType,reportUrl){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/reportIndex/delayedSendData",
+				data:{
+					reportId: reportId
+				},
+				dataType:"Json",
+				success:function(res){
+					if(res.data != null || res.data == ''){
+						if(res.data.sendReportType == 0 || res.data.isVisible == 0){
+							console.log('提示页')
+							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+							$('.daifu_d').css("display","block");	
+							$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请联系机构管理员查阅健康报告。');
+							$('.daifu_d .tip').remove();
+							$('#iknow').click(function(){
+								$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+								$('.daifu_d').css("display","none");
+								//WeixinJSBridge.call('closeWindow');
+								//location.href = 'historyRecord.html?userId='+res.data.customerId+'&openId='+open+'&saasId='+saas;
+							});
+						}else{
+							if(res.data.sendReportType == 1 && res.data.sendStatus != 1){
+								console.log('提示页')
+								$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+								$('.daifu_d').css("display","block");	
+								$('.daifu_d .tit').text('亲，您目前无法查看该份报告，请联系机构管理员查阅健康报告。');
+								$('.daifu_d .tip').remove();
+								$('#iknow').click(function(){
+									$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+									$('.daifu_d').css("display","none");
+								});
+							}else{
+								vm.goReportPage(reportType,reportUrl)
+							}
+						};
+					}else{
+						vm.goReportPage(reportType,reportUrl)
+					}
+				},
+				error: function(){alert('delayedSendData error')}
+			});
+		},
+		goReportPage: function(reportType,reportUrl){
+			var vm = this
+			console.log('gobaogao')
+			if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
+				location.href = 'report120.html'+reportUrl
+			}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503 ){
+				location.href = 'report500.html'+reportUrl
+			}else if(reportType < 5){
+				location.href = 'report5.html'+reportUrl
+			}else{
+				location.href = 'report'+reportType+'.html'+reportUrl
+			}
+		},
 	}
 });
 //截取URL 获取

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style type="text/css">
+.topp{background: linear-gradient(134deg, #7FACEF 0%, #548FE8 100%); height:1.5rem; line-height: .88rem; width: 100%; position: relative; color: #ffffff;}
+.topp .bac{ display: inline-block; height: .88rem; padding: .22rem; width: .64rem; position: relative; z-index: 999;}
+.topp .lab{ position: absolute; left: 0; top: 0; width: 100%; line-height: .88rem; text-align: center; font-size: .32rem; font-weight: 600;}
+.shipin-d{margin: -.62rem auto .4rem; width: 6.9rem; height: 4rem; border-radius: .3rem;background: rgba(0, 32, 72, 0.6); position: relative;}
+.item-box{ border-radius: .5rem .5rem 0 0; background: #ffffff; padding: 0 .4rem 1rem;}
+.item-box .btt{ height: 1rem;}
+.item-box .btt .lab{ line-height: 1rem; font-size: .3rem; font-weight: 600; color: #666666;}
+.item-box .btt .tags{ font-size: 0; text-align: right; min-height: 1rem; float: right;}
+.item-box .btt .tags em{display: inline-block; vertical-align: top; height: .4rem; border-radius: .2rem; line-height: .4rem; text-align: center; padding: 0 .15rem; background: #FFEAEA; color: #FF5E5E; font-size: .28rem; margin: .3rem .15rem 0;}
+.item-box .ite{}
+.item-box .ite .lab{ display: inline-block; line-height: .4rem; color: #FF5E5E; font-size: .28rem; margin: .3rem 0;}
+.item-box .ite .tx{ line-height: .45rem; font-size: .26rem;}
+</style>
+</head>
+<body style="background: #F7FAFB;">
+<DIV class="my_view newxgy" style="visibility: visible;">
+	<div class="topp">
+		<a class="bac" href="javascript:history.go(-1);"><img src="img/arr-b.png" class="img_b"></a>
+		<span class="lab">{{datainf.resultName}}</span>
+	</div>
+	<div class="shipin-d" v-if="datainf.resultVideo" style="overflow: hidden;">
+		<video width="100%" controls preload="auto" :poster="datainf.videoImg">
+		  	<source :src="datainf.resultVideo" type="video/mp4">
+			您的浏览器不支持Video标签。
+		</video>
+	</div>
+	<section class="item-box">
+		<div class="btt">
+			<span class="lab">诊断结果</span>
+			<p class="tags"><em>{{datainf.resultName}}</em><!--<em>心肌炎</em>--></p>
+		</div>
+		<p style="height: 1px; background: #dddddd; margin: .1rem 0;"></p>
+		<div class="ite">
+			<!--<p class="lab">高搏血</p>-->
+			<div class="tx" v-if="datainf.resultDetail">
+				解释:{{datainf.resultDetail}}
+			</div>
+			<p style="height: 1px; background: #dddddd; margin: .1rem 0;" v-if="datainf.resultExplain"></p>
+			<div class="tx" v-if="datainf.resultExplain">
+				建议:<br/> {{datainf.resultExplain}}
+			</div>
+		</div>
+	</section>
+	
+</DIV>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script type="text/javascript" src="js/echarts/echarts.min.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var reportId = (getQueryString('reportId') || 'MK701IS000000031613891822337');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
+var clientType = (getQueryString("clientType") || ''); 
+var bank = (getQueryString('bank') || '');
+var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
+var localUrl = location.href;
+
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+var myApp = new Vue({
+	el: ".my_view",
+	data: function(){
+		return {
+			reportId: reportId,
+			reportType:reportType,
+			openId: openId,
+			userInfoView:{},
+			inspectDateStr:'',
+			
+			datainf:{}
+		}
+	},
+	mounted: function(){
+		this.getData();
+	},
+	methods: {
+		getData: function(){
+			var vm = this
+			$('.my_view').css("visibility","visible");
+			$('.load-overlay').css("display","none");
+			
+			vm.datainf =  JSON.parse(sessionStorage.getItem("item"))
+			if(vm.datainf.resultDetail){
+				vm.datainf.resultDetail = vm.datainf.resultDetail.replace(/\n/g,'<br/>')
+			}
+			console.log(vm.datainf)
+		},
+	}
+});
+
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

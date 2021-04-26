@@ -26,7 +26,7 @@ input[type="button"],
 input{-webkit-appearance:none; resize: none;}
 button{font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 /*初始化结束 */
-.my_view{ height: 100%; font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
+.my_view{ height: 100%; font-family:'PingFangSC-Medium', 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .v_view{ height: 100%;font-family: 'PingFang SC','San Francisco','Droid Sans','Microsoft YaHei';}
 .v_port{ padding: 0 .25rem .5rem; -webkit-overflow-scrolling: touch;}
 .k1{height: .2rem;}

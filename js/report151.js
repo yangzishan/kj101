@@ -44,6 +44,7 @@ var myApp = new Vue({
 	el: "#appVUE",
 	data: function(){
 		return {
+			source:source,
 			invite:invite,
 			reportId: reportId,
 			customerId: customerId,

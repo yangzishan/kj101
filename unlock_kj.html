@@ -65,7 +65,7 @@ body .loadmore{display:block}
     </p>
     <p class="cpxt reportType120" >
 			<span class="lab">年龄</span><!--年龄-->
-			<span class="fle"><input type="number" id="age" v-model="userData.age" placeholder="请填写真实年龄(18岁-80岁)"   pattern="[0-9]*"></span>
+			<span class="fle"><input type="number" id="age" v-model="userData.age" placeholder="请填写真实年龄(18岁-110岁)"   pattern="[0-9]*"></span>
 	</p>
 	<p class="cbtn"><button id="yaoyue_kj"  @click="soSub()" style="background: #2ebab1;">确定</button></p>
 	
@@ -141,8 +141,8 @@ var app = new Vue({
 			      	showMask('请输入正确的体重');
 			      	return false;
 			    };
-			    if(vm.userData.age == '' || parseFloat(vm.userData.age) < 18 || parseFloat(vm.userData.age) >80){
-					showMask('请输入18到80之间的有效年龄');
+			    if(vm.userData.age == '' || parseFloat(vm.userData.age) < 18 || parseFloat(vm.userData.age) >110){
+					showMask('请输入18到110之间的有效年龄');
 		      		return false;
 				}
 	      		console.log('jin sao ma')

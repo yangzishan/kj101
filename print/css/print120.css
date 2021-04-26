@@ -13,8 +13,8 @@
 .print-index ul li .right .key{float:left;width:80px;text-align-last:justify}
 .print-index ul li .right .value{float:left}
 .print-index .banner{width:260px;margin:0 auto}
-.print-index .slogan{padding:30px 50px;display:flex}
-.print-index .slogan div{flex:1;text-align:center;color:#8abc29;font-size:22px;letter-spacing:5px}
+.print-index .slogan{/*display:flex*/ height: 66px; line-height: 66px; font-size: 0;}
+.print-index .slogan div{/*flex:1;*/ display:inline-block ; width:49.5%;text-align:center;color:#8abc29;font-size:22px;}
 .print-index .bottom{font-size:30px;color:#259a91;text-align:center;line-height:50px;letter-spacing:12px;font-weight:bold}
 .print-assess{padding:30px 50px}
 .print-assess .title{color:#23a197;text-align:center;font-size:25px;font-weight:bold;padding-bottom:50px}
@@ -41,21 +41,21 @@
 .print-advise .grid .grid-name .grid-left{float:left;width:180px;display:flex}
 .print-advise .grid .grid-name .grid-left span{padding-left:20px;flex:1;text-align:center}
 .print-advise .grid .grid-name .state{float:left;text-align:center;width:200px;color:#e73622}
-.print-advise .grid .list{display:flex;justify-content:center;align-items:center;border-top:1px solid #686868}
-.print-advise .grid .left{height:35px;line-height:35px;width:180px;padding:0 10px;display:flex}
+.print-advise .grid .list{/*display:flex;justify-content:center;align-items:center;*/border-top:1px solid #686868;overflow: hidden; position: relative;}
+.print-advise .grid .left{height:35px;line-height:35px;width:180px;padding:0 10px;/*display:flex*/ float: left; position: absolute; top: 50%; margin-top: -18px;}
 .print-advise .grid .left .score{width:20px}
 .print-advise .grid .right .score{width:20px;padding-left:10px}
-.print-advise .grid .left .name,.print-advise .grid .right .name{flex:1}
+.print-advise .grid .left .name,.print-advise .grid .right .name{/*flex:1*/ display: inline-block;}
 .print-advise .grid .left .state{width:60px;text-align:right}
-.print-advise .grid .right .state{width:30px;text-align:right}
-.print-advise .grid .right{flex:1;overflow:hidden;border-left:1px solid #686868}
-.print-advise .grid .right .item{float:left;width:50%;line-height:35px;padding:0 10px;display:flex;border-top:1px solid #686868}
+.print-advise .grid .right .state{width:30px;text-align:right; float: right;}
+.print-advise .grid .right{/*flex:1;*/overflow:hidden;border-left:1px solid #686868;width: 418px; float: right;}
+.print-advise .grid .right .item{float:left;width:50%;line-height:35px;padding:0 10px;/*display:flex;*/border-top:1px solid #686868}
 .print-advise .grid .right .item:nth-child(1){border-top:0}
 .print-advise .grid .right .item:nth-child(2){border-top:0}
 .print-advise .grid .right .item:nth-child(n){border-right:1px solid #686868}
 .print-advise .grid .right .item:nth-child(2n){border-right:0}
 .print-advise .detail{padding-top:50px}
-.print-advise .detail .title{position:relative;width:300px}
+.print-advise .detail .title{position:relative;width:300px;}
 .print-advise .detail .title .nav{height:100%;color:#fff;line-height:40px;text-align:center;font-size:16px}
 .print-advise .detail .img-box{margin-top:30px;overflow:hidden;color:#49948f}
 .print-advise .detail .img-box .img{width:150px;position:relative;float:left}

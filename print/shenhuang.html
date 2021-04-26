@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title></title>
+</head>
+<body>
+<div id="app">
+  <iframe class="frameDemo" id="zk_iframe" width="100%" height="2000" :src="iframeurl"></iframe>
+</div>
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script src="js/md5.js"></script>
+<script>
+	var myapp = new Vue({
+		el:'#app',
+		data:function(){
+			return{
+				dataInfo:[],
+                customerInfo: [],
+                timestamp: Math.round(new Date()/1000),
+                key: 'hm2yja74',
+                secret: 'eqy9u130sapzx47d',
+                device_id: 'f7aed911b5e7f4d1',
+                next: '/kangjia/fang/',
+                zkurl:'https://www.zk120.com/openapi/device/login?',
+                iframeurl: ''
+			}
+		},
+		mounted:function(){
+			this.sign = hex_md5('device_id='+this.device_id+'&key='+this.key+'&next='+this.next+'&timestamp='+this.timestamp+this.secret)
+          	this.iframeurl = this.zkurl+'device_id='+this.device_id+'&key='+this.key+'&next='+this.next+'&timestamp='+this.timestamp+'&sign='+this.sign;
+		}
+	})
+	
+</script>
+</body>
+</html>

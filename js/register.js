@@ -11,6 +11,7 @@ if(userId == null || userId == ''){
 var edition=getQueryString("edition");  //暂时没用了
 var saasId = (getQueryString('saasId') || '');
 var reportType = getQueryString("reportType");
+var userRegisterVer = (getQueryString('userRegisterVer') || '')
 
 /*扫码转增优惠券用  带userId*/
 var voucherId = getQueryString("voucherId"); //优惠券id
@@ -49,7 +50,8 @@ var myapp = new Vue({
 			saasName: '',
 			saasLogo:'',
 			userNotice:'',
-			optionInt:''//业务员选填
+			optionInt:'',//业务员选填
+			userRegisterVer:userRegisterVer
 		}
 	},
 	methods:{
@@ -90,8 +92,8 @@ $('#age').blur(function(){
         window.scrollTo(0, Math.max(scrollHeight - 1, 0));  //解决微信浏览器键盘收回页面下不来的问题
 
 		var age = parseInt($('#age').val());
-		if(age < 18 || age >80 ||  isNaN(age)){
-			showMask('请输入18到80之间的有效年龄');
+		if(age < 18 || age >110 ||  isNaN(age)){
+			showMask('请输入18到110之间的有效年龄');
 			return;
 		}
 	}, 100);
@@ -223,8 +225,8 @@ $('#nextAll').on("click",function(){
 		}
 	};
 	var age = parseInt($('#age').val());
-	if(age < 18 || age >80 ||  isNaN(age)){
-		showMask('请输入18到80之间的有效年龄');
+	if(age < 18 || age >110 ||  isNaN(age)){
+		showMask('请输入18到110之间的有效年龄');
 		return;
 	}else{
 		$('.v_overlay').css({"visibility":"visible","opacity":"1"});

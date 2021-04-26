@@ -80,8 +80,9 @@ var userId=getQueryString("userId");
 var openId=getQueryString("openId");
 var saasId=getQueryString("saasId");
 var clientType = getQueryString("clientType");
-var reqUrl = window.location.href;
+var relationUrl=(getQueryString("relationUrl") || '');
 
+var reqUrl = window.location.href;
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
 	var language = zh;
@@ -122,10 +123,14 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == "200"){
-						if(res.data == 5){
-							location.href = "jinguanjia.html"
+						if(relationUrl){
+							location.href = "relationUrl.html?relationUrl="+relationUrl
 						}else{
-							vm.goReport(reportId,'',userId,openId,saasId,'')
+							if(res.data == 5){
+								location.href = "jinguanjia.html"
+							}else{
+								vm.goReport(reportId,'',userId,openId,saasId,'')
+							}
 						}
 					}
 				},
@@ -165,7 +170,7 @@ var myApp = new Vue({
 						}else{
 							if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 							location.href = 'report120.html'+reportUrl
-							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505){
+							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){
 								location.href = 'report500.html'+reportUrl
 							}else if(reportType < 5){
 								location.href = 'report5.html'+reportUrl
@@ -193,7 +198,7 @@ var myApp = new Vue({
 						//alert(codeType);
 						var passwd_val = (getParameter(resultcode,"passwd_val") || '');
 						//alert(passwd_val);
-		                if(codeType == 2){
+		                if(codeType == 2 || codeType >=1){
 		                	vm.updateYearWordPay(passwd_val);
 		                }else{
 		                	vm.goMethod(resultcode);

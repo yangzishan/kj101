@@ -11,17 +11,20 @@ var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
 var invite = getQueryString("invite");  //邀约历史查看
+
+var languageStr = (getQueryString('language') || '');
+
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print2.0.html?viewType=2&reportId=';
 var edition = 2;
-if(reportType == 5 || reportType < 6){
-	var indexAll_data = '/api/v1/reportIndex/indexAll2'
-	var targetImprove_data = '/api/v2/reportIndex/targetImprove'
-}else if(reportType == 500){ //适配501报告
+
+var indexAll_data = '/api/v1/reportIndex/indexAll2'
+var targetImprove_data = '/api/v2/reportIndex/targetImprove'
+if(reportType == 500 || reportType == 503){ //适配501报告
 	var indexAll_data = '/api/v5/reportData/indexAll2'
 	var targetImprove_data = '/api/v5/reportData/targetAnalyse'
 	$('header').css("display","none")
-};
+}
 var payStr = '';
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 if(clientType || !openId){
@@ -32,19 +35,32 @@ if(clientType || !openId){
 		gohistoryUrl = 'historyRecord.html?userId='+customerId+'&saasId='+saasId+'&resource='+resource+'&clientType='+clientType+'&source='+source
 	}
 };
-var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
-if(JsSrc.indexOf('zh')>=0){
-	var language = zh;
-	var languageStr = 'zh';
-}else if(JsSrc.indexOf('en')>=0){
-    var language = en;
-    var languageStr = 'en';
-    document.title = 'Health report'
+
+var language = zh;
+if(languageStr == 'zh'){
+	language = zh;
+}else if(languageStr == 'en'){
+	language = en;
 }else{
-	var language = en;
-    var languageStr = 'en';
-    document.title = 'Health report'
+	var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+	if(JsSrc.indexOf('zh')>=0){
+		language = zh;
+		languageStr = 'zh';
+	}else if(JsSrc.indexOf('en')>=0){
+	    language = en;
+	    languageStr = 'en';
+	    document.title = 'Health report'
+	}else{
+		language = zh;
+	    languageStr = 'zh';
+	    //document.title = 'Health report'
+	    console.log(JsSrc)
+	}
 }
+
+	
+
+
 /*******************************交互逻辑*****************************/
 function setupWebViewJavascriptBridge(callback) {
 	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
@@ -102,10 +118,18 @@ var myApp = new Vue({
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
 			language: language,  //默认中文
+			jiazhuangScore:'',
+			someTit:'', //弹框用
+			someTxt:'', //弹框用
+			jiazhuangxian:{},
+			thirdBids:[],
 		}
 	},
 	mounted: function(){
 		this.getData();
+		if(reportType == 503){
+			this.findReportTotalScore()
+		}
 	},
 	methods: {
 		//查看报告来源
@@ -130,6 +154,33 @@ var myApp = new Vue({
 				error: function(){console.log('getReportSource error')}
 			});
 		},
+		findReportTotalScore: function(){ //报告总分历史趋势
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/v1/ne/findReportTotalScore",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    customerId : customerId,
+				    saasId : saasId,
+				    reportType:reportType
+				},
+				success : function(trendData) {
+					if(trendData.code == 200){
+						var arryDate = [],arryVal = [];
+						for(var i=0;i<trendData.data.length;i++){
+							arryDate.push(trendData.data[i].inspectDateStr);
+							//arryVal.push(trendData.data[i].score);
+							arryVal.push(trendData.data[i].totalScore);
+						};
+						console.log(arryDate);
+						console.log(arryVal);
+						intchart('ichart','',arryDate,arryVal);
+					}
+				},
+				error : function(obj,msg){alert(obj  + msg);}
+			});
+		},
 		goToShare: function(fangfa){  //goToShare\goToPrint
 			var vm = this;
 			setupWebViewJavascriptBridge(function(bridge) {
@@ -143,6 +194,64 @@ var myApp = new Vue({
 					'reportName': vm.ranking
 				}, function responseCallback(responseData) {});
 			})
+		},
+		targetProposal: function(){ //查询甲状腺
+			var vm = this
+			$.ajax({
+				url : dataUrl + "/api/v1/reportIndex/targetProposal",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetId : 3122
+				},
+				success : function(res) {
+					if(res.code == 200){
+						vm.jiazhuangxian = res.data.guideThirdVo
+						vm.jiazhuangScore = res.data.guideThirdVo.score
+					}
+				},
+				error : function(obj,msg){alert("targetProposal error")}
+			});
+		},
+		findAllThird: function(){ //查三级指标
+			var vm = this
+			$.ajax({
+				url : dataUrl + "/api/v2/reportThird/findAllThird",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				},
+				success : function(res) {
+					if(res.code == 200){
+						vm.thirdBids = res.data
+					}
+				},
+				error : function(obj,msg){alert("findAllThird error")}
+			});
+		},
+		goThird2: function(e,item){
+			var vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.targetThirdName,
+				'指标得分':item.score,
+				'方式' : '通过保险版本首页'
+			},function(){
+				if(item.targetThirdId == '3230'){
+					console.log('不跳')
+				}else{
+					location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+vm.userId+'&deviceSn='+vm.deviceSnNum+'&languageStr='+languageStr
+				}
+			});
+		},
+		showSome: function(tit,txt){
+			txt = txt.replace(/\/n|\\n/g,'<br>')
+			this.someTit = tit
+			this.someTxt = txt
+			showMask();
+			$('#showSome').css({"visibility":"visible","opacity":"1"});
 		},
 		getSaasTenantByCompanyId: function(){//查询SaaS信息
 			var vm = this;
@@ -187,6 +296,8 @@ var myApp = new Vue({
 						vm.getReportSource();
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
+						vm.targetProposal();
+						vm.findAllThird();
 						vm.totalScore = res.data.indexPage.totalScore, //全部得分
 				   		vm.inspectDate = res.data.indexPage.inspectDate, //检测日期
 				    	vm.ranking = res.data.indexPage.ranking, //排名
@@ -338,7 +449,7 @@ var myApp = new Vue({
 		},
 		//判断支付页面
 		participate: function(paymentType,sameUser){
-			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType
+			payStr = '?reportId='+reportId+'&userId='+customerId+'&openId='+openId+'&sameUser='+sameUser+'&edition='+edition+'&reportType='+reportType+'&saasId='+saasId+'&clientType='+clientType+'&paymentType='+paymentType+'&languageStr='+languageStr
 			if(languageStr == 'en'){
 				location.href="pay_en.html"+payStr
 			}else{
@@ -348,6 +459,8 @@ var myApp = new Vue({
 					location.href="pay_type4.html"+payStr
 				}else if(paymentType == 2){
 					location.href="pay_coupon.html"+payStr
+				}else if(paymentType == 5){
+					location.href="pay980.html"+payStr
 				}else{
 					location.href="payfor.html"+payStr
 				}
@@ -394,7 +507,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId+'&saasId='+saasId
+				location.href = dataUrl + "/wxUser/wxUserReport?jumpUrl=uiUser&userId=" + vm.userId + '&reportId='+ reportId+'&saasId='+saasId+'&languageStr='+languageStr
 			});	
 		},
 		getSuggest: function(e){ //健康建议
@@ -403,7 +516,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType
+				location.href = 'z_pop.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType+'&languageStr='+languageStr
 			})
 		},
 		getRecipesData: function(e){ //健康食谱
@@ -412,7 +525,7 @@ var myApp = new Vue({
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType
+				location.href = 'recipes.html?reportId='+reportId+'&edition='+edition+'&reportType='+reportType+'&languageStr='+languageStr
 			})
 		},
 		goThird: function(e,item){
@@ -423,7 +536,7 @@ var myApp = new Vue({
 				'指标得分':item.score,
 				'方式' : '通过2.0版本首页'
 			},function(){
-				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId+'&deviceSn='+vm.deviceSnNum
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetId + '&userId='+vm.userId+'&deviceSn='+vm.deviceSnNum+'&languageStr='+languageStr
 			});
 		},
 		goSecond: function(e,item){ //埋点  十大系统点击
@@ -434,7 +547,7 @@ var myApp = new Vue({
 				'系统分数':item.score,
 				'渠道' : '微信'
 			},function(){
-				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum
+				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum+'&languageStr='+languageStr
 			});
 		},
 		wheelsort: function(deviceSn,reportId){ //广告接口
@@ -644,4 +757,58 @@ function creatMychart(id,arrayY,arrayX,age,msecond){
 		myChart.setOption(option);
 	},msecond)
 };
+function intchart(el,tit,arryDate,arryVal){
+	var myChart = echarts.init(document.getElementById(el));
+	option = {
+	    title: {
+	    	//show: false,
+	        text: tit
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	    	show:false
+	    },
+	    grid: {
+	        left: '3%',
+	        right: '10%',
+	        bottom: '10%',
+	        containLabel: true
+	    },
+	    xAxis: {
+	        type: 'category',
+	        boundaryGap: false,
+	        axisLabel:{
+	            textStyle:{
+	                color:"#222"
+	        }},
+	        data: arryDate
+	    },
+	    yAxis: {
+	        type: 'value',
+	        scale:true,
+		    boundaryGap:['10%','0%'],
+		    max:100
+	    },
+	    series: [
+	        {
+	            name:'得分',
+	            type:'line',
+	            stack: '总量',
+	            data:arryVal,
+	            itemStyle:{
+	                normal:{
+	                    color:'#2c886f',  
+	                    lineStyle:{  
+	                        color:'#2c886f'  
+	                    }  
+	                }
+	            }
+	        }
+	        
+	    ]
+	};
+	myChart.setOption(option);
+}
 

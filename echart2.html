@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+<div id="main" style="width: 1000px; height: 400px;"></div>
+<script src="js/echarts/echarts.min.js"></script>
+<script>
+	
+let myChart = echarts.init(document.getElementById('main'));
+
+var data = [];
+var value = Math.random() * 500;
+
+var count = 0
+
+ function randomData() {
+    count++
+    value = value + Math.random() * 100 - 50;
+    return {
+        name: count.toString(),
+        value: [
+            count,
+            Math.round(value)
+        ]
+    };
+}
+
+for (var i = 0; i < 100; i++) {
+    data.push(randomData());
+}
+
+option = {
+    title: {
+        text: '动态数据 + 时间坐标轴'
+    },
+    xAxis: {
+        type: 'time',
+        boundaryGap: false,
+        axisLine: {
+          	onZero: true,
+			lineStyle:{
+				color:'#D0021B'
+			}
+        },
+        axisLabel:{
+          	show:true
+        },
+        splitLine: {
+            show: false
+        },
+        axisTick:{
+          	show:false
+        }
+    },
+    yAxis: {
+        show: true,
+        name: '脉搏(m^3/ms)',
+      	type: 'value',
+    },
+    series: [{
+    	lineStyle: {
+    		color: '#000000',
+    		width:5
+    	},
+        name: '模拟数据',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data,
+        animationDuration: 3000
+    }]
+};
+myChart.setOption(option);
+
+
+//var timer =  setInterval(function () {
+//  for (var i = 0; i < 5; i++) {
+//      data.shift();
+//      data.push(randomData());
+//  }
+//  myChart.setOption({
+//      series: [{
+//          data: data
+//      }]
+//  });
+//}, 1000);
+setTimeout(function(){
+	clearInterval(timer)
+},10000)
+
+</script>
+</body>
+</html>

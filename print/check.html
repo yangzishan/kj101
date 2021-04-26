@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>登录查看报告</title>
+<link rel="stylesheet" type="text/css" href="../css/basic.css" />
+<style type="text/css">
+.login{ padding: 2.9rem .6rem 0; font-size: .3rem; color: #333333; height: 100%;}
+.login .lo-li{ display: flex; display: -webkit-flex; border-bottom: #dfdfdf solid .02rem; height: 1.08rem;}
+.login .lo-li .intxt{ flex: 1; display: block; width: 100%; line-height: 1.08rem; font-size: .3rem;}
+.login .lo-li .sendbtn{ display: block; width: 2.16rem; height: .78rem; line-height: .78rem; color: #61a3e3; background:none; border-radius: .39rem; text-align: center; margin-top: .15rem; outline: none;}
+.login .gobtn{ padding: 1.54rem 1.58rem 0;}
+.login .gobtn button{display: block; width: 100%; height: .88rem; line-height: .88rem; text-align: center; color: #ffffff; border-radius: .44rem; font-weight:bold; font-size: .3rem; outline: none; background: -webkit-linear-gradient(left, #dd9662 , #693916); color: #ffffff;}
+.login .gobtn button.off{background: -webkit-linear-gradient(left, #f2f3f8 , #f2f3f8); color: #909399;}
+
+.history_b{ height: 100%; background: #fff;}
+.history_b .h_li{display: block; min-height: .88rem; padding: 0 .24rem; font-size: .28rem; border-bottom: #ddd solid .01rem;}
+.history_b .h_li .dat{ line-height: .88rem;}
+.history_b .h_li .arr{ width:.16rem; height: .88rem; background: url(../img/arr-r.png) no-repeat center; background-size: .12rem .24rem; margin-left: .3rem;}
+.history_b .h_li .num{ line-height: .88rem;}
+</style>
+
+</head>
+<body>
+<div class="my_view">
+	<div class="login" style="background: url(img/zy.jpg) no-repeat; background-size: 100% 100%;" v-if="!hisVisible">
+		<div class="lo-li">
+			<input class="intxt" type="number" id="mobile" placeholder="请填写检测时使用的手机号码" pattern="[0-9]*" @input="mobileIn()"  v-model="mobile">
+		</div>
+		
+		<div class="lo-li">
+			<input class="intxt" id="dxYzm" type="text" placeholder="请输入验证码" @input="dxYzmIn()" v-model="dxYzm">
+			<button class="sendbtn off" id="sendMsg" @click="clickSendMsg($event)">获取验证码</button>
+		</div>
+		
+		<div class="gobtn">
+			<button class="off" disabled="disabled" id="subAll" @click="subAll()">查看电子病历</button>
+		</div>
+	</div>
+	<div v-if="hisVisible" class="history_b">
+		<a class="h_li" v-for="item in recordList" @click="gotosee(item)">
+			<span class="dat">{{item.createDate}}</span>
+			<i class="arr fr"></i><span class="num fr">{{item.departName}}</span>
+		</a>
+		<p style="text-align: center; padding: 1rem;" v-if="nodata">没有查到数据</p>
+	</div>
+</div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<!--<script type="text/javascript" src="../js/base.js"></script>-->
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var dataUrl = "http://39.107.74.133:9580";
+var resource = (getQueryString('resource') || 'jgj')
+var wait=60;
+
+var recordList = sessionStorage.getItem("recordList");
+
+var myapp = new Vue({
+	el: '.my_view',
+	data: function(){
+		return{
+			mobile:'',
+			dxYzm:'',
+			recordList:[],
+			hisVisible: false,
+			nodata:false
+		}
+	},
+	mounted: function(){
+		
+	},
+	methods: {
+		getCode: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/kjcd-control/customer/sendSmsCode",
+				dataType : 'json',
+		        data : {
+		        	snNum: vm.mobile,
+		        	userTel: vm.mobile
+		        },
+		        success: function(res){
+		        	if(res.code == 200){
+						vm.dxYzm = res.message
+						if(vm.dxYzm){
+							$('#subAll').removeClass('off').attr("disabled",false)
+						}
+					}else{
+						alert('获取短信码失败 getCode code='+res.code);
+					}	
+		        }
+			});
+		},
+
+		mobileIn: function(){
+			var vm = this;
+			if(vm.mobile.length>11){
+				vm.mobile=vm.mobile.slice(0,11)
+			}
+			if(vm.mobile != ''){
+				$('#sendMsg').removeClass('off').attr("disabled",false)
+			}else{
+				$('#sendMsg').addClass('off').attr("disabled",true)
+			}
+		},
+		clickSendMsg: function(e){
+			var vm = this;
+			if(!(/^1[3456789]\d{9}$/.test(vm.mobile))){ 
+				alert('请输入正确的手机号码');
+				return false;
+			}else{
+				time($(e.target))
+				vm.getCode()
+			}
+		},
+		dxYzmIn: function(){
+			var vm = this;
+			console.log(vm.dxYzm)
+			if(vm.dxYzm != ''){
+				$('#subAll').removeClass('off').attr("disabled",false)
+			}else{
+				$('#subAll').addClass('off').attr("disabled",true)
+			}
+		},
+		subAll: function(){
+			var vm = this;
+			vm.getRecordByUserTel()
+		},
+		getRecordByUserTel: function(){
+			var vm = this;
+			$.ajax({
+				type:"get",
+				url: dataUrl+ "/kjcd-control/tcms/tcmsEMedicalRecord/getRecordByUserTel",
+				async:true,
+				dataType:'Json',
+				data:{
+					userTel: vm.mobile,
+					smsCode: vm.dxYzm,
+			
+				},
+				success: function(res){
+					if(res.code == 200 || res.success){
+						vm.recordList = res.result
+						sessionStorage.setItem("recordList", res.result);
+						vm.hisVisible = true
+						if(res.result.length == 0){
+							vm.nodata = true
+						}
+					}else{
+						//alert(res.msg)
+						console.log(res.code)
+					}
+				},
+				error: function(){'userLatestReport error'}
+			});
+		},
+		gotosee: function(item){
+			location.href = "bingli.html?recordId="+item.recordId
+		}
+		
+	}
+});
+
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+	
+//倒计时读秒    默认wait=60;
+function time(tm){
+	if(wait==0){
+		tm.attr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.removeClass('off')
+	}else{
+		tm.addClass('off')
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body class="bck-col-f4">
+<DIV class="my_view" style="visibility: hidden;">
+	<div id="app" class="xingongyi">
+		<div class="xgy-head">
+			<p>{{userInfoView.name}}的报告</p>
+			<a class="t-right" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+		</div>
+		<section style="padding: 0 .34rem;">
+			<div class="xx-box">
+				<p class="xxb-p"><i><img class="img_b" src="img/xingongyi/ico-xx.png"></i><span>个人信息</span></p>
+				<p class="xxf-p">
+					<span>姓名：{{userInfoView.name}}</span><span>性别：{{userInfoView.sex==1?'男':'女'}}</span><span>年龄：{{userInfoView.age}}</span>
+				</p>
+				<p class="xxf-p">
+					<span>身高：{{userInfoView.height}}cm</span><span>体重：{{userInfoView.weight}}kg</span><span>BMI：<!--{{userInfoView.bmiValue}}-->{{userInfoView.bmiDes}}</span>
+				</p>
+				<p class="time">评估时间：{{inspectDateStr}}</p>
+			</div>
+			
+			<div class="xg-box">
+				<p class="xxb-p"><span>采集数据波形</span></p>
+				<!--<div><img src="img/xingongyi/bx.png"></div>-->
+				<div id="main" style="height: 2rem; width: 100%; border: #dddddd solid 1px;"></div>
+			</div>
+			<div class="xg-box">
+				<p class="xxb-p"><i><img class="img_b" src="img/xingongyi/ico-xy.png"></i><span>血压</span></p>
+				<ul class="cn-list">
+					<li class="l-item">
+						<div class="t-left fl">
+							<p class="pn">（高压）收缩压 <!--<i></i>--></p><p class="pf">范围值 90-140</p>
+						</div>
+						<div class="t-right fr">
+							<p class="res" v-if="bpView.sP>140"><span style="color: #F10000;">{{bpView.sP}}</span><em class="up2"></em></p>
+							<p class="res" v-else-if="bpView.sP<90"><span style="color: #F10000;">{{bpView.sP}}</span><em class="down2"></em></p>
+							<p class="res" v-else><span>{{bpView.sP}}</span></p>
+							<p class="dwei">单位 mmHg</p>
+						</div>
+					</li>
+					<li class="l-item">
+						<div class="t-left fl">
+							<p class="pn">（低压）舒张压 <!--<i></i>--></p><p class="pf">范围值 60-90</p>
+						</div>
+						<div class="t-right fr">
+							<p class="res" v-if="bpView.dP>90"><span style="color: #F10000;">{{bpView.dP}}</span><em class="up2"></em></p>
+							<p class="res" v-else-if="bpView.dP<60"><span style="color: #F10000;">{{bpView.dP}}</span><em class="down2"></em></p>
+							<p class="res" v-else><span>{{bpView.dP}}</span></p>
+							<p class="dwei">单位 mmHg</p>
+						</div>
+					</li>
+				</ul>
+				<p style=" font-size: .27rem; line-height: .4rem; padding: .3rem 0; text-align: center;">根据世界卫生组织血压标准，本次检测您的：<br>
+					<!--<span style="color: #E34A00;" v-if="bpView.inspectGuideBp6">{{bpView.inspectGuideBp6.metricName}}</span>-->
+					<b style="font-weight: bold;">收缩压 </b> <span v-if="bpView.sP>=140" style="color: #F13733;">偏高</span> <span v-else-if="bpView.sP<=90" style="color: #F13733;">偏低</span> <span v-else>在正常范围值内</span><br>
+					<b style="font-weight: bold;">舒张压 </b> <span v-if="bpView.dP>=90" style="color: #F13733;">偏高</span> <span v-else-if="bpView.dP<=60" style="color: #F13733;">偏低</span> <span v-else><span>在正常范围值内</span><br>
+					<span v-if="bpView.sP<140 && bpView.sP>90 && bpView.dP>60 && bpView.dP<90">请继续保持</span>
+				</p>
+			</div>
+			
+			<div class="xg-box">
+				<p class="xxb-p"><i><img class="img_b" src="img/xingongyi/ico-xz.png"></i><span>心脏功能</span></p>
+				<ul class="cn-list">
+					<li class="l-item" v-for="item in hartViews">
+						<div class="t-left fl">
+							<p class="pn">{{item.metricName}} <i @click="showSome(item.metricName,item.metricExplain)"></i></p><p class="pf">范围值 {{item.sv}}</p>
+						</div>
+						<div class="t-right fr">
+							<p class="res">
+								<span v-if="item.prompt" style="color: #F10000;">{{item.tv+item.prompt}}</span>
+								<span v-else>{{item.tv}}</span>
+								<em class="up2" v-if="item.prompt=='++' || item.prompt=='+'"></em>
+								<em class="down2" v-if="item.prompt=='--' || item.prompt=='-'"></em>
+							</p>
+							<p class="dwei">{{item.metricUnit}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="xg-box">
+				<p class="xxb-p"><i><img class="img_b" src="img/xingongyi/ico-xg.png"></i><span>血管功能</span></p>
+				<ul class="cn-list">
+					<li class="l-item" v-for="item in vesselViews">
+						<div class="t-left fl">
+							<p class="pn">{{item.metricName}} <i @click="showSome(item.metricName,item.metricExplain)"></i></p><p class="pf">范围值 {{item.sv}}</p>
+						</div>
+						<div class="t-right fr">
+							<p class="res">
+								<span v-if="item.prompt" style="color: #F10000;">{{item.tv+item.prompt}}</span>
+								<span v-else>{{item.tv}}</span>
+								<em class="up2" v-if="item.prompt=='++' || item.prompt=='+'"></em>
+								<em class="down2" v-if="item.prompt=='--' || item.prompt=='-'"></em>
+							</p>
+							<p class="dwei">{{item.metricUnit}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="xg-box">
+				<p class="xxb-p"><i><img class="img_b" src="img/xingongyi/ico-xye.png"></i><span>血液功能</span></p>
+				<ul class="cn-list">
+					<li class="l-item" v-for="item in bloodViews">
+						<div class="t-left fl">
+							<p class="pn">{{item.metricName}} <i @click="showSome(item.metricName,item.metricExplain)"></i></p><p class="pf">范围值 {{item.sv}}</p>
+						</div>
+						<div class="t-right fr">
+							<p class="res">
+								<span v-if="item.prompt" style="color: #F10000;">{{item.tv+item.prompt}}</span>
+								<span v-else>{{item.tv}}</span>
+								<em class="up2" v-if="item.prompt=='++' || item.prompt=='+'"></em>
+								<em class="down2" v-if="item.prompt=='--' || item.prompt=='-'"></em>
+							</p>
+							<p class="dwei">{{item.metricUnit}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="xg-box">
+				<p class="xxb-p"><i><img class="img_b" src="img/xingongyi/ico-xh.png"></i><span>微循环功能</span></p>
+				<ul class="cn-list">
+					<li class="l-item" v-for="item in mcrViews">
+						<div class="t-left fl">
+							<p class="pn">{{item.metricName}} <i @click="showSome(item.metricName,item.metricExplain)"></i></p><p class="pf">范围值 {{item.sv}}</p>
+						</div>
+						<div class="t-right fr">
+							<p class="res">
+								<span v-if="item.prompt" style="color: #F10000;">{{item.tv+item.prompt}}</span>
+								<span v-else>{{item.tv}}</span>
+								<em class="up2" v-if="item.prompt=='++' || item.prompt=='+'"></em>
+								<em class="down2" v-if="item.prompt=='--' || item.prompt=='-'"></em>
+							</p>
+							<p class="dwei">{{item.metricUnit}}</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="xg-box" v-if="reportType == 711">
+				<p class="xxb-p"><span>综合评估结果</span></p>
+				<template v-for="item in resultViews">
+				<div class="zhItem" v-if="(item.name != '肺 功 能' || item.metricType != 6) && item.metricType != 7">
+					<p class="titl"><span>{{item.name}}</span>
+						<template v-if="item.resultex">
+							<!--<em  v-if="item.metricType ==3" style="color: #F10000;">{{item.resultex.replace(/\|/g,' ')+' '+fei}}</em>-->
+							<!--<em  v-else style="color: #F10000;">{{item.resultex.replace(/\|/g,' ')}}</em>-->
+							<em style="color: #F10000;">
+								<template v-for="site in item.data">{{site.resultName}} </template>
+							</em>
+						</template>
+						<em v-else>基本正常</em>
+					</p>
+				</div>
+				</template>
+			</div>
+			
+			<div class="xg-box" v-if="reportType == 710">
+				<p class="xxb-p"><span>综合评估结果</span></p>
+				<template v-for="item in resultViews">
+				<div class="zhItem" v-for="site in item.data" v-if="site.resultex">
+					<p class="titl"><span>{{site.name}}</span><em>{{site.resultName}}</em></p>
+					<section>
+					<div class="exp" v-if="site.resultDetail">
+						<!--<p class="ptt">病因：</p>-->
+							{{site.resultDetail}}
+					</div>
+					<div class="secss" v-html="site.resultExplain" v-if="site.resultExplain">
+						<!--<p class="ptt">建议</p>-->
+					</div>
+					<div class="video" style="padding: 0 .1rem;" v-if="site.resultVideo">
+						<video width="100%" controls preload="auto" :poster="site.videoImg">
+						  	<source :src="site.resultVideo" type="video/mp4">
+							您的浏览器不支持Video标签。
+						</video>
+					</div>
+					</section>
+					
+				</div>
+				</template>
+			</div>
+			
+			<div class="xg-box" v-if="reportType == 710 && floor1List.length != 0">
+				<p class="xxb-p">心血管疾病与我们的关系</p>
+				<div class="videogg">
+					<div class="bid" v-for="item in floor1List">
+						<video width="100%" controls preload="auto" :poster="item.bannerImg">
+						  	<source :src="item.bannerVideo" type="video/mp4">
+							您的浏览器不支持Video标签。
+						</video>
+						<p style="font-size: .28rem;">{{item.bannerTitle}}</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="xg-box" v-if="reportType == 710 && floor2List.length != 0">
+				<div class="ttw">如何有效预防心血管疾病</div>
+				
+				<p style="color: #5257B9; text-align: center;">早发现 早规划 早保险</p>
+				
+				<div class="videogg">
+					<div class="bid" v-for="item in floor2List">
+						<video width="100%" controls preload="auto" :poster="item.bannerImg">
+						  	<source :src="item.bannerVideo" type="video/mp4">
+							您的浏览器不支持Video标签。
+						</video>
+						<p style="font-size: .28rem;">{{item.bannerTitle}}</p>
+					</div>
+				</div>
+			</div>
+			
+		</section>
+		<p style="font-size: .2rem; padding: .1rem .3rem; color: #999; text-align: center; line-height: .4rem;">此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响</p>
+	</div>
+	
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showSome">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+		<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+	</div>
+</div>
+</DIV>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="js/report710.js?t=' + new Date().getTime() + '"><\/script>')</script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

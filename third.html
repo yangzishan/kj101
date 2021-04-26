@@ -73,6 +73,7 @@
 				</div>
 			</div>
 		</div>	
+		<div style="font-size: .3rem; padding: 0 .3rem;" v-show="resTemplateDescribe !='0' && resTemplateDescribe != '' && resTemplateDescribe != null">健康建议由{{resTemplateDescribe}}提供</div>
 	</div>	
 	<!--健康建议内容 end-->
 	<!--<div class="gg" v-for="gg in banData">
@@ -168,7 +169,32 @@ var reportType = getQueryString('reportType');
 var targetId = getQueryString("targetId");
 var userId = getQueryString('userId');
 var deviceSn = getQueryString('deviceSn');
-var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+
+/*显示语言*/
+var languageStr = (getQueryString('languageStr') || '');
+var language = zh;
+if(languageStr == 'zh'){
+	language = zh;
+}else if(languageStr == 'en'){
+	language = en;
+}else{
+	var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+	if(JsSrc.indexOf('zh')>=0){
+		language = zh;
+		languageStr = 'zh';
+	}else if(JsSrc.indexOf('en')>=0){
+	    language = en;
+	    languageStr = 'en';
+	    document.title = 'Report details'
+	}else{
+		language = zh;
+	    languageStr = 'zh';
+	    //document.title = 'Report details'
+	    console.log(JsSrc)
+	}
+}
+
+/*var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 console.log(JsSrc);
 if(JsSrc.indexOf('zh')>=0){
 	var language = zh;
@@ -181,7 +207,7 @@ if(JsSrc.indexOf('zh')>=0){
 	var language = en;
     var languageStr = 'en';
     document.title = 'Report details'
-}
+}*/
 var myApp = new Vue({
 	el:'#appVUE',
 	data: function(){
@@ -201,7 +227,8 @@ var myApp = new Vue({
 			motionList:'', //运动
 			options:['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十五','十六'],
 			language: language,
-			banData:{} //广告
+			banData:{}, //广告
+			resTemplateDescribe:'',
 		}
 	},
 	mounted: function(){
@@ -245,6 +272,10 @@ var myApp = new Vue({
 						}
 						if(vm.score < 90){
 							vm.wheelsort(deviceSn,reportId,vm.score,targetId)
+						}
+						
+						if(res.data.resTemplateDescribe){
+							vm.resTemplateDescribe = res.data.resTemplateDescribe
 						}
 						
 					}

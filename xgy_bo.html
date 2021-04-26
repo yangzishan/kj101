@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style type="text/css">
+.topp{background: linear-gradient(134deg, #7FACEF 0%, #548FE8 100%); height:1.5rem; line-height: .88rem; width: 100%; position: relative; color: #ffffff;}
+.topp .bac{ display: inline-block; height: .88rem; padding: .22rem; width: .64rem; position: relative; z-index: 999;}
+.topp .lab{ position: absolute; left: 0; top: 0; width: 100%; line-height: .88rem; text-align: center; font-size: .32rem; font-weight: 600;}
+.bo-box{ width: 6.9rem; height: 2.5rem; margin: -.62rem auto 0; background: #ffffff; border-radius: .3rem; position: relative; z-index: 999;box-shadow: 0px 9px 38px 0px rgba(0, 0, 0, 0.14);}
+.bo-inf{ margin: .4rem 0 0;border-radius: .5rem .5rem 0px 0px; padding: .2rem .4rem; background: #ffffff;}
+.bo-inf .btt{ font-size: .3rem; font-weight: 600; color: #666666; border-bottom: #DDDDDD solid 1px; line-height: .88rem;}
+.bo-inf .xx{ padding: .24rem 0; line-height: .45rem; font-size: .26rem;}
+</style>
+</head>
+<body style="background: #F7FAFB;">
+<DIV class="my_view newxgy" style="visibility: visible;">
+	<div class="topp">
+		<a class="bac" href="javascript:history.go(-1);"><img src="img/arr-b.png" class="img_b"></a>
+		<span class="lab">采集数据波形图</span>
+	</div>
+	<section class="bo-box">
+		<div id="main" style="width: 100%; height: 2.48rem;"></div>
+	</section>
+	<section class="bo-inf">
+		<p class="btt">脉搏波形释义</p>
+		<div class="xx">
+			1、我们来看这样一个波形就是在手腕桡动脉处采集到的脉搏波，它是周期性的，每个周期基本一致。<br/>
+
+我们以第一个波形来看，前半部分是上升段，这就是由于心脏收缩，将血液挤压进动脉形成的。心脏收缩结束后，心室与动脉间的动脉瓣膜会关闭，这样血液就只能通过血管流向全身，从而压力就会下降，也就形成了A处的主波。<br/>
+
+由于心脏收缩的时间比较短，所以上升的这一段会比较短，比较陡峭，也比较直一些。<br/>
+
+我们再来看下降这一段，持续时间就比较长，比较平缓。仔细观察一下，我们会发现这一段有一些波动，像B、C、D这些位置。一般来讲B处的小波动叫潮波，C处为重搏波，D处为重搏波谷。这些波动的形成比较复杂，简单来说，就是当动脉瓣膜关闭后，血液会冲击瓣膜，血管由于弹性也会发生弹性振荡，再综合外周阻力、血液黏度等等因素的影响，就会形成这些波动，我们前面介绍过，这些波动携带了我们心血管系统丰富的信息，所以通过脉搏波就可以来检测、评估心血管系统的健康状况。<br/>
+
+这个脉搏波C点处的重搏波不太明显，<br/>
+
+2、我们可以从下面这个波形来看，就能看到这个重搏波反弹比较明显。简单概略的来讲，如果这个重搏波的比较明显，通常说明血管的弹性是比较好的。<br/>
+
+3、下面我们从这两个人的脉搏波比较一下，我们会发现两个波形明显的不太一样，一个尖锐，一个圆滑些，下面这个的重搏波不太明显。每个人的波形都蕴含了丰富个体健康信息，是我们心血管系统状况的指纹。<br/>
+
+4、通过脉搏波检测心血管系统也依赖于采集到的脉搏波的质量，我们来看下面两个波形，第一个比较光滑、干净，第二个虽然也是周期性的，有明显的上升和下降，但是明显的随机小波动比较多，一个波跟另一个波相差有些大。 而第一个波虽然有些波动，但是比较确定，一致性好。当我们发现脉搏波采集的质量不佳时，应改调节采集位置、松紧度，或者采集姿势，以获得更好的波形，从而获得精准的评估结果。<br/>
+
+
+5、下面我们通过这个波形系列，来看一下脉搏波和几个常见心血管参数的大致对应情况。由于科学的解释过于专业，也比较复杂，我们通俗的来解释一下。<br/>
+
+首先，我们看到从a到f这六个波形，主峰A的位置和高度变化不大，主要B、C、D波的位置、强度有所不同。<br/>
+
+其次，当外周阻力变高时，也就是小动脉和微动脉对血流的阻力变大时，血液向全身传送得就慢，所以下降段就会越来越缓慢，这比较容易理解，就像水管子不够通畅，水流就慢是差不多道理。我们看波形，这个下降比较快，越来越慢，最后这个下降最慢，这主要就是外周阻力的影响。<br/>
+
+还有，就是B、C、D这几个波动，从图上来看，出现的时间越来越靠前，这是当血管的弹性高，外周阻力小时，泵出的血液很快就传送的比较远，然后才会受到到一些阻力，血管的反弹作用也比较晚，所以B、C、D这几个波动就会比较晚。
+反之，血管的弹性变低，外周阻力变大时，心脏泵出的血液很快就收到阻力，血管弹性小，很快产生反弹力，所以这些波形就产生的早，跟主峰很接近，甚至融为一体了。<br/>
+
+		</div>
+		<!--<p style="background:#DDDDDD;height: 1px;"></p>-->
+		
+	</section>
+	
+</DIV>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script type="text/javascript" src="js/echarts/echarts.min.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var reportId = (getQueryString('reportId') || 'MK701IS000000031613891822337');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
+var clientType = (getQueryString("clientType") || ''); 
+var bank = (getQueryString('bank') || '');
+var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
+var localUrl = location.href;
+
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+var myApp = new Vue({
+	el: ".my_view",
+	data: function(){
+		return {
+			reportId: reportId,
+			reportType:reportType,
+			openId: openId,
+			userInfoView:{},
+			inspectDateStr:'',
+			hartViews:[],
+			vesselViews:[],
+			bloodViews:[],
+			mcrViews:[],
+			resultViews:[],
+			bpView:{},
+			xueyaresult:'',
+			someTit:'',
+			someTxt:'',
+			neReportver:{},
+			bvtps:[],
+			analysedWaveform:{},
+			xlist:[],
+			markLineList:[],
+
+		}
+	},
+	mounted: function(){
+		this.getData();
+	},
+	methods: {
+		getData: function(){
+			$('.my_view').css("visibility","visible");
+			$('.load-overlay').css("display","none");
+			var vm = this
+			vm.analysedWaveform = JSON.parse(sessionStorage.getItem('analysedWaveform'));
+			console.log(vm.analysedWaveform);
+			
+			vm.analysedWaveform.pwavedata.forEach(function(i,index){
+				vm.xlist.push(index) //作图x坐标轴
+				
+				vm.analysedWaveform.pmax.forEach(function(n){
+					if(n == index && n != 0){
+						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'blue'}},{coord:[n,i]}])
+					}
+				});
+				vm.analysedWaveform.pe.forEach(function(n){
+					if(n == index && n != 0){
+						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'green'}},{coord:[n,i]}])
+					}
+				});
+				vm.analysedWaveform.pf.forEach(function(n){
+					if(n == index && n != 0){
+						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'#ff0000'}},{coord:[n,i]}])
+					}
+				});
+				vm.analysedWaveform.pmin.forEach(function(n){
+					if(n == index && n != 0){
+						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'#666666'}},{coord:[n,i]}])
+					}
+				});
+			});
+			console.log(vm.markLineList)
+			setTimeout(function(){
+				creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList)
+			},500)
+
+
+		},
+	}
+});
+//作脉搏图
+function creatChart(el,xlist,ylist,markLineList){
+let myChart = echarts.init(document.getElementById('main'));
+  let option = {
+      title: {
+          text: '',
+          left: 'center'
+      },
+      grid: {
+      	  top:10,
+          left: 5,
+          right: 5,
+          bottom:10
+      },
+      xAxis: {
+          show:true,
+          type: 'category',
+          boundaryGap: false,
+          axisLine: {
+          	onZero: true,
+			lineStyle:{
+				color:'#D0021B'
+			}
+          },
+          data: xlist,
+          axisLabel:{
+          	show:false,
+          	interval:200
+          },
+          axisTick:{
+          	show:false
+          }
+      },
+      yAxis: {
+          show: false,
+          scale:true,
+          min:150,
+          name: '脉搏(m^3/ms)',
+          type: 'value',
+      },
+      series: [
+          {
+          	lineStyle: {
+          		color:'#9AA0D9',
+          		width:1
+          	},
+          	markLine: {
+                symbol: ['none', 'none'],
+                label: {show: false},
+                emphasis:{ //标线高亮显示
+                	lineStyle:{
+                		width:1,
+                		//color:'#000000'
+                	}
+                },
+                lineStyle:{
+                	//color:'blue',
+                	type:'solid',
+                	width:0.75,
+                	opacity:0.5
+                },
+                data: markLineList
+            },
+          	
+            name: '脉搏',
+            type: 'line',
+            symbolSize: 8,
+            showSymbol:false,
+            hoverAnimation: false,
+            data:ylist
+          }
+      ]
+  };
+  // 绘制图表
+  myChart.setOption(option);
+}
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

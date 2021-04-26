@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<style type="text/css">
+input{ resize: auto; -webkit-appearance: normal;}
+.allInfo{ padding: .3rem;}
+.btit{text-align: center; font-size: .3rem; font-weight: 600; line-height: .88rem;}
+.itemp{width: 100%; height: .62rem; line-height: .62rem; font-size: 0; margin-bottom: .3rem;}
+.itemp .lab{ display: inline-block; vertical-align: top; font-size: .3rem; width: 2rem; text-align: right; margin-right: .112rem;}
+.itemp .chose{display: inline-block;vertical-align: top; font-size: .3rem; margin: 0;}
+.itemp .int{ display: inline-block;vertical-align: top; width: 3rem; height: .62rem;  padding: .04rem 0; border: #cccccc solid .02rem; border-radius: .1rem; }
+.itemp .int input{ width: 100%; text-indent: .2rem; height: .6rem; line-height: .6rem; font-size: .3rem; border: none; background: none;outline: none;}
+.itemp .ic{ font-size:.3rem ; margin-left: .3rem; display: inline-block; vertical-align: top;}
+.xieyi{ font-size: .3rem; padding:0 .2rem; line-height: .4rem; color: #666666;}
+.sub{ padding: .3rem; .6rem}
+.sub .btn{ height: .88rem; width: 100%; display: block; background: #00d6ca; border-radius: .2rem; text-align: center; color: #ffffff;line-height: .88rem; font-size: .3rem; border: none; outline: none;} 
+</style>
+</head>
+<body>
+<DIV class="my_view">
+<div class="" id="vm">
+	<section class="allInfo">
+		<p class="btit">请填写基础信息</p>
+		<div class="itemp">
+			<span class="lab">姓名</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.userName" /></span><span class="ic"></span>
+		</div>
+		<div class="itemp">
+			<span class="lab">性别</span>
+			<p class="chose">
+				<input type="radio" value="1" name="sex" v-model="dataInfo.instructions.data.sex"><font>男</font>
+				<span style="width: .6rem; display: inline-block;"></span>
+				<input type="radio" value="0" name="sex" v-model="dataInfo.instructions.data.sex"><font>女</font>
+			</p>
+		</div>
+		<div class="itemp">
+			<span class="lab">年龄</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.age" /></span><span class="ic">岁</span>
+		</div>
+		<div class="itemp">
+			<span class="lab">身高</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.height" /></span><span class="ic">cm</span>
+		</div>
+		<div class="itemp">
+			<span class="lab">体重</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.weight" /></span><span class="ic">kg</span>
+		</div>
+		<div class="itemp">
+			<span class="lab">联系电话</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.mobile" /></span>
+		</div>
+		<div class="itemp">
+			<span class="lab">业务员手机号</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.salesmanCode" /></span>
+		</div>
+	</section>
+	<p class="xieyi"><input type="checkbox" v-model="checked">我已阅读并同意《康浩云用户隐私协议》和《康浩云用户须知》</p>
+	<div class="sub">
+		<button class="btn" @click="sendData" id="sendData">确 认</button>
+	</div>
+</</div>
+</DIV>
+
+<div class="v_overlay"></div>
+<div class="v_overlert">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit" style="text-align: center; font-weight: bold;"></p>
+		<div class="bxt" style="text-align: left;"></div>
+	</div>
+</div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var deviceSn = (getQueryString('deviceSn') || '');
+var handleMode = getQueryString('handleMode');
+var app = new Vue({
+	el:'#vm',
+	data:function(){
+		return {
+			datetime:new Date().getTime(),
+			dataInfo:{
+				instructions:{
+					refers: "MK701",
+					data: {
+					    userName: "",
+					    sex: 0,
+					    age: '',
+					    weight: '',
+					    height: '',
+					    salesmanCode: '',
+					    mobile: ''
+					  }
+					
+				},
+				reqTime:'',
+				robot_sn: deviceSn,
+				transactionId:''
+			},
+			checked:true
+			
+		}
+	},
+	methods:{
+		default:function(){
+			this.dataInfo.reqTime = this.datetime
+			this.dataInfo.transactionId = this.datetime
+			console.log(this.dataInfo)
+		},
+		//发送数据
+		sendData: function(){ 
+			$('#sendData').attr("disabled",true);
+			var vm = this;
+			var datacopy = Object.assign({},vm.dataInfo) 
+			console.log(JSON.stringify(datacopy))
+			$.ajax({
+				url : "http://robot.jiankangzhan.com/robot/v1/IFI_01?token=test",
+				type : "post",
+				headers:{'Content-Type':'application/json;charset=utf8'},
+				dataType : 'json',
+				data : JSON.stringify(datacopy),
+				success : function(res) {
+					if(res.code == 0){
+						alert('发送成功，30秒后可重新发送')
+						time($("#sendData"));
+						console.log('发送成功')
+					}else(
+						$('#sendData').attr("disabled",false)
+					)
+				 console.log(res)
+				},
+				error:function(){
+					$('#sendData').attr("disabled",false)
+				}
+			})
+		},
+	},
+	mounted:function(){
+		this.default()
+	}
+})
+//截取URL 获取
+function getQueryString(name){
+     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+//倒计时读秒
+var wait=30;
+function time(tm){
+	if(wait==0){
+		tm.removeAttr("disabled",false);
+		tm.text('确 认');
+		wait=30;
+		tm.css({"color":"#ffffff","background":"#00d6ca"}); //控制样式
+	}else{
+		tm.css({"color":"#999","background":"#dddddd"}); //控制样式
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+</script>
+</body>
+</html>
