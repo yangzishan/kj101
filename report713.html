@@ -12,60 +12,517 @@
 <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 <style type="text/css">
-.nx-top{ width: 100%; min-height: 3.6rem; padding: .2rem .36rem; background-image: linear-gradient(#33B5F1,#75D5CB,#F7FAFB); color: #ffffff;}
-.nx-top .btt{ font-size: .36rem; font-weight: 600; line-height: .8rem;}
-.nx-top .ptt{ font-size: .27rem; line-height: .38rem;}
-.useinf{ margin:-1.63rem .36rem 0; border-radius: .22rem; background: #ffffff; padding: .22rem; position: relative;}
-.useinf .nne{ height: .5rem; line-height: .5rem; margin-bottom: .2rem;}
-.useinf .nne .lab{display: inline-block; vertical-align: top; color: #4A4A4A; font-size: .33rem; font-weight: 600;}
-.useinf .nne .age{display: inline-block; vertical-align: top; color: #9B9B9B; font-size: .27rem; margin:  0 0 0 .5rem;}
-.useinf .nne .sex{display: inline-block; vertical-align: top; width: .32rem; height: .32rem; margin: .09rem 0 0 .5rem;}
-.useinf .nnx{ font-size: 0; }
-.useinf .nnx .lp{height: .5rem; line-height: .5rem; display: inline-block;width: 49.5%; font-size: .27rem;}
-.useinf .nnx .lp .sta{ display: inline-block; vertical-align: top; width: .65rem; height: .36rem; line-height: .36rem; text-align: center; border: #D0021B solid .02rem; color: #D0021B; font-size: .22rem; font-weight: 400; margin: .07rem 0.1rem 0 .2rem; border-radius: .04rem;}
-.useinf .nnx .lp .pop{ display: inline-block; width: .5rem; height: .5rem; vertical-align: top;  background: url(img/xingongyi/pop.png) no-repeat center; background-size:.32rem .32rem;}
-.useinf .lev{ background: #33B5F1; padding: 0 .3rem; line-height: .5rem; height: .5rem; text-align: center; color: #ffffff; border-radius: .25rem 0 0 .25rem; position: absolute; font-size: .25rem; font-weight: 500; top: .3rem; right: 0;}
-.zhpg{}
+/*覆盖 712*/
+.gy-bmi .ggrr .int{position: absolute; top: -1.75rem;} 
 </style>
 </head>
 <body style="background: #F7FAFB;">
-<DIV class="my_view newxgy2" style="visibility: visible;">
-	<section class="nx-top">
-		<div class="btt">龙猫的报告</div>
-		<div class="ptt">检测时间：2020-08-07 12:35:56</div>
-	</section>
-	<section class="useinf">
-		<div class="nne">
-			<span class="lab">庆余年</span><span class="age">22岁</span><em class="sex"><img src="img/xingongyi/sex-m.png" class="img_b"></em>
-		</div>
-		<div class="nnx">
-			<p class="lp">身高：150cm</p><br/>
-			<p class="lp">体重：50kg</p>
-			<p class="lp">BMI：28.5<em class="sta">肥胖</em> <i class="pop"></i></p>
-		</div>
-		<div class="lev">基础信息</div>
-	</section>
-	
-	<section class="zhpg">
-		<div class="btt">综合评估结果</div>
-		<div class="bcc">
-			<p class="ctt"><i></i>有以下几个项目有风险 需要重点关注</p>
-			<div class="cxx">
-				<p class="pl"><span>心脏功能</span><em>高博血</em><em>高博血</em></p>
-				<p class="pl"><span>血管状况</span><em>高博血</em><em>高粘血症</em></p>
-				<p class="pl"><span>血液状况</span><em>高博血</em><em>高博血</em></p>
-				<p class="pl"><span>心脏功能</span><em>高博血</em><em>动脉硬化</em></p>
+<DIV class="my_view newbaogao" style="visibility: visible;">
+	<div class="topcom">
+		<p class="tit">心血管检测报告</p>
+		<p class="tim">检测时间：{{inspectDateStr}}</p>
+		<p class="tin"><span style="font-weight: bold; margin-right: .3rem;">{{userInfoView.name}}</span> 性别：{{userInfoView.sex==1?'男':'女'}} 年龄：{{userInfoView.age}}</p>
+	</div>
+	<div class="zong">
+		<p class="zzbit"><i class="io"></i>以下是本次检测的评分</p>
+		<div class="comp">
+			<div class="pan_b">
+				<div class="pan">
+					<p class="zhen"><i></i></p>
+					<p class="fen"><b id="score">{{totalScore}}</b>分</p>
+					<p class="sta">-良好-</p>
+				</div>
 			</div>
 		</div>
-	</section>
+		<div class="tip">
+			本次得分{{totalScore}}分，身体状态良好，请继续保持哦！日常可进行有氧运动，食物摄取建议蓝莓，苹果，香蕉等
+		</div>
+	</div>
+	
+	<div class="renticn">
+		<p class="zzbit" style=" padding: 0 0 0 .4rem;"><i class="io"></i>以下是本次检测详细结果</p>
+		<div class="bodyinfo">
+			<div class="body_l female"></div>
+			<div class="info_r">
+				<div class="item" @click="handlebd(1)" :class="{on:tabdb == 1}">
+					<p class="m-tt">
+						<i><img src="img/xgy/i-xy.png"></i>
+						<font>血压</font> <em>{{bpView.bpScore}}分</em>
+					</p>
+					<div class="xm" v-show="tabdb == 1">
+						<p class="lab"><span>高压</span> <em>{{bpView.sP}}mmHg</em></p>
+						<p class="lab"><span>低压</span> <em>{{bpView.dP}}mmHg</em></p>
+					</div>
+					<i class="iconfont arr"></i>
+				</div>
+				<div class="item" @click="handlebd(2)" :class="{on:tabdb == 2}">
+					<p class="m-tt">
+						<i><img src="img/xgy/i-xz.png"></i>
+						<font>心脏</font> <em>{{reportStrData.hartScore}}分</em>
+					</p>
+					<div class="xm" v-show="tabdb == 2">
+						<p class="lab"><span>共检查</span> <em>{{abnormalCount.hartSum}}项</em></p>
+						<p class="lab"><span>正常项</span> <em>{{abnormalCount.hartCount}}项</em></p>
+						<p class="lab"><span>异常项</span> <em>{{abnormalCount.hartAbnormalCount}}项</em></p>
+					</div>
+					<i class="iconfont arr"></i>
+				</div>
+				<div class="item" @click="handlebd(3)" :class="{on:tabdb == 3}">
+					<p class="m-tt">
+						<i><img src="img/xgy/i-xg.png"></i>
+						<font>血管</font> <em>{{reportStrData.vesselScore}}分</em>
+					</p>
+					<div class="xm" v-show="tabdb == 3">
+						<p class="lab"><span>共检查</span> <em>{{abnormalCount.vesselSum}}项</em></p>
+						<p class="lab"><span>正常项</span> <em>{{abnormalCount.vesselCount}}项</em></p>
+						<p class="lab"><span>异常项</span> <em>{{abnormalCount.vesselAbnormalCount}}项</em></p>
+					</div>
+					<i class="iconfont arr"></i>
+				</div>
+				<div class="item" @click="handlebd(4)" :class="{on:tabdb == 4}">
+					<p class="m-tt">
+						<i><img src="img/xgy/i-xyy.png"></i>
+						<font>血液</font> <em>{{reportStrData.bloodScore}}分</em>
+					</p>
+					<div class="xm" v-show="tabdb == 4">
+						<p class="lab"><span>共检查</span> <em>{{abnormalCount.bloodSum}}项</em></p>
+						<p class="lab"><span>正常项</span> <em>{{abnormalCount.bloodCount}}项</em></p>
+						<p class="lab"><span>异常项</span> <em>{{abnormalCount.bloodAbnormalCount}}项</em></p>
+					</div>
+					<i class="iconfont arr"></i>
+				</div>
+				<div class="item" @click="handlebd(5)" :class="{on:tabdb == 5}">
+					<p class="m-tt">
+						<i><img src="img/xgy/i-wxh.png"></i>
+						<font>微循环</font> <em>{{reportStrData.mcr5Score}}分</em>
+					</p>
+					<div class="xm" v-show="tabdb == 5">
+						<p class="lab"><span>共检查</span> <em>{{abnormalCount.mcrSum}}项</em></p>
+						<p class="lab"><span>正常项</span> <em>{{abnormalCount.mcrCount}}项</em></p>
+						<p class="lab"><span>异常项</span> <em>{{abnormalCount.mcrAbnormalCount}}项</em></p>
+					</div>
+					<i class="iconfont arr"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div style="background: #FDFDFD; height: .5rem;"></div>
+	<div class="xycomp">
+		<div class="btt">血压详细检查结果</div>
+		<div class="infbox">
+			<div class="b_li">
+				<p class="p1"><span class="lab">收缩压（高压）</span><i class="pop"></i> 
+					<em class="up fr" v-if="bpView.sP>140"></em>
+					<em class="down fr" v-if="bpView.sP<90"></em>
+					<span v-if="bpView.sP > 140 || bpView.sP < 90" class="fr" style="color: #FF7D00;">{{bpView.sP}}</span>
+					<span v-else class="fr">{{bpView.sP}}</span>
+				</p>
+				<p class="p2"><span class="fw">范围值90-140</span><span class="dw fr">单位mmHg</span></p>
+			</div>
+			<div class="b_li" style=" border-top: #dddddd solid 1px;">
+				<p class="p1"><span class="lab">舒张压（低压）</span><i class="pop"></i> 
+					<em class="up fr" v-if="bpView.dP>90"></em>
+					<em class="down fr" v-if="bpView.dP<60"></em>
+					
+					<span v-if="bpView.dP > 90 || bpView.dP < 60" class="va fr" style="color: #FF0000;">{{bpView.dP}}</span>
+					<span v-else class="va fr">{{bpView.dP}}</span>
+				</p>
+				<p class="p2"><span class="fw">范围值90-140</span><span class="dw fr">单位mmHg</span></p>
+			</div>
+		</div>
+		<p class="ptt">历史血压数据</p>
+		<div class="bochart">
+			
+		</div>
+		<p class="ptt">高血压小知识</p>
+		<div class="xzs">
+			<div class="cmp">
+				<div class="lab"><span>危险因素</span></div>
+				<div class="con">高钠、低钾，超重和肥胖，饮酒，遗传，工作压力过大，心理因素。</div>
+			</div>
+			<div class="cmp">
+				<div class="lab"><span>导致的疾病</span></div>
+				<div class="con">脑出血，脑梗死，心肌梗死，心绞痛，心力衰竭、肾功能衰竭</div>
+			</div>
+			<div class="cmp">
+				<div class="lab"><span>改善建议</span></div>
+				<div class="con">高血压人群在饮食上要“粗茶淡饭”，常吃粗粮，低盐、富含多钾的食物，可起到较好的防治效果。戒烟限酒，保持良好的心理状态，同时适当加强体育运动。养成定期监测血压的习惯。</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="bidcamp">
+		<div class="ctop bj_xz">
+			<p class="ttt">心脏详细检查结果</p>
+			<div class="tab">
+				<span :class="{on:bidsTabShow.hart == 1}" @click="handleTabCheck('hart',1)">评估结果<i></i></span>
+				<span :class="{on:bidsTabShow.hart == 2}" @click="handleTabCheck('hart',2)">详细筛查结果<i></i></span>
+			</div>
+		</div>
+		<div class="cinfo">
+			<section class="bid_fx" v-show="bidsTabShow.hart == 1">
+				<div class="fxbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-g.png">
+							<p>潜在风险指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in hartViews">
+							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+				<div class="fxbox zcbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-z.png">
+							<p>未见异常指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in hartViews">
+							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+			</section>
+			<section class="bid_de" v-show="bidsTabShow.hart == 2">
+				<div class="b_li" v-for="item in hartViews">
+					<p class="p1"><span class="lab">{{item.metricName}}</span> 
+						<template v-if="item.prompt=='++' || item.prompt=='+'">
+							<i class="up fr"></i>
+							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+						</template>
+						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+							<i class="down fr"></i>
+							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+						</template>
+						<template v-else>
+							<em class="fr">{{item.tv}}</em>
+						</template>
+							
+					</p>
+					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="bidcamp">
+		<div class="ctop bj_xg">
+			<p class="ttt">血管详细检查结果</p>
+			<div class="tab">
+				<span :class="{on:bidsTabShow.vesse == 1}" @click="handleTabCheck('vesse',1)">评估结果<i></i></span>
+				<span :class="{on:bidsTabShow.vesse == 2}" @click="handleTabCheck('vesse',2)">详细筛查结果<i></i></span>
+			</div>
+		</div>
+		<div class="cinfo">
+			<section class="bid_fx" v-show="bidsTabShow.vesse == 1">
+				<div class="fxbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-g.png">
+							<p>潜在风险指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in vesselViews">
+							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+				<div class="fxbox zcbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-z.png">
+							<p>未见异常指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in vesselViews">
+							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+			</section>
+			<section class="bid_de" v-show="bidsTabShow.vesse == 2">
+				<div class="b_li" v-for="item in vesselViews">
+					<p class="p1"><span class="lab">{{item.metricName}}</span> 
+						<template v-if="item.prompt=='++' || item.prompt=='+'">
+							<i class="up fr"></i>
+							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+						</template>
+						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+							<i class="down fr"></i>
+							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+						</template>
+						<template v-else>
+							<em class="fr">{{item.tv}}</em>
+						</template>
+							
+					</p>
+					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="bidcamp">
+		<div class="ctop bj_xyy">
+			<p class="ttt">微循环详细检查结果</p>
+			<div class="tab">
+				<span :class="{on:bidsTabShow.blood == 1}" @click="handleTabCheck('blood',1)">评估结果<i></i></span>
+				<span :class="{on:bidsTabShow.blood == 2}" @click="handleTabCheck('blood',2)">详细筛查结果<i></i></span>
+			</div>
+		</div>
+		<div class="cinfo">
+			<section class="bid_fx" v-show="bidsTabShow.blood == 1">
+				<div class="fxbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-g.png">
+							<p>潜在风险指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in bloodViews">
+							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+				<div class="fxbox zcbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-z.png">
+							<p>未见异常指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in bloodViews">
+							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+			</section>
+			<section class="bid_de" v-show="bidsTabShow.blood == 2">
+				<div class="b_li" v-for="item in bloodViews">
+					<p class="p1"><span class="lab">{{item.metricName}}</span> 
+						<template v-if="item.prompt=='++' || item.prompt=='+'">
+							<i class="up fr"></i>
+							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+						</template>
+						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+							<i class="down fr"></i>
+							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+						</template>
+						<template v-else>
+							<em class="fr">{{item.tv}}</em>
+						</template>
+							
+					</p>
+					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
+				</div>
+			</section>
+		</div>
+	</div>
+	<div class="bidcamp">
+		<div class="ctop bj_wxh">
+			<p class="ttt">血液详细检查结果</p>
+			<div class="tab">
+				<span :class="{on:bidsTabShow.mcr == 1}" @click="handleTabCheck('mcr',1)">评估结果<i></i></span>
+				<span :class="{on:bidsTabShow.mcr == 2}" @click="handleTabCheck('mcr',2)">详细筛查结果<i></i></span>
+			</div>
+		</div>
+		<div class="cinfo">
+			<section class="bid_fx" v-show="bidsTabShow.mcr == 1">
+				<div class="fxbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-g.png">
+							<p>潜在风险指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in mcrViews">
+							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+				<div class="fxbox zcbox">
+					<div class="b-left">
+						<div class="con">
+							<img src="img/xgy/fx-z.png">
+							<p>未见异常指标</p>
+						</div>
+					</div>
+					<div class="b-right">
+						<template v-for="item in mcrViews">
+							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+						</template>
+					</div>
+				</div>
+			</section>
+			<section class="bid_de" v-show="bidsTabShow.mcr == 2">
+				<div class="b_li" v-for="item in mcrViews">
+					<p class="p1"><span class="lab">{{item.metricName}}</span> 
+						<template v-if="item.prompt=='++' || item.prompt=='+'">
+							<i class="up fr"></i>
+							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+						</template>
+						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+							<i class="down fr"></i>
+							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+						</template>
+						<template v-else>
+							<em class="fr">{{item.tv}}</em>
+						</template>
+							
+					</p>
+					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
+				</div>
+			</section>
+		</div>
+	</div>
 	
 	
+	<div class="zhongji">
+		<p class="zzbit"><i class="io"></i>重疾风险预测</p>
+		<div class="zjList">
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_nao.png"></div>
+				<div class="inf"> <span>脑卒中</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_xin.png"></div>
+				<div class="inf"> <span>急性心肌梗死</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_gxin.png"></div>
+				<div class="inf"> <span>冠心病</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_jiyan.png"></div>
+				<div class="inf"> <span>心肌炎</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_fei.png"></div>
+				<div class="inf"> <span>肺源性心脏病</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_lv.png"></div>
+				<div class="inf"> <span>心率衰竭</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+			<div class="z_li">
+				<div class="pic"><img src="img/xgy/zj_guan.png"></div>
+				<div class="inf"> <span>心绞痛</span><br/><font>肝病科、消化内科</font></div>
+				<em>30%</em>
+			</div>
+		</div>
+	</div>
 	
+	<div class="caijibo">
+		<p class="zzbit"><i class="io"></i>采集数据波形图 <i class="arr-r fr"></i><span class="fr">更多</span></p>
+		<div class="boxin">
+			<div id="main" style="width: 100%; height: 1.77rem;"></div>
+		</div>
+		<div class="com">
+			<p class="tt">综合诊断结果</p>
+			<div class="tx">解释:<br>心搏出量高，心脏负荷过重，会导致心脏严重受损，形成慢性心功能不全，长期心脏负荷过重易诱发心力衰竭，一般与冠心病、高血压心脏病、心肌病、肺心病、风湿性心脏病等心血管病直接相关，故应引起足够重视。</div>
+			<div class="tx">建议:<br>
+				1)经常用本仪器检查,注意相关数值的变化，分析了解其原因。如自觉明显不适，应去医院作进一步检查治疗。<br>
+				2)注意日常生活起居慎风寒，戒烟禁酒，饮食应节制，心情常愉悦。<br>
+				3)积极治疗相关疾病，清除诱发因素。
+			</div>
+		</div>
+	</div>
 	
+	<div class="bmicomp">
+		<p class="zzbit" style=" padding: 0 0 0 .4rem;"><i class="io"></i>BMI指数 </p>
+		<section class="gy-bmi" style="padding: 1rem 0 0;">
+			<div class="prc">
+				<em class="sta">15</em>
+				<div class="aa bar"></div>
+				<div class="bb bar"></div>
+				<div class="cc bar"></div>
+				<div class="dd bar"></div>
+				<em class="end">40</em>
+			</div>
+			<div class="gshi">BMI=体重（kg）/身高（m2）</div>
+			<div class="ggrr">
+				<div class="int" style="left: .7rem;" v-if="userInfoView.bmiValue<18.5">
+					<p class="t1" style=" background: rgba(96, 195, 252, 0.2); color: #3CA9E9;">
+						<i><img src="img/xingongyi/bq-a.png"></i><font>{{userInfoView.bmiValue}}</font><span>过瘦</span>
+					</p>
+					<p class="t2"><img src="img/xingongyi/jt-a.png"></p>
+				</div>
+				<div class="int" style="left: 1.85rem;" v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24">
+					<p class="t1" style=" background: rgba(86, 224, 0, 0.2); color: #4AC300;">
+						<i><img src="img/xingongyi/bq-b.png"></i><font>{{userInfoView.bmiValue}}</font><span>标准</span>
+					</p>
+					<p class="t2"><img src="img/xingongyi/jt-b.png"></p>
+				</div>
+				<div class="int" style="left: 3.2rem;" v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28">
+					<p class="t1" style=" background: rgba(255, 125, 0, 0.2); color: #FF7D00;">
+						<i><img src="img/xingongyi/bq-c.png"></i><font>{{userInfoView.bmiValue}}</font><span>超重</span>
+					</p>
+					<p class="t2"><img src="img/xingongyi/jt-c.png"></p>
+				</div>
+				<div class="int" style="left: 4.6rem;" v-else-if="userInfoView.bmiValue>28">
+					<p class="t1" style=" background: rgba(255, 0, 0, 0.2); color: #FF0000;">
+						<i><img src="img/xingongyi/bq-d.png"></i><font>{{userInfoView.bmiValue}}</font><span>肥胖</span>
+					</p>
+					<p class="t2"><img src="img/xingongyi/jt-d.png"></p>
+				</div>
+				<div style=" font-size: .26rem; line-height: .4rem; padding: .1rem .3rem;background: #FFF6F1; border-radius: .3rem; margin: .2rem;">
+					<p v-if="userInfoView.bmiValue<18.5">体重过低，易导致身体抵抗力下降，免疫力降低。</p>
+					<p v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24">请继续保持。</p>
+					<p v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28">超重是引起慢性病的重要危险因素，超重人群患高血压的危险是体重正常者的3~4倍，患糖尿病的危险是体重正常者的2~3倍。</p>
+					<p v-else-if="userInfoView.bmiValue>28">肥胖是引起慢性病的重要危险因素，肥胖者中90%以上易患高血压或糖尿病，缺血性脑卒中发病的相对危险度为2.2。</p>
+				</div>
+			</div>
+		</section>
+		<div class="gy-jcxx" style="padding: .5rem 0 .5rem;">
+			<div class="shenti">
+				<template v-if="userInfoView.sex==1">
+					<img v-if="userInfoView.bmiValue<18.5" class="boy" src="img/xgy/man-1.png">
+					<img v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24" class="boy" src="img/xgy/man-2.png">
+					<img v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28" class="boy" src="img/xgy/man-3.png">
+					<img v-else-if="userInfoView.bmiValue>28" class="boy" src="img/xgy/man-4.png">
+				</template>
+				<template v-else>
+					<img v-if="userInfoView.bmiValue<18.5" class="boy" src="img/xgy/woman-1.png">
+					<img v-else-if="userInfoView.bmiValue>=18.5 && userInfoView.bmiValue<24" class="boy" src="img/xgy/woman-2.png">
+					<img v-else-if="userInfoView.bmiValue>=24 && userInfoView.bmiValue<28" class="boy" src="img/xgy/woman-3.png">
+					<img v-else-if="userInfoView.bmiValue>28" class="boy" src="img/xgy/woman-4.png">
+				</template>
+				
+				<div class="height item"><p><i><img src="img/xingongyi/bo-height.png"></i><span>{{userInfoView.height}}cm</span></p></div>
+				<div class="bmi item"><p><i><img src="img/xingongyi/bo-bmi.png"></i><span>{{userInfoView.bmiValue}}</span></p></div>
+				<div class="weight item"><p><i><img src="img/xingongyi/bo-weight.png"></i><span>{{userInfoView.weight}}kg</span></p></div>
+				<img class="line1" src="img/xingongyi/blue-line1.png">
+				<img class="line2" src="img/xingongyi/blue-line2.png">
+				<img class="line3" src="img/xingongyi/blue-line3.png">
+				<img class="quan" src="img/xgy/quan.png">
+			</div>
+		</div>
+		<div class="comtxt" style="margin:1rem .4rem .4rem;">
+			<p class="tt">导致疾病</p>
+			<div class="tx">Ⅱ型糖尿病，高血压，高脂血症，高尿酸血症，痛风，脂肪肝，冠心病，脑血管病</div>
+			<p class="tt">改善建议</p>
+			<div class="tx">控制总能量的摄入，适当增加粗杂粮及富含膳食纤维的食物。限制甜食、含糖饮料。改变不良生活习惯、戒烟酒。根据个人身体情况适量进行快走、慢跑、游泳等有氧运动。</div>
+		</div>
+	</div>
+	<div style="padding: 0.2rem 0.4rem; line-height: 0.37rem; font-size: 0.26rem; color: rgb(153, 153, 153); text-align: center;">
+		注：此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响。
+	</div>
 	
-	
-	
-	
+
 </DIV>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 <script type="text/javascript" src="js/jquery.js"></script>
@@ -73,7 +530,7 @@
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
-<script>document.write('<script src="js/report711.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/report713.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script src="js/swiper.min.js"></script>
 <script type="text/javascript">
 (function (doc, win) {

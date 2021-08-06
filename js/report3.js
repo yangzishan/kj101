@@ -93,7 +93,9 @@ var myApp = new Vue({
 			inspectDate:'',
 			ranking:'',
 			targetName:'',
-			banData:'',
+			banData:[],
+			banData1:[],
+			banData2:[],
 			deviceSnNum:'',
 			language: language,  //默认中文
 		}
@@ -472,12 +474,19 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
+						res.data.forEach(function(el,index){
+							if(el.bannerPage == 1){
+								vm.banData1.push(el)
+							}else if(el.bannerPage == 2){
+								vm.banData2.push(el)
+							}
+						})
+						console.log(vm.banData1,vm.banData2)
 						vm.banData = res.data;
-						if(res.data.length == 0){
-							$('.ban_gg').remove()
-						}else{
-							banSlide(res.data.length);
-						}
+						setTimeout(function(){
+							banSlide(vm.banData1.length,'.gg_head')
+							banSlide(vm.banData2.length,'.gg_foot')
+						},500)
 					}
 				},
 				error: function(){console.log('wheelsort error')}
@@ -486,30 +495,29 @@ var myApp = new Vue({
 	},
 });
 //广告轮播
-function banSlide(page_count){ 
+function banSlide(page_count,el){ 
 	var page_now=1;
 	var page_num=1; //一页显示几个
-	var v_width = $('.v_content').width();
+	var v_width = $(el).width();
 	console.log(page_count)
-	console.log(v_width);
 	function next(){	
-		if(!$('.v_list').is(':animated')){
+		if(!$(el+' .v_list').is(':animated')){
 			if(page_now == page_count){
-				$('.v_list').animate({left:'0px'},'slow');
+				$(el+' .v_list').animate({left:'0px'},'slow');
 				page_now=1;
 			}else{
-				$('.v_list').animate({left:'-='+v_width},'slow');
+				$(el+' .v_list').animate({left:'-='+v_width},'slow');
 				page_now++;
 			}
 		}
 	};
 	function prev(){
-		if(!$('.v_list').is(':animated')){
+		if(!$(el+' .v_list').is(':animated')){
 			if(page_now == 1){
-				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				$(el+' .v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
 				page_now=page_count;
 			}else{
-				$('.v_list').animate({left:'+='+v_width},'slow');
+				$(el+' .v_list').animate({left:'+='+v_width},'slow');
 				page_now--;
 			}
 		}

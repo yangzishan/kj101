@@ -27,7 +27,7 @@
 				<!--<p class="pit">有82%的人处于亚健康状态</p>-->
 				<div class="biao-a">
 					<p class="ptt">
-						<span>分数段</span><span>人数</span><span>占比</span><span>环比</span><span>男性</span><span>女性</span>
+						<span>次数</span><span>人数</span><span>占比</span><span>环比</span><span>男性</span><span>女性</span>
 					</p>
 					<p class="pcc" v-for="item in one_list.data">
 						<span>{{item.inspectCntName}}</span><span>{{item.totalCnt}}</span><span>{{item.linkRatio}}</span><span>{{item.chainRatio}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span>
@@ -147,6 +147,24 @@
 		</div>
 		<div class="box-a a4">
 			<section>
+				<div class="cont_l fl">
+					<p class="tit">{{ten_list.tableName}}</p>
+					<div class="biao-d">
+						<p class="ptt">
+							<span>年龄段</span><span>男性</span><span>女性</span><span>总数</span><span>男性占比</span><span>女性占比</span>
+						</p>
+						<p class="pcc" v-for="item in ten_list.data">
+							<span>{{item.age_name}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span><span>{{item.totalCnt}}</span><span>{{item.manLinkRatio}}%</span><span>{{item.womanLinkRatio}}%</span>
+						</p>
+					</div>
+				</div>
+				<div class="cont_r fr">
+					<div id="main7" style="width: 100%; height: 250px;"></div>
+				</div>
+			</section>
+		</div>
+		<div class="box-a a4">
+			<section>
 				<div class="b-tit">{{eight_list.tableName}}</div>
 				<ul class="tenxt">
 					<li v-for="(item,index) in eight_list.data">
@@ -207,24 +225,7 @@
 			</div>	
 			
 		</div>
-		<div class="box-a">
-			<section>
-				<div class="cont_l fl">
-					<p class="tit">{{ten_list.tableName}}</p>
-					<div class="biao-d">
-						<p class="ptt">
-							<span>年龄段</span><span>男性</span><span>女性</span><span>总数</span><span>男性占比</span><span>女性占比</span>
-						</p>
-						<p class="pcc" v-for="item in ten_list.data">
-							<span>{{item.age_name}}</span><span>{{item.manCnt}}</span><span>{{item.womanCnt}}</span><span>{{item.totalCnt}}</span><span>{{item.manLinkRatio}}%</span><span>{{item.womanLinkRatio}}%</span>
-						</p>
-					</div>
-				</div>
-				<div class="cont_r fr">
-					<div id="main7" style="width: 100%; height: 250px;"></div>
-				</div>
-			</section>
-		</div>
+		
 	</div><!--/main-->
 </section>
 

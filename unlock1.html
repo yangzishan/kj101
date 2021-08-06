@@ -14,13 +14,13 @@
 .saastop p.tit{ color: #ffffff; font-size: .38rem; text-align: center; line-height: .66rem;}
 h4.bt{color: #636b7f; font-size: .36rem; font-weight: bold; line-height: .6rem; margin: 0 .3rem;}
 body .jiesuo{display: block; width:100%; height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .35rem; text-align: center; line-height: .88rem;}
-body .new .form{width:100%;padding:5%;margin-bottom:.6rem;padding-bottom:.2rem}
+body .new .form{width:100%;padding:5%;margin-bottom:.1rem;padding-bottom:.2rem}
 body .new .form > div{display:inline-block;width:45%;height:1.3rem;text-align:center;line-height:1.3rem;font-size:.48rem;border-radius:25px 7px}
 body .new .form > div:last-child{float:right}
 body .new .form .active{background:#00d6ca;color:#fff}
 body .new .box-form{padding-left:.7rem;display:none;border-radius:5px;padding-bottom:.3rem}
 body .new .box-form .list{margin-bottom:.3rem}
-body .new .box-form .list > .keky{width:1.5rem;display:inline-block}
+body .new .box-form .list > .keky{width:1.5rem;display:inline-block; line-height: .6rem;}
 body .new .box-form .list:not(:nth-child(3)) > input{-webkit-appearance:input;height:.6rem;border-radius:3px;border:1px solid #000;text-align:right;padding-right:7px}
 body .new .box-form .list:nth-child(3) > input{-webkit-appearance:radio;vertical-align:-0.02rem;border:1px solid #000}
 body .new .box-form .list [for=sex1]{margin-right:.5rem}
@@ -31,6 +31,9 @@ body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
 .txlist li{ height: .72rem; line-height: .72rem;}
 .txlist li i{ display: inline-block; width: .1rem; height: .1rem; vertical-align: top; background: #02cbc0; border-radius: 50%; margin: .31rem .11rem 0 0;}
 .txlist li span{ font-size: .32rem; color: #747588;}
+.sendyzm{ height: .6rem; line-height: .6rem;border: #00d6ca solid 1px; border-radius: .1rem;padding: 0 .1rem; background: none; margin-left: .1rem;}
+button.off{ color: #666666; border: #cccccc solid 1px;}
+.jiesuo.off{background: #cccccc;}
 </style>
 </head>
 <body>
@@ -121,6 +124,9 @@ body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
 				<div class="list">
 					<label for="tel" class="keky"><em>*</em> 手机号</label><input type="tel" id="tel" name="tel" pattern="\d*"/>
 				</div>
+				<div class="list">
+					<label for="tel" class="keky"><em>*</em> 验证码</label><input v-model="code" style="width: 2rem;" type="tel" name="yzm" pattern="\d*"/><button @click="sendyzm($event)" class="sendyzm">获取验证码</button>
+				</div>
 				<div class="list tishi">
 					请填写必填内容
 				</div>
@@ -131,7 +137,7 @@ body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
 		</section>
 		
 		<div style="margin: 0 .3rem;">
-			<button @click="unlock()" class="jiesuo" >
+			<button @click="unlock($event)" class="jiesuo" >
 				解 锁
 			</button>
 		</div>
@@ -165,6 +171,8 @@ body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
 })(document, window);
 </script>
 <script>
+var wait=60;
+var wait2=30
 var data = {};
 var openId = getQueryString('openId');
 var saasId = getQueryString('saasId');
@@ -197,11 +205,57 @@ var myApp = new Vue({
 		return{
 			openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl,
 			language:languageStr,
-			userRegisterVer: userRegisterVer
+			userRegisterVer: userRegisterVer,
+			code:'' //验证码
 		}
 	},
 	methods: {
-		unlock: function(){
+		sendyzm: function(e){
+			var vm = this;
+			if(!(/^1[3456789]\d{9}$/.test($('#tel').val()))){ 
+				alert('请输入正确的手机号码');
+				return false;
+			}else{
+				time($(e.target))
+				vm.getCode()
+			}
+				
+		},
+		getCode: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/getCode",
+				dataType : 'json',
+		        data : {
+		        	userId: $('#tel').val()
+		        },
+		        success: function(res){
+		        	if(res.code == 200){
+						vm.kjSendMsg(res.data);
+					}else{
+						alert('获取短信码失败 getCode code='+codeData.code);
+					}	
+		        }
+			});
+		},
+		kjSendMsg: function(code){ //发送短信
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/kjSendMsg",
+				dataType:'Json',
+				data:{
+					mobile : $('#tel').val(),
+					code : code,
+					userId : $('#tel').val()
+				},
+				success:function(res){console.log('发送短信')},
+				error:function(){console.log('kjSendMsg error')}
+
+			});
+		},
+		unlock: function(e){
 			var vm = this;
 
 			if($('.yyyh').hasClass('active')){
@@ -213,12 +267,16 @@ var myApp = new Vue({
 				data.weight = $('#weight').val();
 				data.userTel = $('#tel').val();
 				data.nickName = $('#userName').val();
+				data.code = vm.code;
 				data.registerUser = 1;
 				data.saasId = saasId;
 				data.deviceSn = deviceSn;
 				data.inviterId = openId;
+				if(userRegisterVer == 2){
+					data.idcardNo = $('#idcardNo').val();
+				}
 				$.each(data,function(key,val){
-					console.log(val)
+					console.log(key+'='+val)
 					if(val == '' || val == undefined){
 						flag = true;
 					}
@@ -229,16 +287,16 @@ var myApp = new Vue({
 					$('.tishi').css('display','block');
 					return;
 				}
-				data.idcardNo = $('#idcardNo').val();
 				$.ajax({
 					type:"post",
-					url: saasUrl+ "/api/v1/invite/invitePeopleDetection",
+					url: saasUrl+ "/api/v1/invite/invitePeopleDetection?code="+vm.code,
 					dataType: 'json',
 					contentType : 'application/json',
 					data : JSON.stringify(data),
 					success: function(res){
 						if(res.code == 200){
 							console.log('success')
+							//time2($(e.target))
 							WeixinJSBridge.call('closeWindow');
 						}else if(res.code == 40001){
 							alert(res.msg)
@@ -284,6 +342,37 @@ function getQueryString(name) {
         return "";
     }
     return result[1];
+}
+
+//倒计时读秒    默认wait=60;
+function time(tm){
+	if(wait==0){
+		tm.attr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.removeClass('off')
+	}else{
+		tm.addClass('off')
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+function time2(tm){
+	if(wait2 == 0){
+		tm.attr('disabled',false);
+		tm.text('解锁');
+		wait2 = 30;
+		tm.removeClass('off')
+	}else{
+		tm.addClass('off')
+		tm.attr("disabled",true);
+		tm.text(wait + "秒")
+		wait--;
+		setTimeout(function(){time2(tm);},1000);
+		
+	}
 }
 
 </script>

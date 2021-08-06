@@ -151,7 +151,7 @@
 				<template v-for="item in resultViews">
 				<div class="zhItem" v-if="(item.name != '肺 功 能' || item.metricType != 6) && item.metricType != 7">
 					<p class="titl"><span>{{item.name}}</span>
-						<template v-if="item.resultex">
+						<template v-if="item.data.length>0">
 							<!--<em  v-if="item.metricType ==3" style="color: #F10000;">{{item.resultex.replace(/\|/g,' ')+' '+fei}}</em>-->
 							<!--<em  v-else style="color: #F10000;">{{item.resultex.replace(/\|/g,' ')}}</em>-->
 							<em style="color: #F10000;">
@@ -219,7 +219,7 @@
 			</div>
 			
 		</section>
-		<p style="font-size: .2rem; padding: .1rem .3rem; color: #999; text-align: center; line-height: .4rem;">此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响</p>
+		<p style="font-size: .2rem; padding: .1rem .3rem; color: #999; text-align: center; line-height: .4rem;">注：此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响。</p>
 	</div>
 	
 <div class="v_overlay"></div>

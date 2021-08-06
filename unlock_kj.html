@@ -26,6 +26,9 @@ to{transform:rotate(-360deg)}
 }body .loadmore.loading.lll{position:relative;top:1rem;left:45%;font-size:18px}
 body .loadmore{display:block}
 .my_view{display:none}
+.intyzm{ display: inline-block; height: .86rem; vertical-align: top; width: 50%; font-size: .3rem;}
+.sendyzm{ display: inline-block; vertical-align: top; width: 49.5%; font-size: .3rem; text-align: center; background: rgba(46, 186, 177,0.5); color: #ffffff; border-radius: .08rem; line-height: .86rem;}
+button.off{ background: #cccccc;}
 </style>
 </head>
 <body class="bck-col-fff">
@@ -48,11 +51,18 @@ body .loadmore{display:block}
         <span class="lab">电话</span><!--电话-->
         <span class="fle"><input type="number" id="mobile" placeholder="请输入手机号码" v-model="userData.userTel" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)"></span>
       </p>
+    <div class="cpxt" style="font-size: 0;">
+        <span class="lab">验证码</span><!--电话-->
+        <div class="fle">
+        	<span class="intyzm"><input type="number" placeholder="输入验证码" v-model="code"></span>
+        	<button class="sendyzm" @click="sendyzm($event)">发送验证码</button>
+        </div>
+    </div>
     <p class="cpxt may_sex">
 			<span class="lab">性别</span><!--性别-->
 			<span class="fle">
-				<input type="radio" id="sex1" name="sex" value="1" v-model="userData.gender"><label for="sex1">男</label> 
-				<input type="radio" id="sex2" name="sex" value="2" v-model="userData.gender"><label for="sex2">女</label>
+				<input type="radio" id="sex1" name="sex" value="1" v-model="userData.gender"><label for="sex1"> 男</label> 
+				<input type="radio" id="sex2" name="sex" value="2" v-model="userData.gender"><label for="sex2"> 女</label>
 			</span>
     </p>
     <p class="cpxt reportType120" >
@@ -105,6 +115,7 @@ body .loadmore{display:block}
 </script>
 <script>
 var openId = getQueryString('openId');
+var wait=60;
 var app = new Vue({
 	el:'#vmapp',
 	data:function(){
@@ -118,11 +129,58 @@ var app = new Vue({
 				height:'',
 				weight:'',
 				inviterId: openId,
-				qrUrl:''
+				qrUrl:'',
+				code:''
 			},
+			code:''
 		}
 	},
 	methods:{
+		sendyzm: function(e){
+			var vm = this;
+			if(!(/^1[3456789]\d{9}$/.test(vm.userData.userTel))){ 
+				alert('请输入正确的手机号码');
+				return false;
+			}else{
+				time($(e.target))
+				vm.getCode()
+			}
+				
+		},
+		getCode: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/getCode",
+				dataType : 'json',
+		        data : {
+		        	userId: vm.userData.userTel
+		        },
+		        success: function(res){
+		        	if(res.code == 200){
+						vm.kjSendMsg(res.data);
+					}else{
+						alert('获取短信码失败 getCode code='+codeData.code);
+					}	
+		        }
+			});
+		},
+		kjSendMsg: function(code){ //发送短信
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/kjSendMsg",
+				dataType:'Json',
+				data:{
+					mobile : vm.userData.userTel,
+					code : code,
+					userId : vm.userData.userTel
+				},
+				success:function(res){console.log('发送短信')},
+				error:function(){console.log('kjSendMsg error')}
+
+			});
+		},
 		soSub: function(){
 			var vm = this
 			console.log(vm.userData);
@@ -161,7 +219,7 @@ var app = new Vue({
 		sendP: function(){
 			var vm = this
 			$.ajax({
-		      url: dataUrl+'/api/v1/neUnLock/invite',
+		      url: dataUrl+'/api/v1/neUnLock/invite?code='+vm.code,
 		      type:'POST',
 		      contentType : 'application/json',
 		      dataType : 'json',
@@ -239,6 +297,22 @@ function getQueryString(name){
     return result[1];
 };
   
+//倒计时读秒    默认wait=60;
+function time(tm){
+	if(wait==0){
+		tm.attr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.removeClass('off')
+	}else{
+		tm.addClass('off')
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+
 const windowHeightSize = String(document.documentElement.clientHeight || document.body.clientHeight );
 if (!(localStorage.getItem('windowHeight'))) {
   localStorage.setItem('windowHeight' , windowHeightSize);

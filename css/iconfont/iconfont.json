@@ -1,0 +1,37 @@
+{
+  "id": "2703399",
+  "name": "baogao",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2674878",
+      "name": "箭头 上",
+      "font_class": "jiantoushang",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "15726827",
+      "name": "箭头 下",
+      "font_class": "jiantouxia",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "18829242",
+      "name": "箭头",
+      "font_class": "jiantou-copy",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "18829247",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    }
+  ]
+}

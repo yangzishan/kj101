@@ -197,6 +197,20 @@ var myApp = new Vue({
 					data.idcardNo = $('#idcardNo').val();
 				}
 				info.customerInviteVo = data
+				
+				if(data.age >110 || data.age<18){
+					alert('本设备只支持18到110岁之间检测')
+					return;
+				};
+				if(data.height >240 || data.height == ''){
+					alert('请输入有效身高 ')
+					return;
+				}
+				if(data.weight >250 || data.weight == ''){
+					alert('请输入有效体重 ')
+					return;
+				}
+				
 				$.ajax({
 					type:"post",
 					url: saasUrl+ "/api/v1/ne/neUnlock",

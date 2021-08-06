@@ -45,13 +45,45 @@ var myApp = new Vue({
 			invite:invite,
 			zong:{},
 			viewTab:1,
+			offHeight:sessionStorage.getItem("offsetTop")?sessionStorage.getItem("offsetTop"):0,
+			arrMin:0,
+			count:0
 		}
 	},
 	mounted: function(){
+		var vm = this
 		this.getData();
 		this.getMk701Video();
+		// 抓取滚动位置
+		//this.offHeight = sessionStorage.getItem("offsetTop");
+		console.log('scroll之前='+this.offHeight)
+		setTimeout(function(){
+			$(window).scroll(function(){ 
+				vm.getoffheight()
+			});
+		},100)
+		
+	},
+	watch:{
+		count:function(val){
+			if(val == 2){
+				console.log('记录上次位置位置'+this.offHeight)
+				$(document).scrollTop(this.offHeight)
+			}
+		}
 	},
 	methods: {
+		handlevideo: function(index){
+			$('#img'+index).css('display','none')
+			var v = document.getElementById("vid"+index)
+			if(v.paused || v.ended) {
+                v.play();
+            }
+		},
+		getoffheight: function(){
+			//console.log($(window).scrollTop())
+			sessionStorage.setItem("offsetTop", $(window).scrollTop());//保存滚动位置
+		},
 		handleItem:function(item){
 			sessionStorage.setItem("item", JSON.stringify(item));
 			location.href="xgy_item.html?"+'reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
@@ -124,33 +156,35 @@ var myApp = new Vue({
 						})
 						vm.analysedWaveform = JSON.parse(res.data.reportStr.analysedWaveform)
 						console.log(vm.analysedWaveform)
+						vm.arrMin = vm.analysedWaveform.pwavedata.min()
 						vm.analysedWaveform.pwavedata.forEach(function(i,index){
 							vm.xlist.push(index) //作图x坐标轴
 							
 							vm.analysedWaveform.pmax.forEach(function(n){
 								if(n == index && n != 0){
-									vm.markLineList.push([{coord:[n,150],lineStyle:{color:'blue'}},{coord:[n,i]}])
+									vm.markLineList.push([{coord:[n,0],lineStyle:{color:'blue'}},{coord:[n,i]}])
 								}
 							});
 							vm.analysedWaveform.pe.forEach(function(n){
 								if(n == index && n != 0){
-									vm.markLineList.push([{coord:[n,150],lineStyle:{color:'green'}},{coord:[n,i]}])
+									vm.markLineList.push([{coord:[n,0],lineStyle:{color:'green'}},{coord:[n,i]}])
 								}
 							});
 							vm.analysedWaveform.pf.forEach(function(n){
 								if(n == index && n != 0){
-									vm.markLineList.push([{coord:[n,150],lineStyle:{color:'#ff0000'}},{coord:[n,i]}])
+									vm.markLineList.push([{coord:[n,0],lineStyle:{color:'#ff0000'}},{coord:[n,i]}])
 								}
 							});
 							vm.analysedWaveform.pmin.forEach(function(n){
 								if(n == index && n != 0){
-									vm.markLineList.push([{coord:[n,150],lineStyle:{color:'#666666'}},{coord:[n,i]}])
+									vm.markLineList.push([{coord:[n,0],lineStyle:{color:'#666666'}},{coord:[n,i]}])
 								}
 							});
 						});
 						console.log(vm.markLineList)
 						
-						creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList)
+						creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList,vm.arrMin)
+						vm.count++
 					}else{
 						console.log('code = '+res.code)
 					}
@@ -183,6 +217,7 @@ var myApp = new Vue({
 					        	vm.swi()
 					        },1000)
 						}
+						vm.count++
 					}else{
 						console.log('code = '+res.code)
 					}
@@ -226,7 +261,7 @@ function getQueryString(name) {
     return result[1];
 };
 //作脉搏图
-function creatChart(el,xlist,ylist,markLineList){
+function creatChart(el,xlist,ylist,markLineList,min){
 let myChart = echarts.init(document.getElementById('main'));
   let option = {
       title: {
@@ -261,7 +296,7 @@ let myChart = echarts.init(document.getElementById('main'));
       yAxis: {
           show: false,
           scale:true,
-          min:150,
+          min:min-100,
           name: '脉搏(m^3/ms)',
           type: 'value',
       },
@@ -300,6 +335,18 @@ let myChart = echarts.init(document.getElementById('main'));
   };
   // 绘制图表
   myChart.setOption(option);
+}
+
+//最小值
+Array.prototype.min = function(){
+  var min = this[0];
+  var len = this.length;
+  for(var i=1; i<len; i++){
+    if(this[i] < min){
+      min = this[i];
+    }
+  }
+  return min;
 }
 
 

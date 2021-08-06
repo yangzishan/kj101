@@ -21,6 +21,12 @@
 .bo-inf .btt{ font-size: .3rem; font-weight: 600; color: #666666; border-bottom: #DDDDDD solid 1px; line-height: .88rem;}
 .bo-inf .xx{ padding: .24rem 0; line-height: .45rem; font-size: .26rem;}
 </style>
+<style type="text/css">
+.swiper-container {width: 100%; height: 3.5rem;}
+.swiper-slide {text-align: center; background: #fff; width: 80%; padding: 0 0 0 .3rem;}
+.swiper-slide .shipin{width: 4.88rem; height: 2.745rem; overflow: hidden; border-radius: .3rem;}
+.swiper-slide .tt{ line-height: .6rem; height: .6rem; text-align: left; font-size: .3rem;}
+</style>
 </head>
 <body style="background: #F7FAFB;">
 <DIV class="my_view newxgy" style="visibility: visible;">
@@ -31,6 +37,26 @@
 	<section class="bo-box">
 		<div id="main" style="width: 100%; height: 2.48rem;"></div>
 	</section>
+	
+	<section style="padding: .2rem 0; margin: .2rem auto; background: #ffffff; overflow: hidden;">
+		<!--<p class="btt" style="font-size: .3rem; font-weight: 600; line-height: .6rem; padding: 0 .4rem .2rem;">心血管疾病与我们的关系</p>-->
+		<div class="swiper-container">
+		    <div class="swiper-wrapper">
+		      <div class="swiper-slide" v-for="item in videos">
+		      	<div class="shipin">
+	      			<video width="100%" controls preload="auto" :poster="item.videoImg">
+						<source :src="item.videoUrl" type="video/mp4">
+						您的浏览器不支持Video标签。
+					</video>
+		      	</div>
+		      	<p class="tt">{{item.videoTitle}}</p>
+		      </div>
+		      <!--<div class="swiper-slide">Slide 2</div>-->
+		    </div>
+		    <!-- Add Pagination -->
+		</div>
+	</section>
+	
 	<section class="bo-inf">
 		<p class="btt">脉搏波形释义</p>
 		<div class="xx">
@@ -70,6 +96,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script src="js/swiper.min.js"></script>
 <!--<script type="text/javascript" src="js/echarts/echarts.min.js"></script>-->
 <script type="text/javascript">
 (function (doc, win) {
@@ -130,6 +157,25 @@ var myApp = new Vue({
 			analysedWaveform:{},
 			xlist:[],
 			markLineList:[],
+			videos:[
+				{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1020.mp4?versionId=CAEQFRiBgIDg09zqyhciIGFkYmUwODgzZWQ1OTQ1ZDZiZjhjMGNhNjVjMDgxNTBh',
+					videoTitle:'脉搏波简介',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1020.jpg?versionId=CAEQFRiBgMCy0tzqyhciIDY0MzMwYTJjZmJmYjQ3ZGNiOGQyNGQwMWFkYjU1ZjA1'
+				},{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1021.mp4?versionId=CAEQFRiBgIDC09zqyhciIGNkOWUyMzM4NmE2ZjRmNWI5ZTlhMGRhNzMwMGRjZWNk',
+					videoTitle:'脉搏波对比 ',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1021.jpg?versionId=CAEQFRiBgIC50tzqyhciIDE4NzRjYWI1ZDMzNjRlNDY4ZjYwOWE4NDBmYWU0NzQy'
+				},{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1022.mp4?versionId=CAEQFRiBgICt0tzqyhciIDgzZDNkZmYyNmU1MzRiYjdhNmJiNWVhMmZjOGNhYTQ4',
+					videoTitle:'脉搏波采集质量 ',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1022.jpg?versionId=CAEQFRiBgIC20tzqyhciIDg3NTY3MzM5ZjE3MjQ5MDRiMDllOGM3NjQzNjlhNjgw'
+				},{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1023.mp4?versionId=CAEQFRiBgMDs0tzqyhciIGM5NzBhODQ0ZWM0ZjRiMDNhZmI5OWM0ZTNiYzdkZmNm',
+					videoTitle:'常见参数解释',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1023.jpg?versionId=CAEQFRiBgICN09zqyhciIDcwZWY0ZDc1Y2JlNjQ2MDdhYzFlOTRhNWFlNmZiZWYx'
+				}
+			]
 
 		}
 	},
@@ -137,6 +183,12 @@ var myApp = new Vue({
 		this.getData();
 	},
 	methods: {
+		swi: function(){
+			var swiper = new Swiper('.swiper-container', {
+		      slidesPerView: 'auto',
+		      spaceBetween: 0,
+		    });
+		},
 		getData: function(){
 			$('.my_view').css("visibility","visible");
 			$('.load-overlay').css("display","none");
@@ -168,6 +220,7 @@ var myApp = new Vue({
 					}
 				});
 			});
+			vm.swi()
 			console.log(vm.markLineList)
 			setTimeout(function(){
 				creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList)

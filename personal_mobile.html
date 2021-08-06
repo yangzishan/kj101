@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>添加电话</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.bggoff{ background: #ccc;}	
+.yzmd{display: inline-block; vertical-align: top; width: 50%;}
+.yzms{ float: right; line-height: .88rem; width: 40%; text-align: center; font-size: .28rem; background: #f2f2f2; color: #00aca0;}
+</style>
+</head>
+<body>
+<section class="my_view bck-col-f4">
+<div class="top-nav"><a class="goback" href="javascript:history.go(-1);"></a><span class="tit">添加电话</span></div>
+<p class="k1"></p>
+<div style=" padding: .2rem 0; background: #ffffff;">
+<div class="ncdint" style=" margin-bottom: .3rem;">
+	<input id="mobile" type="number" placeholder="请输入手机号" pattern="[0-9]*" v-model="mobile">
+</div>
+<div class="ncdint">
+	<div class="yzmd">
+		<input type="number" placeholder="验证码" pattern="[0-9]*" v-model="dxYzm">
+	</div>
+	<button class="yzms" @click="sendmsg($event)">获取验证码</button>
+</div>
+</div>
+
+<p class="d-out"><button @click="sub" class="mbtn-sub" :class="{bggoff:mobile=='' || dxYzm ==''}" :disabled="mobile=='' || dxYzm ==''">{{language.la_ok}}</button></p>
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay"></div>
+
+</section>	
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script type="text/javascript">
+var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+if(JsSrc.indexOf('zh')>=0){
+	var language = zh;
+	var languageStr = 'zh';
+}else if(JsSrc.indexOf('en')>=0){
+    var language = en;
+    var languageStr = 'en';
+    document.title = 'mobile'
+}else{
+	var language = en;
+    var languageStr = 'en';
+    document.title = 'mobile'
+}
+
+var userId=getQueryString("userId");
+var reportType=getQueryString("reportType");
+
+var myapp = new Vue({
+	el:'.my_view',
+	data:function(){
+		return {
+			mobile:'',
+			dxYzm:'',
+			language:language,
+			userInfo:{
+				mobile:'',
+				userId:userId
+			}
+		}
+	},
+	mounted:function(){
+		
+	},
+	methods:{
+		sendmsg: function(e){
+			var vm = this;
+			if(!(/^1[3456789]\d{9}$/.test(vm.mobile))){ 
+				alert('请输入正确的手机号码');
+				return false;
+			}else{
+				time($(e.target))
+				vm.getCode()
+			}
+			
+		},
+		getCode: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/getCode",
+				dataType : 'json',
+		        data : {
+		        	userId: vm.mobile
+		        },
+		        success: function(res){
+		        	if(res.code == 200){
+						vm.kjSendMsg(res.data);
+					}else{
+						alert('获取短信码失败 getCode code='+codeData.code);
+					}	
+		        }
+			});
+		},
+		kjSendMsg: function(code){ //发送短信
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl + "/api/v1/messageCode/kjSendMsg",
+				dataType:'Json',
+				data:{
+					mobile : vm.mobile,
+					code : code,
+					userId : vm.mobile
+				},
+				success:function(res){console.log('发送短信')},
+				error:function(){console.log('kjSendMsg error')}
+
+			});
+		},
+		sub: function(){
+			var vm = this;
+			vm.userInfo.mobile = vm.mobile;
+			$.ajax({
+				url : dataUrl + "/api/v1/reportUser/perfectUserInfo?code="+vm.dxYzm,
+				type : "post",
+				dataType : 'json',
+				contentType : 'application/json',
+		        data : JSON.stringify(vm.userInfo),
+				success : function(userData) {
+					console.log('请求完善用户接口');
+					if(userData.code == 200){
+						location.href="personalData.html?userId="+userId	
+					}else if(userData.code == 1003){
+						showMask('该手机号已被绑定');		
+					}else if(userData.code == 303){
+						showMask('验证码错误');
+					}else{
+						showMask('登录失败  perfectUserInfo code='+userData.code);
+						//$(this).attr("disabled",false);
+					}	
+				},
+				error : function(){alert('perfectUserInfo error')}
+			})
+			
+			
+			
+		}
+	}
+})
+
+	
+	/*$('#mobile').on("change focus keyup keypress input",function(){
+		var value = $(this).val();
+		var dian = /\./g;
+		if(dian.test(value)){
+			this.value = value.replace(dian,'');
+		};
+		if(value.length>3){
+			this.value = value.slice(0,3);
+		};
+		if(value == ''){
+			$('.mbtn-sub').attr("disabled",true);
+			$('.mbtn-sub').addClass('bg-off');
+		}else{
+			$('.mbtn-sub').attr("disabled",false);
+			$('.mbtn-sub').removeClass('bg-off');
+		}
+	});*/
+	
+//倒计时读秒
+var wait=60;
+function time(tm){
+	if(wait==0){
+		tm.removeAttr("disabled",false);
+		tm.text('获取验证码');
+		wait=60;
+		tm.css({"color":"#00aca0"}); //控制样式
+	}else{
+		tm.css({"color":"#999"}); //控制样式
+		tm.attr("disabled",true);
+		tm.text(wait + "秒后重新发送")
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+
+//弹窗 模拟alert
+function showMask(msg){ //showMask('msg');
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2.5);
+	});
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#alert').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+	$('#alert .subBtn').click(function(){closeMask()});
+}
+function closeMask(){
+	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+	$('#alert').css({"visibility":"hidden","opacity":"0"});
+}
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+
+</script>
+</body>
+</html>

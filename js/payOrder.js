@@ -63,6 +63,25 @@ var myApp = new Vue({
   		}
   	},
   	methods:{
+  		//爱展业报告数据推送 支付成功后调用
+  		azySendReportSaas: function(){
+  			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/weiXin/azySendReportSaas",
+				dataType:'Json',
+				data:{
+					saasId:vm.saasId,
+					reportId: vm.reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						console.log('success')
+					}
+				},
+				error: function(){console.log('azySendReportSaas error')}
+			});
+  		},
   		//查看报告来源
 		getReportSource: function(){
 			var vm = this;
@@ -84,8 +103,6 @@ var myApp = new Vue({
 								vm.goReport(reportId,'',userId,openId,saasId,'')
 							}
 						}
-						
-							
 					}
 				},
 				error: function(){console.log('getReportSource error')}
@@ -200,6 +217,7 @@ var myApp = new Vue({
 												'方式': '微信'
 											},function(){
 												vm.updateCustomerSaas()
+												vm.azySendReportSaas() //改后台调用
 											});
 					                    }else if (res.err_msg == "get_brand_wcpay_request:cancel") {
 											alert("支付取消");
@@ -309,6 +327,12 @@ var myApp = new Vue({
 								$('.daifu_d').css("display","none");
 							});
 						}else{
+							//志农谷支付后 跳转下载引导页面
+							if(reportSource == 9){
+								location.href = "https://www.zngst.com/code/#/bgGuide"
+								return
+							}
+							
 							if(reportType == 121 || reportType == 122 || reportType == 12001 || reportType == 123){
 							location.href = 'report120.html'+reportUrl
 							}else if(reportType == 501 || reportType == 502 || reportType == 5021 || reportType == 505 || reportType == 503){

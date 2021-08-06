@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>我的年卡</title>
+<title>我的VIP卡</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
@@ -16,24 +16,26 @@
 <header class="header">
 	<a class="b-arr fl" href="javascript:history.go(-1);"></a>
 	<a class="t-right fr" href=""></a>
-	<p class="t-cen txt1"><span>我的年卡</span></p>
+	<p class="t-cen txt1"><span>我的VIP卡</span></p>
 </header>	
 <div class="tjk_v" id="appVUE">
 	
-	<a class="g-tyk" v-for="card in cards" :href="card.password|getRecordHref">
-		<div class="tyk_x">
-			<em class="mask">已绑定</em>
+	<a class="g-tyk" v-for="card in cards" @click="handelCard(card)">
+		<div class="tyk_x" :class="{invalid:card.sta == 1 || card.sta == 2}">
+			<em class="mask" v-if="card.sta == 1">已过期</em>
+			<em class="mask" v-else-if="card.sta == 2">已失效</em>
+			<em class="mask" v-else>已绑定</em>
 			<p class="tit"><span class="nam">VIP</span><span class="nam_lit">(年)</span></p>
-			<p class="tnum">卡号 <span>{{card.password}}</span></p>
-			<input class="kaNo" type="hidden" :value="card.password" />
+			<p class="tnum">卡号 <span>{{card.password2}}</span></p>
+			<!--<input class="kaNo" type="hidden" :value="card.password2" />-->
 			<p class="remainder">剩余<span class="sxValue">{{card.value}}</span>次</p>
 			<p class="date">有效期至 <span class="sxDate">{{card.endTime}}</span></p>
 			<i class="sel"></i>
 			<input type="radio" />
 		</div>
 	</a>
-	
-	<div class="tyk-fix"><a class="tyk-btn" id="goBind" href="addTycard.html">添加年卡</a></div>
+	<div style="text-align: center; line-height: .88rem;" v-show="showts">您目前没有可用卡</div>
+	<div class="tyk-fix"><a class="tyk-btn" id="goBind" @click="handleBindCard">添加VIP卡</a></div>
 </div>	
 </section>
 
@@ -76,71 +78,95 @@ function GetQueryString(name){
 };
 var myuserId=GetQueryString("userId");
 
-$.ajax({
-	url : dataUrl + "/api/v1/cardPay/findUserCards",
-	type : "POST",
-	dataType : 'json',
-	data : {
-	   	userId : myuserId
-	},
-	success : function(data) {
-		//alert('get it');
-		if(data.code == 200){
-			$('.my_view').css("display","block");
-			$('.load-overlay').css("display","none");
-			var myApp = new Vue({
-			  	el: '#appVUE',
-			  	data: {
-			    	cards: data.data.List
-			  	},
-			  	//过滤器
-			  	filters:{
-		    		getRecordHref:function(val){
-		            	return 'tyCardRecord.html?cardNo=' + val 
-		       		}
-			  	}
-			  
-			});
-			//隐藏中间卡号
-			$('.g-tyk .tyk_x .tnum span').each(function(){
-				var str = $(this).text();
-				var reg = /^(\d{4})\d+(\d{4})$/;
-				$(this).text(str.replace(reg, "$1********$2"));
-			});
-			//跳转绑卡
-			$('#goBind').attr("href","addTycard.html?userId=" + myuserId);
-			
-			//置灰过期卡失效卡
-			$('.g-tyk').each(function(){
-				
-				var dateStr1 = $(this).find('.sxDate').text();
-				var date1 = new Date(dateStr1.replace(/-/g, '/'));
-				var timestamp1 = date1.getTime();
-				var date2 = new Date();
-				var timestamp2 = date2.getTime();
-				var sxDate = timestamp2 - timestamp1;		
-				var sxValue = parseInt($(this).find('.sxValue').text());
-				if(sxDate>=0){
-					$(this).find('.tyk_x').addClass('invalid');
-					$(this).find('.mask').text('已过期');
-				}else if(sxValue == 0){
-					$(this).find('.tyk_x').addClass('invalid');
-					$(this).find('.mask').text('已失效');
-				};
-				var dateStr2 = dateStr1.substring(0,10);
-				$(this).find('.sxDate').text(dateStr2);
-			});
-			
-			
-		}else{
-			alert('code='+ data.code + data.msg);
+var myapp = new Vue({
+	el:'#appVUE',
+	data:function(){
+		return{
+			cards:[],
+			showts: false
 		}
 	},
-	
-	error : function(obj,msg){
-		console.log('post请求失败');
+	methods:{
+		findUserCards: function(){
+			var vm = this;
+			$.ajax({
+				url:dataUrl + "/api/v1/cardPay/findUserCards",
+				type:"post",
+				dataType:'json',
+				data:{
+					userId:myuserId
+				},
+				async:true,
+				success: function(res){
+					if(res.code == 200){
+						$('.my_view').css("display","block");
+						$('.load-overlay').css("display","none");
+						vm.cards = res.data.List
+						vm.cards.forEach(function(item,index){
+							item.password2 = item.password.replace(/^(\d{4})\d+(\d{4})$/, "$1********$2");
+							
+							var date1 = new Date(item.endTime.replace(/-/g, '/'));
+							var timestamp1 = date1.getTime();
+							var date2 = new Date();
+							var timestamp2 = date2.getTime();
+							var sxDate = timestamp2 - timestamp1;
+							if(sxDate >= 0){
+								item.sta = 1 //过期
+							}else if(item.value == 0){
+								item.sta = 2  //失效
+							}else{
+								item.sta = 0
+							}
+							
+						});
+						
+						console.log('cards',vm.cards)
+						//置灰过期卡失效卡
+						/*$('.g-tyk').each(function(){
+							
+							var dateStr1 = $(this).find('.sxDate').text();
+							var date1 = new Date(dateStr1.replace(/-/g, '/'));
+							var timestamp1 = date1.getTime();
+							var date2 = new Date();
+							var timestamp2 = date2.getTime();
+							var sxDate = timestamp2 - timestamp1;		
+							var sxValue = parseInt($(this).find('.sxValue').text());
+							if(sxDate>=0){
+								$(this).find('.tyk_x').addClass('invalid');
+								$(this).find('.mask').text('已过期');
+							}else if(sxValue == 0){
+								$(this).find('.tyk_x').addClass('invalid');
+								$(this).find('.mask').text('已失效');
+							};
+							var dateStr2 = dateStr1.substring(0,10);
+							$(this).find('.sxDate').text(dateStr2);
+						});*/
+						///
+					}else{
+						console.log(res.code)
+						$('.my_view').css("display","block");
+						$('.load-overlay').css("display","none");
+						vm.showts = true
+						
+					}
+				},
+				error: function(x,s){
+					alert(x,s)
+				}
+			});
+		},
+		handelCard: function(item){
+			location.href = 'tyCardRecord.html?cardNo='+item.password
+		},
+		handleBindCard: function(){
+			location.href = "addTycard.html?userId=" + myuserId
+		}
+		
+	},
+	mounted: function(){
+		this.findUserCards()
 	}
-});
+})
 </script>
 </body>
 </html>

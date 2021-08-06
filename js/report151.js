@@ -77,13 +77,18 @@ var myApp = new Vue({
 			abnormalName:'',
 			showRecipe:'',
 			deviceReport:'',
-			banData:'', //轮播广告
+			banData:[],
+			banData1:[],
+			banData2:[],
 			deviceSnNum:'',
 			saasTel:'感谢您使用康浩云健康检测仪进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
 			mianyiScore:'',
 			mianyiList:[], //免疫系统的相关指标
 			thirdPages:[], //与免疫指标有关
+			feiScore: '',
+			feiList: [], //feigongneng
+			bloodOxygen:{}, //weixunhuan
 			jiazhuangScore:'',
 			someTit:'', //弹框用
 			someTxt:'', //弹框用
@@ -134,17 +139,17 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == "200"){
-//						if(res.data == 5 && cannsee == ''){ //金管家 5
-//							location.href = "jinguanjia.html?reportType="+reportType
-//						}else if(res.data == 6 && cannsee == ''){
-//							location.href = "haochezhu.html?reportType="+reportType
-//						}
+						/*if(res.data == 5 && cannsee == ''){ //金管家 5
+							location.href = "jinguanjia.html?reportType="+reportType
+						}else if(res.data == 6 && cannsee == ''){
+							location.href = "haochezhu.html?reportType="+reportType
+						}*/
 					}
 				},
 				error: function(){console.log('getReportSource error')}
 			});
 		},
-		getTargetByFirst: function(){ //查询免疫力
+		getTargetByFirst: function(num){ //查询免疫力 3135 //查询肺功能 3108
 			var vm = this
 			$.ajax({
 				url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
@@ -152,17 +157,40 @@ var myApp = new Vue({
 				dataType : 'json',
 				data : {
 				    reportId : reportId,
-				    targetFirstId : 3135
+				    targetFirstId : num
 				},
 				success : function(res) {
 					if(res.code == 200){
-						vm.mianyiScore = res.data.score
-						vm.mianyiList = res.data.secondPages[0].thirdPages
+						if(num == 3135){ //查询免疫力
+							vm.mianyiScore = res.data.score
+							vm.mianyiList = res.data.secondPages[0].thirdPages
+						}else if(num == 3108){// 查询肺功能
+							vm.feiScore = res.data.score
+							vm.feiList = res.data.secondPages[0].thirdPages
+						}
+							
 					}
 				},
 				error : function(obj,msg){alert("getTargetByFirst error")}
 			});
 			
+		},
+		queryInsureCircle: function(){ //查询微循环
+			var vm = this;
+			$.ajax({
+				url : dataUrl + '/api/azy/reportData/bloodOxygenValue',
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    inspectCode : reportId
+				},
+				success : function(res) {
+					if(res.code == 200){
+				   		vm.bloodOxygen = res.data.bloodOxygenValue 
+					}
+				},
+				error : function(obj,msg){alert("queryInsureCircle error")}
+			});
 		},
 		targetProposal: function(){ //查询甲状腺
 			var vm = this
@@ -246,7 +274,9 @@ var myApp = new Vue({
 							_this.getReportSource();
 							$('.my_view').css("visibility","visible");
 							$('.load-overlay').css("display","none");
-							_this.getTargetByFirst();
+							_this.getTargetByFirst(3135);
+							_this.getTargetByFirst(3108);
+							_this.queryInsureCircle();
 							_this.targetProposal();
 							_this.thirdPages = res.data.thirdPages,
 							_this.totalScore = res.data.indexPage.totalScore, //全部得分
@@ -461,6 +491,10 @@ var myApp = new Vue({
 				}
 			});
 		},
+		goWeixunhuan(){
+			var vm = this
+			location.href = 'loop_az.html?reportId='+reportId+'&userId='+vm.userId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum
+		},
 		goThird: function(e,item){
 			var vm = this;
 			zhuge.track('用户点击三级指标',{ //埋点
@@ -512,14 +546,18 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
-						vm.banData = res.data;
-						//banSlide(res.data.length);
-						setTimeout(function(){
-							var slide_count = $('.ban_gg .v_list li').length
-							banSlide(slide_count)
-							if(slide_count == 0){
-								$('.ban_gg').remove()
+						res.data.forEach(function(el,index){
+							if(el.bannerPage == 1){
+								vm.banData1.push(el)
+							}else if(el.bannerPage == 2){
+								vm.banData2.push(el)
 							}
+						})
+						console.log(vm.banData1,vm.banData2)
+						vm.banData = res.data;
+						setTimeout(function(){
+							banSlide(vm.banData1.length,'.gg_head')
+							banSlide(vm.banData2.length,'.gg_foot')
 						},500)	
 					}
 				},
@@ -529,29 +567,29 @@ var myApp = new Vue({
 	}
 });
 //广告轮播
-function banSlide(page_count){ 
+function banSlide(page_count,el){ 
 	var page_now=1;
 	var page_num=1; //一页显示几个
-	var v_width = $('.v_content').width();
+	var v_width = $(el).width();
 	console.log(page_count)
 	function next(){	
-		if(!$('.v_list').is(':animated')){
+		if(!$(el+' .v_list').is(':animated')){
 			if(page_now == page_count){
-				$('.v_list').animate({left:'0px'},'slow');
+				$(el+' .v_list').animate({left:'0px'},'slow');
 				page_now=1;
 			}else{
-				$('.v_list').animate({left:'-='+v_width},'slow');
+				$(el+' .v_list').animate({left:'-='+v_width},'slow');
 				page_now++;
 			}
 		}
 	};
 	function prev(){
-		if(!$('.v_list').is(':animated')){
+		if(!$(el+' .v_list').is(':animated')){
 			if(page_now == 1){
-				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				$(el+' .v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
 				page_now=page_count;
 			}else{
-				$('.v_list').animate({left:'+='+v_width},'slow');
+				$(el+' .v_list').animate({left:'+='+v_width},'slow');
 				page_now--;
 			}
 		}

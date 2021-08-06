@@ -7,6 +7,8 @@ var faceUserId = getQueryString('faceUserId');
 var saasId = getQueryString('saasId');
 var source = getQueryString('source'); //来源  例：天津农商行:tjnsh 。解析接口增加字段
 var kjInviteType = getQueryString("kjInviteType"); //康加邀约类型   暂时不用了
+//var cannsee = (getQueryString('cannsee') || ''); //从第三方app点击查看报告带过来  cannsee(midPage) = zng 志农谷 如果不为空（代表已经支付过 从引导页过来）正常看报告，
+var middlePage = (getQueryString('middlePage') || '');//从第三方app点击查看报告带过来  cannsee(midPage) = zng 志农谷 如果不为空（代表已经支付过 从引导页过来）正常看报告，
 var sendCustomerId = ''
 var clientType = '';
 var resource = ''; //来接受app交互传递的数据（app自己写死的值）， 康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  ···
@@ -166,6 +168,10 @@ var app = new Vue({
 						vm.source = res.data.source; // 来源
 						var reportSource = res.data.reportSource //来源 （判断金管家 5）
 						vm.reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+openId+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&reportSource='+reportSource+'&visible='+visible+'&date='+new Date().getTime()+'&language='+res.data.language
+						if(reportSource == 9 && middlePage ==''){
+							location.href = "https://www.zngst.com/code/#/bgGuide"
+							return
+						}
 						/*if(visible == 0){
 							$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 							$('.daifu_d').css("display","block");	

@@ -16,10 +16,15 @@
 .swiper-slide {text-align: center; background: #fff; width: 80%;}
 .swiper-slide .shipin{width: 4.88rem; height: 2.745rem; overflow: hidden; border-radius: .3rem;}
 .swiper-slide .tt{ line-height: .6rem; height: .6rem; text-align: left; font-size: .3rem;}
+/*video::-webkit-media-controls {
+    display:none !important;
+}*/
 </style>
 </head>
-<body style="background: #F7FAFB;">
-<DIV class="my_view newxgy" style="visibility: hidden;">
+<body style="background: #F7FAFB; height: auto;">
+<DIV class="my_view newxgy" style="visibility: hidden; height: auto;">
+<div id="minbody">
+	<span style="position: fixed; right: 0; bottom: 0; font-size: .2rem; color: #999;">{{offHeight}}</span>
 	<div class="gy-top">
 		<p class="tit">{{userInfoView.name}}的报告</p>
 		<p class="time">检测时间：{{inspectDateStr}}</p>
@@ -113,7 +118,7 @@
 		</div>
 		<div class="xycn">
 			<p>
-				<span class="mz">舒张压</span> 
+				<span class="mz">舒张压（低压）</span> 
 				<em class="up fr" v-if="bpView.dP>90"></em>
 				<em class="down fr" v-if="bpView.dP<60"></em>
 				
@@ -250,7 +255,7 @@
 		</div>
 	</section>
 	<div style="padding: .2rem .4rem; line-height: .37rem; font-size: .26rem; color: #999999; text-align: center;">
-		此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响
+		注：此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响。
 	</div>
 	
 	<section style="padding: .2rem 0; margin: .1rem 0 0 .4rem; background: #ffffff; overflow: hidden;" v-if="floor1List.length != 0">
@@ -259,10 +264,10 @@
 		    <div class="swiper-wrapper">
 		      <div class="swiper-slide" v-for="item in floor1List">
 		      	<div class="shipin">
-		      			<video width="100%" controls preload="auto" :poster="item.bannerImg">
-								  	<source :src="item.bannerVideo" type="video/mp4">
-									您的浏览器不支持Video标签。
-								</video>
+		      		<video width="100%" controls preload="auto" :poster="item.bannerImg">
+					  	<source :src="item.bannerVideo" type="video/mp4">
+						您的浏览器不支持Video标签。
+					</video>
 		      	</div>
 		      	<p class="tt">{{item.bannerTitle}}</p>
 		      </div>
@@ -274,9 +279,11 @@
 	
 	<section class="gy-box" v-if="floor2List.length != 0">
 		<p class="btt">心血管疾病与我们的关系</p>
-		<div class="spbox" v-for="item in floor2List">
+		<div class="spbox" v-for="(item,index) in floor2List">
 			<div class="sp fl">
-				<video width="100%" controls preload="auto" :poster="item.bannerImg">
+				<!--<img :src="item.bannerImg" @click="handlevideo(index)" :id="'img'+index">-->
+				
+				<video :id="'vid'+index" width="100%" controls preload="auto" :poster="item.bannerImg" playsInline="false">
 				  	<source :src="item.bannerVideo" type="video/mp4">
 					您的浏览器不支持Video标签。
 				</video>
@@ -288,6 +295,7 @@
 			</div>
 		</div>
 	</section>
+</div>
 </DIV>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 <script type="text/javascript" src="js/jquery.js"></script>

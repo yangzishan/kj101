@@ -26,7 +26,7 @@ input{-webkit-appearance:none; resize: none;}
 /* 初始化结束 */
 .top{ height: 70px; line-height: 70px; text-align: center; color: #ffffff; background: #89bcfe; font-size: 24px;}
 .top_b{height: 60px; background: #a5cbfd;}
-.main{width: 1100px; margin:auto; padding: 20px 0;}
+.main{width: 1050px; margin:auto; padding: 20px 0;}
 .box-a{border: #84b9fe solid 2px; border-radius: 6px; box-shadow: 0 0 10px #b0cef5; overflow: hidden; padding: 10px; margin-bottom: 24px;}
 .cont_l{width: 64%; text-align: center; padding: 30px 0;}
 .cont_l .tit{color: #437cc2; font-size: 20px; font-weight: bold;}

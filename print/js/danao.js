@@ -28,7 +28,7 @@ var myapp = new Vue({
 			var month = nowdate.getMonth()+1+'-'
 			var day = nowdate.getDate()
 			var today = year+month+day
-			document.title = '健康人群分析报告'+today
+			//document.title = '健康人群分析报告'+this.startTime
 		},
 		findEnterpriseBrainReport:function(){
 			var vm = this
@@ -49,6 +49,7 @@ var myapp = new Vue({
 						if(viewType == 1){
 							goPrint(1)
 						}
+						document.title = '健康人群分析报告'+vm.startTime
 					}
 				},
 				error : function(obj,msg){
@@ -57,6 +58,12 @@ var myapp = new Vue({
 				}
 			});
 		},
+		/*watch:{
+			startTime:function(val){
+				this.startTime = val
+			}
+			
+		},*/
 		//拆分
 		splitData: function(){
 			var vm = this
@@ -70,7 +77,7 @@ var myapp = new Vue({
 						}
 						vm.oneChart.push(bid)
 					})
-					creatPicChart('main',item.tableName,vm.oneChart)
+					creatPicChart('main','',vm.oneChart)
 				}else if(item.tableId == 200){
 					vm.two_list = item
 					item.data.forEach(function(site){
@@ -80,7 +87,7 @@ var myapp = new Vue({
 						}
 						vm.twoChart.push(bid)
 					})
-					creatPicChart('main1',item.tableName,vm.twoChart)
+					creatPicChart('main1','',vm.twoChart)
 				}else if(item.tableId == 210){
 					vm.three_list = item
 					item.data.forEach(function(site){
@@ -90,7 +97,7 @@ var myapp = new Vue({
 						}
 						vm.threeChart.push(bid)
 					})
-					creatPicChart('main2',item.tableName,vm.threeChart)
+					creatPicChart('main2','',vm.threeChart)
 				}else if(item.tableId == 220){
 					vm.four_list = item
 					item.data.forEach(function(site){
@@ -100,7 +107,7 @@ var myapp = new Vue({
 						}
 						vm.fourChart.push(bid)
 					})
-					creatPicChart('main3',item.tableName,vm.fourChart)
+					creatPicChart('main3','',vm.fourChart)
 				}else if(item.tableId == 300){ 
 					vm.five_list = item
 					item.data.forEach(function(site){
@@ -211,6 +218,7 @@ function creatPicChart(el,titname,arr){
 		        left: 'center',
 		        top:28
 		    },
+		    color : ['#91cc75', '#fac858', '#ee6666'],
 		    series: [
 		        {
 		            name: '占比',
@@ -240,7 +248,7 @@ function creatPicChart2(el,titname,arr){
 		        subtext: '',
 		        left: 'center'
 		    },
-		    color:['#7fab54','#4f81bd', '#fc817b', '#d48265'],
+		    color:['#91cc75', '#fac858', '#ee6666'],
 		    tooltip: {
 		        trigger: 'item',
 		        formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -284,7 +292,7 @@ function creatPicChart3(el,titname,arr){
 		        subtext: '',
 		        left: 'center'
 		    },
-		    color:['#7fab54','#4f81bd', '#fc817b', '#d48265'],
+		    color:['#91cc75', '#fac858', '#ee6666'],
 		    tooltip: {
 		        trigger: 'item',
 		        formatter: '{a} <br/>{b} : {c} ({d}%)'
@@ -334,6 +342,7 @@ function creatZhuChart(el,titname,arr){
 		    yAxis: {},
 		    // Declare several bar series, each will be mapped
 		    // to a column of dataset.source by default.
+		    color : ['#91cc75', '#fac858', '#ee6666'],
 		    series: [
 		        {type: 'bar', barWidth:10},
 		        {type: 'bar', barWidth:10},

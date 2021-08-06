@@ -15,12 +15,12 @@
 <body class="bck-col-f4">
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
-	<section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData">
+	<section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData1.length>0">
     	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
-    	<div class="v_content" style="width: 6.9rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+    	<div class="v_content gg_head" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
 	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
-	    		<li v-for="item in banData" style="float: left;" v-if="item.bannerPage == 1">
-	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 6.9rem; height: 1.4rem;"></a>
+	    		<li v-for="item in banData1" style="float: left;">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 7.5rem; height: 1.4rem;"></a>
 	    		</li>
 	    	</ul>
 	    </div>
@@ -43,7 +43,8 @@
 				<div class="guang"></div>
 			</div>
 		</div>
-		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">{{inspectDay}}</em>日后再次检测</p></div>
+		<!--<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">{{inspectDay}}</em>日后再次检测</p></div>-->
+		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">7</em>日后再次检测</p></div>
 		<div class="explain" @click="explain()"><i></i><p>说明</p></div>
 	</div>
 	
@@ -52,6 +53,75 @@
 		<!--<div class="sstxt" v-html="saasTel"></div>-->
 		<div>　　感谢您使用康浩云健康评估，请查阅您的报告（注：本报告不作为医学临床诊断之用，点击<a style="color:#1ebeb1;" @click="explain2">了解更多</a>），<!--如需帮助请拨打健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，-->祝您健康！</div>
 	</div>
+	
+	<template v-if="reportType == 153">
+	<div class="bx_tit"><i></i><span class="lab" style="color: #333333;">肺功能</span><i></i></div>
+	<div class="mianyi">
+		<div class="fen_sta">
+			您的肺功能
+			<em v-if="feiScore>=90">良好</em>
+			<em v-if="feiScore>=80 && feiScore<90" style="color: #FF8800;">偏弱</em>
+			<em v-if="feiScore<80" style="color: #F10000;">较差</em>！
+			<span class="fr" v-if="feiScore>=90"><font>{{feiScore}}</font>分</span>
+			<span class="fr" v-if="feiScore>=80 && feiScore<90" style="color: #FF8800;"><font>{{feiScore}}</font>分</span>
+			<span class="fr" v-if="feiScore<80" style="color: #F10000;"><font>{{feiScore}}</font>分</span>
+		</div>
+		<ul class="bid_list">
+			<li class="c-li" v-for="item in feiList">
+				<a @click="goThird2($event,item)">
+				<div class="pic"><img :src="'img/124/t_'+item.targetThirdId+'.png'" class="img_b"></div>
+				<div class="dtt">
+					<p class="nam cu">{{item.targetThirdName}}</p>
+					<p class="sta" v-if="item.score>=90">正常</p>
+					<p class="sta lit" v-else-if="item.score>=80 && item.score<90">轻度风险</p>
+					<p class="sta mid" v-else="item.score<80">中度风险</p>
+				</div>
+				</a>
+			</li>
+			<li class="c-li spel">
+				<a @click="goWeixunhuan">
+					<div class="pic"><img src="img/124/t_xynd.png" class="img_b"></div>
+					<p class="plab cu">血氧饱和度</p>
+					<p class="pres">{{bloodOxygen.bloodStatus}}</p>
+					<p class="pva fr">
+						<em>{{bloodOxygen.bloodScore}}%</em>
+						<br/>正常范围94%-99%
+					</p>
+				</a>
+			</li>
+		</ul>
+		<div style="padding: .2rem .4rem; position: relative;">
+			<span @click="showSome('肺功能','肺功能是呼吸系统疾病的必要检查之一，对于早期检出肺、气道病变，评估疾病的病情严重程度及预后，评定药物或其它治疗方法的疗效，鉴别呼吸困难的原因，诊断病变部位、评估肺功能对手术的耐受力或劳动强度耐受力及对危重病人的监护等方面有重要的指导意义。')" style="position: absolute; border: #A092EB solid .02rem; height: .45rem; line-height: .45rem; border-radius: .05rem; padding: 0 .1rem; color: #A092EB; left: 2.18rem; top: .52rem;">查看解释</span>
+			<img src="img/124/fgn.jpg" class="img_b">
+		</div>
+		<div class="biaoxian">
+			<p class="tit">肺功能明显降低的人群，易患以下疾病：</p>
+			<div class="j-list spel">
+				<p class="j-li spel"><i></i><span>新型冠状病毒肺炎</span></p>
+				<p class="j-li spel"><i></i><span>肺癌</span></p>
+				<p class="j-li spel"><i></i><span>慢性阻塞性肺疾病（COPD）</span></p>
+				<p class="j-li spel"><i></i><span>慢性间质性肺炎</span></p>
+				<p class="j-li spel"><i></i><span>尘肺病</span></p>
+				<p class="j-li spel"><i></i><span>原因不明的肺部疾病（肺结节）</span></p>
+			</div>
+			<div class="jjyy">
+				<div class="jy-li">
+					<!--<p class="pc">运动</p>-->
+					<p class="pf">出门戴口罩，预防病毒，防雾霾，严格控烟。 </p>
+				</div>
+				<div class="jy-li">
+					<!--<p class="pc">饮食</p>-->
+					<p class="pf">适当进行有氧运动，提升肺活量，改善呼吸功能。</p>
+				</div>
+				<div class="jy-li">
+					<!--<p class="pc">生活习惯</p>-->
+					<p class="pf">多吃清肺的食物，不吃辛辣油腻等刺激性食物。 </p>
+				</div>
+			</div>
+		</div>
+	</div>
+	</template>
+	
 	
 	<div class="bx_tit"><i></i><span class="lab" style="color: #333333;">整体免疫能力</span><i></i></div>
 	<div class="mianyi">
@@ -69,7 +139,7 @@
 				<a @click="goThird2($event,item)">
 				<div class="pic"><img :src="'img/124/t_'+item.targetThirdId+'.png'" class="img_b"></div>
 				<div class="dtt">
-					<p class="nam">{{item.targetThirdName}}</p>
+					<p class="nam cu">{{item.targetThirdName}}</p>
 					<p class="sta" v-if="item.score>=90">正常</p>
 					<p class="sta lit" v-else-if="item.score>=80 && item.score<90">轻度风险</p>
 					<p class="sta mid" v-else="item.score<80">中度风险</p>
@@ -402,7 +472,16 @@
     <!--<div style="border-radius:.1rem; height: .68rem; line-height: .68rem; text-align: center; color: #ffffff; background: #72B269; margin: .1rem .3rem;" @click="godayin()">去打印</div>-->
     <p style="background:#f4f4f4; height:10px; margin:0;"></p>
     <!---广告--->
-    
+    <section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData2.length>0">
+    	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
+    	<div class="v_content gg_foot" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+	    	<ul class="v_list" style="width: 300%; position: absolute; overflow: hidden;">
+	    		<li v-for="item in banData2" style="float: left;">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 7.5rem; height: 1.4rem;"></a>
+	    		</li>
+	    	</ul>
+	    </div>
+    </section>
     
 
 <input type="hidden" id="appId"/>

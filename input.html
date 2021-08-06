@@ -44,19 +44,27 @@ input{ resize: auto; -webkit-appearance: normal;}
 			<span class="lab">年龄</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.age" /></span><span class="ic">岁</span>
 		</div>
 		<div class="itemp">
-			<span class="lab">身高</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.height" /></span><span class="ic">cm</span>
+			<span class="lab">身高</span>
+			<span class="int">
+				<input placeholder="必填" v-model="dataInfo.instructions.data.height" type="number" @input="intkey()"/>
+			</span>
+			<span class="ic">cm</span>
 		</div>
 		<div class="itemp">
-			<span class="lab">体重</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.weight" /></span><span class="ic">kg</span>
+			<span class="lab">体重</span>
+			<span class="int">
+				<input placeholder="必填" v-model="dataInfo.instructions.data.weight" type="number" @input="intkey()"/>
+			</span>
+			<span class="ic">kg</span>
 		</div>
 		<div class="itemp">
 			<span class="lab">联系电话</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.mobile" /></span>
 		</div>
-		<div class="itemp">
+		<!--<div class="itemp">
 			<span class="lab">业务员手机号</span><span class="int"><input placeholder="必填" v-model="dataInfo.instructions.data.salesmanCode" /></span>
-		</div>
+		</div>-->
 	</section>
-	<p class="xieyi"><input type="checkbox" v-model="checked">我已阅读并同意《康浩云用户隐私协议》和《康浩云用户须知》</p>
+	<!--<p class="xieyi"><input type="checkbox" v-model="checked">我已阅读并同意《康浩云用户隐私协议》和《康浩云用户须知》</p>-->
 	<div class="sub">
 		<button class="btn" @click="sendData" id="sendData">确 认</button>
 	</div>
@@ -127,7 +135,12 @@ var app = new Vue({
 			
 		}
 	},
+	
 	methods:{
+		intkey: function(){
+			this.dataInfo.instructions.data.weight = this.dataInfo.instructions.data.weight.replace(/\./g,'');
+			this.dataInfo.instructions.data.height = this.dataInfo.instructions.data.height.replace(/\./g,'')
+		},
 		default:function(){
 			this.dataInfo.reqTime = this.datetime
 			this.dataInfo.transactionId = this.datetime
@@ -135,12 +148,25 @@ var app = new Vue({
 		},
 		//发送数据
 		sendData: function(){ 
+			if(this.dataInfo.instructions.data.age >110 || this.dataInfo.instructions.data.age<18){
+				alert('本设备只支持18到110岁之间检测')
+				return;
+			};
+			if(this.dataInfo.instructions.data.height >240 || this.dataInfo.instructions.data.height == ''){
+				alert('请输入有效身高 ')
+				return;
+			}
+			if(this.dataInfo.instructions.data.weight >250 || this.dataInfo.instructions.data.weight == ''){
+				alert('请输入有效体重 ')
+				return;
+			}
+			
 			$('#sendData').attr("disabled",true);
 			var vm = this;
 			var datacopy = Object.assign({},vm.dataInfo) 
 			console.log(JSON.stringify(datacopy))
 			$.ajax({
-				url : "http://robot.jiankangzhan.com/robot/v1/IFI_01?token=test",
+				url : robot + "/robot/v1/IFI_01?token=test",
 				type : "post",
 				headers:{'Content-Type':'application/json;charset=utf8'},
 				dataType : 'json',

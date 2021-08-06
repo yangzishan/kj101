@@ -28,13 +28,6 @@ var dataInfor = {
 	userId:userId,
 	saasId:saasId
 }
-if(!userId && openId){ //适配老链接未支付，后期时间长了（等客户老链接被淹没 可删）
-	findPackage = "/api/v1/reportWxPay/findPackage"
-	dataInfor = {
-		reportId:reportId,
-		openId:openId,
-	}
-}
 /*if(!openId){
 	terminalType = 2 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 }*/
@@ -56,6 +49,7 @@ var myApp = new Vue({
 			isShow:false,
 			isActive:[],
 			reportId: reportId, openId: openId, sameUser: sameUser,reportType:reportType, //版本
+			saasId:saasId,
 			data:{}, //支付通道数据
 			nickName:'',//昵称
 			headimgurl:'',
@@ -267,6 +261,26 @@ var myApp = new Vue({
 				}
 			).error(function(){alert('findPackage error')})
 		},
+		//爱展业报告数据推送 支付成功后调用
+  		azySendReportSaas: function(){
+  			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/weiXin/azySendReportSaas",
+				dataType:'Json',
+				data:{
+					saasId:vm.saasId,
+					reportId: vm.reportId
+				},
+				success: function(res){
+					if(res.code == "200"){
+						console.log('success')
+					}
+				},
+				error: function(){console.log('azySendReportSaas error')}
+			});
+  			
+  		},
 		getRelationCompanyId: function(){ //获取关联租户id
 			var vm = this 
 			$.ajax({
@@ -278,7 +292,7 @@ var myApp = new Vue({
 				    companyId : saasId
 				},
 				success: function(res){
-					if(res.code == 200 && res.data.relationCompanyId){
+					if((res.code == 200 && res.data.relationCompanyId) || res.data.relationCompanyId == 0){
 						vm.qrCodeCreateLastTicket(res.data.relationCompanyId)
 					}
 				},
@@ -292,7 +306,7 @@ var myApp = new Vue({
 			    type : "POST",
 				dataType : 'json',
 				data : {
-				    qrScene : reportId, //报告IDl
+				    qrScene : ","+reportId, //报告IDl
 				    qrType : 2,
 				    saasId:relationCompanyId
 				},
@@ -331,6 +345,33 @@ var myApp = new Vue({
 				},
 				error: function(){console.log('isUsableByCustomerIdAndNeId error')}
 			});
+  		},
+  		//更新SaaS用户最近一份报告ID
+  		updateCustomerSaas: function(){
+  			var vm = this;
+  			//vm.azySendReportSaas() //改后台调用 
+  			$.ajax({
+  				type:"post",
+  				url: dataUrl+"/api/v1/ne/updateCustomerSaas",
+  				dataType : 'json',
+  				data:{
+  					saasId: saasId,
+  					openId: openId,
+  					reportId: reportId
+  				},
+  				success: function(res){
+  					if(vm.relationUrl){
+  						location.href = location.href = "relationUrl.html?relationUrl="+vm.relationUrl
+  					}else{
+  						vm.goReportIndex(reportId,userId,reportType);
+  					}
+  					console.log(res);
+  				},
+  				error: function(){
+  					alert('updateCustomerSaas error');
+  					vm.goReportIndex(reportId,userId,reportType);
+  				}
+  			});
   		},
 		getSaasTenantByCompanyId: function(){//查询SaaS信息
 			var vm = this;
@@ -433,7 +474,7 @@ var myApp = new Vue({
 			zhuge.track('选择支付方式点击',{
 				'支付方式': '卡支付'
 			},function(){
-				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+"&edition="+edition+'&saasId='+saasId+'&relationUrl='+vm.relationUrl
+				location.href = "selectTycard.html?reportId="+reportId+"&userId="+vm.userId+"&packageId="+vm.packageId+'&openId='+ openId+"&reportType="+reportType+'&saasId='+saasId+'&relationUrl='+vm.relationUrl
 			});
 		},
 		getPayChannel: function(snNum){ //支付通道
@@ -558,32 +599,7 @@ var myApp = new Vue({
 			var vm = this;
 			location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&packageId='+vm.packageId+'&saasId='+saasId
 		},
-		//更新SaaS用户最近一份报告ID
-  		updateCustomerSaas: function(){
-  			var vm = this;
-  			$.ajax({
-  				type:"post",
-  				url: dataUrl+"/api/v1/ne/updateCustomerSaas",
-  				dataType : 'json',
-  				data:{
-  					saasId: saasId,
-  					openId: openId,
-  					reportId: reportId
-  				},
-  				success: function(res){
-  					if(vm.relationUrl){
-  						location.href = location.href = "relationUrl.html?relationUrl="+vm.relationUrl
-  					}else{
-  						vm.goReportIndex(reportId,userId,reportType);
-  					}
-  					console.log(res);
-  				},
-  				error: function(){
-  					alert('updateCustomerSaas error');
-  					vm.goReportIndex(reportId,userId,reportType);
-  				}
-  			});
-  		},
+		
 	},
 });
 //获取url参数

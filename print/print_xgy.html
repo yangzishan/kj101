@@ -113,7 +113,7 @@ body{background-color:#ffffff;color:#333333; width: 900px; max-width: 950px; mar
 					<p class="tc" v-for="item in hartViews">
 						<span>{{item.metricName}}</span><span :class="{red:item.prompt}">{{item.tv+item.prompt}}</span><span>{{item.sv}}</span>
 					</p>
-					<p class="ti">三、血液常态</p>
+					<p class="ti">三、血液状态</p>
 					<p class="tc" v-for="item in bloodViews">
 						<span>{{item.metricName}}</span><span :class="{red:item.prompt}">{{item.tv+item.prompt}}</span><span>{{item.sv}}</span>
 					</p>
@@ -136,7 +136,7 @@ body{background-color:#ffffff;color:#333333; width: 900px; max-width: 950px; mar
 			<div class="con">
 				<p v-for="(item,index) in resultViewsCopy" v-if="(item.name != '肺 功 能' || item.metricType != 6) && item.metricType != 7">
 					<span>{{index+1}}. {{item.name}}：</span>
-					<em style="color: #F10000;" v-if="item.resultex">
+					<em style="color: #F10000;" v-if="item.data.length>0">
 						<template v-for="site in item.data">{{site.resultName}} </template>
 					</em>
 					<em v-else>基本正常</em>

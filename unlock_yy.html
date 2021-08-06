@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>本人检测</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.txtt{ text-align: center;}
+.bxtt{text-align: center;}
+.bxtt em{ font-size: .4rem;}
+h4.bt{color: #636b7f; font-size: .36rem; font-weight: bold; line-height: .6rem; margin: 0 .3rem;}
+.txlist{ margin: 0 .24rem; padding: .3rem .2rem; border-radius: .17rem; background: #ffffff;}
+.txlist li{ line-height: .72rem; display: flex; display: -webkit-flex;}
+.txlist li i{ display: inline-block; width: .1rem; height: .1rem; vertical-align: top; background: #02cbc0; border-radius: 50%; margin: .31rem .11rem 0 0;}
+.txlist li span{ font-size: .32rem; color: #747588; display: block; flex: 1; -webkit-flex: 1;}
+</style>
+</head>
+<body>
+<section id="vm" style=" font-size: .3rem; line-height: .6rem;">
+	<img src="img/saast.png" class="img_b">
+	<section class="ttpp" style="padding: .7rem 0 0;">
+		<h4 class="bt">检测注意事项：</h4>
+		<ul class="txlist">
+			<li><i></i><span>保持放松愉悦的心情坐在检测区</span></li>
+			<li><i></i><span>双手触摸传感器，手掌干燥时用湿纸巾擦拭</span></li>
+			<li><i></i><span>保持面部在面部数据采集区请勿随意晃动</span></li>
+			<li><i></i><span>避免周围人群距离过近影响数据采集</span></li>
+			<li><i></i><span>放下手机开始检测，检测完成后报告会自动推送至您的手机</span></li>
+			
+		</ul>
+	</section>
+	<p style="text-align: center; font-size: .3rem;"><em id="ts" style="font-size: .4rem;">20</em> 秒后返回公众号</p>
+	
+	
+	<!--<object height="50" width="100" data="1623725831274.mp3"></object>-->
+	<!--<embed height="50" width="100" src="1623725831274.mp3">-->
+	<!--<audio preload="load" src="1623725831274.mp3"/>-->
+	<audio id="myaudio" src="1623725831274.mp3" preload="auto" autoplay="autoplay" ></audio>
+		
+    
+
+</section>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var wait = 22
+//倒计时读秒    默认wait=60;
+time($('#ts'))
+function time(tm){
+	if(wait==0){
+		//wait=22;
+		WeixinJSBridge.call("closeWindow");
+	}else{
+		
+		tm.text(wait)
+		wait--;
+		setTimeout(function(){time(tm);},1000);
+	}
+};
+//播放音乐
+
+var audio = $('#myaudio');
+var isPlaying = false;
+function playAudio() {
+    var audio = $('#myaudio');
+    if (audio.attr('src') == undefined) {
+        audio.attr('src', audio.data('src'));
+    }
+    audio[0].play();
+    isPlaying = true;
+}
+$(function(){
+    playAudio();
+    document.addEventListener("WeixinJSBridgeReady", function () {
+        WeixinJSBridge.invoke('getNetworkType', {}, function (e) {
+            network = e.err_msg.split(":")[1];  //结果在这里
+		playAudio();
+        });
+    }, false);
+})
+
+</script>
+</body>
+</html>

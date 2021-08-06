@@ -6,18 +6,26 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>添加年卡</title>
+<title>添加VIP卡</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.tyk-add{ position: relative;}
+.bnsao{ height: .8rem; line-height: .8rem; margin-top: .1rem;}
+.bnsao span{ color: #f39800; font-weight: bold; display: inline-block; padding: 0 .2rem; border: #f39800 solid 1px; border-radius: .2rem;}
+.sysbtn{ position: absolute; width: .5rem; height: .5rem; top: 1.32rem; right: .5rem;}
+</style>
 </head>
 <body style="background:#fff;">
-<section class="tjk_v">
+<section class="tjk_v" style="padding: 2rem .3rem 1.2rem;">
 <div class="tyk-add">
-	<p class="p1">添加年卡编码</p>
-	<p class="p2"><input id="cardNo" type="text" placeholder="输入兑换码" onkeyup="this.value=this.value.replace(/\s+/g,'')"></p>
+	<p class="p1">添加VIP卡编码</p>
+	<p class="p2"><input id="cardNo" type="text" placeholder="输入兑换码" onkeyup="this.value=this.value.replace(/\s+/g,'')" v-model="cardNo"></p>
+	<img class="sysbtn" src="img/saoyisao.jfif" @click="saoyisao">
 </div>
 	
-<button class="tyk-btn">确定</button>
+<button class="tyk-btn" @click="bingCard">确定</button>
+<p style="height: .5rem;"></p>
 </section>
 
 <div class="tc-qx" id="alert">
@@ -30,6 +38,7 @@
 <script type="text/javascript" src="js/base.js"></script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/checkMsg.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
@@ -52,13 +61,108 @@
 
 <script>
 
-//截取URL 获取
-function GetQueryString(name){
-     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-     var r = window.location.search.substr(1).match(reg);
-     if(r!=null)return  unescape(r[2]); return null;
-};
 var myuserId=GetQueryString("userId");
+var reqUrl = window.location.href;
+var myapp = new Vue({
+	el:'.tjk_v',
+	data:function(){
+		return {
+			cardNo:'',
+			
+		}
+	},
+	mounted:function(){
+		this.wxConfig()
+	},
+	methods:{
+		saoyisao: function(){
+			console.log('saoyisao')
+			var vm = this;
+			wx.ready(function() {
+			   	wx.scanQRCode({
+		            needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+		            scanType : ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+		            success : function(res) {
+		                var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+		                //alert(resultcode);
+		                vm.cardNo = resultcode
+		            }
+		        })
+			});
+		},
+		bingCard:function(){
+			var vm = this
+			if(vm.cardNo == ''){
+				alert('请先输入卡编码');
+			}else{
+				$.ajax({
+					url : dataUrl + "/api/v1/cardPay/userBindCard",
+					type : "POST",
+					dataType : 'json',
+					data : {
+						userId : myuserId,
+						cardNo: vm.cardNo
+					},
+					success : function(data) {
+						if(data.code == 200){
+							if(data.data == '0'){
+								$('.tyk-btn').off("click");
+								showMask('绑卡成功');
+								location.href= "tjCard.html?userId="+ myuserId
+								//
+							}else{
+								vm.cardNo = ''
+								setTimeout(function(){$('.tyk-btn').attr("disabled",false)},1000);
+								showMask(checkMsg(data.data));
+							}
+							
+						}else if(data.code == 300){
+							alert('300您输入的兑换码有误');
+							vm.cardNo = ''
+							setTimeout(function(){$('.tyk-btn').attr("disabled",false)},1000);
+						}else{
+							alert('code=' + data.code);
+						}
+					},
+				    error : function(obj,msg){
+				    	//debugger
+				    	//alert(obj  + msg);
+				    }
+				});	
+			}
+		},
+		//微信jssdk扫码用
+		wxConfig: function(){
+			var vm = this;
+			$.ajax({
+			    type:"post",
+			    url: dataUrl+ "/weiXin/wxConfig",
+			    data:{
+			    	reqUrl: reqUrl
+			    },
+			    success:function(result){
+			        wx.config({
+				        // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+				        debug: false,
+				        // 必填，公众号的唯一标识
+				        appId: result.wxParameter.appId,
+				        // 必填，生成签名的时间戳
+				        timestamp:""+result.wxParameter.timestamp,
+				        // 必填，生成签名的随机串
+				        nonceStr:result.wxParameter.nonceStr,
+				         // 必填，签名，见附录1
+				         signature:result.wxParameter.signature,
+				         // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+				         jsApiList : [ 'checkJsApi', 'scanQRCode' ]
+			         });
+			      }
+			});
+			wx.error(function(res) {
+			    alert("出错了：" + res.errMsg);//这个地方的好处就是wx.config配置错误，会弹出窗口哪里错误，然后根据微信文档查询即可。
+			});
+		},
+	}
+})
 
 $('.tyk-btn').on("click",function(){
 	if($('#cardNo').val() == ''){
@@ -66,66 +170,53 @@ $('.tyk-btn').on("click",function(){
 	}else{
 		$(this).attr("disabled",true);
 		var cardNo = $.trim($('#cardNo').val());
-		$.ajax({
-			url : dataUrl + "/api/v1/cardPay/userBindCard",
-			type : "POST",
-			dataType : 'json',
-			data : {
-				userId : myuserId,
-				cardNo: cardNo
-			},
-			success : function(data) {
-				//alert('get it');
-				//弹窗 模拟alert
-				function showMask(msg){
-					$('.tc-qx').each(function(){
-						var w_height = $(window).height();
-						var this_height = $(this).height();
-						$(this).css("top",(w_height-this_height)/2);
-					});
-					$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
-					$('#alert').css({"visibility":"visible","opacity":"1"});
-					$('#alert .pc1').empty().text(msg);
-					$('#alert .subBtn').click(function(){closeMask()});
-				}
-				function closeMask(){
-					$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
-					$('#alert').css({"visibility":"hidden","opacity":"0"});
-					window.location.href="tjCard.html?userId="+myuserId;
-				}
-				//showMask('哈哈哈哈');
-				
-				if(data.code == 200){
-					if(data.data == '0'){
-						$('.tyk-btn').off("click");
-						showMask('绑卡成功');
-						//
-					}else{
-						
-						$('#cardNo').val('');
-						setTimeout(function(){$('.tyk-btn').attr("disabled",false)},1000);
-						alert(checkMsg(data.data));
-					}
-					
-				}else if(data.code == 300){
-					alert('300您输入的兑换码有误');
-					$('#cardNo').val('');
-					setTimeout(function(){$('.tyk-btn').attr("disabled",false)},1000);
-				}else{
-					alert('code=' + data.code);
-				}
-	
-			},
-		    error : function(obj,msg){
-		    	//debugger
-		    	//alert(obj  + msg);
-		    }
-		});	
+			
 	}	
 	
 });
+//弹窗 模拟alert
+function showMask(msg){ //showMask('msg');
+	$('.tc-qx').each(function(){
+		var w_height = $(window).height();
+		var this_height = $(this).height();
+		$(this).css("top",(w_height-this_height)/2.5);
+	});
+	$('.modal-overlay').css({"visibility":"visible","opacity":"1"});
+	$('#alert').css({"visibility":"visible","opacity":"1"});
+	$('#alert .pc1').empty().text(msg);
+	$('#alert .subBtn').click(function(){closeMask()});
+}
+function closeMask(){
+	$('.modal-overlay').css({"visibility":"hidden","opacity":"0"});
+	$('#alert').css({"visibility":"hidden","opacity":"0"});
+}
+//截取URL 获取
+function GetQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
 
-
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
 </script>
 </body>
 </html>

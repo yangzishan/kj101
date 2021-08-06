@@ -79,7 +79,9 @@ var myApp = new Vue({
 			okImproves:'',
 			noImproves:'',
 			deviceSnNum:'',
-			banData:'',
+			banData:[],
+			banData1:[],
+			banData2:[],
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1EA9F6;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
 		}
@@ -369,11 +371,19 @@ var myApp = new Vue({
 				},
 				success: function(res){
 					if(res.code == 200){
+						res.data.forEach(function(el,index){
+							if(el.bannerPage == 1){
+								vm.banData1.push(el)
+							}else if(el.bannerPage == 2){
+								vm.banData2.push(el)
+							}
+						})
+						console.log(vm.banData1,vm.banData2)
 						vm.banData = res.data;
-						banSlide(res.data.length);
-						if(res.data.length == 0){
-							$('.ban_gg').remove()
-						}
+						setTimeout(function(){
+							banSlide(vm.banData1.length,'.gg_head')
+							banSlide(vm.banData2.length,'.gg_foot')
+						},500)
 					}
 				},
 				error: function(){console.log('wheelsort error')}
@@ -420,29 +430,29 @@ $.ajax({
 });
 
 //广告轮播
-function banSlide(page_count){ 
+function banSlide(page_count,el){ 
 	var page_now=1;
 	var page_num=1; //一页显示几个
-	var v_width = $('.v_content').width();
+	var v_width = $(el).width();
 	console.log(page_count)
 	function next(){	
-		if(!$('.v_list').is(':animated')){
+		if(!$(el+' .v_list').is(':animated')){
 			if(page_now == page_count){
-				$('.v_list').animate({left:'0px'},'slow');
+				$(el+' .v_list').animate({left:'0px'},'slow');
 				page_now=1;
 			}else{
-				$('.v_list').animate({left:'-='+v_width},'slow');
+				$(el+' .v_list').animate({left:'-='+v_width},'slow');
 				page_now++;
 			}
 		}
 	};
 	function prev(){
-		if(!$('.v_list').is(':animated')){
+		if(!$(el+' .v_list').is(':animated')){
 			if(page_now == 1){
-				$('.v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
+				$(el+' .v_list').animate({left:'-='+v_width*(page_count-1)},'slow');
 				page_now=page_count;
 			}else{
-				$('.v_list').animate({left:'+='+v_width},'slow');
+				$(el+' .v_list').animate({left:'+='+v_width},'slow');
 				page_now--;
 			}
 		}

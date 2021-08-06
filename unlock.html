@@ -6,15 +6,58 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>解锁</title>
+<title>本人检测解锁</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
+<style>
+.saastop{ height: 4.73rem; background: url(img/saast.png) no-repeat center; background-size:100% 4.73rem;}
+.saastop p.tit{ color: #ffffff; font-size: .38rem; text-align: center; line-height: .66rem;}
+h4.bt{color: #636b7f; font-size: .36rem; font-weight: bold; line-height: .6rem; margin: 0 .3rem;}
+body .jiesuo{display: block; width:100%; height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .35rem; text-align: center; line-height: .88rem;}
+body .new .form{width:100%;padding:5%;margin-bottom:.1rem;padding-bottom:.2rem}
+body .new .form > div{display:inline-block;width:45%;height:1.3rem;text-align:center;line-height:1.3rem;font-size:.48rem;border-radius:25px 7px}
+body .new .form > div:last-child{float:right}
+body .new .form .active{background:#00d6ca;color:#fff}
+body .new .box-form{padding-left:.7rem;display:none;border-radius:5px;padding-bottom:.3rem}
+body .new .box-form .list{margin-bottom:.3rem}
+body .new .box-form .list > .keky{width:1.5rem;display:inline-block; line-height: .6rem;}
+body .new .box-form .list:not(:nth-child(3)) > input{-webkit-appearance:input;height:.6rem;border-radius:3px;border:1px solid #000;text-align:right;padding-right:7px}
+body .new .box-form .list:nth-child(3) > input{-webkit-appearance:radio;vertical-align:-0.02rem;border:1px solid #000}
+body .new .box-form .list [for=sex1]{margin-right:.5rem}
+body .new .box-form .list #height,body .new .box-form .list #weight{margin-right:6px}
+body .new .box-form .list em{ color: #F10000;}
+body .new .box-form .tishi{font-size:.24rem;color:red;display:none}
+.txlist{ margin: 0 .24rem; padding: .3rem .2rem; border-radius: .17rem; background: #ffffff;}
+.txlist li{ height: .72rem; line-height: .72rem;}
+.txlist li i{ display: inline-block; width: .1rem; height: .1rem; vertical-align: top; background: #02cbc0; border-radius: 50%; margin: .31rem .11rem 0 0;}
+.txlist li span{ font-size: .32rem; color: #747588;}
+.sendyzm{ height: .6rem; line-height: .6rem;border: #00d6ca solid 1px; border-radius: .1rem;padding: 0 .1rem; background: none; margin-left: .1rem;}
+button.off{ color: #666666; border: #cccccc solid 1px;}
+.jiesuo.off{background: #cccccc;}
+</style>
 </head>
 <body>
-<section id="vm" style="padding: 2rem .3rem 0;">
+<section id="vm">
+	<header class="header saastop">
+		<a class="t-right fr" @click="gohistory()" style="display: none;"><i class="i_c"><img src="img/i-his.png"></i>邀约历史</a>
+	</header>
+	<div class="new">
+		<section class="ttpp">
+			<h4 class="bt">检测注意事项：</h4>
+			<ul class="txlist">
+				<li><i></i><span>保持放松愉悦的心情坐在检测区</span></li>
+				<li><i></i><span>双手触摸传感器，手掌干燥时用湿纸巾擦拭</span></li>
+				<li><i></i><span>保持面部在面部数据采集区请勿随意晃动</span></li>
+				<li><i></i><span>避免周围人群距离过近影响数据采集</span></li>
+			</ul>
+		</section>
+	</div>
+	<div style="padding: 0 .3rem;">
+		<button @click="unlock()" style=" display: block; width: 100%;  height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .3rem; text-align: center; line-height: .88rem;">本人检测解锁</button>
+	</div>
 	
 
-<button @click="unlock()" style=" display: block; width: 100%;  height: .88rem; border-radius: .1rem; background: #00D6CA; color: #ffffff; font-size: .3rem; text-align: center; line-height: .88rem;">解 锁</button>
+
 </section>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
@@ -38,91 +81,6 @@
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
 </script>
-<script>
-var openId = getQueryString('openId');
-var saasId = getQueryString('saasId');
-var deviceSn = getQueryString('deviceSn');
-var jumpUrl = getQueryString('jumpUrl');
-var userRegisterVer = getQueryString('userRegisterVer')
-
-// 判断
-//if(saasId == 218051 || saasId == 216549){
-//	window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl
-//}
-
-var info = {
-	openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl	
-}
-
-var myApp = new Vue({
-	el: '#vm',
-	data: function(){
-		return{
-			openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl
-		}
-	},
-	methods: {
-		getSaasTenantByCompanyId: function(){//查询SaaS信息
-			var vm = this;
-			$.ajax({
-				type:"post",
-				url:saasUrl+ "/api/v1/initTenant/getSaasTenantByCompanyId",
-				async:true,
-				dataType: 'json',
-				data: {
-					saasId:saasId
-				},
-				success: function(res){
-					if(res.code == 200){
-						if(res.data.isSupportInvite == 1){
-							window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl+'&userRegisterVer='+userRegisterVer
-						}else{
-							if(userRegisterVer == 4){
-								window.location.href = './unlockXgy.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl+'&userRegisterVer='+userRegisterVer
-							}
-						}
-					}
-				},
-				error: function(){console.log('getSaasTenantByCompanyId error')}
-			});
-		},
-		unlock: function(){
-			var vm = this;
-			$.ajax({
-				type:"post",
-				url: saasUrl+ "/api/v1/ne/neUnlock",
-				dataType: 'json',
-				contentType : 'application/json',
-				data : JSON.stringify(info),
-				success: function(res){
-					console.log('success')
-					if(res == 40010){
-						alert('该链接已失效，请扫码重试！')
-					}else{
-						WeixinJSBridge.call('closeWindow');
-					}
-					
-				},
-				error: function(){alert('unlock error')}
-				
-			});
-		}
-	},
-	mounted: function(){
-		this.getSaasTenantByCompanyId()
-	}
-});
-
-	
-//获取url参数
-function getQueryString(name) {
-    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-    if (result == null || result.length < 1) {
-        return "";
-    }
-    return result[1];
-}
-
-</script>
+<script>document.write('<script src="js/saasUnlock.js?t=' + new Date().getTime() + '"><\/script>')</script>
 </body>
 </html>

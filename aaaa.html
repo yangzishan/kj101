@@ -109,8 +109,89 @@
 })(document, window);
 </script>
 <script>
-	var str = 13449;
-	console.log(str.toString().indexOf(49))
+	//var str = 13449;
+	//console.log(str.toString().indexOf(49))
+	var arr = [2,2,8,4,1,6,5,2,6,4]
+	
+	/*arr.forEach((el)=>{
+		max(el,el+1)
+	});*/
+	
+	
+	
+	
+	
+	
+	
+function zuidashouyi(arr){
+	var sun = 0; 
+	var maxVal = mathMax(arr); //zuida
+	var minVal = mathMin(arr);  //zuixiao
+	
+	var maxindex = arr.indexOf(maxVal,0) //最大树索引
+	var minindex = arr.indexOf(minVal,0) //最小数索引
+	
+
+	if(maxindex-minindex<0){
+		if(maxindex != 0){
+			
+		}
+		
+		
+		var newarr = arr.slice(0,maxindex);
+		
+		sun += maxVal - mathMin(newarr);
+		
+		var newarr2 = arr.slice(maxindex+1) 
+		
+		sun += mathMax(arr);
+	}else{
+		sun += maxVal-minVal
+		
+	}
+	
+	return sun
+}
+	
+	
+	
+	
+	
+	
+	
+
+	
+	// 查找数组中最小值
+function mathMin(arrs){
+  var min = arrs[0];
+  for(var i = 1, ilen = arrs.length; i < ilen; i+=1) {
+    if(arrs[i] < min) {
+      min = arrs[i];
+    }
+  }
+  return min;
+}
+// 代码测试
+
+// 在数组中查找最大值
+function mathMax(arrs) {
+  var max = arrs[0];
+  for(var i = 1,ilen = arrs.length; i < ilen; i++) {
+    if(arrs[i] > max) {
+      max = arrs[i];
+    }
+  }
+  return max;
+}
+	
+	
+function max (x,y){
+	return x-y
+}
+function min (x,y){
+	return y-x
+}
+	
 </script>
 </body>
 </html>
