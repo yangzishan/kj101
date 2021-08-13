@@ -1,4 +1,4 @@
-var reportId = (getQueryString('reportId') || 'MK701IS000000037496337');
+var reportId = (getQueryString('reportId') || 'MK701IS000000061628146392294');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
@@ -34,12 +34,9 @@ var myApp = new Vue({
 			resultViews:[],
 			bpView:{},
 			xueyaresult:'',
-			
 			abnormalCount: {},
-			
 			someTit:'',
 			someTxt:'',
-			
 			neReportver:{},
 			bvtps:[],
 			analysedWaveform:{},
@@ -54,7 +51,28 @@ var myApp = new Vue({
 			offHeight:sessionStorage.getItem("offsetTop")?sessionStorage.getItem("offsetTop"):0,
 			arrMin:0,
 			count:0,
-			
+			videos:[
+				{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1020.mp4?versionId=CAEQFRiBgIDg09zqyhciIGFkYmUwODgzZWQ1OTQ1ZDZiZjhjMGNhNjVjMDgxNTBh',
+					videoTitle:'脉搏波简介',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1020.jpg?versionId=CAEQFRiBgMCy0tzqyhciIDY0MzMwYTJjZmJmYjQ3ZGNiOGQyNGQwMWFkYjU1ZjA1'
+				},{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1021.mp4?versionId=CAEQFRiBgIDC09zqyhciIGNkOWUyMzM4NmE2ZjRmNWI5ZTlhMGRhNzMwMGRjZWNk',
+					videoTitle:'脉搏波对比 ',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1021.jpg?versionId=CAEQFRiBgIC50tzqyhciIDE4NzRjYWI1ZDMzNjRlNDY4ZjYwOWE4NDBmYWU0NzQy'
+				},{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1022.mp4?versionId=CAEQFRiBgICt0tzqyhciIDgzZDNkZmYyNmU1MzRiYjdhNmJiNWVhMmZjOGNhYTQ4',
+					videoTitle:'脉搏波采集质量 ',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1022.jpg?versionId=CAEQFRiBgIC20tzqyhciIDg3NTY3MzM5ZjE3MjQ5MDRiMDllOGM3NjQzNjlhNjgw'
+				},{
+					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1023.mp4?versionId=CAEQFRiBgMDs0tzqyhciIGM5NzBhODQ0ZWM0ZjRiMDNhZmI5OWM0ZTNiYzdkZmNm',
+					videoTitle:'常见参数解释',
+					videoImg:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1023.jpg?versionId=CAEQFRiBgICN09zqyhciIDcwZWY0ZDc1Y2JlNjQ2MDdhYzFlOTRhNWFlNmZiZWYx'
+				}
+			],
+			xyxList:[],
+			diaList:[],//历史低压
+			sysList:[],//历史高压
 			tabdb:2,//默认显示项目
 			bidsTabShow:{ //默认显示项目
 				hart:1,
@@ -62,7 +80,7 @@ var myApp = new Vue({
 				blood:1,
 				mcr:1
 			},
-			
+			zongheVal:''
 		}
 	},
 	mounted: function(){
@@ -97,10 +115,23 @@ var myApp = new Vue({
 			sessionStorage.setItem("mobile", this.userInfoView.mobile);
 			location.href="xgy_bmi.html?"+'reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 		},
+		handleZhongji: function(){
+			location.href = "xgy_item713.html?"+'reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
+		},
 		swi: function(){
-			var swiper = new Swiper('.swiper-container', {
+			var swiper = new Swiper('#swiper1', {
 		      slidesPerView: 'auto',
-		      spaceBetween: 2,
+		      spaceBetween: 0,
+		   });
+		},
+		swi2: function(){
+		    var swiper2 = new Swiper('#swiper2', {
+		      slidesPerView: 'auto',
+		      spaceBetween: 0,
+		    });
+		    var swiper3 = new Swiper('#swiper3', {
+		      slidesPerView: 'auto',
+		      spaceBetween: 0,
 		    });
 		},
 		handleTab: function(n){
@@ -135,12 +166,18 @@ var myApp = new Vue({
 						vm.bpView = res.data.reportStr.bpView
 						//vm.xueyaresult = vm.bpView.inspectGuideBp6.metricName
 						vm.resultViews = res.data.reportStr.resultViews
-						
 						//总分动画效果
 						setTimeout(function(){
-							$('.zhen').css("transform","rotate("+2.24*vm.totalScore+"deg)");
+							$('.zhen').css("transform","rotate("+(2.24*vm.totalScore-22)+"deg)");
 						},100)
 						$('#score').animateNumber({ number: vm.totalScore },1100);
+						vm.analysisMk701Report('DIA')
+						vm.analysisMk701Report('SYS')
+						console.log('xxlist',vm.xyxList)
+						console.log('diaList',vm.diaList)
+						console.log('sysList',vm.sysList)
+						//setTimeout(xueyaChart(['2018-05-02','2018-05-02','2018-05-02','2018-06-09'],[150,150,150,150],[110,50,110,110]),5000)
+						//xueyaChart(vm.xyxList,vm.diaList,vm.sysList)
 						
 						vm.resultViews.forEach(function(item,index){
 							if(item.data && item.data[0]){
@@ -149,7 +186,8 @@ var myApp = new Vue({
 								item.data.forEach(function(i){
 									if(i.resultDetail){
 										i.resultDetail = i.resultDetail.replace(/\n/g,'<br/>')
-									}
+									};
+									if(i.name == '综合意见'){vm.zongheVal = i.resultName}
 								})
 							};
 							if(item.metricType == "6"){ //肺功能
@@ -189,6 +227,7 @@ var myApp = new Vue({
 						console.log(vm.markLineList)
 						
 						creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList,vm.arrMin)
+						vm.swi()
 						vm.count++
 					}else{
 						console.log('code = '+res.code)
@@ -197,7 +236,37 @@ var myApp = new Vue({
 				error : function(obj,msg){alert("mk701/indexAll error")}
 			});
 		},
-		
+		//查历史  DIA(收缩压)   SYS(舒张压)
+		analysisMk701Report: function(name){
+			var vm = this
+			$.ajax({
+				url : analysisreport + "/mk701/reportIndex/analysisMk701Report",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    targetName : name,
+				    mobile:vm.userInfoView.mobile
+				},
+				success : function(res) {
+					if(res.code == 200){
+						if(name == 'DIA'){
+							res.data.forEach(item => {
+								vm.diaList.push(item.DIA)
+								vm.xyxList.push(item.createTimeStr) //x轴
+							})
+						}else if(name == 'SYS'){
+							res.data.forEach(item => {
+								vm.sysList.push(item.SYS)
+							})
+						}
+					}else{
+						console.log('code = '+res.code)
+					}
+					xueyaChart(vm.xyxList,vm.diaList,vm.sysList)
+				},
+				error : function(obj,msg){alert("analysisMk701Report error")}
+			});
+		},
 		getMk701Video: function(){
 			var vm = this
 			$.ajax({
@@ -220,7 +289,7 @@ var myApp = new Vue({
 								}
 							});
 							setTimeout(function(){
-					        	vm.swi()
+					        	vm.swi2()
 					        },1000)
 						}
 						vm.count++
@@ -266,6 +335,60 @@ function getQueryString(name) {
     }
     return result[1];
 };
+
+//作血压历史图
+function xueyaChart(xlist,dialist,syslist){
+let myChart = echarts.init(document.getElementById('xueya'));
+  	let option = {
+	    title: {
+	        text: ''
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    legend: {
+	        data: ['收缩压', '舒张压']
+	    },
+	    grid: {
+	    	top:'18%',
+	        left: '3%',
+	        right: '10%',
+	        bottom: '3%',
+	        containLabel: true
+	    },
+	   
+	    xAxis: {
+	        type: 'category',
+	        boundaryGap: false,
+	        data: xlist
+	    },
+	    yAxis: {
+	        type: 'value',
+	        min:40
+	    },
+	    series: [
+	        {
+	            name: '收缩压',
+	            type: 'line',
+	           	smooth: true,
+	           	showSymbol:false,
+	            data: dialist,
+	            lineStyle:{
+		        	color:"#E88653"
+		        },
+	        },
+	        {
+	            name: '舒张压',
+	            type: 'line',
+	           	smooth: true,
+	           	showSymbol:false,
+	            data: syslist
+	        }
+	    ]
+	};
+  // 绘制图表
+  myChart.setOption(option);
+}
 //作脉搏图
 function creatChart(el,xlist,ylist,markLineList,min){
 let myChart = echarts.init(document.getElementById('main'));

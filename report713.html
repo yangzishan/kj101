@@ -12,12 +12,17 @@
 <link rel="stylesheet" type="text/css" href="css/swiper.min.css">
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 <style type="text/css">
-/*覆盖 712*/
-.gy-bmi .ggrr .int{position: absolute; top: -1.75rem;} 
+.gy-bmi .ggrr .int{position: absolute; top: -1.75rem;} /*覆盖 712*/
+
+.swiper-container {width: 7.5rem; height: 3.5rem; margin: 0 auto;}
+.swiper-slide {text-align: center; background: #fff; width: 70%; padding: .2rem;}
+.swiper-slide .shipin{width: 100%; height: 2.745rem; overflow: hidden;}
+.swiper-slide .shipin video{ border-radius: .3rem;}
+.swiper-slide .tt{ line-height: .6rem; height: .6rem; text-align: left; font-size: .3rem;}
 </style>
 </head>
 <body style="background: #F7FAFB;">
-<DIV class="my_view newbaogao" style="visibility: visible;">
+<DIV class="my_view newbaogao" style="visibility: hidden;">
 	<div class="topcom">
 		<p class="tit">心血管检测报告</p>
 		<p class="tim">检测时间：{{inspectDateStr}}</p>
@@ -30,7 +35,7 @@
 				<div class="pan">
 					<p class="zhen"><i></i></p>
 					<p class="fen"><b id="score">{{totalScore}}</b>分</p>
-					<p class="sta">-良好-</p>
+					<p class="sta">{{zongheVal}}</p>
 				</div>
 			</div>
 		</div>
@@ -42,11 +47,12 @@
 	<div class="renticn">
 		<p class="zzbit" style=" padding: 0 0 0 .4rem;"><i class="io"></i>以下是本次检测详细结果</p>
 		<div class="bodyinfo">
-			<div class="body_l female"></div>
+			<div class="body_l" :class="{male:userInfoView.sex == 1,female:userInfoView.sex != 1}"></div>
 			<div class="info_r">
 				<div class="item" @click="handlebd(1)" :class="{on:tabdb == 1}">
 					<p class="m-tt">
-						<i><img src="img/xgy/i-xy.png"></i>
+						<i v-if="tabdb == 1"><img src="img/xgy/i-xy-2.png"></i>
+						<i v-else><img src="img/xgy/i-xy.png"></i>
 						<font>血压</font> <em>{{bpView.bpScore}}分</em>
 					</p>
 					<div class="xm" v-show="tabdb == 1">
@@ -57,7 +63,8 @@
 				</div>
 				<div class="item" @click="handlebd(2)" :class="{on:tabdb == 2}">
 					<p class="m-tt">
-						<i><img src="img/xgy/i-xz.png"></i>
+						<i v-if="tabdb == 2"><img src="img/xgy/i-xz-2.png"></i>
+						<i v-else><img src="img/xgy/i-xz.png"></i>
 						<font>心脏</font> <em>{{reportStrData.hartScore}}分</em>
 					</p>
 					<div class="xm" v-show="tabdb == 2">
@@ -69,7 +76,8 @@
 				</div>
 				<div class="item" @click="handlebd(3)" :class="{on:tabdb == 3}">
 					<p class="m-tt">
-						<i><img src="img/xgy/i-xg.png"></i>
+						<i v-if="tabdb == 3"><img src="img/xgy/i-xg-2.png"></i>
+						<i v-else><img src="img/xgy/i-xg.png"></i>
 						<font>血管</font> <em>{{reportStrData.vesselScore}}分</em>
 					</p>
 					<div class="xm" v-show="tabdb == 3">
@@ -81,7 +89,8 @@
 				</div>
 				<div class="item" @click="handlebd(4)" :class="{on:tabdb == 4}">
 					<p class="m-tt">
-						<i><img src="img/xgy/i-xyy.png"></i>
+						<i v-if="tabdb == 4"><img src="img/xgy/i-xyy-2.png"></i>
+						<i v-else><img src="img/xgy/i-xyy.png"></i>
 						<font>血液</font> <em>{{reportStrData.bloodScore}}分</em>
 					</p>
 					<div class="xm" v-show="tabdb == 4">
@@ -93,7 +102,8 @@
 				</div>
 				<div class="item" @click="handlebd(5)" :class="{on:tabdb == 5}">
 					<p class="m-tt">
-						<i><img src="img/xgy/i-wxh.png"></i>
+						<i v-if="tabdb == 5"><img src="img/xgy/i-wxh-2.png"></i>
+						<i v-else><img src="img/xgy/i-wxh.png"></i>
 						<font>微循环</font> <em>{{reportStrData.mcr5Score}}分</em>
 					</p>
 					<div class="xm" v-show="tabdb == 5">
@@ -111,7 +121,7 @@
 		<div class="btt">血压详细检查结果</div>
 		<div class="infbox">
 			<div class="b_li">
-				<p class="p1"><span class="lab">收缩压（高压）</span><i class="pop"></i> 
+				<p class="p1"><span class="lab">收缩压（高压）</span><!--<i class="pop">?</i>--> 
 					<em class="up fr" v-if="bpView.sP>140"></em>
 					<em class="down fr" v-if="bpView.sP<90"></em>
 					<span v-if="bpView.sP > 140 || bpView.sP < 90" class="fr" style="color: #FF7D00;">{{bpView.sP}}</span>
@@ -120,19 +130,19 @@
 				<p class="p2"><span class="fw">范围值90-140</span><span class="dw fr">单位mmHg</span></p>
 			</div>
 			<div class="b_li" style=" border-top: #dddddd solid 1px;">
-				<p class="p1"><span class="lab">舒张压（低压）</span><i class="pop"></i> 
+				<p class="p1"><span class="lab">舒张压（低压）</span><!--<i class="pop">?</i>--> 
 					<em class="up fr" v-if="bpView.dP>90"></em>
 					<em class="down fr" v-if="bpView.dP<60"></em>
 					
 					<span v-if="bpView.dP > 90 || bpView.dP < 60" class="va fr" style="color: #FF0000;">{{bpView.dP}}</span>
 					<span v-else class="va fr">{{bpView.dP}}</span>
 				</p>
-				<p class="p2"><span class="fw">范围值90-140</span><span class="dw fr">单位mmHg</span></p>
+				<p class="p2"><span class="fw">范围值60-90</span><span class="dw fr">单位mmHg</span></p>
 			</div>
 		</div>
 		<p class="ptt">历史血压数据</p>
 		<div class="bochart">
-			
+			<div id="xueya" style="width: 100%; height: 4rem;"></div>
 		</div>
 		<p class="ptt">高血压小知识</p>
 		<div class="xzs">
@@ -153,61 +163,62 @@
 	
 	<div class="bidcamp">
 		<div class="ctop bj_xz">
-			<p class="ttt">心脏详细检查结果</p>
+			<div class="ttt">心脏详细检查结果</div>
 			<div class="tab">
 				<span :class="{on:bidsTabShow.hart == 1}" @click="handleTabCheck('hart',1)">评估结果<i></i></span>
 				<span :class="{on:bidsTabShow.hart == 2}" @click="handleTabCheck('hart',2)">详细筛查结果<i></i></span>
 			</div>
-		</div>
-		<div class="cinfo">
-			<section class="bid_fx" v-show="bidsTabShow.hart == 1">
-				<div class="fxbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-g.png">
-							<p>潜在风险指标</p>
+			<div class="cinfo">
+				<section class="bid_fx" v-show="bidsTabShow.hart == 1">
+					<div class="fxbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-g.png">
+								<p>潜在风险指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in hartViews">
+								<p class="p-li" v-if="item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in hartViews">
-							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
-					</div>
-				</div>
-				<div class="fxbox zcbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-z.png">
-							<p>未见异常指标</p>
+					<div class="fxbox zcbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-z.png">
+								<p>未见异常指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in hartViews">
+								<p class="p-li" v-if="!item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in hartViews">
-							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
+				</section>
+				<section class="bid_de" v-show="bidsTabShow.hart == 2">
+					<div class="b_li" v-for="item in hartViews" @click="handleBid(item)">
+						<p class="p1"><span class="lab">{{item.metricName}}</span> 
+							<template v-if="item.prompt=='++' || item.prompt=='+'">
+								<i class="up fr"></i>
+								<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+							</template>
+							<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+								<i class="down fr"></i>
+								<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+							</template>
+							<template v-else>
+								<em class="fr">{{item.tv}}</em>
+							</template>
+								
+						</p>
+						<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
 					</div>
-				</div>
-			</section>
-			<section class="bid_de" v-show="bidsTabShow.hart == 2">
-				<div class="b_li" v-for="item in hartViews">
-					<p class="p1"><span class="lab">{{item.metricName}}</span> 
-						<template v-if="item.prompt=='++' || item.prompt=='+'">
-							<i class="up fr"></i>
-							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
-						</template>
-						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
-							<i class="down fr"></i>
-							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
-						</template>
-						<template v-else>
-							<em class="fr">{{item.tv}}</em>
-						</template>
-							
-					</p>
-					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
-				</div>
-			</section>
+				</section>
+			</div>
 		</div>
+		
 	</div>
 	<div class="bidcamp">
 		<div class="ctop bj_xg">
@@ -216,55 +227,55 @@
 				<span :class="{on:bidsTabShow.vesse == 1}" @click="handleTabCheck('vesse',1)">评估结果<i></i></span>
 				<span :class="{on:bidsTabShow.vesse == 2}" @click="handleTabCheck('vesse',2)">详细筛查结果<i></i></span>
 			</div>
-		</div>
-		<div class="cinfo">
-			<section class="bid_fx" v-show="bidsTabShow.vesse == 1">
-				<div class="fxbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-g.png">
-							<p>潜在风险指标</p>
+			<div class="cinfo">
+				<section class="bid_fx" v-show="bidsTabShow.vesse == 1">
+					<div class="fxbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-g.png">
+								<p>潜在风险指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in vesselViews">
+								<p class="p-li" v-if="item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in vesselViews">
-							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
-					</div>
-				</div>
-				<div class="fxbox zcbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-z.png">
-							<p>未见异常指标</p>
+					<div class="fxbox zcbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-z.png">
+								<p>未见异常指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in vesselViews">
+								<p class="p-li" v-if="!item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in vesselViews">
-							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
+				</section>
+				<section class="bid_de" v-show="bidsTabShow.vesse == 2">
+					<div class="b_li" v-for="item in vesselViews" @click="handleBid(item)">
+						<p class="p1"><span class="lab">{{item.metricName}}</span> 
+							<template v-if="item.prompt=='++' || item.prompt=='+'">
+								<i class="up fr"></i>
+								<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+							</template>
+							<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+								<i class="down fr"></i>
+								<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+							</template>
+							<template v-else>
+								<em class="fr">{{item.tv}}</em>
+							</template>
+								
+						</p>
+						<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
 					</div>
-				</div>
-			</section>
-			<section class="bid_de" v-show="bidsTabShow.vesse == 2">
-				<div class="b_li" v-for="item in vesselViews">
-					<p class="p1"><span class="lab">{{item.metricName}}</span> 
-						<template v-if="item.prompt=='++' || item.prompt=='+'">
-							<i class="up fr"></i>
-							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
-						</template>
-						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
-							<i class="down fr"></i>
-							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
-						</template>
-						<template v-else>
-							<em class="fr">{{item.tv}}</em>
-						</template>
-							
-					</p>
-					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
-				</div>
-			</section>
+				</section>
+			</div>
 		</div>
 	</div>
 	<div class="bidcamp">
@@ -274,56 +285,56 @@
 				<span :class="{on:bidsTabShow.blood == 1}" @click="handleTabCheck('blood',1)">评估结果<i></i></span>
 				<span :class="{on:bidsTabShow.blood == 2}" @click="handleTabCheck('blood',2)">详细筛查结果<i></i></span>
 			</div>
-		</div>
-		<div class="cinfo">
-			<section class="bid_fx" v-show="bidsTabShow.blood == 1">
-				<div class="fxbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-g.png">
-							<p>潜在风险指标</p>
+			<div class="cinfo">
+				<section class="bid_fx" v-show="bidsTabShow.blood == 1">
+					<div class="fxbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-g.png">
+								<p>潜在风险指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in bloodViews">
+								<p class="p-li" v-if="item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in bloodViews">
-							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
-					</div>
-				</div>
-				<div class="fxbox zcbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-z.png">
-							<p>未见异常指标</p>
+					<div class="fxbox zcbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-z.png">
+								<p>未见异常指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in bloodViews">
+								<p class="p-li" v-if="!item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in bloodViews">
-							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
+				</section>
+				<section class="bid_de" v-show="bidsTabShow.blood == 2">
+					<div class="b_li" v-for="item in bloodViews" @click="handleBid(item)">
+						<p class="p1"><span class="lab">{{item.metricName}}</span> 
+							<template v-if="item.prompt=='++' || item.prompt=='+'">
+								<i class="up fr"></i>
+								<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+							</template>
+							<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+								<i class="down fr"></i>
+								<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+							</template>
+							<template v-else>
+								<em class="fr">{{item.tv}}</em>
+							</template>
+								
+						</p>
+						<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
 					</div>
-				</div>
-			</section>
-			<section class="bid_de" v-show="bidsTabShow.blood == 2">
-				<div class="b_li" v-for="item in bloodViews">
-					<p class="p1"><span class="lab">{{item.metricName}}</span> 
-						<template v-if="item.prompt=='++' || item.prompt=='+'">
-							<i class="up fr"></i>
-							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
-						</template>
-						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
-							<i class="down fr"></i>
-							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
-						</template>
-						<template v-else>
-							<em class="fr">{{item.tv}}</em>
-						</template>
-							
-					</p>
-					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
-				</div>
-			</section>
-		</div>
+				</section>
+			</div>
+		</div>	
 	</div>
 	<div class="bidcamp">
 		<div class="ctop bj_wxh">
@@ -332,55 +343,54 @@
 				<span :class="{on:bidsTabShow.mcr == 1}" @click="handleTabCheck('mcr',1)">评估结果<i></i></span>
 				<span :class="{on:bidsTabShow.mcr == 2}" @click="handleTabCheck('mcr',2)">详细筛查结果<i></i></span>
 			</div>
-		</div>
-		<div class="cinfo">
-			<section class="bid_fx" v-show="bidsTabShow.mcr == 1">
-				<div class="fxbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-g.png">
-							<p>潜在风险指标</p>
+			<div class="cinfo">
+				<section class="bid_fx" v-show="bidsTabShow.mcr == 1">
+					<div class="fxbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-g.png">
+								<p>潜在风险指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in mcrViews">
+								<p class="p-li" v-if="item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in mcrViews">
-							<p class="p-li" v-if="item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
-					</div>
-				</div>
-				<div class="fxbox zcbox">
-					<div class="b-left">
-						<div class="con">
-							<img src="img/xgy/fx-z.png">
-							<p>未见异常指标</p>
+					<div class="fxbox zcbox">
+						<div class="b-left">
+							<div class="con">
+								<img src="img/xgy/fx-z.png">
+								<p>未见异常指标</p>
+							</div>
+						</div>
+						<div class="b-right">
+							<template v-for="item in mcrViews">
+								<p class="p-li" v-if="!item.prompt" @click="handleBid(item)"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
+							</template>
 						</div>
 					</div>
-					<div class="b-right">
-						<template v-for="item in mcrViews">
-							<p class="p-li" v-if="!item.prompt"><em><i><b></b></i></em><span>{{item.metricName}}</span></p>
-						</template>
+				</section>
+				<section class="bid_de" v-show="bidsTabShow.mcr == 2">
+					<div class="b_li" v-for="item in mcrViews" @click="handleBid(item)">
+						<p class="p1"><span class="lab">{{item.metricName}}</span> 
+							<template v-if="item.prompt=='++' || item.prompt=='+'">
+								<i class="up fr"></i>
+								<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
+							</template>
+							<template v-else-if="item.prompt=='--' || item.prompt=='-'">
+								<i class="down fr"></i>
+								<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
+							</template>
+							<template v-else>
+								<em class="fr">{{item.tv}}</em>
+							</template>
+						</p>
+						<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
 					</div>
-				</div>
-			</section>
-			<section class="bid_de" v-show="bidsTabShow.mcr == 2">
-				<div class="b_li" v-for="item in mcrViews">
-					<p class="p1"><span class="lab">{{item.metricName}}</span> 
-						<template v-if="item.prompt=='++' || item.prompt=='+'">
-							<i class="up fr"></i>
-							<em class="fr" style="color: #ff0000;">{{item.tv}}</em>
-						</template>
-						<template v-else-if="item.prompt=='--' || item.prompt=='-'">
-							<i class="down fr"></i>
-							<em class="fr" style="color: #FF7D00;">{{item.tv}}</em>
-						</template>
-						<template v-else>
-							<em class="fr">{{item.tv}}</em>
-						</template>
-							
-					</p>
-					<p class="p2"><span class="fw">范围值{{item.sv}}</span><span class="dw fr">{{item.metricUnit}}</span></p>
-				</div>
-			</section>
+				</section>
+			</div>
 		</div>
 	</div>
 	
@@ -388,37 +398,37 @@
 	<div class="zhongji">
 		<p class="zzbit"><i class="io"></i>重疾风险预测</p>
 		<div class="zjList">
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_nao.png"></div>
 				<div class="inf"> <span>脑卒中</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
 			</div>
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_xin.png"></div>
 				<div class="inf"> <span>急性心肌梗死</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
 			</div>
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_gxin.png"></div>
 				<div class="inf"> <span>冠心病</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
 			</div>
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_jiyan.png"></div>
 				<div class="inf"> <span>心肌炎</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
 			</div>
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_fei.png"></div>
 				<div class="inf"> <span>肺源性心脏病</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
 			</div>
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_lv.png"></div>
 				<div class="inf"> <span>心率衰竭</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
 			</div>
-			<div class="z_li">
+			<div class="z_li" @click="handleZhongji()">
 				<div class="pic"><img src="img/xgy/zj_guan.png"></div>
 				<div class="inf"> <span>心绞痛</span><br/><font>肝病科、消化内科</font></div>
 				<em>30%</em>
@@ -426,12 +436,33 @@
 		</div>
 	</div>
 	
-	<div class="caijibo">
-		<p class="zzbit"><i class="io"></i>采集数据波形图 <i class="arr-r fr"></i><span class="fr">更多</span></p>
+	<p style="background: #f2f2f2; height: .2rem;"></p>
+	<div class="caijibo" style="padding: .5rem .4rem 0;">
+		<p class="zzbit"><i class="io"></i>采集数据波形图 <i class="arr-r fr"></i><span class="fr" @click="handleBo()">更多</span></p>
 		<div class="boxin">
 			<div id="main" style="width: 100%; height: 1.77rem;"></div>
 		</div>
-		<div class="com">
+	</div>	
+	<section style="padding: .2rem 0; auto; background: #ffffff; overflow: hidden;">
+		<!--<p class="btt" style="font-size: .3rem; font-weight: 600; line-height: .6rem; padding: 0 .4rem .2rem;">心血管疾病与我们的关系</p>-->
+		<div class="swiper-container" id="swiper1">
+		    <div class="swiper-wrapper">
+		      <div class="swiper-slide" v-for="item in videos">
+		      	<div class="shipin">
+	      			<video width="100%" controls preload="auto" :poster="item.videoImg">
+						<source :src="item.videoUrl" type="video/mp4">
+						您的浏览器不支持Video标签。
+					</video>
+		      	</div>
+		      	<p class="tt">{{item.videoTitle}}</p>
+		      </div>
+		      <!--<div class="swiper-slide">Slide 2</div>-->
+		    </div>
+		    
+		</div>
+	</section>
+	<div class="caijibo">	
+		<div class="comtxt">
 			<p class="tt">综合诊断结果</p>
 			<div class="tx">解释:<br>心搏出量高，心脏负荷过重，会导致心脏严重受损，形成慢性心功能不全，长期心脏负荷过重易诱发心力衰竭，一般与冠心病、高血压心脏病、心肌病、肺心病、风湿性心脏病等心血管病直接相关，故应引起足够重视。</div>
 			<div class="tx">建议:<br>
@@ -441,6 +472,7 @@
 			</div>
 		</div>
 	</div>
+	<p style="background: #f2f2f2; height: .2rem;"></p>
 	
 	<div class="bmicomp">
 		<p class="zzbit" style=" padding: 0 0 0 .4rem;"><i class="io"></i>BMI指数 </p>
@@ -520,6 +552,79 @@
 	</div>
 	<div style="padding: 0.2rem 0.4rem; line-height: 0.37rem; font-size: 0.26rem; color: rgb(153, 153, 153); text-align: center;">
 		注：此报告只针对本人当次检测，不能排除可能会受到方法学局限性以及采集时机和采集部位等影响。
+	</div>
+	
+	<div class="videoContainer" v-if="bvtps.length != 0">
+		<p class="zzbit" style=" padding: 0 0 0 .4rem;"><i class="io"></i>重疾保险的知识普及 </p>
+		<section v-if="floor1List.length != 0">
+			<div class="swiper-container" id="swiper3">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide" v-for="item in floor1List">
+			      	<div class="shipin">
+			      		<video width="100%" controls preload="auto" :poster="item.bannerImg">
+						  	<source :src="item.bannerVideo" type="video/mp4">
+							您的浏览器不支持Video标签。
+						</video>
+			      	</div>
+			      	<p class="tt">{{item.bannerTitle}}</p>
+			      </div>
+			    </div>
+			</div>
+		</section>
+		<section class="gy-box" v-if="floor2List.length != 0">
+			<!--<p class="btt">如何有效预防心血管疾病</p>-->
+			<div class="spbox" v-for="(item,index) in floor2List">
+				<div class="sp fl">
+					<!--<img :src="item.bannerImg" @click="handlevideo(index)" :id="'img'+index">-->
+					<video :id="'vid'+index" width="100%" controls preload="auto" :poster="item.bannerImg" playsInline="false">
+					  	<source :src="item.bannerVideo" type="video/mp4">
+						您的浏览器不支持Video标签。
+					</video>
+				</div>
+				<div class="rl fr">
+					<p class="pt">{{item.bannerName}}</p>
+					<p class="pc">{{item.bannerTitle}}</p>
+					<p class="ti">2020-12-09</p>
+				</div>
+			</div>
+		</section>	
+	</div>
+	
+	<div class="videoContainer" v-if="bvtps.length != 0">
+		<p class="zzbit" style=" padding: 0 0 0 .4rem;"><i class="io"></i>心血管疾病与我们的关系 </p>
+		<section v-if="floor1List.length != 0">
+			<div class="swiper-container" id="swiper2">
+			    <div class="swiper-wrapper">
+			      <div class="swiper-slide" v-for="item in floor1List">
+			      	<div class="shipin">
+			      		<video width="100%" controls preload="auto" :poster="item.bannerImg">
+						  	<source :src="item.bannerVideo" type="video/mp4">
+							您的浏览器不支持Video标签。
+						</video>
+			      	</div>
+			      	<p class="tt">{{item.bannerTitle}}</p>
+			      </div>
+			    </div>
+			</div>
+		</section>
+		<section class="gy-box" v-if="floor2List.length != 0">
+			<p class="btt">如何有效预防心血管疾病</p>
+			<div class="spbox" v-for="(item,index) in floor2List">
+				<div class="sp fl">
+					<!--<img :src="item.bannerImg" @click="handlevideo(index)" :id="'img'+index">-->
+					
+					<video :id="'vid'+index" width="100%" controls preload="auto" :poster="item.bannerImg" playsInline="false">
+					  	<source :src="item.bannerVideo" type="video/mp4">
+						您的浏览器不支持Video标签。
+					</video>
+				</div>
+				<div class="rl fr">
+					<p class="pt">{{item.bannerName}}</p>
+					<p class="pc">{{item.bannerTitle}}</p>
+					<p class="ti">2020-12-09</p>
+				</div>
+			</div>
+		</section>	
 	</div>
 	
 

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style type="text/css">
+.item713{}
+.item713 .top{height: 1.2rem; line-height: .8rem; position: relative; overflow: hidden;background: linear-gradient(133.86deg, #E88751 0%, #DE5B6B 95.04%); color: #ffffff; padding: 0 .2rem; text-align: center;}
+.item713 .top span.ce{ font-size: .32rem; position: absolute; left: 0; width: 100%; text-align: center; font-weight: 600;}
+.item713 .top .arrback{ background: url(img/xgy/arrbac.png) no-repeat center; background-size:.4rem .4rem; width: .6rem; height: .8rem; position: absolute; left: 0; top: 0;}
+.item713 .con{ border-radius: .3rem .3rem 0 0; background: #ffffff; margin: -.3rem 0 0; overflow: hidden; position: relative; padding: .4rem;}
+.item713 .con .pic{ text-align: center; padding: .1rem 0 .3rem;}
+.item713 .con .pic img{width: 2.4rem; height: 2.4rem; border-radius: 50%;}
+.item713 .con .pic .nan{ color: #000000; font-size: .4rem; font-weight: 500;}
+.item713 .con .tabxx{width: 6.24rem; margin: 0 auto; height: .7rem; border-radius: .35rem; background: #dddee0; display: flex;display: -webkit-flex;}
+.item713 .con .tabxx span{ display: block; flex: 1; -webkit-flex: 1; text-align: center; line-height: .7rem; color: #888787; font-size: .3rem;}
+.item713 .con .tabxx span.on{background: linear-gradient(90deg, #E88751 0%, #DE5B6B 100%); border-radius: .35rem; color: #ffffff;}
+.item713 .con .itemInfo{ padding: .4rem 0 0;}
+.item713 .con .itemInfo .tt1{ font-size: .3rem; color: #000000; font-weight: 600; line-height: .62rem; border-bottom: #dddddd solid 1px;}
+.item713 .con .itemInfo .tt2{ font-size: .3rem; color: #000000; font-weight: 600; line-height: .62rem;}
+.item713 .con .itemInfo .txt{font-size: .26rem; line-height: .45rem; padding: .2rem 0;}
+.item713 .con .itemInfo .yiliao{background: linear-gradient(134.48deg, #E88751 0%, #DE5B6B 94.02%); border-radius: .3rem; padding: .4rem;}
+.item713 .con .itemInfo .yiliao .tit{ color: #ffffff; text-align: center; line-height: .4rem; font-size: .28rem; margin-bottom: .4rem;}
+.item713 .con .itemInfo .yiliao .bit{ color: #ffffff; text-align: center; font-size: .36rem; font-weight: 600; line-height: .5rem; margin: .2rem 0 .1rem;}
+.item713 .con .itemInfo .yiliao .fyinfo{ border-radius: .3rem; background: #ffffff; overflow: hidden;}
+.item713 .con .itemInfo .yiliao .fyinfo .xm{}
+.item713 .con .itemInfo .yiliao .fyinfo .xm .m_d{display: flex; display: -webkit-flex;border-bottom: #FF5E5E solid 1px;}
+.item713 .con .itemInfo .yiliao .fyinfo .xm .m_d .lab{width: 2rem; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center;background: rgba(255, 94, 94, 0.1); border-right: #FF5E5E solid 1px; display: flex; display: -webkit-flex;}
+.item713 .con .itemInfo .yiliao .fyinfo .xm .m_d .lab span{display: block; text-align: center; font-size: .26rem; font-weight: 500;}
+.item713 .con .itemInfo .yiliao .fyinfo .xm .m_d .cct{ -webkit-flex: 1; flex: 1; padding: .2rem; font-size: .26rem; line-height: .36rem; color: #999999;}
+.item713 .con .itemInfo .yiliao .fyinfo .zj{ line-height: .8rem; height: .8rem; font-size: .3rem; font-weight: 600; text-align: center;}
+.item713 .con .itemInfo .yiliao .fyinfo .zj b{color: #FF5E5E; font-weight: 600;}
+.item713 .con .itemInfo .yiliao .fyinfo .xd{}
+.item713 .con .itemInfo .yiliao .fyinfo .xd .tx{  padding: .2rem; color: #999999; font-size: .26rem; line-height: .36rem;border-bottom: #FF5E5E solid 1px;}
+</style>
+</head>
+<body style="background: #ffffff;">
+<DIV class="my_view item713" style="visibility: hidden;">
+	<div class="top">
+		<span class="ce">脑卒中</span>
+		<a class="arrback fl" href="javascript:history.go(-1);"></a>
+	</div>
+	<div class="con">
+		<div class="pic">
+			<img src="img/xgy/nzz.png">
+			<p class="nan">脑卒中</p>
+		</div>
+		<div class="tabxx">
+			<span :class="{on:tabNum == 1}" @click="handleTab(1)">疾病介绍</span>
+			<span :class="{on:tabNum == 2}" @click="handleTab(2)">疾病预防</span>
+			<span :class="{on:tabNum == 3}" @click="handleTab(3)">医疗费用</span>
+		</div>
+		<section class="itemInfo" v-show="tabNum == 1">
+			<p class="tt1">病因</p>
+			<div class="txt">
+				1、脑卒中发生的最常见原因是脑部供血血管内壁上有小栓子，脱落后导致动脉栓塞，即缺血性卒中。<br>
+				2、冠心病伴有房颤患者的心脏瓣膜容易发生附壁血栓，栓子脱落后可以堵塞脑血管，也可导致缺血性卒中。<br>
+				3、由于脑血管或血栓出血造成，为出血性卒中。<br>
+				4、颈动脉粥样硬化可引起颈内动脉狭窄和闭塞，或因血管破裂出血引发脑卒中。<br>
+				5、其他因素有高血压、糖尿病、高血脂等。<br>
+				6、不良生活方式，如吸烟、不健康的饮食、肥胖、缺乏适量运动、过量饮酒。<br>
+			</div>
+			<p class="tt1">症状</p>
+			<div class="txt">
+				1、头晕，特别是突然感到眩晕。<br>
+				2、肢体麻木，突然感到一侧面部或手脚麻木，有的为舌麻、唇麻。<br>
+				3、暂时性吐字不清或讲话不灵。<br>
+				4、肢体无力或活动不灵。<br>
+				5、与平时不同的头痛。<br>
+				6、不明原因突然跌倒或晕倒。<br>
+				7、短暂意识丧失或个性和智力的突然变化。<br>
+				8、全身明显乏力，肢体软弱无力。<br>
+				9、恶心呕吐或血压波动。<br>
+				10、整天昏昏欲睡，处于嗜睡状态。<br>
+				11、一侧或某一侧肢体不自主地抽动。<br>
+				12、双眼突感一时看不清眼前出现的事物。<br>
+			</div>
+		</section>
+		<section class="itemInfo" v-show="tabNum == 2">
+			<p class="tt2">对脑卒中的预防遵循三级预防的策略：</p>
+			<p class="tt1">一级预防</p>
+			<div class="txt">
+				即针对具有脑卒中危险因素的人群，积极治疗危险因素，同时定期监测其他危险因素的发生并采取针对性措施，减少疾病发生。已经证明禁烟、限制膳食中的盐含量、多食新鲜水果蔬菜、有规律地进行身体锻炼、避免过量饮酒可降低罹患心血管疾病的危险。此外还需要对糖尿病、高血压和高血脂采取药物治疗，以减少心血管病危险并预防脑卒中。
+			</div>
+			<p class="tt1">二级预防</p>
+			<div class="txt">
+				即针对已发生过一次或多次脑卒中的患者，给与早期诊断早期治疗，防止严重脑血管病发生，常用的5类降压药均可用于脑卒中二级预防；对已经患有糖尿病等其他疾病的人员开展心血管疾病二级预防，这些干预措施与戒烟相结合，往往可以预防近75%的血管性反复发作事件。
+			</div>
+			<p class="tt1">三级预防</p>
+			<div class="txt">
+				即对已患脑卒中的患者，加强康复护理，防止病情加重
+			</div>
+		</section>
+		<section class="itemInfo" v-show="tabNum == 3">
+			<p class="tt1">预诊建议及医疗费用</p>
+			<div class="txt">
+				如果您有以上常见症状，建议你去医院就诊，建议至三甲医院心内科就诊
+			</div>
+			<div class="yiliao">
+				<div class="tit">
+					一旦您被诊断患有脑卒中,可能1年产生的医疗费用为99，930元
+				</div>
+				<div class="bit"><span>—— 医疗费用  ——</span></div>
+				<div class="fyinfo">
+					<div class="xm">
+						<div class="m_d">
+							<div class="lab"><span>扩张血管</span></div>
+							<div class="cct">单硝酸异山梨酯片一个月花费100元，一年花费1200元，需终身服药</div>
+						</div>
+						<div class="m_d">
+							<div class="lab"><span>对症治疗</span></div>
+							<div class="cct">倍他洛克、硫酸氢氯吡格雷片等减低心肌收缩力和耗氧量减少动脉粥样硬化风险，一年花费7000元以上</div>
+						</div>
+					</div>
+					<div class="zj">一年治疗：<b>6654元</b></div>
+				</div>
+				
+				<div class="bit"><span>—— 不入医保费用  ——</span></div>
+				<div class="fyinfo">
+					<div class="xm">
+						<div class="m_d">
+							<div class="lab"><span>溶栓药物</span></div>
+							<div class="cct">尤瑞克林一只460元，每天一只，15天一个疗程一个月花费6900元</div>
+						</div>
+						<div class="m_d">
+							<div class="lab"><span>对症治疗</span></div>
+							<div class="cct">施普善240一盒，一个疗程为15大，需要9盒，一般治疗两疗程，花费4320元</div>
+						</div>
+					</div>
+					<div class="zj">一年疗程花费：<b>6654元</b></div>
+				</div>
+				
+				<div class="bit"><span>—— 住院费用/门诊费用  ——</span></div>
+				<div class="fyinfo">
+					<div class="xd">
+						<div class="tx">
+							检测费用合计约2500元<br>
+							1.心肌酶谱- -心梗三合-检查<br>
+							2.冠脉CT检查<br>
+							3.心脏血管造影4.心脏B超检查<br>
+							5.心电图<br>
+						</div>
+						<div class="tx">
+							手术费用约为50000元<br>
+							监护室观察用药费用:按10天计算，约为20000元<br>
+							普通病房治疗费用:按15天计算，约为8000元<br>
+							抗凝药物、保护心肌、营养神经药物需要持续使用<br>
+						</div>
+					</div>
+					<div class="zj">一年花费：<b>6654元</b></div>
+				</div>
+				
+			</div>
+		</section>
+	</div>
+	
+</DIV>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script type="text/javascript" src="js/echarts/echarts.min.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var reportId = (getQueryString('reportId') || 'MK701IS000000031613891822337');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
+var clientType = (getQueryString("clientType") || ''); 
+var bank = (getQueryString('bank') || '');
+var resource = getQueryString("resource");
+var source = (getQueryString('source') || '');  //通过解析获得
+var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 判断金管家来源
+var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
+var visible = (getQueryString('visible') || 1);
+var invite = getQueryString("invite");  //邀约历史查看
+var localUrl = location.href;
+
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+
+var myapp = new Vue({
+	el:'.my_view',
+	data:function(){
+		return {
+			tabNum: 1,
+		}
+	},
+	methods:{
+		handleTab: function(n){
+			this.tabNum = n
+		}
+	},
+	mounted: function(){
+		$('.load-overlay').css("display","none");
+		$('.my_view').css("visibility","visible");
+	}
+	
+})
+
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

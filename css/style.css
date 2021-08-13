@@ -1359,8 +1359,9 @@
 .newbaogao .renticn .bodyinfo{padding: .6rem 0 0; background: url(../img/xgy/bj2.png) no-repeat bottom center; background-size:100%; display: flex;display: -webkit-flex;}
 .newbaogao .renticn .bodyinfo .body_l{ -webkit-flex: 1; width: 50%;}
 .newbaogao .renticn .bodyinfo .female{height: 8.84rem; background: url(../img/xgy/female.png) no-repeat right bottom; background-size: 2.49rem 8.84rem;}
+.newbaogao .renticn .bodyinfo .male{height: 8.84rem; background: url(../img/xgy/male.png) no-repeat right bottom; background-size: 3rem 8.87rem;}
 .newbaogao .renticn .bodyinfo .info_r{-webkit-flex: 1; width: 50%; padding: .4rem 0 0 .25rem;}
-.newbaogao .renticn .bodyinfo .info_r .item{width: 2.48rem;min-height: 1.04rem;background: #FFFFFF;box-shadow: 0 0 .1rem rgba(0, 0, 0, 0.25);border-radius: .2rem; position: relative; margin-bottom: .2rem; padding: .1rem .1rem .2rem;}
+.newbaogao .renticn .bodyinfo .info_r .item{width: 2.58rem;min-height: 1.04rem;background: #FFFFFF;box-shadow: 0 0 .1rem rgba(0, 0, 0, 0.25);border-radius: .2rem; position: relative; margin-bottom: .2rem; padding: .1rem .1rem .2rem;}
 .newbaogao .renticn .bodyinfo .info_r .item.on{background: linear-gradient(136.32deg, #E88751 0.18%, #DE5B6B 91.21%); color: #ffffff;}
 .newbaogao .renticn .bodyinfo .info_r .item .m-tt{ font-size: .3rem; height: .56rem; line-height: .56rem;}
 .newbaogao .renticn .bodyinfo .info_r .item .m-tt i{ display: inline-block; vertical-align: top; width: .56rem; height: .56rem;}
@@ -1379,7 +1380,7 @@
 .newbaogao .xycomp .infbox .b_li{height: 1.5rem; padding: .3rem 0;}
 .newbaogao .xycomp .infbox .b_li .p1{line-height: .45rem;}
 .newbaogao .xycomp .infbox .b_li .p1 .lab{ font-size: .3rem;}
-.newbaogao .xycomp .infbox .b_li .p1 .pop{}
+.newbaogao .xycomp .infbox .b_li .p1 .pop{display: inline-block; vertical-align: top; height: .26rem;width: .26rem;background: #FFD2D2; border-radius: 50%; text-align: center; line-height: .26rem; font-size: .2rem; color: #ff0000; margin: .1rem 0 0 0;}
 .newbaogao .xycomp .infbox .b_li .p1 span{font-size: .3rem; font-weight: bold;}
 .newbaogao .xycomp .infbox .b_li .p1 .down{display: inline-block; vertical-align: top; height: .45rem; width: .22rem; background: url(../img/xgy/r-down.png) no-repeat center right; background-size:.16rem .3rem;}
 .newbaogao .xycomp .infbox .b_li .p1 .up{display: inline-block; vertical-align: top; height: .45rem; width: .22rem; background: url(../img/xgy/r-up.png) no-repeat center right; background-size:.16rem .3rem;}
@@ -1394,23 +1395,24 @@
 .newbaogao .xycomp .xzs .cmp .lab span{display: block; width: 1.5rem; color: #FF5E5E; font-size: .26rem; font-weight: 500; text-align: center;}
 .newbaogao .xycomp .xzs .cmp .con{-webkit-flex: 1; flex: 1; padding: .3rem .4rem; font-size: .26rem; color: #999999;}
 .newbaogao .bidcamp{ border-radius:.3rem; padding: 0 0 .4rem;}
-.newbaogao .bidcamp .ctop{width: 100%; height: 3.5rem; color: #ffffff;  text-align: center; padding: .5rem .43rem 0;}
-.newbaogao .bidcamp .ctop.bj_xz{background: url(../img/xgy/ct-1.png) no-repeat center;background-size:100% 3.5rem;}
-.newbaogao .bidcamp .ctop.bj_xg{background: url(../img/xgy/ct-2.png) no-repeat center;background-size:100% 3.5rem;}
-.newbaogao .bidcamp .ctop.bj_xyy{background: url(../img/xgy/ct-3.png) no-repeat center;background-size:100% 3.5rem;}
-.newbaogao .bidcamp .ctop.bj_wxh{background: url(../img/xgy/ct-4.png) no-repeat center;background-size:100% 3.5rem;}
-.newbaogao .bidcamp .ctop .ttt{ font-size: .34rem; font-weight: 600; line-height: .48rem;}
-.newbaogao .bidcamp .ctop .tab{width: 100%; height: .74rem; line-height: .74rem; background: rgba(255,255,255, 0.4); margin: .4rem 0 0; border-radius: .37rem; font-size: 0;}
+.newbaogao .bidcamp .ctop{width: 100%; color: #ffffff;  text-align: center; padding: .5rem .43rem 0;}
+.newbaogao .bidcamp .ctop.bj_xz{background: url(../img/xgy/ct-1.png) no-repeat center top;background-size:100% 3.5rem;}
+.newbaogao .bidcamp .ctop.bj_xg{background: url(../img/xgy/ct-2.png) no-repeat center top;background-size:100% 3.5rem;}
+.newbaogao .bidcamp .ctop.bj_xyy{background: url(../img/xgy/ct-3.png) no-repeat center top;background-size:100% 3.5rem;}
+.newbaogao .bidcamp .ctop.bj_wxh{background: url(../img/xgy/ct-4.png) no-repeat center top;background-size:100% 3.5rem;}
+.newbaogao .bidcamp .ctop .ttt{ font-size: .34rem; font-weight: 600; line-height: .48rem; width: 100%; border: none;}
+.newbaogao .bidcamp .ctop .tab{width: 100%; height: .74rem; line-height: .74rem; background: rgba(255,255,255, 0.4); margin: .4rem 0; border-radius: .37rem; font-size: 0;}
 .newbaogao .bidcamp .ctop .tab span{ display: inline-block; width: 50%; font-size: .28rem;}
 .newbaogao .bidcamp .ctop .tab span.on{ color: #FF5E5E; background: #ffffff; border-radius: .37rem; position: relative;}
 .newbaogao .bidcamp .ctop .tab span.on i{ position: absolute; width: .16rem; height: .16rem; background: #ffffff; transform: rotate(45deg); top: .66rem; left: 50%; margin-left: -.08rem;}
-.newbaogao .bidcamp .cinfo{ margin: -1rem 0 0; padding: 0 .4rem;}
+
+.newbaogao .bidcamp .cinfo{ margin:0; padding: 0; color: #333333; text-align: left;}
 .newbaogao .bidcamp .cinfo .bid_fx{ background: #ffffff; border-radius: .3rem; min-height: 3rem;}
 .newbaogao .bidcamp .cinfo .bid_fx .fxbox{ display: flex;display: -webkit-flex; border-bottom: #F7F7F7 solid .1rem;}
-.newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-left{width: 2.8rem; border-right: #F7F7F7 solid .1rem; display: flex; display: -webkit-flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center;}
+.newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-left{width: 2.8rem; border-right: #F7F7F7 solid .1rem; display: flex; display: -webkit-flex; -webkit-justify-content: center; justify-content: center; -webkit-align-items: center; align-items: center; padding: .1rem 0;}
 .newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-left .con{ text-align: center;}
 .newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-left .con img{width: .74rem; height: .74rem; display: block; margin: 0 auto;}
-.newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-left .con p{font-size: .28rem; line-height: .39rem; margin-top: .08rem;}
+.newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-left .con p{font-size: .28rem; line-height: .39rem; margin-top: .08rem; font-weight: 600;}
 .newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-right{-webkit-flex: 1; flex: 1; padding: .5rem .1rem 0 .3rem;}
 .newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-right .p-li{height: .4rem; margin-bottom: .4rem; line-height: .4rem; white-space: nowrap; width: 3.5rem; text-overflow: clip;overflow:hidden;}
 .newbaogao .bidcamp .cinfo .bid_fx .fxbox .b-right .p-li em{ display: inline-block;vertical-align: top; margin: .12rem .1rem 0 0; width: .16rem; height: .16rem; background: #FFBEBE; padding: .02rem; border-radius: 50%;}
@@ -1423,12 +1425,10 @@
 .newbaogao .bidcamp .cinfo .bid_fx .zcbox .b-right .p-li em i b{background: #4AC300;}
 
 .newbaogao .bidcamp .cinfo .bid_de{background: #ffffff; border-radius: .3rem; padding: 0 .3rem;}
-
 .newbaogao .bidcamp .cinfo .bid_de .b_li{height: 1.5rem; padding: .3rem 0; border-bottom: #dddddd solid 1px;}
 .newbaogao .bidcamp .cinfo .bid_de .b_li:last-of-type{border: none;}
 .newbaogao .bidcamp .cinfo .bid_de .b_li .p1{line-height: .45rem;}
 .newbaogao .bidcamp .cinfo .bid_de .b_li .p1 .lab{ font-size: .3rem;}
-
 .newbaogao .bidcamp .cinfo .bid_de .b_li .p1 em{font-size: .3rem; font-weight: bold;}
 .newbaogao .bidcamp .cinfo .bid_de .b_li .p1 .down{display: inline-block; vertical-align: top; height: .45rem; width: .22rem; background: url(../img/xgy/r-down.png) no-repeat center right; background-size:.16rem .3rem;}
 .newbaogao .bidcamp .cinfo .bid_de .b_li .p1 .up{display: inline-block; vertical-align: top; height: .45rem; width: .22rem; background: url(../img/xgy/r-up.png) no-repeat center right; background-size:.16rem .3rem;}
@@ -1445,10 +1445,10 @@
 .newbaogao .zhongji .zjList .z_li .inf font{ font-size: .22rem; color: #999999;}
 .newbaogao .zhongji .zjList .z_li em{position: absolute; line-height: .36rem; font-size: .26rem; font-weight: 600; right: 0; top: 50%; margin-top: -.18rem;}
 
-.newbaogao .caijibo{background: #ffffff; margin: .2rem 0; padding: .5rem .4rem;}
-.newbaogao .caijibo .boxin{box-shadow: 0 0 .24rem #ffefef; min-height: 2rem; margin: .4rem 0 .4rem; border-radius: .3rem;}
+.newbaogao .caijibo{background: #ffffff; padding: .5rem .4rem;}
+.newbaogao .caijibo .boxin{box-shadow: 0 0 .24rem #ffefef; min-height: 2rem; margin: .4rem 0 0; border-radius: .3rem;}
 .newbaogao .comtxt{background: #F4F6FC;border-radius: .3rem; padding: .2rem .4rem; color: #666666;}
 .newbaogao .comtxt .tt{ font-size: .3rem; font-weight: 600; border-bottom: #dddddd solid 1px; line-height: .88rem;}
 .newbaogao .comtxt .tx{ font-size: .26rem; line-height: .45rem; padding: .2rem 0;}
-
-.newbaogao .bmicomp{ background: #ffffff; padding: .5rem 0}
+.newbaogao .bmicomp{ background: #ffffff; padding: .5rem 0 .4rem}
+.videoContainer{ padding: .4rem 0; margin: 0 0 .2rem; background: #ffffff;}
