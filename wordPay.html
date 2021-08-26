@@ -26,7 +26,7 @@
 		<div class="tipc">输入口令</div>
 		<div class="intdiv"><input type="text" placeholder="请输入口令" id="wordNum" onkeyup="this.value=this.value.replace(/\s+/g,'')"></div>
 		<div class="btndiv"><button class="btn-go" id="subgo" @click="gouseBtn($event)">立即使用</button></div>
-		<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">扫口令码使用111</button></div>
+		<div class="btndiv"><button class="btn-go" id="scanQRCode" v-if="!clientType" @click="gotoSaoMa()">扫口令码使用</button></div>
 		<div class="btndiv"><button class="btn-go" id="appscanQRCode" v-if="!openId && clientType" @click="appscanQRCode()">扫码使用口令</button></div>
 		<div class="tipc2">请输入您获得的口令字符，立即使用，即可支付</div>
 	</template>

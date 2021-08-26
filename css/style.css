@@ -1440,7 +1440,7 @@
 .newbaogao .zhongji .zjList .z_li:last-of-type{border: none;}
 .newbaogao .zhongji .zjList .z_li .pic{ float: left; width: .9rem; height: 1.4rem; padding: .35rem 0 0;}
 .newbaogao .zhongji .zjList .z_li .pic img{ width: .7rem; height: .7rem;}
-.newbaogao .zhongji .zjList .z_li .inf{ height: 1.4rem; padding: .35rem 0; line-height: .35rem;}
+.newbaogao .zhongji .zjList .z_li .inf{ height: 1.4rem; padding: .35rem .35rem 0; line-height: .35rem;}
 .newbaogao .zhongji .zjList .z_li .inf span{ font-size: .28rem; font-weight: 500;}
 .newbaogao .zhongji .zjList .z_li .inf font{ font-size: .22rem; color: #999999;}
 .newbaogao .zhongji .zjList .z_li em{position: absolute; line-height: .36rem; font-size: .26rem; font-weight: 600; right: 0; top: 50%; margin-top: -.18rem;}
@@ -1449,6 +1449,6 @@
 .newbaogao .caijibo .boxin{box-shadow: 0 0 .24rem #ffefef; min-height: 2rem; margin: .4rem 0 0; border-radius: .3rem;}
 .newbaogao .comtxt{background: #F4F6FC;border-radius: .3rem; padding: .2rem .4rem; color: #666666;}
 .newbaogao .comtxt .tt{ font-size: .3rem; font-weight: 600; border-bottom: #dddddd solid 1px; line-height: .88rem;}
-.newbaogao .comtxt .tx{ font-size: .26rem; line-height: .45rem; padding: .2rem 0;}
+.newbaogao .comtxt .tx{ font-size: .26rem; line-height: .45rem; padding: .1rem 0 .2rem;}
 .newbaogao .bmicomp{ background: #ffffff; padding: .5rem 0 .4rem}
 .videoContainer{ padding: .4rem 0; margin: 0 0 .2rem; background: #ffffff;}

@@ -1,4 +1,4 @@
-var reportId = (getQueryString('reportId') || 'MK701IS000000061628146392294');
+var reportId = (getQueryString('reportId') || 'MK701IS000000039396057');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
@@ -27,6 +27,7 @@ var myApp = new Vue({
 			totalScore:0,
 			userInfoView:{},
 			inspectDateStr:'',
+			disease:[],
 			hartViews:[],
 			vesselViews:[],
 			bloodViews:[],
@@ -80,7 +81,10 @@ var myApp = new Vue({
 				blood:1,
 				mcr:1
 			},
-			zongheVal:''
+			zongheVal:'',
+			zongheDetail:'',
+			bmidiseases:'',
+			bmisuggest:''
 		}
 	},
 	mounted: function(){
@@ -115,7 +119,8 @@ var myApp = new Vue({
 			sessionStorage.setItem("mobile", this.userInfoView.mobile);
 			location.href="xgy_bmi.html?"+'reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 		},
-		handleZhongji: function(){
+		handleZhongji: function(item){
+			sessionStorage.setItem("disease", JSON.stringify(item));
 			location.href = "xgy_item713.html?"+'reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 		},
 		swi: function(){
@@ -164,6 +169,7 @@ var myApp = new Vue({
 						vm.bloodViews = res.data.reportStr.bloodViews
 						vm.mcrViews = res.data.reportStr.mcrViews
 						vm.bpView = res.data.reportStr.bpView
+						vm.disease = res.data.reportStr.disease
 						//vm.xueyaresult = vm.bpView.inspectGuideBp6.metricName
 						vm.resultViews = res.data.reportStr.resultViews
 						//总分动画效果
@@ -171,14 +177,14 @@ var myApp = new Vue({
 							$('.zhen').css("transform","rotate("+(2.24*vm.totalScore-22)+"deg)");
 						},100)
 						$('#score').animateNumber({ number: vm.totalScore },1100);
-						vm.analysisMk701Report('DIA')
-						vm.analysisMk701Report('SYS')
+						vm.findTargetDetail('DIA')
+						vm.findTargetDetail('SYS')
 						console.log('xxlist',vm.xyxList)
 						console.log('diaList',vm.diaList)
 						console.log('sysList',vm.sysList)
 						//setTimeout(xueyaChart(['2018-05-02','2018-05-02','2018-05-02','2018-06-09'],[150,150,150,150],[110,50,110,110]),5000)
 						//xueyaChart(vm.xyxList,vm.diaList,vm.sysList)
-						
+						vm.getBmiDetail(vm.userInfoView.bmiValue);
 						vm.resultViews.forEach(function(item,index){
 							if(item.data && item.data[0]){
 								/*myApp.$set(item,'resultDetail','')
@@ -187,7 +193,7 @@ var myApp = new Vue({
 									if(i.resultDetail){
 										i.resultDetail = i.resultDetail.replace(/\n/g,'<br/>')
 									};
-									if(i.name == '综合意见'){vm.zongheVal = i.resultName}
+									if(i.name == '综合意见'){vm.zongheVal = i.resultName;vm.zongheDetail = i.resultDetail}
 								})
 							};
 							if(item.metricType == "6"){ //肺功能
@@ -237,10 +243,10 @@ var myApp = new Vue({
 			});
 		},
 		//查历史  DIA(收缩压)   SYS(舒张压)
-		analysisMk701Report: function(name){
+		findTargetDetail: function(name){
 			var vm = this
 			$.ajax({
-				url : analysisreport + "/mk701/reportIndex/analysisMk701Report",
+				url : analysisreport + "/mk701/reportIndex/findTargetDetail",
 				type : "POST",
 				dataType : 'json',
 				data : {
@@ -264,7 +270,26 @@ var myApp = new Vue({
 					}
 					xueyaChart(vm.xyxList,vm.diaList,vm.sysList)
 				},
-				error : function(obj,msg){alert("analysisMk701Report error")}
+				error : function(obj,msg){alert("findTargetDetail error")}
+			});
+		},
+		//查询bmi建议
+		getBmiDetail: function(val){
+			var vm = this
+			$.ajax({
+				url : analysisreport + "/mk701/reportIndex/getBmiDetail",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    value : val
+				},
+				success : function(res) {
+					if(res.code == 200){
+						vm.bmidiseases = res.data.diseases;
+						vm.bmisuggest = res.data.suggest;
+					}
+				},
+				error : function(obj,msg){alert("findTargetDetail error")}
 			});
 		},
 		getMk701Video: function(){
@@ -371,7 +396,7 @@ let myChart = echarts.init(document.getElementById('xueya'));
 	            name: '收缩压',
 	            type: 'line',
 	           	smooth: true,
-	           	showSymbol:false,
+	           	showSymbol:true,
 	            data: dialist,
 	            lineStyle:{
 		        	color:"#E88653"
@@ -381,7 +406,7 @@ let myChart = echarts.init(document.getElementById('xueya'));
 	            name: '舒张压',
 	            type: 'line',
 	           	smooth: true,
-	           	showSymbol:false,
+	           	showSymbol:true,
 	            data: syslist
 	        }
 	    ]

@@ -147,25 +147,30 @@ var myApp = new Vue({
 		            needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 		            scanType : ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
 		            success : function(res) {
-		                var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-		                //alert(resultcode);
-						var codeType = (getParameter(resultcode,"type") || '');
-						//alert(codeType);
-						
-						vm.sign = (getParameter(resultcode,"sign") || '');
-						vm.timstamp = (getParameter(resultcode,"timstamp") || '');
-						
-						
-						var passwd_val = (getParameter(resultcode,"passwd_val") || '');
-						//alert(passwd_val);
-		                if(codeType == 2 || codeType == 1){
-		                	vm.updateYearWordPay(passwd_val);
-		                }else if(codeType == 3){
-		                	vm.updateXLYearWordPay(passwd_val);
-		                }else{
-		                	vm.goMethod(resultcode);
-		                }
-		            }
+						setTimeout(function(){
+							var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+							//alert(resultcode);
+							var codeType = (getParameter(resultcode,"type") || '');
+							//alert(codeType);
+							
+							vm.sign = (getParameter(resultcode,"sign") || '');
+							vm.timstamp = (getParameter(resultcode,"timstamp") || '');
+							
+							
+							var passwd_val = (getParameter(resultcode,"passwd_val") || '');
+							//alert(passwd_val);
+							if(codeType == 2 || codeType == 1 || codeType == 3){
+								vm.updateYearWordPay(passwd_val);
+							}else if(codeType == 4){  //调杏林 预计8月31号发
+								vm.updateXLYearWordPay(passwd_val);
+							}else{
+								vm.goMethod(resultcode);
+							}
+						},500)
+		            },
+					fail:function(result){
+						alert('扫码失败,请重试')
+					}
 		        })
 			});
 		},
@@ -242,7 +247,7 @@ var myApp = new Vue({
 						showMask('口令不正确');
 						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 					}else{
-						showMask('code=' + data.code);
+						showMask('updateWordPay code=' + data.code);
 					}
 				},
 			    error : function(obj,msg){showMask("updateWordPay error")}
@@ -284,7 +289,7 @@ var myApp = new Vue({
 						showMask('口令不正确');
 						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 					}else{
-						showMask('code=' + data.code);
+						showMask('updateYearWordPay code=' + data.code);
 					}
 				},
 				error: function(){showMask('updateYearWordPay error')}
@@ -329,7 +334,7 @@ var myApp = new Vue({
 						showMask('口令不正确');
 						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 					}else{
-						showMask('code=' + data.code);
+						showMask('updateXLYearWordPay code=' + data.code+'--'+data.msg);
 					}
 				},
 				error: function(){showMask('updateXLYearWordPay error')}

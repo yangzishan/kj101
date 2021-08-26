@@ -46,47 +46,27 @@
 <body style="background: #ffffff;">
 <DIV class="my_view item713" style="visibility: hidden;">
 	<div class="top">
-		<span class="ce">脑卒中</span>
+		<span class="ce">{{disease.diseaseName}}</span>
 		<a class="arrback fl" href="javascript:history.go(-1);"></a>
 	</div>
 	<div class="con">
 		<div class="pic">
-			<img src="img/xgy/nzz.png">
-			<p class="nan">脑卒中</p>
+			<img :src="disease.image">
+			<p class="nan">{{disease.diseaseName}}</p>
 		</div>
 		<div class="tabxx">
 			<span :class="{on:tabNum == 1}" @click="handleTab(1)">疾病介绍</span>
 			<span :class="{on:tabNum == 2}" @click="handleTab(2)">疾病预防</span>
-			<span :class="{on:tabNum == 3}" @click="handleTab(3)">医疗费用</span>
+			<!-- <span :class="{on:tabNum == 3}" @click="handleTab(3)">医疗费用</span> -->
 		</div>
 		<section class="itemInfo" v-show="tabNum == 1">
 			<p class="tt1">病因</p>
-			<div class="txt">
-				1、脑卒中发生的最常见原因是脑部供血血管内壁上有小栓子，脱落后导致动脉栓塞，即缺血性卒中。<br>
-				2、冠心病伴有房颤患者的心脏瓣膜容易发生附壁血栓，栓子脱落后可以堵塞脑血管，也可导致缺血性卒中。<br>
-				3、由于脑血管或血栓出血造成，为出血性卒中。<br>
-				4、颈动脉粥样硬化可引起颈内动脉狭窄和闭塞，或因血管破裂出血引发脑卒中。<br>
-				5、其他因素有高血压、糖尿病、高血脂等。<br>
-				6、不良生活方式，如吸烟、不健康的饮食、肥胖、缺乏适量运动、过量饮酒。<br>
-			</div>
+			<div class="txt" v-html="disease.diseaseCause"></div>
 			<p class="tt1">症状</p>
-			<div class="txt">
-				1、头晕，特别是突然感到眩晕。<br>
-				2、肢体麻木，突然感到一侧面部或手脚麻木，有的为舌麻、唇麻。<br>
-				3、暂时性吐字不清或讲话不灵。<br>
-				4、肢体无力或活动不灵。<br>
-				5、与平时不同的头痛。<br>
-				6、不明原因突然跌倒或晕倒。<br>
-				7、短暂意识丧失或个性和智力的突然变化。<br>
-				8、全身明显乏力，肢体软弱无力。<br>
-				9、恶心呕吐或血压波动。<br>
-				10、整天昏昏欲睡，处于嗜睡状态。<br>
-				11、一侧或某一侧肢体不自主地抽动。<br>
-				12、双眼突感一时看不清眼前出现的事物。<br>
-			</div>
+			<div class="txt" v-html="disease.diseaseOmen"></div>
 		</section>
 		<section class="itemInfo" v-show="tabNum == 2">
-			<p class="tt2">对脑卒中的预防遵循三级预防的策略：</p>
+			<!-- <p class="tt2">对脑卒中的预防遵循三级预防的策略：</p>
 			<p class="tt1">一级预防</p>
 			<div class="txt">
 				即针对具有脑卒中危险因素的人群，积极治疗危险因素，同时定期监测其他危险因素的发生并采取针对性措施，减少疾病发生。已经证明禁烟、限制膳食中的盐含量、多食新鲜水果蔬菜、有规律地进行身体锻炼、避免过量饮酒可降低罹患心血管疾病的危险。此外还需要对糖尿病、高血压和高血脂采取药物治疗，以减少心血管病危险并预防脑卒中。
@@ -98,7 +78,9 @@
 			<p class="tt1">三级预防</p>
 			<div class="txt">
 				即对已患脑卒中的患者，加强康复护理，防止病情加重
-			</div>
+			</div> -->
+			<p class="tt1">预防</p>
+			<div class="txt" v-html="disease.diseaseGuard"></div>
 		</section>
 		<section class="itemInfo" v-show="tabNum == 3">
 			<p class="tt1">预诊建议及医疗费用</p>
@@ -211,16 +193,26 @@ var myapp = new Vue({
 	data:function(){
 		return {
 			tabNum: 1,
+			disease:{}
 		}
 	},
 	methods:{
+		getData: function(){
+			var vm = this
+			$('.my_view').css("visibility","visible");
+			$('.load-overlay').css("display","none");
+			vm.disease = JSON.parse(sessionStorage.getItem('disease'))
+			console.log(vm.disease)
+			vm.disease.diseaseCause =  vm.disease.diseaseCause.replace(/\n/g,'<br/>');
+			vm.disease.diseaseOmen =  vm.disease.diseaseOmen.replace(/\n/g,'<br/>');
+			vm.disease.diseaseGuard =  vm.disease.diseaseGuard.replace(/\n/g,'<br/>');
+		},
 		handleTab: function(n){
 			this.tabNum = n
 		}
 	},
 	mounted: function(){
-		$('.load-overlay').css("display","none");
-		$('.my_view').css("visibility","visible");
+		this.getData()
 	}
 	
 })

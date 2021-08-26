@@ -26,6 +26,8 @@ var myApp = new Vue({
 			reportId: reportId, openId: openId, sameUser: sameUser,reportType:reportType, 
 			userId:userId,
 			packageId:'',
+			sign:'',
+			timstamp:'',
 		}
 	},
 	mounted: function(){
@@ -47,11 +49,12 @@ var myApp = new Vue({
 					}else if(packageData.code == 1001){
 						$('.v_overlay').css({"visibility":"visible","opacity":"1"});
 						$('.daifu_d').css("display","block");	
-						$('.daifu_d .tit').text('亲，您的这份报告已经超过48小时未支付，请您再次检测');
+						//$('.daifu_d .tit').text('亲，您的这份报告已经超过48小时未支付，请您再次检测');
+						$('.daifu_d .tit').text(packageData.msg);
 						$('.daifu_d .tip').remove();
 						$('#iknow').click(function(){
-							//WeixinJSBridge.call('closeWindow');
-							location.href = 'historyRecord.html?userId='+userId+'&openId='+openId+'&saasId='+saasId;
+							WeixinJSBridge.call('closeWindow');
+							//location.href = 'historyRecord.html?userId='+userId+'&openId='+openId+'&saasId='+saasId;
 						});
 					}else if(packageData.code == 1002){
 						alert('findPackage 1002'+packageData.msg)
@@ -89,18 +92,30 @@ var myApp = new Vue({
 		            needResult : 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 		            scanType : ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
 		            success : function(res) {
-		                var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-		                //alert(resultcode);
-						var codeType = (getParameter(resultcode,"type") || '');
-						//alert(codeType);
-						var passwd_val = (getParameter(resultcode,"passwd_val") || '');
-						//alert(passwd_val);
-		                if(codeType == 2 || codeType >= 1){
-		                	vm.updateYearWordPay(passwd_val);
-		                }else{
-		                	vm.goMethod(resultcode);
-		                }
-		            }
+						setTimeout(function(){
+							var resultcode = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+							//alert(resultcode);
+							var codeType = (getParameter(resultcode,"type") || '');
+							//alert('type='+codeType);
+							var passwd_val = (getParameter(resultcode,"passwd_val") || '');
+							//alert(passwd_val);
+							vm.sign = (getParameter(resultcode,"sign") || '');
+							vm.timstamp = (getParameter(resultcode,"timstamp") || '');
+							
+							if(codeType == 2 || codeType == 1 || codeType == 3){ //2不计名次卡，
+								//alert('222='+codeType);
+								vm.updateYearWordPay(passwd_val);
+							}else if(codeType == 4){    //后期改成type=4调杏林 8月31号发
+								//alert('333='+codeType);
+								vm.updateXLYearWordPay(passwd_val)  //杏林
+							}else{
+								vm.goMethod(resultcode); //updateWordPay
+							}
+						},1000)
+		            },
+					fail:function(result){
+						alert('扫码失败,请重试')
+					}
 		        })
 			});
 		},
@@ -168,10 +183,55 @@ var myApp = new Vue({
 					}else if(data.code == 300){
 						showMask('口令不正确');
 					}else{
-						showMask('code=' + data.code);
+						showMask('updateWordPay code=' + data.code);
 					}
 				},
 			    error : function(obj,msg){showMask("updateWordPay error")}
+			});
+		},
+		updateXLYearWordPay: function(resultdata){
+			//alert('updateXLYearWordPay')
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url:dataUrl+"/api/v1/cardPay/updateXLYearWordPay",
+				dataType : 'json',
+				data:{
+					reportId: reportId,
+					packageId: vm.packageId,
+					openId:openId,
+					userId: userId,
+					batchType: 20,
+					saasId: saasId,
+					sign:vm.sign,
+					timstamp: vm.timstamp,
+					wordNum: resultdata,
+					
+				},
+				success: function(data){
+					if(data.code == 200){
+						if(data.data == "0" || data.data == "true"){
+							zhuge.track('支付成功',{
+								'方式': '口令支付'
+							},function(){
+								vm.getReportSource()
+							});
+						}else{
+							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+							zhuge.track('支付失败',{
+								'方式': '口令支付',
+								'原因': checkMsg(data.data)
+							});
+							showMask(checkMsg(data.data));
+						}
+					}else if(data.code == 300){
+						showMask('口令不正确');
+						setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
+					}else{
+						showMask('updateXLYearWordPay code=' + data.code+data.msg);
+					}
+				},
+				error: function(){showMask('updateXLYearWordPay error')}
 			});
 		},
 		//卡号支付
@@ -208,7 +268,7 @@ var myApp = new Vue({
 					}else if(data.code == 300){
 						showMask('口令不正确');
 					}else{
-						showMask('code=' + data.code);
+						showMask('updateYearWordPay code=' + data.code);
 					}
 				},
 				error: function(){showMask('updateYearWordPay error')}

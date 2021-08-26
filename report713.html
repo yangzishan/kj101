@@ -13,7 +13,6 @@
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 <style type="text/css">
 .gy-bmi .ggrr .int{position: absolute; top: -1.75rem;} /*覆盖 712*/
-
 .swiper-container {width: 7.5rem; height: 3.5rem; margin: 0 auto;}
 .swiper-slide {text-align: center; background: #fff; width: 70%; padding: .2rem;}
 .swiper-slide .shipin{width: 100%; height: 2.745rem; overflow: hidden;}
@@ -26,7 +25,9 @@
 	<div class="topcom">
 		<p class="tit">心血管检测报告</p>
 		<p class="tim">检测时间：{{inspectDateStr}}</p>
-		<p class="tin"><span style="font-weight: bold; margin-right: .3rem;">{{userInfoView.name}}</span> 性别：{{userInfoView.sex==1?'男':'女'}} 年龄：{{userInfoView.age}}</p>
+		<p class="tin">
+			<span style="font-weight: bold; margin-right: .3rem;">{{userInfoView.name}}</span>&nbsp;&nbsp;&nbsp;性别：{{userInfoView.sex==1?'男':'女'}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年龄：{{userInfoView.age}}
+		</p>
 	</div>
 	<div class="zong">
 		<p class="zzbit"><i class="io"></i>以下是本次检测的评分</p>
@@ -40,7 +41,7 @@
 			</div>
 		</div>
 		<div class="tip">
-			本次得分{{totalScore}}分，身体状态良好，请继续保持哦！日常可进行有氧运动，食物摄取建议蓝莓，苹果，香蕉等
+			本次得分{{totalScore}}分，{{zongheDetail}}
 		</div>
 	</div>
 	
@@ -398,40 +399,11 @@
 	<div class="zhongji">
 		<p class="zzbit"><i class="io"></i>重疾风险预测</p>
 		<div class="zjList">
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_nao.png"></div>
-				<div class="inf"> <span>脑卒中</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
-			</div>
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_xin.png"></div>
-				<div class="inf"> <span>急性心肌梗死</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
-			</div>
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_gxin.png"></div>
-				<div class="inf"> <span>冠心病</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
-			</div>
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_jiyan.png"></div>
-				<div class="inf"> <span>心肌炎</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
-			</div>
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_fei.png"></div>
-				<div class="inf"> <span>肺源性心脏病</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
-			</div>
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_lv.png"></div>
-				<div class="inf"> <span>心率衰竭</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
-			</div>
-			<div class="z_li" @click="handleZhongji()">
-				<div class="pic"><img src="img/xgy/zj_guan.png"></div>
-				<div class="inf"> <span>心绞痛</span><br/><font>肝病科、消化内科</font></div>
-				<em>30%</em>
+			<div class="z_li" v-for="(item,index) in disease" @click="handleZhongji(item)">
+				<!-- <div class="pic"><img :src="'img/xgy/zj_'+item.diseaseId+'.png'"></div> -->
+				<div class="pic"><img :src="item.icon"></div>
+				<div class="inf"> <span>{{item.diseaseName}}</span><br/><font>{{item.remark}}</font></div>
+				<em>{{item.store}}%</em>
 			</div>
 		</div>
 	</div>
@@ -464,12 +436,15 @@
 	<div class="caijibo">	
 		<div class="comtxt">
 			<p class="tt">综合诊断结果</p>
-			<div class="tx">解释:<br>心搏出量高，心脏负荷过重，会导致心脏严重受损，形成慢性心功能不全，长期心脏负荷过重易诱发心力衰竭，一般与冠心病、高血压心脏病、心肌病、肺心病、风湿性心脏病等心血管病直接相关，故应引起足够重视。</div>
-			<div class="tx">建议:<br>
-				1)经常用本仪器检查,注意相关数值的变化，分析了解其原因。如自觉明显不适，应去医院作进一步检查治疗。<br>
-				2)注意日常生活起居慎风寒，戒烟禁酒，饮食应节制，心情常愉悦。<br>
-				3)积极治疗相关疾病，清除诱发因素。
-			</div>
+			<template v-for="item in resultViews">
+				<div v-if="item.metricType == 2 || item.metricType == 3 || item.metricType == 4 || item.metricType == 5">
+					<template v-for="s in item.data" >
+						<p style="font-weight: bold;">{{s.resultName}}</p>
+						<div class="tx" v-if="s.resultExplain">解释:<br>{{s.resultExplain}}</div>
+						<div class="tx" v-if="s.resultDetail">建议:<br>{{s.resultDetail}}</div>
+					</template>
+				</div>
+			</template>
 		</div>
 	</div>
 	<p style="background: #f2f2f2; height: .2rem;"></p>
@@ -545,9 +520,9 @@
 		</div>
 		<div class="comtxt" style="margin:1rem .4rem .4rem;">
 			<p class="tt">导致疾病</p>
-			<div class="tx">Ⅱ型糖尿病，高血压，高脂血症，高尿酸血症，痛风，脂肪肝，冠心病，脑血管病</div>
+			<div class="tx">{{bmidiseases}}</div>
 			<p class="tt">改善建议</p>
-			<div class="tx">控制总能量的摄入，适当增加粗杂粮及富含膳食纤维的食物。限制甜食、含糖饮料。改变不良生活习惯、戒烟酒。根据个人身体情况适量进行快走、慢跑、游泳等有氧运动。</div>
+			<div class="tx">{{bmisuggest}}</div>
 		</div>
 	</div>
 	<div style="padding: 0.2rem 0.4rem; line-height: 0.37rem; font-size: 0.26rem; color: rgb(153, 153, 153); text-align: center;">
