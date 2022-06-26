@@ -19,6 +19,14 @@
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
 		<!--<a class="t-right fr" id="gotrend">查看趋势</a>-->
 	</header>
+	
+	<div style="background: #000000;" v-if="reportType == '129'">
+		<video id="video" width="100%" style="height: 4rem; width: 100%;" controls autoplay preload="auto">
+		    <source :src="mp4url" type="video/mp4">
+		    您的浏览器不支持 video 标签。
+		</video>
+	</div>
+	
 	<div class="">
 		<dl class="seCon" v-for="ostate in secondPages">
 			<dt class="cdt" :class="{bcolor1:ostate.score<90 && ostate.score>=80,bcolor2:ostate.score<80}">
@@ -146,10 +154,12 @@ var myApp = new Vue({
 			targetFirstName:'',
 			secondPages:'',
 			language: language,
-			reportType: reportType
+			reportType: reportType,
+			mp4url: '',
 		}
 	},
 	mounted: function(){
+		this.mp4url = sessionStorage.getItem('mp4url');
 		this.getTargetByFirst()
 	},
 	methods:{

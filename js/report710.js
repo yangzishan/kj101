@@ -50,7 +50,13 @@ var myApp = new Vue({
 			floor2List:[],
 			invite:invite,
 			offHeight:0,
-			arrMin:0
+			arrMin:0,
+			//
+			banData:[], //轮播广告
+			banData1:[], // 头部
+			banData2:[], //底部
+			banData3:{}, //3 企业微信
+			showBanData3: false,
 		}
 	},
 	mounted: function(){
@@ -74,7 +80,7 @@ var myApp = new Vue({
 		},50)*/
 	},
 	methods: {
-		checkHistory: function(){ //历史报告
+		checkHistory: function(){ //健康档案
 			window.location.href = gohistoryUrl
 		},
 		getData: function(){
@@ -141,7 +147,9 @@ var myApp = new Vue({
 								}
 							});
 						});
-						console.log(vm.markLineList)
+						console.log(vm.markLineList);
+						
+						vm.wheelsort(res.data.reportStr.deviceSnNum,reportId);
 						
 						creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList,vm.arrMin)
 					}else{
@@ -180,6 +188,47 @@ var myApp = new Vue({
 				error : function(obj,msg){alert("mk701/indexAll error")}
 			});
 		},
+		//关注企业微信
+		showQiyeewm: function(){
+			showMask();
+			$('.qy_ewm').css({"visibility":"visible","opacity":"1"});
+		},
+		closeQiye: function(){
+			closeMask();
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.qy_ewm').css({"visibility":"hidden","opacity":"0"});
+			$("body").css("overflow","auto");
+		},
+		wheelsort: function(deviceSn,reportId){ //广告接口  banner_page 1:首页轮播，101膳食 102营养  103运动
+			var vm = this;
+			$.ajax({
+				type: "post",
+				url: dataUrl + "/api/banner/wheelsort",
+				async: true,
+				dataType: 'json',
+				data:{
+					deviceSn: deviceSn,
+					reportId: reportId
+				},
+				success: function(res){
+					if(res.code == 200){
+						res.data.forEach(function(el,index){
+							if(el.bannerPage == 1){
+								vm.banData1.push(el)
+							}else if(el.bannerPage == 2){
+								vm.banData2.push(el)
+							}else if(el.bannerPage == 3){
+								vm.banData3 = el;
+								vm.showBanData3 = true;
+								console.log(vm.showBanData3)
+							}
+						});
+					}
+				},
+				error: function(){console.log('wheelsort error')}
+			});
+		},
+		
 		showSome: function(tit,txt){
 			//txt = txt.replace(/\/n|\\n/g,'<br>')
 			this.someTit = tit
@@ -206,6 +255,7 @@ function tocloseall(){
 	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
 	$('.orginImg').css({"visibility":"hidden","opacity":"0"});
+	$('#showQiye').css({"visibility":"hidden","opacity":"0"});
 	$("body").css("overflow","auto");
 }	
 //截取URL

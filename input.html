@@ -173,7 +173,7 @@ var app = new Vue({
 				data : JSON.stringify(datacopy),
 				success : function(res) {
 					if(res.code == 0){
-						alert('发送成功，30秒后可重新发送')
+						alert('发送成功，30秒后关闭页面')
 						time($("#sendData"));
 						console.log('发送成功')
 					}else(
@@ -203,6 +203,7 @@ function getQueryString(name){
 var wait=30;
 function time(tm){
 	if(wait==0){
+		WeixinJSBridge.call('closeWindow'); 
 		tm.removeAttr("disabled",false);
 		tm.text('确 认');
 		wait=30;
@@ -210,7 +211,7 @@ function time(tm){
 	}else{
 		tm.css({"color":"#999","background":"#dddddd"}); //控制样式
 		tm.attr("disabled",true);
-		tm.text(wait + "秒后重新发送")
+		tm.text(wait + "秒后关闭页面")
 		wait--;
 		setTimeout(function(){time(tm);},1000);
 	}

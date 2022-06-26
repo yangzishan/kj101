@@ -22,6 +22,19 @@
 </head>
 <body style="background: #F7FAFB;">
 <DIV class="my_view newbaogao" style="visibility: hidden;">
+	
+	<div class="fix-jiedu" v-if="showBanData3" style="width: 1.6rem;">
+		<img v-if="banData3.iconUrl" @click="showQiyeewm" :src="banData3.iconUrl">
+		<img v-else @click="showQiyeewm" src="./img/jiedu.png">
+	</div>
+	<div class="qy_ewm" id="showQiye" v-if="showBanData3">
+		<div class="close"><img src="./img/close.png" @click="closeQiye"></div>
+		<p class="tt1">- {{banData3.titleName}} -</p>
+		<div class="ewm"><img :src="banData3.bannerImg"></div>
+		<p class="tt2">长按识别二维码</p>
+		<p class="tt2">{{banData3.titleMsg}}</p>
+	</div>
+	
 	<div class="topcom">
 		<p class="tit">心血管检测报告</p>
 		<p class="tim">检测时间：{{inspectDateStr}}</p>
@@ -175,7 +188,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-g.png">
-								<p>潜在风险指标</p>
+								<p>潜在风险</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -188,7 +201,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-z.png">
-								<p>未见异常指标</p>
+								<p>未见异常</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -234,7 +247,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-g.png">
-								<p>潜在风险指标</p>
+								<p>潜在风险</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -247,7 +260,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-z.png">
-								<p>未见异常指标</p>
+								<p>未见异常</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -292,7 +305,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-g.png">
-								<p>潜在风险指标</p>
+								<p>潜在风险</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -305,7 +318,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-z.png">
-								<p>未见异常指标</p>
+								<p>未见异常</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -350,7 +363,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-g.png">
-								<p>潜在风险指标</p>
+								<p>潜在风险</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -363,7 +376,7 @@
 						<div class="b-left">
 							<div class="con">
 								<img src="img/xgy/fx-z.png">
-								<p>未见异常指标</p>
+								<p>未见异常</p>
 							</div>
 						</div>
 						<div class="b-right">
@@ -601,7 +614,7 @@
 			</div>
 		</section>	
 	</div>
-	
+	<div class="v_overlay"></div>
 
 </DIV>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>

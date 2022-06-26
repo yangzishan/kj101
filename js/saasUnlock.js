@@ -3,7 +3,7 @@ var saasId = getQueryString('saasId');
 var deviceSn = getQueryString('deviceSn');
 var jumpUrl = getQueryString('jumpUrl');
 var userRegisterVer = getQueryString('userRegisterVer')
-var unlockVersion = getQueryString('unlockVersion') //新家参数 问嘉伟 2021 06 10
+var unlockVersion = getQueryString('unlockVersion') //新加参数 问嘉伟 2021 06 10
 // 判断
 //if(saasId == 218051 || saasId == 216549){
 //	window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl
@@ -36,9 +36,9 @@ var myApp = new Vue({
 						if(res.data.isSupportInvite == 1){
 							window.location.href = './unlock1.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl+'&userRegisterVer='+userRegisterVer
 						}else{
-							if(userRegisterVer == 4){
-								window.location.href = './unlockXgy.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl+'&userRegisterVer='+userRegisterVer
-							}
+							// if(userRegisterVer == 4){
+							// 	window.location.href = './unlockXgy.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl+'&userRegisterVer='+userRegisterVer
+							// }
 						}
 					}
 				},
@@ -57,6 +57,8 @@ var myApp = new Vue({
 					console.log('success')
 					if(res == 40010){
 						alert('该链接已失效，请扫码重试！')
+					}else if(res == 40053){
+						alert('设备已过期或次数已使用完')
 					}else{
 						WeixinJSBridge.call('closeWindow');
 					}
@@ -70,6 +72,8 @@ var myApp = new Vue({
 	mounted: function(){
 		if(unlockVersion == 2){
 			window.location.href = 'unlock_yy.html'
+		}else if(userRegisterVer == 4){
+				window.location.href = './unlockXgy.html?openId='+openId+'&saasId='+saasId+'&deviceSn='+deviceSn+'&jumpUrl='+jumpUrl+'&userRegisterVer='+userRegisterVer
 		}else{
 			this.getSaasTenantByCompanyId()
 		}

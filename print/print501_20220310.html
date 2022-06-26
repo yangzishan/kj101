@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+  <meta content="yes" name="apple-mobile-web-app-capable" />
+  <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+  <meta content="telephone=no" name="format-detection" />
+  <script>document.write('<link rel="stylesheet" type="text/css" href="css/kh.css?t=' + new Date().getTime() + '" \/>')</script>
+  <title>打印报告</title>
+  <style type="text/css">
+.xxzb_c{ border: #333 solid 1px; border-top: none;}
+.xxzb_c .cy{color: #ffcb00;}
+.xxzb_c .co{ color: #ed2222;}
+.xxzb_c .c_tit{ line-height: 30px; border-bottom: #333 solid 1px; padding:0 20px;}
+.xxzb_c .c_tit span{display: inline-block; width: 100px; font-size: 15px;}
+.xxzb_c .c_con{ /*display: -webkit-flex; display: flex; */border-bottom: #333 solid 1px; min-height: 29px; overflow: hidden; position: relative;}
+.xxzb_c .c_con:last-of-type{ border-bottom: none;}
+.xxzb_c .c_con .second{ display:block; width: 24%; float: left; position: absolute; top: 50%; margin-top: -12px;}
+.xxzb_c .c_con .second span{ }
+.xxzb_c .c_con .second em{ display:inline-block; padding: 0 5px; text-align: center; font-weight: bold;}
+.xxzb_c .c_con .third{display: block; /*-webkit-box-flex: 1; flex: 1;*/ font-size: 0; float: right; width: 76%;}
+.xxzb_c .c_con .third span.ite{ display: inline-block; width: 49.9%;}
+.xxzb_c .c_con .third span:nth-child(odd){ border-right: #333 solid 1px;border-left: #333 solid 1px;}
+.xxzb_c .c_con .third span:nth-last-of-type(2) em{ border-bottom: none;}
+.xxzb_c .c_con .third span:last-of-type em{ border-bottom: none;}
+.xxzb_c .c_con .third span em{ display: inline-block; font-size: .12rem; border-bottom: #333 solid 1px;}
+.xxzb_c .c_con .third span em:first-of-type{ width: 50%; padding-left: 10px;}
+.xxzb_c .c_con .third span em:nth-of-type(2){ width: 25%;}
+.xxzb_c .c_con .third span em:nth-of-type(3){ width: 25%; text-align: center;}	
+  </style>
+</head>
+<body>
+  <div id="app">
+    <h1>健康评估报告</h1>
+    <div class="user_name h2">
+      <span style="width: 24%;">手机号：<em>{{res.userTel.slice(0,11)}}</em></span>
+      <span style="width: 15%;">性别：<em>{{report501.sex==1?'男':'女'}}</em></span>
+      <span style="width: 15%;">年龄：<em>{{report501.age}}</em></span>
+      <span style="width: 34%;">检测日期：<em>{{report501.inspectDateStr}}</em></span>
+    </div>
+    <div class="wel_title">
+      <p>尊敬的<em>{{res.nickName}}{{report501.sex==1?'先生':'女士'}}</em>： 您好！</p>
+      <p>感谢您进行亚健康评估。现将您的评估结果汇总分析如下，请您认真阅读。祝您健康！</p>
+    </div>
+    <div class="h2" style="line-height: 40px;" v-if="report501.reportView">
+    	您的健康评估总分为：<em>{{report501.totalScore}}</em> 分，
+	        您的身体状况处于<em>{{res.ps}}</em>，生理年龄评估为 <em>{{report501.reportView.age}}</em> 岁<template>，整体状况较同年龄段好于 <em>{{report501.reportView.ranking}}%</em> 人</template>。
+    </div>
+    
+    <h3>详细指标评估结果</h3>
+		<template v-if="report501.reportView">
+		<div class="xxzb_c" v-for="state in report501.reportView.firsts" v-if="state.targetId != 1001">
+			<p class="c_tit"><span>{{state.targetName}}</span><span class="iscore">{{state.score}}</span>
+				<span v-if="state.score >=90">正常</span>
+				<span class="cy" v-if="state.score >=80 && state.score < 90">轻度风险</span>
+				<span class="co" v-if="state.score <80">中度风险</span>
+			</p>
+			<div class="c_con" v-for="second in state.seconds">
+				<div class="second">
+					<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em v-if="second.score >= 90">正常</em><em class="cy" v-if="second.score >= 80 && second.score <90">轻度风险</em><em class="co" v-if="second.score < 80">中度风险 </em></span>
+				</div>
+				<p class="third">
+					<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
+					<template>
+						<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
+						<em v-if="third.inspectStandard==1">正常</em>
+						<em v-if="third.inspectStandard==2" class="co">偏高</em>
+						<em v-if="third.inspectStandard==3" class="co">偏低</em>
+					</template>
+					</span>
+				</p>
+			</div>
+		</div>
+    </template>
+    <p style="height: 30px;"></p>
+    <div class="jianyi">
+      <h3>个性化健康建议</h3>
+      <div class="shanshi">
+        <div class="left"><em>膳食建议</em></div>
+        <div class="right">
+        	<template v-for="item in dietList">
+        		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
+        		<p style="padding:0 10px;">{{item.proposal}}</p>
+        		<p style="padding:0 10px;">{{item.simpleDescription}}</p>
+        	</template>
+        </div>
+      </div>
+      <div class="yingyang">
+        <div class="left"><em>营养素建议</em></div>
+        <div class="right">
+          <template v-for="item in nutritionList">
+        		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
+        		<p style="padding:0 10px;">{{item.proposal}}</p>
+        		<p style="padding:0 10px;">{{item.simpleDescription}}</p>
+        	</template>
+        </div>
+      </div>
+      <div class="yundong">
+        <div class="left"><em>运动建议</em></div>
+        <div class="right">
+          <template v-for="item in motionList">
+        		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
+        	</template>
+        </div>
+      </div>
+    </div>
+
+    <div class="skin" v-if="report501.inspectSkinView">
+      <h4>皮肤报告</h4>
+      <div class='zongjie'>
+      	<div class="l">{{inspectSkinView.totalScore}} 分</div>
+      	<div class="r">
+      		<span><em>肤质</em><i>{{inspectSkinView.skinTypeResult}}</i></span>
+      		<span><em>肤龄</em><i>{{inspectSkinView.age}}</i></span>
+      		<span><em>肤色</em><i>{{skinColor[inspectSkinView.color]}}</i></span>
+      	</div>
+      </div>
+      <div class="xiangqing" v-if="inspectSkinView.majorList.length != 0">
+        <h5 class="dan">重点关注</h5>
+        <template v-for="item in inspectSkinView.majorList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+        	<div class="tou">
+	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+	        </div>
+	        <div class="bd">
+	          <p class="tit">护肤建议：</p>
+	          <p>{{item.paraSkincareSuggestion}}</p>
+	        </div>
+        </template>
+      </div>
+      <div class="xiangqing" v-if="inspectSkinView.awaitList.length != 0">
+        <h5 class="gai">有待改善</h5>
+        <template v-for="item in inspectSkinView.awaitList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+        	<div class="tou">
+	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+	        </div>
+	        <div class="bd">
+	          <p class="tit">护肤建议：</p>
+	          <p>{{item.paraSkincareSuggestion}}</p>
+	        </div>
+        </template>
+      </div>
+      <div class="xiangqing" v-if="inspectSkinView.continueList.length != 0">
+        <h5 class="chi">继续保持</h5>
+        <template v-for="item in inspectSkinView.continueList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+        	<div class="tou">
+	        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+	        </div>
+	        <div class="bd">
+	        	<p class="tit">护肤建议：</p>
+	          <p>{{item.paraSkincareSuggestion}}</p>
+	        </div>
+        </template>
+      </div>
+    </div>
+    
+  </div>
+<script src="js/jquery.js"></script>
+<script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script src="js/vue.min.js"></script>
+<script>
+var go = -1;
+function goPrint(n){
+	if(n == 2){
+		setTimeout(function(){
+			window.print();
+		},300)
+	}
+};
+var reportId = (getQueryString("reportId") || 'KJ111IS00067S4C190104092808597');
+var viewType = getQueryString("viewType");  //1 打印  2预览
+if(viewType == 1){go = 0};
+var indexData = dataUrl+'/api/v5/reportData/print501Report'
+var getSuggestData =  dataUrl+'/api/v1/reportIndex/getSuggest'
+var myapp = new Vue({
+	el:'#app',
+	data:function(){
+		return{
+			res:{},
+			report501:{
+				reportView:{},
+				inspectSkinView:{}
+			},
+			
+			
+			inspectSkinView:{
+				totalScore:'',
+				majorList:[],
+				awaitList:[],
+				continueList:[],
+				color:'',
+				age:'',
+				skinTypeResult:''
+			},
+			skinColor:{
+        'toubai':'透白',
+        'baixi':'白皙',
+        'ziran':'自然',
+        'xiaomai':'小麦',
+        'anchen':'暗沉',
+        'youhei':'黝黑',
+	    },
+			dietList:[],
+			nutritionList:[],
+			motionList:[],
+		}
+	},
+	mounted:function(){
+		this.getData()
+		//this.getJsonData()
+		this.getSuggest()
+	},
+	methods:{
+		getData:function(){
+			var vm = this
+			$.ajax({
+				type:"get",
+				url: indexData,
+				dataType:'Json',
+				data:{
+					reportCode:reportId
+				},
+				success:function(res){
+					vm.res = res.data
+					vm.report501 = res.data.report501
+					vm.inspectSkinView = res.data.report501.inspectSkinView
+					
+					go++
+					goPrint(go)
+				},
+				error:function(){alert('print501Report error')}
+			});
+		},
+//		getJsonData:function(){
+//			var vm = this
+//			$.getJSON("kj501.json", function(res){
+//			  console.log(res)
+//			});
+//		},
+		getSuggest: function(){
+			var vm = this
+			$.ajax({
+				type:"post",
+				url:getSuggestData,
+				data:{
+					reportId: reportId
+				},
+				dataType:"Json",
+				success:function(res){
+					vm.dietList = res.data.healthAdviceVo.dietList
+					vm.nutritionList = res.data.healthAdviceVo.nutritionList
+					vm.motionList = res.data.healthAdviceVo.motionList
+					go++
+					goPrint(go)
+				},
+				error: function(){alert('queryInsureSuggest error')}
+			});
+		}
+	}
+});
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/kanghao130.css?t=' + new Date().getTime() + '" \/>')</script>
+<style type="text/css">
+.questionZS .box > .q{background: url(./img/154/pop02.png) no-repeat center; background-size: .32rem;}
+.pf-tip{width: .32rem; height: .28rem; margin-right:.2rem; vertical-align: -3%;}
+.pifu_zls{box-shadow: 0px .02rem .08rem 0px rgba(29, 71, 133, 0.28); border-radius: .6rem; padding-top: .13rem;}
+</style>
+</head>
+<body style="background: #3D70DB;">
+<div class="my_view newkanghao" style="visibility: hidden;">
+	<div class="nkh_top">
+		<div class="topcon">
+			<p class="cn-left" @click="godayin()">下载报告</p>
+			<!-- <p class="cn-left" id="copyurl" style="margin-left: .2rem;" :data-clipboard-text="printUrl">复制链接</p> -->
+			<p class="cn-center"></p>
+			<p class="cn-right" @click="explain()"><img style="width: .45rem; height: .55rem;" src="img/154/shuoming.png"></p>
+		</div>
+		<div class="dengji">
+			<div class="status">
+				<template v-if="indexPage.totalScore>=95">
+					<span class="lab" style="color: #24A8BC;">最佳状态</span>
+					<span class="zt1">
+						<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em>
+					</span>
+				</template>
+				<template v-if="indexPage.totalScore>=90 && indexPage.totalScore<95">
+					<span class="lab" style="color: #4CCFDB;">良好状态</span>
+					<span class="zt2">
+						<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em class=""></em>
+					</span>
+				</template>
+				<template v-if="indexPage.totalScore>=85 && indexPage.totalScore<90">
+					<span class="lab" style="color: #4072DB;">一级风险</span>
+					<span class="zt3">
+						<em class="on"></em><em class="on"></em><em class="on"></em><em class=""></em><em class=""></em>
+					</span>
+				</template>
+				<template v-if="indexPage.totalScore>=80 && indexPage.totalScore<85">
+					<span class="lab" style="color: #FFA418;">二级风险</span>
+					<span class="zt4">
+						<em class="on"></em><em class="on"></em><em class=""></em><em class=""></em><em class=""></em>
+					</span>
+				</template>
+				<template v-if="indexPage.totalScore<80">
+					<span class="lab" style="color: #F97D34;">三级风险</span>
+					<span class="zt5">
+						<em class="on"></em><em class=""></em><em class=""></em><em class=""></em><em class=""></em>
+					</span>
+				</template>
+				<i class="pop" @click="showSome('说明','最佳状态：100分-95分<br> 良好状态：94分-90分<br> 一级风险：89分-85分<br> 二级风险：84分-80分<br> 三级风险：79分以下')"></i>
+			</div>
+			<div class="tip">
+				<p>— 建议您7天后再次检测 —</p>
+			</div>
+		</div>
+	</div>
+	<section class="nkh_userInf">
+		<div class="inf">
+			<div class="inf_l">
+				<div class="pe">
+					<div class="ac"><img :src="inspectSkinView.fileName"></div>
+					<div class="nam">{{map.userName}} 
+						<img v-if="sex==1" style="width: .23rem; height: .23rem;" src="img/154/sex-male.png">
+						<img v-else style="width: .23rem; height: .23rem;" src="img/154/sex-female.png">
+					</div>
+				</div>
+				<div class="tx">{{indexPage.inspectDate}}<br>{{deviceInfo.deviceName}}</div>
+			</div>
+			<div class="inf_r">
+				<div class="circles">
+					<div class="circleScore">
+						<div class="po">
+							<p class="sco"><span id="totalScore">{{indexPage.totalScore}}</span>分</p>
+							<p class="la">总分</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="more">
+			尊敬的<em style="color: #306FB7;"> {{ map.userName }} </em>{{map.sexStr}}，感谢您使用名医云检测健康评估系统，请查阅您的报告！（注：本报告不作为医学临床诊断之用，点击<a @click="explain2">了解更多</a>）祝您身体健康！
+		</div>
+	</section>
+	<section class="nkh_box">
+		<div class="btt">- 心血管功能 -</div>
+		<div class="xxg-sta">
+			<template v-if="bloodOxygenValue.bloodScore >= 90">
+				<div class="sta-lab">您的心血管功能 <span style="color: #306FB7;">良好</span>！</div>
+				<div class="sta-r" style="color: #5DC8B1;">{{bloodOxygenValue.bloodScore}}<font>分</font></div>
+			</template>
+			<template v-if="bloodOxygenValue.bloodScore >= 80 && bloodOxygenValue.bloodScore < 90">
+				<div class="sta-lab">您的心血管功能 <span style="color: #FF8800;">偏弱</span>！</div>
+				<div class="sta-r" style="color: #FF8800;">{{bloodOxygenValue.bloodScore}}<font>分</font></div>
+			</template>
+			<template v-if="bloodOxygenValue.bloodScore < 80">
+				<div class="sta-lab">您的心血管功能 <span style="color: #FF0000;">较差</span>！</div>
+				<div class="sta-r" style="color: #FF0000;">{{bloodOxygenValue.bloodScore}}<font>分</font></div>
+			</template>
+		</div>
+		<div class="tt02"><i></i><span>心率</span></div>
+		<div class="jindu">
+			<div style="color: #E63A4F; text-align: center; font-size: .32rem;"><i style="font-size: .72rem; font-weight: 600;">{{ecg.heartRate}}</i>bmp</div>
+			<div class="tcc">
+				<div class="cc_t">
+					<i class="star"></i>
+					<p class="prc slow"><span><em>过缓</em></span><i class="fr"></i></p>
+					<p class="prc normal"><span><em>正常</em></span><i class="fr"></i></p>
+					<p class="prc fast"><span><em>过速</em></span><i class="fr"></i></p>
+				</div>
+				<div class="cc_p">
+					<span>0</span><span>60</span><span>100</span><span>200</span>
+					<p class="pro" style="width: 20%;" v-if="ecg.heartRate<60"><i class="fr"></i></p>
+					<p class="pro" style="width: 50%;" v-if="ecg.heartRate>=60 && ecg.heartRate<100"><i class="fr"></i></p>
+					<p class="pro" style="width: 80%;" v-if="ecg.heartRate>=100"><i class="fr"></i></p>
+				</div>
+			</div>
+		</div>
+		<div class="tt02"><i></i><span>心脏功能</span></div>	
+		<div class="chart">
+			<div id="main" style="width: 100%; height: 80px;"></div>
+		</div>
+		<p class="tip01" v-if="ecg.paraResult"><img src="img/154/tip.png">{{ecg.paraResult}}</p>
+		<div class="btt2"><p>常见原因</p></div>
+		<div class="txt01">
+			{{ecg.paraCause}}
+		</div>
+		<p style="background: #F6F7F9; height: .02rem; margin: 0 .22rem .3rem;"></p>
+		<div class="tt02"><i></i><span>详细指数</span></div>	
+		<div class="xxzs">
+			<div class="xx-cn">
+				<div class="cnitem">
+					<p class="pic"><img src="img/154/xx-yangqi.png"></p>
+					<p class="nam">血氧饱和度</p>
+					<p class="p1">{{bloodOxygenValue.bloodStatus}}</p>
+					<p class="p2">{{bloodOxygenValue.bloodScore}}% = 正常范围<br>(94% - 100%)</p>
+				</div>
+				<div class="cnitem">
+					<p class="pic"><img src="img/154/xx-xueguan.png"></p>
+					<p class="nam">微循环</p>
+					<p class="p1">{{bloodOxygenValue.heathScore}}%</p>
+					<p class="p2">{{bloodOxygenValue.heathIndex}}</p>
+				</div>
+			</div>
+			<div class="xx-do">
+				<div class="doitem" v-for="(item,index) in loopSys" @click="goThird(item)">
+					<div class="circle">
+						<div class="circleItem" :id="'item'+index">
+							<div class="con">
+								<p class="pic"><img :src="'img/154/pi-'+item.targetThirdId+'.png'" class="img_b"></p>
+								<p class="fen" v-if="item.score>=90" style="color: #2671C7;">{{item.score}}分</p>
+								<p class="fen" v-if="item.score>=80 && item.score < 90" style="color: #FF8800;">{{item.score}}分</p>
+								<p class="fen" v-if="item.score < 80" style="color: #FF0000;">{{item.score}}分</p>
+							</div>
+						</div>
+						<p class="name">{{item.targetThirdName}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div><img src="img/154/zhengzhuang.png" class="img_b"></div>
+	</section>
+	
+	<section class="nkh_box">
+		<div class="btt">- 肺功能 -</div>
+		<div class="xxg-sta">
+			<template v-if="feiGongneng.score >= 90">
+				<div class="sta-lab">您的肺功能 <span style="color: #306FB7;">良好</span>！</div>
+				<div class="sta-r" style="color: #5DC8B1;">{{feiGongneng.score}}<font>分</font></div>
+			</template>
+			<template v-if="feiGongneng.score >= 80 && feiGongneng.score < 90">
+				<div class="sta-lab">您的肺功能 <span style="color: #FF8800;">偏弱</span>！</div>
+				<div class="sta-r" style="color: #FF8800;">{{feiGongneng.score}}<font>分</font></div>
+			</template>
+			<template v-if="feiGongneng.score < 80">
+				<div class="sta-lab">您的肺功能 <span style="color: #FF0000;">较差</span>！</div>
+				<div class="sta-r" style="color: #FF0000;">{{feiGongneng.score}}<font>分</font></div>
+			</template>
+		</div>
+		<div class="fei_bids">
+			<div class="bitem" v-for="item in feiGongneng.thirdPages" @click="goThird(item)">
+				<div class="pic"><img :src="'img/154/fe-'+item.targetThirdId+'.png'"></div>
+				<div class="inf">
+					<p class="lab">{{item.targetThirdName}}</p>
+					<p class="sta" style="color: #306FB7;" v-if="item.score>=90">正常</p>
+					<p class="sta" style="color: #FF8800;" v-if="item.score>=80 && item.score < 90">轻度风险</p>
+					<p class="sta" style="color: #FF0000;" v-if="item.score < 80">中度风险</p>
+				</div>
+			</div>
+			<div class="sitem">
+				<div class="pic"><img src="img/154/i-shaoping.png"></div>
+				<div class="inf">
+					<p class="lab">血氧饱和度</p>
+					<p class="sta">{{bloodOxygenValue.bloodStatus}}</p>
+				</div>
+				<div class="fen fr">
+					<p class="up">{{bloodOxygenValue.bloodScore}}%</p>
+					<p class="fw">(正常范围94% - 100%)</p>
+				</div>
+			</div>
+			<img src="img/154/feibu.png" style="width: 2.06rem; height: 2.06rem; position: absolute; top:.6rem; left: 50%; transform: translateX(-50%);">
+		</div>
+		<div class="tt02"><i></i><span>了解肺功能</span> <span @click="showSome('肺功能',feiGongneng.inspectExplain)" class="fr" style="color: #5DC8B1;">查看解释 &gt;</span></div>	
+		<div><img src="img/154/zhengzhuang3.png" class="img_b"></div>
+	</section>
+	
+	<section class="nkh_box">
+		<div class="btt">- 整体免疫能力 -</div>
+		<div class="xxg-sta">
+			<template v-if="mianyili.score >= 90">
+				<div class="sta-lab">您的免疫能力 <span style="color: #306FB7;">良好</span>！</div>
+				<div class="sta-r" style="color: #5DC8B1;">{{mianyili.score}}<font>分</font></div>
+			</template>
+			<template v-if="mianyili.score >= 80 && mianyili.score < 90">
+				<div class="sta-lab">您的免疫能力 <span style="color: #FF8800;">偏弱</span>！</div>
+				<div class="sta-r" style="color: #FF8800;">{{mianyili.score}}<font>分</font></div>
+			</template>
+			<template v-if="mianyili.score < 80">
+				<div class="sta-lab">您的免疫能力 <span style="color: #FF0000;">较差</span>！</div>
+				<div class="sta-r" style="color: #FF0000;">{{mianyili.score}}<font>分</font></div>
+			</template>
+			
+		</div>
+		<div class="mylbids">
+			<div class="biditem" v-for="item in mianyili.thirdPages" @click="goThird(item)">
+				<i class="icon"><img :src="'img/154/li-'+item.targetThirdId+'.png'"></i>
+				<span class="lab">{{item.targetThirdName}}</span>
+				<span class="fr sta" style="color: #306FB7;" v-if="item.score>=90">正常</span>
+				<span class="fr sta" style="color: #FF8800;" v-if="item.score>=80 && item.score < 90">轻度风险</span>
+				<span class="fr sta" style="color: #FF0000;" v-if="item.score < 80">中度风险</span>
+			</div>
+		</div>
+		<div class="mylexp">
+			<span class="lab">了解免疫力</span>
+			<div class="exp">
+				<span>先天免疫力</span><i class="pop" @click="showSome('先天免疫力','先天免疫是在人一出生时就具备的。第一梯队是皮肤、黏膜，它们阻止细菌、病毒等在皮层驻扎繁殖，禁止其进入上皮层；另外，黏膜的分泌物，如乳酸、脂肪酸、胃酸和酶等，还有杀菌作用。第二梯队是体液中的杀菌物质和吞噬细胞，如中性粒细胞、巨噬细胞等，对多种病原体都有防御作用。在人们毫无知觉的时候，这两个梯队就防止了病原体对机体的侵袭。')"></i><em>|</em>
+				<span>后天免疫力</span><i class="pop" @click="showSome('后天免疫力','后天免疫是人体在出生以后，通过不断接触新鲜事物，逐渐建立起来的，其只针对某一特定的病原体或异物起作用。后天免疫系统由免疫器官（包括胸腺、淋巴结和脾脏等）、免疫细胞（如T淋巴细胞、B淋巴细胞等）、免疫因子等构成。在身体发挥免疫作用时，还会产生一些免疫分子，包括免疫球蛋白、补体以及各种各样的细胞因子、趋化因子等，它们会跑到身体各处参与协作。')"></i>
+			</div>
+		</div>
+		<p style="background: #F6F7F9; height: .02rem; margin: 0 .22rem .3rem;"></p>
+		<div><img src="img/154/zhengzhuang2.png" class="img_b"></div>
+		<div class="tt02"><i></i><span>本次评估以下指标与您的免疫力有关系</span></div>	
+		<div class="mylxglist">
+			<div class="xgitem" v-for="item in my_thirdPages" @click="goThird(item)">
+				<span class="lab">{{item.targetThirdName}}</span>
+				<span class="sta fr" style="color: #306FB7;" v-if="item.score>=90">正常</span>
+				<span class="sta fr" style="color: #FF8800;" v-if="item.score>=80 && item.score < 90">轻度风险</span>
+				<span class="sta fr" style="color: #FF0000;" v-if="item.score < 80">中度风险</span>
+			</div>
+		</div>
+		<p class="tip02">— 营养、心态、睡眠是免疫力的后援支撑！—</p>
+	</section>
+	
+	<section class="nkh_box">
+		<div class="btt">- 全身评估 -</div>
+		<div class="tt02"><i></i><span>以下是您全身的评估结果：</span></div>	
+		<div class="renticon">
+			<div class="renti">
+				<img src="img/154/renti.png" class="img_b" v-if="sex == 1">
+				<img src="img/154/renti02.png" class="img_b" v-else>
+				<div class="ycx man" v-if="sex == 1">
+					<img src="./img/120/nao.png" class="nao" v-show="showNao">
+					<img src="./img/120/fei.png" class="fei" v-show="showFei">
+					<img src="./img/120/wei.png" class="wei" v-show="showWei">
+					<img src="./img/120/guge.png" class="guge" v-show="showGuge">
+				</div>
+				<div class="ycx woman" v-else>
+					<img src="./img/120/nao.png" class="nao" v-show="showNao">
+					<img src="./img/120/fei.png" class="fei" v-show="showFei">
+					<img src="./img/120/wei.png" class="wei" v-show="showWei">
+					<img src="./img/120/guge.png" class="guge" v-show="showGuge">
+				</div>
+			</div>
+			<div class="con">
+				<div class="citem" v-for="item in firstPages" @click="goSecond(item)">
+					<i>
+						<img v-if="item.score>=90" :src="'img/154/qs'+item.targetFirstId+'z.png'">
+						<img v-if="item.score>=80 && item.score < 90" :src="'img/154/qs'+item.targetFirstId+'l.png'">
+						<img v-if="item.score < 80" :src="'img/154/qs'+item.targetFirstId+'m.png'">
+					</i>
+					<span class="nam">{{item.targetFirstName}}</span>
+					<span class="sta" style="color: #306FB7;" v-if="item.score>=90">正常</span>
+					<span class="sta" style="color: #FF8800;" v-if="item.score>=80 && item.score < 90">轻度风险</span>
+					<span class="sta" style="color: #FF0000;" v-if="item.score < 80">中度风险</span>
+				</div>
+				
+			</div>
+		</div>
+	</section>
+	<section class="nkh_box">
+		<div class="btt">- 皮肤状态 -</div>
+		<div style="padding: .2rem 0 .3rem; background: #ffffff;" v-if="inspectSkinView">
+			<div class="pf-main">
+				<div class="pifu_zls">
+					<p class="tit" ><span>肤质</span><span>肤龄</span><span style="border: none;">肤色</span></p>
+					<p class="txt"><span>{{inspectSkinView.skinTypeResult}}</span><span>{{inspectSkinView.age}}</span><span>{{skinColor[inspectSkinView.color]}}</span></p>
+				</div>
+			</div>
+			<div class="questionZS">
+				<div class="box" :style="sex.qianBg" style="background: #EFF4F8; height: .68rem; line-height: .68rem;">
+					<img src="./img/154/tip.png" class="pf-tip"><span>肌肤问题</span><span class="weight"><em v-for="item in diseaseResult">{{item}}</em></span><i class="q" @click="showSome('',inspectSkinView.diseaseExplain)"></i>
+				</div>
+			</div>  
+			<div class="new_face">
+					<div class="user_face" @click="originImg()"><img class="show_photo" :src="inspectSkinView.fileName" ></img><span class="xg">查看<br>原图</span></div>
+					<div class="last_q" :class="{man:sex == 1}">
+							<div class="img_q">
+									<span :class="item.targetName" v-for="item in inspectSkinView.minList"></span>
+							</div>
+					</div>
+					<div class="text_q" >
+							<div class="l_q">
+								<span :class="item.targetName" v-for="item in inspectSkinView.minList"></span>
+							</div>
+					</div>
+			</div>
+			<p class="gotoskin"><button @click="gotoSkin()">查看更多</button></p>
+		</div>
+		
+	</section>
+	<section class="nkh_box">
+		<div class="btt">- 异常指标项 -</div>
+		<div class="ycxCon">
+			<div class="ttn"><img src="img/154/fx-m.png" class="img_b"></div>
+			<div class="bidlist">
+				<div class="bitem" v-for="item in map.list3" @click="goThird2(item)">
+					<em class="co"><i></i></em>
+					<span class="lab">{{item.targetName}}</span>
+					<span class="fen">{{item.score}}分</span>
+				</div>
+			</div>
+		</div>
+		<div class="ycxCon">
+			<div class="ttn"><img src="img/154/fx-l.png" class="img_b"></div>
+			<div class="bidlist lit">
+				<div class="bitem" v-for="item in map.list2" @click="goThird2(item)">
+					<em class="co"><i></i></em>
+					<span class="lab">{{item.targetName}}</span>
+					<span class="fen">{{item.score}}分</span>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="nkh_box">
+		<div class="btt">- 生理年龄 -</div>
+		<div class="tt02"><i></i><span>您的生理年龄评估为<em style="color: #2671C7; font-weight: 600;">{{indexPage.age}}</em>岁，各系统如下：</span></div>
+		
+		<div id="ageChart" style="width: 100%; height:280px;"></div>
+		
+	</section>
+	<section class="nkh_box">
+		<div class="btt">- 身体实时状态 -</div>
+		<div class="zk_list">
+			
+			<div class="zk_item" :class="'C'+item.targetThirdId" v-for="item in otherPages" :key="item.targetThirdId">
+				<em class="ico"></em><span class="lab">{{item.targetThirdName}}</span><i class="pop" @click="showSome(item.targetThirdName,item.inspectExplain)">?</i>
+				<p class="leve fr" v-if="item.targetThirdId != '3230' && item.targetThirdId != '3231'">
+					<template v-if="item.abnormalLevel == 0">
+						<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em>
+					</template>
+					<template v-else-if="item.abnormalLevel == 1">
+						<em class="on"></em><em class="on"></em><em class="on"></em><em class="on"></em><em></em>
+					</template>
+					<template v-else-if="item.abnormalLevel == 2">
+						<em class="on"></em><em class="on"></em><em class="on"></em><em></em><em></em>
+					</template>
+					<template v-else-if="item.abnormalLevel == 3">
+						<em class="on"></em><em class="on"></em><em></em><em></em><em></em>
+					</template>
+					<template v-else>
+						<em class="on"></em><em></em><em></em><em></em><em></em>
+					</template>
+				</p>
+				<p class="leve fr" v-if="item.targetThirdId == '3230'">
+					<template v-if="item.abnormalLevel == 0">
+						<em></em><em></em><em></em><em></em><em class="active"></em>
+					</template>
+					<template v-else-if="item.abnormalLevel == 1">
+						<em></em><em></em><em></em><em class="active"></em><em></em>
+					</template>
+					<template v-else-if="item.abnormalLevel == 2">
+						<em></em><em></em><em class="active"></em><em></em><em></em>
+					</template>
+					<template v-else-if="item.abnormalLevel == 3">
+						<em></em><em class="active"></em><em></em><em></em><em></em>
+					</template>
+					<template v-else>
+						<em class="active"></em><em></em><em></em><em></em><em></em>
+					</template>
+				</p>
+				<div class="leve fr" v-if="item.targetThirdId == '3231'">
+					<p class="probj"></p>
+					<p class="progress" style="width: 100%;" v-if="item.abnormalLevel == 0"></p>
+					<p class="progress" style="width: 80%;" v-else-if="item.abnormalLevel == 1"></p>
+					<p class="progress" style="width: 60%;" v-else-if="item.abnormalLevel == 2"></p>
+					<p class="progress" style="width: 40%;" v-else-if="item.abnormalLevel == 3"></p>
+					<p class="progress" style="width: 20%;" v-else></p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="nkh_box">
+		<div class="btt">- 重疾风险预测 -</div>
+		<div class="zjfx">
+			<div class=""></div>
+			<ul class="">
+				<li class="zj_item" v-for="item in diseases">
+					<div class="pro fl">
+						<p class="nam">{{item.diseaseName}}</p>
+						<div class="bb mid" v-if="item.store>=90"><p class="dd" :style="'width: '+item.store+'%;'"></p></div>
+						<div class="bb lit" v-if="item.store>=50 && item.store<90"><p class="dd" :style="'width: '+item.store+'%;'"></p></div>
+						<div class="bb" v-if="item.store<50"><p class="dd" :style="'width: '+item.store+'%;'"></p></div>
+						
+					</div>
+					<div class="per fl">{{item.store}}%</div>
+					<div class="go fr"><button @click="goZhongji(item)">查看</button></div>
+				</li>
+			</ul>
+		</div>
+	</section>
+	<div class="nkh_check">
+		<div class="sbtn" @click="getSuggest()"><img src="img/154/ch-jianyi.png" class="img_b"></div>
+		<div class="sbtn" @click="getRecipesData()"><img src="img/154/ch-shipu.png" class="img_b"></div>
+	</div>
+	
+	
+	<div class="v_overlert" id="showExplain">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit">
+				<span class="labt">欢迎您查看健康报告使用帮助！</span>
+			</p>
+			<div class="bxt2" v-if="saasId != '219278'">
+				一、如何查看您的健康报告？<br/>
+				1、​综合评估：名医云检测健康评估针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
+				2、​十大系统：名医云检测健康评估针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
+				3、​健康指标：名医云检测健康评估给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。名医云检测健康评估将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
+				4、​实时状态：名医云检测健康评估针对您的实时状态给予评估，共计有6项状态评估，有助于您及时了解自己的身体状态。<br/>
+				二、关于报告中提示的问题？<br/>
+				本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
+				三、关于您的专属健康改善建议？<br/>
+				报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
+			</div>
+		</div>
+	</div>
+	
+	<div class="v_overlert" id="showNotice">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit">
+				<span class="labt">用户须知</span>
+			</p>
+			<div class="bxt2">
+				<p>欢迎您使用名医云检测健康评估服务，本人已经阅读名医云检测健康评估服务条款并同意本声明。</p>
+				<p>1. 名医云检测健康评估是针对亚健康人群进行数据采集设备，并非医疗器械设备，名医云检测健康评估所有资料及数据报告仅供参考使用，不作为个人健康状况的医疗目的衡量标准，也不能替代医生和其他医务人员的专业建议。</p>
+				<p>2. 名医云检测健康评估是为亚健康人群设计，以中医数字化技术、脉搏波检测技术、生物电阻抗检测技术为基础，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。</p>
+				<p>3. 任何情况下，名医云检测健康评估所提供数据仅为提升用户体验所用，用户对于其自身健康状况的最终评估仅来自于专业医疗机构的检测手段，名医云检测健康评估对于采集数据不做任何形式的保证，不保证所提供数据满足用户的要求，对采集结果的安全性、正确性、及时性均不做担保。故本公司不对因使用本品提供的数据而导致之损失或损害承担任何直接或间接责任。</p>
+				<p>4. 本报告主要起预警作用，对检测出来也知道的慢性健康问题，继续加以重视；对检测出来提示预警或原来不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所查范围所限未能发现到的情况，仍按原诊断及治疗。本次健康分析报告仅根据本次所查范围所做，可能难以全⾯反映您的健康状况。如有不适症状出现请到相应医院专科就诊。</p>
+				<p>5. 健康分析报告说明：⽬的实现⾃我预防保健。世界卫⽣组织研究报告表明，1/3的疾病是可以通过预防保健避免的，1/3的疾病可以通过信息的有效沟通来提⾼治疗的效果。要从疾病管理为主转向预防保健和⾃我保健为主，名医云检测健康评估通过移动互联和名医云检测健康系统为用户提供⽐较全⾯、系统的健康分析，从⽽有重点地进⾏⾃我预防、有重点地去医疗机构检查。</p>
+				<p>6. 名医云检测健康评估评估报告推送的内容，含膳食建议、营养建议、运动建议、健康食谱、调养方法等均作为个人健康管理所需的参考，不作为处方。本公司不对通过名医云检测健康评估在其信息平台提供的相关产品或服务做任何担保。</p>
+				<p>7. 名医云检测健康评估是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。用户通过名医云检测健康评估获取材料或数据由您自己承担风险，同时您将对使用此类材料或数据而导致的人身或财产损失承担全部责任。</p>
+				<p>8. 本公司重视对用户隐私的保护，保护隐私是本公司的一项基本政策。您提供的登记资料及本公司保留的有关您的若干其他个人资料将受到中国有关隐私的法律法规的保护。 </p>
+				<p>9. 本公司有权在必要时修改服务条款，服务条款一旦发生变动，将会在相关页面上公布修改后的服务条款。如果不同意所改动的内容，用户应主动取消此项服务。如果用户继续使用服务，则视为接受服务条款的变动。</p>
+				<p>10. 凡以任何方式登录名医云检测健康评估，或对您使用名医云检测健康评估、网络平台、与本公司相关的任何内容、服务均视为自愿接受名医云检测健康评估声明的约束。无论在任何原因下（包括但不限于疏忽原因），对您或任何人通过使用名医云检测健康评估所导致的损失或损害（包括直接、间接的损失或损害），责任均由使用者自行承担（除非该等损失系由本公司产品质量不达标所致）。</p>
+			</div>
+		</div>
+	</div>
+	
+	<template v-if="inspectSkinView"><div class="orginImg" @click="closeImg()"><img class="img_b" :src="inspectSkinView.fileName"></div></template>
+	
+	<div class="v_overlay"> </div>
+	<div class="v_overlert" id="showSome">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+			<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+		</div>
+	</div>
+
+</div>
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/publicFun.js"></script>
+<script src="print/js/clipboard.min.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="js/circle-progress.js"></script>
+<script>document.write('<script src="js/report154.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>
+var clipboard = new ClipboardJS('#copyurl');　　//先实例化
+　　　　clipboard.on('success', function(e) {
+　　　　 　　alert('复制成功');　　//复制成功区间
+　　　　});
+　　　　clipboard.on('error', function(e) {
+　　　　});
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+</body>
+</html>

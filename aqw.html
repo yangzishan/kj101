@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta charset="UTF-8">
+		<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+		<meta content="telephone=no" name="format-detection" />
+		<title>健康报告</title>
+		<!-- <link ref="stylesheet" type="text/css" href="css/basic.css" > -->
+		<style type="text/css">
+			.content{font-size: .28rem;}
+			.load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; display: none;}
+			.load-overlay .loadimg{ width: .6rem; height: .6rem; position: absolute; top: 50%; left: 50%; margin: -.3rem 0 0 -.3rem;}
+			.load-overlay .loadimg img{ width: 100%;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="content">
+				<h4>test UserId: {{userId}}</h4>
+				<p>step: {{sta1}}:{{sta2}}:{{sta3}}:{{sta4}}:{{errSta}}</p>
+				<p>getSignature: {{getSignature_sta}}</p>
+				<p>getAgentSignature: {{getAgentSignature_sta}}</p>
+				<p>agentConfigParams: {{agentConfigParams}}</p>
+				<p>queryByExternalUserid: {{queryByExternalUserid_sta}}</p>
+			</div>
+			
+		</div>
+		<!-- <div class="load-overlay" style="display: block;"><p class="loadimg"><img src="img/loading.gif"></p></div> -->
+		
+		<script src="js/jquery.js"></script>
+		<script src="js/base.js"></script>
+		<script src="js/publicFun.js"></script>
+		<script src="js/vue.min.js"></script>
+		<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+		<script src="https://open.work.weixin.qq.com/wwopen/js/jwxwork-1.0.0.js"></script>
+		<script>document.write('<script src="js/qywx.js?t=' + new Date().getTime() + '"><\/script>')</script>
+		
+	</body>
+</html>

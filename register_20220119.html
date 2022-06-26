@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>用户信息</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css?v=20180119" />
+<style type="text/css">
+.tongyifo{ position: absolute; bottom: 0; width: 100%; display: -webkit-box; border-top: #f2f2f2 solid .02rem; background: #fff;}
+.tongyifo span{display:block; width: 50%; -webkit-box-flex: 1; line-height: .88rem;text-align: center; font-size: .32rem;}
+.tongyifo span.on{ background: #1ebeb1; color: #fff;}
+.tc_sy .bxt2{ font-size: .26rem;}
+.login_cn .cpxt .lab{ min-width: 1.3rem;}
+.lab font{ font-size: .28rem; color: #FF0000;}
+</style>
+</head>
+<body class="bck-col-fff">
+<section class="my_view">
+<!--<div v-if="!saasLogo"><img src="img/login_t.jpg" class="img_b"></div>-->
+<div style="padding: .4rem 2rem;"><img :src="saasLogo" class="img_b"></div>
+<!--<div v-if="saasId == '219278'"><img :src="saasLogo" class="img_b"></div>-->
+<!--<div v-if="saasId == '219278'" :style="{background:'url('+saasLogo+') no-repeat center', height:'3rem'}"></div>-->
+<div class="d_login">
+	<div class="login_cn">
+		<p class="ctit">欢迎来到{{saasName}}</p>
+		<!--<p v-if="saasId != '219278'" class="ctit">{{language.la_welcome}}</p>
+		<p v-if="saasId == '219278'" class="ctit">欢迎来到{{saasName}}</p>-->
+		<p class="cpxt reportType120" v-if="reportType == 5 || (reportType >= 120 && reportType <= 126) || reportType == 12001 || reportType == 5021 || reportType == 505 || reportType == 503 || reportType == 152">
+			<span class="lab">{{language.la_name}}</span><!--姓名-->
+			<span class="fle"><input type="text" id="nickName" v-model="nickName" :placeholder="language.la_namePlace" ></span>
+		</p>
+		<p class="cpxt">
+			<span class="lab">{{language.la_age}}</span>
+			<span class="fle"><input type="number" id="age" v-model="age" :placeholder="language.la_agePlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
+		</p>
+		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 122) || reportType == 12001">
+			<span class="lab">身份证号</span>
+			<span class="fle"><input type="text" id="identity" v-model="idCardNo" placeholder="请输入您的身份证号" oninput="if(value.length>18)value=value.slice(0,18)"></span>
+		</p>
+		<p class="cpxt reportType120" v-if="(reportType >= 120 && reportType < 123) || reportType ==125">
+			<span class="lab">业务员号<font>{{optionInt}}</font></span>
+			<span class="fle"><input type="number" id="relatedNo" v-model="relatedNo" placeholder="请输入您的保险业务员号" pattern="[0-9]*"></span>
+		</p>
+		<p class="cpxt reportType6 reportType400" v-if="(reportType == 5 || reportType == 6 || reportType == 400 || reportType == 12001 || (reportType >= 120 && reportType <= 126) || reportType == 152) && userRegisterVer != 3">
+			<span class="lab">{{language.la_height}}</span>
+			<span class="fle"><input type="number" id="_height" v-model="height" :placeholder="language.la_heightPlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
+		</p>
+		<p class="cpxt reportType6 reportType400" v-if="(reportType == 5 || reportType == 6 || reportType == 400 || reportType == 12001 || (reportType >= 120 && reportType <= 126) || reportType == 152) && userRegisterVer != 3">
+			<span class="lab">{{language.la_weight}}</span>
+			<span class="fle"><input type="number" id="_weight" v-model="weight" :placeholder="language.la_weightPlace" pattern="[0-9]*" oninput="if(value.length>3)value=value.slice(0,3)"></span>
+		</p>
+		<p class="cpxt" v-if="userRegisterVer != 5">
+			<span class="lab">{{language.la_cell}}</span><!--手机号-->
+			<span class="fle">
+				<input type="number" id="mobile" v-model="mobile" :placeholder="language.la_cellPlace" pattern="[0-9]*" oninput="if(value.length>11)value=value.slice(0,11)">
+			</span>
+		</p>
+		<p class="cpxt" v-if="userRegisterVer != 5">
+			<span class="lab">{{language.la_yzm}}</span><!--验证码-->
+			<span class="fle"><input type="number" id="dxYzm" v-model="dxYzm" :placeholder="language.la_yzmPlace"></span>
+			<button class="send" id="sendMsg">{{language.la_getyzm}}</button><!--发送验证码-->
+		</p>
+		<p class="cbtn"><button class="off" id="nextAll" disabled="disabled">{{language.la_complete}}</button></p>
+	</div>
+</div>
+<input id="getCode" type="hidden" value="">
+
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showNotice">
+	<div class="tc_sy" v-if="saasId != '219278' && userNotice == null">
+		<p class="bit" style="text-align: center;">
+			<span class="labt">{{language.la_noteTit}}</span>
+		</p>
+		<div class="bxt2">
+			<p>{{language.la_noteWel}}</p>
+			<p>{{language.la_noto1}}</p>
+			<p>{{language.la_note2}}</p>
+			<p>{{language.la_note3}}</p>
+			<p>{{language.la_note4}}</p>
+			<p>{{language.la_note5}}</p>
+			<p>{{language.la_note6}}</p>
+			<p>{{language.la_note7}}</p>
+			<p>{{language.la_note8}} </p>
+			<p>{{language.la_note9}}</p>
+			<p>{{language.la_note10}}</p>
+			<p>{{language.la_note11}}</p>
+			<p>{{language.la_note12}}</p>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">{{language.la_k_company}}<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+	</div>
+	<div class="tc_sy" v-if="saasId != '219278' && userNotice != null">
+		<p class="bit" style="text-align: center;">
+			<span class="labt">{{language.la_noteTit}}</span>
+		</p>
+		<div class="bxt2">
+			{{userNotice}}
+		</div>
+	</div>
+	
+	<div class="tc_sy" v-if="saasId == '219278'">
+		<p class="bit" style="text-align: center;">
+			<span class="labt">京智康智能设备用户协议</span>
+		</p>
+		<div class="bxt2">
+			<p>本协议是在使用者(以下简称“您”)与【北京京东健康有限公司】(以下简称“【本公司】”)之间关于您使用【北京京东健康有限公司】所订立的协议(以下简称“服务协议")。在您使用“京智康智能筛查机器人服务”（以下简称“本服务”）前请您务必仔细阅读，充分理解条约各项内容，特别是有关责任限制或免责条款。您在使用服务前应确定同意并签署本用户协议。您在使用【健康指数：循环系统（血管弹性、冠状动脉弹性、脑血管弹性、脑组织供血状况、心机耗氧量）、消化系统（肝内脂肪含量、蛋白质代谢功能、胃蠕动功能、小肠吸收功能、小肠蠕动功能、为吸收功能）、内分泌（胰岛功能、甲状腺分泌、肾上腺分泌、性腺分泌、松果体分泌）、生殖系统（睾丸酮、勃起功能、促性腺激素、前列腺增生度、前列腺炎症、前列腺钙化度）、免疫系统（淋巴结、脾脏功能、扁桃体免疫力、呼吸道免疫力、消化道免疫力）、骨骼系统（骨质疏松、钙流失量、骨质增生、颈椎钙化、腰椎钙化、风湿系数）、营养状态（维生素、氨基酸、微量元素、辅酶）、身体状况（反应力、脑力、缺水、缺氧、情绪指数、记忆指数）】服务时，即代表您已经同意本协议。</p>
+			<p>1.	本服务是针对您进行数据采集和推算设备，并非医疗器械设备或生理参数分析测量设备，本服务所提供资料及数据报告仅供您参考使用，不作为个人健康状况的医疗目的衡量标准，也不能替代医生和其他医务人员的专业建议。</p>
+			<p>2.	任何情况下，本服务所提供数据/报告仅为提升用户体验所用，您对于自身健康状况的最终评估应来自于专业医疗机构的检测手段，本服务对于所提供的数据/报告不做任何形式的保证，不保证所提供的数据/报告满足用户的要求，对采集结果的安全性、正确性、及时性均不做担保。故本公司不对因使用本品提供的数据而导致之损失或损害承担任何直接或间接责任。</p>
+			<p>3.	本服务是以中医数字化技术、脉搏波检测技术、生物电阻康检技术为基础，经过科学及实践测算出来，并非特别针对残缺人士及疾病患者，此类人群使用可能会出现个别指标测量不精准。</p>
+			<p>4.	健康分析报告说明：本服务通过移动互联和京东云系统为用户提供比较全面、系统的健康分析，从而有重点地进行自我预防、有重点地去医疗机构检查。</p>
+			<p>5.	本服务评估报告推送的内容，含膳食建议、营养建议、运动建议、健康食谱、调养方法等均作为个人健康管理所需的参考，不作为处方或医疗建议。本公司不对通过本服务在其信息平台提供的相关产品或服务做任何担保。</p>
+			<p>6.	本服务采集结果根据实际情况会发生变化，建议您每天测量选择固定的时间点，最好是平静心态下测量会更有效。您通过本服务获取材料或数据由您自己承担风险，同时您将对使用此类材料或数据而导致的人身或财产损失承担全部责任。</p>
+			<p>7.	因健康报告里面包含个人隐私信息，当您分享给他人或其他平台时，即表示该您自行同意把隐私公开。</p>
+			<p>8.	您扫描二维码需要先关注京智康服务号，因其数据报告跟服务号保定在一起，会保留历史记录，方便进行长期数据追踪和分析。 </p>
+			<p>9.	本公司重视对用户隐私的保护，您在使用服务过程中提供的信息，本服务的健康报告会引用您的基础数据进行存储和分析，非经您许可或根据相关法律的强制性规定，本公司不会主动的将您的信息共享给其他第三方。</p>
+			<p>本服务协议任何约定条款如与中华人民共和国法律相抵触，则该条款将按照法律规定予以解释，而其它条款仍然具有法律效力。京东可根据需要不时修改本服务协议并进行更新，您可以不时了解变更后的服务协议，如您对变更后的服务协议不同意的，应当停止使用平台的问诊服务，如您继续使用平台的问诊服务的，视为您已同意变更后的服务协议。</p>
+			<p>11.	就与本协议相关的事项，双方应遵守所有适用的地方性、全国性和国际性的法律、法规和行业规范，如有法律法规修订或政策调整等原因或不可抗力事由导致的合同履行不能，京东有权随时终止本协议，且无需承担任何责任。</p>
+			<p>12.	特别声明：京东仅为本服务的设备提供方就系统报告输出不向用户收取任何费用。如任何第三方向您收取使用费用，注意索要发票。</p>
+			<p>13.	您已知悉《【待补充本协议名称】用户服务协议》所有内容（特别是加粗字体内容）的意义以及由此产生的法律效力。本《【京智康智能设备】用户服务协议》是您真实的意思表示。</p>
+		</div>
+	</div>
+	
+
+	<div class="tongyifo">
+		<span class="">{{language.la_disagree}}</span>
+		<span class="on">{{language.la_agree}}</span>
+	</div>
+
+</div>
+
+</section>
+
+<div class="tc-qx" id="alert">
+	<p class="pc1">?</p>
+	<p class="psub"><a class="subBtn">确定</a></p>
+</div>
+<div class="modal-overlay" style=""></div>
+<div class="tc-qx" id="Firm">
+	<p class="pc1">该手机号已被绑定</p>
+	<p class="psub"><a class="subBtn">找回老用户</a><a class="subBtn">注册新用户</a></p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script>document.write('<script src="js/register.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+</body>
+</html>

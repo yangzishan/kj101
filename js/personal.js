@@ -68,6 +68,7 @@ function getUserInfor(userId,type){
 		el: '#appVUE',
 		data: function(){
 			return{
+				openId:'',
 				reportType: type,
 				headimgurl: '', //用户头像
 			    nickName: '', //用户昵称
@@ -86,6 +87,9 @@ function getUserInfor(userId,type){
 			this.getSaasTenantByCompanyId();
 		},
 		methods: {
+			goCardOrder: function(){
+				location.href = "cardOrderList.html?userId="+userId+'&openId='+this.openId+'&saasId='+saasId
+			},
 			findUserById: function(){
 				var vm = this;
 				$.ajax({
@@ -107,6 +111,7 @@ function getUserInfor(userId,type){
 					    vm.birthdayStr = userData.data.birthdayStr
 					    vm.height = userData.data.height
 					    vm.weight = userData.data.weight;
+							vm.openId = userData.data.openId;
 		
 						//修改昵称和性别身高体重跳转
 						$('#setNickName').attr("href","personal_nickname.html?userId="+userId+'&reportType='+reportType+"&nickName="+vm.nickName);

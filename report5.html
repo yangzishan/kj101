@@ -14,6 +14,16 @@
 <body>
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
+	
+	<!-- <div class="fix-jiedu" v-if="showBanData3"><img @click="showQiyeewm" src="img/jiedu.png"></div>
+	<div class="qy_ewm" id="showQiye" v-if="showBanData3">
+		<div class="close"><img src="./img/close.png" @click="closeQiye"></div>
+		<p class="tt1">- 解读报告 -</p>
+		<div class="ewm"><img :src="banData3.bannerImg"></div>
+		<p class="tt2">长按识别二维码</p>
+		<p class="tt2">添加企业微信客服进行解读报告</p>
+	</div> -->
+	
 	<section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData1.length>0">
     	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
     	<div class="v_content gg_head" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
@@ -66,30 +76,33 @@
 		<a class="gosp" v-if="showRecipe > 0 && languageStr == 'zh'" @click="getRecipesData($event)"><i></i><span>{{language.la_seeRec}}</span></a>
 	</div>
 
-	<div class="sumTit">{{language.la_system_tit_before}}<em id="sysNum">10</em>{{language.la_system_tit_after}}</div>
+	<div class="sumTit">{{language.la_system_tit_before}}<em id="sysNum">{{firstPages.length}}</em>{{language.la_system_tit_after}}</div>
 	<div class="sy_tab clearfix">
-	  	<span class="on"><a><em>{{language.la_healthInd}}</em></a></span><span><a><em>{{language.la_physicalInd}}</em></a></span>
+	  	<span :class="{on:showTab == 1}" @click="selectTab(1)"><a><em>{{language.la_healthInd}}</em></a></span>
+			<span :class="{on:showTab == 2}" @click="selectTab(2)"><a><em>{{language.la_physicalInd}}</em></a></span>
     </div>
-    <div class="tenSys_c indexShow">
-    	<a v-for="item in firstPages" @click="goSecond($event,item)">
-    		<p class="tarid" style="display: none;">{{item.targetFirstId}}</p>
-    		<div class="s-chart  fl">
-    			<div class="c_circle"><i :class="'ico'+item.targetFirstId"></i><div class="zzb"></div></div>
-    			<p class="s-score" style="display: none;">{{item.score}}</p>
+    <div class="tenSys_c indexShow" v-show="showTab == 1">
+    	<a v-for="item in firstPages" :key="item.targetFirstId">
+    		<div class="s-chart fl">
+    			<div class="c_circle" :id="'item'+item.targetFirstId">
+						<i :class="'ico'+item.targetFirstId"></i>
+						<div class="zzb"></div>
+					</div>
     		</div>
-    		<div class="s-inf fl">
+    		<div class="s-inf fl" @click="goSecond($event,item)">
     			<p class="lab"><span>{{item.targetFirstName}}</span><em class="pop" @click.prevent.stop="popTen($event)">?</em></p>
-    			<p class="tx">{{item.score}}{{language.la_fen}}</p>
+    			<p class="tx" v-if="item.score < 90" style="color: #FF8800;">{{item.score}}{{language.la_fen}}</p>
+					<p class="tx" v-else>{{item.score}}{{language.la_fen}}</p>
     		</div>
     		<div class="v_overlert">
-				<div class="tc_sy">
-					<p class="bit"><span class="labt">{{item.targetFirstName}}</span><em></em></p>
-					<div class="bxt">{{item.inspectExplain}}</div>
+					<div class="tc_sy">
+						<p class="bit"><span class="labt">{{item.targetFirstName}}</span><em></em></p>
+						<div class="bxt">{{item.inspectExplain}}</div>
+					</div>
 				</div>
-			</div>
     	</a>	
     </div>
-    <div class="zhuangk_c indexShow" style="display: none;">
+    <div class="zhuangk_c indexShow" v-show="showTab == 2">
     	<div class="c_li" v-for="state in otherPages" v-if="state.targetThirdId != 3232">
     		<em class="ico"></em>
     		<span class="lab">{{state.targetThirdName}}</span>
@@ -136,7 +149,7 @@
 		</div>
 	</section>
 
-	<div id="v_change">
+	<div id="v_change" v-if="show_change">
 	    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
 	    <div class="sy_tit">
 	    	<span class="">{{language.la_bidImprovement}}</span><em class="pop" id="zbgs_tc">?</em>

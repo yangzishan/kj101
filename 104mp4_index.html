@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<style type="text/css">
+.bac{ padding: .1rem; text-align: center;}
+.tip{ display: inline-block; vertical-align: top; color: #999999; font-size: .28rem; height: .8rem;  line-height: .8rem;}
+.btn{ display: inline-block; vertical-align: top; height: .8rem; line-height: .8rem; font-size: .3rem; text-decoration: underline; color: #1ECEB7; padding: 0 .2rem; margin-left: .1rem;}
+</style>
+</head>
+<body>
+<div id="app" class="my_view">
+	<div style="height: 100%; background: #000000; padding-top: 4rem;">
+		<!-- <div class="bac">
+			<span class="tip">播放结束可查看详细指标</span>
+			<span class="btn" @click="gosecond()">跳过播放</span>
+			
+		</div> -->
+		<video id="video" width="100%" controls autoplay preload="auto">
+		    <source src="http://image.jiankangzhan.com/metaverse/128/rhkbg.mp4" type="video/mp4">
+		    您的浏览器不支持 video 标签。
+		</video>
+	</div>
+</div>
+<script type="text/javascript" src="js/publicFun.js"></script>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script>
+var app = new Vue({
+	el: '#app',
+	data: function(){
+		return {
+			mp4url:'',
+			secondurl: '',
+		}
+	},
+	methods:{
+		gosecond: function(){
+			var vm = this;
+			location.replace(vm.secondurl);
+		}
+	},
+	mounted: function(){
+		var vm = this;
+		//this.mp4url = sessionStorage.getItem('mp4url');
+		this.secondurl = sessionStorage.getItem('secondurl');
+		var elevideo = document.getElementById("video");
+		elevideo.addEventListener('ended', function () { //结束
+			//location.href = vm.secondurl;
+			window.history.go(-1);
+			//location.replace(vm.secondurl);
+				console.log("播放结束");
+		}, false);
+	}
+});
+</script>
+</body>
+</html>

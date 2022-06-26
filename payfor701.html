@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script> document.write('<link rel="stylesheet" type="text/css" href="css/pay.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body style="background: #F7F7F7;">
+<div class="my_view" id="appVUE" style="height: 100%; display: none;">
+	<!-- <header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-2);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>支付</span></p>
+	</header> -->
+	
+	<div><img src="img/pay701.png" class="img_b"></div>
+	<section class="pay701">
+		<div class="p7-box">
+			<div class="jiage">
+				<p class="ptt">需支付金额（元）</p>
+				<p class="pjj">¥{{price}}</p>
+				<p class="pyy">原价 ¥{{oprice}}</p>
+			</div>
+		</div>
+		<p style="height: .24rem;"></p>
+		<div class="p7-box">
+			<div class="zhanshi">
+				<div class="li">
+					<p class="pic"><img src="./img/x01.png"></p>
+					<p class="tt">心脏功能</p>
+				</div>
+				<div class="li">
+					<p class="pic"><img src="./img/x02.png"></p>
+					<p class="tt">血管状况</p>
+				</div>
+				<div class="li">
+					<p class="pic"><img src="./img/x02.png"></p>
+					<p class="tt">血液状态</p>
+				</div>
+				<div class="li">
+					<p class="pic"><img src="./img/x02.png"></p>
+					<p class="tt">微循环功能</p>
+				</div>
+			</div>
+				
+		</div>
+	</section>
+		
+	<div id="pay_buy" style="display: none;">
+    	<ul class="choosePay">
+	    	<li class="p_li pay" @click="goPay($event)">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>￥{{price}}/</span><font>1次</font></p>
+	    	</li>
+	    	<li class="p_li card" @click="goBuyCard()">
+	    		<p class="lab">查看报告</p>
+	    		<p class="guize"><span>{{cardPrice}}</span><font>{{cardUseCount}}</font></p>
+	    	</li>
+	    </ul>
+    </div>
+	
+	<div class="fix-bottom" id="pay_fix" style="background: none;">
+		<div class="wap_pay701" id="pay" @click="goPay($event)">支 付</div>
+	</div>
+	
+
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close"><img src="img/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2" v-if="!discount">￥{{price}}</p>
+			<p class="p2" v-if="discount">￥{{subprice}}</p>
+		</div>
+		<button class="pay-li" id="kaPay" @click="gopayBycard($event)"><i class="icard"></i><span>卡支付</span><img class="arr" src="img/o-arr.png"></button>
+		<button class="pay-li" v-for="pay in data" @click="hrefRouter(pay)">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/o-arr.png">
+		</button>
+	</div>	
+
+</div>
+
+<div class="v_overlay"></div>
+<div class="load-overlay">
+	<div class="loadimg"><img src="img/loading.gif"></div>
+</div>
+
+<div class="daifu_d"  style="display: none;">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script>document.write('<script src="js/payChannel.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+</body>
+</html>

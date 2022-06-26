@@ -15,31 +15,31 @@
 <body class="bck-col-f4">
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
-	<div class="zj_top2">
+	<div class="zj_top2" :style="backgroundImg">
 		<div class="t-bar">
 			<a class="back fl" href="javascript:history.go(-1);"></a>
 			<span class="cent">健康报告</span>
 		</div>
 	</div>
 	<section class="strbox">
-		<div class="fl fen">
+		<div class="fl fen" :style="{color:colorStyle}">
 			<span>{{score}}</span><font>分</font>
 		</div>
 		<div class="fl xtn">
 			<p class="p1">{{targetFirstName}}总评</p>
 			<p class="p2">您的评估结果：
-				<em v-if="score >= 90">正常</em>
+				<em v-if="score >= 90" :style="{color:colorStyle}">正常</em>
 				<em v-if="score >= 80 && score <90" style="color: #FF8800;">轻度风险</em>
 				<em v-if="score < 80" style="color: #E96B6B;">中度风险</em>
 			</p>
 		</div>
-		<span class="pop" @click="showSome(targetFirstName,inspectExplain)">?</span>
+		<span class="pop" @click="showSome(targetFirstName,inspectExplain)" :style="{background:colorStyle}">?</span>
 	</section>
 	
 	<div class="secondBox" v-for="item in secondPages">
-		<p class="ttp" @click="showSome(item.targetSecondName,item.inspectExplain)"><span>医学定义</span><i></i></p>
+		<p class="ttp" @click="showSome(item.targetSecondName,item.inspectExplain)"><span :style="{color:colorStyle}">医学定义</span><i></i></p>
 		<div class="btt">
-			<span>{{item.targetSecondName}}</span>　<font>{{item.score}}分</font>
+			<span>{{item.targetSecondName}}</span>　<font :style="{color:colorStyle}">{{item.score}}分</font>
 		</div>
 		<div class="defen">
 			<!--<em v-if="item.score<50" class="arr" style="left: 20%;"></em>
@@ -55,7 +55,7 @@
 				<!--<div class="fl ico"><img src="img/151/nv.png" class="img_b"></div>-->
 				<div class="fl nam" style="padding: 0 .2rem;">
 					<p class="p1" style="font-weight: bold;">{{site.targetThirdName}}</p>
-					<p class="p2" v-if="site.score >= 90">正常</p>
+					<p class="p2" v-if="site.score >= 90" :style="{color:colorStyle}">正常</p>
 					<p class="p2 lit" v-if="site.score < 90 && site.score >= 80">轻度风险</p>
 					<p class="p2 mid" v-if="site.score < 80">中度风险</p>
 				</div>
@@ -69,7 +69,7 @@
 	<div class="kh-seconditem" v-if="symptom">
 		<div class="ctt"><i class="ckt"></i><span>您有可能有以下症状</span></div>
 		<div class="symptom">
-			<span v-for="item in symptom" style="border: #18C5AC solid .01rem; color: #18C5AC;">{{item}}</span>
+			<span v-for="item in symptom" style="border: #18C5AC solid .01rem; color: #18C5AC;" :style="{border:colorStyle+'solid .01rem', color:colorStyle}">{{item}}</span>
 		</div>
 		<div>{{symptomMsg}}</div>
 	</div>
@@ -171,10 +171,28 @@ var myApp = new Vue({
 			inspectExplain:'',
 			symptom:[],
 			symptomMsg:'',
+			colorStyle: '#2fbab0',
+			backgroundImg: {
+				background: 'url(./img/151/top2.png) no-repeat center',
+				backgroundSize: '100% 2.27rem'
+			}
 		}
 	},
 	mounted: function(){
-		this.getTargetByFirst()
+		this.getTargetByFirst();
+		if(reportType == '154'){
+			this.colorStyle = '#2671C7';
+			this.backgroundImg = {
+				background: 'url(./img/151/top154.png) no-repeat center',
+				backgroundSize: '100% 2.27rem'
+			}
+		}else{
+			this.colorStyle = '#2fbab0';
+			this.backgroundImg = {
+				background: 'url(./img/151/top2.png) no-repeat center',
+				backgroundSize: '100% 2.27rem;'
+			}
+		};
 	},
 	methods:{
 		getTargetByFirst: function(){

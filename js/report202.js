@@ -82,6 +82,8 @@ var myApp = new Vue({
 			banData:[],
 			banData1:[],
 			banData2:[],
+			banData3:{}, //3 企业微信
+			showBanData3: false,
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1EA9F6;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
 		}
@@ -300,9 +302,9 @@ var myApp = new Vue({
 			showMask();
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
-		checkHistory: function(){ //历史报告
+		checkHistory: function(){ //健康档案
 			var vm = this;
-			zhuge.track('点击历史报告', { //埋点 t
+			zhuge.track('点击健康档案', { //埋点 t
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
@@ -358,6 +360,16 @@ var myApp = new Vue({
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId
 			});
 		},
+		showQiyeewm: function(){
+			showMask();
+			$('.qy_ewm').css({"visibility":"visible","opacity":"1"});
+		},
+		closeQiye: function(){
+			closeMask();
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.qy_ewm').css({"visibility":"hidden","opacity":"0"});
+			$("body").css("overflow","auto");
+		},
 		wheelsort: function(deviceSn,reportId){ //广告接口
 			var vm = this;
 			$.ajax({
@@ -376,6 +388,10 @@ var myApp = new Vue({
 								vm.banData1.push(el)
 							}else if(el.bannerPage == 2){
 								vm.banData2.push(el)
+							}else if(el.bannerPage == 3){
+								vm.banData3 = el;
+								vm.showBanData3 = true;
+								console.log(vm.showBanData3)
 							}
 						})
 						console.log(vm.banData1,vm.banData2)
@@ -394,7 +410,7 @@ var myApp = new Vue({
 });
 
 //查用户信息对接智齿客服
-$.ajax({
+/* $.ajax({
 	url : dataUrl + "/api/v1/reportUser/findUserById",
 	type : "POST",
 	dataType : 'json',
@@ -423,11 +439,10 @@ $.ajax({
 			zhiManager.on("load", function() {
 			    zhiManager.initBtnDOM();
 			});
-		//////
 		}
 	},
 	error : function(obj,msg){console.log(obj+msg + "findUserById error")}
-});
+}); */
 
 //广告轮播
 function banSlide(page_count,el){ 
@@ -472,6 +487,7 @@ function closeMask(){
 	$('.v_overlay,.v_overlert .close').click(function(){
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$('#showQiye').css({"visibility":"hidden","opacity":"0"});
 		$("body").css("overflow","auto");
 		$("body").css("position","static");
 		$(window).scrollTop(_bodyoffset);

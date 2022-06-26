@@ -23,6 +23,19 @@
 </head>
 <body style="background: #F7FAFB; height: auto;">
 <DIV class="my_view newxgy" style="visibility: hidden; height: auto;">
+	
+	<div class="fix-jiedu" v-if="showBanData3" style="width: 1.6rem;">
+		<img v-if="banData3.iconUrl" @click="showQiyeewm" :src="banData3.iconUrl">
+		<img v-else @click="showQiyeewm" src="./img/jiedu.png">
+	</div>
+	<div class="qy_ewm" id="showQiye" v-if="showBanData3">
+		<div class="close"><img src="./img/close.png" @click="closeQiye"></div>
+		<p class="tt1">- {{banData3.titleName}} -</p>
+		<div class="ewm"><img :src="banData3.bannerImg"></div>
+		<p class="tt2">长按识别二维码</p>
+		<p class="tt2">{{banData3.titleMsg}}</p>
+	</div>
+	
 <div id="minbody">
 	<span style="position: fixed; right: 0; bottom: 0; font-size: .2rem; color: #999;">{{offHeight}}</span>
 	<div class="gy-top">
@@ -296,6 +309,9 @@
 		</div>
 	</section>
 </div>
+
+<div class="v_overlay"></div>
+
 </DIV>
 <div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
 <script type="text/javascript" src="js/jquery.js"></script>

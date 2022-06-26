@@ -27,7 +27,7 @@ var myApp = new Vue({
 			userId:userId,
 			packageId:'',
 			sign:'',
-			timstamp:'',
+			timstamp:''
 		}
 	},
 	mounted: function(){
@@ -35,7 +35,7 @@ var myApp = new Vue({
 		this.wxConfig();
 	},
 	methods:{
-		findPackage(){
+		findPackage: function(){
 			var _this = this; 
 			$.post(dataUrl + findPackage,
 				dataInfor,
@@ -77,12 +77,16 @@ var myApp = new Vue({
 					if(res.code == "200"){
 						if(res.data == 5){
 							location.href = "jinguanjia.html"
+						}else if(reportType == 700 || reportType == 710 || reportType == 711 || reportType == 712 || reportType == 713){
+							location.href = "report"+ reportType +".html?reportId="+reportId+'&userId='+userId+'&openId='+openId+'&saasId='+saasId+'&reportType='+reportType
 						}else{
 							location.href = "pay980_2.html?reportId="+reportId+'&userId='+userId+'&openId='+openId+'&saasId='+saasId+'&reportType='+reportType
 						}
+					}else{
+						alert('getReportSource code='+ res.code)
 					}
 				},
-				error: function(){console.log('getReportSource error')}
+				error: function(){alert('getReportSource error')}
 			});
 		},
 		gotoSaoMa: function(){
@@ -111,7 +115,7 @@ var myApp = new Vue({
 							}else{
 								vm.goMethod(resultcode); //updateWordPay
 							}
-						},1000)
+						},800)
 		            },
 					fail:function(result){
 						alert('扫码失败,请重试')
@@ -168,11 +172,12 @@ var myApp = new Vue({
 				success : function(data) {
 					if(data.code == 200){
 						if(data.data == "0" || data.data == "true"){
-							zhuge.track('支付成功',{
+							vm.getReportSource()
+							/* zhuge.track('支付成功',{
 								'方式': '口令支付'
 							},function(){
 								vm.getReportSource()
-							});
+							}); */
 						}else{
 							zhuge.track('支付失败',{
 								'方式': '口令支付',
@@ -211,11 +216,12 @@ var myApp = new Vue({
 				success: function(data){
 					if(data.code == 200){
 						if(data.data == "0" || data.data == "true"){
-							zhuge.track('支付成功',{
+							vm.getReportSource()
+							/* zhuge.track('支付成功',{
 								'方式': '口令支付'
 							},function(){
 								vm.getReportSource()
-							});
+							}); */
 						}else{
 							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 							zhuge.track('支付失败',{
@@ -253,11 +259,12 @@ var myApp = new Vue({
 				success: function(data){
 					if(data.code == 200){
 						if(data.data == "0" || data.data == "true"){
-							zhuge.track('支付成功',{
+							vm.getReportSource()
+							/* zhuge.track('支付成功',{
 								'方式': '口令支付'
 							},function(){
 								vm.getReportSource()
-							});
+							}); */
 						}else{
 							zhuge.track('支付失败',{
 								'方式': '口令支付',

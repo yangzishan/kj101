@@ -105,3 +105,17 @@ body { background: #f6f9f9; }
 
 /*支付4版*/
 
+/*xin gong yi zhifu*/
+.pay701{ padding:0 .3rem; margin: -1.25rem auto 0;}
+.p7-box{ background: #ffffff; border-radius: .16rem; position: relative;}
+.p7-box .jiage{ text-align: center; padding: .3rem .3rem .4rem;}
+.p7-box .jiage .ptt{font-size: .28rem; color: #666666; line-height: .4rem;}
+.p7-box .jiage .pjj{ font-size: .64rem; font-weight: 600; color: #000000; line-height: .9rem;}
+.p7-box .jiage .pyy{ font-size: .28rem; color: #999999; line-height: .4rem; text-decoration: line-through;}
+.p7-box .zhanshi{ text-align: center; font-size: 0; padding: .5rem .3rem .2rem;}
+.p7-box .zhanshi .li{display: inline-block; width: 49.5%; margin-bottom: .4rem;}
+.p7-box .zhanshi .li .pic{ width: .8rem; height: .8rem; margin: 0 auto;}
+.p7-box .zhanshi .li .pic img{display: block; width: .8rem; height: .8rem;}
+.p7-box .zhanshi .li .tt{ font-size: .32rem; font-weight: 500; line-height: .5rem;}
+.wap_pay701{ margin: 0 .28rem .3rem; background: #28B390; height: .88rem; line-height: .88rem; border-radius: .44rem; color: #ffffff; font-size: .36rem; text-align: center;}
+

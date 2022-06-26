@@ -189,7 +189,7 @@ $(function(){
                             $('#score').animateNumber({ number: that.score },1100);
                             that.panduan();
                             if(reportType != 151){
-                            	that.getWx();
+                            	//that.getWx();
                             }
                             that.godo();
                             that.inIt();

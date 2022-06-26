@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body class="bck-col-f4">
+<DIV class="my_view" style="visibility: hidden;">
+<div id="appVUE">
+	
+	<div class="fix-jiedu" v-if="showBanData3" style="width: 1.6rem;">
+		<img v-if="banData3.iconUrl" @click="showQiyeewm" :src="banData3.iconUrl">
+		<img v-else @click="showQiyeewm" src="./img/jiedu.png">
+	</div>
+	<div class="qy_ewm" id="showQiye" v-if="showBanData3">
+		<div class="close"><img src="./img/close.png" @click="closeQiye"></div>
+		<p class="tt1">- {{banData3.titleName}} -</p>
+		<div class="ewm"><img :src="banData3.bannerImg"></div>
+		<p class="tt2">长按识别二维码</p>
+		<p class="tt2">{{banData3.titleMsg}}</p>
+	</div>
+	
+	<div @click="goformp4" class="fix-jiedu2" style="position: fixed; z-index: 999; top: 2rem; right: .05rem; width: 1.46rem;"><img src="./img/jiedu2.png"></div>
+	
+	<div v-if="shareUrl == 1" id="copyurl" @click="copyLocalUrl" style="background: #A71F1F; height: .5rem;line-height: .5rem;border-radius: .25rem 0 0 .25rem;position: fixed;right: .2rem;top: 60%;color: #ffffff;font-size: .3rem; z-index: 999; padding: 0 .2rem;" :data-clipboard-text="copydUrl">分享链接</div>
+	
+	<section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData1.length>0">
+    	<!-- <div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div> -->
+    	<div class="v_content gg_head" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+	    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
+	    		<li v-for="item in banData1" style="float: left;">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 7.5rem; height: 1.4rem;"></a>
+	    		</li>
+	    	</ul>
+	    </div>
+    </section>
+    <!---广告end--->
+	<header class="header">
+		<a class="t-left fl goToPer" @click="godayin()" v-if="!clientType && !(reportType == 505)">下载报告</a>
+		<button class="t-left fl goToShare" id="goToShare" v-if="clientType" @click="goToShare('goToShare')">报告分享</button>
+		<a class="t-right fr" @click="checkHistory()" v-if="!(invite == 'invite') && !shareUrl"><i class="i_c"><img src="img/i-his.png"></i>健康档案</a>
+		<p class="t-cen"><span>{{inspectDate}}</span></p>
+	</header>
+	<div class="all_score">
+		<div class="fan_box">
+			<div class="x_b">
+				<div class="b_kd">
+					<p class="pf" id="score">{{totalScore}}</p>
+					<p class="pz">总分</p>
+				</div>
+				<div class="guang_b"></div>
+				<div class="guang"></div>
+			</div>
+		</div>
+		<div class="score_inf"><p class="inf-rk">建议您<em id="sugDay">{{inspectDay}}</em>日后再次检测</p></div>
+		<div class="explain" @click="explain()"><i></i><p>说明</p></div>
+	</div>
+	
+	<div class="bx_exp">
+		<p class="sstit">亲爱的<span class="col">{{userName}}{{sexStr}}</span>你好！</p>
+		<!--<div class="sstxt" v-html="saasTel"></div>-->
+		<div>　　感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，祝您健康！</div>
+		<div v-if="reportType==5 || reportType==124" style="font-size: .24rem; margin-top: .2rem;">免责声明：亚健康不必过分担心，亚健康智能筛查只是一个静态的健康评估，评估结果仅供健康管理参考，疾病确诊需要到正规医院检查。</div>
+	</div>
+	
+	<section class="yp_box">
+		<div class="yyhz">点击收听您的专属报告解读</div>
+		<div style="height: 2.1rem; text-align: center; padding: .8rem .3rem;">
+			<audio ref='audio' controls preload="auto" style="background: none; width: 100%;">
+			  <source :src="mp3data" type="audio/ogg">
+			  <source :src="mp3data" type="audio/mpeg">
+			您的浏览器不支持 audio 元素。
+			</audio>
+		</div>
+	</section>
+	
+	
+	<div class="bx_tit"><span class="lab">整体免疫能力</span></div>
+	<div class="mianyi">
+		<div class="fen_sta">
+			您的免疫能力<em v-if="mianyiScore>=90">良好</em><em v-if="mianyiScore>=80 && mianyiScore<90">偏弱</em><em v-if="mianyiScore<80">较差</em>！
+			<span class="fr"><font>{{mianyiScore}}</font>分</span>
+		</div>
+		<ul class="bid_list">
+			<li class="c-li" v-for="item in mianyiList">
+				<a @click="goThird2($event,item)">
+				<div class="pic"><img :src="'img/124/t_'+item.targetThirdId+'.png'" class="img_b"></div>
+				<div class="dtt">
+					<p class="nam">{{item.targetThirdName}}</p>
+					<p class="sta" v-if="item.score>=90">正常</p>
+					<p class="sta lit" v-else-if="item.score>=80 && item.score<90">轻度风险</p>
+					<p class="sta mid" v-else="item.score<80">中度风险</p>
+				</div>
+				</a>
+			</li>
+		</ul>
+		<div class="liaojie">
+			<span class="lab" style="font-weight: bold;">了解免疫力</span>
+			<p class="lcc">
+				<span>先天免疫力</span><i class="pop" @click="showSome('先天免疫力','先天免疫是在人一出生时就具备的。第一梯队是皮肤、黏膜，它们阻止细菌、病毒等在皮层驻扎繁殖，禁止其进入上皮层；另外，黏膜的分泌物，如乳酸、脂肪酸、胃酸和酶等，还有杀菌作用。第二梯队是体液中的杀菌物质和吞噬细胞，如中性粒细胞、巨噬细胞等，对多种病原体都有防御作用。在人们毫无知觉的时候，这两个梯队就防止了病原体对机体的侵袭。')"></i>
+				<em>|</em>
+				<span>后天免疫力</span><i class="pop" @click="showSome('后天免疫力','后天免疫是人体在出生以后，通过不断接触新鲜事物，逐渐建立起来的，其只针对某一特定的病原体或异物起作用。后天免疫系统由免疫器官（包括胸腺、淋巴结和脾脏等）、免疫细胞（如T淋巴细胞、B淋巴细胞等）、免疫因子等构成。在身体发挥免疫作用时，还会产生一些免疫分子，包括免疫球蛋白、补体以及各种各样的细胞因子、趋化因子等，它们会跑到身体各处参与协作。')"></i>
+			</p>
+		</div>
+		<div class="biaoxian">
+			<p class="tit">免疫力较低，常出现以下症状：</p>
+			<div class="z-list">
+				<div class="z-li">
+					<p class="pic"><img src="img/124/z-gm.png" class="img_b"></p>
+					<p class="ptt">经常感冒</p>
+				</div>
+				<div class="z-li">
+					<p class="pic"><img src="img/124/z-pb.png" class="img_b"></p>
+					<p class="ptt">身体疲惫</p>
+				</div>
+				<div class="z-li">
+					<p class="pic"><img src="img/124/z-yh.png" class="img_b"></p>
+					<p class="ptt">愈合能力差</p>
+				</div>
+				<div class="z-li">
+					<p class="pic"><img src="img/124/z-cw.png" class="img_b"></p>
+					<p class="ptt">肠胃娇弱</p>
+				</div>
+				<div class="z-li">
+					<p class="pic"><img src="img/124/z-kq.png" class="img_b"></p>
+					<p class="ptt">口腔溃疡</p>
+				</div>
+				<div class="z-li">
+					<p class="pic"><img src="img/124/z-gr.png" class="img_b"></p>
+					<p class="ptt">频发感染</p>
+				</div>
+			</div>
+			<p class="tit">免疫力异常的人群易患这些疾病：</p>
+			<div class="j-list">
+				<p class="j-li"><i></i><span>上呼吸道感染</span></p>
+				<p class="j-li"><i></i><span>急慢性胃炎</span></p>
+				<p class="j-li"><i></i><span>肠易激综合征</span></p>
+				<p class="j-li"><i></i><span>急慢性肠炎</span></p>
+				<p class="j-li"><i></i><span>非典型肺炎</span></p>
+				<p class="j-li"><i></i><span>肺炎</span></p>
+				<p class="j-li"><i></i><span>结肠过敏症</span></p>
+				<p class="j-li"><i></i><span>肿瘤</span></p>
+				<p class="j-li"><i></i><span>新型冠状病毒肺炎</span></p>
+			</div>
+			
+			<p class="tit">本次评估以下指标与您的免疫力有关系</p>
+			<p class="pit">营养、心态、睡眠是免疫力的后援支撑！</p>
+			<div class="youguan">
+				<div class="g-li" v-for="item in thirdPages" @click="goThird2($event,item)">
+					<span class="lab" v-if="item.targetThirdId == '3125'">睡眠</span>
+					<span class="lab" v-else-if="item.targetThirdId == '3230'">心情</span>
+					<span class="lab" v-else>{{item.targetThirdName}}</span>
+					
+					<template  v-if="item.targetThirdId == '3125'">
+						<span class="sta" v-if="item.score >= 90">良好</span>	
+						<span class="sta mid" v-if="item.score < 90">有待改善</span>
+					</template>
+					<template  v-else-if="item.targetThirdId == '3230'">
+						<span class="sta" v-if="item.abnormalLevel == 0">快乐</span>	
+						<span class="sta" v-else-if="item.abnormalLevel == 1">愉悦</span>
+						<span class="sta" v-else-if="item.abnormalLevel == 2">平和</span>
+						<span class="sta lit" v-else-if="item.abnormalLevel == 3">压抑</span>
+						<span class="sta mid" v-else>郁闷</span>
+					</template>
+					<template v-else>
+						<span class="sta" v-if="item.score >= 90">正常</span>	
+						<span class="sta lit" v-if="item.score >= 80 && item.score <90">轻度风险</span>
+						<span class="sta mid" v-if="item.score < 80">中度风险</span>
+					</template>
+						
+				</div>
+			</div>
+		</div>
+		
+		
+	</div>
+	
+	
+	<div class="bx_tit"><span class="lab">十大系统状况</span></div>
+	<p class="bx_tip">以下是您身体十大系统的评估结果：</p>
+	<div class="bx_tensys">
+		<div :class="'fl bd_c bd_c'+sex">
+			<div class="man" v-if="sex == 1">
+				<i class="nao"></i><i class="gu"></i><i class="fei"></i><i class="wei"></i>
+			</div>
+			<div class="woman" v-if="sex == 0">
+				<i class="nao"></i><i class="gu"></i><i class="fei"></i><i class="wei"></i>
+			</div>
+		</div>
+		<dl class="sys_c fr">
+			<dd class="c_li" v-for="ten in firstPages" v-if="ten.targetFirstId != 1001" :class="[
+				{'lit':ten.score < 90 && ten.score >= 80},{'mid':ten.score < 80}]">
+			<a style="display: block" @click="goSecond($event,ten)">
+				<i :class="'t'+ten.targetFirstId"></i><span>{{ten.targetFirstName}}</span>
+				<em>{{ten.score >= 90?'正常':(ten.score < 90 && ten.score >= 80?'轻度风险':'中度风险')}}</em>
+			</a>
+			</dd>
+		</dl>
+	</div>
+	
+	<p style="height: .2rem; background: #f4f4f4;"></p>
+	<div class="bx_tit"><span class="lab">异常指标项</span></div>
+	<p class="bx_tip">以下是您身体存在亚健康风险的指标：</p>
+	<div class="bx_abnormal">
+		<div class="fx-mid">
+			<div class="pic fl"><img src="img/120/dag_mid.png"><p>中度风险</p></div>
+			<div class="list fr">
+				<a class="bid" v-for="bid in midbid" @click="goThird($event,bid)" v-if="bid.targetId != 3089 && bid.targetId != 3207 && bid.targetId != 3097 && bid.targetId != 3110 && bid.targetId != 3211 && bid.targetId != 3219 && bid.targetId != 3139">
+					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
+				</a>
+			</div>
+		</div>
+		<div class="fx-mid lit">
+			<div class="pic fl"><img src="img/120/dag_lit.png"><p>轻度风险</p></div>
+			<div class="list fr">
+				<a class="bid" v-for="bid in litbid" @click="goThird($event,bid)" v-if="bid.targetId != 3089 && bid.targetId != 3207 && bid.targetId != 3097 && bid.targetId != 3110 && bid.targetId != 3211 && bid.targetId != 3219 && bid.targetId != 3139">
+					<i></i><span>{{bid.targetName}}</span><em class="fr">{{bid.score}}分</em>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+	<p style="height: .2rem; background: #f4f4f4;"></p>
+	<div class="bx_tit"><span class="lab">生理年龄</span><i style="margin: 0;" class="pop" @click="phyage($event)"></i>
+		<div class="v_overlert">
+			<div class="tc_sy">
+				<em class="close"></em>
+				<p class="bit"><span class="labt">生理年龄</span><em></em></p>
+				<div class="bxt" style="text-align: left;">生理年龄是指一个人生理学上的年龄，代表这个人的生命活力。
+					生理年龄的高低，主要取决于人的生活方式和健康状况。
+					本报告的生理年龄是在您真实年龄的基础上基于您各个系统的健康状况得出。
+				</div>
+			</div>
+		</div>
+	</div>
+		
+	<p class="bx_tip">您的生理年龄评估为<em style="color: #4ba59e;">{{age}}</em>岁，各个系统如下：</p>
+	<div class="agebar" style="background: #fff;">
+		<div id="ageChart" style="width: 100%; height:280px; position: relative;top: -30px;"></div>
+	</div>
+	
+	<p style="height: .2rem; background: #f4f4f4;"></p>
+	<div class="bx_tit"><span class="lab">实时状态</span></div>
+	<p class="bx_tip">以下是您六大身体实时状态的情况：</p>
+    <div class="zhuangk_c indexShow">
+    	<div class="c_li" v-for="state in otherPages" v-if="state.targetThirdId != 3232">
+    		<em class="ico"></em>
+    		<span class="lab">{{state.targetThirdName}}</span>
+    		<div class="v_overlert">
+				<div class="tc_sy">
+					<p class="bit"><span class="labt">{{state.targetThirdName}}</span><em></em></p>
+					<div class="bxt">{{state.inspectExplain}}</div>
+				</div>
+			</div>
+    		<div class="lev">{{state.abnormalLevel}}</div>
+    		<span class="sta fr" v-if="state.abnormalLevel == 0 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 1 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 2 && !state.analysisResults"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 3 && !state.analysisResults"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 4 && !state.analysisResults"><i class="on"></i><i></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 5 && !state.analysisResults"><i></i><i></i><i></i><i></i><i></i></span>
+    		<span class="sta fr" v-else-if="state.abnormalLevel == 0 && state.analysisResults" style="padding: 0;">
+    			<em style="font-size: .32rem; line-height: .8rem;">{{state.analysisResults}}</em>
+    		</span>
+    		<i class="pop fr" @click="popSta($event)"></i>
+    	</div>
+    </div>
+    <ul class="golook">
+		<li><a @click="getSuggest($event)"><i></i><em>健康建议</em></a></li>
+		<li><a v-if="showRecipe > 0" @click="getRecipesData($event)"><i></i><em>专属食谱</em></a></li>
+	</ul>
+    <p style="background:#f4f4f4; height:10px; margin:0;"></p>
+    <!---广告--->
+    <section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData2.length>0">
+    	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
+    	<div class="v_content gg_foot" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
+	    	<ul class="v_list" style="width: 400%; position: absolute; overflow: hidden;">
+	    		<li v-for="item in banData2" style="float: left;">
+	    			<a :href="item.bannerUrl"><img :src="item.bannerImg" style="width: 7.5rem; height: 1.4rem;"></a>
+	    		</li>
+	    	</ul>
+	    </div>
+    </section>
+    
+
+
+
+<input type="hidden" id="appId"/>
+<input type="hidden" id="nonceStr"/>
+<input type="hidden" id="signature"/>
+<input type="hidden" id="timestamp"/>
+<input type="hidden" id="age"/>
+<input type="hidden" id="share" value="101"/>
+
+
+<div class="v_overlay"></div>
+<div class="v_overlert" id="showExplain">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit">
+			<span class="labt">欢迎您查看健康报告使用帮助！</span>
+		</p>
+		<div class="bxt2" v-if="saasId != '219278'">
+			一、如何查看您的健康报告？<br/>
+1、​综合评估：智能筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
+2、​十大系统：智能筛查机器人针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
+3、​健康指标：智能筛查机器人给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
+4、​实时状态：智能筛查机器人针对您的实时状态给予评估，共计有6项状态评估，有助于您及时了解自己的身体状态。<br/>
+二、关于报告中提示的问题？<br/>
+本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
+三、关于您的专属健康改善建议？<br/>
+报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有 请勿抄袭！<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+		</div>
+		<div class="bxt2" v-if="saasId == '219278'">
+			一、如何查看您的健康报告？<br/>
+1、​综合评估：京智康智能筛查机器人针对您的整体健康状况给予综合评估得分，分值代表了整体的健康情况，分值越高说明您的身体越好、分值较低时说明您处于亚健康状态；<br/>
+2、​十大系统：京智康智能筛查机器人针对人体10大系统进行评估，分值越高说明您的身体越好，分值越低则反之说明您处于相对比较严重的亚健康状态；<br/>
+3、​健康指标：京智康智能筛查机器人给予10大系统下的健康指标进行评估，评估得分越高分值越高说明您的身体越好、分值较低则反之。京智康智能筛查机器人将根据您的详细指标评估结果给予专属的健康改善建议，基于膳食、营养素、运动和生活方式，请您按照建议积极改善生活习惯、调整饮食结构、合理增加运动锻炼（具体详见报告建议）。健康建议将有助于改善您的亚健康状态、全面提升您的身体素质。<br/>
+4、​实时状态：京智康智能筛查机器人针对您的实时状态给予评估，共计有6项状态评估，有助于您及时了解自己的身体状态。<br/>
+二、关于报告中提示的问题？<br/>
+本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
+三、关于您的专属健康改善建议？<br/>
+报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
+		</div>
+	</div>
+</div>
+<div class="v_overlert" id="showSome">
+	<div class="tc_sy">
+		<em class="close"></em>
+		<p class="bit"><span class="labt">{{someTit}}</span><em></em></p>
+		<div class="bxt" style="text-align: left;">{{someTxt}}</div>
+	</div>
+</div>
+
+</div>
+</DIV>
+
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<div style="text-align:center;padding:100px 30px; display: none;position: fixed; top: 0; width: 100%;" id="error_con">
+    <p style="font-size:.5rem;line-height:.8rem">健康报告获取失败，请检查设备网络是否连接（<font style="font-size: .4rem;">设备屏幕下方是否有红字提示</font>），或咨询客服：400-6666-787</p>
+</div>
+
+<div class="daifu_d" style="height: 5rem;">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，请联系您的保险业务员查看报告</p>
+	<p class="dbtn"><button id="iknow">查看历史</button></p>
+</div>
+<!--<div class="daifu_d">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>-->
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script src="print/js/clipboard.min.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="js/report120.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script src="js/wxShare.js"></script>
+</body>
+</html>

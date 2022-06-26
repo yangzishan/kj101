@@ -1,6 +1,6 @@
 var zh = {
 	la_perCen: '个人中心',
-	la_hisRepo: '历史报告',
+	la_hisRepo: '健康档案',
 	la_fen: '分',
 	la_toptip: '注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。',
 	la_learnMore: '了解更多',
@@ -172,10 +172,12 @@ var zh = {
 	la_note7: '7.康加智能筛查机器人是基于假定用户正常情况下进行的数据采集，采集结果每时每刻都在发生变化，所以建议每天测量选择固定时间点，最好是空腹平静心态下测量会更有效。用户通过康加智能筛查机器人获取材料或数据由您自己承担风险，同时您将对使用此类材料或数据而导致的人身或财产损失承担全部责任。',
 	la_note8: '8.因健康报告里面包含个人隐私问题，当用户分享给它人或朋友圈时，即表示该用户自行同意把隐私公开。',
 	la_note9: '9.用户扫描二维码需要先关注康加公众号/或下载使用康加APP，因其数据报告跟公众号/或APP绑定在一起，会保留历史纪录，方便进行长期数据追踪和分析。',
-	la_note10: '10.本公司重视对用户隐私的保护，保护隐私是本公司的一项基本政策。您提供的登记资料及本公司保留的有关您的若干其他个人资料将受到中国有关隐私的法律法规的保护。康加健康报告会引用您的基础数据进行大数据建模，非经用户亲自许可或根据相关法律的强制性规定，本公司不会主动的将您的身份信息泄露给其他任何第三方。',
-	la_note11: '11.本公司有权在必要时修改服务条款，服务条款一旦发生变动，将会在相关页面上公布修改后的服务条款。如果不同意所改动的内容，用户应主动取消此项服务。如果用户继续使用服务，则视为接受服务条款的变动。',
-	la_note12: '12.凡以任何方式登录康加智能筛查机器人， 或对您使用康加智能筛查机器人、网络平台、与本公司相关的任何内容、服务均视为自愿接受康加智能筛查机器人声明的约束。无论在任何原因下（包括但不限于疏忽原因），对您或任何人通过使用康加智能筛查机器人所导致的损失或损害（包括直接、间接的损失或损害），责任均由使用者自行承担（除非该等损失系由本公司产品质量不达标所致）。',
-	la_k_company: '康加公司 版权所有',
+	la_note10: '10、用户在注册使用服务的过程中，同意授权本公司通过电话、短信等形式，向用户发送相关通知以及产品推荐服务。',
+	la_note11: '11.本公司重视对用户隐私的保护，保护隐私是本公司的一项基本政策。您提供的登记资料及本公司保留的有关您的若干其他个人资料将受到中国有关隐私的法律法规的保护。康加健康报告会引用您的基础数据进行大数据建模，非经用户亲自许可或根据相关法律的强制性规定，本公司不会主动的将您的身份信息泄露给其他任何第三方。',
+	la_note12: '12.本公司有权在必要时修改服务条款，服务条款一旦发生变动，将会在相关页面上公布修改后的服务条款。如果不同意所改动的内容，用户应主动取消此项服务。如果用户继续使用服务，则视为接受服务条款的变动。',
+	la_note13: '13.凡以任何方式登录康加智能筛查机器人， 或对您使用康加智能筛查机器人、网络平台、与本公司相关的任何内容、服务均视为自愿接受康加智能筛查机器人声明的约束。无论在任何原因下（包括但不限于疏忽原因），对您或任何人通过使用康加智能筛查机器人所导致的损失或损害（包括直接、间接的损失或损害），责任均由使用者自行承担（除非该等损失系由本公司产品质量不达标所致）。',
+	
+	la_k_company: '康加公司 版权所有 请勿抄袭！',
 	
 	//说明 
 	la_instructionTit: '说明',
@@ -389,6 +391,7 @@ var en = {
 	la_note10: '10. Our company attaches importance to the protection of user’s privacy, which is a basic policy of our company. The registration information you provide and certain other personal information we kept about you will be protected by China’s relevant privacy laws and regulations. Konstar Health Report will use your basic data for big data modeling, and our company will not voluntarily disclose your identity information to any other third party without the user’s permission or according to the mandatory provisions of relevant laws.',
 	la_note11: '11. Our company has the right to modify the terms of service if necessary. In case of any change to the terms of service, the revised terms of service will be published on the relevant pages. If you do not agree with the content revised, you should promptly cancel the service. If the user continues to use the service, it is deemed to accept the change of terms of service.',
 	la_note12: '12. Any access to Konstar Intelligent Screening Robot in any way or your use of Konstar Intelligent Screening Robot, network platform and any content and service related to our company shall be deemed as the voluntary acceptance of the statement of Konstar Intelligent Screening Robot. No matter for any reason (including but not limited to negligence), the user shall be liable for any loss or damage (including direct and indirect loss or damage) caused by youself or anyone by using Konstar Intelligent Screening Robot (unless such loss is caused by the substandard quality of our products).',
+	la_note13:'',
 	la_k_company: 'All rights reserved by Konstar',
 	
 	//说明 

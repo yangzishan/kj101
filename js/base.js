@@ -19,45 +19,49 @@ var saasUrl = 'http://saas-tt.jiankangzhan.com';  //saas*/
 
 //-----预生产 ysc-----
 
-var dataUrl = 'http://wx-ysc.jiankangzhan.com'; //数据接口
+/* var dataUrl = '//wx-ysc.jiankangzhan.com'; //数据接口
 
-var testHealthUrl = 'http://kj101-ysc.jiankangzhan.com'; //大机器
+var testHealthUrl = '//kj101-ysc.jiankangzhan.com'; //大机器
 
-var bit_testHealthUrl = 'http://kj201-ysc.jiankangzhan.com'; //小机器
+var bit_testHealthUrl = '//kj201-ysc.jiankangzhan.com'; //小机器
 
-var couponData = 'http://coupon-ysc.jiankangzhan.com'; //优惠券
+var couponData = '//coupon-ysc.jiankangzhan.com'; //优惠券
 
-var analysisreport = 'http://analysisreport-ysc.jiankangzhan.com';  //3.0新报告接口
+var analysisreport = '//analysisreport-ysc.jiankangzhan.com';  //3.0新报告接口
 
-var channel = 'http://39.107.74.133:8081'; //支付通道
+var channel = '//39.107.74.133:8081'; //支付通道
 
-var saasUrl = 'http://saas-ysc.jiankangzhan.com';  //saas 
+var saasUrl = '//saas-ysc.jiankangzhan.com';  //saas 
 
-var quanpinUrl = 'http://qpkjservice-ysc.jiankangzhan.com' 
+var quanpinUrl = '//qpkjservice-ysc.jiankangzhan.com'; 
 
-var kj2000 = 'http://kj2000-ysc.jiankangzhan.com' 
+var kj2000 = '//kj2000-ysc.jiankangzhan.com' ;
    
-var robot = 'http://robot-ysc.jiankangzhan.com'
+var robot = '//robot-ysc.jiankangzhan.com';
+
+var qywx = '//qw-ysc.jiankangzhan.com'; */
 
 
 //---生产-----
 
-//var dataUrl = 'http://wx.jiankangzhan.com'; //数据接口
-//
-//var testHealthUrl = 'http://kj101.jiankangzhan.com'; //大机器
-//
-//var bit_testHealthUrl = 'http://kj201.jiankangzhan.com'; //小机器
-//
-//var couponData = 'http://coupon.jiankangzhan.com'; //优惠券
-//
-//var analysisreport = 'http://report-v3.jiankangzhan.com';  //3.0新报告接口
-//
-//var channel = 'http://pay.jiankangzhan.com'; //支付通道
-//
-//var saasUrl = 'http://saas.jiankangzhan.com'; //saas 
-//
-//var quanpinUrl = 'http://kjcdservice.jiankangzhan.com'
-//
-//var kj2000 = 'http://dm.jiankangzhan.com'  
-//
-//var robot = 'http://robot.jiankangzhan.com'
+var dataUrl = '//wx.jiankangzhan.com'; //数据接口
+
+var testHealthUrl = '//kj101.jiankangzhan.com'; //大机器
+
+var bit_testHealthUrl = '//kj201.jiankangzhan.com'; //小机器
+
+var couponData = '//coupon.jiankangzhan.com'; //优惠券
+
+var analysisreport = '//report-v3.jiankangzhan.com';  //3.0新报告接口
+
+var channel = '//pay.jiankangzhan.com'; //支付通道
+
+var saasUrl = '//saas.jiankangzhan.com'; //saas 
+
+var quanpinUrl = '//kjcdservice.jiankangzhan.com'
+
+var kj2000 = '//dm.jiankangzhan.com'; 
+
+var robot = '//robot.jiankangzhan.com';
+
+var qywx = '//qw.jiankangzhan.com'; 

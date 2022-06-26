@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html style="height: auto;width: 100%; overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>提交订单</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body style="height: auto; width: 100%; background: #F3F5F7;">
+<DIV class="my_view buycard" style="visibility: visible;">
+	<div class="head">
+		<a class="bac" href="javascript:history.go(-1);">
+			<i class="arr"></i>
+			<em class="tx">返回</em>
+		</a>
+		<span class="tit">提交订单</span>
+	</div>
+	<div class="cardList">
+		<template v-for="item in selectedGoodList">
+			<div class="carditem">
+				<div class="c-inf">
+					<img class="inf-img" :src="item.goodsImg">
+					<div class="inf-cn">
+						<p class="cname">{{item.goodsName}}</p>
+						<p class="cci"><b>{{item.maxUseCount}}</b>次卡</p>
+						<p class="cyxq">有效期{{item.validDuration}}天</p>
+						<p class="cxz"><span @click.stop="showSome('',item.useRules)">购买须知&gt</span></p>
+						<span class="price">￥{{item.goodsPrice}}</span>
+						<span v-if="item.packageCount" class="pcount">×{{item.packageCount}}张</span>
+					</div>
+				</div>
+				<div class="c-cho">
+					<div></div><div class="rel">数量：{{item.goodsCount}}</div>
+				</div>
+			</div>
+		</template>
+	</div>
+	<div class="fix-buy">
+		<div class="con">
+			<div class="gongji"><span>共计：</span><span class="jprice">￥{{totalPrace}}</span></div>
+			<div class="buyBtn" @click="gotoPay">立即支付</div>
+		</div>
+	</div>
+	
+	<div class="sl-pay">
+		<p class="bt"><span>选择支付方式</span><i class="close" @click="closepay"><img src="img/fuli/o-close.png"></i></p>
+		<div class="cnn">
+			<p class="p1">支付金额</p>
+			<p class="p2">￥{{totalPrace}}</p>
+		</div>
+		<button class="pay-li" v-for="pay in payList" @click="hrefRouter(pay)">
+			<i :class="'ico'+pay.payChannelType"></i><span>{{pay.payChannelName}}</span><img class="arr" src="img/fuli/o-arr.png">
+		</button>
+	</div>
+	
+
+	<div class="v_overlay"></div>
+	<div class="v_overlert" id="showSome">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+			<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+		</div>
+	</div>
+</DIV><!--/my_view-->
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<!-- <script>document.write('<script src="js/report702.js?t=' + new Date().getTime() + '"><\/script>')</script> -->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="js/reset.js"></script>
+<script>
+var saasId = (getQueryString("saasId") || 59);
+var reportId = getQueryString("reportId");
+var openId = getQueryString("openId");
+var userId = getQueryString("userId");
+var reportType = getQueryString("reportType");
+var sameUser = getQueryString("sameUser");
+var clientType = getQueryString("clientType"); 
+var source = getQueryString('source');
+var relationUrl=(getQueryString("relationUrl") || '');  //是否跳转关联
+var sn = getQueryString('sn');
+
+new Vue({
+	el:'.buycard',
+	data:function(){
+		return{
+			selectedGoodList:[],
+			totalPrace:'',
+			someTit:'',
+			someTxt:'',
+			payList:[],
+			paymentGoodsPayOrder:{} //订单信息
+		}
+	},
+	methods:{
+		hrefRouter: function(pay){
+			var vm = this;
+			location.href='cardPayOrder.html?reportId='+reportId+'&userId='+userId+'&reportType='+reportType+'&openId='+openId+
+			'&payChannelId='+pay.payChannelId+'&payChannelType='+pay.payChannelType+'&saasId='+saasId+'&relationUrl='+relationUrl+'&sn='+sn
+			
+		},
+		closepay: function(){
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});$('.sl-pay').css({"transform":"translateY(110%)"});
+		},
+		gotoPay: function(e){
+			$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+			$('.sl-pay').css({"transform":"translateY(0%)"});
+		},
+		getPayBySaasId: function(){ //查支付通道 
+			var vm = this;
+			$.ajax({
+				type:"get",
+				url: channel+"/pay/v1/channel/getPayBySaasId",
+				dataType:"Json",
+				data:{
+					saasId : saasId,
+					terminalType: 5  //终端类型 1：微信，2：app，3：天津农商行支付 ,5:商品支付(vip卡)
+				},
+				success:function(res){
+					if(res.code == 0){
+						vm.payList = res.data
+					}
+				},
+				error:function(){
+					alert("getPayBySaasId error")
+				}
+			})
+		},
+		getData:function (){
+			this.paymentGoodsPayOrder = JSON.parse(sessionStorage.getItem("paymentGoodsPayOrder"));
+			this.selectedGoodList = JSON.parse(sessionStorage.getItem("selectedGoodList"));
+			this.totalPrace = this.selectedGoodList.reduce(function(prev, cur, index, array){
+				return prev + cur.goodsCount*cur.goodsPrice
+			},0)
+		},
+		showSome: function(tit,txt){
+			txt = txt.replace(/\/n|\\n/g,'<br>')
+			this.someTit = tit
+			this.someTxt = txt
+			showMask();
+			$('#showSome').css({"visibility":"visible","opacity":"1"});
+		},
+	},
+	mounted:function(){
+		this.getData();
+		this.getPayBySaasId();
+	}
+});
+//弹窗
+function showMask(){
+	$("body").css("overflow","hidden");
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		tocloseall()
+	});
+};
+function tocloseall(){
+	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+	$('.orginImg').css({"visibility":"hidden","opacity":"0"});
+	$("body").css("overflow","auto");
+};
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

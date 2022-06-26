@@ -11,17 +11,20 @@
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
 </head>
-<body>
-<div id="vm">
+<body style="height: 100%;">
+<div id="vm" style="height: 100%;">
 	<div class="daifu_d" style="display: none;">
 		<p class="imo"><img src="img/daifu.png" class="img_b"></p>
 		<p class="tit">亲，您的报告已生成,<br>请联系机构管理员查阅健康报告。</p>
 		<!--<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
 		<p class="dbtn"><button id="iknow">知道了</button></p>-->
 	</div>
+	<iframe style="width: 100%; height: 100%;" :src="frameSrc" v-show="seeReport"></iframe>
 </div>
 <div class="load-overlay" style="display: block;"><p class="loadimg"><img src="img/loading.gif"></p></div>
 <script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<!-- <script src="https://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script> -->
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,

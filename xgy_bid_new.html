@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>健康报告</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css">
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style type="text/css">
+.topp{background: linear-gradient(134deg, #7FACEF 0%, #548FE8 100%); height:1.5rem; line-height: .88rem; width: 100%; position: relative; color: #ffffff;}
+.topp .bac{ display: inline-block; height: .88rem; padding: .22rem; width: .64rem; position: relative; z-index: 999;}
+.topp .lab{ position: absolute; left: 0; top: 0; width: 100%; line-height: .88rem; text-align: center; font-size: .32rem; font-weight: 600;}
+.inf-box{background: #ffffff; border-radius: .3rem .3rem 0 0; margin: -.62rem 0 0; position: relative; z-index: 999; text-align: center; padding: .3rem 0 0;}
+.inf-box .btt{ font-size: .32rem; font-weight: 600; line-height: .6rem; color: #666666;}
+.inf-box .ltt{ font-size: .26rem; color: #999999; line-height: .37rem;}
+.inf-box .ixx{ width: 5.16rem; margin: .2rem auto; line-height: .37rem; color: #999999; font-size: .26rem;}
+</style>
+</head>
+<body style="background: #ffffff;">
+<DIV class="my_view newxgy" style="visibility: visible;">
+	<div class="topp">
+		<a class="bac" href="javascript:history.go(-1);"><img src="img/arr-b.png" class="img_b"></a>
+		<span class="lab">{{datainf.metricName}}</span>
+	</div>
+	<div class="inf-box">
+		<p class="btt">{{datainf.metricName}}</p>
+		<p class="ltt">范围值{{datainf.sv}}</p>
+		<p class="ixx">{{datainf.metricExplain}}</p>
+	</div>
+	<section class="bmi-his">
+		<div id="main" style="width: 100%; height: 3rem;"></div>
+	</section>
+	
+</DIV>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<!--<script type="text/javascript" src="js/echarts/echarts.min.js"></script>-->
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+var reportId = (getQueryString('reportId') || 'MK701IS000000011629266902781');
+var openId = getQueryString('openId');
+var reportType = getQueryString('reportType');
+var customerId = getQueryString('userId');
+var saasId = getQueryString('saasId');
+var name = (getQueryString('name') || 'SI');
+var localUrl = location.href;
+
+$('.load-overlay').css("display","block");
+$('.my_view').css("visibility","hidden");
+var myApp = new Vue({
+	el: ".my_view",
+	data: function(){
+		return {
+			reportId: reportId,
+			reportType:reportType,
+			openId: openId,
+			name: name,
+			mobile: '',
+			userInfoView:{},
+			inspectDateStr:'',
+			datainf:{},
+			mobile:sessionStorage.getItem('mobile'),
+			xlist:[],
+			ylist:[],
+		}
+	},
+	mounted: function(){
+		this.getData();
+	},
+	methods: {
+		getData: function(){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/mk701/getTargetDetail",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    name : name
+				},
+				success: function(res){
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.datainf = res.data.reportMk701TargetView;
+						vm.mobile = res.data.mobile;
+						vm.findTargetDetail();
+					}else{
+						alert('getTargetDetail code='+res.code)
+					}
+				},
+				error: function(){alert('getTargetDetail error')}
+			});
+			
+			//vm.datainf = JSON.parse(sessionStorage.getItem('bid'))
+			console.log(vm.datainf)
+			
+		},
+		
+		findTargetDetail: function(){
+			var vm = this
+			$.ajax({
+				url : analysisreport + "/mk701/reportIndex/findTargetDetail",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    targetName : vm.datainf.name,
+				    mobile:vm.mobile
+				},
+				success : function(res) {
+					if(res.code == 200){
+						res.data.forEach(item => {
+							vm.xlist.push(item.createTimeStr)
+							vm.ylist.push(item[vm.datainf.name])
+						})
+						console.log('x',vm.xlist)
+						console.log('y',vm.ylist)
+						setTimeout(function(){
+							inchart(vm.xlist,vm.ylist)
+						},500)
+					}else{
+						console.log('code = '+res.code)
+					}
+				},
+				error : function(obj,msg){alert("findTargetDetail error")}
+			});
+		},
+		
+	}
+});
+function inchart(xlist,ylist){
+	var myChart = echarts.init(document.getElementById('main'));
+	option = {
+		grid:{
+			top:20,
+			bottom:20
+		},
+	    xAxis: {
+	        type: 'category',
+	        data: xlist
+	    },
+	    yAxis: {
+	        type: 'value'
+	    },
+	    series: [{
+	        data: ylist,
+	        type: 'line',
+	        smooth: true,
+	        lineStyle:{
+	        	color:"#2BCCC0"
+	        },
+	        showSymbol:false
+	    }]
+	};
+	myChart.setOption(option);
+}
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>

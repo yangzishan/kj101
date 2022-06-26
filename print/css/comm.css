@@ -164,3 +164,67 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0; 
     page-break-before: auto;        
     page-break-after: always;
 }
+
+/*loading*/
+.load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(204,204,204,0.1); z-index: 9999; display: none;}
+.load-overlay .loadimg{ width: .6rem; height: .6rem; position: absolute; top: 50%; left: 50%; margin: -.3rem 0 0 -.3rem;}
+
+
+
+/*心血管功能*/
+.xxg_con{ padding: 14px;}
+.xxg_con .xinlv{width: 116px; height: 67px; display: inline-block; vertical-align: top; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27); border-radius: 6px; margin-right: 18px; text-align: center; line-height: 30px;}
+.xxg_con .xinlv .lab{ font-size: 16px;  font-weight: bold;}
+.xxg_con .xinlv .zhi{ color: #D04B58; font-size: 20px;}
+.xxg_con .xinlv .zhi font{ font-size: 10px;}
+
+.xxg_con .xinz{ max-width: 430px; padding: 5px 12px; display: inline-block; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27); border-radius: 6px;}
+.xxg_con .xinz .z1{ line-height: 20px; font-size: 10px;}
+.xxg_con .xinz .z1 img.io{ width: 10px; height: 10px;}
+.xxg_con .xinz .z1 span{ font-size: 14px; font-weight: bold;}
+.xxg_con .xinz .z2{ line-height: 16px; font-size: 10px;}
+.xxg_con2{ font-size: 0; padding: 14px; border-top: #3D8392 solid 1px;}
+.xxg_con2 .cn1{display: inline-block; vertical-align: top;}
+.xxg_con2 .cn1 .xybh{width: 230px; height: 67px; margin: 0 0 14px; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27); border-radius: 6px; font-size: 0;}
+.xxg_con2 .cn1 .xybh .pic{display: inline-block; vertical-align: top; padding: 10px;}
+.xxg_con2 .cn1 .xybh .pic img{display: block; margin: 0 auto; width: 46px; height: 46px;}
+.xxg_con2 .cn1 .xybh .inf{ display: inline-block; vertical-align: top; font-size: 12px; padding: 3px 0;}
+.xxg_con2 .cn1 .xybh .inf .lab{ line-height: 14px;}
+.xxg_con2 .cn1 .xybh .inf .sta{ color: #2671C7; line-height: 28px;}
+.xxg_con2 .cn1 .xybh .inf .fw{ font-size: 10px; line-height: 14px;}
+.xxg_con2 .cn2{display: inline-block; width: 378px; vertical-align: top; padding: 0 0 0 5px;}
+.xxg_con2 .cn2 ul{ font-size: 0;}
+.xxg_con2 .cn2 ul li{display: inline-block;width: 30%; text-align: center; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27);
+border-radius: 6px;  font-size: 14px; margin: 0 5px 14px;}
+.xxg-wx{border-top: #3D8392 solid 1px; padding: 12px;}
+.xxg-wx .ttt{font-weight: 600; font-size: 16px;}
+.xxg-wx .yinsu{ overflow: hidden; padding: 10px 0;}
+.xxg-wx .yinsu li{float: left; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27); border-radius: 6px; font-size: 12px; line-height: 30px; padding: 0 10px; margin: 0 12px;}
+.xxg-wx .ztxt{padding: 12px 0; line-height: 20px; font-size: 13px;}
+.xxg-wx .jibing{ overflow: hidden; padding: 10px 0 0;}
+.xxg-wx .jibing li{ float: left; line-height: 17px; font-size: 13px; margin: 0 40px 13px 0;}
+.xxg-wx .jibing li em{display: inline-block; vertical-align: top; margin: 5px 5px 0 0; width: 7px; height: 7px; background: url(../img/gg.png) no-repeat center; background-size: 7px 7px;}
+.xxg-wx .jibing li span{display: inline-block; vertical-align: top;}
+
+.feibid{ font-size: 0; padding:20px 12px; position: relative;}
+.feibid .bitem{display: inline-block; width: 138px; height: 68px;background: #FFFFFF; box-shadow: 0px 2px .06rem 0px rgba(29, 71, 133, 0.28); margin:0 15px 10px 0; padding: 10px 0rem 10px 5px; border-radius: 6px;}
+.feibid .bitem .pic{display: inline-block; vertical-align: top; padding: 9px 0 0;width: 30px;}
+.feibid .bitem .pic img{width:30px; height: 30px;}
+.feibid .bitem .inf{ display: inline-block; vertical-align: top; width: 90px; margin-left: 10px; overflow: hidden;}
+.feibid .bitem .inf .lab{font-size: 14px; line-height:23px;}
+.feibid .bitem .inf .sta{color: #306FB7; font-size: 14px; line-height: 23px;}
+
+.feibid .sitem{width: 50%; height: 62px; padding: 10px 11px; font-size: 0;
+box-shadow: 0px .02rem .06rem 0px rgba(29, 71, 133, 0.28); border-radius: 4px;}
+.feibid .sitem .pic{display: inline-block; vertical-align: top; padding:6px 0; width: 30px;}
+.feibid .sitem .pic img{width: 30px; height: 30px; display: block;}
+.feibid .sitem .inf{ display: inline-block; vertical-align: top; font-size: 14px; margin-left: .50px;}
+.feibid .sitem .inf .lab{ font-size: 14px; line-height: 21px;}
+.feibid .sitem .inf .sta{ font-size: 14px; color: #306FB7; line-height: 21px;}
+.feibid .sitem .fen{ line-height: 21px;}
+.feibid .sitem .fen .up{ font-size: 18px; color: #2671C7; text-align: center;}
+.feibid .sitem .fen .fw{ font-size: 15px; color: #666666;}
+.xxg-wx .feizz{ overflow: hidden; padding: 20px 0 10px;}
+.xxg-wx .feizz li{ width: 76px; float: left; text-align: center;}
+.xxg-wx .feizz li img{width: 40px; height: 40px;}
+.xxg-wx .feizz li p{ font-size: 13px; line-height: 16px;}

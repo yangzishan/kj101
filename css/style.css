@@ -161,6 +161,9 @@
 .bx_exp .link{ text-decoration: underline;}
 .bx_exp .sstit{ line-height: .5rem;}
 .bx_exp .sstxt{ line-height: .5rem; text-indent: .6rem;}
+.yp_box{margin:.2rem; padding: .25rem; background: #fff; border-radius: .2rem; position: relative;}
+.yp_box .yyhz{position: absolute; top: 0; left: 0; padding: 0 .2rem; height: .5rem; line-height: .5rem; text-align: center; font-size: .28rem; font-weight: bold; background: #EC8F44; border-radius: .28rem 0 .28rem 0; color: #ffffff;}
+
 .golook{ padding: .3rem 0 .1rem; display: -webkit-box;}
 .golook li{display: block; -webkit-box-flex: 1;}
 .golook li{padding: 0 .4rem; text-align: center; color: #ffffff;}
@@ -171,8 +174,8 @@
 .golook li:nth-of-type(2) a i{background: url(../img/i-sp.png) no-repeat center; background-size:.4rem .43rem;}
 .bx_tit{ height: .88rem; background: #ffffff; text-align: center; border-bottom: #f4f3f3 solid .01rem;}
 .bx_tit .lab{ display: inline-block; vertical-align: top; line-height: .88rem; color: #1ECEB7; font-size: .36rem; font-weight: bold;}
-.bx_tit i{display: inline-block; vertical-align: top; width: .16rem; /*margin: .36rem .2rem;*/ height: .16rem; background:#1ECEB7; border-radius: 50%;}
-.bx_tit .pop{ display: inline-block; width: .6rem; height: .88rem; background: url(../img/pop.png) no-repeat center; background-size:.32rem .32rem;}
+.bx_tit i{display: inline-block; vertical-align: top; width: .16rem; margin: .36rem .2rem; height: .16rem; background:#1ECEB7; border-radius: 50%;}
+.bx_tit .pop{ display: inline-block; width: .6rem; height: .88rem; background: url(../img/pop.png) no-repeat center; background-size:.32rem .32rem; margin: 0;}
 .bx_tip{padding: 0 .3rem; background: #ffffff; line-height: .7rem; font-size: .3rem;}
 
 .bx_tensys{padding: .25rem; background: #ffffff;overflow: hidden; position: relative;}
@@ -319,13 +322,13 @@
 .thr_cn{ padding:0 .3rem; background: #ffffff;}
 .thr_cn .ctxt{ padding-bottom: .3rem; font-size: .3rem; line-height: .56rem;}
 
-/*历史报告*/
+/*健康档案*/
 .history_b{ height: 100%; /*background: #fff;*/}
 .history_b .h_li{display: block; min-height: .88rem; padding: 0 .24rem; font-size: .28rem; border-bottom: #ddd solid .01rem;}
 .history_b .h_li .dat{ line-height: .88rem;}
 .history_b .h_li .arr{ width:.16rem; height: .88rem; background: url(../img/arr-r.png) no-repeat center; background-size: .12rem .24rem; margin-left: .3rem;}
 .history_b .h_li .num{ line-height: .88rem;}
-/*saas 新历史报告*/
+/*saas 新健康档案*/
 .nh_seltab{ margin-bottom: .1rem;}
 .nh_seltab .tab{height: .55rem; line-height: .55rem; display: flex;display: -webkit-flex; background: #ffffff; margin-bottom: .05rem;}
 .nh_seltab .tab span{display: block; -webkit-flex: 1; flex: 1; text-align: center;}
@@ -826,6 +829,15 @@
 
 /*=智齿客服机器人=*/
 .zhichi{ position: fixed; bottom: 1rem; right: .1rem; width: 1.2rem; height: 1.56rem; background: url(../img/zhichi_kf.gif) no-repeat center; background-size: contain; z-index: 999;}
+
+/*-解读（添加企业微信）-*/
+.fix-jiedu{width: 1.84rem; height: .84rem; position:fixed; right: 0; top: 50%; z-index: 999;}
+.qy_ewm{ position: fixed;left: .9rem; right: .9rem; top: 50%; transform: translateY(-50%); -webkit-transform: translate(0,-50%);height: 6.72rem; background: url(../img/qiyeewm.png) no-repeat center; background-size: 100% 100%; z-index: 1000; padding: .45rem .2rem; max-width: 5.72rem; opacity: 0; visibility: hidden; transition-duration: 0;}
+.qy_ewm .close{position: absolute; width: .44rem; height: .44rem; bottom: -.76rem; left: 50%; transform: translateX(-50%); -webkit-transform: translate(-50%,0);}
+.qy_ewm .ewm{ text-align: center; width: 3.04rem; height: 3.04rem; margin: 0 auto .5rem; border-radius: .4rem; border: .04rem solid #D49D44; overflow: hidden;}
+.qy_ewm .ewm img{width: 2.96rem; height: 2.96rem; display: block;}
+.qy_ewm .tt1{ text-align: center; color: #FFFFFF; font-weight: bold; font-size: .32rem; margin-bottom: .6rem;}
+.qy_ewm .tt2{ font-size: .28rem; text-align: center; font-weight: bold; color: #666666; margin: 0 auto; line-height: .42rem;}
 
 /*=食谱菜单=*/
 .sp-tit{padding: .1rem .3rem; line-height: .4rem; background: #f2f2f2; font-size: .24rem; color: #9B9B9B;}
@@ -1452,3 +1464,76 @@
 .newbaogao .comtxt .tx{ font-size: .26rem; line-height: .45rem; padding: .1rem 0 .2rem;}
 .newbaogao .bmicomp{ background: #ffffff; padding: .5rem 0 .4rem}
 .videoContainer{ padding: .4rem 0; margin: 0 0 .2rem; background: #ffffff;}
+
+/*=新 购买年卡 20210909=*/
+.buycard{}
+.buycard .head{width: 100%; height: .88rem; line-height: .88rem; background: #ffffff; position: relative; font-size: .32rem;}
+.buycard .head .bac{float: left; height: .88rem;}
+.buycard .head .bac .arr{ display: inline-block; width: .5rem; height: .88rem; background: url(../img/arr-bac.png) no-repeat center; background-size: .5rem .5rem;}
+.buycard .head .bac .tx{display: inline-block; vertical-align: top;}
+.buycard .head .tit{display: block; width: 3.75rem; margin: 0 auto; font-weight: bold; text-align: center;}
+.buycard .cardList{padding: .3rem .4rem 1.2rem;}
+.buycard .cardList .carditem{ margin: 0 0 .25rem;}
+.buycard .cardList .carditem .c-inf{width: 6.68rem; height: 3rem; position: relative; display: block;}
+.buycard .cardList .carditem .c-inf .inf-img{width: 6.68rem; height: 3rem; display: block;}
+.buycard .cardList .carditem .c-inf .inf-cn{width: 6.68rem; height: 3rem; position: absolute; left: 0; top: 0; color: #ffffff; padding: .4rem .4rem 0;}
+.buycard .cardList .carditem .c-inf .inf-cn .cname{line-height: .84rem; color: #FCD6A2; font-size: .6rem; font-weight: 600; overflow: hidden;white-space:nowrap;}
+.buycard .cardList .carditem .c-inf .inf-cn .cci{ font-size: .26rem; line-height: .6rem;}
+.buycard .cardList .carditem .c-inf .inf-cn .cci b{font-size: .48rem;}
+.buycard .cardList .carditem .c-inf .inf-cn .cyxq{ line-height: .4rem;}
+.buycard .cardList .carditem .c-inf .inf-cn .cxz{ line-height: .4rem;}
+.buycard .cardList .carditem .c-inf .inf-cn .price{position: absolute; right: .43rem; bottom: .35rem; color: #FCD6A2; font-size: .46rem; line-height: .65rem; font-weight: 600;}
+.buycard .cardList .carditem .c-inf .inf-cn .pcount{position: absolute; right: .43rem; bottom: 1.05rem; color: #ffffff; font-size: .26rem; line-height: .65rem;}
+.buycard .cardList .carditem .c-cho{display: flex; display: -webkit-flex;-webkit-justify-content: space-between; justify-content: space-between;  padding: .26rem 0;}
+.buycard .cardList .carditem .c-cho .num{ text-align: center;}
+.buycard .cardList .carditem .c-cho .num button{ width: .62rem; height: .62rem; background: #DFE2E2; border-radius: .08rem; font-size: .4rem;}
+.buycard .cardList .carditem .c-cho .num span{ display: inline-block; width: .72rem; line-height: .72rem; font-size: .38rem;}
+.buycard .cardList .carditem .c-cho .sel{width: 1.5rem; height: .68rem; line-height: .68rem; background: #D8D8D8; border-radius: .36rem; text-align: center; font-size: .36rem; font-weight: 500;}
+.buycard .cardList .carditem .c-cho .seled{background: #F5A523; color: #ffffff;}
+.buycard .cardList .carditem .c-cho .rel{padding: 0 .2rem; font-size: .3rem; font-weight: bold;}
+.buycard .subbtn{padding:.1rem .4rem; background:#ffffff; position: fixed; bottom: 0;  width: 100%; max-width: 750px;}
+.buycard .subbtn button{width: 100%; height: .88rem; background: #F5A523; border-radius: .2rem; color: #ffffff; font-size: .32rem;}
+.buycard .subbtn button.off{ background: #cccccc;}
+.buycard .fix-buy{position: fixed; left: 0; bottom: 1rem; width: 100%; height: .88rem; padding: 0 .4rem;}
+.buycard .fix-buy .con{display: -webkit-flex; display: flex; justify-content: space-between; -webkit-justify-content: space-between; line-height: .88rem;}
+.buycard .fix-buy .con .gongji{font-size: .32rem;}
+.buycard .fix-buy .con .gongji .jprice{color: #D0021B; font-size: .36rem; font-weight: 600;}
+.buycard .fix-buy .con .buyBtn{width: 2.52rem; height: .88rem; background: #F5A523; border-radius: .2rem; text-align: center; color: #ffffff; font-size: .32rem; font-weight: bold;}
+
+.buycard .orderTab{ display: flex; display: -webkit-flex; justify-content: flex-start; -webkit-justify-content: flex-start; height: 1.1rem;}
+.buycard .orderTab .tg{ display: block; -webkit-flex: 1; flex: 1; line-height: 1.1rem; text-align: center; font-size: .3rem; }
+.buycard .orderTab .tg.on{color: #ff0000; font-weight: bold; font-size: .32rem;}
+.buycard .orderList{padding: 0 .3rem; position: fixed; bottom: 0; left: 0; right: 0; top: 2rem; overflow-y: auto;}
+.buycard .orderList .orItem{background: #ffffff; border-radius: .2rem; min-height: 3.2rem; position: relative; overflow: hidden; margin-bottom: .25rem;}
+.buycard .orderList .orItem .inf{padding: .35rem .22rem .22rem;}
+.buycard .orderList .orItem .inf .ac{ float: left; width: 2rem; height: 2rem; position: relative;}
+.buycard .orderList .orItem .inf .ac img{width: 2rem; height: 2rem; display: block;}
+.buycard .orderList .orItem .inf .ac .c-n{position: absolute; left: 0; top: 0; width: 2rem; height: 2rem; text-align: center; padding: .6rem 0;}
+.buycard .orderList .orItem .inf .ac .c-n .p1{ color: #FCD6A2; font-size: .4rem; font-weight: 600; line-height: .56rem; margin-bottom: .27rem;}
+.buycard .orderList .orItem .inf .ac .c-n .p2{ font-size: .3rem; color: #ffffff; line-height: .67rem;}
+.buycard .orderList .orItem .inf .ac .c-n .p2 b{ font-size: .48rem;}
+.buycard .orderList .orItem .inf .cn{ margin: 0 0 0 2.6rem;padding: .14rem 0 0;}
+.buycard .orderList .orItem .inf .cn .name{ line-height: .5rem; color: #000000; font-size: .36rem; white-space: nowrap; text-overflow: ellipsis;}
+.buycard .orderList .orItem .inf .cn .num{height: .45rem; font-size: .32rem; line-height: .45rem; margin: .21rem 0 .2rem;}
+.buycard .orderList .orItem .inf .cn .price{font-size: .32rem;}
+
+.buycard .orderList .orItem .tim{position: absolute; bottom: 0; left: 0; width: 100%; height: .63rem; line-height: .63rem; background: #EA4F62; text-align: center; color: #ffffff; font-size: .32rem;}
+.buycard .ord-inf{padding: .4rem;}
+.buycard .ord-inf .tit{ line-height: .5rem; font-size: .36rem; margin-bottom: .2rem; font-weight: 500;}
+.buycard .ord-inf .tcn{ font-size: .28rem; line-height: .5rem;}
+.buycard .ord-ewm{}
+.buycard .ord-ewm .ewmItem{width: 6.9rem; height: 7.2rem; margin: 0 auto .3rem; background: url(../img/card/ewmitem.png) no-repeat center; background-size: 6.9rem 7.2rem; padding: .4rem .5rem;}
+.buycard .ord-ewm .ewmItem .etop{display: flex; display: -webkit-flex; -webkit-justify-content: space-between; justify-content: space-between;}
+.buycard .ord-ewm .ewmItem .etop span{display: block; font-size: .36rem; color: #000000; line-height: .67rem; margin-bottom: .11rem;}
+.buycard .ord-ewm .ewmItem .etop span.ci{color: #4BC0CC; font-size: .46rem; font-weight: 600;}
+.buycard .ord-ewm .ewmItem .enum{font-size: .3rem; line-height: .45rem; margin-bottom: .3rem;}
+.buycard .ord-ewm .ewmItem .etim{ font-size: .26rem; line-height: .37rem; margin-bottom: .8rem;}
+.buycard .ord-ewm .ewmItem .ma{text-align: center;}
+.buycard .ord-ewm .ewmItem .ma .pic{width: 3rem; height: 3rem; display: block; margin: 0 auto;}
+.buycard .ord-ewm .ewmItem .ma .tip{ font-size: .3rem; margin-top: .3rem;}
+
+
+
+
+
+

@@ -131,7 +131,7 @@ new Vue({
             }
             return date;
         },
-        checkHistory: function(e){ //历史报告
+        checkHistory: function(e){ //健康档案
             location.href = gohistoryUrl
         },
         goSetUp: function(e){ //个人中心

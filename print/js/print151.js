@@ -76,7 +76,7 @@ var myapp = new Vue({
 					if(res.data.infoView != null){
 						vm.nickName = (res.data.infoView.nickName?res.data.infoView.nickName:'')	
 					 	vm.mobile = (res.data.infoView.mobile?res.data.infoView.mobile:'')
-					 	vm.sex = res.data.infoView.sex
+					 	vm.sex = res.data.reportAZYView.sex
 					 	vm.relatedNo = res.data.infoView.relatedNo
 						document.title = vm.nickName + vm.mobile;
 						//if(vm.nickName == null){document.title = vm.mobile}

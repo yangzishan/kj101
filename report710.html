@@ -13,10 +13,23 @@
 </head>
 <body class="bck-col-f4">
 <DIV class="my_view" style="visibility: hidden;">
+	
+	<div class="fix-jiedu" v-if="showBanData3" style="width: 1.6rem;">
+		<img v-if="banData3.iconUrl" @click="showQiyeewm" :src="banData3.iconUrl">
+		<img v-else @click="showQiyeewm" src="./img/jiedu.png">
+	</div>
+	<div class="qy_ewm" id="showQiye" v-if="showBanData3">
+		<div class="close"><img src="./img/close.png" @click="closeQiye"></div>
+		<p class="tt1">- {{banData3.titleName}} -</p>
+		<div class="ewm"><img :src="banData3.bannerImg"></div>
+		<p class="tt2">长按识别二维码</p>
+		<p class="tt2">{{banData3.titleMsg}}</p>
+	</div>
+	
 	<div id="app" class="xingongyi">
 		<div class="xgy-head">
 			<p>{{userInfoView.name}}的报告</p>
-			<a class="t-right" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+			<a class="t-right" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>健康档案</a>
 		</div>
 		<section style="padding: 0 .34rem;">
 			<div class="xx-box">

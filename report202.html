@@ -31,6 +31,16 @@
 <body>
 <DIV class="my_view" style="visibility: hidden;">
 <div id="appVUE">
+	
+	<div class="fix-jiedu" v-if="showBanData3"><img @click="showQiyeewm" src="img/jiedu.png"></div>
+	<div class="qy_ewm" id="showQiye" v-if="showBanData3">
+		<div class="close"><img src="./img/close.png" @click="closeQiye"></div>
+		<p class="tt1">- {{banData3.bannerName}} -</p>
+		<div class="ewm"><img :src="banData3.bannerImg"></div>
+		<p class="tt2">长按识别二维码</p>
+		<p class="tt2">{{banData3.remark}}</p>
+	</div>
+	
 	<section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData1.length>0">
     	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
     	<div class="v_content gg_head" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
@@ -45,7 +55,7 @@
 	<header class="header" style="background: #1EA9F6;">
 		<a class="t-left fl goToPer" @click="goSetUp()" v-if="openId"><i class="i_c"><img src="img/i-per.png"></i>个人中心</a>
 		<button class="t-left fl goToShare" id="goToShare" v-if="!openId">报告分享</button>
-		<a class="t-right fr" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>历史报告</a>
+		<a class="t-right fr" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>健康档案</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
 	<div class="all_score" style="background: #1EA9F6;background: linear-gradient(-1deg, #67bfef 0%, #1EA9F6 100%);">
@@ -213,7 +223,7 @@
 	    </div>
     </section>
     
-	<div id="btn" class="zhichi" v-show="openId"></div>
+	<!-- <div id="btn" class="zhichi" v-show="openId"></div> -->
 </div>
 
 <input type="hidden" id="appId"/>
@@ -241,7 +251,7 @@
 本报告主要起预警作用，对检测出来您已知的慢性健康问题，继续加以重视；对检测出来提示预警或原来您不知道的健康问题，可能仅是⼀种早期症状，应引起重视，但不必紧张，或者去医院做进⼀步检查。或因本次所筛查范围所限未能发现到的情况，仍按原诊断及治疗。<br/>
 三、关于您的专属健康改善建议？<br/>
 报告中推送的内容，包含膳食建议、运动建议、健康食谱、营养素建议、调养方法等均作为个人健康管理所需的参考，不作为处方，用户可根据自身情况进行合理搭配选择，旨在希望您通过健康饮食及合理的生活方式提升或改善您的健康状况。<br/>
-			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
+			<p style="text-align: center; padding: .2rem 0; color: #666;">康加公司 版权所有 请勿抄袭！<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
 		</div>
 	</div>
 </div>
@@ -262,7 +272,7 @@
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
 <script>document.write('<script src="js/report202.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
-<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
+<!-- <script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script> -->
 <script>
 (function (doc, win) {
     var docEl = doc.documentElement,

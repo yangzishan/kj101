@@ -67,16 +67,20 @@ button.off{ background: #cccccc;}
     </p>
     <p class="cpxt reportType120" >
 			<span class="lab">身高</span><!--身高-->
-			<span class="fle"><input type="number" id="height" v-model="userData.height" placeholder="请输入身高(厘米cm)"   pattern="[0-9]*"></span>
+			<span class="fle"><input type="number" id="height" v-model="userData.height" placeholder="请输入身高(厘米cm)"   pattern="[0-9]*" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></span>
     </p>
     <p class="cpxt reportType120" >
 			<span class="lab">体重</span><!--体重-->
-			<span class="fle"><input type="number" id="weight" v-model="userData.weight" placeholder="请输入体重(千克kg)"   pattern="[0-9]*"></span>
+			<span class="fle"><input type="number" id="weight" v-model="userData.weight" placeholder="请输入体重(千克kg)"   pattern="[0-9]*" onkeyup="value=value.replace(/^(0+)|[^\d]+/g,'')"></span>
     </p>
     <p class="cpxt reportType120" >
 			<span class="lab">年龄</span><!--年龄-->
 			<span class="fle"><input type="number" id="age" v-model="userData.age" placeholder="请填写真实年龄(18岁-110岁)"   pattern="[0-9]*"></span>
 	</p>
+	<div class="" style="padding: .3rem 0 0; height: .4rem; line-height: .4rem;">
+		<input type="checkbox" style="width: .3rem; height: .3rem; vertical-align: top; -webkit-appearance: checkbox; position: relative; top: .05rem;" >
+		<a href="./notice_ysxy.html">《用户隐私协议》</a>
+	</div>
 	<p class="cbtn"><button id="yaoyue_kj"  @click="soSub()" style="background: #2ebab1;">确定</button></p>
 	
 	<div style="color: #FF8866; font-size: .24rem; line-height: .32rem; margin-top: .2rem;">邀约检测频繁会遇到公众号消息限制，收不到报告消息，需要向公众号发送消息 或点击公众号菜单进行恢复。</div>

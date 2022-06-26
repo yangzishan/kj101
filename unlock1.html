@@ -122,15 +122,18 @@ button.off{ color: #666666; border: #cccccc solid 1px;}
 					<label for="weight" class="keky"><em>*</em> 体 重</label><input type="number" id="weight" name="weight" pattern="\d*"/>kg
 				</div>
 				<div class="list">
-					<label for="tel" class="keky"><em>*</em> 手机号</label><input type="tel" id="tel" name="tel" pattern="\d*"/>
+					<label for="tel" class="keky"><em v-if="userRegisterVer != 5">*</em> 手机号</label><input v-model="mobile" type="tel" id="tel" name="tel" pattern="\d*"/>
 				</div>
-				<div class="list">
+				<div class="list" v-if="userRegisterVer != 5">
 					<label for="tel" class="keky"><em>*</em> 验证码</label><input v-model="code" style="width: 2rem;" type="tel" name="yzm" pattern="\d*"/><button @click="sendyzm($event)" class="sendyzm">获取验证码</button>
 				</div>
 				<div class="list tishi">
 					请填写必填内容
 				</div>
-				
+				<div class="" style="height: .4rem; line-height: .4rem;">
+					<input type="checkbox" style="width: .3rem; height: .3rem; appearance: checkbox; position: relative; top: .05rem; vertical-align: top;">
+					<span @click="showYinsi">《用户隐私协议》</span>
+				</div>
 			<div style="color: #FF8866; font-size: .24rem; line-height: .32rem; margin-top: .2rem;">邀约检测频繁会遇到公众号消息限制，收不到报告消息，需要向公众号发送消息 或点击公众号菜单进行恢复。</div>
 				
 			</div>
@@ -141,6 +144,7 @@ button.off{ color: #666666; border: #cccccc solid 1px;}
 				解 锁
 			</button>
 		</div>
+		
 	</template>
 		
 
@@ -178,7 +182,7 @@ var openId = getQueryString('openId');
 var saasId = getQueryString('saasId');
 var deviceSn = getQueryString('deviceSn');
 var jumpUrl = getQueryString('jumpUrl');
-var userRegisterVer = getQueryString('userRegisterVer')
+var userRegisterVer = getQueryString('userRegisterVer')  // ==5 不需要输入验证码
 
 var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
 if(JsSrc.indexOf('zh')>=0){
@@ -206,7 +210,8 @@ var myApp = new Vue({
 			openId: openId,saasId: saasId,deviceSn: deviceSn,jumpUrl: jumpUrl,
 			language:languageStr,
 			userRegisterVer: userRegisterVer,
-			code:'' //验证码
+			mobile:'',
+			code:'', //验证码
 		}
 	},
 	methods: {
@@ -265,9 +270,13 @@ var myApp = new Vue({
 				data.gender = $('[name=sex]:checked').val();
 				data.height = $('#height').val();
 				data.weight = $('#weight').val();
-				data.userTel = $('#tel').val();
+				if(vm.mobile){
+					data.userTel = vm.mobile
+				};
 				data.nickName = $('#userName').val();
-				data.code = vm.code;
+				if(vm.code){
+					data.code = vm.code;
+				};
 				data.registerUser = 1;
 				data.saasId = saasId;
 				data.deviceSn = deviceSn;
@@ -316,6 +325,13 @@ var myApp = new Vue({
 					contentType : 'application/json',
 					data : JSON.stringify(info),
 					success: function(res){
+						if(res == 40010){
+							alert('该链接已失效，请扫码重试！')
+							return
+						}else if(res == 40053){
+							alert('设备已过期或次数已使用完')
+							return
+						}
 						console.log('success')
 						WeixinJSBridge.call('closeWindow');
 					},
@@ -328,6 +344,9 @@ var myApp = new Vue({
 			var vm = this
 			location.href = "historyRecord.html?openId="+openId+'&invite='+'invite'+'&saasId='+saasId
 		},
+		showYinsi: function(){
+			location.href = "./notice_ysxy.html"
+		}
 	},
 	mounted: function(){
 		
@@ -392,6 +411,26 @@ function time2(tm){
 			}
 		})
 	});
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
 </script>
 </body>
 </html>

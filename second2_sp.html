@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>报告详情</title>
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.seCon .cdt .b_prc .prc span{ display: block; width: 80%; height: .16rem; border-radius: .08rem; background: #424E7F;}
+.seCon .cdt .fen{ font-size: .32rem; font-weight: bold; line-height: .6rem; color: #424E7F;}
+.seCon .cdd a{ display: block; color: #424E7F;}
+</style>
+</head>
+<body class="bck-col-f4">
+<DIV class="my_view" style="visibility: hidden;">
+<section id="appVUE">
+	
+	<header class="header" style="background: #424E7F;">
+		<p class="t-cen txt1"><span>{{targetFirstName}}</span></p>
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<!--<a class="t-right fr" id="gotrend">查看趋势</a>-->
+	</header>
+	
+	<div style="background: #000000;">
+		<video id="video" width="100%" style="height: 4rem; width: 100%;" controls autoplay preload="auto">
+		    <source :src="mp4url" type="video/mp4">
+		    您的浏览器不支持 video 标签。
+		</video>
+	</div>
+	
+	<div class="">
+		<dl class="seCon" v-for="ostate in secondPages">
+			<dt class="cdt" :class="{bcolor1:ostate.score<90 && ostate.score>=80,bcolor2:ostate.score<80}">
+				<p class="lab"><i style="background: #424E7F;"></i><span>{{ostate.targetSecondName}}</span></p>
+				<div class="b_prc">
+					<div class="prc fl"><span :style="'width:'+ostate.score+'%'"><i></i></span></div>	
+					<div class="fen fr"><font>{{ostate.score}}</font>{{language.la_fen}}</div>
+				</div>	
+			</dt>
+			<template v-if="reportType == 123">
+				<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
+					<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
+						<span class="lab">{{item.targetThirdName}}</span>
+						<span class="sta">{{item.score>=90?language.la_normal:(item.score<90 && item.score>=80?language.la_MildSisk:language.la_ModerateSisk)}}</span>
+						<span class="num">{{item.score}}{{language.la_fen}}</span>
+						<em class="fr"></em>
+					</a>
+				</dd>
+			</template>
+			<template v-else>
+				<dd class="cdd" v-for="item in ostate.thirdPages" v-if="item.targetThirdId != 3089 && item.targetThirdId != 3207 && item.targetThirdId != 3097 && item.targetThirdId != 3110 && item.targetThirdId != 3211 && item.targetThirdId != 3219 && item.targetThirdId != 3139">
+					<a :class="{bcolor1:item.score<90 && item.score>=80,bcolor2:item.score<80}" @click="goThird($event,item)">
+						<span class="lab">{{item.targetThirdName}}</span>
+						<span class="sta">{{item.score>=90?language.la_normal:(item.score<90 && item.score>=80?language.la_MildSisk:language.la_ModerateSisk)}}</span>
+						<span class="num">{{item.score}}{{language.la_fen}}</span>
+						<em class="fr"></em>
+					</a>
+				</dd>
+			</template>
+					
+		</dl>
+	</div>
+</section>
+<!--<div id="btn" class="zhichi zhiCustomBtn"></div>-->
+</DIV>
+<div class="v_overlay"></div>
+<div class="load-overlay"><p class="loadimg"><img src="img/loading.gif"></p></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script class="zhiCustomBtn" id="zhichiScript" src="https://www.sobot.com/chat/frame/js/entrance.js?sysNum=7fcb0a4d0b0a42aaabf60e5b0c86d7d8" data-args="manual=true" charset="utf-8"></script>
+<script type="text/javascript">
+(function (doc, win) {
+    var docEl = doc.documentElement,
+        resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+        recalc = function () {
+            var clientWidth = docEl.clientWidth;
+            if (!clientWidth) return;
+            if(clientWidth>=750){
+                docEl.style.fontSize = '100px';
+            }else{
+                docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+            }
+        };
+
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
+<script>
+$('.my_view').css("visibility","hidden");
+$('.load-overlay').css("display","block");
+var reportId = getQueryString('reportId');
+var targetFirstId=getQueryString("targetFirstId");
+var userId = getQueryString('userId');
+var reportType = getQueryString('reportType');
+var deviceSn = getQueryString('deviceSn');
+
+/*显示语言*/
+var languageStr = (getQueryString('languageStr') || '');
+var language = zh;
+if(languageStr == 'zh'){
+	language = zh;
+}else if(languageStr == 'en'){
+	language = en;
+}else{
+	var JsSrc =(navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
+	if(JsSrc.indexOf('zh')>=0){
+		language = zh;
+		languageStr = 'zh';
+	}else if(JsSrc.indexOf('en')>=0){
+	    language = en;
+	    languageStr = 'en';
+	    document.title = 'Health report'
+	}else{
+		language = zh;
+	    languageStr = 'zh';
+	    
+	    console.log(JsSrc)
+	}
+}
+
+var myApp = new Vue({
+	el: '#appVUE',
+	data: function(){
+		return{
+			reportId: reportId,
+			targetFirstId: targetFirstId,
+			userId: userId,
+			score:'',
+			targetFirstName:'',
+			secondPages:'',
+			language: language,
+			reportType: reportType,
+			mp4url: '',
+		}
+	},
+	mounted: function(){
+		this.mp4url = sessionStorage.getItem('mp4url');
+		this.getTargetByFirst();
+	},
+	methods:{
+		getTargetByFirst: function(){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/v1/reportIndex/getTargetByFirst",
+				type : "POST",
+				dataType : 'json',
+				data : {
+				    reportId : reportId,
+				    targetFirstId : targetFirstId
+				},
+				success : function(res) {
+					if(res.code == 200){
+						$('.my_view').css("visibility","visible");
+						$('.load-overlay').css("display","none");
+						vm.score = res.data.score //系统得分
+				   		vm.targetFirstName = res.data.targetFirstName //系统名称
+				    	vm.secondPages = res.data.secondPages //二级指标
+					}
+				},
+				error : function(obj,msg){alert("getTargetByFirst error")}
+			});
+		},
+		goThird: function(e,item){
+			var vm = this;
+			zhuge.track('用户点击三级指标',{ //埋点
+				'用户id': vm.userId,
+				'指标名称':item.targetThirdName,
+				'指标得分':item.score,
+				'方式' : '通过二级页面点击'
+			},function(){
+				location.href = 'third.html?reportId='+reportId+'&targetId='+ item.targetThirdId + '&userId='+userId+'&deviceSn='+deviceSn+'&languageStr='+languageStr+'&reportType='+reportType
+			});
+		},
+	}
+});
+
+//查用户信息对接智齿客服
+/*$.ajax({
+	url : dataUrl + "/api/v1/reportUser/findUserById",
+	type : "POST",
+	dataType : 'json',
+	data : {
+	    userId : userId
+	},
+	success : function(userData) {
+		if(userData.code == 200){
+			//初始化智齿咨询组件实例
+			var zhiManager = (getzhiSDKInstance());
+			zhiManager.set("color", '09aeb0');  //取值为0-9a-f共六位16进制字符[主题色] | 默认取后台设置的颜色
+			zhiManager.set('location',1); //位置
+			zhiManager.set('horizontal', 20); //设置水平边距，默认水平为 20 像素
+			zhiManager.set('vertical', 50); //设置垂直边距，默认垂直为 40 像素
+			zhiManager.set('powered',false); //隐藏聊天窗体底部的智齿科技冠名
+			zhiManager.set('lan', 'zh'); //支持语言
+			zhiManager.set('moduleType',3); //机器人客服优先模式
+			zhiManager.set('title', '欢迎咨询'); //咨询按钮文案   移动端无用
+			zhiManager.set('customBtn', 'true');  //不使用默认咨询按钮
+			zhiManager.set('customMargin', 200);
+			//设置用户信息
+			zhiManager.set('uname',userData.data.userName);
+			zhiManager.set('realname',userData.data.userName);
+			zhiManager.set('tel',userData.data.mobile);
+			zhiManager.set('remark','报告ID： '+reportId);
+			zhiManager.on("load", function() {
+			    zhiManager.initBtnDOM();
+			});
+		//////
+		}
+	},
+	error : function(obj,msg){console.log(obj+msg + ":查用户出错");}
+});*/
+//截取URL 获取
+function getQueryString(name){
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html style="height: auto;width: 100%; overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>订单详情</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<style type="text/css">
+
+
+</style>
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body style="height: auto; width: 100%; background: #F3F5F7;">
+<DIV class="my_view buycard" style="visibility: visible;">
+	<div class="head">
+		<a class="bac" href="javascript:history.go(-1);">
+			<i class="arr"></i>
+			<em class="tx">返回</em>
+		</a>
+		<span class="tit">订单详情</span>
+	</div>
+	<div class="ord-inf">
+		<div class="tit">订单信息：</div>
+		<div class="tcn">
+			<p>订单编号：{{paymentGoodsPayOrder.orderNum}}</p>
+			<p>订单时间：{{orderTime}}</p>
+			<p>付款时间：{{payTime}}</p>
+		</div>
+	</div>
+	<div class="ord-ewm">
+		<template v-for="item in paymentGoodsDetail">
+			<p style="padding-left: .4rem; line-height: .5rem; color: #0053AB;"><span @click="showSome('使用规则',item.useRules)">使用规则</span></p>
+			<div class="ewmItem" v-for="card in item.cardList">
+				<div class="etop"><span>VIP年卡</span><span class="ci">{{card.yearcardTimes}}次</span></div>
+				<div class="enum">卡号 {{card.passwdVal.substr(0,4)+'******'+card.passwdVal.substr(12)}}</div>
+				<div class="etim">有效期{{card.validDuration}}天</div>
+				<div class="ma">
+					<div class="pic" :id="card.passwdVal" style="text-align: center;"></div>
+					<p class="tip">扫描绑定卡片信息</p>
+				</div>
+			</div>
+		</template>
+	</div>
+	
+	<div class="v_overlay"></div>
+	<div class="v_overlert" id="showSome">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+			<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+		</div>
+	</div>
+	
+</DIV><!--/my_view-->
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<!-- <script>document.write('<script src="js/report702.js?t=' + new Date().getTime() + '"><\/script>')</script> -->
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+<script type="text/javascript" src="js/reset.js"></script>
+<script type="text/javascript">
+var orderId = (getQueryString("orderId") || 258);
+
+new Vue({
+	el:'.buycard',
+	data: function(){
+		return {
+			orderId: orderId,
+			paymentGoodsPayOrder:{},
+			paymentGoodsDetail:[],
+			orderTime:'',
+			payTime:'',
+			someTit:'',
+			someTxt:'',
+		}
+	},
+	mounted: function(){
+		this.getData()
+	},
+	methods:{
+		getData: function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url: dataUrl+"/api/v1/goodsOrder/findPayOrderDetail",
+				dataType:"Json",
+				data:{
+					orderId : orderId,
+				},
+				success:function(res){
+					if(res.code == 200){
+						vm.paymentGoodsDetail = res.data.paymentGoodsDetail;
+						vm.paymentGoodsPayOrder = res.data.paymentGoodsPayOrder;
+						vm.orderTime = formatDate(res.data.paymentGoodsPayOrder.orderTime);
+						vm.payTime = formatDate(res.data.paymentGoodsPayOrder.payTime);
+						
+						vm.paymentGoodsDetail.forEach(function(item,index,arr){
+							item.cardList.forEach(function(el){
+								setTimeout(function(){
+									new QRCode(document.getElementById(el.passwdVal),{
+										text: el.passwdVal,
+										width: 150,
+										height: 150
+									});
+								},200)
+								
+							})
+						})
+					}
+				},
+				error:function(){
+					alert("findPayOrderDetail error")
+				}
+			})
+		},
+		showSome: function(tit,txt){
+			txt = txt.replace(/\/n|\\n/g,'<br>')
+			this.someTit = tit
+			this.someTxt = txt
+			showMask();
+			$('#showSome').css({"visibility":"visible","opacity":"1"});
+		},
+	}
+})
+
+//弹窗
+function showMask(){
+	$("body").css("overflow","hidden");
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		tocloseall()
+	});
+};
+function tocloseall(){
+	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+	$('.orginImg').css({"visibility":"hidden","opacity":"0"});
+	$("body").css("overflow","auto");
+};
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+//时间戳转时间格式
+function formatDate (value) {
+    if (typeof (value) == 'undefined') {
+        return ''
+    } else {
+        let date = new Date(parseInt(value))
+        let y = date.getFullYear()
+        let MM = date.getMonth() + 1
+        MM = MM < 10 ? ('0' + MM) : MM
+        let d = date.getDate()
+        d = d < 10 ? ('0' + d) : d
+        let h = date.getHours()
+        h = h < 10 ? ('0' + h) : h
+        let m = date.getMinutes()
+        m = m < 10 ? ('0' + m) : m
+        let s = date.getSeconds()
+        s = s < 10 ? ('0' + s) : s
+        return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s
+    }
+}
+</script>
+</body>
+</html>

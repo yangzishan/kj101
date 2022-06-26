@@ -91,7 +91,7 @@ var myApp = new Vue({
 	},
 	mounted: function() {
 		this.findPackage();
-		this.participate(reportId);
+		//this.participate(reportId);
 		this.getRelationCompanyId();
     },
 	methods: {
@@ -106,18 +106,29 @@ var myApp = new Vue({
 					}else if(packageData.code == 201){
 						$('.my_view').css("display","block");
 						$('.load-overlay').css("display","none");
-						_this.nickName = packageData.data.mentPage.nickName //昵称
-					  	_this.headimgurl = packageData.data.mentPage.headimgurl //头像
-					  	_this.totalScore = packageData.data.mentPage.totalScore //总分
-					  	_this.age = packageData.data.mentPage.age //生理年龄
-					  	_this.ranking = packageData.data.mentPage.ranking //排名
-					  	_this.ps = packageData.data.mentPage.ps //身体状况
+						
+						if(packageData.data.mentPage){
+							_this.nickName = packageData.data.mentPage.nickName //昵称
+							_this.headimgurl = packageData.data.mentPage.headimgurl //头像
+							_this.totalScore = packageData.data.mentPage.totalScore //总分
+							_this.age = packageData.data.mentPage.age //生理年龄
+							_this.ranking = packageData.data.mentPage.ranking //排名
+							_this.ps = packageData.data.mentPage.ps //身体状况
+							if(packageData.data.mentPage.abnormal != null && packageData.data.mentPage.abnormal!=''){
+								_this.abnormalNo = packageData.data.mentPage.abnormal.list3.length+packageData.data.mentPage.abnormal.list2.length, //全部异常项目数
+								_this.litAbnormal = packageData.data.mentPage.abnormal.list2.length,
+								_this.midAbnormal = packageData.data.mentPage.abnormal.list3.length
+							}
+							_this.firstNames = packageData.data.mentPage.firstNames //得分最低两个系统名字
+							_this.clientType = packageData.data.mentPage.clientType  //判断支付通道类型用
+						}
+							
+							
 					  	_this.name = packageData.data.infoView.name //套餐名称
 					  	_this.packageId = packageData.data.infoView.packageId
 					  	_this.price = packageData.data.infoView.price  //价格
 					  	_this.oprice = packageData.data.infoView.originalPrice //原价
 					  	_this.userId = packageData.data.infoView.userId //套餐名称
-					  	_this.clientType = packageData.data.mentPage.clientType  //判断支付通道类型用
 					  	if(_this.clientType == 'tjnsyh'){
 					  		terminalType = 3 //终端类型 1、微信 2、APP  'tjnsyh' 天津农商行
 					  	}
@@ -126,12 +137,7 @@ var myApp = new Vue({
 					  	}
 					  	_this.description = packageData.data.infoView.description //描述
 					  	
-					  	if(packageData.data.mentPage.abnormal != null && packageData.data.mentPage.abnormal!=''){
-					  		_this.abnormalNo = packageData.data.mentPage.abnormal.list3.length+packageData.data.mentPage.abnormal.list2.length, //全部异常项目数
-					  		_this.litAbnormal = packageData.data.mentPage.abnormal.list2.length,
-					  		_this.midAbnormal = packageData.data.mentPage.abnormal.list3.length
-					  	}
-					  	_this.firstNames = packageData.data.mentPage.firstNames //得分最低两个系统名字
+					  	
 					  	_this.userId = packageData.data.infoView.userId
 					  	_this.userIdstr = toThousands(packageData.data.infoView.userId)
 					  	_this.isFree = packageData.data.infoView.isFree
@@ -292,9 +298,14 @@ var myApp = new Vue({
 				    companyId : saasId
 				},
 				success: function(res){
-					if((res.code == 200 && res.data.relationCompanyId) || res.data.relationCompanyId == 0){
-						vm.qrCodeCreateLastTicket(res.data.relationCompanyId)
+					if(res.code == 200 && res.data){
+						if(res.data.reportAttribution == 1){  //报告归属 1 关注主公众号  2 引流公众号 
+							vm.qrCodeCreateLastTicket(res.data.relationCompanyId);
+						}
 					}
+					// if((res.code == 200 && res.data.relationCompanyId) || res.data.relationCompanyId == 0){
+						
+					// }
 				},
 				error: function(){console.log('getRelationCompanyId error')}
 			});
@@ -389,12 +400,12 @@ var myApp = new Vue({
 						if(res.data.ifPayType == 2){
 							vm.getSaasPay()
 						}else{
-							vm.isUsableByCustomerIdAndNeId()
+							//vm.isUsableByCustomerIdAndNeId()
 						}
 					}
 				},
 				error: function(){
-					vm.isUsableByCustomerIdAndNeId()
+					//vm.isUsableByCustomerIdAndNeId()
 					console.log('getSaasTenantByCompanyId error')
 				}
 			});
@@ -574,6 +585,32 @@ var myApp = new Vue({
 			var vm = this;
 			$.ajax({
 				type:"post",
+				url: dataUrl+"/api/v1/goods/findGoodsListByCompanyId",
+				dataType:"Json",
+				data:{
+					reportCode: reportId,
+					companyId: saasId
+				},
+				success:function(res){
+					console.log(res)
+					if(res.code == 200){
+						if(res.data.length > 0){
+							$('#pay_fix').remove();
+							$('#pay_buy').css("display","block");
+							vm.cardPrice = '购买VIP卡'
+							vm.cardUseCount = '' 
+						}
+					}
+				},
+				error:function(){
+					alert("findGoodsListByCompanyId error")
+				}
+			});
+			
+			
+			
+			/* $.ajax({
+				type:"post",
 				url:dataUrl+"/api/v5/yearCard/findYearCardInfo",
 				dataType: 'json',
 				data: {
@@ -592,12 +629,13 @@ var myApp = new Vue({
 					}
 				},
 				error: function(){ console.log('findYearCardInfo error')}
-			});
+			}); */
 		},
 		//购买年卡跳转
 		goBuyCard: function(){
 			var vm = this;
-			location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&packageId='+vm.packageId+'&saasId='+saasId
+			//location.href = 'buyCard.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&packageId='+vm.packageId+'&saasId='+saasId;
+			location.href = 'cardBuyList.html?reportId='+reportId+'&openId='+openId+'&userId='+userId+'&snNum='+vm.snNum+'&reportType='+reportType+'&packageId='+vm.packageId+'&saasId='+saasId
 		},
 		
 	},

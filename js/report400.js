@@ -178,9 +178,9 @@ var myApp = new Vue({
 				)
 			}	
 		},
-		checkHistory: function(){ //历史报告
+		checkHistory: function(){ //健康档案
 			var vm = this;
-			zhuge.track('点击历史报告', { //埋点 t
+			zhuge.track('点击健康档案', { //埋点 t
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){

@@ -25,7 +25,7 @@
 	<div class="sp-zj"><em class="fr ssjy" @click="popZj()"></em></div>
 	<div class="sp-dcn" v-for="(day,index) in recipes">
 		<div class="cnt">
-			<span class="fl">day{{index+1}}</span>
+			<span class="fl" :style="{background:color128}">day{{index+1}}</span>
 			<em @click="showShicai($event)" style="display: inline-block; margin: .2rem 0 0 .2rem; height: .48rem; border-radius:.1rem; text-align: center; line-height: .48rem; background: #eeeeee; padding: 0 .16rem;">食材列表</em>
 			<div class="v_overlert">
 				<div class="tc-spcd">
@@ -357,6 +357,7 @@ var myApp = new Vue({
 			edition: edition,
 			reportType:reportType,
 			recipes: '',
+			color128: '#1ECEB7'
 		}
 	},
 	methods: {
@@ -406,7 +407,10 @@ var myApp = new Vue({
 		}
 	},
 	mounted: function(){
-		this.getRecipesData()
+		this.getRecipesData();
+		if(reportType == '128'){
+			this.color128 = '#282D52'
+		}
 	}
 });
 
@@ -427,7 +431,26 @@ function closeMask(){
 	});
 };
 </script>
-
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
 
 </body>
 </html>

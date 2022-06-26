@@ -11,9 +11,7 @@ var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
 var invite = getQueryString("invite");  //邀约历史查看
-
 var languageStr = (getQueryString('language') || '');
-
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print2.0.html?viewType=2&reportId=';
 var edition = 2;
@@ -56,23 +54,8 @@ if(languageStr == 'zh'){
 	    //document.title = 'Health report'
 	    console.log(JsSrc)
 	}
-}
+};
 
-	
-
-
-/*******************************交互逻辑*****************************/
-function setupWebViewJavascriptBridge(callback) {
-	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
-	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
-	window.WVJBCallbacks = [callback];
-	var WVJBIframe = document.createElement('iframe');
-	WVJBIframe.style.display = 'none';
-	WVJBIframe.src = 'https://__bridge_loaded__';
-	document.documentElement.appendChild(WVJBIframe);
-	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
-}
-/*******************************交互逻辑*****************************/
 zhuge.track('进入2.0报告首页', {//埋点t
 	'用户id' : customerId,
 	'渠道' : '微信'
@@ -99,7 +82,7 @@ var myApp = new Vue({
 			weight:'',
 			userId: customerId,
 			inspectDate:'',
-			firstPages:'',
+			firstPages:[],
 			otherPages:'',
 			inspectDay:'',
 			ps:'',
@@ -117,6 +100,8 @@ var myApp = new Vue({
 			banData:[],
 			banData1:[],
 			banData2:[],
+			banData3:{}, //3 企业微信
+			showBanData3: false,
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
 			language: language,  //默认中文
@@ -125,6 +110,8 @@ var myApp = new Vue({
 			someTxt:'', //弹框用
 			jiazhuangxian:{},
 			thirdBids:[],
+			showTab: 1,
+			show_change: true, //显示改善指标
 		}
 	},
 	mounted: function(){
@@ -134,6 +121,9 @@ var myApp = new Vue({
 		}
 	},
 	methods: {
+		selectTab: function(n){
+			this.showTab = n;
+		},
 		//查看报告来源
 		getReportSource: function(){
 			var vm = this;
@@ -172,7 +162,6 @@ var myApp = new Vue({
 						var arryDate = [],arryVal = [];
 						for(var i=0;i<trendData.data.length;i++){
 							arryDate.push(trendData.data[i].inspectDateStr);
-							//arryVal.push(trendData.data[i].score);
 							arryVal.push(trendData.data[i].totalScore);
 						};
 						console.log(arryDate);
@@ -295,6 +284,11 @@ var myApp = new Vue({
 					if(res.code == 201){
 						vm.participate(res.data.paymentType,res.data.sameUser);  //执行判断优惠券
 					}else if(res.code == 200){
+						//vm.firstPages = res.data.firstPages; //各个系统
+						res.data.firstPages.forEach(function(el){
+							vm.firstPages.push(el)
+						})
+						
 						vm.getReportSource();
 						$('.my_view').css("visibility","visible");
 						$('.load-overlay').css("display","none");
@@ -306,7 +300,7 @@ var myApp = new Vue({
 				    	vm.age = res.data.indexPage.age,
 				  		vm.reportStr = res.data.indexPage.reportStr, //生理年龄字句
 				  		vm.firstStr = res.data.indexPage.firstStr, //各个系统生理年龄
-				  		vm.firstPages = res.data.firstPages, //各个系统
+				  		
 				  		vm.otherPages = res.data.otherPages, //其他状况
 				  		vm.inspectDay = res.data.map.inspectDay,
 				  		vm.userName = res.data.map.userName,
@@ -323,10 +317,7 @@ var myApp = new Vue({
 						},100)
 						$('#score').animateNumber({ number: res.data.indexPage.totalScore },1100);
 						vm.goToShare('goToPrint');
-						$('.sy_tab span').on("click",function(){
-							$(this).addClass('on').siblings().removeClass('on');
-							$('.indexShow').eq($(this).index()).css("display","block").siblings('.indexShow').css("display","none");
-						});
+						
 						//判断是否显示食谱入口
 						var setDate = new Date('2018/09/12 15:30:00'); //设置一个日期，以上线日期为准
 						var insDate = new Date(res.data.indexPage.inspectDate.replace(/\-/g, "/"));
@@ -338,6 +329,48 @@ var myApp = new Vue({
 							w_cir = 750;
 						};
 						setTimeout(function(){
+							vm.firstPages.forEach(function(el,index){
+								if(el.targetFirstId == '1001'){
+									$('#item1001').css("display","none");
+								}else{
+									let c_se = '';
+									if(el.targetFirstId == '3087'){
+										c_se ='#fabcb9';
+									}else if(el.targetFirstId=='3095'){
+										c_se ='#fbdc89';
+									}else if(el.targetFirstId=='3108'){
+										c_se ='#82ede3';
+									}else if(el.targetFirstId=='3115'){
+										c_se ='#f6c9e6';
+									}else if(el.targetFirstId=='3127'){
+										c_se ='#dcf0a8';
+									}else if(el.targetFirstId=='3135'){
+										c_se ='#f8e8ac';
+									}else if(el.targetFirstId=='3143'){
+										c_se ='#c8bff6';
+									}else if(el.targetFirstId=='3163'){
+										c_se ='#fad6c6';
+									}else if(el.targetFirstId=='3195'){
+										c_se ='#c1d9ff';
+									}else if(el.targetFirstId=='3244'){
+										c_se ='#ffc7da';
+									};
+									$('#item'+el.targetFirstId).circleProgress({
+											value: el.score/100,
+											animation: true,
+											fill: { gradient: [c_se] },
+											emptyFill:'#ffffff',
+											size: 0.16*w_cir,
+											thickness: 16,
+											startAngle: Math.PI*1.5
+									});
+								}
+							});
+						},220)
+							
+						
+						
+						/* setTimeout(function(){
 							$('.tenSys_c a').each(function(index){
 								//无效系统不显示 1001
 								if($(this).find('.tarid').text() == '1001'){
@@ -378,12 +411,12 @@ var myApp = new Vue({
 									$(this).find('.s-inf').find('.tx').css("color","#FF8800");
 								};
 							});
-							$('#sysNum').text($('.tenSys_c a').length);
-						},200);
+							
+						},200); */
 						//生理年龄图
 						var arraySlnl=[],arrayXt=[];
 						for(var n=0;res.data.firstPages.length>n;n++){
-							if(res.data.firstPages[n].physiologicalAge!=null){
+							if(res.data.firstPages[n].physiologicalAge!=null && res.data.firstPages[n].targetFirstId != 3195 && res.data.firstPages[n].targetFirstId != 3163 && res.data.firstPages[n].targetFirstId != 3143){
 								arraySlnl.push(res.data.firstPages[n].physiologicalAge);
 								arrayXt.push(res.data.firstPages[n].targetFirstName);
 							}
@@ -421,6 +454,7 @@ var myApp = new Vue({
 					if(data.code == 200){
 						if(data.data == null){
 							$('#v_change').empty();
+							vm.show_change = false;
 							return
 						}else{
 							vm.lastDateStr = data.data.lastDateStr, //上次检测日期
@@ -494,9 +528,9 @@ var myApp = new Vue({
 			showMask();
 			$(e.target).next('.v_overlert').css({"visibility":"visible","opacity":"1"});
 		},
-		checkHistory: function(){ //历史报告
+		checkHistory: function(){ //健康档案
 			var vm = this;
-			zhuge.track('点击历史报告', { //埋点 t
+			zhuge.track('点击健康档案', { //埋点 t
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
@@ -552,6 +586,16 @@ var myApp = new Vue({
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum+'&languageStr='+languageStr
 			});
 		},
+		showQiyeewm: function(){
+			showMask();
+			$('.qy_ewm').css({"visibility":"visible","opacity":"1"});
+		},
+		closeQiye: function(){
+			closeMask();
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.qy_ewm').css({"visibility":"hidden","opacity":"0"});
+			$("body").css("overflow","auto");
+		},
 		wheelsort: function(deviceSn,reportId){ //广告接口
 			var vm = this;
 			$.ajax({
@@ -570,6 +614,10 @@ var myApp = new Vue({
 								vm.banData1.push(el)
 							}else if(el.bannerPage == 2){
 								vm.banData2.push(el)
+							}else if(el.bannerPage == 3){
+								vm.banData3 = el;
+								vm.showBanData3 = true;
+								console.log(vm.showBanData3)
 							}
 						})
 						console.log(vm.banData1,vm.banData2)
@@ -664,11 +712,26 @@ function closeMask(){
 	$('.v_overlay,.v_overlert .close').click(function(){
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$('#showQiye').css({"visibility":"hidden","opacity":"0"});
 		$("body").css("overflow","auto");
 		$("body").css("position","static");
 		$(window).scrollTop(_bodyoffset);
 	});
 };	
+
+/*******************************交互逻辑*****************************/
+function setupWebViewJavascriptBridge(callback) {
+	if (window.WebViewJavascriptBridge) { return callback(WebViewJavascriptBridge); }
+	if (window.WVJBCallbacks) { return window.WVJBCallbacks.push(callback); }
+	window.WVJBCallbacks = [callback];
+	var WVJBIframe = document.createElement('iframe');
+	WVJBIframe.style.display = 'none';
+	WVJBIframe.src = 'https://__bridge_loaded__';
+	document.documentElement.appendChild(WVJBIframe);
+	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
+}
+/*******************************交互逻辑*****************************/
+
 //截取URL
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

@@ -43,7 +43,7 @@
 	    	</li>
 	    	<li class="p_li card" @click="goBuyCard()">
 	    		<p class="lab">查看报告</p>
-	    		<p class="guize"><span>￥{{cardPrice}}/</span><font>{{cardUseCount}}次</font></p>
+	    		<p class="guize"><span>{{cardPrice}}</span><font>{{cardUseCount}}</font></p>
 	    	</li>
 	    </ul>
     </div>
@@ -90,7 +90,7 @@
 </div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/base.js?t=201805022"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>

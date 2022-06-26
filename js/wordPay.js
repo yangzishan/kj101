@@ -80,9 +80,11 @@ var myApp = new Vue({
 								vm.goReport(reportId,'',userId,openId,saasId,'')
 							}
 						}
+					}else{
+						alert('getReportSource code='+ res.code)
 					}
 				},
-				error: function(){console.log('getReportSource error')}
+				error: function(){alert('getReportSource error')}
 			});
 		},
 		goReport: function(report,sendCustom,user,open,saas,language){
@@ -230,11 +232,12 @@ var myApp = new Vue({
 				success : function(data) {
 					if(data.code == 200){
 						if(data.data == "0" || data.data == "true"){
-							zhuge.track('支付成功',{
+							vm.getReportSource()
+							/* zhuge.track('支付成功',{
 								'方式': '口令支付'
 							},function(){
 								vm.getReportSource()
-							});
+							}); */
 						}else{
 							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 							zhuge.track('支付失败',{
@@ -272,11 +275,12 @@ var myApp = new Vue({
 				success: function(data){
 					if(data.code == 200){
 						if(data.data == "0" || data.data == "true"){
-							zhuge.track('支付成功',{
+							vm.getReportSource()
+							/* zhuge.track('支付成功',{
 								'方式': '口令支付'
 							},function(){
 								vm.getReportSource()
-							});
+							}); */
 						}else{
 							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 							zhuge.track('支付失败',{
@@ -317,11 +321,12 @@ var myApp = new Vue({
 				success: function(data){
 					if(data.code == 200){
 						if(data.data == "0" || data.data == "true"){
-							zhuge.track('支付成功',{
+							vm.getReportSource()
+							/* zhuge.track('支付成功',{
 								'方式': '口令支付'
 							},function(){
 								vm.getReportSource()
-							});
+							}); */
 						}else{
 							setTimeout(function(){$('#subgo').attr("disabled",false)},1000);
 							zhuge.track('支付失败',{

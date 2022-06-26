@@ -14,22 +14,22 @@
 <body style="background: #F2F2F2;">
 <div class="my_view" style="visibility: hidden;">
 <section id="appVUE">
-	<header class="header">
+	<header class="header" :style="{background:colorStyle}">
 		<p class="t-cen txt1"><span>{{targetThirdName}}</span></p>
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
 		<!--<a class="t-right fr" id="gotrend">查看趋势</a>-->
 	</header>
 	
 	<div class="thr_sta">
-		<p class="sta_i"><i :class="abnormalLevelStr">{{score}}</i></p>
+		<p class="sta_i"><i :class="abnormalLevelStr" :style="{color:colorStyle}">{{score}}</i></p>
 		<p class="sta_t">
-			<span>{{language.la_ass_results}}：
+			<span :style="{color:colorStyle}">{{language.la_ass_results}}：
 				<em>{{inspectStandard==1?language.la_normal:(inspectStandard==2?language.la_piangao:language.la_piandi)}}</em>
 			</span>
 		</p>
 	</div>
 	
-	<div class="thr_tit"><i></i><span>{{language.la_bid_int}}</span></div>
+	<div class="thr_tit"><i :style="{background:colorStyle}"></i><span :style="{color:colorStyle}">{{language.la_bid_int}}</span></div>
 	<div class="thr_cn">	
 		<div class="ctxt" v-html="inspectExplain">
 			
@@ -37,13 +37,13 @@
 	</div>
 	<p style=" height: .2rem; background: #F2F2F2;"></p>
 	
-	<div class="thr_tit thr_jy"><i></i><span>{{language.la_jkAdvice}}</span></div>
+	<div class="thr_tit thr_jy"><i :style="{background:colorStyle}"></i><span :style="{color:colorStyle}">{{language.la_jkAdvice}}</span></div>
 	<!--健康建议内容-->
 	<div class="" style="background: #ffffff;">
 		<div class="jkjy_wrap" v-if="dietList">
-			<p class="btite"><span class="lab">{{language.la_sug_diet}}</span><i class="ico" @click="ssjyTab()"></i></p>
+			<p class="btite"><span class="lab" :style="{color:colorStyle}">{{language.la_sug_diet}}</span><i class="ico" @click="ssjyTab()"></i></p>
 			<div class="box-c" v-for="(site,index) in dietList">
-				<p class="tit02" @click="showHide($event)">{{options[index]}}、{{site.indexName}}<i class="fr"></i></p>
+				<p class="tit02" @click="showHide($event)">{{options[index]}}、{{site.indexName}}<i class="fr" @click="showHide2($event)"></i></p>
 				<div class="txt03">
 					<p>{{site.personality}}</p>
 					<p v-html="site.proposal"></p>
@@ -53,7 +53,7 @@
 		<p v-if="dietList" style="height: .3rem; background: #F4F4F4;"></p>
 	
 		<div class="jkjy_wrap" v-if="motionList">
-			<p class="btite"><span class="lab">{{language.la_sug_sport}}</span><i class="ico" @click="yysTab()"></i></p>
+			<p class="btite"><span class="lab" :style="{color:colorStyle}">{{language.la_sug_sport}}</span><i class="ico" @click="yysTab()"></i></p>
 			<div class="box-c" v-for="(msite,index) in motionList">
 				<!--<p class="tit01"></p>-->
 				<div class="txt02">
@@ -64,9 +64,9 @@
 		<p v-if="motionList" style="height: .3rem; background: #F4F4F4;"></p>
 		
 		<div class="jkjy_wrap" v-if="nutritionList">
-			<p class="btite"><span class="lab">{{language.la_sug_nut}}</span><i class="ico" @click="yysTab()"></i></p>
+			<p class="btite"><span class="lab" :style="{color:colorStyle}">{{language.la_sug_nut}}</span><i class="ico" @click="yysTab()"></i></p>
 			<div class="box-c" v-for="(osite,index) in nutritionList">
-				<p class="tit01">{{options[index]}}.{{osite.indexName}}</p>
+				<p class="tit01" :style="{color:colorStyle}">{{options[index]}}.{{osite.indexName}}</p>
 				<div class="txt02">
 					<p>{{osite.personality}}</p>
 					<p>{{osite.simpleDescription}}</p>
@@ -91,8 +91,8 @@
 	</section>
 	
 	<p class="thr_jy" style=" height: .2rem; background: #F2F2F2;"></p>
-	<div class="thr_tit" v-if="!(reportType == 151)"><i></i><span>{{language.la_histTre}}</span></div>
-	<div style="background: #ffffff;" v-if="!(reportType == 151)">
+	<div class="thr_tit" v-if="!(reportType == 151) && trendList.length > 0"><i :style="{background:colorStyle}"></i><span :style="{color:colorStyle}">{{language.la_histTre}}</span></div>
+	<div style="background: #ffffff;" v-if="!(reportType == 151) && trendList.length > 0">
 		<div class="" id="ichart" style=" width: 95%; margin: 0 auto; height: 300px; top: -.8rem;"></div>
 	</div>
 </section>
@@ -194,20 +194,6 @@ if(languageStr == 'zh'){
 	}
 }
 
-/*var JsSrc = (navigator.language || navigator.browserLanguage).toLowerCase();  //获取系统语言
-console.log(JsSrc);
-if(JsSrc.indexOf('zh')>=0){
-	var language = zh;
-	var languageStr = 'zh';
-}else if(JsSrc.indexOf('en')>=0){
-    var language = en;
-    var languageStr = 'en';
-    document.title = 'Report details'
-}else{
-	var language = en;
-    var languageStr = 'en';
-    document.title = 'Report details'
-}*/
 var myApp = new Vue({
 	el:'#appVUE',
 	data: function(){
@@ -229,11 +215,20 @@ var myApp = new Vue({
 			language: language,
 			banData:{}, //广告
 			resTemplateDescribe:'',
+			trendList:[],
+			colorStyle: '#2fbab0',
 		}
 	},
 	mounted: function(){
 		this.targetProposal();
 		this.findThirdTrend();
+		if(reportType == '154'){
+			this.colorStyle = '#2671C7'
+		}else if(reportType == '128'){
+			this.colorStyle = '#282D52'
+		}else{
+			this.colorStyle = '#2fbab0'
+		};
 	},
 	methods:{
 		targetProposal: function(){ //获取数据
@@ -292,6 +287,15 @@ var myApp = new Vue({
 				$(e.target).find('i').css('transform','rotate(0deg)');
 			}
 		},
+		showHide2: function(e){
+			if($(e.target).parent('.tit02').next('.txt03').css("display") == 'none'){
+				$(e.target).parent('.tit02').next('.txt03').css("display","block");
+				$(e.target).parent('.tit02').find('i').css('transform','rotate(180deg)');
+			}else{
+				$(e.target).parent('.tit02').next('.txt03').css("display","none");
+				$(e.target).parent('.tit02').find('i').css('transform','rotate(0deg)');
+			}
+		},
 		ssjyTab: function(){
 			event.stopPropagation();
 			showMask();
@@ -315,6 +319,7 @@ var myApp = new Vue({
 				    targetId : targetId
 				},
 				success : function(trendData) {
+					vm.trendList = trendData.data;
 					if(trendData.code == 200){
 						var arryDate = [],arryVal = [];
 						for(var i=0;i<trendData.data.length;i++){
@@ -453,59 +458,82 @@ $('.v_overlay').click(function(){
 	$(document).off("touchmove")
 });
 function intchart(el,tit,arryDate,arryVal){
-	var myChart = echarts.init(document.getElementById(el));
-	option = {
-	    title: {
-	    	//show: false,
-	        text: tit
-	    },
-	    tooltip: {
-	        trigger: 'axis'
-	    },
-	    legend: {
-	    	show:false
-	    },
-	    grid: {
-	        left: '3%',
-	        right: '10%',
-	        bottom: '10%',
-	        containLabel: true
-	    },
-	    xAxis: {
-	        type: 'category',
-	        boundaryGap: false,
-	        axisLabel:{
-	            textStyle:{
-	                color:"#222"
-	        }},
-	        data: arryDate
-	    },
-	    yAxis: {
-	        type: 'value',
-	        scale:true,
-		    boundaryGap:['10%','0%'],
-		    max:100
-	    },
-	    series: [
-	        {
-	            name:'得分',
-	            type:'line',
-	            stack: '总量',
-	            data:arryVal,
-	            itemStyle:{
-	                normal:{
-	                    color:'#2c886f',  
-	                    lineStyle:{  
-	                        color:'#2c886f'  
-	                    }  
-	                }
-	            }
-	        }
-	        
-	    ]
-	};
-	myChart.setOption(option);
+	setTimeout(function(){
+		var myChart = echarts.init(document.getElementById(el));
+				option = {
+						title: {
+							//show: false,
+								text: tit
+						},
+						tooltip: {
+								trigger: 'axis'
+						},
+						legend: {
+							show:false
+						},
+						grid: {
+								left: '3%',
+								right: '10%',
+								bottom: '10%',
+								containLabel: true
+						},
+						xAxis: {
+								type: 'category',
+								boundaryGap: false,
+								axisLabel:{
+										textStyle:{
+												color:"#222"
+								}},
+								data: arryDate
+						},
+						yAxis: {
+								type: 'value',
+								scale:true,
+							boundaryGap:['10%','0%'],
+							max:100
+						},
+						series: [
+								{
+										name:'得分',
+										type:'line',
+										stack: '总量',
+										data:arryVal,
+										itemStyle:{
+												normal:{
+														color:'#2c886f',  
+														lineStyle:{  
+																color:'#2c886f'  
+														}  
+												}
+										}
+								}
+								
+						]
+				};
+				myChart.setOption(option);
+		
+	},300)
 }
+</script>
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
 </script>
 </body>
 </html>

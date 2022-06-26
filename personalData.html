@@ -51,6 +51,10 @@
 		<label class="lab">{{language.la_coupon}}</label>
 		<span class="intxt sho_weight"><em id="">{{language.la_coupon}}</em></span>
 	</a>
+	<a class="p_row" id="checkOrder" @click="goCardOrder">
+		<label class="lab">我的订单</label>
+		<span class="intxt sho_weight"><em id="">订单查看</em></span>
+	</a>
 </div>
 <p class="psontip">{{language.la_rushi}}</p>
 
@@ -88,6 +92,7 @@
 			<p>{{language.la_note10}}</p>
 			<p>{{language.la_note11}}</p>
 			<p>{{language.la_note12}}</p>
+			<p>{{language.la_note13}}</p>
 			<p style="text-align: center; padding: .2rem 0; color: #666;">{{language.la_k_company}}<br><em style="color: #999; font-size: .2rem;">Copyright &copy; 2011-2017 Konstar.All Rights Reserved.</em></p>
 		</div>
 		<div class="bxt2" v-if="reportType == 130">
@@ -113,7 +118,7 @@
 </div>
 
 </section>
-<div class="load-overlay" style="display: none;"><img class="loadimg" src="img/loading.gif"></div>
+<div class="load-overlay"><img class="loadimg" src="img/loading.gif"></div>
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/base.js"></script>

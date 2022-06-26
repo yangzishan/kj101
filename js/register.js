@@ -46,16 +46,27 @@ var myapp = new Vue({
 		return{
 			saasId:saasId,
 			reportType: reportType,
+			reportType: reportType,
 			language: language,
 			saasName: '',
 			saasLogo:'',
-			userNotice:'',
+			userNotice:null,
 			optionInt:'',//业务员选填
-			userRegisterVer:userRegisterVer
+			userRegisterVer:userRegisterVer,
+			
+			nickName:'',
+			age:'',
+			idCardNo:'',
+			relatedNo:'',
+			height:'',
+			weight:'',
+			mobile:'',
+			dxYzm:'',
 		}
 	},
 	methods:{
-		getSaasTenantByCompanyId: function(){//查询SaaS信息
+		//查询SaaS信息
+		getSaasTenantByCompanyId: function(){
 			var vm = this;
 			$.ajax({
 				type:"post",
@@ -74,17 +85,156 @@ var myapp = new Vue({
 						vm.userNotice = res.data.userNotice
 					}
 				},
-				error: function(){}
+				error: function(){console.log('getSaasTenantByCompanyId error')}
 			});
 		},
+		//点击发送验证码按钮
+		sendMsg: function(){
+			var vm = this;
+			if(!(/^1[3456789]\d{9}$/.test(vm.mobile))){
+				showMask('请输入正确的手机号码');
+				return false;
+			}else{
+				time($("#sendMsg"));
+				vm.getCode()
+			}
+		},
+		getCode: function(){
+			var vm = this;
+			$.ajax({
+				url : dataUrl + "/api/v1/messageCode/getCode",
+				type : "post",
+				dataType : 'json',
+				data : {
+					userId: userOropen
+				},
+				success : function(codeData) {
+					if(codeData.code == 200){
+						vm.kjSendMsg(codeData.data);
+					}else{
+						showMask('获取短信码失败 getCode code='+codeData.code);
+						$("#sendMsg").attr("disabled",false)
+					}
+				},
+				error: function(){
+					alert('获取短信码 getCode error'); $("#sendMsg").attr("disabled",false)
+				}
+			});
+		},
+		kjSendMsg: function(yzmVal){
+			var vm = this;
+			var userInfo = {
+				mobile : vm.mobile,
+				code : yzmVal,
+				userId : userOropen
+			};
+			
+			$.ajax({
+				url : dataUrl + "/api/v1/messageCode/kjSendMsg",
+				type : "post",
+				dataType : 'json',
+			  data : userInfo,
+				success : function(userData){
+					if(userData.code == 200){
+						console.log('发送短信成功');
+						//time($("#sendMsg"));
+					}else if(userData.code == 300){
+						showMask('发送短信验证码失败');
+						$("#sendMsg").attr("disabled",false);
+					}else{
+						showMask('发送短信失败的code ' + userData.code);
+						$("#sendMsg").attr("disabled",false);
+					}
+				},
+				error : function(){alert('kjSendMsg error')}
+			});
+		},
+		todoSub: function(num){
+			var vm = this;
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+			if(num == 1){
+				var age = parseInt($('#age').val());
+				var mobile = $('#mobile').val();
+				var dxYzm = $.trim($('#dxYzm').val());
+				var checkCode = '';
+				if(userId == null || userId == ''){
+					creatUser(mobile,age,dxYzm,checkCode)
+				}else{
+					if(userRegisterVer == 5){
+						vm.updateById()
+					}else{
+						subAll(mobile,age,dxYzm,checkCode)
+					}
+				};
+			}
+		},
+		//不需要校验手机号的注册
+		updateById: function(){
+			var vm = this;
+			var userInfo = {
+				age : vm.age,
+				userId : userId,
+				height : parseInt($('#_height').val()),
+				weight : parseInt($('#_weight').val()),
+				nickName : $('#nickName').val(),
+				relatedNo : $('#relatedNo').val(),
+				idCardNo : $('#identity').val(),
+				openId : openId
+			}
+			$.ajax({
+				url : dataUrl + "/api/v1/reportUser/updateById",
+				type : "post",
+				dataType : 'json',
+				contentType : 'application/json',
+			  data : JSON.stringify(userInfo),
+				success : function(userData) {
+					console.log('请求完善用户接口');
+					if(userData.code == 200){
+						//判断是否是通过优惠券扫码过来
+						if(voucherId){
+							turnCouponByWeChat(mobile) //转增优惠券接口
+						}else if(spreadUserId){
+							SendCouponByFlushQR(mobile) //扫码得优惠券接口 一码多用
+						}else{
+							location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
+						}	
+					}else{
+						showMask('登录失败  updateById code='+userData.code);
+						//$(this).attr("disabled",false);
+					}	
+				},
+				error : function(){alert('updateById error')}
+			});
+		},
+		showYinsi: function(){
+			//location.href = "./notice_ysxy.html"
+			$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+			$('#showYs').css({"visibility":"visible","opacity":"1"});
+		},
+		closeYsxy: function(){
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		}
+		
+	},
+	
+	computed:{
+		ableToNext: function(){
+			if(userRegisterVer == 5){
+				return (this.nickName && this.age && this.height && this.weight) 
+			}else{
+				return this.mobile && this.dxYzm
+			}
+		}
 	},
 	mounted : function(){
 		this.getSaasTenantByCompanyId();
+		if(reportType == 122){
+			this.optionInt = "（选填）"
+		}
 	}
 });
-if(reportType == 122){
-	myapp.optionInt = "（选填）"
-}
 
 $('#age').blur(function(){
 	setTimeout(function() {	
@@ -110,80 +260,7 @@ $('#_weight').blur(function(){
 		return;
 	}
 });
-$('#identity').blur(function(){
-	
-});
-
-//点击获取短信验证码
-$('#sendMsg').on("click",function(){
-	//手机号校验
-	var mobile = $('#mobile').val();
-	if(!(/^1[3456789]\d{9}$/.test(mobile))){ 
-		showMask('请输入正确的手机号码');
-		return false;
-	}else{
-		//$(this).attr("disabled",true);
-		time($("#sendMsg"));
-		$.ajax({
-			url : dataUrl + "/api/v1/messageCode/getCode",
-			type : "post",
-			dataType : 'json',
-	        data : {
-	        	userId: userOropen
-	        },
-			success : function(codeData) {
-				if(codeData.code == 200){
-					$('#getCode').val(codeData.data);
-					getYzm();
-				}else{
-					showMask('获取短信码失败 getCode code='+codeData.code);
-					$("#sendMsg").attr("disabled",false)
-				}
-			},
-			error: function(){
-				alert('获取短信码 getCode error'); $("#sendMsg").attr("disabled",false)
-			}
-		});  
-	}	
-});
-
-function getYzm(){
-	var yzmVal = $('#getCode').val();
-	var mobile = $('#mobile').val();
-	var userInfo = {
-		mobile : mobile,
-		code : yzmVal,
-		userId : userOropen
-	};
-	$.ajax({
-		url : dataUrl + "/api/v1/messageCode/kjSendMsg",
-		type : "post",
-		dataType : 'json',
-        data : userInfo,
-		success : function(userData){
-			if(userData.code == 200){
-				console.log('发送短信成功');
-				//time($("#sendMsg"));
-			}else if(userData.code == 300){
-				showMask('发送短信验证码失败');
-				$("#sendMsg").attr("disabled",false);
-			}else{
-				showMask('发送短信失败的code ' + userData.code);
-				$("#sendMsg").attr("disabled",false);
-			}
-		},
-		error : function(){alert('kjSendMsg error')}
-	});
-};
-
-$('#dxYzm').on("change focus keyup keypress propertychange oninput",function(){ 
-	var dxYzm = $('#dxYzm').val();
-	if(dxYzm != ''){
-		$('#nextAll').removeClass('off').attr("disabled",false);
-	}else{
-		$('#nextAll').addClass('off').attr("disabled",true);
-	}
-});
+$('#identity').blur(function(){});
 $('#dxYzm , #mobile, #_height, #_weight').blur(function(){
 	setTimeout(function() {	
 		const scrollHeight = document.documentElement.scrollTop || document.body.scrollTop || 0;  //解决微信浏览器键盘收回页面下不来的问题
@@ -234,26 +311,6 @@ $('#nextAll').on("click",function(){
 	}
 });
 
-$('.tongyifo span').on("click",function(){
-	$(this).addClass('on').siblings().removeClass('on');
-	var tongyifo = $(this).index();
-	if(tongyifo ==0){
-		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
-	}else if(tongyifo ==1){	
-		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
-		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});		
-		var age = parseInt($('#age').val());
-		var mobile = $('#mobile').val();
-		var dxYzm = $.trim($('#dxYzm').val());
-		var checkCode = '';
-		if(userId == null || userId == ''){
-			creatUser(mobile,age,dxYzm,checkCode)
-		}else{
-			subAll(mobile,age,dxYzm,checkCode)
-		}
-	}
-});
 
 //完善用户
 function subAll(mobile,age,dxYzm,checkCode){

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>服务工具包</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<style type="text/css">
+.my_view{ height: 100%; background: #5B5CFF;}
+.conview{height: 100%; overflow: auto; overflow-y: auto;}
+.conview .splist{ width: 7.19rem; margin: 0rem auto;}
+.conview .splist li{ margin-bottom: .15rem;}
+.conview .splist a{ display: block;}
+.conview .ttt{ font-size: .36rem; font-weight: bold; text-align: center; line-height: .4rem; margin: .5rem auto .4rem; color: #ffffff;}
+.seemore{ color: #ffffff; font-size: .28rem; font-weight: bold; text-align: center; line-height: .4rem; margin: .4rem auto;}
+.seemore span{ display: inline-block; line-height: .4rem;}
+.seemore i{display: inline-block; vertical-align: top; padding: .02rem .1rem 0;}
+.seemore i img{ width: .21rem; height: .23rem;}
+</style>
+</head>
+<body>
+<div class="my_view" id="vueapp">
+	<div class="conview">
+		<div class="bj01"><img src="./img/shebei220217/bj01.png" class="img_b"></div>
+		<div class="splist" style="margin: -1.9rem auto 0;">
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-01.mp4?versionId=CAEQIRiBgIDsvpqZ.BciIGY3MzVkYTA2NmI0OTRhNjVhYmRhNzQxNTI5OGVjMTM0"><img src="./img/shebei220217/1.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-02.mp4?versionId=CAEQIRiBgMDQvpqZ.BciIDRiZjYyZTJlYzdjOTQ2NjFhNjA5MWMwMGQ4NzQyZjgz"><img src="./img/shebei220217/2.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-03.mp4?versionId=CAEQIRiBgMDuvpqZ.BciIDk1MmRlNzRmOWQ4YzQ3MGM4Mzg4ODI0ZGQ0ZTEwMjBh"><img src="./img/shebei220217/3.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-04.mp4?versionId=CAEQIRiBgMDavpqZ.BciIGEzNjBkNjgxMTYyYzQ5MGFiMTU0MThmM2RkZDhmZjBk"><img src="./img/shebei220217/4.png" class="img_b"></a>
+		</div>
+		<div class="ttt">— 名医云检测报告解读 —</div>
+		<div class="splist">
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-10.mp4"><img src="./img/shebei220217/5.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-11.mp4"><img src="./img/shebei220217/6.png" class="img_b"></a>
+		</div>
+		<div class="seemore" v-if="!showMore"><span @click.once="seeMore">查看更多<i><img src="img/more.png"></i></span></div>
+		<div class="splist" v-if="showMore">
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-12.mp4"><img src="./img/shebei220217/7.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-13.mp4"><img src="./img/shebei220217/8.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-14.mp4"><img src="./img/shebei220217/9.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-15.mp4"><img src="./img/shebei220217/10.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-16.mp4"><img src="./img/shebei220217/11.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-17.mp4"><img src="./img/shebei220217/12.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-18.mp4"><img src="./img/shebei220217/13.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-19.mp4"><img src="./img/shebei220217/14.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-20.mp4"><img src="./img/shebei220217/15.png" class="img_b"></a>
+			<a href="https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/video/KH503-21.mp4"><img src="./img/shebei220217/16.png" class="img_b"></a>
+		</div>
+		<div style="margin: 0 auto; width: 7.19rem;" @click="goPdf"><img src="./img/shebei220217/pdf.png" class="img_b"></div>
+	</div>
+	
+</div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/publicFun.js"></script>
+
+<script>
+
+
+var myApp = new Vue({
+	el: '#vueapp',
+	data:function(){
+		return {
+			showMore: false
+		}
+	},
+	methods:{
+		seeMore: function(){
+			this.showMore = true
+		},
+		goPdf: function(){
+			location.href = "https://cardiotocograph.oss-cn-beijing.aliyuncs.com/KH503/pdf/KH503-00.pdf";
+		}
+	}
+});
+</script>
+
+</body>
+</html>

@@ -9,6 +9,9 @@
 <title>登录查看报告</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+<style type="text/css">
+.login .lo-li .sendbtn.off{ color: #999999;}
+</style>
 </head>
 <body>
 <div class="my_view">
@@ -18,12 +21,12 @@
 		</div>
 		
 		<div class="lo-li">
-			<input class="intxt" id="dxYzm" type="text" placeholder="请输入验证码" @input="dxYzmIn()" v-model="dxYzm">
-			<button class="sendbtn off" id="sendMsg" @click="clickSendMsg($event)">获取验证码</button>
+			<input class="intxt" id="dxYzm" type="text" placeholder="请输入验证码" v-model="dxYzm">
+			<button class="sendbtn" :class="{off:!ableTosend}" :disabled="!ableTosend" @click="clickSendMsg($event)">获取验证码</button>
 		</div>
 		
 		<div class="gobtn">
-			<button class="off" disabled="disabled" id="subAll" @click="subAll()">查看报告</button>
+			<button :class="{off:!ableTodo}" :disabled="!ableTodo" id="subAll" @click="subAll()">查看报告</button>
 		</div>
 		
 	</div>
@@ -48,6 +51,14 @@
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
+if (document.addEventListener) {
+        /*event.persisted 判断浏览器是否有缓存, 有为true, 没有为false*/
+        window.addEventListener('pageshow', function (event) {
+            if (event.persisted || window.performance && window.performance.navigation.type == 2){
+                location.reload();
+            }
+        },false);
+ }
 </script>
 <script>
 var resource = (getQueryString('resource') || 'jgj')
@@ -61,7 +72,16 @@ var myapp = new Vue({
 		}
 	},
 	mounted: function(){
-		
+		console.log(this.mobile);
+		console.log(this.dxYzm);
+	},  
+	computed:{
+		ableTosend: function(){
+			return this.mobile
+		},
+		ableTodo: function(){
+			return (this.mobile && this.dxYzm)
+		}
 	},
 	methods: {
 		getCode: function(){
@@ -103,11 +123,6 @@ var myapp = new Vue({
 			if(vm.mobile.length>11){
 				vm.mobile=vm.mobile.slice(0,11)
 			}
-			if(vm.mobile != ''){
-				$('#sendMsg').removeClass('off').attr("disabled",false)
-			}else{
-				$('#sendMsg').addClass('off').attr("disabled",true)
-			}
 		},
 		clickSendMsg: function(e){
 			var vm = this;
@@ -117,15 +132,6 @@ var myapp = new Vue({
 			}else{
 				time($(e.target))
 				vm.getCode()
-			}
-		},
-		dxYzmIn: function(){
-			var vm = this;
-			console.log(vm.dxYzm)
-			if(vm.dxYzm != ''){
-				$('#subAll').removeClass('off').attr("disabled",false)
-			}else{
-				$('#subAll').addClass('off').attr("disabled",true)
 			}
 		},
 		subAll: function(){

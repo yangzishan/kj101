@@ -1,3 +1,19 @@
+//history.pushState(null, null, document.URL); //禁止网页返回上一页
+window.addEventListener('popstate', function() { 
+	
+	/* wx.miniProgram.navigateTo({
+	  url: '/packageMake/assessment/reportList'
+	}); */
+	
+	
+	WeixinJSBridge.call('closeWindow');
+	
+	//wx.miniProgram.navigateBack({})
+	
+	//alert('执行！')
+	//window.history.back(-1); 
+	//window.history.go(-1);
+});
 //alert(window.location.href);
 var reportId = getQueryString('reportId');
 var openId = getQueryString('openId');
@@ -12,6 +28,8 @@ var middlePage = (getQueryString('middlePage') || '');//从第三方app点击查
 var sendCustomerId = ''
 var clientType = '';
 var resource = ''; //来接受app交互传递的数据（app自己写死的值）， 康浩 khyapp  康加 kjyapp  康加健康：kjjkapp  ···
+
+var shareUrl = getQueryString("shareUrl") || '';  //从企业微信打开的 // == 1； 是否显示复制链接按钮（用在企业微信）==2 不显示历史按钮
 console.log(reportId);
 console.log(customerId);
 var userRegisterVer = (getQueryString('userRegisterVer') || '')
@@ -37,6 +55,8 @@ var app = new Vue({
 			reportUrl:'',
 			reportType:'',
 			source:'',
+			seeReport: false, //iframe
+			frameSrc: ''
 		}
 	},
 	methods:{
@@ -167,7 +187,7 @@ var app = new Vue({
 						var source = res.data.source; // 来源
 						vm.source = res.data.source; // 来源
 						var reportSource = res.data.reportSource //来源 （判断金管家 5）
-						vm.reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+openId+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&reportSource='+reportSource+'&visible='+visible+'&date='+new Date().getTime()+'&language='+res.data.language
+						vm.reportUrl = '?reportId='+report+'&userId='+res.data.customerId+'&openId='+openId+"&reportType="+reportType+'&faceUserId='+faceUserId+'&saasId='+saasId+'&clientType='+clientType+'&resource='+resource+'&source='+source+'&reportSource='+reportSource+'&visible='+visible+'&date='+new Date().getTime()+'&language='+res.data.language+'&shareUrl='+shareUrl
 						if(reportSource == 9 && middlePage ==''){
 							location.href = "https://www.zngst.com/code/#/bgGuide"
 							return
@@ -229,7 +249,12 @@ var app = new Vue({
 			}else if(reportType == 711){
 				location.href = 'report710.html'+vm.reportUrl
 			}else{
-				location.href = 'report'+reportType+'.html'+vm.reportUrl
+				//location.href = 'report'+reportType+'.html'+vm.reportUrl
+				/* vm.seeReport = true;
+				vm.frameSrc = 'report'+reportType+'.html'+vm.reportUrl
+				$('.load-overlay').css("display","none") */
+				
+				location.replace('./report'+reportType+'.html'+vm.reportUrl)
 			}
 		},
 		goPayforPage: function(reportType,customerId,paymentType){
@@ -256,6 +281,8 @@ var app = new Vue({
 					location.href="pay_coupon.html"+payStr
 				}else if(paymentType == 5){
 					location.href="pay980.html"+payStr
+				}else if(paymentType == 6){
+					location.href="payfor701.html"+payStr
 				}else{
 					location.href="payfor.html"+payStr
 				}
@@ -275,7 +302,7 @@ function setupWebViewJavascriptBridge(callback) {
 	window.WVJBCallbacks = [callback];
 	var WVJBIframe = document.createElement('iframe');
 	WVJBIframe.style.display = 'none';
-	WVJBIframe.src = 'https://__bridge_loaded__';
+	WVJBIframe.src = 'wvjbscheme://__bridge_loaded__';
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }

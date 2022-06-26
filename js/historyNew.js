@@ -28,6 +28,7 @@ var myApp = new Vue({
 			dataList: '',
 			invite: invite,
 			reportUrl:'',
+			historyTypeText:'邀约历史',
 			reportHistoryVo:{
 				customerId: userId,
 				companyId: saasId,
@@ -47,9 +48,14 @@ var myApp = new Vue({
 		}
 	},
 	mounted:function(){
+		console.log(this.reportHistoryVo.historyType)
 		this.findHistoryReportAll();
 	},
 	methods:{
+		changeHistoryType:function(val){
+			this.reportHistoryVo.historyType = val
+			this.findHistoryReportAll();
+		},
 		handleTime(val){
 			this.sltime = val
 			var now = new Date()

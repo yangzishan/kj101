@@ -12,11 +12,13 @@
 <link rel="stylesheet" type="text/css" href="css/menu.css" />
 <style>
 	.bcon{ font-size: .28rem;}
+	.header{position: fixed; top: 0; left: 0; right: 0; z-index: 10000;}
+	.navL .a-li.on{background:rgba(66,78,127,0.6)}
 </style>
 </head>
 <body>
 <div class="my_view" id="appX" style=" display: none;">
-	<header class="header" style="position: fixed; top: 0; left: 0; right: 0; z-index: 10000;">
+	<header class="header" :style="{background:color128}">
 		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
 		<a class="t-right fr" href="#"></a>
 		<p class="t-cen txt1"><span>{{language.la_jkAdvice}}</span></p>
@@ -276,6 +278,7 @@ var app = new Vue({
 			gg102:[],
 			gg103:[],
 			resTemplateDescribe:'',
+			color128: '#2fbab0'
 			
 		}
 	},
@@ -724,7 +727,11 @@ var app = new Vue({
 		},
 	},
 	mounted:function(){
-		this.getSuggest()
+		this.getSuggest();
+		if(reportType == '128'){
+			this.color128 = '#282D52';
+			$('.navL .ncon a').css({"background":"#282D52"})
+		};
 	}
 })
 
@@ -761,6 +768,25 @@ function banSlide(page_count,el){
 			
 
 </script>
-
+<script>
+(function () {
+    if (typeof WeixinJSBridge == "object" && typeof WeixinJSBridge.invoke == "function") {
+        handleFontSize();
+    } else {
+        if (document.addEventListener) {
+            document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("WeixinJSBridgeReady", handleFontSize);
+            document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
+        }
+    }
+    function handleFontSize() {
+        WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        WeixinJSBridge.on('menu:setfont', function () {
+            WeixinJSBridge.invoke('setFontSizeCallback', { 'fontSize': 0 });
+        });
+    }
+})();	
+</script>
 </body>
 </html>

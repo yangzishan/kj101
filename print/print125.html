@@ -34,7 +34,7 @@
 				<span class="key">经理人</span><span class="value">：{{relatedNo}}</span>
 			</li>
 			<li class="pli">
-				<span class="key">联系方式</span><span class="value">：{{mobile.slice(0,11)}}</span>
+				<span class="key">联系方式</span><span class="value">：{{mobile}}</span>
 			</li>
 			<!--<li class="pli" v-if="payNum">
 				<span class="key">支付码</span><span class="value">：{{payNum}}</span>
@@ -97,7 +97,76 @@
 			</ul>
       	</div>
     </section>	
-	<section class="sr_box a4">
+		
+		<section class="sr_box a4"><!--123都要显示-->
+			<h3>详细指标及建议</h3>
+			<div v-for="item in firsts">
+		      <div class="sr_head">
+		      	<div class="sr_hr"><img :src="'./img/'+item.targetId+'.png'" alt="">{{item.targetName}}
+		      		<span :class="{lit:item.score < 90}" v-if="item.score >= 90">正常</span>
+		      		<span :class="{lit:item.score < 90}" v-if="item.score < 90 && item.score >= 80">轻度风险</span>
+		      		<span :class="{lit:item.score < 90}" v-if="item.score < 80">中度风险</span>
+		      		
+		      		<!--<span :class="{lit:item.score < 90}">{{item.score >= 90?'正常':(item.score < 90 && item.score >= 80?'轻度风险':'中度风险')}}</span>-->
+		      	</div>
+		      	<div class="c_con" v-for="second in item.seconds">
+					<div class="second">
+						<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></span>
+					</div>
+					<p class="third">
+						<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
+						<template>
+							<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
+							<em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>
+						</template>
+						</span>
+					</p>
+				</div>
+		    	</div>
+		  		<!-- 指标 -->
+		  		<template v-for="second in item.seconds">
+		      	<div class="sr_head_b" v-for="site in second.thirds" v-show="site.inspectStandard != 1 && site.healthAdviceVo != null && (site.targetId < 3176 || site.targetId > 3185)">
+		        	<div class="sr_head_b_tit">{{site.targetName}}：</div>
+			        <div class="sr_head_bzi"><span>正常</span><span>轻度风险</span><span>中度风险</span>
+			        	<img src="./img/kh/fubiao.png" alt="" class="fubiao" :class="{lit:site.score<90 && site.score >=80,mid:site.score<80}">
+			        </div>
+			        <div class="sr_title">
+			          	<p class="h8">指标解读</p>
+			          	<div class="sr-text"> {{site.explain}} </div> 
+			        </div>
+			        <div class="sr_zhengwen">
+			          	<p class="h8">改善建议</p>
+			            <div class="sr_jybox" v-if="site.healthAdviceVo.dietList && site.healthAdviceVo.dietList.length !=0">
+			          		<p class="h9">膳食建议</p>
+				          	<template v-for="(jinayi,index) in site.healthAdviceVo.dietList">
+				          		<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
+					            <!--<p class="h11">根据您的检测结果，每日建议摄入热量低于 1400 千卡</p>-->
+					            <div class="sr_jytext"> {{jinayi.simpleDescription}}</div>
+				          	</template>
+			            
+			            </div>
+			          <div class="sr_yyjy" v-if="site.healthAdviceVo.nutritionList && site.healthAdviceVo.nutritionList.length !=0">
+			            <p class="h9">营养建议</p>
+			            <template v-for="(jinayi,index) in site.healthAdviceVo.nutritionList">
+				            <p>{{index+1}}、{{jinayi.personality}}</p> 
+				            <p>{{jinayi.simpleDescription}}</p> 
+			            </template>
+			          </div>
+			          <div class="sr_yyjy" v-if="site.healthAdviceVo.motionList && site.healthAdviceVo.motionList.length !=0">
+			            <p class="h9">运动和生活方式建议</p>
+			            <template v-for="(jinayi,index) in site.healthAdviceVo.motionList">
+				            <p>{{index+1}}、{{jinayi.personality}}</p> 
+			            </template>
+			          </div>
+			        </div>
+		      	</div>
+		    </template>
+		  	</div>
+			
+		</section>
+		
+		
+	<section class="sr_box a4" v-if="printReportType == 3 || printReportType == 2">
       	<h3>个性化健康建议</h3>
       	<div class="jianyi">
 	      <div class="shanshi a4">
@@ -157,7 +226,7 @@
 				<dl class="tli">
 					<dt><p class="ce"><font>早加餐</font></p></dt>
 					<dd>
-						<template v-for="ba in day.breakfastAdd.BA">
+						<template v-for="ba in day.breakfastAdd.ba">
 							<span>{{ba.foodName}}</span>
 						</template>
 					</dd>
@@ -183,7 +252,7 @@
 				<dl class="tli">
 					<dt><p class="ce"><font>午加餐</font></p></dt>
 					<dd>
-						<template v-for="la in day.lunchAdd.LA">
+						<template v-for="la in day.lunchAdd.la">
 							<span>{{la.foodName}}</span>
 						</template>
 					</dd>
@@ -209,72 +278,7 @@
 			</div>
 		</div>
     </section>
-    <section class="sr_box a4" v-if="printReportType == 3">
-    	<h3>详细指标及建议</h3>
-    	<div v-for="item in firsts">
-	        <div class="sr_head">
-	        	<div class="sr_hr"><img :src="'./img/'+item.targetId+'.png'" alt="">{{item.targetName}}
-	        		<span :class="{lit:item.score < 90}" v-if="item.score >= 90">正常</span>
-	        		<span :class="{lit:item.score < 90}" v-if="item.score < 90 && item.score >= 80">轻度风险</span>
-	        		<span :class="{lit:item.score < 90}" v-if="item.score < 80">中度风险</span>
-	        		
-	        		<!--<span :class="{lit:item.score < 90}">{{item.score >= 90?'正常':(item.score < 90 && item.score >= 80?'轻度风险':'中度风险')}}</span>-->
-	        	</div>
-	        	<div class="c_con" v-for="second in item.seconds">
-					<div class="second">
-						<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></span>
-					</div>
-					<p class="third">
-						<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
-						<template>
-							<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
-							<em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>
-						</template>
-						</span>
-					</p>
-				</div>
-	      	</div>
-      		<!-- 指标 -->
-      		<template v-for="second in item.seconds">
-		      	<div class="sr_head_b" v-for="site in second.thirds" v-show="site.inspectStandard != 1 && site.healthAdviceVo != null && (site.targetId < 3176 || site.targetId > 3185)">
-		        	<div class="sr_head_b_tit">{{site.targetName}}：</div>
-			        <div class="sr_head_bzi"><span>正常</span><span>轻度风险</span><span>中度风险</span>
-			        	<img src="./img/kh/fubiao.png" alt="" class="fubiao" :class="{lit:site.score<90 && site.score >=80,mid:site.score<80}">
-			        </div>
-			        <div class="sr_title">
-			          	<p class="h8">指标解读</p>
-			          	<div class="sr-text"> {{site.explain}} </div> 
-			        </div>
-			        <div class="sr_zhengwen">
-			          	<p class="h8">改善建议</p>
-			            <div class="sr_jybox" v-if="site.healthAdviceVo.dietList && site.healthAdviceVo.dietList.length !=0">
-			          		<p class="h9">膳食建议</p>
-				          	<template v-for="(jinayi,index) in site.healthAdviceVo.dietList">
-				          		<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
-					            <!--<p class="h11">根据您的检测结果，每日建议摄入热量低于 1400 千卡</p>-->
-					            <div class="sr_jytext"> {{jinayi.simpleDescription}}</div>
-				          	</template>
-			            
-			            </div>
-			          <div class="sr_yyjy" v-if="site.healthAdviceVo.nutritionList && site.healthAdviceVo.nutritionList.length !=0">
-			            <p class="h9">营养建议</p>
-			            <template v-for="(jinayi,index) in site.healthAdviceVo.nutritionList">
-				            <p>{{index+1}}、{{jinayi.personality}}</p> 
-				            <p>{{jinayi.simpleDescription}}</p> 
-			            </template>
-			          </div>
-			          <div class="sr_yyjy" v-if="site.healthAdviceVo.motionList && site.healthAdviceVo.motionList.length !=0">
-			            <p class="h9">运动和生活方式建议</p>
-			            <template v-for="(jinayi,index) in site.healthAdviceVo.motionList">
-				            <p>{{index+1}}、{{jinayi.personality}}</p> 
-			            </template>
-			          </div>
-			        </div>
-		      	</div>
-		    </template>
-      	</div>
-    	
-    </section>
+    
 	
 </div>
 

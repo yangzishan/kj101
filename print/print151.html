@@ -231,7 +231,7 @@
 				<dl class="tli">
 					<dt><p class="ce"><font>早加餐</font></p></dt>
 					<dd>
-						<template v-for="ba in day.breakfastAdd.BA">
+						<template v-for="ba in day.breakfastAdd.ba">
 							<span>{{ba.foodName}}</span>
 						</template>
 					</dd>
@@ -257,7 +257,7 @@
 				<dl class="tli">
 					<dt><p class="ce"><font>午加餐</font></p></dt>
 					<dd>
-						<template v-for="la in day.lunchAdd.LA">
+						<template v-for="la in day.lunchAdd.la">
 							<span>{{la.foodName}}</span>
 						</template>
 					</dd>
@@ -376,13 +376,9 @@
 var clipboard = new ClipboardJS('#copyurl');　　//先实例化
 
 　　　　clipboard.on('success', function(e) {
-
 　　　　 　　alert('复制成功');　　//复制成功区间
-
 　　　　});
-
 　　　　clipboard.on('error', function(e) {
-
 　　　　});
 	
 function toprintpdf() {

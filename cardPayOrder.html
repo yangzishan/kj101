@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>支付</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<script> document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body>
+<div class="my_view bck-col-f4">
+<section id="appVUE">
+	<header class="header">
+		<a class="b-arr fl" href="javascript:history.go(-1);"></a>
+		<a class="t-right fr" href="#"></a>
+		<p class="t-cen txt1"><span>{{payTypeName}}</span></p>
+	</header>
+	<div class="d-wxpay">
+		<div class="wxpay">
+			<div class="dtit"><i class=""></i><span class="">{{language.la_tjTip}}</span></div>
+			<p class="p1"><span>{{language.la_orderNane}}：</span><font>vip卡</font></p>
+			<p class="p1"><span>{{language.la_orderPrice}}：</span><font>￥{{price}}</font></p>
+		</div>
+		<p class="xiaoji"><span><em id="xgj">{{language.la_total}}</em>：￥</span><font>{{price}}</font></p>
+	</div>
+	
+	<template v-if="language == en">
+		<div class="d-wxpay" id="usecoupon" style="display: none;">
+			<p class="coutit">Clip coupons</p>
+			<div class="wxpay">
+				<p class="coupon on"><i class="check"></i><span>Clip coupons</span><em id="discount" class="fr">-￥{{discount}}</em></p>
+			</div>
+			<p class="xiaoji" style="line-height: 1rem;"><span>total：￥</span><font id="subprice">{{subprice}}</font></p>
+		</div>
+	</template>
+	
+
+		
+	<p style="padding: 0 .3rem; font-size: .24rem;">{{language.la_note48hour}}</p>
+	
+	<div class="subpay"><button class="btn_pay" id="goWxPay" @click="gotoPay($event)">{{language.la_pay}}</button></div>
+</section>
+</div>
+
+<div class="daifu_d">
+	<p class="imo"><img src="img/daifu.png" class="img_b"></p>
+	<p class="tit">亲，这份报告数据已被别人扫描<br>请重新测量</p>
+	<p class="tip">误扫别人的健康报告，将会影响您的健康趋势，谢谢您的配合！</p>
+	<p class="dbtn"><button id="iknow">知道了</button></p>
+</div>
+
+<!--一网通请求-->
+<form action="" method="post" id="ywt">
+    <input id="ywtVal" type="hidden" name="jsonRequestData" value='' />
+</form>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/language.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="js/reset.js"></script>
+<script>document.write('<script src="js/cardPayOrder.js?t=' + new Date().getTime() + '"><\/script>')</script>
+</body>
+</html>

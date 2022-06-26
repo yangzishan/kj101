@@ -6,7 +6,7 @@
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 <meta content="telephone=no" name="format-detection" />
-<title>历史报告</title>
+<title>健康档案</title>
 <link rel="stylesheet" type="text/css" href="css/basic.css" />
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
@@ -15,9 +15,10 @@
 	<section id="appVUE">
 		<header class="header">
 			<!--<a class="b-arr fl" href="javascript:history.go(-1);"></a>-->
-			<a class="t-right fr" href="#"></a>
+			<!-- <a class="t-right fr" v-if="reportHistoryVo.historyType == 1" @click="changeHistoryType(3)">邀约历史&gt;&gt;</a>
+			<a class="t-right fr" v-if="reportHistoryVo.historyType == 3" @click="changeHistoryType(1)">本人检测&gt;&gt;</a> -->
 			<p class="t-cen txt1" v-if="invite == 'invite'"><span>邀约历史</span></p>
-			<p class="t-cen txt1" v-else><span>历史报告</span></p>
+			<p class="t-cen txt1" v-else><span>健康档案</span></p>
 		</header>
 		<div class="choseoHis hide">
 			<span class="close" @click="closeOption"></span>

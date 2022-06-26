@@ -1,6 +1,6 @@
 var zh = {
 	la_perCen: '个人中心',
-	la_hisRepo: '历史报告',
+	la_hisRepo: '健康档案',
 	la_fen: '分',
 	la_toptip: '注：本报告为亚健康评估结果，不作为医学临床诊断之用。为您提供亚健康的筛查与风险评估、趋势追踪，帮助预防疾病管理健康。',
 	la_learnMore: '了解更多',
@@ -60,7 +60,7 @@ var zh = {
 	la_hzContent_1:'，您的生理年龄评估为',
 	la_hzContent_2:'岁，',
 	la_hzContent_3:'整体状况较同年龄段好于',
-	la_hzContent_4:'的人',
+	la_hzContent_4:'%的人',
 	la_seeAdv: '请点击查看您的专属建议',
 	la_seeRec: '请查看您的专属健康食谱',
 	la_system_tit_before: '以下是您',
@@ -273,7 +273,7 @@ var en = {
 	la_weightPlace: 'Please enter your weight (kg)',
 	
 	la_oprice: 'Original Price',
-	la_price: 'Preferential Price',
+	la_price: '% of Preferential Price',
 	la_pay: 'Payment',
 	la_payChannel: 'Choose the payment method',
 	la_payprice: 'Payment Amount',

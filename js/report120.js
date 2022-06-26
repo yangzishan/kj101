@@ -1,4 +1,4 @@
-var reportId = getQueryString('reportId');
+var reportId = (getQueryString('reportId') || 'KJ104IS0014014C22021411434042832');
 var openId = getQueryString('openId');
 var reportType = getQueryString('reportType');
 var customerId = getQueryString('userId');
@@ -10,6 +10,7 @@ var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
 var invite = getQueryString("invite");  //邀约历史查看
+var shareUrl = getQueryString("shareUrl") || '';  // == 1； 是否显示复制链接按钮（用在企业微信）==2 不显示历史按钮
 var edition = 120;
 var localUrl = location.href;
 var reportPrintUrl = testHealthUrl+'/print/print120.html?viewType=2&reportId=';
@@ -75,8 +76,10 @@ var myApp = new Vue({
 			showRecipe:'',
 			deviceReport:'',
 			banData:[], //轮播广告
-			banData1:[],
-			banData2:[],
+			banData1:[], // 头部
+			banData2:[], //底部
+			banData3:{}, //3 企业微信
+			showBanData3: false,
 			deviceSnNum:'',
 			saasTel:'感谢您使用智能筛查机器人进行亚健康评估。现将您的评估结果汇总分析如下，如需帮助请拨打我们的健康热线<a href="tel://4006666787" style="color: #1ebeb1;">4006666787</a>，祝您健康！',
 			saasName:'',saasLogo:'',
@@ -85,7 +88,12 @@ var myApp = new Vue({
 			thirdPages:[], //与免疫指标有关
 			someTit:'', //弹框用
 			someTxt:'', //弹框用
-			invite:invite
+			invite:invite,
+			mp3data:'',
+			videoUrl:'',
+			
+			shareUrl:shareUrl,
+			copydUrl: localUrl.replace('shareUrl=1','shareUrl=2'),
 		}
 	},
 	mounted: function(){
@@ -133,7 +141,6 @@ var myApp = new Vue({
 				},
 				error : function(obj,msg){alert("getTargetByFirst error")}
 			});
-			
 		},
 		goToShare: function(fangfa){  //goToShare\goToPrint
 			var vm = this;
@@ -148,6 +155,17 @@ var myApp = new Vue({
 					'reportName': vm.ranking
 				}, function responseCallback(responseData) {});
 			})
+		},
+		//复制链接
+		copyLocalUrl: function(){
+			
+			var clipboard = new ClipboardJS('#copyurl');　　//先实例化
+　　　　clipboard.on('success', function(e) {
+　　　　 　　alert('复制成功');　　//复制成功区间
+　　　　});
+　　　　clipboard.on('error', function(e) {
+						alert('try again')
+　　　　});
 		},
 		getSaasTenantByCompanyId: function(){//查询SaaS信息
 			var vm = this;
@@ -225,6 +243,9 @@ var myApp = new Vue({
 								$('.guang').css("transform","rotate("+1.8*res.data.indexPage.totalScore+"deg)");
 							},100)
 							$('#score').animateNumber({ number: res.data.indexPage.totalScore },1100);
+							
+							_this.creatYuyin(res.data.indexPage.totalScore,res.data.map);
+							
 							_this.goToShare('goToPrint');
 							$('.sy_tab span').on("click",function(){
 								$(this).addClass('on').siblings().removeClass('on');
@@ -263,6 +284,7 @@ var myApp = new Vue({
 							createChart(arrayXt,arraySlnl,_this.age,500);
 
 							_this.wheelsort(_this.deviceSnNum,reportId);//轮播广告
+							console.log('guanggggggggggggg')
 
 							// 抓取滚动位置
 							$(window).scroll(function(){ 
@@ -291,6 +313,25 @@ var myApp = new Vue({
 				location.href="payfor.html"+payStr
 			}				
 		},
+		//语音生成
+		creatYuyin: function(score,obj){
+			var vm = this
+			$.ajax({
+				type : "post",
+				url : robot + "/IFI/sis/tts/custom?inspectId="+reportId+"&mianyiScore="+score,
+				dataType : 'json',
+				contentType : "application/json",
+				data : JSON.stringify(obj),
+				success : function(res) {
+					vm.$refs.audio.src = res.data
+					vm.mp3data = res.data;
+				},
+				error : function(sta,msg){alert("custom error")}
+			});
+		},
+		goformp4: function(){
+			location.href = "104mp4_index.html?"
+		},
 		//介绍弹窗
 		popTen: function(e){
 			showMask();
@@ -314,9 +355,9 @@ var myApp = new Vue({
 			showMask();
 			$('#showSome').css({"visibility":"visible","opacity":"1"});
 		},
-		checkHistory: function(){ //历史报告
+		checkHistory: function(){ //健康档案
 			var vm = this;
-			zhuge.track('点击历史报告', { //埋点 t
+			zhuge.track('点击健康档案', { //埋点 t
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){
@@ -377,6 +418,14 @@ var myApp = new Vue({
 				'系统分数':item.score,
 				'渠道' : '微信'
 			},function(){
+				vm.videoUrl = 'http://image.jiankangzhan.com/metaverse/128/'+ item.targetFirstId +'.mp4';
+				var ssurl = 'second2.html?reportId='+reportId+'&userId='+customerId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum
+				
+				sessionStorage.setItem('mp4url',vm.videoUrl)
+				sessionStorage.setItem('secondurl',ssurl)
+				//location.href = 'mp4sys.html';
+				
+				
 				location.href = 'second2.html?reportId='+reportId+'&userId='+vm.userId+'&targetFirstId='+item.targetFirstId+'&reportType='+reportType+'&deviceSn='+vm.deviceSnNum
 			});
 		},
@@ -406,6 +455,16 @@ var myApp = new Vue({
 				}
 			});
 		},
+		showQiyeewm: function(){
+			showMask();
+			$('.qy_ewm').css({"visibility":"visible","opacity":"1"});
+		},
+		closeQiye: function(){
+			closeMask();
+			$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+			$('.qy_ewm').css({"visibility":"hidden","opacity":"0"});
+			$("body").css("overflow","auto");
+		},
 		wheelsort: function(deviceSn,reportId){ //广告接口  banner_page 1:首页轮播，101膳食 102营养  103运动
 			var vm = this;
 			$.ajax({
@@ -424,6 +483,10 @@ var myApp = new Vue({
 								vm.banData1.push(el)
 							}else if(el.bannerPage == 2){
 								vm.banData2.push(el)
+							}else if(el.bannerPage == 3){
+								vm.banData3 = el;
+								vm.showBanData3 = true;
+								console.log(vm.showBanData3)
 							}
 						})
 						console.log(vm.banData1,vm.banData2)
@@ -490,6 +553,7 @@ function closeMask(){
 	$('.v_overlay,.v_overlert .close').click(function(){
 		$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
 		$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+		$('#showQiye').css({"visibility":"hidden","opacity":"0"});
 		$("body").css("overflow","auto");
 	});
 };

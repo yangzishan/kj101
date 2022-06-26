@@ -14,7 +14,7 @@
 <DIV class="my_view report901" style="visibility: hidden;">
 	<div class="head">
 		<div class="c-c"><span>湿气报告</span></div>
-		<div class="c-l fl" @click="checkHistory"><i><img class="img_b" src="img/910/lishi.png"></i><font>历史报告</font></div>
+		<div class="c-l fl" @click="checkHistory"><i><img class="img_b" src="img/910/lishi.png"></i><font>健康档案</font></div>
 		<!--<div class="c-l fr" @click="goshare"><i><img class="img_b" src="img/910/share.png"></i><font>分享报告</font></div>-->
 	</div>
 	<div class="userinf">
@@ -216,9 +216,9 @@ var myApp = new Vue({
 				error: function(){alert('createReportData error')}
 			});
 		},
-		checkHistory: function(){ //历史报告
+		checkHistory: function(){ //健康档案
 			var vm = this;
-			zhuge.track('点击历史报告', { //埋点 t
+			zhuge.track('点击健康档案', { //埋点 t
 				'用户id': vm.userId,
 				'渠道' : '微信'
 			},function(){

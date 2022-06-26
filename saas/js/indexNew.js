@@ -165,7 +165,7 @@ $.ajax({
 						});
 					},200);
 					
-					//跳转历史报告
+					//跳转健康档案
 					var userId = indexData.data.userId;
 					$('#checkHistory').attr("href","../saas/reportHistory.html?userId="+userId+"&saasId="+saasId+"&openId="+openId);
 					//跳转用户设置

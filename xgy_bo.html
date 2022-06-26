@@ -115,6 +115,17 @@
     win.addEventListener(resizeEvt, recalc, false);
     doc.addEventListener('DOMContentLoaded', recalc, false);
 })(document, window);
+//最小值
+Array.prototype.min = function(){
+  var min = this[0];
+  var len = this.length;
+  for(var i=1; i<len; i++){
+    if(this[i] < min){
+      min = this[i];
+    }
+  }
+  return min;
+};
 </script>
 <script>
 var reportId = (getQueryString('reportId') || 'MK701IS000000031613891822337');
@@ -157,6 +168,7 @@ var myApp = new Vue({
 			analysedWaveform:{},
 			xlist:[],
 			markLineList:[],
+			arrMin: 0,
 			videos:[
 				{
 					videoUrl:'https://cardiotocograph.oss-cn-beijing.aliyuncs.com/xxg/mbb/0962B1020.mp4?versionId=CAEQFRiBgIDg09zqyhciIGFkYmUwODgzZWQ1OTQ1ZDZiZjhjMGNhNjVjMDgxNTBh',
@@ -196,34 +208,36 @@ var myApp = new Vue({
 			vm.analysedWaveform = JSON.parse(sessionStorage.getItem('analysedWaveform'));
 			console.log(vm.analysedWaveform);
 			
+			vm.arrMin = vm.analysedWaveform.pwavedata.min();
+			console.log(vm.arrMin);
 			vm.analysedWaveform.pwavedata.forEach(function(i,index){
 				vm.xlist.push(index) //作图x坐标轴
 				
 				vm.analysedWaveform.pmax.forEach(function(n){
 					if(n == index && n != 0){
-						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'blue'}},{coord:[n,i]}])
+						vm.markLineList.push([{coord:[n,0],lineStyle:{color:'blue'}},{coord:[n,i]}])
 					}
 				});
 				vm.analysedWaveform.pe.forEach(function(n){
 					if(n == index && n != 0){
-						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'green'}},{coord:[n,i]}])
+						vm.markLineList.push([{coord:[n,0],lineStyle:{color:'green'}},{coord:[n,i]}])
 					}
 				});
 				vm.analysedWaveform.pf.forEach(function(n){
 					if(n == index && n != 0){
-						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'#ff0000'}},{coord:[n,i]}])
+						vm.markLineList.push([{coord:[n,0],lineStyle:{color:'#ff0000'}},{coord:[n,i]}])
 					}
 				});
 				vm.analysedWaveform.pmin.forEach(function(n){
 					if(n == index && n != 0){
-						vm.markLineList.push([{coord:[n,150],lineStyle:{color:'#666666'}},{coord:[n,i]}])
+						vm.markLineList.push([{coord:[n,0],lineStyle:{color:'#666666'}},{coord:[n,i]}])
 					}
 				});
 			});
 			vm.swi()
 			console.log(vm.markLineList)
 			setTimeout(function(){
-				creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList)
+				creatChart('main',vm.xlist,vm.analysedWaveform.pwavedata,vm.markLineList,vm.arrMin)
 			},500)
 
 
@@ -231,7 +245,7 @@ var myApp = new Vue({
 	}
 });
 //作脉搏图
-function creatChart(el,xlist,ylist,markLineList){
+function creatChart(el,xlist,ylist,markLineList,min){
 let myChart = echarts.init(document.getElementById('main'));
   let option = {
       title: {
@@ -266,7 +280,7 @@ let myChart = echarts.init(document.getElementById('main'));
       yAxis: {
           show: false,
           scale:true,
-          min:150,
+          min:0,
           name: '脉搏(m^3/ms)',
           type: 'value',
       },
@@ -305,7 +319,7 @@ let myChart = echarts.init(document.getElementById('main'));
   };
   // 绘制图表
   myChart.setOption(option);
-}
+};
 //截取URL
 function getQueryString(name) {
     var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));

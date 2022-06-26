@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html style="height: auto;width: 100%; overflow-x: hidden;">
+<head>
+<meta charset="UTF-8">
+<meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
+<meta content="telephone=no" name="format-detection" />
+<title>购买VIP卡</title>
+<link rel="stylesheet" type="text/css" href="css/basic.css" />
+<style type="text/css">
+.off{ background: #dddddd;}
+</style>
+<script>document.write('<link rel="stylesheet" type="text/css" href="css/style.css?t=' + new Date().getTime() + '" \/>')</script>
+</head>
+<body style="height: auto; width: 100%; background: #F3F5F7;">
+<DIV class="my_view buycard" style="visibility: visible;">
+	<div class="head">
+		<a class="bac" href="javascript:history.go(-1);">
+			<i class="arr"></i>
+			<em class="tx">返回</em>
+		</a>
+		<span class="tit">购买年卡</span>
+	</div>
+		
+	<div class="cardList">
+		<template v-for="(item,index) in goodsList">
+			<div class="carditem">
+				<input type="checkbox" :id="item.goodsId" :value="item.goodsId" v-model="volist" />
+				<label class="c-inf" :for="item.goodsId" @click="chose(item)">
+					<img class="inf-img" :src="item.goodsImg">
+					<div class="inf-cn">
+						<p class="cname">{{item.goodsName}}</p>
+						<p class="cci"><b>{{item.maxUseCount}}</b>次卡</p>
+						<p class="cyxq">有效期{{item.validDuration}}天</p>
+						<p class="cxz"><span @click.stop="showSome('',item.useRules)">购买须知&gt</span></p>
+						<span class="price">￥{{item.price}}</span>
+						<span v-if="item.packageCount" class="pcount">×{{item.packageCount}}张</span>
+					</div>
+				</label>
+				<div class="c-cho">
+					<div class="num cho">
+						<button @click="reduceCount(item)">-</button><span>{{item.goodsCount}}</span><button @click="addCount(item)">+</button>
+					</div>
+					<div class="sel seled" v-if="item.selected">已选</div>
+					<div class="sel" v-else>可选</div>
+				</div>
+			</div>
+		</template>
+		
+	</div>
+	<div class="subbtn">
+		<button @click="sub">立即购买</button>
+	</div>
+	
+	<div class="v_overlay"></div>
+	<div class="v_overlert" id="showSome">
+		<div class="tc_sy">
+			<em class="close"></em>
+			<p class="bit"><span class="labt" v-html="someTit"></span><em></em></p>
+			<div class="bxt" style="text-align: left;" v-html="someTxt"></div>
+		</div>
+	</div>
+</DIV><!--/my_view-->
+<div class="load-overlay"><div class="loadimg"><img src="img/loading.gif"></div></div>
+
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/base.js"></script>
+<script type="text/javascript" src="zhuge.js"></script>
+<script type="text/javascript" src="js/vue.min.js"></script>
+<script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script type="text/javascript" src="js/reset.js"></script>
+<script type="text/javascript">
+
+var openId = getQueryString("openId");
+var reportCode = (getQueryString("reportId"))
+var companyId = (getQueryString("companyId"))  //saasId
+var saasId = (getQueryString("saasId"));  //companyId
+var userId = getQueryString("userId");
+var reportType = getQueryString("reportType");
+var sameUser = getQueryString("sameUser");
+var clientType = getQueryString("clientType"); 
+var source = getQueryString('source');
+var sn = getQueryString('sn');
+var salesmanCode = (getQueryString('salesmanCode') || '');
+var relationUrl=(getQueryString("relationUrl") || '');  //是否跳转关联
+
+
+new Vue({
+	el:'.buycard',
+	data: function(){
+		return{
+			goodsList:[],
+			volist:[], //复选框集合，不用
+			selectedGoodList:[],
+			someTit:'',
+			someTxt:'',
+			btnAbleclick: false,
+		}
+	},
+	methods:{
+		//提交购买
+		sub: function(){
+			var vm = this;
+			this.selectedGoodList = [];
+			console.log('goodsList',this.goodsList)
+			vm.goodsList.forEach(function(el,index,arr){
+				if(el.selected == true){
+					vm.selectedGoodList.push(el)
+				}
+			})
+			console.log('selectedGoodList',vm.selectedGoodList);
+			if(vm.selectedGoodList.length > 0){
+				$.ajax({
+					type:"post",
+					url:dataUrl+"/api/v1/goodsOrder/insertGoodsPayOrder?reportCode="+reportCode+"&companyId="+saasId+"&sn="+sn+"&customerId="+userId+'&salesmanCode='+salesmanCode,
+					dataType:"Json",
+					contentType : "application/json",
+					data : JSON.stringify(vm.selectedGoodList),
+					success: function(res){
+						console.log(res)
+						if(res.code == 200){
+							sessionStorage.setItem("selectedGoodList", JSON.stringify(res.data.paymentGoodsDetail));
+							sessionStorage.setItem("paymentGoodsPayOrder", JSON.stringify(res.data.paymentGoodsPayOrder));
+							//sessionStorage.setItem("selectedGoodList", JSON.stringify(vm.selectedGoodList));
+							location.href = "cardSubList.html?reportId="+reportCode+"&openId="+openId+'&reportType='+reportType+'&saasId='+saasId+'&userId='+userId+'&sn='+sn
+						}else{
+							alert('insertGoodsPayOrder code='+res.code)
+						}
+					},
+					error: function(){alert('insertGoodsPayOrder error')}
+				});
+			}
+		},
+		chose:function(item){
+			var vm = this;
+			item.selected = !item.selected;
+		},
+		reduceCount: function(item){
+			if(item.selected){
+				if(item.goodsCount == 1){return};
+				item.goodsCount--
+				item.goodsTotalPrice = item.goodsCount*item.price
+			}
+		},
+		addCount: function(item){
+			if(item.selected){
+				item.goodsCount++
+				item.goodsTotalPrice = item.goodsCount*item.price
+			}
+		},
+		getcardList:function(){
+			var vm = this;
+			$.ajax({
+				type:"post",
+				url: dataUrl+"/api/v1/goods/findGoodsListByCompanyId",
+				dataType:"Json",
+				data:{
+					reportCode: reportCode,
+					companyId: saasId
+				},
+				success:function(res){
+					console.log(res)
+					if(res.code == 200){
+						res.data.forEach(function(el,index,arr){
+							el.goodsCount = 1;
+							el.selected = false;
+							el.goodsPrice = el.price;
+							el.goodsTotalPrice = el.price;
+						})
+						vm.goodsList = res.data;
+					}
+				},
+				error:function(){
+					alert("findGoodsListByCompanyId error")
+				}
+			})
+		},
+		showSome: function(tit,txt){
+			txt = txt.replace(/\/n|\\n/g,'<br>')
+			this.someTit = tit
+			this.someTxt = txt
+			showMask();
+			$('#showSome').css({"visibility":"visible","opacity":"1"});
+		},
+	},
+	mounted() {
+		this.getcardList();
+	}
+});
+//弹窗
+function showMask(){
+	$("body").css("overflow","hidden");
+	$('.v_overlay').css({"visibility":"visible","opacity":"1"});
+	closeMask();
+};
+function closeMask(){
+	$('.v_overlay,.v_overlert .close').click(function(){
+		tocloseall()
+	});
+};
+function tocloseall(){
+	$('.v_overlay').css({"visibility":"hidden","opacity":"0"});
+	$('.v_overlert').css({"visibility":"hidden","opacity":"0"});
+	$('.orginImg').css({"visibility":"hidden","opacity":"0"});
+	$("body").css("overflow","auto");
+};
+//截取URL
+function getQueryString(name) {
+    var result = window.location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+    if (result == null || result.length < 1) {
+        return "";
+    }
+    return result[1];
+};
+</script>
+</body>
+</html>
