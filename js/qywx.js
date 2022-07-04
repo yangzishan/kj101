@@ -7,6 +7,8 @@ var app = new Vue({
 	el: '#app',
 	data: function(){
 		return{
+			showLoading: true,
+			showNotfund:false,
 			userId:'',
 			getSignature_sta:'',
 			getAgentSignature_sta:'',
@@ -152,7 +154,9 @@ var app = new Vue({
 						//location.href = "http://kj101-ysc.jiankangzhan.com/aijiankangshi/qw_historylist.html?customId="+res.result+"&companyId="+companyId+"&shareUrl=1"
 					}else{
 						vm.queryByExternalUserid_sta = 'code !=200';
-						alert('找不到该用户');
+						vm.showNotfund = true;
+						vm.showLoading = false;
+						//alert('找不到该用户');
 					}
 				},
 				error: function(){

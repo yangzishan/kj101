@@ -8,17 +8,17 @@
 		<meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
 		<meta content="telephone=no" name="format-detection" />
 		<title>健康报告</title>
-		<!-- <link ref="stylesheet" type="text/css" href="css/basic.css" > -->
+		<link rel="stylesheet" type="text/css" href="css/basic.css" />
 		<style type="text/css">
 			.content{font-size: .28rem;}
-			.load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 9999; display: none;}
+			.load-overlay{ position: fixed; left: 0; top: 0; bottom: 0; right: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.99); z-index: 9999;display: block;}
 			.load-overlay .loadimg{ width: .6rem; height: .6rem; position: absolute; top: 50%; left: 50%; margin: -.3rem 0 0 -.3rem;}
 			.load-overlay .loadimg img{ width: 100%;}
 		</style>
 	</head>
-	<body>
+	<body style="background: #f6f6f6;">
 		<div id="app">
-			<div class="content">
+			<div class="content" v-show="!showLoading && !showNotfund">
 				<h4>test UserId: {{userId}}</h4>
 				<p>step: {{sta1}}:{{sta2}}:{{sta3}}:{{sta4}}:{{errSta}}</p>
 				<p>getSignature: {{getSignature_sta}}</p>
@@ -26,9 +26,14 @@
 				<p>agentConfigParams: {{agentConfigParams}}</p>
 				<p>queryByExternalUserid: {{queryByExternalUserid_sta}}</p>
 			</div>
+			<div class="show404" v-if="showNotfund">
+				<p style="padding: 1rem .3rem .5rem;"><img class="img_b" src="img/404.jpg"></p>
+				<p style="text-align: center;font-size: .32rem;">暂时没有数据</p>
+			</div>
 			
+			<div class="load-overlay" v-show="showLoading"><p class="loadimg"><img src="img/loading.gif"></p></div>
 		</div>
-		<div class="load-overlay" style="display: block;"><p class="loadimg"><img src="img/loading.gif"></p></div>
+		
 		
 		<script src="js/jquery.js"></script>
 		<script src="js/base.js"></script>
