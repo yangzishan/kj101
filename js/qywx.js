@@ -11,7 +11,7 @@ var app = new Vue({
 			showNotfund:false,
 			userId:'',
 			getSignature_sta:'',
-			getAgentSignature_sta:'',
+			getAgentSignature_sta:'no contact',
 			agentConfigParams:'',
 			
 			sta1:'s1',
@@ -144,6 +144,7 @@ var app = new Vue({
 				dataType:"Json",
 				data:{
 					externalUserId: id,
+					companyId: companyId,
 				},
 				success: function(res){
 					//alert(res.code);
@@ -151,9 +152,9 @@ var app = new Vue({
 					if(res.code == 200){
 						//location.href = "http:"+testHealthUrl+ "/aijiankangshi/qw_historylist.html?customId="+res.result+"&companyId="+companyId+"&shareUrl=1"+'&externalUserid='+id
 						location.href = "http:"+testHealthUrl+ "/jiankangshi/qw_historylist.html?customId="+res.result+"&companyId="+companyId+"&shareUrl=1"+'&externalUserid='+id
-						//location.href = "http://kj101-ysc.jiankangzhan.com/aijiankangshi/qw_historylist.html?customId="+res.result+"&companyId="+companyId+"&shareUrl=1"
 					}else{
-						vm.queryByExternalUserid_sta = 'code !=200';
+						//vm.queryByExternalUserid_sta = 'code !=200';
+						vm.queryByExternalUserid_sta = res.code;
 						vm.showNotfund = true;
 						vm.showLoading = false;
 						//alert('找不到该用户');
@@ -164,36 +165,6 @@ var app = new Vue({
 				}
 			});
 		},
-		/* getQyJsapiTicket: function(){
-			var vm = this;
-			$.ajax({
-				type:"post",
-				url: qywx+"/qw/h5/getQyJsapiTicket",
-				dataType:"Json",
-				data:{
-					companyId: '216549',
-				},
-				success: function(res){
-					
-				},
-				error: funtion(){}
-			})
-		},
-		getThirdJsapiTicket: function(){
-			var vm = this;
-			$.ajax({
-				type:"post",
-				url: qywx+"/qw/h5/getThirdJsapiTicket",
-				dataType:"Json",
-				data:{
-					companyId: '216549',
-				},
-				success: function(res){
-					
-				},
-				error: funtion(){}
-			})
-		}, */
 	},
 	mounted: function(){
 		/* if(suiteId && code){

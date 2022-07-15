@@ -18,7 +18,7 @@
 	</head>
 	<body style="background: #f6f6f6;">
 		<div id="app">
-			<div class="content" v-show="!showLoading && !showNotfund">
+			<div class="content">
 				<h4>test UserId: {{userId}}</h4>
 				<p>step: {{sta1}}:{{sta2}}:{{sta3}}:{{sta4}}:{{errSta}}</p>
 				<p>getSignature: {{getSignature_sta}}</p>
@@ -28,10 +28,10 @@
 			</div>
 			<div class="show404" v-if="showNotfund">
 				<p style="padding: 1rem .3rem .5rem;"><img class="img_b" src="img/404.jpg"></p>
-				<p style="text-align: center;font-size: .32rem;">暂时没有数据</p>
+				<p style="text-align: center;font-size: .32rem;">暂时没有数据<br>code = {{queryByExternalUserid_sta}}</p>
 			</div>
 			
-			<div class="load-overlay" v-show="showLoading"><p class="loadimg"><img src="img/loading.gif"></p></div>
+			<!-- <div class="load-overlay" v-show="showLoading"><p class="loadimg"><img src="img/loading.gif"></p></div> -->
 		</div>
 		
 		
