@@ -84,8 +84,8 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0; 
 .print .jianyi > div{border-bottom:1px solid #348798;width:100%;height:100%;position:relative}
 .print .jianyi > div > .left{display:inline-block;width:5%;text-align:center; font-size: 12px;}
 .print .jianyi > div > .left > em{font-weight:bold;position:absolute;top:50%;left:1%;/*transform:translateY(-50%);*/width: .2rem; margin-top: -60px;}
-.print .jianyi > div > .right{display:inline-block;width:95%;border-left:1px solid #348798; font-size: 12px; padding: 10px 5px;}
-.print .jianyi > div > .right > p i{display:inline-block;width:8px;height:8px;background:#348798;border-radius:50%;margin:0 15px 0 7px}
+.print .jianyi .right{display:inline-block;width:95%;border-left:1px solid #348798; font-size: 12px; padding: 10px 5px;}
+.print .jianyi .right > p i{display:inline-block;width:8px;height:8px;background:#348798;border-radius:50%;margin:0 15px 0 7px}
 
 /*=食谱菜单=*/
 .sp-dcn{ margin:16px 0; padding: 0 20px;}
@@ -196,8 +196,11 @@ body{-webkit-print-color-adjust:exact;width:640px;margin:0 auto;padding:15px 0; 
 .xxg_con2 .cn2 ul{ font-size: 0;}
 .xxg_con2 .cn2 ul li{display: inline-block;width: 30%; text-align: center; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27);
 border-radius: 6px;  font-size: 14px; margin: 0 5px 14px;}
+
+.xxg_con2 .cn2 ul li p{line-height: 34px;}
+
 .xxg-wx{border-top: #3D8392 solid 1px; padding: 12px;}
-.xxg-wx .ttt{font-weight: 600; font-size: 16px;}
+.xxg-wx .ttt{font-weight: 600; font-size: 16px;line-height: 34px;}
 .xxg-wx .yinsu{ overflow: hidden; padding: 10px 0;}
 .xxg-wx .yinsu li{float: left; box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.27); border-radius: 6px; font-size: 12px; line-height: 30px; padding: 0 10px; margin: 0 12px;}
 .xxg-wx .ztxt{padding: 12px 0; line-height: 20px; font-size: 13px;}
