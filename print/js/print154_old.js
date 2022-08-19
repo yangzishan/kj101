@@ -8,9 +8,10 @@ var viewType = getQueryString("viewType");  //1 打印  2预览
 var reportType = getQueryString('reportType');
 var printReportType = getQueryString('printReportType');  //1结果版，2标准版 ，3价值版
 if(viewType == 1){go = 0};
+//var reportId = 'KJ501KT00000156190619000226482';
 $('.load-overlay').css("display","block");
 var myapp = new Vue({
-	el:'#content-box',
+	el:'#app',
 	data:function(){
 		return{
 			showAll:false,
@@ -120,11 +121,8 @@ var myapp = new Vue({
 					vm.bloodOxygenValue = res.data.reportAZYView.bloodOxygenValue
 				 	vm.ecg = res.data.reportAZYView.ecg
 					
-					go++;
-					goPrint(go);
-					
-					bookConfig.start = true;
-					
+					go++
+					goPrint(go)
 				},
 				error:function(){alert('queryInsurePrint error')}
 			});
@@ -189,6 +187,47 @@ var myapp = new Vue({
 			});
 		},
 		
+		godownloadPdf: function(){
+    		var target = document.getElementsByClassName("print")[0];
+			target.style.background = "#FFFFFF";
+			html2canvas(target, {
+			    onrendered:function(canvas) {
+			        var contentWidth = canvas.width;
+			        var contentHeight = canvas.height;
+			
+			        //一页pdf显示html页面生成的canvas高度;
+			        var pageHeight = contentWidth / 592.28 * 841.89;
+			        //未生成pdf的html页面高度
+			        var leftHeight = contentHeight;
+			        //页面偏移
+			        var position = 0;
+			        //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+			        var imgWidth = 595.28;
+			        var imgHeight = 592.28/contentWidth * contentHeight;
+			
+			        var pageData = canvas.toDataURL('image/jpeg', 1.0);
+			
+			        var pdf = new jsPDF('', 'pt', 'a4');
+			
+			        //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+			        //当内容未超过pdf一页显示的范围，无需分页
+			        if (leftHeight < pageHeight) {
+			        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
+			        } else {
+			            while(leftHeight > 0) {
+			                pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+			                leftHeight -= pageHeight;
+			                position -= 841.89;
+			                //避免添加空白页
+			                if(leftHeight > 0) {
+			                  pdf.addPage();
+			                }
+			            }
+			        }
+			        pdf.save("健康报告评估.pdf");
+			    }
+			})
+    	},
 
 	}
 });

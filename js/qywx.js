@@ -1,7 +1,7 @@
 var companyId = getQueryString('companyId');
-var suiteId = getQueryString('suiteId');
+//var suiteId = getQueryString('suiteId');
 var code = getQueryString('code');
-// var state = getQueryString('state');
+var state = getQueryString('state');
 var localUrl = window.location.href;
 var app = new Vue({
 	el: '#app',
@@ -20,6 +20,7 @@ var app = new Vue({
 			sta4:'s4',
 			errSta:'',
 			queryByExternalUserid_sta:'',
+			getUserinfo3rd_sta:'no contact'
 		}
 	},
 	methods:{
@@ -28,16 +29,24 @@ var app = new Vue({
 			var vm = this;
 			$.ajax({
 				type: "post",
-				url: qywx+'/qw/auth/getUserinfo3rd/ww3bbdf70367551c6e',
+				url: qywx+'/qw/auth/getUserinfo3rd',
 				dataType: "Json",
 				data:{
 					code: code,
-					suiteId:suiteId
+					state:state
 				},
-				success: function(){
-					
+				success: function(res){
+					console.log(res);
+					if(res.code == 200){
+						
+					}else{
+						vm.getUserinfo3rd_sta = res.code
+					}
 				},
-				error: function(){}
+				error: function(){
+					console.log('getUserinfo3rd error');
+					vm.getUserinfo3rd_sta = 'error'
+				}
 			});
 		},
 		getSignature: function(){
@@ -116,7 +125,15 @@ var app = new Vue({
 									if(cures.err_msg == "getCurExternalContact:ok"){
 											vm.userId  = cures.userId ; //返回当前外部联系人userId
 											//alert(vm.userId)
-											vm.queryByExternalUserId(cures.userId);
+											
+											
+											//vm.queryByExternalUserId(cures.userId);
+											
+											
+											//与生产aijiankangshi  生产 jiankangshi
+											//location.href = "http:"+testHealthUrl+ "/aijiankangshi/qw_historylist.html?companyId="+companyId+"&shareUrl=1"+'&externalUserid='+cures.userId
+											location.href = "http:"+testHealthUrl+ "/jiankangshi/qw_historylist.html?companyId="+companyId+"&shareUrl=1"+'&externalUserid='+cures.userId
+											
 									}else {
 											//错误处理
 									}
@@ -136,11 +153,12 @@ var app = new Vue({
 				}
 			});
 		},
-		queryByExternalUserId: function(id){
+		//郭达的接口 （获取用户）
+		queryByExternalUserId: function(id){ 
 			var vm = this;
 			$.ajax({
 				type: "post",
-				url: quanpinUrl+ "/measured/queryByExternalUserId",   
+				url: quanpinUrl+ "/measured/queryByExternalUserId",
 				dataType:"Json",
 				data:{
 					externalUserId: id,
@@ -167,11 +185,15 @@ var app = new Vue({
 		},
 	},
 	mounted: function(){
-		/* if(suiteId && code){
+		if(state && code){
 			this.getUserinfo3rd();
 		}else{
-			this.getAgentSignature();
-		} */
+			//this.getAgentSignature();
+		}
+		
+		
+		
+		
 		this.getAgentSignature();
 		
 		//this.getSignature()

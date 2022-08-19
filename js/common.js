@@ -91,7 +91,7 @@ var app = new Vue({
 				}
 			};
 			/*******************************交互逻辑*****************************/
-			setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
+			/* setupWebViewJavascriptBridge(function(bridge) { //注册JS方法供OC调用
 				bridge.registerHandler('analysisReport', function(data, responseCallback) {
 					//alert('test_oc'); //判断iOS和Android
 					var u = navigator.userAgent;
@@ -130,7 +130,7 @@ var app = new Vue({
 						}
 					}		
 				})
-			})
+			}) */
 		},
 		delayedSendData: function(){
 			var vm = this
@@ -303,6 +303,7 @@ function setupWebViewJavascriptBridge(callback) {
 	var WVJBIframe = document.createElement('iframe');
 	WVJBIframe.style.display = 'none';
 	WVJBIframe.src = 'wvjbscheme://__bridge_loaded__';
+	//WVJBIframe.src = 'https://__bridge_loaded__';
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }

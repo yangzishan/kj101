@@ -2,25 +2,50 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+	<meta name="renderer" content="webkit">
   <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
   <meta content="yes" name="apple-mobile-web-app-capable" />
   <meta content="black" name="apple-mobile-web-app-status-bar-style" /> 
   <meta content="telephone=no" name="format-detection" />
+	<meta name="screen-orientation" content="portrait">
+	<meta name="x5-orientation" content="portrait">
   <link rel="stylesheet" type="text/css" href="css/basic.css" />
-  <script>document.write('<link rel="stylesheet" type="text/css" href="css/comm.css?t=' + new Date().getTime() + '" \/>')</script>
+ <!-- <script>document.write('<link rel="stylesheet" type="text/css" href="css/comm.css?t=' + new Date().getTime() + '" \/>')</script> -->
+	<link rel="stylesheet" type="text/css" href="css/comm.css" />
+	<script src="../bookjs/static/js/polyfill.min.js"></script>
+	<script src="../bookjs/static/js/jquery.min.js"></script>
+	<script src="../bookjs/static/js/lodash.min.js"></script>
+	<!-- <script src="bookjs/static/js/echarts/5.0.2/echarts.min.js"></script> -->
+	<script src="../bookjs/static/js/bookjs/latest/bookjs-eazy.min.js"></script>
+	
   <title>打印报告</title>
+	<style type="text/css">
+	.jqxiangmu{ text-align: center; line-height: 30px;}
+	.jqxiangmu span{ display: inline-block; color:#428FE8; font-size: 20px; margin: 0 10px;}
+	.catalog-title{font-size: .3rem;}
+	.sr_box{border:1px solid #348798;}
+	.cpurl{position: absolute; left: 0; top: 12px; width: 120px;height: 40px; background: darkgray; border-radius: 2px;}
+	#foo{ color: #ffffff;}
+	</style>
 </head>
-<body>
-<div id="app" class="print" style="position: relative;" v-show="showAll">
-	<div v-if="printReportType == 2" style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;">
-		<button id="copyurl" style="position: absolute; left: 0; top: 12px; width: 120px;height: 40px; background: darkgray; border-radius: 2px;" :data-clipboard-text="localUrl">复制链接</button>
-		<img src="img/ddd.png" @click="godownloadPdf()">
+<body style="margin: 0 auto;">
+
+
+<div id="content-box" class="print">
+	
+	<input id="foo" :value="localUrl">
+	
+	<div style="text-align: center;position: absolute; left: 0; top: -16px; width: 100%;">
+		<button class="cpurl" id="copyurl" data-clipboard-target="#foo">复制链接</button>
 	</div>
+	
+
 	<div class="banben" v-if="printReportType == 1">结果版</div>
 	<div class="banben" v-if="printReportType == 2">标准版</div>
 	<div class="banben" v-if="printReportType == 3">价值版</div>
-	<div class="print-index a4">
-		<div class="title">
+	<div class="print-index">
+		<div class="title" style="font-size: 50px;">
 			<p>全身健康评估报告</p><p class="english">CENERAL HEALTH REPORT</p>
 		</div>
 		<ul>
@@ -39,11 +64,11 @@
 			<li class="pli" v-if="mobile">
 				<span class="key">联系方式</span><span class="value">：{{mobile.slice(0,11)}}</span>
 			</li>
-			<!--<li class="pli" v-if="payNum">
-				<span class="key">支付码</span><span class="value">：{{payNum}}</span>
-			</li>-->
 		</ul>
 		<div class="banner"><img src="img/503.png"></div>
+		<div class="jqxiangmu">
+			<span>心血管</span><span>免疫力</span><span>肺功能</span><span>皮肤</span><span>全身评估</span><span>重疾风险</span>
+		</div>
 		<div class="slogan">
 			<div>人工智能</div><div>健康筛查</div>
 		</div>
@@ -51,380 +76,518 @@
 		<p style="text-align: center; font-size: 20px; color: #259a91; line-height: 30px;">本报告不作为医学临床诊断之用</p>
 	</div>
 	
-	<section class="sr_box">
-        <h3>以下是您的评估结果：</h3>
-      	<div class="box">
-			<div class="lf">
-			    <div class="body">
-			        <img src="./img/kh/s_man.png" v-if="sex == 1">
-			        <img src="./img/kh/s_woman.png" v-if="sex != 1">
-			    </div>
+	<div data-op-type="new-page"></div>
+	
+	
+	
+	<section class="print">
+		<div class="sr_box" data-op-type='block'>
+			<h3>心血管功能</h3>
+			<div class="mianyi">
+				<div class="fen_sta">
+					您的心血管功能<em v-if="bloodOxygenValue.bloodScore>=90">良好</em><em v-if="bloodOxygenValue.bloodScore>=80 && bloodOxygenValue.bloodScore<90">偏弱</em><em v-if="bloodOxygenValue.bloodScore<80">较差</em>！
+					<span class="fr"><font>{{bloodOxygenValue.bloodScore}}</font>分</span>
+				</div>
 			</div>
-		    <div class="rt">
-		        <ul>
-					<li  v-for="item in firsts" :class="{'normal':item.score >= 90,'mild':90 > item.score && item.score >= 80,'severity':80 > item.score}" v-if="item.targetId !=1001">
-						<div v-if="item.score >= 90" class="img"><img :src="'img/'+item.targetId+'.png'"></div>
-						<div v-else-if="90 > item.score && item.score >= 80" class="img"><img :src="'img/'+item.targetId+'-2.png'"></div>
-						<div v-else class="img"><img :src="'img/'+item.targetId+'-3.png'"></div>
-						<div class="txt">
-							<p class="grade">{{item.score}}</p>
-							<p class="name">{{item.targetName}}</p>
-							<p v-show="item.score >= 90" class="state">正常</p>
-							<p v-show="90 > item.score && item.score >= 80" class="state">轻度风险</p>
-							<p v-show="80 > item.score" class="state">中度风险</p>
+			<div class="xxg_con">
+				<div class="xinlv">
+					<p class="lab">心率</p><p class="zhi"><span>{{ecg.heartRate}}</span><font>bmp</font></p>
+				</div>
+				<div class="xinz">
+					<div class="z1"><span>心脏功能：</span><img class="io" src="../img/154/tip.png"> {{ecg.paraResult}}</div>
+					<div class="z2">
+						<span>常见原因：</span>{{ecg.paraCause}}
+					</div>
+				</div>
+			</div>
+			<div class="xxg_con2">
+				<div class="cn1">
+					<div class="xybh">
+						<div class="pic"><img src="../img/154/xx-yangqi.png"></div>
+						<div class="inf">
+							<p class="lab">血氧饱和度</p>
+							<p class="sta">{{bloodOxygenValue.bloodStatus}}</p>
+							<p class="fw">{{bloodOxygenValue.bloodScore}}%=正常范围(94% - 100%)</p>
 						</div>
-					</li>
+					</div>
+					<div class="xybh">
+						<div class="pic"><img src="../img/154/xx-xueguan.png"></div>
+						<div class="inf">
+							<p class="lab">微循环</p>
+							<p class="sta">{{bloodOxygenValue.heathScore}}%</p>
+							<p class="fw">{{bloodOxygenValue.heathIndex}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="cn2">
+					<ul>
+						<li v-for="(item,index) in loopSys">
+							<p style="color: #2671C7;" v-if="item.score >= 90">{{item.score}}分</p>
+							<p style="color: #FF8800;" v-if="item.score >= 80 && item.score < 90">{{item.score}}分</p>
+							<p style="color: #FF0000;" v-if="item.score < 80">{{item.score}}分</p>
+							<p>{{item.targetName}}</p>
+						</li>
+						
+					</ul>
+				</div>
+			</div>
+			<template v-if="printReportType == 2 || printReportType == 3">
+			<div class="xxg-wx">
+				<p class="ttt">心血管问题的常见危险因素</p>
+				<ul class="yinsu">
+					<li>吸烟</li><li>高血压</li><li>糖尿病</li><li>高脂血症</li><li>肥胖</li><li>长期饮酒</li><li>不良的饮食</li>
 				</ul>
-		    </div>
+			</div>
+			<div class="xxg-wx">
+				<p class="ttt">心血管功能较差，常出现以下症状</p>
+				<div class="ztxt">心悸、气短、端坐呼吸、夜间阵发性呼吸困难、胸骨后的压迫性或紧缩性疼痛、胸闷不适、水肿、发绀、晕厥、咳嗽咯血、虚弱、嗳气、上腹痛、恶心、呕吐、左后背痛、左手臂痛等。</div>
+			</div>
+			<div class="xxg-wx">
+				<p class="ttt">心血管功能异常的人群易患这些疾病</p>
+				<ul class="jibing">
+					<li><em><i></i></em><span>冠心病</span></li>
+					<li><em><i></i></em><span>心绞痛</span></li>
+					<li><em><i></i></em><span>心肌病</span></li>
+					<li><em><i></i></em><span>心瓣膜病</span></li>
+					<li><em><i></i></em><span>心律失常</span></li>
+					<li><em><i></i></em><span>肺源性心脏病</span></li>
+					<li><em><i></i></em><span>急性或慢性心力衰竭</span></li>
+					<li><em><i></i></em><span>心包炎和感染性心内膜炎</span></li>
+				</ul>
+			</div>
+			<div class="xxg-wx">
+				<p class="ttt">健康的生活方式</p>
+				<div class="ztxt">1、合理膳食，保证n-3不饱和脂肪酸的摄入。 <br>2、适量摄入有益心血管健康的植物提取物。<br> 3、戒烟限酒，规律适量的运动，定期检查。</div>
+			</div>
+			</template>
 		</div>
 	</section>	
-	<section class="sr_box a4">
-      	<h3>免疫力系统</h3>
-      	<div class="mianyi">
-      		<div class="fen_sta">
-				您的免疫能力<em v-if="mianyiScore>=90">良好</em><em v-if="mianyiScore>=80 && mianyiScore<90">偏弱</em><em v-if="mianyiScore<80">较差</em>！
-				<span class="fr"><font>{{mianyiScore}}</font>分</span>
-			</div>
-			<ul class="bid_list">
-				<li class="c-li" v-for="item in mianyiList">
-					<a>
-					<div class="pic"><img :src="'img/124/t_'+item.targetId+'.png'" class="img_b"></div>
-					<div class="dtt">
-						<p class="nam">{{item.targetName}}</p>
-						<p class="sta" v-if="item.score>=90">正常</p>
-						<p class="sta lit" v-else-if="item.score>=80 && item.score<90">轻度风险</p>
-						<p class="sta mid" v-else="item.score<80">中度风险</p>
-					</div>
-					</a>
-				</li>
-			</ul>
-      	</div>
-    </section>	
 	
-	<!--<section class="sr_box a4">
-		<h3>重疾风险预测</h3>
-		<div class="zhongji">
-			<ul class="zj_list">
-				<li v-for="item in diseases">
-					<div class="bit"><i></i><span class="lab">{{item.diseaseName}}</span>
-						<p class="fr pro"><span class="ppc" :style="'width: '+item.store+'%;'"></span> <span class="tcc">风险度 <em>{{item.store}}%</em></span></p>
-					</div>
-					<p class="tit">定义</p>
-					<div class="txt" v-html="item.diseaseDetails"></div>
-					<p class="tit">病因</p>
-					<div class="txt" v-html="item.diseaseCause"></div>
-					<p class="tit">建议</p>
-					<div class="txt" v-html="item.diseaseGuard"></div>
-				</li>
-			</ul>
-		</div>
-	</section>-->
+	<!-- <div data-op-type="new-page"></div> -->
 	
-	
-	<section class="sr_box a4" v-if="printReportType == 2 || printReportType == 3">
-		<h3>皮肤状况</h3>
-		<div class="skin">
-			<div class='zongjie'>
-		      	<div class="l">{{inspectSkinView.totalScore}} 分</div>
-		      	<div class="r">
-		      		<span><em>肤质</em><i>{{inspectSkinView.skinTypeResult}}</i></span>
-		      		<span><em>肤龄</em><i>{{inspectSkinView.age}}</i></span>
-		      		<span><em>肤色</em><i>{{skinColor[inspectSkinView.color]}}</i></span>
-		      	</div>
-		    </div>
-		    <div class="xiangqing" v-if="inspectSkinView.majorList.length != 0">
-		        <h5 class="dan">重点关注</h5>
-		        <template v-for="item in inspectSkinView.majorList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
-		        	<div class="tou">
-			        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
-			        </div>
-			        <div class="bd">
-			          <p class="tit">护肤建议：</p>
-			          <p>{{item.paraSuggestion}}</p>
-			        </div>
-		        </template>
-		    </div>
-		    <div class="xiangqing" v-if="inspectSkinView.awaitList.length != 0">
-		        <h5 class="gai">有待改善</h5>
-		        <template v-for="item in inspectSkinView.awaitList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
-		        	<div class="tou">
-			        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
-			        </div>
-			        <div class="bd">
-			          <p class="tit">护肤建议：</p>
-			          <p>{{item.paraSuggestion}}</p>
-			        </div>
-		        </template>
-		    </div>
-		    <div class="xiangqing" v-if="inspectSkinView.continueList.length != 0">
-		        <h5 class="chi">继续保持</h5>
-		        <template v-for="item in inspectSkinView.continueList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
-		        	<div class="tou">
-			        	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
-			        </div>
-			        <div class="bd">
-			        	<p class="tit">护肤建议：</p>
-			          <p>{{item.paraSuggestion}}</p>
-			        </div>
-		        </template>
-		    </div>
-	   </div>
-	</section>
-
-	<section class="sr_box a4">
-      	<h3>个性化健康建议</h3>
-      	<div class="jianyi">
-	      <div class="shanshi a4" v-if="dietList">
-	        <div class="left"><em>膳食建议</em></div>
-	        <div class="right">
-	        	<template v-for="item in dietList">
-	        		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
-	        		<p style="padding:0 10px;">{{item.proposal}}</p>
-	        		<p style="padding:0 10px;">{{item.simpleDescription}}</p>
-	        	</template>
-	        </div>
-	      </div>
-	      <div class="yingyang" v-if="nutritionList">
-	        <div class="left"><em>营养素建议</em></div>
-	        <div class="right">
-	          <template v-for="item in nutritionList">
-	        		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
-	        		<p style="padding:0 10px;">{{item.proposal}}</p>
-	        		<p style="padding:0 10px;">{{item.simpleDescription}}</p>
-	        	</template>
-	        </div>
-	      </div>
-	      <div class="yundong" v-if="motionList">
-	        <div class="left"><em>运动建议</em></div>
-	        <div class="right">
-	          <template v-for="item in motionList">
-	        		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
-	        	</template>
-	        </div>
-	      </div>
-	    </div>
-    </section>
-    <section class="sr_box a4" v-if="printReportType == 2 || printReportType == 3">
-    	<h3>建议食谱</h3>
-    	<div class="sp-dcn" :class="{a4:(index+1)%3==0}" v-for="(day,index) in daylist">
-			<p class="cnt"><span>day{{index+1}}</span></em></p>
-			<div class="cnc">
-				<div class="tt"><span>名称</span><em>荤菜</em><em>素菜</em><em>主食</em></div>
-				<dl class="tli">
-					<dt><p class="ce"><font>早餐</font></p></dt>
-					<dd>
-						<template v-for="bre in day.breakfast.meat">
-							<span>{{bre.foodName}}</span>
-						</template>	
-					</dd>
-					<dd>
-						<template v-for="bre in day.breakfast.vegetable">
-							<span>{{bre.foodName}}</span>
-						</template>
-					</dd>
-					<dd>
-						<template v-for="bre in day.breakfast.main">
-							<span>{{bre.foodName}}</span>
-						</template>
-					</dd>
-				</dl>
-				<dl class="tli">
-					<dt><p class="ce"><font>早加餐</font></p></dt>
-					<dd>
-						<template v-for="ba in day.breakfastAdd.ba">
-							<span>{{ba.foodName}}</span>
-						</template>
-					</dd>
-				</dl>
-				<dl class="tli">
-					<dt><p class="ce"><font>午餐</font></p></dt>
-					<dd>
-						<template v-for="lun in day.lunch.meat">
-							<span>{{lun.foodName}}</span>
-						</template>
-					</dd>
-					<dd>
-						<template v-for="lun in day.lunch.vegetable">
-							<span>{{lun.foodName}}</span>
-						</template>
-					</dd>
-					<dd>
-						<template v-for="lun in day.lunch.main">
-							<span>{{lun.foodName}}</span>
-						</template>
-					</dd>
-				</dl>
-				<dl class="tli">
-					<dt><p class="ce"><font>午加餐</font></p></dt>
-					<dd>
-						<template v-for="la in day.lunchAdd.la">
-							<span>{{la.foodName}}</span>
-						</template>
-					</dd>
-				</dl>
-				<dl class="tli">
-					<dt><p class="ce"><font>晚餐</font></p></dt>
-					<dd>
-						<template v-for="lun in day.dinner.meat">
-							<span>{{lun.foodName}}</span>
-						</template>
-					</dd>
-					<dd>
-						<template v-for="lun in day.dinner.vegetable">
-							<span>{{lun.foodName}}</span>
-						</template>
-					</dd>
-					<dd>
-						<template v-for="lun in day.dinner.main">
-							<span>{{lun.foodName}}</span>
-						</template>
-					</dd>
-				</dl>
-			</div>
-		</div>
-    </section>
-    <section class="sr_box a4" v-if="printReportType == 3">
-    	<h3>详细指标及建议</h3>
-    	<div v-for="item in firsts" v-if="item.targetId !=9001">
-	        <div class="sr_head">
-	        	<div class="sr_hr"><img :src="'./img/'+item.targetId+'.png'" alt="">{{item.targetName}}
-	        		<span :class="{lit:item.score<90}">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>
-	        	</div>
-	        	<div class="c_con" v-for="second in item.seconds">
-					<div class="second">
-						<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></span>
-					</div>
-					<p class="third">
-						<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
-						<template>
-							<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
-							<em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>
-						</template>
-						</span>
-					</p>
+	<section class="print">
+		<div class="sr_box">
+			<h3>肺功能</h3>
+			<div class="mianyi">
+				<div class="fen_sta">
+					您的心血管功能<em v-if="feiGongneng.score>=90">良好</em><em v-if="feiGongneng.score>=80 && feiGongneng.score<90">偏弱</em><em v-if="feiGongneng.score<80">较差</em>！
+					<span class="fr"><font>{{feiGongneng.score}}</font>分</span>
 				</div>
-	      	</div>
-      		<!-- 指标 -->
-      		<template v-for="second in item.seconds">
-		      	<div class="sr_head_b" v-for="site in second.thirds" v-show="site.inspectStandard != 1 && site.healthAdviceVo != null && (site.targetId < 3176 || site.targetId > 3185)">
-		        	<div class="sr_head_b_tit">{{site.targetName}}：</div>
-			        <div class="sr_head_bzi"><span>正常</span><span>轻度风险</span><span>中度风险</span>
-			        	<img src="./img/kh/fubiao.png" alt="" class="fubiao" :class="{lit:site.score<90 && site.score >=80,mid:site.score<80}">
-			        </div>
-			        <div class="sr_title">
-			          	<p class="h8">指标解读</p>
-			          	<div class="sr-text"> {{site.explain}} </div> 
-			        </div>
-			        <div class="sr_zhengwen">
-			          	<p class="h8">改善建议</p>
-			            <div class="sr_jybox" v-if="site.healthAdviceVo.dietList && site.healthAdviceVo.dietList.length !=0">
-			          		<p class="h9">膳食建议</p>
-				          	<template v-for="(jinayi,index) in site.healthAdviceVo.dietList">
-								  <template v-if="jinayi.personality">
-									<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
-								  </template>
-								  <template v-else>
-									<p class="h10">{{index+1}}、{{jinayi.proposal}}</p>
-								  </template>
-				          		
-					            <!--<p class="h11">根据您的检测结果，每日建议摄入热量低于 1400 千卡</p>-->
-					            <div class="sr_jytext"> {{jinayi.simpleDescription}}</div>
-				          	</template>
-			            
-			            </div>
-			          <div class="sr_yyjy" v-if="site.healthAdviceVo.nutritionList && site.healthAdviceVo.nutritionList.length !=0">
-			            <p class="h9">营养建议</p>
-			            <template v-for="(jinayi,index) in site.healthAdviceVo.nutritionList">
-				            <p>{{index+1}}、{{jinayi.personality}}</p> 
-				            <p>{{jinayi.simpleDescription}}</p> 
-			            </template>
-			          </div>
-			          <div class="sr_yyjy" v-if="site.healthAdviceVo.motionList && site.healthAdviceVo.motionList.length !=0">
-			            <p class="h9">运动和生活方式建议</p>
-			            <template v-for="(jinayi,index) in site.healthAdviceVo.motionList">
-				            <p>{{index+1}}、{{jinayi.personality}}</p> 
-			            </template>
-			          </div>
-			        </div>
-		      	</div>
-		    </template>
-      	</div>
-      	<div class="weixunhaun">
-        <div class="sr_hr"><img src="./img/9001.png">微循环
-        	<!--<span>轻度风险</span>-->
-        </div>
-        <div class="sr_hbox">
-        	<div class="hr_list"><span>心率</span><span>{{ecg.heartRate}}</span></div>
-        	<div class="hr_list"><span>血氧饱和度</span><span>{{bloodOxygen.bloodScore}}%</span></div>
-        	<div class="hr_list"><span>心脏功能</span><span>{{ecg.paraResult}}</span></div>
-        	<div class="hr_list"><span>微循环</span><span>{{bloodOxygen.heathScore}}%</span></div>
-        </div>
-      </div>
-    	
-    </section>
+			</div>
+			<div class="feibid">
+				<div class="bitem" v-for="item in feiGongneng.thirds">
+					<div class="pic"><img :src="'../img/154/fe-'+item.targetId+'.png'"></div>
+					<div class="inf">
+						<p class="lab">{{item.targetName}}</p>
+						<p class="sta" style="color: #306FB7;" v-if="item.score>=90">正常</p>
+						<p class="sta" style="color: #FF8800;" v-if="item.score>=80 && item.score < 90">轻度风险</p>
+						<p class="sta" style="color: #FF0000;" v-if="item.score < 80">中度风险</p>
+					</div>
+				</div>
+				
+				<div class="sitem">
+					<div class="pic"><img src="../img/154/i-shaoping.png"></div>
+					<div class="inf">
+						<p class="lab">血氧饱和度</p>
+						<p class="sta">{{bloodOxygenValue.bloodStatus}}</p>
+					</div>
+					<div class="fen fr">
+						<p class="up">{{bloodOxygenValue.bloodScore}}%</p>
+						<p class="fw">(正常范围94% - 100%)</p>
+					</div>
+				</div>
+			</div>
+			
+			<template v-if="printReportType == 2 || printReportType == 3">
+			<div class="xxg-wx">
+				<p class="ttt">造成肺功能下降的常见危险因素</p>
+				<ul class="jibing">
+					<li><em></em><span>冠状病毒感染</span></li>
+					<li><em></em><span>PM2.5超标</span></li>
+					<li><em></em><span>吸烟/二手烟</span></li>
+					<li><em></em><span>免疫力下降</span></li>
+				</ul>
+			</div>
+			<div class="xxg-wx">
+				<p class="ttt">肺功能较弱，常出现以下症状：</p>
+				<ul class="feizz">
+					<li><img src="img/z-nan.png"><p>呼吸困难</p></li>
+					<li><img src="img/z-nan.png"><p>慢性咳嗽</p></li>
+					<li><img src="img/z-nan.png"><p>咳痰</p></li>
+					<li><img src="img/z-nan.png"><p>气短</p></li>
+					<li><img src="img/z-nan.png"><p>胸闷</p></li>
+					<li><img src="img/z-nan.png"><p>喘息</p></li>
+					<li><img src="img/z-nan.png"><p>精神抑郁</p></li>
+					<li><img src="img/z-nan.png"><p>焦虑</p></li>
+				</ul>
+			</div>
+			<div class="xxg-wx">
+				<p class="ttt">肺功能明显降低的人群，易患以下疾病：</p>
+				<ul class="jibing">
+					<li><em></em><span>新型冠状病毒肺炎</span></li>
+					<li><em></em><span>尘肺病</span></li>
+					<li><em></em><span>慢性间质性肺炎</span></li>
+					<li><em></em><span>慢性阻塞性肺疾病（COPD）</span></li>
+					<li><em></em><span>肺癌</span></li>
+					<li><em></em><span>原因不明的肺部疾病（肺结节）</span></li>
+				</ul>
+				<div style="color: #3D8392; font-size: 12px; line-height: 18px;">
+					出门戴口罩，预防病毒，防雾霾，严格控烟；适当进行有氧运动，提升肺活量，改善呼吸功能；多吃清肺的食物，不吃辛辣油腻等刺激性食物。
+				</div>
+			</div>
+			</template>
+		</div>
+	</section>
 	
-</div>
+	<section class="print">
+		<div class="sr_box">
+			<h3>以下是您的评估结果：</h3>
+			  	<div class="box">
+				<div class="lf">
+				    <div class="body">
+				        <img src="./img/kh/s_man.png" v-if="sex == 1">
+				        <img src="./img/kh/s_woman.png" v-if="sex != 1">
+				    </div>
+				</div>
+			    <div class="rt">
+			        <ul>
+						<li  v-for="item in firsts" :class="{'normal':item.score >= 90,'mild':90 > item.score && item.score >= 80,'severity':80 > item.score}" v-if="item.targetId !=1001">
+							<div v-if="item.score >= 90" class="img"><img :src="'img/'+item.targetId+'.png'"></div>
+							<div v-else-if="90 > item.score && item.score >= 80" class="img"><img :src="'img/'+item.targetId+'-2.png'"></div>
+							<div v-else class="img"><img :src="'img/'+item.targetId+'-3.png'"></div>
+							<div class="txt">
+								<p class="grade">{{item.score}}</p>
+								<p class="name">{{item.targetName}}</p>
+								<p v-show="item.score >= 90" class="state">正常</p>
+								<p v-show="90 > item.score && item.score >= 80" class="state">轻度风险</p>
+								<p v-show="80 > item.score" class="state">中度风险</p>
+							</div>
+						</li>
+					</ul>
+			    </div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="print">
+		<div class="sr_box">
+			<h3>免疫力系统</h3>
+			<div class="mianyi">
+				<div class="fen_sta">
+					您的免疫能力<em v-if="mianyiScore>=90">良好</em><em v-if="mianyiScore>=80 && mianyiScore<90">偏弱</em><em v-if="mianyiScore<80">较差</em>！
+					<span class="fr"><font>{{mianyiScore}}</font>分</span>
+				</div>
+				<ul class="bid_list">
+					<li class="c-li" v-for="item in mianyiList">
+						<a>
+						<div class="pic"><img :src="'img/124/t_'+item.targetId+'.png'" class="img_b"></div>
+						<div class="dtt">
+							<p class="nam">{{item.targetName}}</p>
+							<p class="sta" v-if="item.score>=90">正常</p>
+							<p class="sta lit" v-else-if="item.score>=80 && item.score<90">轻度风险</p>
+							<p class="sta mid" v-else="item.score<80">中度风险</p>
+						</div>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>	
+	
+	<!-- <div data-op-type="new-page"></div> -->
+	
+	<section data-op-type="mix-box" class="print" v-if="printReportType == 2 || printReportType == 3">
+		<div class="nop-fill-box sr_box skin">
+			<h3 data-op-type='block'>皮肤状况</h3>
+			<div data-op-type='block' class='zongjie'>
+					<div class="l">{{inspectSkinView.totalScore}} 分</div>
+					<div class="r">
+						<span><em>肤质</em><i>{{inspectSkinView.skinTypeResult}}</i></span>
+						<span><em>肤龄</em><i>{{inspectSkinView.age}}</i></span>
+						<span><em>肤色</em><i>{{skinColor[inspectSkinView.color]}}</i></span>
+					</div>
+			</div>
+			<div data-op-type='block' class="xiangqing" v-if="inspectSkinView.majorList.length != 0">
+			    <h5 class="dan">重点关注</h5>
+			    <template v-for="item in inspectSkinView.majorList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+			    	<div class="tou">
+			      	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+			      </div>
+			      <div class="bd">
+			        <p class="tit">护肤建议：</p>
+			        <p>{{item.paraSuggestion}}</p>
+			      </div>
+			    </template>
+			</div>
+			<div data-op-type='block' class="xiangqing" v-if="inspectSkinView.awaitList.length != 0">
+			    <h5 class="gai">有待改善</h5>
+			    <template v-for="item in inspectSkinView.awaitList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+			    	<div class="tou">
+			      	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+			      </div>
+			      <div class="bd">
+			        <p class="tit">护肤建议：</p>
+			        <p>{{item.paraSuggestion}}</p>
+			      </div>
+			    </template>
+			</div>
+			<div data-op-type='block' class="xiangqing" v-if="inspectSkinView.continueList.length != 0">
+			    <h5 class="chi">继续保持</h5>
+			    <template v-for="item in inspectSkinView.continueList" v-if="item.targetName != 'skinage' && item.targetName != 'fuse'">
+			    	<div class="tou">
+			      	<span>{{item.name}}</span><span>{{item.score}}分</span><span v-if="item.count">{{item.count}} 个</span><span>好于 {{item.percent}}%的人</span>
+			      </div>
+			      <div class="bd">
+			      	<p class="tit">护肤建议：</p>
+			        <p>{{item.paraSuggestion}}</p>
+			      </div>
+			    </template>
+			</div>
+		</div>
+	</section>
+	
+	<!-- <div data-op-type="new-page"></div> -->
+	
+	<section data-op-type="mix-box" class="print">
+		<div class="nop-fill-box sr_box jianyi">
+			<h3 data-op-type='block'>个性化健康建议</h3>
+			<div data-op-type='block' style="font-size: 16px;font-weight: 600;line-height: 30px; padding: 0 20px;"><em>膳食建议</em></div>
+			<div data-op-type='block' v-if="dietList" v-for="item in dietList" class="shanshi right" style="width: 100%;">
+				<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
+				<p style="padding:0 10px;">{{item.proposal}}</p>
+				<p style="padding:0 10px;">{{item.simpleDescription}}</p>
+			</div>
+			<div data-op-type='block' style="font-size: 16px;font-weight: 600;line-height: 30px; padding: 0 20px;"><em>营养素建议</em></div>
+			<div data-op-type='block' v-if="nutritionList" v-for="item in nutritionList" class="yingyang right" style="width: 100%;">
+				<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
+				<p style="padding:0 10px;">{{item.proposal}}</p>
+				<p style="padding:0 10px;">{{item.simpleDescription}}</p>
+			</div>
+			<div data-op-type='block' style="font-size: 16px;font-weight: 600;line-height: 30px; padding: 0 20px;"><em>运动建议</em></div>
+			<div class="yundong" v-if="motionList">
+			  <div class="left"><em>运动建议</em></div>
+			  <div class="right">
+			    <template v-for="item in motionList">
+			  		<p style="padding:0 10px;"><i></i>{{item.personality}}</p>
+			  	</template>
+			  </div>
+			</div>
+		</div> 
+	  </section>
+	<!-- <div data-op-type="new-page"></div> -->
+	
+	<section data-op-type="mix-box" class="print" v-if="printReportType == 2 || printReportType == 3">
+		<div class="nop-fill-box sr_box">
+			<h3 data-op-type='block'>建议食谱</h3>
+			<div data-op-type='block' class="sp-dcn" v-for="(day,index) in daylist">
+				<p class="cnt"><span>day{{index+1}}</span></em></p>
+				<div class="cnc">
+					<div class="tt"><span>名称</span><em>荤菜</em><em>素菜</em><em>主食</em></div>
+					<dl class="tli">
+						<dt><p class="ce"><font>早餐</font></p></dt>
+						<dd>
+							<template v-for="bre in day.breakfast.meat">
+								<span>{{bre.foodName}}</span>
+							</template>	
+						</dd>
+						<dd>
+							<template v-for="bre in day.breakfast.vegetable">
+								<span>{{bre.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="bre in day.breakfast.main">
+								<span>{{bre.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>早加餐</font></p></dt>
+						<dd>
+							<template v-for="ba in day.breakfastAdd.ba">
+								<span>{{ba.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>午餐</font></p></dt>
+						<dd>
+							<template v-for="lun in day.lunch.meat">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.lunch.vegetable">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.lunch.main">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>午加餐</font></p></dt>
+						<dd>
+							<template v-for="la in day.lunchAdd.la">
+								<span>{{la.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+					<dl class="tli">
+						<dt><p class="ce"><font>晚餐</font></p></dt>
+						<dd>
+							<template v-for="lun in day.dinner.meat">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.dinner.vegetable">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+						<dd>
+							<template v-for="lun in day.dinner.main">
+								<span>{{lun.foodName}}</span>
+							</template>
+						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<div data-op-type="new-page"></div>
+	<div data-op-type="block" class="print">
+		<h3>详细指标及建议</h3>
+	</div>
+	<table data-op-type="table" style="width: 100%;">
+		<tbody class="nop-fill-box">
+			<tr v-for="item in firsts" v-if="item.targetId !=9001">
+				<td class="print">
+					<div data-op-type="block" class="sr_head" style="width: 640px;margin: 0 auto;">
+					  	<div class="sr_hr"><img :src="'./img/'+item.targetId+'.png'" alt="">{{item.targetName}}
+					  		<span :class="{lit:item.score<90}">{{item.score>=90?'正常':(item.score<90 && item.score>=80?'轻度风险':'中度风险')}}</span>
+					  	</div>
+					  	<div class="c_con" v-for="second in item.seconds">
+						<div class="second">
+							<span class=""><em>{{second.targetName}}</em><em class="iscore">{{second.score}}</em><em>正常</em></span>
+						</div>
+						<p class="third">
+							<span class="ite" v-for="third in second.thirds" v-if="third.targetId != 3089 && third.targetId != 3207 && third.targetId != 3097 && third.targetId != 3110 && third.targetId != 3211 && third.targetId != 3219 && third.targetId != 3139">
+							<template>
+								<em>{{third.targetName}}</em><em class="iscore">{{third.score}}</em>
+								<em>{{third.inspectStandard==1?'正常':(third.inspectStandard==2?'偏高':'偏低')}}</em>
+							</template>
+							</span>
+						</p>
+					</div>
+						</div>
+						
+						
+						<template data-op-type="block" v-for="second in item.seconds">
+						  	<div class="sr_head_b" v-for="site in second.thirds" v-show="site.inspectStandard != 1 && site.healthAdviceVo != null && (site.targetId < 3176 || site.targetId > 3185)" style="width: 640px;margin: 0 auto;">
+						    	<div class="sr_head_b_tit">{{site.targetName}}：</div>
+						      <div class="sr_head_bzi"><span>正常</span><span>轻度风险</span><span>中度风险</span>
+						      	<img src="./img/kh/fubiao.png" alt="" class="fubiao" :class="{lit:site.score<90 && site.score >=80,mid:site.score<80}">
+						      </div>
+						      <div class="sr_title">
+						        	<p class="h8">指标解读</p>
+						        	<div class="sr-text"> {{site.explain}} </div> 
+						      </div>
+						      <div class="sr_zhengwen">
+						        	<p class="h8">改善建议</p>
+						          <div class="sr_jybox" v-if="site.healthAdviceVo.dietList && site.healthAdviceVo.dietList.length !=0">
+						        		<p class="h9">膳食建议</p>
+						          	<template v-for="(jinayi,index) in site.healthAdviceVo.dietList">
+										  <template v-if="jinayi.personality">
+											<p class="h10">{{index+1}}、{{jinayi.personality}}</p>
+										  </template>
+										  <template v-else>
+											<p class="h10">{{index+1}}、{{jinayi.proposal}}</p>
+										  </template>
+						          		
+							            <!--<p class="h11">根据您的检测结果，每日建议摄入热量低于 1400 千卡</p>-->
+							            <div class="sr_jytext"> {{jinayi.simpleDescription}}</div>
+						          	</template>
+						          
+						          </div>
+						        <div class="sr_yyjy" v-if="site.healthAdviceVo.nutritionList && site.healthAdviceVo.nutritionList.length !=0">
+						          <p class="h9">营养建议</p>
+						          <template v-for="(jinayi,index) in site.healthAdviceVo.nutritionList">
+						            <p>{{index+1}}、{{jinayi.personality}}</p> 
+						            <p>{{jinayi.simpleDescription}}</p> 
+						          </template>
+						        </div>
+						        <div class="sr_yyjy" v-if="site.healthAdviceVo.motionList && site.healthAdviceVo.motionList.length !=0">
+						          <p class="h9">运动和生活方式建议</p>
+						          <template v-for="(jinayi,index) in site.healthAdviceVo.motionList">
+						            <p>{{index+1}}、{{jinayi.personality}}</p> 
+						          </template>
+						        </div>
+						      </div>
+						  	</div>
+						</template>
+					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	
+	
+	
+	
+<!-- </div> -->
 
-<script src="js/jquery.js"></script>
+</div><!--content-box-->
+
+<div class="load-overlay"><div class="loadimg" style="width: 40px;"><img src="../img/loading.gif" ></div></div>
+
+<!-- <script src="js/jquery.js"></script> -->
 <script>document.write('<script src="../js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
+
+<script>
+    
+    bookConfig = {
+        "pageSize": "ISO_A4",
+        "orientation": "portrait",
+        "padding": "20mm 5mm 2mm 5mm",
+        /* "simpleCatalog": {
+            "positionSelector" : ".pendant-title:first"
+        }, */
+       /* "simplePageNum": {
+            "pageBegin" : 1,
+            "pageEnd" : -1,
+            "pendant": "<div class=\"page-num-simple\"><span style=\"\">第${PAGE}页 / 共${TOTAL_PAGE}页</span></div>"
+        }, */
+        "toolBar": {
+            //"serverPrint" : true,
+            "serverPrint": {
+                "wkHtmlToPdf" : true,
+								"serverUrl": '//bookjs.zhouwuxue.com/',
+            },
+            "webPrint": true,
+            "saveHtml": false
+        },
+        "start": false
+    }
+</script>
+
 <script src="js/vue.min.js"></script>
 <script src="js/clipboard.min.js"></script>
-<script src="js/html2canvas.js"></script>
-<script src="js/jspdf.debug.js"></script>
-<script>document.write('<script src="js/print151.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script>
-var clipboard = new ClipboardJS('#copyurl');　　//先实例化
-
-　　　　clipboard.on('success', function(e) {
-　　　　 　　alert('复制成功');　　//复制成功区间
+var clipboard = new ClipboardJS('#copyurl');
+clipboard.on('success', function(e) {
+　　　　 　　alert(`已复制链接`);　　//复制成功区间
+						//alert(vm.localUrl)
 　　　　});
 　　　　clipboard.on('error', function(e) {
+						alert('try again')
 　　　　});
-	
-function toprintpdf() {
-  var target = document.getElementsByClassName("print")[0];
-  target.style.background = "#FFFFFF";
-  html2canvas(target, {
-    onrendered:function(canvas) {
-        var contentWidth = canvas.width;
-        var contentHeight = canvas.height;
-
-        //一页pdf显示html页面生成的canvas高度;
-        var pageHeight = contentWidth / 592.28 * 841.89;
-        //未生成pdf的html页面高度
-        var leftHeight = contentHeight;
-        //页面偏移
-        var position = 0;
-        //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
-        var imgWidth = 595.28;
-        var imgHeight = 592.28/contentWidth * contentHeight;
-
-        var pageData = canvas.toDataURL('image/jpeg', 1.0);
-
-        var pdf = new jsPDF('', 'pt', 'a4');
-
-        //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
-        //当内容未超过pdf一页显示的范围，无需分页
-        if (leftHeight < pageHeight) {
-        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight );
-        } else {
-            while(leftHeight > 0) {
-                pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
-                leftHeight -= pageHeight;
-                position -= 841.89;
-                //避免添加空白页
-                if(leftHeight > 0) {
-                  pdf.addPage();
-                }
-            }
-        }
-        pdf.save("健康报告评估.pdf");
-    }
-  })
-}
-//toprintpdf()  //生成pdf自动下载
-
-
 </script>
+<script type="text/javascript" src="../js/echarts/echarts.min.js"></script>
+<script>document.write('<script src="js/print154.js?t=' + new Date().getTime() + '"><\/script>')</script>
 </body>
 </html>

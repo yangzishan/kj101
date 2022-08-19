@@ -27,6 +27,8 @@
 		<p class="tt2">{{banData3.titleMsg}}</p>
 	</div>
 	
+	<div v-if="shareUrl == 1" id="copyurl" @click="copyLocalUrl" style="background: #A71F1F; height: .5rem;line-height: .5rem;border-radius: .25rem 0 0 .25rem;position: fixed;right: .2rem;top: 60%;color: #ffffff;font-size: .3rem; z-index: 999; padding: 0 .2rem;" :data-clipboard-text="copydUrl">分享链接</div>
+	
 	<section class="ban_gg" style="width: 100%; background: #ffffff;" v-if="banData1.length>0">
     	<div class="sy_tit" style="border: none;"><span class="">走进健康生活</span></div>
     	<div class="v_content gg_head" style="width: 7.5rem; height: 1.5rem; margin: 0 auto; overflow: hidden; position: relative;">
@@ -236,6 +238,7 @@
 <script type="text/javascript" src="js/jquery.js"></script>
 <script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
+<script src="print/js/clipboard.min.js"></script>
 <script type="text/javascript" src="zhuge.js"></script>
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
