@@ -51,7 +51,7 @@ var myapp = new Vue({
 			someTit:'', //弹框用
 			someTxt:'', //弹框用
 			showNao:false, showFei:false,showWei:false,showGuge:false,
-			printUrl: testHealthUrl+'/print/print151.html?reportId='+reportId+'&viewType=2'+'&reportType='+reportType+'&printReportType=2',
+			printUrl: testHealthUrl+'/print/print151.html?reportId='+reportId+'&viewType=3'+'&reportType='+reportType+'&printReportType=3',
 		}
 	},
 	mounted: function(){
@@ -357,7 +357,7 @@ var myapp = new Vue({
 			$('#showNotice').css({"visibility":"visible","opacity":"1"});
 		},
 		godayin: function(){
-			location.href = 'print/print151.html?reportId='+reportId+'&viewType=2'+'&reportType='+reportType+'&printReportType=2'
+			location.href = 'print/print151.html?reportId='+reportId+'&viewType=3'+'&reportType='+reportType+'&printReportType=3'
 		},
 		showSome: function(tit,txt){
 			txt = txt.replace(/\/n|\\n/g,'<br>')

@@ -29,7 +29,7 @@
 	#foo{ color: #ffffff;}
 	</style>
 </head>
-<body style="margin: 0 auto;">
+<body>
 
 
 <div id="content-box" class="print">
@@ -170,7 +170,7 @@
 			<h3>肺功能</h3>
 			<div class="mianyi">
 				<div class="fen_sta">
-					您的心血管功能<em v-if="feiGongneng.score>=90">良好</em><em v-if="feiGongneng.score>=80 && feiGongneng.score<90">偏弱</em><em v-if="feiGongneng.score<80">较差</em>！
+					您的肺功能<em v-if="feiGongneng.score>=90">良好</em><em v-if="feiGongneng.score>=80 && feiGongneng.score<90">偏弱</em><em v-if="feiGongneng.score<80">较差</em>！
 					<span class="fr"><font>{{feiGongneng.score}}</font>分</span>
 				</div>
 			</div>
@@ -563,11 +563,11 @@
             "pendant": "<div class=\"page-num-simple\"><span style=\"\">第${PAGE}页 / 共${TOTAL_PAGE}页</span></div>"
         }, */
         "toolBar": {
-            //"serverPrint" : true,
-            "serverPrint": {
+            "serverPrint" : false,
+            /* "serverPrint": {
                 "wkHtmlToPdf" : true,
 								"serverUrl": '//bookjs.zhouwuxue.com/',
-            },
+            }, */
             "webPrint": true,
             "saveHtml": false
         },

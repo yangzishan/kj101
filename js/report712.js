@@ -11,6 +11,7 @@ var reportSource = (getQueryString('reportSource') || ''); //通过解析获得 
 var cannsee = (getQueryString('cannsee') || ''); //金管家 jgj
 var visible = (getQueryString('visible') || 1);
 var invite = getQueryString("invite");  //邀约历史查看
+var shareUrl = getQueryString("shareUrl") || '';  // == 1； 是否显示复制链接按钮（用在企业微信）==2 不显示历史按钮
 var localUrl = location.href;
 var gohistoryUrl = dataUrl+ '/wxUser/wxUserReport?jumpUrl=uiHistory&userId='+customerId+'&reportId='+reportId+'&openId='+openId+'&saasId='+saasId+'&source='+source;
 
@@ -54,6 +55,9 @@ var myApp = new Vue({
 			banData2:[], //底部
 			banData3:{}, //3 企业微信
 			showBanData3: false,
+			
+			shareUrl:shareUrl,
+			copydUrl: localUrl.replace('shareUrl=1','shareUrl=2'),
 		}
 	},
 	mounted: function(){
@@ -85,6 +89,16 @@ var myApp = new Vue({
 			if(v.paused || v.ended) {
                 v.play();
             }
+		},
+		//复制链接
+		copyLocalUrl: function(){
+			var clipboard = new ClipboardJS('#copyurl');　　//先实例化
+　　　　clipboard.on('success', function(e) {
+　　　　 　　alert('复制成功');　　//复制成功区间
+　　　　});
+　　　　clipboard.on('error', function(e) {
+						alert('try again')
+　　　　});
 		},
 		getoffheight: function(){
 			//console.log($(window).scrollTop())
