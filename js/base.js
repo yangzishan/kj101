@@ -19,7 +19,7 @@ var saasUrl = 'http://saas-tt.jiankangzhan.com';  //saas*/
 
 //-----预生产 ysc-----
 
-var dataUrl = '//wx-ysc.jiankangzhan.com'; //数据接口
+/* var dataUrl = '//wx-ysc.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = '//kj101-ysc.jiankangzhan.com'; //大机器
 
@@ -39,12 +39,12 @@ var kj2000 = '//kj2000-ysc.jiankangzhan.com' ;
    
 var robot = '//robot-ysc.jiankangzhan.com';
 
-var qywx = '//qw-ysc.jiankangzhan.com';
+var qywx = '//qw-ysc.jiankangzhan.com'; */
 
 
 //---生产-----
 
-/* var dataUrl = '//wx.jiankangzhan.com'; //数据接口
+var dataUrl = '//wx.jiankangzhan.com'; //数据接口
 
 var testHealthUrl = '//kj101.jiankangzhan.com'; //大机器
 
@@ -64,4 +64,4 @@ var kj2000 = '//dm.jiankangzhan.com';
 
 var robot = '//robot.jiankangzhan.com';
 
-var qywx = '//qw.jiankangzhan.com'; */
+var qywx = '//qw.jiankangzhan.com';

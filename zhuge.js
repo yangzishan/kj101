@@ -22,7 +22,8 @@
             a.type = "text/javascript";
             a.id = "zhuge-js";
             a.async = !0;
-            a.src ="http://io.jiankangzhan.com:80/zhuge.js?v=" + verStr;
+            //a.src ="http://io.jiankangzhan.com:80/zhuge.js?v=" + verStr;
+						a.src ="./Azhuge.js.js?v=" + verStr;
             a.onerror = function() {
                 window.zhuge.identify = window.zhuge.track = function(ename, props, callback) {
                     if(callback && Object.prototype.toString.call(callback) === '[object Function]') {

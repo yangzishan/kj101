@@ -34,6 +34,12 @@ if(JsSrc.indexOf('zh')>=0){
     document.title = 'Complete the information'
 }
 
+//埋点 t
+zhuge.track('进入注册页面', {
+	'openId' : openId,
+	'渠道' : '微信'
+});
+
 var myapp = new Vue({
 	el: '.my_view',
 	data: function(){
@@ -334,7 +340,19 @@ function subAll(mobile,age,dxYzm,checkCode){
 				}else if(spreadUserId){
 					SendCouponByFlushQR(mobile) //扫码得优惠券接口 一码多用
 				}else{
-					location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
+					zhuge.identify(mobile, { //埋点 i  实名用户信息
+						'用户id': userId,
+						'openId': openId
+					});
+					zhuge.setWxProperties('wxd989a0c91b372901',openId);
+					zhuge.track('注册成功', { //埋点 t   完善用户信息注册成功 然后跳转
+						'方式': '完善用户信息',
+						'用户id': userId,
+						'openId': openId,
+						'渠道' : '微信'
+					},function(){
+						location.href="common.html?reportId="+reportId+"&userId="+userId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
+					});
 				}	
 			}else if(userData.code == 1003){
 				showFirm('该手机号已被绑定');
@@ -348,11 +366,18 @@ function subAll(mobile,age,dxYzm,checkCode){
 					}
 				});		
 			}else if(userData.code == 303){
-				
-				
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'验证码错误 code='+userData.code,
+					'openId': openId,
+					'渠道' : '微信'
+				});
 				showMask('验证码错误');
 			}else{
-				
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'code = '+userData.code,
+					'openId': openId,
+					'渠道' : '微信'
+				});
 				showMask('登录失败  perfectUserInfo code='+userData.code);
 				//$(this).attr("disabled",false);
 			}	
@@ -381,8 +406,19 @@ function creatUser(mobile,age,dxYzm,checkCode){
 		success : function(userData) {
 			console.log('请求创建用户接口');
 			if(userData.code == 200){
-				
-				location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
+				zhuge.identify(mobile, { //埋点 i  用户信息
+					'用户id': userData.customerId, //要拿返回的数据才对
+					'openId': openId
+				});
+				zhuge.setWxProperties('wxd989a0c91b372901',openId);
+				zhuge.track('注册成功', { //埋点 t   创建用户 注册成功 然后跳转
+					'方式':'创建用户',
+					'用户id': userData.customerId, //要拿返回的数据才对
+					'openId': openId,
+					'渠道' : '微信'
+				},function(){
+					location.href="common.html?reportId="+reportId+'&openId='+openId+'&faceUserId='+faceUserId+'&saasId='+saasId
+				});
 			}else if(userData.code == 1003){
 				showFirm('该手机号已被绑定');
 				$('#Firm .psub a').on("click",function(){
@@ -395,10 +431,18 @@ function creatUser(mobile,age,dxYzm,checkCode){
 					}
 				});	
 			}else if(userData.code == 303){
-				
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'验证码错误 code = '+userData.code,
+					'openId': openId,
+					'渠道' : '微信'
+				});
 				showMask('验证码错误');
 			}else{
-				
+				zhuge.track('注册失败', { //埋点 t 注册失败
+					'原因':'code = '+userData.code,
+					'openId': openId,
+					'渠道' : '微信'
+				});
 				showMask('登录失败  createUserBySmsCode code='+userData.code);
 				//$(this).attr("disabled",false);
 			}	
@@ -419,9 +463,20 @@ function turnCouponByWeChat(mobile){
 		   	openId : openId
 		},
 		success : function(data){
-			
-			
-			window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
+			//埋点 i  通过扫描优惠券注册
+			zhuge.identify(mobile, {
+				'用户id': userId,
+				'openId': openId
+			});
+			//埋点 t   通过扫描优惠券注册成功 然后跳转
+			zhuge.track('注册成功', {
+				'方式': '通过扫描优惠券',
+				'用户id': userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
+			});
 		},
 		error:function(){alert('turnCouponByWeChat error')}
 	});
@@ -439,8 +494,20 @@ function SendCouponByFlushQR(mobile){
 		   	userId : userId
 		},
 		success : function(data){
-			
-			window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
+			//埋点 i  通过扫描优惠券注册
+			zhuge.identify(mobile, {
+				'用户id': userId,
+				'openId': openId
+			});
+			//埋点 t 通过扫描优惠券注册成功 然后跳转
+			zhuge.track('注册成功', {
+				'方式': '通过扫描优惠券',
+				'用户id': userId,
+				'openId': openId,
+				'渠道' : '微信'
+			},function(){
+				window.location.href="couponList.html?userId="+userId+ "&code=" + data.code;
+			});
 		},
 		error:function(){alert('SendCouponByFlushQR error')}
 	});

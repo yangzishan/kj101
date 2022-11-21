@@ -323,8 +323,10 @@ var myApp = new Vue({
 				contentType : "application/json",
 				data : JSON.stringify(obj),
 				success : function(res) {
-					vm.$refs.audio.src = res.data
-					vm.mp3data = res.data;
+					if(res.data){
+						vm.$refs.audio.src = res.data
+						vm.mp3data = res.data;
+					}
 				},
 				error : function(sta,msg){alert("custom error")}
 			});

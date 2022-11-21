@@ -23,7 +23,9 @@ var myapp = new Vue({
 			diseases:[],
 			deviceInfo:{}, //设备信息
 			my_thirdPages:[],
-			inspectSkinView:{},
+			inspectSkinView:{
+				fileName:''
+			},
 			heartLines:[],
 			xlist:[],
 			yylist:[], //心电图数据
@@ -32,7 +34,7 @@ var myapp = new Vue({
 			loopSys:[],
 			mianyili:{},
 			feiGongneng:{},
-			inspectSkinView:{},
+			
 			skinColor:{
 				'toubai':'透白',
 				'baixi':'白皙',
@@ -100,9 +102,10 @@ var myapp = new Vue({
 						vm.indexPage = res.data.indexPage;
 						vm.circleProScore(res.data.indexPage.totalScore);
 						vm.my_thirdPages = res.data.thirdPages;
-						vm.sex = res.data.map.sex,
-						vm.inspectSkinView = res.data.inspectSkinView;
-						if(vm.inspectSkinView){
+						vm.sex = res.data.map.sex;
+						//vm.inspectSkinView = res.data.inspectSkinView;
+						if(res.data.inspectSkinView){
+							vm.inspectSkinView = res.data.inspectSkinView;
 							$.each(vm.inspectSkinView.diseaseResult.split(','),function(index,item){
 									vm.diseaseResult.push(vm.diseaseResultArr[vm.inspectSkinView.diseaseResult.split(',')[index]]);
 							})

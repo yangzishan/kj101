@@ -126,7 +126,8 @@
                             好于<span  :style="sex.color">{{item.percent}}%</span>的人
                         </div>
                         <div class="show_img" v-if="item.targetName !='texture' && item.targetName !='roughness' && item.targetName !='skinage' && item.targetName !='fuse' && item.img != null">
-                            <div class="box show_image" :style="'background: url(https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img+') no-repeat center;background-size: 3rem;'" :data-img="'https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img"></div>
+                            <!-- <div class="box show_image" :style="'background: url(https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img+') no-repeat center;background-size: 3rem;'" :data-img="'https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img"></div> -->
+														<div class="box show_image" :style="'background: url(https://yy-standard-out.oss-cn-beijing.aliyuncs.com/'+item.img+') no-repeat center;background-size: 3rem;'" :data-img="'https://yy-standard-out.oss-cn-beijing.aliyuncs.com/'+item.img"></div>
                         </div>
                         <div class="show_ccd" v-if="item.targetName == 'roughness' || item.targetName == 'texture' || item.targetName == 'darkcircle'">
                             <span>{{item.name}}</span>
@@ -175,7 +176,7 @@
                                 好于<span  :style="sex.occolor">{{item.percent}}%</span>的人
                             </div>
                             <div class="show_img" v-if="item.targetName !='texture' && item.targetName !='roughness' && item.targetName !='skinage' && item.targetName !='fuse' && item.img != null">
-                                <div class="box show_image" :style="'background: url(https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img+') no-repeat center;background-size: 3rem;'"  :data-img="'https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img"></div>
+                                <div class="box show_image" :style="'background: url(https://yy-standard-out.oss-cn-beijing.aliyuncs.com/'+item.img+') no-repeat center;background-size: 3rem;'"  :data-img="'https://yy-standard-out.oss-cn-beijing.aliyuncs.com/'+item.img"></div>
                             </div>
                             <div class="show_ccd" v-if="item.targetName == 'roughness' || item.targetName == 'texture' || item.targetName == 'darkcircle'">
                                 <span>{{item.name}}</span>
@@ -223,7 +224,7 @@
                                     好于<span  :style="sex.jccolor">{{item.percent}}%</span>的人
                                 </div>
                                 <div class="show_img" v-if="item.targetName !='texture' && item.targetName !='roughness' && item.targetName !='skinage' && item.targetName !='fuse' && item.img != null">
-                                    <div class="box show_image" :style="'background: url(https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img+') no-repeat center;background-size: 3rem;'" :data-img="'https://yypf.jiankangzhan.com/fileSvr/get?img_path='+item.img"></div>
+                                    <div class="box show_image" :style="'background: url(https://yy-standard-out.oss-cn-beijing.aliyuncs.com/'+item.img+') no-repeat center;background-size: 3rem;'" :data-img="'https://yy-standard-out.oss-cn-beijing.aliyuncs.com/'+item.img"></div>
                                 </div>
                                 <div class="show_ccd" v-if="item.targetName == 'roughness' || item.targetName == 'texture' || item.targetName == 'darkcircle'">
                                     <span>{{item.name}}</span>
