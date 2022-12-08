@@ -29,7 +29,8 @@ function setupWebViewJavascriptBridge(callback) {
 	window.WVJBCallbacks = [callback];
 	var WVJBIframe = document.createElement('iframe');
 	WVJBIframe.style.display = 'none';
-	WVJBIframe.src = 'https://__bridge_loaded__';
+	//WVJBIframe.src = 'https://__bridge_loaded__';
+	WVJBIframe.src = 'wvjbscheme://__bridge_loaded__';
 	document.documentElement.appendChild(WVJBIframe);
 	setTimeout(function() { document.documentElement.removeChild(WVJBIframe) }, 0)
 }
@@ -328,7 +329,7 @@ var myApp = new Vue({
 						vm.mp3data = res.data;
 					}
 				},
-				error : function(sta,msg){alert("custom error")}
+				error : function(sta,msg){console.log("custom error")}
 			});
 		},
 		goformp4: function(){

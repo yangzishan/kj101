@@ -42,7 +42,7 @@
     <!---广告end--->
 	<header class="header">
 		<a class="t-left fl goToPer" @click="godayin()" v-if="!clientType && !(reportType == 505)">下载报告</a>
-		<button class="t-left fl goToShare" id="goToShare" v-if="clientType" @click="goToShare('goToShare')">报告分享</button>
+		<!-- <button class="t-left fl goToShare" id="goToShare" v-if="clientType" @click="goToShare('goToShare')">报告分享</button> -->
 		<a class="t-right fr" @click="checkHistory()" v-if="!(invite == 'invite')"><i class="i_c"><img src="img/i-his.png"></i>健康档案</a>
 		<p class="t-cen"><span>{{inspectDate}}</span></p>
 	</header>
@@ -348,7 +348,7 @@
 </div>-->
 
 <script type="text/javascript" src="js/jquery.js"></script>
-<script>document.write('<script src="js/base124.js?t=' + new Date().getTime() + '"><\/script>')</script>
+<script>document.write('<script src="js/base.js?t=' + new Date().getTime() + '"><\/script>')</script>
 <script type="text/javascript" src="js/vue.min.js"></script>
 <script src="print/js/clipboard.min.js"></script>
 <!-- <script type="text/javascript" src="zhuge.js"></script> -->
@@ -356,7 +356,7 @@
 <script type="text/javascript" src="js/jquery.animateNumber.min.js"></script>
 <script type="text/javascript" src="js/echarts/echarts.min.js"></script>
 <script>document.write('<script src="js/report120.js?t=' + new Date().getTime() + '"><\/script>')</script>
-<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<!-- <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script> -->
 <script type="text/javascript">
 (function (doc, win) {
     var docEl = doc.documentElement,
